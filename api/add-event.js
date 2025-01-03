@@ -1,9 +1,9 @@
-const { Octokit } = require('@octokit/rest');
-const { createOrUpdateTextFile } = require('@octokit/plugin-create-or-update-text-file');
+import { Octokit } from '@octokit/rest';
+import { createOrUpdateTextFile } from '@octokit/plugin-create-or-update-text-file';
 
 const ExtendedOctokit = Octokit.plugin(createOrUpdateTextFile);
 
-module.exports = async function handler(req, res) {
+export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
