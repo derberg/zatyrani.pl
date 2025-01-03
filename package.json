@@ -6,7 +6,7 @@
 	"scripts": {
 		"dev": "astro dev",
 		"start": "astro dev",
-		"build": "astro build",
+		"build": "npm run build:api && astro build",
 		"preview": "astro preview",
 		"astro": "astro",
 		"build:scripts:facebook": "tsc --project ./tsconfig.scripts.json",
