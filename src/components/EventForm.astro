@@ -4,55 +4,55 @@
 <form id="eventForm" class="max-w-2xl mx-auto p-4">
   <div class="space-y-4">
     <div>
-      <label class="block text-sm font-medium text-gray-700">Nazwa zawodów</label>
-      <input type="text" name="name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500">
+      <label class="block text-sm font-medium text-gray-700">
+        <strong>Nazwa wydarzenia</strong> <span class="text-red-600">*</span>
+      </label>
+      <p class="text-xs text-gray-600">Krótka nazwa, np. Wilczy Półmaraton</p>
+      <input type="text" name="name" required class="mt-1 block w-full rounded-md border-purple-300 shadow-sm border-2 focus:border-purple-500 focus:ring-purple-500">
     </div>
     
     <div>
-      <label class="block text-sm font-medium text-gray-700">Data</label>
-      <input type="date" name="date" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500">
+      <label class="block text-sm font-medium text-gray-700">
+        <strong>Data startu</strong> <span class="text-red-600">*</span>
+      </label>
+      <p class="text-xs text-gray-600">Zawsze jest na wydarzeniu na fejsie, a jak nie ma wydarzenia na fejsie to na bank konkretne informacje znajdują się w regulaminie który zawsze jest dostępny na stronie rejestracji.</p>
+      <input type="date" name="date" required class="mt-1 block w-full rounded-md border-purple-300 shadow-sm border-2 focus:border-purple-500 focus:ring-purple-500">
     </div>
 
     <div>
-      <label class="block text-sm font-medium text-gray-700">Strona WWW</label>
-      <input type="url" name="website" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500">
+      <label class="block text-sm font-medium text-gray-700">
+        <strong>Miejscowość</strong> <span class="text-red-600">*</span>
+      </label>
+      <p class="text-xs text-gray-600">Tam gdzie jest start</p>
+      <input type="text" name="location" required class="mt-1 block w-full rounded-md border-purple-300 shadow-sm border-2 focus:border-purple-500 focus:ring-purple-500">
     </div>
 
     <div>
-      <label class="block text-sm font-medium text-gray-700">Link do rejestracji</label>
-      <input type="url" name="registration" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500">
+      <label class="block text-sm font-medium text-gray-700">
+        <strong>Opis</strong> <span class="text-red-600">*</span>
+      </label>
+      <p class="text-xs text-gray-600">Nie jakiś nie wiadomo jaki elaborat, tylko krótkie info czy to tylko bieganie, czy może też kije, a najlepiej żeby też zaznaczyć czy jest start dla dzieci. Można zaznaczyć też mniej więcej jaki dystans. Może być np. "Bieg na różnych dystansach. Dzieciaki też mogą biec." albo "Bieg na 20km i 5km z kijami."</p>
+      <input type="text" name="description" required class="mt-1 block w-full rounded-md border-purple-300 shadow-sm border-2 focus:border-purple-500 focus:ring-purple-500">
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700">
+        <strong>Link do głównej strony biegu</strong> <span class="text-red-600">*</span>
+      </label>
+      <p class="text-xs text-gray-600">Sam link, nic więcej, bez dodatkowego tekstu, może być link do wydarzenia na fejsie.</p>
+      <input type="url" name="website" required class="mt-1 block w-full rounded-md border-purple-300 shadow-sm border-2 focus:border-purple-500 focus:ring-purple-500">
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700">
+        <strong>Link do strony rejestracji</strong>
+      </label>
+      <p class="text-xs text-gray-600">Sam link, nic więcej, bez dodatkowego tekstu. Dodaj, ułatw innym rejestrację. Oczywiście może się zdarzyć, że dodajesz wydarzenie tak wcześnie, że strona rejestracji jeszcze nie jest dostępna. Wtedy zostaw to pole puste i się nie martw.</p>
+      <input type="url" name="registration" class="mt-1 block w-full rounded-md border-purple-300 shadow-sm border-2 focus:border-purple-500 focus:ring-purple-500">
     </div>
 
     <button type="submit" class="w-full bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700">
-      Dodaj zawody
+      Dodaj wydarzenie
     </button>
   </div>
 </form>
-
-<script>
-  const form = document.getElementById('eventForm');
-  
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target as HTMLFormElement);
-    
-    try {
-      const response = await fetch('/api/add-event', {
-        method: 'POST',
-        body: JSON.stringify(Object.fromEntries(formData)),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-      
-      if (response.ok) {
-        alert('Zawody dodane pomyślnie!');
-        form.reset();
-      } else {
-        throw new Error('Błąd podczas dodawania zawodów');
-      }
-    } catch (error) {
-      alert('Wystąpił błąd: ' + error.message);
-    }
-  });
-</script>

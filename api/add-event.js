@@ -9,20 +9,20 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { name, date, website, registration } = req.body;
+    const { name, date, website, registration, description, location } = req.body;
     
     const octokit = new ExtendedOctokit({
       auth: process.env.GITHUB_TOKEN
     });
 
     const eventsData = {
-      date: date,
+      date: formatDate(date),
       title: name,
       mainLink: website,
       registrationLink: registration,
-      description: '',
+      description: description,
       image: '',
-      location: '',
+      location: location,
     };
 
     // Read existing data
@@ -47,7 +47,7 @@ export default async function handler(req, res) {
       repo: 'zatyrani.pl',
       path: 'src/data/events.json',
       content: JSON.stringify(events, null, 2),
-      message: `Added new event: ${name}`
+      message: `chore(events): added event ${name}`
     });
 
     res.status(200).json({ success: true });
@@ -56,3 +56,14 @@ export default async function handler(req, res) {
     res.status(500).json({ error: 'Failed to process request' });
   }
 };
+
+//needed as for returns 2025-01-09 and I need 09/01/2025 
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  
+  const day = String(date.getDate()).padStart(2, '0'); // Ensures two digits
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+  const year = date.getFullYear();
+  
+  return `${day}/${month}/${year}`;
+}
