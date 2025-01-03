@@ -833,5 +833,14 @@
     "description": "Biegowo 30km, 21km, 10km i 5km. Można na każdy dystans iść z kijami, oprócz półmaratonu.",
     "image": "",
     "location": "Niegowa"
+  },
+  {
+    "date": "13/09/2025",
+    "title": "Rajski Maraton Pieszy",
+    "mainLink": "https://www.facebook.com/events/s/rajski-maraton-pieszy-s%C5%82owacki/8525104157537509",
+    "registrationLink": "",
+    "description": "Trzy dystanse 15 km, 25 km, 40 km",
+    "image": "",
+    "location": "Słowacki Raj"
   }
 ]
