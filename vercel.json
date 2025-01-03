@@ -1,7 +1,7 @@
 {
     "functions": {
         "api/dist/api/add-event.js": {
-            "runtime": "nodejs@18.x"
+            "runtime": "nodejs-18.x"
         }
     }
 }
