@@ -788,5 +788,14 @@
     "description": "Leśny półmaraton Zatyranych.",
     "image": "initiatives/wilczy.png",
     "mainLink": "https://www.zatyrani.pl/wilczy-polmaraton"
+  },
+  {
+    "date": "2025-01-09",
+    "title": "test",
+    "mainLink": "https://www.zatyrani.pl/wilczy-polmaraton",
+    "registrationLink": "https://www.zatyrani.pl/wilczy-polmaraton",
+    "description": "",
+    "image": "",
+    "location": ""
   }
 ]
