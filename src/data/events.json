@@ -860,5 +860,14 @@
     "description": "Dystanse od 40km do 100km",
     "image": "",
     "location": "Masłów"
+  },
+  {
+    "date": "28/03/2025",
+    "title": "Duch Pogórza",
+    "mainLink": "https://www.facebook.com/events/s/duch-pogorza-2025-13km34km68km/670357815152107",
+    "registrationLink": "https://www.duch-pogorza.kingrunner.com/",
+    "description": "13km/34km/68km/102km/204km",
+    "image": "",
+    "location": "Winne-Podbukowina"
   }
 ]
