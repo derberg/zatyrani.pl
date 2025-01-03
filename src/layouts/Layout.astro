@@ -38,13 +38,21 @@ const navItems = [
   <body class="min-h-screen bg-white">
     <header class="border-b">
       <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
+        <div class="flex justify-between h-16 items-center">
           <div class="flex">
             <a href="/" class="flex-shrink-0 flex items-center">
               <img class="h-8 w-auto" src="/logo.png" alt="Zatyrani" />
             </a>
           </div>
-          <div class="hidden sm:flex sm:space-x-8">
+          <div class="sm:hidden">
+            <!-- Mobile Hamburger Icon -->
+            <button id="menuButton" class="text-gray-900 focus:outline-none">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+          </div>
+          <div class="hidden sm:flex sm:space-x-8" id="navItems">
             {navItems.map((item) => (
               <a
                 target={item.target === '_blank' ? '_blank' : undefined}
@@ -83,5 +91,51 @@ const navItems = [
       </div>
     </footer>
     <CookieBanner />
+    
+    <script>
+      // JavaScript to toggle the menu on mobile
+      const menuButton = document.getElementById('menuButton');
+      const navItems = document.getElementById('navItems');
+      
+      menuButton.addEventListener('click', () => {
+        // Toggle the visibility of the navigation items
+        navItems.classList.toggle('hidden');
+        navItems.classList.toggle('block');
+      });
+    </script>
+
+    <style>
+      /* Ensure the mobile menu appears in a clean overlay */
+      #navItems {
+        display: none; /* Hide by default */
+        position: absolute;
+        top: 64px; /* Start just below the header */
+        left: 0;
+        right: 0;
+        background-color: white;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        z-index: 10;
+        transition: all 0.3s ease; /* Smooth transition */
+      }
+
+      /* Make sure the menu shows up when the button is clicked */
+      #navItems.block {
+        display: block;
+      }
+
+      /* Style links in mobile menu */
+      #navItems a {
+        padding: 1rem;
+        text-align: center;
+        width: 100%;
+        display: block;
+        text-decoration: none;
+        color: #333;
+      }
+
+      #navItems a:hover {
+        background-color: #f7f7f7;
+      }
+    </style>
   </body>
 </html>
