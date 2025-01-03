@@ -10,16 +10,29 @@ interface Props {
   month?: string;
 }
 
-const { title, date, location, description, mainLink, registrationLink, image } = Astro.props;
-const fallbackImage = 'event_fallback.webp'; // Update with your fallback image path or use a random SVG
----
+// Define an array of fallback images
+const fallbackImages = [
+  'events/event_fallback.webp',
+  'events/runners1.webp',
+  'events/runners2.webp',
+  'events/runners3.webp',
+  'events/runners4.webp',
+  'events/runners5.webp',
+  'events/runners6.webp',
+  'events/runners7.webp'
+];
 
+// Randomly select a fallback image
+const randomFallbackImage = fallbackImages[Math.floor(Math.random() * fallbackImages.length)];
+
+const { title, date, location, description, mainLink, registrationLink, image } = Astro.props;
+---
 <article class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow flex flex-col">
   <div class="p-6 flex-grow space-y-4">
     <div class="flex items-center space-x-4">
-      <img hidden
+      <img
         id="event-image"
-        src={image || fallbackImage}
+        src={image || randomFallbackImage}
         alt={title}
         class="w-16 h-16 object-contain"
       />
