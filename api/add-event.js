@@ -118,7 +118,7 @@ function extractEventId(url) {
 
 // Function to fetch event details and download the cover image
 async function getEventDetails(eventId) {
-	const accessToken = await getAccessToken();
+	const accessToken = process.env.FB_APP_TOKEN;
 
 	try {
 		// Fetch the event details from the Facebook Graph API
