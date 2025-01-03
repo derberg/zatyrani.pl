@@ -6,11 +6,10 @@
 	"scripts": {
 		"dev": "astro dev",
 		"start": "astro dev",
-		"build": "npm run build:api && astro build",
+		"build": "astro build",
 		"preview": "astro preview",
 		"astro": "astro",
 		"build:scripts:facebook": "tsc --project ./tsconfig.scripts.json",
-		"build:api": "tsc --project ./tsconfig.api.json",
 		"fetch:facebook": "npm run build:scripts:facebook && node ./dist/facebook.js"
 	},
 	"dependencies": {

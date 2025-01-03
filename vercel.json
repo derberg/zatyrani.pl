@@ -1,7 +1,0 @@
-{
-    "functions": {
-        "api/dist/api/add-event.js": {
-            "includeFiles": "api/dist/**"
-        }
-    }
-}

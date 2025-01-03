@@ -1,11 +1,9 @@
-import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { Octokit } from '@octokit/rest';
-import { createOrUpdateTextFile } from '@octokit/plugin-create-or-update-text-file';
-import type { Events } from '../src/data/events';
+const { Octokit } = require('@octokit/rest');
+const { createOrUpdateTextFile } = require('@octokit/plugin-create-or-update-text-file');
 
 const ExtendedOctokit = Octokit.plugin(createOrUpdateTextFile);
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+module.exports = async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
@@ -17,7 +15,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       auth: process.env.GITHUB_TOKEN
     });
 
-    const eventsData: Events = {
+    const eventsData = {
       date: date,
       title: name,
       mainLink: website,
@@ -34,9 +32,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       path: 'src/data/events.json'
     });
 
-    const content = (currentFile as { content: string }).content;
+    const content = currentFile.content;
 
-    let events: Events[] = [];
+    let events = [];
     if (currentFile) {
       const eventsFileContent = Buffer.from(content, 'base64').toString();
       events = JSON.parse(eventsFileContent);
@@ -57,4 +55,4 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     console.error(error);
     res.status(500).json({ error: 'Failed to process request' });
   }
-}
+};
