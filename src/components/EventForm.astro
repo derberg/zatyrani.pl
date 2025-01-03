@@ -1,95 +1,57 @@
+---
+---
+
 <form id="eventForm" class="max-w-2xl mx-auto p-4">
   <div class="space-y-4">
-    <!-- Question for Facebook event link -->
     <div>
       <label class="block text-sm font-medium text-gray-700">
-        <strong>Czy używasz linka do wydarzenia na fejsie? </strong> <span class="text-red-600">*</span>
+        <strong>Nazwa wydarzenia</strong> <span class="text-red-600">*</span>
       </label>
-      <p class="text-xs text-gray-600 mb-4">Link musi zaczynać się od "https://www.facebook.com/events/"</p>
-      <div class="flex space-x-4">
-        <div>
-          <input type="radio" name="facebook_event" value="yes" id="facebook_yes" class="form-radio">
-          <label for="facebook_yes" class="text-sm text-gray-700">Tak</label>
-        </div>
-        <div>
-          <input type="radio" name="facebook_event" value="no" id="facebook_no" class="form-radio">
-          <label for="facebook_no" class="text-sm text-gray-700">Nie</label>
-        </div>
-      </div>
+      <p class="text-xs text-gray-600">Krótka nazwa, np. Wilczy Półmaraton</p>
+      <input type="text" name="name" required class="mt-1 block w-full rounded-md border-purple-300 shadow-sm border-2 focus:border-purple-500 focus:ring-purple-500">
+    </div>
+    
+    <div>
+      <label class="block text-sm font-medium text-gray-700">
+        <strong>Data startu</strong> <span class="text-red-600">*</span>
+      </label>
+      <p class="text-xs text-gray-600">Zawsze jest na wydarzeniu na fejsie, a jak nie ma wydarzenia na fejsie to na bank konkretne informacje znajdują się w regulaminie który zawsze jest dostępny na stronie rejestracji.</p>
+      <input type="date" name="date" required class="mt-1 block w-full rounded-md border-purple-300 shadow-sm border-2 focus:border-purple-500 focus:ring-purple-500">
     </div>
 
-    <!-- Full Form (when 'Nie' is selected) -->
-    <div id="fullForm" class="space-y-4 hidden">
-      <div>
-        <label class="block text-sm font-medium text-gray-700">
-          <strong>Nazwa wydarzenia</strong> <span class="text-red-600">*</span>
-        </label>
-        <p class="text-xs text-gray-600">Krótka nazwa, np. Wilczy Półmaraton</p>
-        <input type="text" name="name" class="mt-1 block w-full rounded-md border-purple-300 shadow-sm border-2 focus:border-purple-500 focus:ring-purple-500">
-      </div>
-
-      <div>
-        <label class="block text-sm font-medium text-gray-700">
-          <strong>Data startu</strong> <span class="text-red-600">*</span>
-        </label>
-        <p class="text-xs text-gray-600">Zawsze jest na wydarzeniu na fejsie, a jak nie ma wydarzenia na fejsie to na bank konkretne informacje znajdują się w regulaminie który zawsze jest dostępny na stronie rejestracji.</p>
-        <input type="date" name="date" class="mt-1 block w-full rounded-md border-purple-300 shadow-sm border-2 focus:border-purple-500 focus:ring-purple-500">
-      </div>
-
-      <div>
-        <label class="block text-sm font-medium text-gray-700">
-          <strong>Miejscowość</strong> <span class="text-red-600">*</span>
-        </label>
-        <p class="text-xs text-gray-600">Tam gdzie jest start</p>
-        <input type="text" name="location" class="mt-1 block w-full rounded-md border-purple-300 shadow-sm border-2 focus:border-purple-500 focus:ring-purple-500">
-      </div>
-
-      <div>
-        <label class="block text-sm font-medium text-gray-700">
-          <strong>Opis</strong> <span class="text-red-600">*</span>
-        </label>
-        <p class="text-xs text-gray-600">Nie jakiś nie wiadomo jaki elaborat, tylko krótkie info czy to tylko bieganie, czy może też kije, a najlepiej żeby też zaznaczyć czy jest start dla dzieci. Można zaznaczyć też mniej więcej jaki dystans. Może być np. "Bieg na różnych dystansach. Dzieciaki też mogą biec." albo "Bieg na 20km i 5km z kijami."</p>
-        <input type="text" name="description" class="mt-1 block w-full rounded-md border-purple-300 shadow-sm border-2 focus:border-purple-500 focus:ring-purple-500">
-      </div>
-
-      <div>
-        <label class="block text-sm font-medium text-gray-700">
-          <strong>Link do głównej strony biegu</strong> <span class="text-red-600">*</span>
-        </label>
-        <p class="text-xs text-gray-600">Sam link, nic więcej, bez dodatkowego tekstu, może być link do wydarzenia na fejsie.</p>
-        <input type="url" name="website" class="mt-1 block w-full rounded-md border-purple-300 shadow-sm border-2 focus:border-purple-500 focus:ring-purple-500">
-      </div>
-
-      <div>
-        <label class="block text-sm font-medium text-gray-700">
-          <strong>Link do strony rejestracji</strong>
-        </label>
-        <p class="text-xs text-gray-600">Sam link, nic więcej, bez dodatkowego tekstu. Dodaj, ułatw innym rejestrację. Oczywiście może się zdarzyć, że dodajesz wydarzenie tak wcześnie, że strona rejestracji jeszcze nie jest dostępna. Wtedy zostaw to pole puste i się nie martw.</p>
-        <input type="url" name="registration" class="mt-1 block w-full rounded-md border-purple-300 shadow-sm border-2 focus:border-purple-500 focus:ring-purple-500">
-      </div>
+    <div>
+      <label class="block text-sm font-medium text-gray-700">
+        <strong>Miejscowość</strong> <span class="text-red-600">*</span>
+      </label>
+      <p class="text-xs text-gray-600">Tam gdzie jest start</p>
+      <input type="text" name="location" required class="mt-1 block w-full rounded-md border-purple-300 shadow-sm border-2 focus:border-purple-500 focus:ring-purple-500">
     </div>
 
-    <!-- Simplified Form (when 'Tak' is selected) -->
-    <div id="simpleForm" class="space-y-4 hidden">
-      <div>
-        <label class="block text-sm font-medium text-gray-700">
-          <strong>Link do wydarzenia na fejsie</strong> <span class="text-red-600">*</span>
-        </label>
-        <p class="text-xs text-gray-600">Sam link, nic więcej, bez dodatkowego tekstu. Link musi zaczynać się od "https://www.facebook.com/events/".</p>
-        <input type="url" name="facebook_event_url" pattern="^https:\/\/www\.facebook\.com\/events\/.*" class="mt-1 block w-full rounded-md border-purple-300 shadow-sm border-2 focus:border-purple-500 focus:ring-purple-500" />
-      </div>      
-
-      <div>
-        <label class="block text-sm font-medium text-gray-700">
-          <strong>Link do strony rejestracji</strong>
-        </label>
-        <p class="text-xs text-gray-600">Sam link, nic więcej, bez dodatkowego tekstu. Dodaj, ułatw innym rejestrację. Oczywiście może się zdarzyć, że dodajesz wydarzenie tak wcześnie, że strona rejestracji jeszcze nie jest dostępna. Wtedy zostaw to pole puste i się nie martw.</p>
-        <input type="url" name="registration" class="mt-1 block w-full rounded-md border-purple-300 shadow-sm border-2 focus:border-purple-500 focus:ring-purple-500">
-      </div>
+    <div>
+      <label class="block text-sm font-medium text-gray-700">
+        <strong>Opis</strong> <span class="text-red-600">*</span>
+      </label>
+      <p class="text-xs text-gray-600">Nie jakiś nie wiadomo jaki elaborat, tylko krótkie info czy to tylko bieganie, czy może też kije, a najlepiej żeby też zaznaczyć czy jest start dla dzieci. Można zaznaczyć też mniej więcej jaki dystans. Może być np. "Bieg na różnych dystansach. Dzieciaki też mogą biec." albo "Bieg na 20km i 5km z kijami."</p>
+      <input type="text" name="description" required class="mt-1 block w-full rounded-md border-purple-300 shadow-sm border-2 focus:border-purple-500 focus:ring-purple-500">
     </div>
 
-    <!-- Submit Button (hidden initially) -->
-    <button id="submitButton" type="submit" class="w-full bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 hidden">
+    <div>
+      <label class="block text-sm font-medium text-gray-700">
+        <strong>Link do głównej strony biegu</strong> <span class="text-red-600">*</span>
+      </label>
+      <p class="text-xs text-gray-600">Sam link, nic więcej, bez dodatkowego tekstu, może być link do wydarzenia na fejsie.</p>
+      <input type="url" name="website" required class="mt-1 block w-full rounded-md border-purple-300 shadow-sm border-2 focus:border-purple-500 focus:ring-purple-500">
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700">
+        <strong>Link do strony rejestracji</strong>
+      </label>
+      <p class="text-xs text-gray-600">Sam link, nic więcej, bez dodatkowego tekstu. Dodaj, ułatw innym rejestrację. Oczywiście może się zdarzyć, że dodajesz wydarzenie tak wcześnie, że strona rejestracji jeszcze nie jest dostępna. Wtedy zostaw to pole puste i się nie martw.</p>
+      <input type="url" name="registration" class="mt-1 block w-full rounded-md border-purple-300 shadow-sm border-2 focus:border-purple-500 focus:ring-purple-500">
+    </div>
+
+    <button type="submit" class="w-full bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700">
       Dodaj wydarzenie
     </button>
   </div>
@@ -97,66 +59,30 @@
 
 <script>
   const form = document.getElementById('eventForm');
-  const fullForm = document.getElementById('fullForm');
-  const simpleForm = document.getElementById('simpleForm');
-  const submitButton = document.getElementById('submitButton');
-  const facebookYes = document.getElementById('facebook_yes');
-  const facebookNo = document.getElementById('facebook_no');
-
-  // Initially hide both forms and the submit button
-  fullForm.classList.add('hidden');
-  simpleForm.classList.add('hidden');
-  submitButton.classList.add('hidden');
-
-  // Listen for changes to the radio buttons
-  facebookYes.addEventListener('change', () => {
-    if (facebookYes.checked) {
-      fullForm.classList.add('hidden');
-      simpleForm.classList.remove('hidden');
-      submitButton.classList.remove('hidden');
-      
-      // Mark fields as not required when Facebook link is selected
-      document.querySelector('[name="name"]').removeAttribute('required');
-      document.querySelector('[name="date"]').removeAttribute('required');
-      document.querySelector('[name="location"]').removeAttribute('required');
-      document.querySelector('[name="description"]').removeAttribute('required');
-      document.querySelector('[name="website"]').removeAttribute('required');
-      document.querySelector('[name="facebook_event_url"]').setAttribute('required', 'true');
-    }
-  });
-
-  facebookNo.addEventListener('change', () => {
-    if (facebookNo.checked) {
-      fullForm.classList.remove('hidden');
-      simpleForm.classList.add('hidden');
-      submitButton.classList.remove('hidden');
-      
-      // Mark fields as required when Facebook link is not selected
-      document.querySelector('[name="name"]').setAttribute('required', 'true');
-      document.querySelector('[name="date"]').setAttribute('required', 'true');
-      document.querySelector('[name="location"]').setAttribute('required', 'true');
-      document.querySelector('[name="description"]').setAttribute('required', 'true');
-      document.querySelector('[name="website"]').setAttribute('required', 'true');
-      document.querySelector('[name="facebook_event_url"]').removeAttribute('required');
-    }
-  });
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     
     // Check for validity of required fields
-    const isValid = form.checkValidity();
+    const formElements = e.target.elements;
+    let valid = true;
     
-    if (!isValid) {
-      // Focus on the first invalid field
-      const firstInvalidElement = form.querySelector(':invalid');
-      if (firstInvalidElement) {
-        firstInvalidElement.focus();
+    for (let element of formElements) {
+      if (element.required && !element.value) {
+        valid = false;
+        element.classList.add("border-red-600");
+        element.classList.add("focus:ring-red-500");
+      } else {
+        element.classList.remove("border-red-600");
+        element.classList.remove("focus:ring-red-500");
       }
-      return;
     }
 
-    // If all fields are valid, submit the form
+    if (!valid) {
+      alert("Wszystkie pola oznaczone gwiazdką (*) są wymagane.");
+      return;
+    }
+    
     const formData = new FormData(e.target);
     try {
       const response = await fetch('/api/add-event', {
@@ -171,7 +97,7 @@
         alert('Wydarzenie dodane pomyślnie!');
         form.reset();
       } else {
-        throw new Error('Błąd podczas dodawania wydarzenia.');
+        throw new Error('Błąd podczas dodawania wydarzenia. Daj znała Łukaszowi bo pewnie on coś zdupił.');
       }
     } catch (error) {
       alert('Wystąpił błąd: ' + error.message);
