@@ -30,8 +30,9 @@
     const disableAnalytics = () => {
       window['ga-disable-G-5PS52KTJEZ'] = true;
       // Clear any existing cookies
-      document.cookie = '_ga=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-      document.cookie = '_ga_5PS52KTJEZ=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+      document.cookie = '_ga=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; Secure; SameSite=Lax;';
+      document.cookie = '_ga_5PS52KTJEZ=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; Secure; SameSite=Lax;';
+
     };
   
     // Check consent on page load
