@@ -37,7 +37,7 @@
     const formData = new FormData(e.target as HTMLFormElement);
     
     try {
-      const response = await fetch('/api/add-event', {
+      const response = await fetch('/api/dist/add-event', {
         method: 'POST',
         body: JSON.stringify(Object.fromEntries(formData)),
         headers: {

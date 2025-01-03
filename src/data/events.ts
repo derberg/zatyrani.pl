@@ -5,7 +5,6 @@ export interface Events {
 	description: string;
 	image: string;
 	date: string;
-	month: string;
 	location: string;
 	mainLink: string;
 	registrationLink: string;

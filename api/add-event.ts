@@ -1,6 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { Octokit } from '@octokit/rest';
 import { createOrUpdateTextFile } from '@octokit/plugin-create-or-update-text-file';
+import type { Events } from '../src/data/events';
 
 const ExtendedOctokit = Octokit.plugin(createOrUpdateTextFile);
 
@@ -16,12 +17,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       auth: process.env.GITHUB_TOKEN
     });
 
-    const eventsData = {
-      name,
-      date,
-      website,
-      registration,
-      addedAt: new Date().toISOString()
+    const eventsData: Events = {
+      date: date,
+      title: name,
+      mainLink: website,
+      registrationLink: registration,
+      description: '',
+      image: '',
+      location: '',
     };
 
     // Read existing data
@@ -31,10 +34,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       path: 'src/data/events.json'
     });
 
-    let events = [];
+    const content = (currentFile as { content: string }).content;
+
+    let events: Events[] = [];
     if (currentFile) {
-      const content = Buffer.from(currentFile.content, 'base64').toString();
-      events = JSON.parse(content);
+      const eventsFileContent = Buffer.from(content, 'base64').toString();
+      events = JSON.parse(eventsFileContent);
     }
 
     events.push(eventsData);
