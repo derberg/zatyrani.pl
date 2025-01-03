@@ -1,4 +1,6 @@
 ---
+import CookieBanner from '../components/CookieBanner.astro';
+
 interface Props {
   title: string;
 }
@@ -25,7 +27,7 @@ const navItems = [
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <title>{title}</title>
     <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=YOUR_TRACKING_ID"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5PS52KTJEZ"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
@@ -80,5 +82,6 @@ const navItems = [
         </div>
       </div>
     </footer>
+    <CookieBanner />
   </body>
 </html>

@@ -1,0 +1,65 @@
+<div id="cookie-banner" class="fixed bottom-0 left-0 right-0 bg-gray-900 text-white p-4">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+      <p class="text-sm">
+        Ta strona używa plików cookie w celu prawidłowego działania Google Analytics. Używamy ich do analizy ruchu na stronie. Jesteśmy stowarzyszeniem i nie mamy zamiaru sprzedawać tych danych. Pomóż nam zrozumieć, jak korzystasz z naszej strony poprzez wybranie opcji "Akceptuję". Jeżeli jednak nie zgadzasz się na to, wybierz "Odrzuć" a wyłączymy używanie Google Analytics.
+      </p>
+      <div class="flex gap-4">
+        <button
+          id="accept-cookies"
+          class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md text-sm"
+        >
+          Akceptuję
+        </button>
+        <a
+          href="#"
+          id="reject-cookies"
+          class="text-gray-300 hover:text-white px-4 py-2 text-sm"
+        >
+          Odrzuć
+        </a>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    const banner = document.getElementById('cookie-banner');
+    const acceptButton = document.getElementById('accept-cookies');
+    const rejectButton = document.getElementById('reject-cookies');
+  
+    // Function to disable Google Analytics
+    const disableAnalytics = () => {
+      window['ga-disable-G-5PS52KTJEZ'] = true;
+      // Clear any existing cookies
+      document.cookie = '_ga=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+      document.cookie = '_ga_5PS52KTJEZ=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    };
+  
+    // Check consent on page load
+    const cookieConsent = localStorage.getItem('cookieConsent');
+    if (!cookieConsent) {
+      banner.style.display = 'block';
+    } else {
+      banner.style.display = 'none';
+      if (cookieConsent === 'rejected') {
+        disableAnalytics();
+      }
+    }
+  
+    acceptButton.addEventListener('click', () => {
+      localStorage.setItem('cookieConsent', 'accepted');
+      banner.style.display = 'none';
+    });
+  
+    rejectButton.addEventListener('click', (e) => {
+      e.preventDefault();
+      localStorage.setItem('cookieConsent', 'rejected');
+      banner.style.display = 'none';
+      disableAnalytics();
+    });
+  </script>
+  
+  <style>
+    #cookie-banner {
+      display: none;
+    }
+  </style>
