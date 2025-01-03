@@ -788,5 +788,14 @@
     "description": "Leśny półmaraton Zatyranych.",
     "image": "initiatives/wilczy.png",
     "mainLink": "https://www.zatyrani.pl/wilczy-polmaraton"
+  },
+  {
+    "date": "01/03/2025",
+    "title": "ultra ZADEK",
+    "mainLink": "https://www.facebook.com/events/378534901711736",
+    "registrationLink": "https://dostartu.pl/ultra-zadek-2025-v10448",
+    "description": "Biegi na dystansach 30km, 50km, 70km i 100km. Jest też Nordic Walking i psiaki.",
+    "image": "",
+    "location": "Kędzierzyn-Koźle"
   }
 ]
