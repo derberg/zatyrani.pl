@@ -113,7 +113,7 @@ async function getPagePosts(pageToken: string): Promise<NewsItem[]> {
 	const url = "https://graph.facebook.com/v19.0/107588201276090/feed";
 	const params = new URLSearchParams({
 		fields: "id,full_picture,message,created_time",
-		limit: "1",
+		limit: "5",
 		access_token: pageToken,
 	});
 
