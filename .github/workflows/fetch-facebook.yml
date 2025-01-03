@@ -2,10 +2,10 @@ name: Fetch Facebook Data
 
 on:
   schedule:
-    - cron: '0 * * * *'  # Run every hour
-  workflow_dispatch:      
+    - cron: "0 * * * *" # Run every hour
+  workflow_dispatch:
   repository_dispatch:
-    types: [fetch-facebook] 
+    types: [fetch-facebook]
 
 jobs:
   fetch-and-commit:
@@ -13,22 +13,24 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-          
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
-          
+          node-version: "18"
+
       - name: Install dependencies
         run: npm ci
-        
+
       - name: Fetch Facebook data
         run: npm run fetch:facebook
         env:
           FB_CLIENT_SECRET: ${{ secrets.FB_CLIENT_SECRET }}
           FB_CLIENT_ID: ${{ secrets.FB_CLIENT_ID }}
           FB_EXCHANGE_TOKEN: ${{ secrets.FB_EXCHANGE_TOKEN }}
-          
+
       - name: Commit and push if changes
         run: |
           git config --global user.name 'GitHub Action'
