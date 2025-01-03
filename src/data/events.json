@@ -806,5 +806,14 @@
     "description": "Wejście bez rejestracji w celach charytatywnych dla Szymka Stawiarskiego",
     "image": "",
     "location": "Ustroń"
+  },
+  {
+    "date": "08/06/2025",
+    "title": "Wirtualny Rzeźnik 500",
+    "mainLink": "https://b4sportonline.pl/rzeznik_500/",
+    "registrationLink": "https://b4sportonline.pl/rzeznik_500/zapisy_na_rzeznik_500__trzecie_starcie",
+    "description": "Wirtualne pokonanie dystansu 500 km w dowolnej ilości treningów oraz w dowolnej lokalizacji, biegnąc, maszerując lub w formie nordic walking, śledząc swoje postępy na symbolicznej trasie Głównego Szlaku Beskidzkiego.",
+    "image": "",
+    "location": "Ustroń"
   }
 ]
