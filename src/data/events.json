@@ -842,5 +842,23 @@
     "description": "Trzy dystanse 15 km, 25 km, 40 km",
     "image": "",
     "location": "Słowacki Raj"
+  },
+  {
+    "date": "12/04/2025",
+    "title": "11. Górska Pętla UBS 12:12",
+    "mainLink": "https://www.facebook.com/events/s/11-gorska-petla-ubs-1212/777004277923826",
+    "registrationLink": "http://www.ultrabeskid.pl/nasze-zawody/11-gorska-petla-ubs-12-12,253.html",
+    "description": "16km biegania",
+    "image": "",
+    "location": "Brenna"
+  },
+  {
+    "date": "05/04/2025",
+    "title": "VII Festiwal Pieszo-Biegowy PRZEDWIOŚNIE",
+    "mainLink": "https://www.facebook.com/events/s/vii-festiwal-pieszo-biegowy-pr/2356591181200621",
+    "registrationLink": "https://maratonprzedwiosnie.pl/index.php/zapisy",
+    "description": "Dystanse od 40km do 100km",
+    "image": "",
+    "location": "Masłów"
   }
 ]
