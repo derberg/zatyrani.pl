@@ -52,7 +52,8 @@ const navItems = [
               </svg>
             </button>
           </div>
-          <div class="hidden sm:flex sm:space-x-8" id="navItems">
+          <!-- Desktop Navigation Items (always visible) -->
+          <div class="hidden sm:flex sm:space-x-8" id="desktopNav">
             {navItems.map((item) => (
               <a
                 target={item.target === '_blank' ? '_blank' : undefined}
@@ -67,6 +68,19 @@ const navItems = [
               </a>
             ))}
           </div>
+        </div>
+
+        <!-- Mobile Navigation Items (hidden by default) -->
+        <div id="mobileNav" class="hidden sm:hidden flex-col space-y-4 bg-white shadow-md">
+          {navItems.map((item) => (
+            <a
+              target={item.target === '_blank' ? '_blank' : undefined}
+              href={item.href}
+              class="block px-4 py-2 text-sm font-medium text-gray-900 hover:text-purple-600"
+            >
+              {item.name}
+            </a>
+          ))}
         </div>
       </nav>
     </header>
@@ -93,21 +107,22 @@ const navItems = [
     <CookieBanner />
     
     <script>
-      // JavaScript to toggle the menu on mobile
+      // JavaScript to toggle the mobile menu
       const menuButton = document.getElementById('menuButton');
-      const navItems = document.getElementById('navItems');
+      const mobileNav = document.getElementById('mobileNav');
       
       menuButton.addEventListener('click', () => {
-        // Toggle the visibility of the navigation items
-        navItems.classList.toggle('hidden');
-        navItems.classList.toggle('block');
+        // Toggle the visibility of mobileNav
+        if (mobileNav) {
+          mobileNav.classList.toggle('hidden');
+        }
       });
     </script>
 
     <style>
-      /* Ensure the mobile menu appears in a clean overlay */
-      #navItems {
-        display: none; /* Hide by default */
+      /* Mobile Navigation: Hidden by default */
+      #mobileNav {
+        display: none;
         position: absolute;
         top: 64px; /* Start just below the header */
         left: 0;
@@ -118,13 +133,17 @@ const navItems = [
         transition: all 0.3s ease; /* Smooth transition */
       }
 
-      /* Make sure the menu shows up when the button is clicked */
-      #navItems.block {
+      /* Display mobile navigation when toggled */
+      #mobileNav.hidden {
+        display: none;
+      }
+
+      #mobileNav:not(.hidden) {
         display: block;
       }
 
-      /* Style links in mobile menu */
-      #navItems a {
+      /* Mobile Navigation Links */
+      #mobileNav a {
         padding: 1rem;
         text-align: center;
         width: 100%;
@@ -133,7 +152,7 @@ const navItems = [
         color: #333;
       }
 
-      #navItems a:hover {
+      #mobileNav a:hover {
         background-color: #f7f7f7;
       }
     </style>
