@@ -156,6 +156,7 @@
       return;
     }
 
+    // If all fields are valid, submit the form
     const formData = new FormData(e.target);
     try {
       const response = await fetch('/api/add-event', {
