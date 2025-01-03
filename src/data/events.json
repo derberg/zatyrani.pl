@@ -860,5 +860,50 @@
     "description": "Dystanse od 40km do 100km",
     "image": "",
     "location": "Masłów"
+  },
+  {
+    "date": "28/03/2025",
+    "title": "Duch Pogórza",
+    "mainLink": "https://www.facebook.com/events/s/duch-pogorza-2025-13km34km68km/670357815152107",
+    "registrationLink": "https://www.duch-pogorza.kingrunner.com/",
+    "description": "13km/34km/68km/102km/204km",
+    "image": "",
+    "location": "Winne-Podbukowina"
+  },
+  {
+    "date": "22/03/2025",
+    "title": "I BARDZKA RAJZA GÓRSKA",
+    "mainLink": "https://www.facebook.com/events/s/i-bardzka-rajza-gorska/1749128782548966",
+    "registrationLink": "https://formularz.ultimasport.pl/309",
+    "description": "Dystanse 15km i 27km",
+    "image": "",
+    "location": "Bardo"
+  },
+  {
+    "date": "15/02/2025",
+    "title": "16. Maraton Pieszy \"Sudecka Żyleta\"",
+    "mainLink": "https://www.facebook.com/events/s/16-maraton-pieszy-sudecka-zyle/3893262007564119",
+    "registrationLink": "",
+    "description": "Pętla około 60-65 km lub pętla około 30-35km",
+    "image": "",
+    "location": "Głuszyca"
+  },
+  {
+    "date": "01/02/2025",
+    "title": "Pieszy Rajd Górski 3SZLAKI",
+    "mainLink": "https://www.facebook.com/events/s/pieszy-rajd-gorski-3szlaki-zim/1229840181579591",
+    "registrationLink": "https://3szlaki.pl/produkt/bilet-na-rajd",
+    "description": "17km dla rodzin z dziećmi. Jest też 30km i 50km",
+    "image": "",
+    "location": "Janowice Wielkie"
+  },
+  {
+    "date": "12/01/2025",
+    "title": "Klimczok z Duchami",
+    "mainLink": "https://www.facebook.com/events/s/klimczok-z-duchami/591486963567212",
+    "registrationLink": "",
+    "description": "Trasa 15km",
+    "image": "",
+    "location": "Bielsko-Biała"
   }
 ]
