@@ -1,0 +1,11 @@
+{
+    "functions": {
+        "api/dist/add-event.js": {
+            "runtime": "edge"
+        }
+    },
+    "ignore": [
+        "api/**/*.ts"
+    ]
+}
+  

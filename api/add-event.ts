@@ -44,9 +44,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     events.push(eventsData);
 
-    // Sort by date
-    events.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-
     await octokit.createOrUpdateTextFile({
       owner: 'derberg',
       repo: 'zatyrani.pl',
