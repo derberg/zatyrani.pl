@@ -1,6 +1,3 @@
----
----
-
 <form id="eventForm" class="max-w-2xl mx-auto p-4">
   <div class="space-y-4">
     <div>
@@ -59,10 +56,15 @@
 
 <script>
   const form = document.getElementById('eventForm');
+  const submitButton = form.querySelector('button[type="submit"]'); // Get the submit button
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     
+    // Disable the submit button to prevent multiple clicks
+    submitButton.disabled = true;
+    submitButton.classList.add("opacity-50", "cursor-not-allowed");
+
     // Check for validity of required fields
     const formElements = e.target.elements;
     let valid = true;
@@ -80,6 +82,9 @@
 
     if (!valid) {
       alert("Wszystkie pola oznaczone gwiazdką (*) są wymagane.");
+      // Re-enable the submit button on invalid form
+      submitButton.disabled = false;
+      submitButton.classList.remove("opacity-50", "cursor-not-allowed");
       return;
     }
     
@@ -101,6 +106,10 @@
       }
     } catch (error) {
       alert('Wystąpił błąd: ' + error.message);
+    } finally {
+      // Re-enable the submit button once the process is complete
+      submitButton.disabled = false;
+      submitButton.classList.remove("opacity-50", "cursor-not-allowed");
     }
   });
 </script>
