@@ -114,6 +114,14 @@
       fullForm.classList.add('hidden');
       simpleForm.classList.remove('hidden');
       submitButton.classList.remove('hidden');
+      
+      // Mark fields as not required when Facebook link is selected
+      document.querySelector('[name="name"]').removeAttribute('required');
+      document.querySelector('[name="date"]').removeAttribute('required');
+      document.querySelector('[name="location"]').removeAttribute('required');
+      document.querySelector('[name="description"]').removeAttribute('required');
+      document.querySelector('[name="website"]').removeAttribute('required');
+      document.querySelector('[name="facebook_event_url"]').setAttribute('required', 'true');
     }
   });
 
@@ -122,6 +130,14 @@
       fullForm.classList.remove('hidden');
       simpleForm.classList.add('hidden');
       submitButton.classList.remove('hidden');
+      
+      // Mark fields as required when Facebook link is not selected
+      document.querySelector('[name="name"]').setAttribute('required', 'true');
+      document.querySelector('[name="date"]').setAttribute('required', 'true');
+      document.querySelector('[name="location"]').setAttribute('required', 'true');
+      document.querySelector('[name="description"]').setAttribute('required', 'true');
+      document.querySelector('[name="website"]').setAttribute('required', 'true');
+      document.querySelector('[name="facebook_event_url"]').removeAttribute('required');
     }
   });
 
@@ -129,22 +145,14 @@
     e.preventDefault();
     
     // Check for validity of required fields
-    const formElements = e.target.elements;
-    let valid = true;
+    const isValid = form.checkValidity();
     
-    for (let element of formElements) {
-      if (element.required && !element.value) {
-        valid = false;
-        element.classList.add("border-red-600");
-        element.classList.add("focus:ring-red-500");
-      } else {
-        element.classList.remove("border-red-600");
-        element.classList.remove("focus:ring-red-500");
+    if (!isValid) {
+      // Focus on the first invalid field
+      const firstInvalidElement = form.querySelector(':invalid');
+      if (firstInvalidElement) {
+        firstInvalidElement.focus();
       }
-    }
-
-    if (!valid) {
-      alert("Wszystkie pola oznaczone gwiazdką (*) są wymagane.");
       return;
     }
 
