@@ -1,0 +1,22 @@
+---
+interface Props {
+  title: string;
+  subtitle: string;
+  background?: 'blue' | 'pink'; // Background color options
+  height?: string; // Optional height
+}
+
+const { title, subtitle, background = 'blue', height = 'py-16' } = Astro.props;
+
+// Determine the background image based on the `background` prop
+const backgroundImage = background === 'pink' ? 'pink_bg.png' : 'blue_bg.png';
+---
+
+<div 
+  class={`relative bg-gradient-to-br from-cyan-400 to-purple-600 ${height}`}
+  style={`background-image: url('${backgroundImage}'), linear-gradient(to bottom right, #06b6d4, #a855f7); background-size: cover; background-position: center;`}>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
+    <h1 class="text-4xl font-bold mb-4">{title}</h1>
+    <p class="text-xl">{subtitle}</p>
+  </div>
+</div>

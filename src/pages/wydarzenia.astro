@@ -1,0 +1,38 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import EventCard from '../components/EventCard.astro';
+import { events } from '../data/events';
+
+const currentDate = new Date(); // Get the current date
+
+// Function to parse a DD/MM/YYYY string into a Date object
+function parseDate(dateString: string): Date {
+  const [day, month, year] = dateString.split('/');
+  return new Date(+year, +month - 1, +day); // Use "+" to convert to numbers
+}
+
+// Filter and sort events: Show only future events, sorted from closest to the current date (ascending)
+const futureEvents = events
+  .filter(event => parseDate(event.date) > currentDate) // Filter future events
+  .sort((a, b) => {
+    const dateA = parseDate(a.date);
+    const dateB = parseDate(b.date);
+    return dateA.getTime() - dateB.getTime(); // Compare timestamps
+  });
+---
+
+<Layout title="Wydarzenia - Zatyrani">
+  <PageHeader
+    title="Wydarzenia"
+    subtitle="Wszystkie wydarzenia małe i duże gdzie spotkać można jakąś Zatyruskę bądź Zatyrusa."
+  />
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <div class="grid md:grid-cols-3 gap-8">
+      {futureEvents.map((event) => (
+        <EventCard {...event} />
+      ))}
+    </div>
+  </div>
+</Layout>

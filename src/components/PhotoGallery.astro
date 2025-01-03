@@ -1,0 +1,26 @@
+---
+interface Props {
+  photos: {
+    src: string;
+    alt: string;
+  }[];
+  author?: string;
+}
+
+const { photos, author } = Astro.props;
+---
+
+<div class="space-y-4">
+  {author && <p class="text-center text-gray-600">Autor - {author}</p>}
+  <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+    {photos.map((photo) => (
+      <a href={photo.src} target="_blank" rel="noopener noreferrer">
+        <img
+          src={photo.src}
+          alt={photo.alt}
+          class="w-full aspect-[9/16] object-cover rounded-lg hover:shadow-md transition-shadow"
+        />
+      </a>
+    ))}
+  </div>
+</div>

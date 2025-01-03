@@ -1,0 +1,191 @@
+[
+	{
+		"title": "Arek",
+		"from": "Wilcza",
+		"image": "members/tempfile1.jpg",
+		"joinDate": "21/9/2019",
+		"description": "Ojciec tego całego zamieszania."
+	},
+	{
+		"title": "Krzysiek",
+		"from": "Wilcza",
+		"image": "members/tempfile2.jpg",
+		"joinDate": "21/9/2019",
+		"description": ""
+	},
+	{
+		"title": "Ewka",
+		"from": "Żernica",
+		"image": "members/tempfile3.jpg",
+		"joinDate": "21/9/2019",
+		"description": "Biega od 2018. Kocha bieganie w lesie i górskie wycieczki a zimą chłodne kąpiele."
+	},
+	{
+		"title": "Misia",
+		"from": "Wilcza",
+		"image": "members/tempfile10.jpg",
+		"joinDate": "21/9/2019",
+		"description": "Bieganie? Czemu nie."
+	},
+	{
+		"title": "Małgosia",
+		"from": "Zabrze",
+		"image": "members/tempfile13.jpg",
+		"joinDate": "21/9/2019",
+		"description": "Matka tej zwariowanej ekipy."
+	},
+	{
+		"title": "Gosia",
+		"from": "Wilcza",
+		"image": "members/tempfile15.jpg",
+		"joinDate": "21/9/2019",
+		"description": ""
+	},
+	{
+		"title": "Alicja 'Dziczek'",
+		"from": "Stanica",
+		"image": "members/tempfile16.jpg",
+		"joinDate": "21/9/2019",
+		"description": "Żeby nie było za nudno bieganie zaczęła od Runmageddonow. Zrobiła weterana i przerzuciła się na biegi górskie. Uwielbia dystanse maratońskie i ultra trudne trasy. Jak na dziczka przystało w 2022 roku zaliczyła rzeźnika dystans 80 km. Teraz chwilowo walczy z kijkami. Po wyleczeniu kontuzji zapowiada że wróci na górskie trasy."
+	},
+	{
+		"title": "Tomasz",
+		"from": "Wilcza",
+		"image": "members/tempfile21.jpg",
+		"joinDate": "21/9/2019",
+		"description": "Lubi biegać boso i pić wodę z rzeczki."
+	},
+	{
+		"title": "Jola",
+		"from": "Wilcza",
+		"image": "members/tempfile19.jpg",
+		"joinDate": "21/9/2019",
+		"description": "Biega od 2014. Najdłuższy dystans jaki pokonała spontanicznie to ultramaraton 67km. Marzy o maratonie na Islandii."
+	},
+	{
+		"title": "Sonia",
+		"from": "Żernica",
+		"image": "members/tempfile22.webp",
+		"joinDate": "21/9/2019",
+		"description": "Biega od 2018. Biega wolno bo jej wolno."
+	},
+	{
+		"title": "Gosia z Arią",
+		"from": "Nieborowice",
+		"image": "members/tempfile4.jpg",
+		"joinDate": "1/10/2019",
+		"description": "Kilka biegów ultra na koncie i zdobyła Koronę Maratonów Polskich. Dziś przemierza kilometry ze swoim psim przyjacielem."
+	},
+	{
+		"title": "Andrzej",
+		"from": "Żernica",
+		"image": "members/tempfile0.jpg",
+		"joinDate": "14/12/2019",
+		"description": "Podczas biegania zawsze szuka roweru."
+	},
+	{
+		"title": "Waldek",
+		"from": "Gierałtowice",
+		"image": "members/tempfile24.png",
+		"joinDate": "1/9/2020",
+		"description": ""
+	},
+	{
+		"title": "Kaśka",
+		"from": "Wilcze Gardło",
+		"image": "members/tempfile6.webp",
+		"joinDate": "1/11/2020",
+		"description": "Biega od 2017. Lubi długie dystanse. Ma na koncie kilka maratonów i biegów ultra. Marzy jej się triathlon."
+	},
+	{
+		"title": "Rekin",
+		"from": "Żernica",
+		"image": "members/tempfile11.jpg",
+		"joinDate": "1/6/2021",
+		"description": "Lubi podbiegi i tam mija kolejnych zawodników. Złota rączka Zatyranych. Spec od izotoników."
+	},
+	{
+		"title": "Miro",
+		"from": "Pilchowice",
+		"image": "members/tempfile26.webp",
+		"joinDate": "1/9/2021",
+		"description": "Nie dotarłem jeszcze do mety, ale jestem bliżej niż wczoraj."
+	},
+	{
+		"title": "Jano",
+		"from": "Pilchowice",
+		"image": "members/tempfile12.jpg",
+		"joinDate": "4/9/2021",
+		"description": "Biega po to żeby żreć."
+	},
+	{
+		"title": "Piotr",
+		"from": "Żernica",
+		"image": "members/tempfile14.jpg",
+		"joinDate": "1/1/2022",
+		"description": "Biega od 2013. Ukończył Koronę Półmaratonów Polskich. Realizuje Koronę Maratonów Polskich. Wchodzi w biegi ultra."
+	},
+	{
+		"title": "Karina",
+		"from": "Nieborowice",
+		"image": "members/karina.webp",
+		"joinDate": "12/2/2022",
+		"description": "Ostatni będą pierwszymi."
+	},
+	{
+		"title": "Łukasz 'Picek'",
+		"from": "Stanica",
+		"image": "members/tempfile9.jpg",
+		"joinDate": "15/2/2022",
+		"description": "Pierwsza szklanka Stanicy."
+	},
+	{
+		"title": "Łukasz",
+		"from": "Wilcza",
+		"image": "members/tempfile7.jpg",
+		"joinDate": "1/5/2022",
+		"description": "Chyba już uzależniony od biegania."
+	},
+	{
+		"title": "Łukasz 'Łysy'",
+		"from": "Nieborowice",
+		"image": "members/tempfile8.webp",
+		"joinDate": "13/6/2022",
+		"description": "Kiedyś nie lubił biegać."
+	},
+	{
+		"title": "Magda",
+		"from": "Nieborowice",
+		"image": "members/tempfile18.jpg",
+		"joinDate": "15/6/2022",
+		"description": ""
+	},
+	{
+		"title": "Grzesiek",
+		"from": "Nieborowice",
+		"image": "members/tempfile20.jpg",
+		"joinDate": "15/6/2022",
+		"description": ""
+	},
+	{
+		"title": "Tomek",
+		"from": "Wilcza",
+		"image": "members/tempfile17.jpg",
+		"joinDate": "2/10/2022",
+		"description": "Biegam bo jak przyjdą ZOMBIE to zjedzą tych wolniejszych."
+	},
+	{
+		"title": "Iza",
+		"from": "Żernica",
+		"image": "members/tempfile25.jpg",
+		"joinDate": "1/3/2023",
+		"description": ""
+	},
+	{
+		"title": "Marzena",
+		"from": "Żernica",
+		"image": "members/tempfile23.jpg",
+		"joinDate": "1/5/2023",
+		"description": "Dziewczyna z wypiekami - biegam dla słodkości."
+	}
+]

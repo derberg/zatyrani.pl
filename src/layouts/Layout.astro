@@ -1,0 +1,76 @@
+---
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+
+const navItems = [
+  { name: 'Aktualności', href: '/aktualnosci' },
+  { name: 'Wydarzenia', href: '/wydarzenia' },
+  { name: 'Inicjatywy', href: '/inicjatywy' },
+  { name: 'Zatyrusy', href: '/zatyrusy' },
+  { name: 'Półmaraton', href: '/polmaraton' },
+  { name: 'YouTube', target: '_blank', href: 'https://www.youtube.com/@Zatyranitv/videos' },
+  { name: 'Partner', href: '/partner' },
+];
+---
+
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Zatyrani to stowarStowarzyszenie ZATYRANI Gratisownia.pl Gmina Pilchowice to organizacja zajmująca się popularyzowaniem biegania i innych form aktywności ruchowej." />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <title>{title}</title>
+  </head>
+  <body class="min-h-screen bg-white">
+    <header class="border-b">
+      <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+          <div class="flex">
+            <a href="/" class="flex-shrink-0 flex items-center">
+              <img class="h-8 w-auto" src="/logo.png" alt="Zatyrani" />
+            </a>
+          </div>
+          <div class="hidden sm:flex sm:space-x-8">
+            {navItems.map((item) => (
+              <a
+                target={item.target === '_blank' ? '_blank' : undefined}
+                href={item.href}
+                class={`inline-flex items-center px-1 pt-1 text-sm font-medium hover:text-purple-600 ${
+                  item.name === 'YouTube' ? 'text-red-600 hover:text-red-700' : 
+                  item.name === 'Partner' ? 'text-[rgb(255,102,0)] hover:text-[rgb(255,80,0)]' : 
+                  'text-gray-900'
+                }`}
+              >
+                {item.name}
+              </a>
+            ))}
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="bg-white border-t mt-12 relative">
+      <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <div class="text-center">
+          <p class="text-sm text-gray-500">
+            © 2025 Zatyrani Gratisownia.pl Gmina Pilchowice. All rights reserved.
+            <a 
+              href="Statut-Stowarzyszenia-ZATYRANI.docx"
+              class="text-blue-600 hover:text-blue-700 block" 
+              download="statut" >
+              Statut Stowarzyszenia.
+            </a>
+          </p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
