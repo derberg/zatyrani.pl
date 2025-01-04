@@ -905,5 +905,14 @@
     "description": "Trasa 15km",
     "image": "",
     "location": "Bielsko-Biała"
+  },
+  {
+    "date": "18/01/2025",
+    "title": "Ultra Annogórski",
+    "mainLink": "https://m.facebook.com/events/1247992263304692/?ref_source=SEARCH",
+    "registrationLink": "https://www.zmierzymyczas.pl/2074/zimowy-ultramaraton-annogorski-2025.html",
+    "description": "21, 30 i 50 km",
+    "image": "",
+    "location": "Góra Świętej Anny"
   }
 ]
