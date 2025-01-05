@@ -914,5 +914,14 @@
     "description": "21, 30 i 50 km",
     "image": "",
     "location": "Góra Świętej Anny"
+  },
+  {
+    "date": "05/04/2025",
+    "title": "Nocny bieg Kraków ",
+    "mainLink": "https://www.facebook.com/share/p/157N8ixh2p/",
+    "registrationLink": "",
+    "description": "Bieg na 10 km",
+    "image": "",
+    "location": "Kraków"
   }
 ]
