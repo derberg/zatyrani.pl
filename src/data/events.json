@@ -950,5 +950,14 @@
     "description": "NW i bieg różne dystanse",
     "image": "",
     "location": "Podlesice"
+  },
+  {
+    "date": "05/04/2025",
+    "title": "Prudnicki bieg górski",
+    "mainLink": "https://facebook.com/events/s/i-prudnicki-bieg-gorski/1780606989370807/",
+    "registrationLink": "https://facebook.com/events/s/i-prudnicki-bieg-gorski/1780606989370807/",
+    "description": "5km i 10km bieg",
+    "image": "",
+    "location": "Prudnik"
   }
 ]
