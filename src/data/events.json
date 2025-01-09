@@ -959,5 +959,14 @@
     "description": "5km i 10km bieg",
     "image": "",
     "location": "Prudnik"
+  },
+  {
+    "date": "21/06/2025",
+    "title": "Rybnicki półmaraton ",
+    "mainLink": "https://facebook.com/events/s/15-pko-rybnicki-po%C5%82maraton-ksi/918719083535633/",
+    "registrationLink": "https://facebook.com/events/s/15-pko-rybnicki-po%C5%82maraton-ksi/918719083535633/",
+    "description": "Bieg 10.5 i 21km",
+    "image": "",
+    "location": "Rybnik"
   }
 ]
