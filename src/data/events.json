@@ -1004,5 +1004,14 @@
     "description": "Bieganie i NW na dystancie 5km. Jest opcja biegu w parach.",
     "image": "",
     "location": "Dąbrowa Górnicza "
+  },
+  {
+    "date": "05/04/2025",
+    "title": "Bieg Nocny na 10 km",
+    "mainLink": "https://www.facebook.com/events/8746754828766497",
+    "registrationLink": "https://online.datasport.pl/zapisy/portal/zawody.php?zawody=10483",
+    "description": "Podobno super klimat. Start z krakowskiego rynku o 20:30 z limitem 90min.",
+    "image": "",
+    "location": "Kraków"
   }
 ]
