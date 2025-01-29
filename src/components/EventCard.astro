@@ -13,10 +13,10 @@ interface Props {
 import.meta.glob
 
 // Read all images from the events folder that start with "runners"
-const imageFiles = import.meta.glob('/events/runners*', { eager: true });
+const imageFiles = import.meta.glob('/public/events/runners*', { eager: true });
 
 // Convert object keys to an array of file paths
-const fallbackImages = Object.keys(imageFiles);
+const fallbackImages = Object.keys(imageFiles).map(path => path.replace('/public/', ''));
 
 const formatDate = (dateString) => {
   const [day, month, year] = dateString.split('/').map(Number);
