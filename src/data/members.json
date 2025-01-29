@@ -187,5 +187,19 @@
 		"image": "members/tempfile23.jpg",
 		"joinDate": "1/5/2023",
 		"description": "Dziewczyna z wypiekami - biegam dla słodkości."
+	},
+	{
+		"title": "Michał, czyli Kędzior zwany Pielgrzymem",
+		"from": "Gliwice",
+		"image": "members/pielgrzym.webp",
+		"joinDate": "1/7/2024",
+		"description": "Uwielbia spacery, zwiedzanie i marsze z kijami. Może kiedyś przemaszeruje cały świat."
+	},
+	{
+		"title": "Mała Gosia zwana też Calineczką",
+		"from": "Wilcza",
+		"image": "members/malagosia.webp",
+		"joinDate": "1/6/2024",
+		"description": "Ale daleko jeszcze?"
 	}
 ]

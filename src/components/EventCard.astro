@@ -10,17 +10,20 @@ interface Props {
   month?: string;
 }
 
-// Define an array of fallback images
-const fallbackImages = [
-  'events/event_fallback.webp',
-  'events/runners1.webp',
-  'events/runners2.webp',
-  'events/runners3.webp',
-  'events/runners4.webp',
-  'events/runners5.webp',
-  'events/runners6.webp',
-  'events/runners7.webp'
-];
+import.meta.glob
+
+// Read all images from the events folder that start with "runners"
+const imageFiles = import.meta.glob('/public/events/runners*', { eager: true });
+
+// Convert object keys to an array of file paths
+const fallbackImages = Object.keys(imageFiles);
+
+const formatDate = (dateString) => {
+  const [day, month, year] = dateString.split('/').map(Number);
+  const dateObj = new Date(year, month - 1, day);
+  
+  return new Intl.DateTimeFormat('pl-PL', { day: 'numeric', month: 'long', year: 'numeric' }).format(dateObj);
+};
 
 // Randomly select a fallback image
 const randomFallbackImage = fallbackImages[Math.floor(Math.random() * fallbackImages.length)];
@@ -39,7 +42,7 @@ const { title, date, location, description, mainLink, registrationLink, image } 
       <h3 class="text-xl font-bold">{title}</h3>
     </div>
     <div class="space-y-2 text-gray-600 mt-4">
-      <p class="font-bold">{date}
+      <p class="font-bold">{formatDate(date)}
         <span class="inline-block px-2 py-1 text-xs font-semibold text-green-600 bg-green-100 rounded-full">
           {location}
         </span>
