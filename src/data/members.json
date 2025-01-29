@@ -18,7 +18,7 @@
 		"from": "Żernica",
 		"image": "members/tempfile3.jpg",
 		"joinDate": "21/9/2019",
-		"description": "Biega od 2018. Kocha bieganie w lesie i górskie wycieczki a zimą chłodne kąpiele."
+		"description": "Biega od 2018. Kocha bieganie w lesie i górskie wycieczki a zimą chłodne kąpiele. Instruktorka Nordic Walking."
 	},
 	{
 		"title": "Misia",
@@ -189,11 +189,11 @@
 		"description": "Dziewczyna z wypiekami - biegam dla słodkości."
 	},
 	{
-		"title": "Michał, czyli Kędzior zwany Pielgrzymem",
-		"from": "Gliwice",
-		"image": "members/pielgrzym.webp",
-		"joinDate": "1/7/2024",
-		"description": "Uwielbia spacery, zwiedzanie i marsze z kijami. Może kiedyś przemaszeruje cały świat."
+		"title": "Asia",
+		"from": "Nieborowice",
+		"image": "members/asia.jpg",
+		"joinDate": "1/6/2023",
+		"description": "Kocha Andrzeja, ale tego co ją kocha ❤️ \n\n W górach czuje się jak w domu, z kijami pokonuje każdy szlak, a półmaraton to tylko kwestia czasu 💪"
 	},
 	{
 		"title": "Mała Gosia zwana też Calineczką",
@@ -201,5 +201,19 @@
 		"image": "members/malagosia.webp",
 		"joinDate": "1/6/2024",
 		"description": "Ale daleko jeszcze?"
+	},
+	{
+		"title": "Andrzej",
+		"from": "Nieborowice",
+		"image": "members/andrzej.webp",
+		"joinDate": "1/6/2024",
+		"description": "Kocha Asię ❤️ \n\n Swój skromny debiut biegowy z Zatyranymi rozpoczął od Wilczego Półmaratonu."
+	},
+	{
+		"title": "Michał, czyli Kędzior zwany Pielgrzymem",
+		"from": "Gliwice",
+		"image": "members/pielgrzym.webp",
+		"joinDate": "1/7/2024",
+		"description": "Uwielbia spacery, zwiedzanie i marsze z kijami. Może kiedyś przemaszeruje cały świat."
 	}
 ]
