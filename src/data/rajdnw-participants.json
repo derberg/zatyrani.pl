@@ -26,5 +26,12 @@
     "lastname": "Fajka",
     "club": "",
     "location": "Toszek"
+  },
+  {
+    "year": "1955",
+    "firstname": "Muniek",
+    "lastname": "Staszczyk",
+    "club": "T.LOVE",
+    "location": "Warszawa"
   }
 ]
