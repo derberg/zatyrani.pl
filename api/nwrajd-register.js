@@ -9,7 +9,7 @@ export default async function handler(req, res) {
 	}
 
 	try {
-		const { name, date, website, registration, description, location } =
+		const { name, surname, club, location, year } =
 			req.body;
 
 		const octokit = new ExtendedOctokit({
@@ -17,12 +17,10 @@ export default async function handler(req, res) {
 		});
 
 		const eventsData = {
-			date: formatDate(date),
-			title: name,
-			mainLink: website,
-			registrationLink: registration,
-			description: description,
-			image: "",
+			year: year,
+			firstname: name,
+			lastname: surname,
+			club: club,
 			location: location,
 		};
 
@@ -30,7 +28,7 @@ export default async function handler(req, res) {
 		const { data: currentFile } = await octokit.repos.getContent({
 			owner: "derberg",
 			repo: "zatyrani.pl",
-			path: "src/data/events.json",
+			path: "src/data/rajdnw-participants.json",
 		});
 
 		const content = currentFile.content;
@@ -46,9 +44,9 @@ export default async function handler(req, res) {
 		await octokit.createOrUpdateTextFile({
 			owner: "derberg",
 			repo: "zatyrani.pl",
-			path: "src/data/events.json",
+			path: "src/data/rajdnw-participants.json",
 			content: JSON.stringify(events, null, 2),
-			message: `chore(events): added event ${name}`,
+			message: `chore(nwrajd-participants): added participant ${name} ${surname}`,
 		});
 
 		res.status(200).json({ success: true });
@@ -56,15 +54,4 @@ export default async function handler(req, res) {
 		console.error(error);
 		res.status(500).json({ error: "Failed to process request" });
 	}
-}
-
-//needed as for returns 2025-01-09 and I need 09/01/2025
-function formatDate(dateString) {
-	const date = new Date(dateString);
-
-	const day = String(date.getDate()).padStart(2, "0"); // Ensures two digits
-	const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed
-	const year = date.getFullYear();
-
-	return `${day}/${month}/${year}`;
 }

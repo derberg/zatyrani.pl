@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import PhotoGallery from '../components/PhotoGallery.astro';
 import { rajdnwPhotos2024 } from '../data/rajdnw-photos';
+import NWRegistry from '../components/NWRegistry.astro';
 
 const eventDate = '26.04.2025';
 const eventNumber = 'III';
@@ -37,11 +38,10 @@ const eventNumber = 'III';
           Wydarzenie
         </a> -->
         <a
-          href="/"
-          target="_blank"
+          href="#zapisy"
           class="mt-32 inline-block bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-full"
         >
-          Zapisy wkrótce
+          Zapisz się!
       </a>
       </div>
     </div>
@@ -109,5 +109,23 @@ const eventNumber = 'III';
         </div>
       </div>
     </section>     -->
+
+    <section class="mt-16">
+      <h2 id="zapisy" class="text-3xl font-bold text-center">Zapisz się</h2>
+      <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <p>
+          Liczba miejsc jest ograniczona. Zapisz się już teraz!
+        </p>
+     </div>
+     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-0 mb-4">
+       <p>
+          Jeżeli masz jakieś pytania, skontaktuj się z nami pod numerem telefonu organizatora:
+       </p>
+   
+       <hr class="my-4 border-t border-gray-300" />
+     </div>
+     
+     <NWRegistry />
+    </section>
   </div>
 </Layout>

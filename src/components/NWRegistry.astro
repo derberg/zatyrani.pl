@@ -1,0 +1,104 @@
+<form id="eventForm" class="max-w-2xl mx-auto p-4">
+  <div class="space-y-4">
+    <div>
+      <label class="block text-sm font-medium text-gray-700">
+        <strong>Imię</strong> <span class="text-red-600">*</span>
+      </label>
+      <input type="text" name="name" required class="mt-1 block w-full rounded-md border-purple-300 shadow-sm border-2 focus:border-purple-500 focus:ring-purple-500">
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700">
+        <strong>Nazwisko</strong> <span class="text-red-600">*</span>
+      </label>
+      <input type="text" name="surname" required class="mt-1 block w-full rounded-md border-purple-300 shadow-sm border-2 focus:border-purple-500 focus:ring-purple-500">
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700">
+        <strong>Miejscowość</strong> <span class="text-red-600">*</span>
+      </label>
+      <p class="text-xs text-gray-600">Informacja skąd jest uczestnik</p>
+      <input type="text" name="location" required class="mt-1 block w-full rounded-md border-purple-300 shadow-sm border-2 focus:border-purple-500 focus:ring-purple-500">
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700">
+        <strong>Rok urodzenia</strong> <span class="text-red-600">*</span>
+      </label>
+      <input type="text" name="year" required class="mt-1 block w-full rounded-md border-purple-300 shadow-sm border-2 focus:border-purple-500 focus:ring-purple-500">
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700">
+        <strong>Nazwa Klubu</strong>
+      </label>
+      <p class="text-xs text-gray-600">Jeżeli należysz to klubu lub stowarzyszenia podaj jego nazwę.</p>
+      <input type="text" name="club" required class="mt-1 block w-full rounded-md border-purple-300 shadow-sm border-2 focus:border-purple-500 focus:ring-purple-500">
+    </div>
+
+    <button type="submit" class="w-full bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700">
+      Dodaj wydarzenie
+    </button>
+  </div>
+</form>
+
+<script>
+  const form = document.getElementById('eventForm');
+  const submitButton = form.querySelector('button[type="submit"]'); // Get the submit button
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    // Disable the submit button to prevent multiple clicks
+    submitButton.disabled = true;
+    submitButton.classList.add("opacity-50", "cursor-not-allowed");
+
+    // Check for validity of required fields
+    const formElements = e.target.elements;
+    let valid = true;
+    
+    for (let element of formElements) {
+      if (element.required && !element.value) {
+        valid = false;
+        element.classList.add("border-red-600");
+        element.classList.add("focus:ring-red-500");
+      } else {
+        element.classList.remove("border-red-600");
+        element.classList.remove("focus:ring-red-500");
+      }
+    }
+
+    if (!valid) {
+      alert("Wszystkie pola oznaczone gwiazdką (*) są wymagane.");
+      // Re-enable the submit button on invalid form
+      submitButton.disabled = false;
+      submitButton.classList.remove("opacity-50", "cursor-not-allowed");
+      return;
+    }
+    
+    const formData = new FormData(e.target);
+    try {
+      const response = await fetch('/api/nwrajd-register', {
+        method: 'POST',
+        body: JSON.stringify(Object.fromEntries(formData)),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        alert('Rejestracja wykonana pomyślnie!');
+        form.reset();
+      } else {
+        throw new Error('Błąd podczas rejestracji. Spróbuj jeszcze raz i gdy problem się powtórzy to skontaktuj się z organizatorem.');
+      }
+    } catch (error) {
+      alert('Wystąpił błąd: ' + error.message);
+    } finally {
+      // Re-enable the submit button once the process is complete
+      submitButton.disabled = false;
+      submitButton.classList.remove("opacity-50", "cursor-not-allowed");
+    }
+  });
+</script>
