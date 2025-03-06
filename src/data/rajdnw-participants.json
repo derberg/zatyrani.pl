@@ -40,5 +40,12 @@
     "lastname": "Lotnik",
     "club": "",
     "location": "Dęblin"
+  },
+  {
+    "year": "1900",
+    "firstname": "Maryla",
+    "lastname": "Rodowicz",
+    "club": "",
+    "location": "Szczecin"
   }
 ]
