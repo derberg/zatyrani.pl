@@ -12,5 +12,12 @@
     "lastname": "Bravo",
     "club": "Cartoon Network",
     "location": "Wilkowyje"
+  },
+  {
+    "year": "1970",
+    "firstname": "Jola",
+    "lastname": "Lojalna",
+    "club": "Literaci",
+    "location": "Miechów"
   }
 ]
