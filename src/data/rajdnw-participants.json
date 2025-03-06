@@ -33,5 +33,12 @@
     "lastname": "Staszczyk",
     "club": "T.LOVE",
     "location": "Warszawa"
+  },
+  {
+    "year": "1995",
+    "firstname": "Mariola",
+    "lastname": "Lotnik",
+    "club": "",
+    "location": "Dęblin"
   }
 ]
