@@ -19,5 +19,12 @@
     "lastname": "Lojalna",
     "club": "Literaci",
     "location": "Miechów"
+  },
+  {
+    "year": "1975",
+    "firstname": "Alojzy",
+    "lastname": "Fajka",
+    "club": "",
+    "location": "Toszek"
   }
 ]
