@@ -4,32 +4,31 @@ import PhotoGallery from '../components/PhotoGallery.astro';
 import { rajdnwPhotos2024 } from '../data/rajdnw-photos';
 import NWRegistry from '../components/NWRegistry.astro';
 
-const eventDate = '26.04.2025';
+const eventDate = '26.04.2025 godz. 9:00';
 const eventNumber = 'III';
-//const ytPreviewLink = 'https://www.youtube.com/embed/ftF3hJ-Qfcc'; 
 ---
 
-<Layout title="Zatyrani - III Zatyrany Rajd Nordic Walking">
+<Layout title="Zatyrani - III Rajd Nordic Walking Zatyrani">
   <!-- Hero Section -->
-  <div class="relative h-[60vh] flex items-center justify-center text-white">
+  <div class="relative h-[85vh] flex items-center justify-center text-white">
     <div class="absolute inset-0">
       <img
         src="rajdnw/2024/header.webp"
         alt="Tło rajdu"
         class="w-full h-full object-cover"
       />
-      <div class="absolute inset-0 bg-black/50"></div>
+      <div class="absolute inset-0 bg-black/20"></div>
     </div>
     <div class="relative text-center space-y-4">
       <div class="px-8rounded-lg mx-auto max-w-full">
-        <h1 class="text-5xl font-bold text-white">{eventNumber} Zatyrany Rajd Nordic Walking</h1>
+        <h1 class="text-5xl font-bold text-white">{eventNumber} Rajd Nordic Walking Zatyrani</h1>
       </div>
       
-      <div class="px-8 py-4 rounded-lg mx-auto inline-block">
+      <div class="py-10 lg:py-0 rounded-lg mx-auto inline-block">
         <h1 class="text-3xl font-bold text-white">{eventDate}</h1>
       </div>
-      
-      <div>
+
+      <div class="">
         <a
           href="/rajdnw-lista"
           class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-full"
@@ -41,43 +40,72 @@ const eventNumber = 'III';
           class="mt-32 inline-block bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-full"
         >
           Zapisz się!
-      </a>
+        </a>
       </div>
+
     </div>
     
     
     
   </div>
 
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-    <!-- Event Details -->
-    <div class="grid gap-12">
-      <!-- Video Section -->
-      <!-- <div>
-        <div class="aspect-video rounded-lg overflow-hidden">
-          <iframe
-            width="100%"
-            height="100%"
-            src={ ytPreviewLink }
-            title="Wilczy Półmaraton"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
-          ></iframe>
-        </div>
-      </div> -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10">
+    <!-- Bullet List and Image Section -->
+    <h2 class="text-3xl font-bold text-center">Atrakcje</h2>
+    <div class="grid md:grid-cols-2 gap-12 mb-16 py-8">
+      <!-- Bullet List Section -->
+      <div class="space-y-4 flex flex-col justify-center text-gray-700 text-lg">
+        <ul class="list-none space-y-3">
+          <li class="flex items-center">
+            <!-- Checkmark Icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-green-500 mr-2 flex-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+            Trasa prowadzi przez malownicze tereny leśne Nieborowic i Leboszowic.
+          </li>
+          <li class="flex items-center text-gray-700">
+            <!-- Checkmark Icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-green-500 mr-2 flex-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+            Istnieje możliwość wypożyczenia kijków do nordic walking po wcześniejszym kontakcie z organizatorem.
+          </li>
+          <li class="flex items-center text-gray-700">
+            <!-- Checkmark Icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-green-500 mr-2 flex-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+            Trasa około 12km zajmie około 3 godziny.
+          </li>
+          <li class="flex items-center text-gray-700">
+            <!-- Checkmark Icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-green-500 mr-2 flex-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+            Zapewniamy poczęstunek i ciepłe napoje.
+          </li>
+          <li class="flex items-center text-gray-700">
+            <!-- Checkmark Icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-green-500 mr-2 flex-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+            Na koniec każdy uczestnik otrzyma niespodziankę.
+          </li>
+          
+        </ul>
+        
+      </div>
     
-      <!-- Text Section -->
-      <div class="flex items-center">
-        <div class="space-y-6 text-xl">
-          <p class="text-gray-700">
-            Trasa rajdu jest w trakcie ustalania. Obserwój naszą stronę.
-          </p>
-        </div>
+      <!-- Image Section -->
+      <div class="flex items-center justify-center">
+        <img
+          src="rajdnw/logo.png"
+          alt="Event Image"
+          class="w-full max-w-sm rounded-lg shadow-lg"
+        />
       </div>
     </div>
-    
   </div>
-
 
   
   
@@ -90,24 +118,19 @@ const eventNumber = 'III';
     </section>
 
     <!-- Race Office Location -->
-    <!-- <section class="mt-16">
-      <h2 class="text-3xl font-bold text-center">Biuro zawodów</h2>
+    <section class="mt-16">
+      <h2 class="text-3xl font-bold text-center">Trasa</h2>
       <div class="max-w-3xl mx-auto">
         <p class="mt-4 mb-2 text-gray-600 text-center">
-          Dom Kultury w Wilczy, Karola Miarki 123, 44-189 Wilcza
+          ul. Główna 50, Nieborowice. Parking przy PPK i kaplicy. <a href="/rajdnw/IIIrajdnw.gpx" class="text-purple-600 hover:text-purple-800">Pobierz plik GPX.</a>
+        </p>
+        
         <div class="aspect-[16/9] rounded-lg overflow-hidden shadow-md">
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d796.6238701372778!2d18.59522346969745!3d50.188842198221465!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x471137d1988015fd%3A0xa1e08547df1cdfa8!2sDom%20Kultury%20w%20Wilczy%20(biuro%20GOK%20Pilchowice)!5e1!3m2!1sen!2spl!4v1735845595802!5m2!1sen!2spl"
-            width="100%"
-            height="100%"
-            style="border:0;"
-            allowfullscreen=""
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"
-          ></iframe>
+          <iframe src="https://www.google.com/maps/d/embed?mid=1iN9KkJXrKKFDPxNZGYbYfidClByd3xY&ehbc=2E312F" width="100%" height="100%"></iframe>
         </div>
+        
       </div>
-    </section>     -->
+    </section>   
 
     <section class="mt-16">
       <h2 id="zapisy" class="text-3xl font-bold text-center">Zapisz się</h2>
@@ -118,7 +141,7 @@ const eventNumber = 'III';
      </div>
      <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-0 mb-4">
        <p>
-          Jeżeli masz jakieś pytania, skontaktuj się z nami pod numerem telefonu organizatora:
+          Jeżeli masz jakieś pytania, skontaktuj się z nami pod numerem telefonu: 663 473 341
        </p>
    
        <hr class="my-4 border-t border-gray-300" />
