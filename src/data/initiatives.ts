@@ -5,6 +5,7 @@ export interface Initiative {
 	description: string;
 	schedule: string;
 	image: string;
+	link: string;
 	imageClass?: string;
 }
 

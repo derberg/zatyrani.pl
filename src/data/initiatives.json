@@ -26,6 +26,13 @@
     "imageClass": "h-96"
   },
   {
+    "title": "Wilczy Półmaraton",
+    "description": "Coroczny półmaraton organizowany w sołectwie Wilcza.",
+    "schedule": "Pażdziernik",
+    "image": "initiatives/wilczy.png",
+    "link": "/wilczy-polmaraton"
+  },
+  {
     "title": "Wybieganie Slow",
     "description": "Co Wtorek biegamy powoli, żeby zbić kilogramy i pogadać o dupie marynie.",
     "schedule": "Wtorki - 19:00",
@@ -33,15 +40,16 @@
     "imageClass": "h-96"
   },
   {
+    "title": "Rajd Nordic Walking",
+    "description": "Coroczny rajd leśny miłośników Nordic Walking.",
+    "schedule": "Kwiecień",
+    "image": "initiatives/rajdnw.png",
+    "link": "/rajdnw"
+  },
+  {
     "title": "Kije",
     "description": "Bieganie jest spoko, ale kolana też muszą kiedyś odpocząć. A najlepiej zrobić to w Poniedziałek z kijaszkami w ręce.",
     "schedule": "Poniedziałki - 18:30",
     "image": "initiatives/kije.webp"
-  },
-  {
-    "title": "Wilczy Półmaraton",
-    "description": "Coroczny półmaraton organizowany w sołectwie Wilcza.",
-    "schedule": "Pażdziernik",
-    "image": "initiatives/wilczy.png"
   }
 ]
