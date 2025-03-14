@@ -75,5 +75,12 @@
     "lastname": "Milewska",
     "club": "",
     "location": "Knurów "
+  },
+  {
+    "year": "1983",
+    "firstname": "Małgorzata",
+    "lastname": "Bura",
+    "club": "Zatyrani",
+    "location": "Nieborowice"
   }
 ]
