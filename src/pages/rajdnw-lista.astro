@@ -4,8 +4,10 @@ import { participants as rawParticipants } from '../data/rajdnw-participants';
 
 const eventDate = '26.04.2025';
 const eventNumber = 'III';
+const maxParticipants = 50;
 
 const participants = rawParticipants.sort((a, b) => a.lastname.localeCompare(b.lastname));
+const registeredCount = participants.length;
 ---
 
 <Layout title="Zatyrani - III Zatyrany Rajd Nordic Walking">
@@ -32,6 +34,8 @@ const participants = rawParticipants.sort((a, b) => a.lastname.localeCompare(b.l
 
   <section class="mt-16">
     <h2 id="zapisy" class="text-3xl font-bold text-center">Lista Startowa</h2>
+    <p class="text-center text-lg mt-2">Zapisanych: {registeredCount} / {maxParticipants}</p>
+    
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <p>
         Jeżeli chcesz wprowadzić zmiany w liście startowej, skontaktuj się z nami pod adresem e-mail:     
@@ -49,6 +53,7 @@ const participants = rawParticipants.sort((a, b) => a.lastname.localeCompare(b.l
         <table class="min-w-full bg-white border border-gray-200 rounded-lg overflow-hidden shadow-md">
           <thead class="bg-green-600 text-white">
             <tr>
+              <th class="px-4 py-3">#</th>
               <th class="px-4 py-3 whitespace-nowrap">Nazwisko i Imię</th>
               <th class="px-4 py-3">Miejscowość</th>
               <th class="px-4 py-3 whitespace-nowrap">Rok Urodzenia</th>
@@ -56,8 +61,9 @@ const participants = rawParticipants.sort((a, b) => a.lastname.localeCompare(b.l
             </tr>
           </thead>
           <tbody>
-            {participants.map((participant) => (
+            {participants.map((participant, index) => (
               <tr class="border-b hover:bg-blue-100 transition" key={`${participant.firstname}-${participant.lastname}`}>                
+                <td class="px-4 py-3 text-center">{index + 1}</td>
                 <td class="px-4 py-3">{participant.lastname} {participant.firstname}</td>
                 <td class="px-4 py-3">{participant.location}</td>
                 <td class="px-4 py-3 text-center">{participant.year}</td>
