@@ -89,5 +89,12 @@
     "lastname": "Miczka",
     "club": "",
     "location": "Gliwice"
+  },
+  {
+    "year": "1983",
+    "firstname": "Edyta",
+    "lastname": "Wiśniowska",
+    "club": "Zatyrany Gratisownia Pilchowice",
+    "location": "Smolnica"
   }
 ]
