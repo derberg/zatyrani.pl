@@ -152,5 +152,12 @@
     "lastname": "Jonda",
     "club": "TRASZKI",
     "location": "Bargłówka"
+  },
+  {
+    "year": "1960",
+    "firstname": "Lucyna",
+    "lastname": "Ziecina",
+    "club": "",
+    "location": "Czerwionka"
   }
 ]
