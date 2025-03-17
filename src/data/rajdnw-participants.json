@@ -215,5 +215,12 @@
     "lastname": "Adamus",
     "club": "",
     "location": "Rybnik"
+  },
+  {
+    "year": "1957",
+    "firstname": "Stefania",
+    "lastname": "Piszczek",
+    "club": "Najlepsze kijki w mieście ",
+    "location": "Czerwionka-Leszczyny "
   }
 ]
