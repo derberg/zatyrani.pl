@@ -143,7 +143,7 @@
     "year": "1985",
     "firstname": "Agnieszka ",
     "lastname": "Kalnik ",
-    "club": "Zatyrani Gratisownia.pl Gmina Pilchowice ",
+    "club": "Zatyrani Gratisownia.pl Gmina Pilchowice",
     "location": "Nieborowice "
   },
   {
@@ -164,49 +164,49 @@
     "year": "1960",
     "firstname": "Gabriela",
     "lastname": "Gizdoń",
-    "club": "Najlepsze Kijki w Mieście ",
+    "club": "Najlepsze Kijki w Mieście",
     "location": "Czerwionka-Leszczyny"
   },
   {
     "year": "1962",
     "firstname": "Halina ",
     "lastname": "Gołębiowska",
-    "club": "Najlepsze Kijki w miescie",
+    "club": "Najlepsze Kijki w Mieście",
     "location": "Czerwionka-Leszczyny"
   },
   {
     "year": "1957",
     "firstname": "Bożena",
     "lastname": "Czuga",
-    "club": "Najlepsze Kijki w Mieście ",
+    "club": "Najlepsze Kijki w Mieście",
     "location": "Czerwionka-Leszczyny"
   },
   {
     "year": "1967",
     "firstname": "Izabela",
     "lastname": "Pander",
-    "club": "Najlepsze Kijki w Mieście ",
+    "club": "Najlepsze Kijki w Mieście",
     "location": "Stanowice"
   },
   {
     "year": "1962",
     "firstname": "Anna",
     "lastname": "Sulowska ",
-    "club": "Najlepsze kijki w mieście ",
+    "club": "Najlepsze Kijki w Mieście",
     "location": "Czerwionka-Leszczyny"
   },
   {
     "year": "1960",
     "firstname": "Danuta",
     "lastname": "Karmańska ",
-    "club": "Najlepsze kijki w mieście ",
+    "club": "Najlepsze Kijki w Mieście",
     "location": "Czerwionka-Leszczyny"
   },
   {
     "year": "1969",
     "firstname": "Barbara",
     "lastname": "Walura",
-    "club": "Najlepsze kijki w mieście ",
+    "club": "Najlepsze Kijki w Mieście",
     "location": "Czerwionka-Leszczyny"
   },
   {
@@ -220,7 +220,7 @@
     "year": "1957",
     "firstname": "Stefania",
     "lastname": "Piszczek",
-    "club": "Najlepsze kijki w mieście",
+    "club": "Najlepsze Kijki w Mieście",
     "location": "Czerwionka-Leszczyny"
   },
   {
@@ -241,43 +241,43 @@
     "year": "1993",
     "firstname": "Marzena ",
     "lastname": "Karbowy ",
-    "club": "Zatyrani Gratisownia.pl Gmina Pilchowice ",
+    "club": "Zatyrani Gratisownia.pl Gmina Pilchowice",
     "location": "Żernica "
   },
   {
     "year": "1954",
     "firstname": "Jadwiga",
     "lastname": "Ślusarska",
-    "club": "Najlepsze kijki w mieście ",
+    "club": "Najlepsze Kijki w Mieście",
     "location": "Czerwionka-Leszczyny"
   },
   {
     "year": "1963",
     "firstname": "Gabriela ",
     "lastname": "Kubica",
-    "club": "Najlepsze kijki w Mieście",
+    "club": "Najlepsze Kijki w Mieście",
     "location": "Czerwionka-Leszczyny"
   },
   {
     "year": "1954",
     "firstname": "Maria ",
     "lastname": "Pardala",
-    "club": "Najlepsze kijki w mieście ",
+    "club": "Najlepsze Kijki w Mieście",
     "location": "Stanowice"
   },
   {
     "year": "1953",
     "firstname": "Janusz ",
     "lastname": "Pardala",
-    "club": "Najlepsze kijki w mieście ",
+    "club": "Najlepsze Kijki w Mieście",
     "location": "Stanowice "
   },
   {
     "year": "1979",
-    "firstname": "Edyta ",
-    "lastname": "Muszelik-Pilzak ",
+    "firstname": "Edyta",
+    "lastname": "Muszelik-Pilzak",
     "club": "",
-    "location": "Żernica "
+    "location": "Żernica"
   },
   {
     "year": "1975",
@@ -291,27 +291,27 @@
     "firstname": "Wiesława",
     "lastname": "Ogar",
     "club": "",
-    "location": "Knurów "
+    "location": "Knurów"
   },
   {
     "year": "1987",
-    "firstname": "Stefania ",
+    "firstname": "Stefania",
     "lastname": "Pokora",
     "club": "",
     "location": "Pilchowice"
   },
   {
-    "year": "30.11.1980",
-    "firstname": "Sonia Michalec",
+    "year": "1980",
+    "firstname": "Sonia",
     "lastname": "Michalec",
     "club": "",
     "location": "Żernica"
   },
   {
-    "year": "18.05. 1982",
+    "year": "1982",
     "firstname": "Jolanta",
     "lastname": "Zawada",
     "club": "",
-    "location": "Żernica "
+    "location": "Żernica"
   }
 ]
