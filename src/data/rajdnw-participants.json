@@ -313,5 +313,40 @@
     "lastname": "Zawada",
     "club": "",
     "location": "Żernica"
+  },
+  {
+    "year": "1972",
+    "firstname": "Małgorzata",
+    "lastname": "Rzepka",
+    "club": "-",
+    "location": "Gliwice"
+  },
+  {
+    "year": "1969",
+    "firstname": "Tomasz ",
+    "lastname": "Rzepka",
+    "club": "-",
+    "location": "Gliwice"
+  },
+  {
+    "year": "1959",
+    "firstname": "Elżbieta ",
+    "lastname": "Cich",
+    "club": "-",
+    "location": "Knurów"
+  },
+  {
+    "year": "1954",
+    "firstname": "Weronika",
+    "lastname": "Skapczyk",
+    "club": "-",
+    "location": "Knurów"
+  },
+  {
+    "year": "1987",
+    "firstname": "Justyna",
+    "lastname": "Gilner",
+    "club": "",
+    "location": "Żernica"
   }
 ]
