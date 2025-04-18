@@ -1,387 +1,373 @@
 [
-  {
-    "year": "1983",
-    "firstname": "Ewa",
-    "lastname": "Rybarz ",
-    "club": "Zatyrani Gratisownia.pl Gmina Pilchowice",
-    "location": "Żernica "
-  },
-  {
-    "year": "1980",
-    "firstname": "Magdalena ",
-    "lastname": "Handzlik ",
-    "club": "Zatyrani Gratisownia.pl Gmina Pilchowice",
-    "location": "Nieborowice "
-  },
-  {
-    "year": "1975",
-    "firstname": "Beata",
-    "lastname": "Wyka",
-    "club": "",
-    "location": "Nieborowice"
-  },
-  {
-    "year": "1975",
-    "firstname": "Marzena",
-    "lastname": "Mociak",
-    "club": "",
-    "location": "Gliwice"
-  },
-  {
-    "year": "1974",
-    "firstname": "Sonia",
-    "lastname": "Rogóż ",
-    "club": "Zatyrani Gratisownia.pl Gmina Pilchowice",
-    "location": "Żernica "
-  },
-  {
-    "year": "1980",
-    "firstname": "Katarzyna ",
-    "lastname": "Babczuk",
-    "club": "",
-    "location": "Knurów "
-  },
-  {
-    "year": "1985 ",
-    "firstname": "Zaneta",
-    "lastname": "Motyka",
-    "club": "",
-    "location": "Knurów "
-  },
-  {
-    "year": "1987",
-    "firstname": "Katarzyna",
-    "lastname": "Głód",
-    "club": "",
-    "location": "Knurów "
-  },
-  {
-    "year": "1985",
-    "firstname": "Aneta",
-    "lastname": "Milewska",
-    "club": "",
-    "location": "Knurów "
-  },
-  {
-    "year": "1983",
-    "firstname": "Małgorzata",
-    "lastname": "Bura",
-    "club": "Zatyrani Gratisownia.pl Gmina Pilchowice",
-    "location": "Nieborowice"
-  },
-  {
-    "year": "1983",
-    "firstname": "Karina",
-    "lastname": "Górnicka",
-    "club": "Zatyrani Gratisownia.pl Gmina Pilchowice",
-    "location": "Nieborowice "
-  },
-  {
-    "year": "1979",
-    "firstname": "Bożena",
-    "lastname": "Bukowińska ",
-    "club": "Zatyrani Gratisownia.pl Gmina Pilchowice",
-    "location": "Pilchowice "
-  },
-  {
-    "year": "1977",
-    "firstname": "Justyna",
-    "lastname": "Miczka",
-    "club": "",
-    "location": "Gliwice"
-  },
-  {
-    "year": "1983",
-    "firstname": "Edyta",
-    "lastname": "Wiśniowska",
-    "club": "Zatyrani Gratisownia.pl Gmina Pilchowice",
-    "location": "Smolnica"
-  },
-  {
-    "year": "1977",
-    "firstname": "Joanna",
-    "lastname": "Wyszyńska ",
-    "club": "Zatyrani Gratisownia.pl Gmina Pilchowice",
-    "location": "Nieborowice "
-  },
-  {
-    "year": "1976",
-    "firstname": "Małgorzata ",
-    "lastname": "Rasztabiga ",
-    "club": "Zatyrani Gratisownia.pl Gmina Pilchowice",
-    "location": "Wilcza "
-  },
-  {
-    "year": "2000",
-    "firstname": "Renata ",
-    "lastname": "Bil",
-    "club": "",
-    "location": "Zabrze "
-  },
-  {
-    "year": "2000",
-    "firstname": "Janina",
-    "lastname": "Bodył",
-    "club": "",
-    "location": "Zabrze "
-  },
-  {
-    "year": "1949",
-    "firstname": "Monika",
-    "lastname": "Tychowicz",
-    "club": "Zatyrani Gratisownia.pl Gmina Pilchowice",
-    "location": "Żernica "
-  },
-  {
-    "year": "1971",
-    "firstname": "Iwona ",
-    "lastname": "Piskor ",
-    "club": "",
-    "location": "Gliwice "
-  },
-  {
-    "year": "1985",
-    "firstname": "Agnieszka ",
-    "lastname": "Kalnik ",
-    "club": "Zatyrani Gratisownia.pl Gmina Pilchowice",
-    "location": "Nieborowice "
-  },
-  {
-    "year": "1989",
-    "firstname": "Róża",
-    "lastname": "Jonda",
-    "club": "TRASZKI",
-    "location": "Bargłówka"
-  },
-  {
-    "year": "1960",
-    "firstname": "Lucyna",
-    "lastname": "Ziecina",
-    "club": "",
-    "location": "Czerwionka-Leszczyny"
-  },
-  {
-    "year": "1960",
-    "firstname": "Gabriela",
-    "lastname": "Gizdoń",
-    "club": "Najlepsze Kijki w Mieście",
-    "location": "Czerwionka-Leszczyny"
-  },
-  {
-    "year": "1962",
-    "firstname": "Halina ",
-    "lastname": "Gołębiowska",
-    "club": "Najlepsze Kijki w Mieście",
-    "location": "Czerwionka-Leszczyny"
-  },
-  {
-    "year": "1957",
-    "firstname": "Bożena",
-    "lastname": "Czuga",
-    "club": "Najlepsze Kijki w Mieście",
-    "location": "Czerwionka-Leszczyny"
-  },
-  {
-    "year": "1967",
-    "firstname": "Izabela",
-    "lastname": "Pander",
-    "club": "Najlepsze Kijki w Mieście",
-    "location": "Stanowice"
-  },
-  {
-    "year": "1962",
-    "firstname": "Anna",
-    "lastname": "Sulowska ",
-    "club": "Najlepsze Kijki w Mieście",
-    "location": "Czerwionka-Leszczyny"
-  },
-  {
-    "year": "1960",
-    "firstname": "Danuta",
-    "lastname": "Karmańska ",
-    "club": "Najlepsze Kijki w Mieście",
-    "location": "Czerwionka-Leszczyny"
-  },
-  {
-    "year": "1969",
-    "firstname": "Barbara",
-    "lastname": "Walura",
-    "club": "Najlepsze Kijki w Mieście",
-    "location": "Czerwionka-Leszczyny"
-  },
-  {
-    "year": "1961",
-    "firstname": "Henryka ",
-    "lastname": "Adamus",
-    "club": "",
-    "location": "Rybnik"
-  },
-  {
-    "year": "1957",
-    "firstname": "Stefania",
-    "lastname": "Piszczek",
-    "club": "Najlepsze Kijki w Mieście",
-    "location": "Czerwionka-Leszczyny"
-  },
-  {
-    "year": "1963",
-    "firstname": "Celina",
-    "lastname": "Gajda",
-    "club": "",
-    "location": "Wilcza"
-  },
-  {
-    "year": "1980",
-    "firstname": "Marzena ",
-    "lastname": "Pikulik",
-    "club": "",
-    "location": "Leboszowice "
-  },
-  {
-    "year": "1993",
-    "firstname": "Marzena ",
-    "lastname": "Karbowy ",
-    "club": "Zatyrani Gratisownia.pl Gmina Pilchowice",
-    "location": "Żernica "
-  },
-  {
-    "year": "1954",
-    "firstname": "Jadwiga",
-    "lastname": "Ślusarska",
-    "club": "Najlepsze Kijki w Mieście",
-    "location": "Czerwionka-Leszczyny"
-  },
-  {
-    "year": "1963",
-    "firstname": "Gabriela ",
-    "lastname": "Kubica",
-    "club": "Najlepsze Kijki w Mieście",
-    "location": "Czerwionka-Leszczyny"
-  },
-  {
-    "year": "1954",
-    "firstname": "Maria ",
-    "lastname": "Pardala",
-    "club": "Najlepsze Kijki w Mieście",
-    "location": "Stanowice"
-  },
-  {
-    "year": "1953",
-    "firstname": "Janusz ",
-    "lastname": "Pardala",
-    "club": "Najlepsze Kijki w Mieście",
-    "location": "Stanowice "
-  },
-  {
-    "year": "1979",
-    "firstname": "Edyta",
-    "lastname": "Muszelik-Pilzak",
-    "club": "",
-    "location": "Żernica"
-  },
-  {
-    "year": "1975",
-    "firstname": "Marzena ",
-    "lastname": "Gawlik-Plaskuda",
-    "club": "",
-    "location": "Nieborowice"
-  },
-  {
-    "year": "1965",
-    "firstname": "Wiesława",
-    "lastname": "Ogar",
-    "club": "",
-    "location": "Knurów"
-  },
-  {
-    "year": "1987",
-    "firstname": "Stefania",
-    "lastname": "Pokora",
-    "club": "",
-    "location": "Pilchowice"
-  },
-  {
-    "year": "1980",
-    "firstname": "Sonia",
-    "lastname": "Michalec",
-    "club": "",
-    "location": "Żernica"
-  },
-  {
-    "year": "1982",
-    "firstname": "Jolanta",
-    "lastname": "Zawada",
-    "club": "",
-    "location": "Żernica"
-  },
-  {
-    "year": "1972",
-    "firstname": "Małgorzata",
-    "lastname": "Rzepka",
-    "club": "-",
-    "location": "Gliwice"
-  },
-  {
-    "year": "1969",
-    "firstname": "Tomasz ",
-    "lastname": "Rzepka",
-    "club": "-",
-    "location": "Gliwice"
-  },
-  {
-    "year": "1959",
-    "firstname": "Elżbieta ",
-    "lastname": "Cich",
-    "club": "-",
-    "location": "Knurów"
-  },
-  {
-    "year": "1954",
-    "firstname": "Weronika",
-    "lastname": "Skapczyk",
-    "club": "-",
-    "location": "Knurów"
-  },
-  {
-    "year": "1987",
-    "firstname": "Justyna",
-    "lastname": "Gilner",
-    "club": "",
-    "location": "Żernica"
-  },
-  {
-    "year": "1984",
-    "firstname": "Roma",
-    "lastname": "Slabon",
-    "club": "",
-    "location": "Gliwice"
-  },
-  {
-    "year": "9.04.1980",
-    "firstname": "Anna",
-    "lastname": "Michalska",
-    "club": "",
-    "location": "Pilchowice "
-  },
-  {
-    "year": "1974",
-    "firstname": "Agnieszka ",
-    "lastname": "Jagosz",
-    "club": "",
-    "location": "Gliwice"
-  },
-  {
-    "year": "1971",
-    "firstname": "Helena ",
-    "lastname": "Kopeć ",
-    "club": "",
-    "location": "Knurów "
-  },
-  {
-    "year": "1970",
-    "firstname": "Krystyna ",
-    "lastname": "Łącka",
-    "club": "",
-    "location": "Pilchowice "
-  }
+	{
+		"year": "1983",
+		"firstname": "Ewa",
+		"lastname": "Rybarz ",
+		"club": "Zatyrani Gratisownia.pl Gmina Pilchowice",
+		"location": "Żernica "
+	},
+	{
+		"year": "1980",
+		"firstname": "Magdalena ",
+		"lastname": "Handzlik ",
+		"club": "Zatyrani Gratisownia.pl Gmina Pilchowice",
+		"location": "Nieborowice "
+	},
+	{
+		"year": "1975",
+		"firstname": "Beata",
+		"lastname": "Wyka",
+		"club": "",
+		"location": "Nieborowice"
+	},
+	{
+		"year": "1975",
+		"firstname": "Marzena",
+		"lastname": "Mociak",
+		"club": "",
+		"location": "Gliwice"
+	},
+	{
+		"year": "1974",
+		"firstname": "Sonia",
+		"lastname": "Rogóż ",
+		"club": "Zatyrani Gratisownia.pl Gmina Pilchowice",
+		"location": "Żernica "
+	},
+	{
+		"year": "1980",
+		"firstname": "Katarzyna ",
+		"lastname": "Babczuk",
+		"club": "",
+		"location": "Knurów "
+	},
+	{
+		"year": "1985 ",
+		"firstname": "Zaneta",
+		"lastname": "Motyka",
+		"club": "",
+		"location": "Knurów "
+	},
+	{
+		"year": "1987",
+		"firstname": "Katarzyna",
+		"lastname": "Głód",
+		"club": "",
+		"location": "Knurów "
+	},
+	{
+		"year": "1985",
+		"firstname": "Aneta",
+		"lastname": "Milewska",
+		"club": "",
+		"location": "Knurów "
+	},
+	{
+		"year": "1983",
+		"firstname": "Małgorzata",
+		"lastname": "Bura",
+		"club": "Zatyrani Gratisownia.pl Gmina Pilchowice",
+		"location": "Nieborowice"
+	},
+	{
+		"year": "1983",
+		"firstname": "Karina",
+		"lastname": "Górnicka",
+		"club": "Zatyrani Gratisownia.pl Gmina Pilchowice",
+		"location": "Nieborowice "
+	},
+	{
+		"year": "1979",
+		"firstname": "Bożena",
+		"lastname": "Bukowińska ",
+		"club": "Zatyrani Gratisownia.pl Gmina Pilchowice",
+		"location": "Pilchowice "
+	},
+	{
+		"year": "1977",
+		"firstname": "Justyna",
+		"lastname": "Miczka",
+		"club": "",
+		"location": "Gliwice"
+	},
+	{
+		"year": "1983",
+		"firstname": "Edyta",
+		"lastname": "Wiśniowska",
+		"club": "Zatyrani Gratisownia.pl Gmina Pilchowice",
+		"location": "Smolnica"
+	},
+	{
+		"year": "1977",
+		"firstname": "Joanna",
+		"lastname": "Wyszyńska ",
+		"club": "Zatyrani Gratisownia.pl Gmina Pilchowice",
+		"location": "Nieborowice "
+	},
+	{
+		"year": "1976",
+		"firstname": "Małgorzata ",
+		"lastname": "Rasztabiga ",
+		"club": "Zatyrani Gratisownia.pl Gmina Pilchowice",
+		"location": "Wilcza "
+	},
+	{
+		"year": "2000",
+		"firstname": "Renata ",
+		"lastname": "Bil",
+		"club": "",
+		"location": "Zabrze "
+	},
+	{
+		"year": "2000",
+		"firstname": "Janina",
+		"lastname": "Bodył",
+		"club": "",
+		"location": "Zabrze "
+	},
+	{
+		"year": "1949",
+		"firstname": "Monika",
+		"lastname": "Tychowicz",
+		"club": "Zatyrani Gratisownia.pl Gmina Pilchowice",
+		"location": "Żernica "
+	},
+	{
+		"year": "1971",
+		"firstname": "Iwona ",
+		"lastname": "Piskor ",
+		"club": "",
+		"location": "Gliwice "
+	},
+	{
+		"year": "1985",
+		"firstname": "Agnieszka ",
+		"lastname": "Kalnik ",
+		"club": "Zatyrani Gratisownia.pl Gmina Pilchowice",
+		"location": "Nieborowice "
+	},
+	{
+		"year": "1989",
+		"firstname": "Róża",
+		"lastname": "Jonda",
+		"club": "TRASZKI",
+		"location": "Bargłówka"
+	},
+	{
+		"year": "1960",
+		"firstname": "Gabriela",
+		"lastname": "Gizdoń",
+		"club": "Najlepsze Kijki w Mieście",
+		"location": "Czerwionka-Leszczyny"
+	},
+	{
+		"year": "1962",
+		"firstname": "Halina ",
+		"lastname": "Gołębiowska",
+		"club": "Najlepsze Kijki w Mieście",
+		"location": "Czerwionka-Leszczyny"
+	},
+	{
+		"year": "1957",
+		"firstname": "Bożena",
+		"lastname": "Czuga",
+		"club": "Najlepsze Kijki w Mieście",
+		"location": "Czerwionka-Leszczyny"
+	},
+	{
+		"year": "1967",
+		"firstname": "Izabela",
+		"lastname": "Pander",
+		"club": "Najlepsze Kijki w Mieście",
+		"location": "Stanowice"
+	},
+	{
+		"year": "1962",
+		"firstname": "Anna",
+		"lastname": "Sulowska ",
+		"club": "Najlepsze Kijki w Mieście",
+		"location": "Czerwionka-Leszczyny"
+	},
+	{
+		"year": "1960",
+		"firstname": "Danuta",
+		"lastname": "Karmańska ",
+		"club": "Najlepsze Kijki w Mieście",
+		"location": "Czerwionka-Leszczyny"
+	},
+	{
+		"year": "1969",
+		"firstname": "Barbara",
+		"lastname": "Walura",
+		"club": "Najlepsze Kijki w Mieście",
+		"location": "Czerwionka-Leszczyny"
+	},
+	{
+		"year": "1961",
+		"firstname": "Henryka ",
+		"lastname": "Adamus",
+		"club": "",
+		"location": "Rybnik"
+	},
+	{
+		"year": "1957",
+		"firstname": "Stefania",
+		"lastname": "Piszczek",
+		"club": "Najlepsze Kijki w Mieście",
+		"location": "Czerwionka-Leszczyny"
+	},
+	{
+		"year": "1963",
+		"firstname": "Celina",
+		"lastname": "Gajda",
+		"club": "",
+		"location": "Wilcza"
+	},
+	{
+		"year": "1980",
+		"firstname": "Marzena ",
+		"lastname": "Pikulik",
+		"club": "",
+		"location": "Leboszowice "
+	},
+	{
+		"year": "1993",
+		"firstname": "Marzena ",
+		"lastname": "Karbowy ",
+		"club": "Zatyrani Gratisownia.pl Gmina Pilchowice",
+		"location": "Żernica "
+	},
+	{
+		"year": "1963",
+		"firstname": "Gabriela ",
+		"lastname": "Kubica",
+		"club": "Najlepsze Kijki w Mieście",
+		"location": "Czerwionka-Leszczyny"
+	},
+	{
+		"year": "1954",
+		"firstname": "Maria ",
+		"lastname": "Pardala",
+		"club": "Najlepsze Kijki w Mieście",
+		"location": "Stanowice"
+	},
+	{
+		"year": "1953",
+		"firstname": "Janusz ",
+		"lastname": "Pardala",
+		"club": "Najlepsze Kijki w Mieście",
+		"location": "Stanowice "
+	},
+	{
+		"year": "1979",
+		"firstname": "Edyta",
+		"lastname": "Muszelik-Pilzak",
+		"club": "",
+		"location": "Żernica"
+	},
+	{
+		"year": "1975",
+		"firstname": "Marzena ",
+		"lastname": "Gawlik-Plaskuda",
+		"club": "",
+		"location": "Nieborowice"
+	},
+	{
+		"year": "1965",
+		"firstname": "Wiesława",
+		"lastname": "Ogar",
+		"club": "",
+		"location": "Knurów"
+	},
+	{
+		"year": "1987",
+		"firstname": "Stefania",
+		"lastname": "Pokora",
+		"club": "",
+		"location": "Pilchowice"
+	},
+	{
+		"year": "1980",
+		"firstname": "Sonia",
+		"lastname": "Michalec",
+		"club": "",
+		"location": "Żernica"
+	},
+	{
+		"year": "1982",
+		"firstname": "Jolanta",
+		"lastname": "Zawada",
+		"club": "",
+		"location": "Żernica"
+	},
+	{
+		"year": "1972",
+		"firstname": "Małgorzata",
+		"lastname": "Rzepka",
+		"club": "-",
+		"location": "Gliwice"
+	},
+	{
+		"year": "1969",
+		"firstname": "Tomasz ",
+		"lastname": "Rzepka",
+		"club": "-",
+		"location": "Gliwice"
+	},
+	{
+		"year": "1959",
+		"firstname": "Elżbieta ",
+		"lastname": "Cich",
+		"club": "-",
+		"location": "Knurów"
+	},
+	{
+		"year": "1954",
+		"firstname": "Weronika",
+		"lastname": "Skapczyk",
+		"club": "-",
+		"location": "Knurów"
+	},
+	{
+		"year": "1987",
+		"firstname": "Justyna",
+		"lastname": "Gilner",
+		"club": "",
+		"location": "Żernica"
+	},
+	{
+		"year": "1984",
+		"firstname": "Roma",
+		"lastname": "Slabon",
+		"club": "",
+		"location": "Gliwice"
+	},
+	{
+		"year": "9.04.1980",
+		"firstname": "Anna",
+		"lastname": "Michalska",
+		"club": "",
+		"location": "Pilchowice "
+	},
+	{
+		"year": "1974",
+		"firstname": "Agnieszka ",
+		"lastname": "Jagosz",
+		"club": "",
+		"location": "Gliwice"
+	},
+	{
+		"year": "1971",
+		"firstname": "Helena ",
+		"lastname": "Kopeć ",
+		"club": "",
+		"location": "Knurów "
+	},
+	{
+		"year": "1970",
+		"firstname": "Krystyna ",
+		"lastname": "Łącka",
+		"club": "",
+		"location": "Pilchowice "
+	}
 ]
