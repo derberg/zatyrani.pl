@@ -376,5 +376,12 @@
     "lastname": "Horoba",
     "club": "Najlepsze kijki w mieście",
     "location": "Gliwice"
+  },
+  {
+    "year": "13.03.1980",
+    "firstname": "Marta",
+    "lastname": "Sadowska",
+    "club": "",
+    "location": "Pilchowice"
   }
 ]
