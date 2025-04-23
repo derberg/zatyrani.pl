@@ -383,5 +383,12 @@
     "lastname": "Sadowska",
     "club": "",
     "location": "Pilchowice"
+  },
+  {
+    "year": "1985",
+    "firstname": "Alicja",
+    "lastname": "Janicka",
+    "club": "Zatyrani Gratisownia.pl Gmina Pilchowice",
+    "location": "Stanica"
   }
 ]
