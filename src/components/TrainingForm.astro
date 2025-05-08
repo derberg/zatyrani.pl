@@ -1,0 +1,149 @@
+---
+const locations = [
+  { name: 'Nieborowice – Sołtysówka', link: 'https://www.google.com/maps/place/Nieborowice+So%C5%82tys%C3%B3wka' },
+  { name: 'Nieborowice – Krzyż', link: 'https://www.google.com/maps/place/Nieborowice+Krzy%C5%BC' },
+  { name: 'Wilcza – Cmentarz', link: 'https://www.google.com/maps/place/Wilcza+Cmentarz' },
+  { name: 'Ochojec – Azyl Zatyranych', link: 'https://www.google.com/maps/place/Ochojec+Azyl+Zatyranych' },
+  { name: 'Stanica – Stacja', link: 'https://www.google.com/maps/place/Stanica+Stacja' },
+  { name: 'Leboszowice – Szwedownik', link: 'https://www.google.com/maps/place/Leboszowice+Szwedownik' },
+  { name: 'Pilchowice – Damrota', link: 'https://www.google.com/maps/place/Pilchowice+Damrota' },
+  { name: 'Pilchowice – Wielopole', link: 'https://www.google.com/maps/place/Pilchowice+Wielopole' },
+];
+---
+
+<form id="trainingForm" class="max-w-2xl mx-auto p-4" method="POST" action="/api/add-training">
+  <div class="space-y-4">
+    <!-- 1. Rodzaj treningu -->
+    <div>
+      <label class="block text-sm font-medium text-gray-700">
+        <strong>Rodzaj treningu</strong> <span class="text-red-600">*</span>
+      </label>
+      <div class="mt-1 flex flex-col sm:flex-row sm:space-x-4 space-y-2 sm:space-y-0">
+        <label class="inline-flex items-center">
+          <input type="radio" name="type" value="bieg" checked required class="form-radio text-purple-600 placeholder-gray-500" />
+          <span class="ml-2 text-sm text-gray-500">Bieg</span>
+        </label>
+        <label class="inline-flex items-center">
+          <input type="radio" name="type" value="nordic walking" required class="form-radio text-purple-600 placeholder-gray-500" />
+          <span class="ml-2 text-sm text-gray-500">Nordic Walking</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- 2. Data i czas -->
+    <div>
+      <label for="datetime" class="block text-sm font-medium text-gray-700">
+        <strong>Data i czas</strong> <span class="text-red-600">*</span>
+      </label>
+      <input
+        type="datetime-local"
+        id="datetime"
+        name="datetime"
+        required
+        class="mt-1 block w-full rounded-md border-purple-300 border-2 shadow-sm focus:border-purple-500 focus:ring-purple-500 text-gray-500"
+      />
+    </div>
+
+    <!-- 3. Lokalizacja -->
+    <div>
+      <label for="location" class="block text-sm font-medium text-gray-700">
+        <strong>Lokalizacja</strong> <span class="text-red-600">*</span>
+      </label>
+      <select
+        id="location"
+        name="location"
+        required
+        class="mt-1 block w-full rounded-md border-purple-300 border-2 shadow-sm focus:border-purple-500 focus:ring-purple-500 text-gray-500"
+      >
+        <option value="" disabled selected >Wybierz lokalizację</option>
+        {locations.map(loc => (
+          <option value={loc.name} data-link={loc.link}>{loc.name}</option>
+        ))}
+      </select>
+      <input type="hidden" name="locationLink" id="locationLink" />
+    </div>
+
+    <!-- 4. Dodatkowy komentarz -->
+    <div>
+      <label for="comment" class="block text-sm font-medium text-gray-700">
+        <strong>Dodatkowy komentarz</strong>
+      </label>
+      <textarea
+        id="comment"
+        name="comment"
+        rows="3"
+        class="mt-1 block w-full rounded-md border-purple-300 border-2 shadow-sm focus:border-purple-500 focus:ring-purple-500 text-gray-500"
+        placeholder="Opcjonalny opis lub uwagi…"
+      ></textarea>
+    </div>
+
+    <!-- 5. Numer kontaktowy -->
+    <div>
+      <label for="phone" class="block text-sm font-medium text-gray-700">
+        <strong>Numer kontaktowy prowadzącego</strong> <span class="text-red-600">*</span>
+      </label>
+      <input
+        type="tel"
+        id="phone"
+        name="phone"
+        required
+        pattern="\\+?\\d{9,15}"
+        placeholder="+48 600 700 800"
+        class="mt-1 block w-full rounded-md border-purple-300 border-2 shadow-sm focus:border-purple-500 focus:ring-purple-500 placeholder-gray-500 text-gray-500"
+      />
+    </div>
+
+    <!-- 6. Planowany dystans -->
+    <div>
+      <label for="distance" class="block text-sm font-medium text-gray-700">
+        <strong>Planowany dystans (km)</strong> <span class="text-red-600">*</span>
+      </label>
+      <input
+        type="number"
+        id="distance"
+        name="distance"
+        min="1"
+        max="50"
+        required
+        placeholder="np. 10"
+        class="mt-1 block w-full rounded-md border-purple-300 border-2 shadow-sm focus:border-purple-500 focus:ring-purple-500 placeholder-gray-500 text-gray-500"
+      />
+    </div>
+
+    <!-- 7. Planowane tempo -->
+    <div>
+      <label for="pace" class="block text-sm font-medium text-gray-700">
+        <strong>Planowane tempo (min/km)</strong> <span class="text-red-600">*</span>
+      </label>
+      <input
+        type="number"
+        id="pace"
+        name="pace"
+        min="3"
+        max="10"
+        step="1"
+        required
+        placeholder="np. 5"
+        class="mt-1 block w-full rounded-md border-purple-300 border-2 shadow-sm focus:border-purple-500 focus:ring-purple-500 placeholder-gray-500 text-gray-500"
+      />
+    </div>
+
+    <!-- Submit -->
+    <button
+      type="submit"
+      class="w-full bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700"
+    >
+      Dodaj trening
+    </button>
+  </div>
+</form>
+
+<script type="module" client:load>
+  const select = document.getElementById('location');
+  const linkInput = document.getElementById('locationLink');
+  select.addEventListener('change', () => {
+    const opt = select.selectedOptions[0];
+    linkInput.value = opt ? opt.dataset.link : '';
+  });
+  select.dispatchEvent(new Event('change'));
+</script>
