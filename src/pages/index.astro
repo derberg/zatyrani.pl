@@ -3,8 +3,19 @@ import Layout from '../layouts/Layout.astro';
 import NewsCard from '../components/NewsCard.astro';
 import SubscribeForm from '../components/SubscribeForm.astro';
 import { news } from '../data/news';
----
+import { trainings } from '../data/trainings';
+import TrainingCard from '../components/TrainingCard.astro';
 
+// Filter upcoming trainings (only future dates)
+const now = new Date();
+const upcomingTrainings = trainings.filter((t) => {
+  const [dateStr, timeStr] = t.datetime.split(' ');
+  const [day, month, year] = dateStr.split('/').map(Number);
+  const [hour, minute] = timeStr.split(':').map(Number);
+  const dt = new Date(year, month - 1, day, hour, minute);
+  return dt >= now;
+});
+---
 <Layout title="Zatyrani Gratisownia.pl Gmina Pilchowice">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <div class="text-center mb-12">
@@ -15,14 +26,27 @@ import { news } from '../data/news';
       />
     </div>
 
+    {/* Only show upcoming trainings if any future items exist */}
+    {upcomingTrainings.length > 0 && (
+      <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-4">Nadchodzące treningi</h2>
+        <div class="grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+          {upcomingTrainings.slice(0, 3).map((t) => (
+            <TrainingCard {...t} />
+          ))}
+        </div>
+      </section>
+    )}
+
+    <!-- Aktualności -->
     <section>
       <h1 class="text-3xl font-bold mb-2">Aktualności</h1>
       <p class="text-gray-600 mb-8">Dowiedz się co w trawie piszczy.</p>
 
       <div class="grid gap-8 md:grid-cols-1 lg:grid-cols-2">
         {news
-          .filter((post) => post.message)  // Filter out posts without a message
-          .slice(0, 2)                       // Get the last 3 posts
+          .filter((post) => post.message)
+          .slice(0, 2)
           .map((post) => (
             <NewsCard {...post} height="h-2/3" />
           ))}
