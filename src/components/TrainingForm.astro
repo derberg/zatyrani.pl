@@ -138,6 +138,9 @@ const locations = [
     >
       Dodaj trening
     </button>
+
+    <!-- Messages container -->
+    <div id="msgContainer"></div>
   </div>
 </form>
 
@@ -146,8 +149,15 @@ const locations = [
   const submitBtn = form.querySelector('button[type="submit"]');
   const select = document.getElementById('location');
   const linkInput = document.getElementById('locationLink');
+  const msgContainer = document.getElementById('msgContainer');
 
-  // reset and populate link on load
+  // update hidden link on selection change
+  select.addEventListener('change', () => {
+    const opt = select.selectedOptions[0];
+    linkInput.value = opt?.dataset.link || '';
+  });
+
+  // reset form and populate link on load
   form.reset();
   select.dispatchEvent(new Event('change'));
 
@@ -158,12 +168,13 @@ const locations = [
       return;
     }
     submitBtn.disabled = true;
+    msgContainer.innerHTML = '';
 
-    // build data
+    // build data, always include link
     const formData = new FormData(form);
-    linkInput.value && formData.set('locationLink', linkInput.value);
+    formData.set('locationLink', linkInput.value);
     const data = Object.fromEntries(formData.entries());
-    
+
     try {
       const res = await fetch('/api/add-training', {
         method: 'POST',
@@ -172,18 +183,18 @@ const locations = [
       });
       if (!res.ok) throw new Error('Server error');
 
-      const msg = document.createElement('div');
-      msg.textContent = 'Trening został dodany!';
-      msg.className = 'p-3 bg-green-100 text-green-800 rounded-md mb-4';
-      form.prepend(msg);
+      const successMsg = document.createElement('div');
+      successMsg.textContent = 'Trening został dodany!';
+      successMsg.className = 'mt-2 p-2 bg-green-100 text-green-800 rounded-md';
+      msgContainer.appendChild(successMsg);
 
       form.reset();
       select.dispatchEvent(new Event('change'));
     } catch (err) {
-      const msg = document.createElement('div');
-      msg.textContent = 'Wystąpił błąd. Spróbuj ponownie.';
-      msg.className = 'p-3 bg-red-100 text-red-800 rounded-md mb-4';
-      form.prepend(msg);
+      const errorMsg = document.createElement('div');
+      errorMsg.textContent = 'Wystąpił błąd. Spróbuj ponownie.';
+      errorMsg.className = 'mt-2 p-2 bg-red-100 text-red-800 rounded-md';
+      msgContainer.appendChild(errorMsg);
     } finally {
       submitBtn.disabled = false;
     }
