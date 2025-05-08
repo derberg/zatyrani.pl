@@ -1,4 +1,3 @@
-// src/pages/api/treningi.js
 import { Octokit } from "@octokit/rest";
 import { createOrUpdateTextFile } from "@octokit/plugin-create-or-update-text-file";
 
