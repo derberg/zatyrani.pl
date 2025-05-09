@@ -1077,5 +1077,14 @@
     "description": "10km bieg",
     "image": "",
     "location": "Knurów "
+  },
+  {
+    "date": "10/05/2025",
+    "title": "Beskidzki Topór",
+    "mainLink": "https://beskidzkitopor.pl/",
+    "registrationLink": "",
+    "description": "Biegi górskie na dystansach od 10 do 100km.",
+    "image": "",
+    "location": "Andrychów"
   }
 ]
