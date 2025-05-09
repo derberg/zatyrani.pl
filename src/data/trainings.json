@@ -1,1 +1,12 @@
-[]
+[
+  {
+    "type": "bieg",
+    "datetime": "10/05/2025 08:00",
+    "location": "Stanica – Stacja",
+    "locationLink": "https://maps.app.goo.gl/LGKq1drxyXzfK9bi7",
+    "comment": "",
+    "phone": "784640977",
+    "distance": 20,
+    "pace": 7
+  }
+]
