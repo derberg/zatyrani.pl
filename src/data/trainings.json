@@ -28,5 +28,15 @@
     "phone": "784640977",
     "distance": 24,
     "pace": 7
+  },
+  {
+    "type": "nordic walking",
+    "datetime": "12/05/2025 18:30",
+    "location": "Nieborowice – Krzyż",
+    "locationLink": "https://maps.app.goo.gl/4t3qjRxQpny7Ln6KA",
+    "comment": "Skrzyżowanie cicha/zalesie ",
+    "phone": "663473341",
+    "distance": 8,
+    "pace": 10
   }
 ]
