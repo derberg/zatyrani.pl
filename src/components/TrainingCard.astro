@@ -2,22 +2,47 @@
 import type { Training } from '../data/trainings';
 const { type, datetime, location, locationLink, comment, phone, distance, pace } = Astro.props as Training;
 ---
-<article class="border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition">
+
+<article
+  class="border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition"
+  data-datetime={datetime}
+  client:load
+>
+  <script is:inline type="module">
+    // Remove past events on client-side load
+    const article = document.currentScript.parentElement;
+    const datetime = article.dataset.datetime;
+    const [dateStr, timeStr] = datetime.split(' ');
+    const [day, month, year] = dateStr.split('/').map(Number);
+    const [hour, minute] = timeStr.split(':').map(Number);
+    const eventTs = new Date(year, month - 1, day, hour, minute).getTime();
+    if (eventTs < Date.now()) {
+      article.remove();
+    }
+  </script>
+
   <header class="flex justify-between items-center mb-2">
     <span class="text-xs font-semibold uppercase text-purple-600">{type}</span>
-    <time datetime={datetime} class="text-sm text-gray-500">{datetime}</time>
+    <time datetime={datetime} class="text-sm text-gray-500">
+      {datetime}
+    </time>
   </header>
 
   <h3 class="text-lg font-medium text-gray-800 mb-1">{location}</h3>
   <p>
-    <a href={locationLink} target="_blank" class="text-blue-600 hover:underline text-sm">
+    <a
+      href={locationLink}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="text-blue-600 hover:underline text-sm"
+    >
       Zobacz na mapie
     </a>
   </p>
 
-  {comment ? (
+  {comment && (
     <p class="mt-2 text-sm text-gray-600">{comment}</p>
-  ) : null}
+  )}
 
   <div class="mt-4 grid grid-cols-2 gap-2 text-sm text-gray-700">
     <div><strong>Dystans:</strong> {distance} km</div>
@@ -26,6 +51,8 @@ const { type, datetime, location, locationLink, comment, phone, distance, pace }
 
   <footer class="mt-3 text-sm text-gray-700">
     <strong>Kontakt:</strong>
-    <a href={`tel:${phone}`} class="text-purple-600 hover:underline ml-1">{phone}</a>
+    <a href={`tel:${phone}`} class="text-purple-600 hover:underline ml-1">
+      {phone}
+    </a>
   </footer>
 </article>
