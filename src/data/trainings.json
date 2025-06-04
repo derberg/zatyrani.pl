@@ -48,5 +48,15 @@
     "phone": "784640977",
     "distance": 10,
     "pace": 7
+  },
+  {
+    "type": "bieg",
+    "datetime": "07/06/2025 08:00",
+    "location": "Wilcza – Cmentarz",
+    "locationLink": "https://maps.app.goo.gl/NwiX62pvY3kmyV3M8",
+    "comment": "Spokojne rozbieganie",
+    "phone": "513592253",
+    "distance": 10,
+    "pace": 6
   }
 ]
