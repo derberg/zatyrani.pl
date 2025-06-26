@@ -58,5 +58,15 @@
     "phone": "513592253",
     "distance": 10,
     "pace": 6
+  },
+  {
+    "type": "bieg",
+    "datetime": "27/06/2025 18:30",
+    "location": "Ochojec – Azyl Zatyranych",
+    "locationLink": "https://maps.app.goo.gl/VdEFVwTmG6TRd4M96",
+    "comment": "Rekonesans trasy Wilczego Półmaratonu ",
+    "phone": "513592253",
+    "distance": 15,
+    "pace": 6
   }
 ]
