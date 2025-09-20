@@ -22,6 +22,9 @@ const ytPreviewLink = 'https://www.youtube.com/embed/ftF3hJ-Qfcc';
     <div class="relative text-center space-y-4">
       <div class="bg-white/20 px-8 py-4 rounded-lg shadow-lg backdrop-blur-sm mx-auto max-w-full">
         <h1 class="text-5xl font-bold text-white">{eventNumber} WILCZY PÓŁMARATON</h1>
+        <div class="mt-3">
+          <h2 class="text-2xl font-semibold text-white">+ Marsz Nordic Walking (10,6km)</h2>
+        </div>
       </div>
       
       <div class="bg-white/20 px-8 py-4 rounded-lg shadow-lg backdrop-blur-sm mx-auto inline-block">
@@ -143,7 +146,52 @@ const ytPreviewLink = 'https://www.youtube.com/embed/ftF3hJ-Qfcc';
     </div>
   </div>
   
-  
+  <!-- Trail Map Section -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <h2 class="text-3xl font-bold text-center mb-8">Trasa</h2>
+    
+    <!-- GPX Download Buttons -->
+    <div class="flex justify-center gap-4 mb-8 flex-wrap">
+      <a
+        href="https://drive.google.com/file/d/1eIAEeJ6OR500wlyb9CqDe5QNGCH6n43K/view?usp=sharing"
+        target="_blank"
+        class="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full transition-colors"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        </svg>
+        Pobierz GPX - Półmaraton (21,7km)
+      </a>
+      <a
+        href="https://drive.google.com/file/d/1PVPobYBHpP-P7__mvOE8GgjnMhMnK6ao/view?usp=sharing"
+        target="_blank"
+        class="inline-flex items-center bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-full transition-colors"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        </svg>
+        Pobierz GPX - Nordic Walking (10,6km)
+      </a>
+    </div>
+    
+    <!-- Google Maps Embed -->
+    <div class="max-w-5xl mx-auto">
+      <div class="aspect-[16/9] rounded-lg overflow-hidden shadow-lg">
+        <iframe
+          src="https://www.google.com/maps/d/embed?mid=1DB9mbdDXfVxCvbjXvh_hvkwfX-Rf-AI"
+          width="100%"
+          height="100%"
+          style="border:0;"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+      </div>
+      <p class="text-center mt-4 text-gray-600">
+        Podgląd trasy przez lasy Nadleśnictwa Rybnik - uroczysko "Głębokie Doły"
+      </p>
+    </div>
+  </section>
   
     <!-- Photos Section -->
     <section class="max-w-7xl mx-auto">
