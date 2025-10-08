@@ -88,5 +88,15 @@
     "phone": "513592253",
     "distance": 10,
     "pace": 6
+  },
+  {
+    "type": "bieg",
+    "datetime": "09/10/2025 18:00",
+    "location": "Wilcza – Cmentarz",
+    "locationLink": "https://maps.app.goo.gl/NwiX62pvY3kmyV3M8",
+    "comment": "",
+    "phone": "513592253",
+    "distance": 12,
+    "pace": 6
   }
 ]
