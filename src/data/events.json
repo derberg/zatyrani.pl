@@ -1095,5 +1095,14 @@
     "description": "Bieg na 8 km",
     "image": "",
     "location": "Knurów "
+  },
+  {
+    "date": "07/03/2026",
+    "title": "Ultra Zadek",
+    "mainLink": "https://sisxyz.pl/nasze-biegi/ultra-zadek/",
+    "registrationLink": "https://dostartu.pl/ultra-zadek-2026-v13659",
+    "description": "Biegi i kije 30km, 50km, 70km, 100km",
+    "image": "",
+    "location": "Kędzierzyn-Koźle"
   }
 ]
