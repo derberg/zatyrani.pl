@@ -1149,5 +1149,14 @@
     "description": "3,7 km,20km, 42 km, 63 km, 100 km Góry Opawski  24-26.04.2026ej",
     "image": "",
     "location": "Pokrzywna"
+  },
+  {
+    "date": "07/12/2025",
+    "title": "Valencia Marathon",
+    "mainLink": "https://www.polmaratongliwicki.pl/?fbclid=IwdGRjcANivilleHRuA2FlbQIxMQABHmf1DhYx-srphvXLe1lEfFhS_Bqd95H86o3bpghgCaY8OQQa4U_katdiPa37_aem_7EYQYIMHbwSjPD6846dgxQ",
+    "registrationLink": "https://b4sportonline.pl/PolmaratonGliwicki/?fbclid=IwVERDUANivj9leHRuA2FlbQIxMAABHpjaUZASjuYLT1TNrER6Lj0isYiba-pFoexNrsScZ8bkh3rWXvnxCE0Rax2V_aem_qGl5M22FQr588-GH2PlvSg",
+    "description": "Maraton",
+    "image": "",
+    "location": "Walencja"
   }
 ]
