@@ -1104,5 +1104,14 @@
     "description": "Biegi i kije 30km, 50km, 70km, 100km",
     "image": "",
     "location": "Kędzierzyn-Koźle"
+  },
+  {
+    "date": "11/11/2025",
+    "title": "7. Knurowski Bieg Niepodległości",
+    "mainLink": "https://chronotex.pl/opis-zawodow/?id_zawodow=1167",
+    "registrationLink": "https://chronotex.pl/rejestracja/?id_zawodow=1167",
+    "description": "Bieg na 5km",
+    "image": "",
+    "location": "Knurów"
   }
 ]
