@@ -1113,5 +1113,14 @@
     "description": "Bieg na 5km",
     "image": "",
     "location": "Knurów"
+  },
+  {
+    "date": "26/10/2025",
+    "title": "XI Gliwicki Półmaraton ",
+    "mainLink": "https://www.polmaratongliwicki.pl/?fbclid=IwdGRjcANivilleHRuA2FlbQIxMQABHmf1DhYx-srphvXLe1lEfFhS_Bqd95H86o3bpghgCaY8OQQa4U_katdiPa37_aem_7EYQYIMHbwSjPD6846dgxQ",
+    "registrationLink": "https://b4sportonline.pl/PolmaratonGliwicki/?fbclid=IwVERDUANivj9leHRuA2FlbQIxMAABHpjaUZASjuYLT1TNrER6Lj0isYiba-pFoexNrsScZ8bkh3rWXvnxCE0Rax2V_aem_qGl5M22FQr588-GH2PlvSg",
+    "description": "Półmaraton, 10km, Nordic Walking",
+    "image": "",
+    "location": "Gliwice "
   }
 ]
