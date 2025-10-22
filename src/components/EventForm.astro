@@ -33,25 +33,6 @@
       <p id="charCount">0 / 150</p>
       <p id="warning" style="color: red; display: none;">⚠️ Przekroczono limit znaków</p>
 
-<script is:inline>
-  // Runs after the page is loaded
-  window.addEventListener('DOMContentLoaded', () => {
-    const textarea = document.querySelector(".description");
-    const charCount = document.querySelector(".charCount");
-    const warning = document.querySelector(".warning");
-
-    textarea.addEventListener("input", () => {
-      const length = textarea.value.length;
-      charCount.textContent = `${length} / 150`;
-
-      if (length > 150) {
-        warning.style.display = "block";
-      } else {
-        warning.style.display = "none";
-      }
-    });
-  });
-</script>
     </div>
     
     <div>
@@ -77,6 +58,22 @@
 </form>
 
 <script>
+window.addEventListener('DOMContentLoaded', () => {
+    const textarea = document.querySelector(".description");
+    const charCount = document.querySelector(".charCount");
+    const warning = document.querySelector(".warning");
+
+    textarea.addEventListener("input", () => {
+      const length = textarea.value.length;
+      charCount.textContent = `${length} / 150`;
+
+      if (length > 150) {
+        warning.style.display = "block";
+      } else {
+        warning.style.display = "none";
+      }
+    });
+  });
   const form = document.getElementById('eventForm');
   const submitButton = form.querySelector('button[type="submit"]'); // Get the submit button
 
