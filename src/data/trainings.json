@@ -98,5 +98,15 @@
     "phone": "513592253",
     "distance": 12,
     "pace": 6
+  },
+  {
+    "type": "bieg",
+    "datetime": "25/10/2025 08:00",
+    "location": "Leboszowice – Szwedownik",
+    "locationLink": "https://maps.app.goo.gl/UA4atBHW9mkCv9A1A",
+    "comment": "Będzie dużo podbiegów :)",
+    "phone": "784640977",
+    "distance": 10,
+    "pace": 8
   }
 ]
