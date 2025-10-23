@@ -32,7 +32,7 @@ const navItems = [
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-5PS52KTJEZ"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
+      function gtag(){dataLayer.push(arguments);} 
       gtag('js', new Date());
       gtag('config', 'G-5PS52KTJEZ');
     </script>
@@ -48,7 +48,7 @@ const navItems = [
           </div>
           <div class="sm:hidden">
             <!-- Mobile Hamburger Icon -->
-            <button id="menuButton" class="text-gray-900 focus:outline-none">
+            <button id="menuButton" title="menu" class="text-gray-900 focus:outline-none">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
               </svg>
@@ -63,7 +63,7 @@ const navItems = [
                 class={`inline-flex items-center text-sm font-medium hover:text-purple-600 ${
                   item.cta ? 'bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-full' :
                   'px-1 pt-1 ' + (item.name === 'YouTube' ? 'text-red-600 hover:text-red-700' : 
-                  item.name === 'Partner' ? 'text-[rgb(255,102,0)] hover:text-[rgb(255,80,0)]' : 
+                  item.name === 'Partner' ? 'text-orange-700 hover:text-[rgb(255,80,0)]' : 
                   'text-gray-900')
                 }`}
               >
