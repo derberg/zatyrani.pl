@@ -31,7 +31,7 @@
       <p class="text-xs text-gray-600">Nie jakiś nie wiadomo jaki elaborat, tylko krótkie info czy to tylko bieganie, czy może też kije, a najlepiej żeby też zaznaczyć czy jest start dla dzieci. Można zaznaczyć też mniej więcej jaki dystans. Może być np. "Bieg na różnych dystansach. Dzieciaki też mogą biec." albo "Bieg na 20km i 5km z kijami."</p>
       <input type="text" name="description" id="descriptionn" maxlength="150" required class="mt-1 block w-full rounded-md border-purple-300 shadow-sm border-2 focus:border-purple-500 focus:ring-purple-500">
       <p id="charCount" class="text-purple-500 text-xs">0 / 150</p>
-      <p id="warning" class="text-red-500 text-xs" style="display: none;">⚠️ Maksymalny limit znaków osiągnięty</p>
+      <p id="warning" class="text-red-500 text-xs" style="display: none;">⚠️ Maksymalny limit znaków osiągnięty.</p>
 
     </div>
     
@@ -58,7 +58,7 @@
 </form>
 
 <script>
-window.addEventListener('DOMContentLoaded', () => {
+  window.addEventListener('DOMContentLoaded', () => {
     const textarea = document.getElementById("descriptionn");
     const charCount = document.getElementById("charCount");
     const warning = document.getElementById("warning");
