@@ -10,7 +10,9 @@
 		"preview": "astro preview",
 		"astro": "astro",
 		"build:scripts:facebook": "tsc --project ./tsconfig.scripts.json",
-		"fetch:facebook": "npm run build:scripts:facebook && node ./dist/facebook.js"
+		"fetch:facebook": "npm run build:scripts:facebook && node ./dist/facebook.js",
+		"test": "vitest run",
+		"test:watch": "vitest"
 	},
 	"dependencies": {
 		"@astrojs/tailwind": "^5.1.0",
@@ -22,6 +24,7 @@
 		"tailwindcss": "^3.4.1"
 	},
 	"devDependencies": {
-		"@types/node": "^22.10.2"
+		"@types/node": "^22.10.2",
+		"vitest": "^4.0.2"
 	}
 }
