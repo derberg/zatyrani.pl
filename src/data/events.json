@@ -1297,5 +1297,15 @@
     "image": "",
     "location": "Niegowonice",
     "uid": "zimna-polowka-chlodna-cwiartka-20-12-2025"
+  },
+  {
+    "date": "01/10/2025",
+    "title": "test",
+    "mainLink": "https://www.zatyrani.pl/wilczy-polmaraton",
+    "registrationLink": "",
+    "description": "Biegi na dystansach 30km, 50km, 70km i 100km. Jest też Nordic Walking i psiaki.",
+    "image": "",
+    "location": "Kędzierzyn-Koźle",
+    "uid": "test-01/10/2025"
   }
 ]
