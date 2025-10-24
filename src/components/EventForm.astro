@@ -58,6 +58,53 @@
 </form>
 
 <script>
+    // Slugify function (browser-friendly version)
+  function slugify(str) {
+    return str
+      .toLowerCase()
+      .replace(/ą/g, "a")
+      .replace(/ć/g, "c")
+      .replace(/ę/g, "e")
+      .replace(/ł/g, "l")
+      .replace(/ń/g, "n")
+      .replace(/ó/g, "o")
+      .replace(/ś/g, "s")
+      .replace(/ź/g, "z")
+      .replace(/ż/g, "z")
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+  }
+
+  function generateUID(title, date) {
+    return `${slugify(title)}-${slugify(date)}`;
+  }
+
+  // Wait for the DOM to load
+  document.addEventListener("DOMContentLoaded", () => {
+    const form = document.querySelector("#create-event-form"); // replace with your form's ID
+    const titleInput = document.querySelector("#title");       // replace with your input's ID
+    const dateInput = document.querySelector("#date");         // replace with your input's ID
+    let uidInput = document.querySelector("#uid");             // hidden input for UID
+
+    // If the UID hidden input doesn't exist, create it
+    if (!uidInput) {
+      uidInput = document.createElement("input");
+      uidInput.type = "hidden";
+      uidInput.name = "uid";
+      uidInput.id = "uid";
+      form.appendChild(uidInput);
+    }
+
+    form.addEventListener("submit", (e) => {
+      const title = titleInput.value.trim();
+      const date = dateInput.value.trim();
+
+      uidInput.value = generateUID(title, date);
+      console.log("Generated UID:", uidInput.value);
+      // Form submission continues, sending UID along with other fields
+    });
+  });
+  
   window.addEventListener('DOMContentLoaded', () => {
     const textarea = document.getElementById("descriptionn");
     const charCount = document.getElementById("charCount");
