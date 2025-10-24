@@ -59,7 +59,7 @@ export default async function handler(req, res) {
 }
 
 //needed as for returns 2025-01-09 and I need 09/01/2025
-function formatDate(dateString) {
+export function formatDate(dateString) {
 	const date = new Date(dateString);
 
 	const day = String(date.getDate()).padStart(2, "0"); // Ensures two digits
@@ -69,7 +69,7 @@ function formatDate(dateString) {
 	return `${day}/${month}/${year}`;
 }
 
-function generateUID(title, date) {
+export function generateUID(title, date) {
 	// Limit title to 40 characters
 	let croppedTitle = title.slice(0, 40);
 
@@ -85,5 +85,5 @@ function generateUID(title, date) {
 		.replace(/[^a-z0-9]+/g, '-') // any non-alphanumeric -> "-"
 		.replace(/^-+|-+$/g, '');   // trim starting/ending "-"
 
-	return `${slug}-${formatDate(date)}`;
+	return `${slug}-${formatDate(date).replace(/\//g, '-')}`;
 }
