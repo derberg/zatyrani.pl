@@ -23,7 +23,7 @@ export default async function handler(req, res) {
 			description: description,
 			image: "",
 			location: location,
-			uid: generateUID(title, date)
+			uid: generateUID(name, date)
 		};
 
 		// Read existing data
