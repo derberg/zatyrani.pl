@@ -15,7 +15,6 @@ export default async function handler(req, res) {
 		const octokit = new ExtendedOctokit({
 			auth: process.env.GITHUB_TOKEN,
 		});
-
 		const eventsData = {
 			date: formatDate(date),
 			title: name,
@@ -24,6 +23,7 @@ export default async function handler(req, res) {
 			description: description,
 			image: "",
 			location: location,
+			uid: generateUID(title,date)
 		};
 
 		// Read existing data
@@ -67,4 +67,23 @@ function formatDate(dateString) {
 	const year = date.getFullYear();
 
 	return `${day}/${month}/${year}`;
+}
+
+function generateUID(title, date) {
+  // Limit title to 40 characters
+  let croppedTitle = title.slice(0, 40);
+
+  // Normalize Polish characters
+  const polishMap = {
+    'ą':'a','ć':'c','ę':'e','ł':'l','ń':'n','ó':'o','ś':'s','ż':'z','ź':'z',
+    'Ą':'a','Ć':'c','Ę':'e','Ł':'l','Ń':'n','Ó':'o','Ś':'s','Ż':'z','Ź':'z'
+  };
+  croppedTitle = croppedTitle.replace(/[ąćęłńóśżźĄĆĘŁŃÓŚŻŹ]/g, match => polishMap[match]);
+
+  // Lowercase and replace spaces/special chars with "-"
+  let slug = croppedTitle.toLowerCase()
+                        .replace(/[^a-z0-9]+/g, '-') // any non-alphanumeric -> "-"
+                        .replace(/^-+|-+$/g, '');   // trim starting/ending "-"
+
+  return `${slug}-${formatDate}`;
 }

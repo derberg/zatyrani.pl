@@ -58,29 +58,7 @@
 </form>
 
 <script>
-function generateUID(title, date) {
-  // Limit title to 40 characters
-  let croppedTitle = title.slice(0, 40);
-
-  // Normalize Polish characters
-  const polishMap = {
-    'ą':'a','ć':'c','ę':'e','ł':'l','ń':'n','ó':'o','ś':'s','ż':'z','ź':'z',
-    'Ą':'a','Ć':'c','Ę':'e','Ł':'l','Ń':'n','Ó':'o','Ś':'s','Ż':'z','Ź':'z'
-  };
-  croppedTitle = croppedTitle.replace(/[ąćęłńóśżźĄĆĘŁŃÓŚŻŹ]/g, match => polishMap[match]);
-
-  // Lowercase and replace spaces/special chars with "-"
-  let slug = croppedTitle.toLowerCase()
-                        .replace(/[^a-z0-9]+/g, '-') // any non-alphanumeric -> "-"
-                        .replace(/^-+|-+$/g, '');   // trim starting/ending "-"
-
-  // Convert date from "yyyy-mm-dd" (from <input type="date">) to "dd-mm-yyyy"
-  const [year, month, day] = date.split('-');
-  const formattedDate = `${day}-${month}-${year}`;
-
-  return `${slug}-${formattedDate}`;
-}
-    window.addEventListener('DOMContentLoaded', () => {
+  window.addEventListener('DOMContentLoaded', () => {
     const textarea = document.getElementById("descriptionn");
     const charCount = document.getElementById("charCount");
     const warning = document.getElementById("warning");
@@ -100,19 +78,6 @@ function generateUID(title, date) {
   const submitButton = form.querySelector('button[type="submit"]'); // Get the submit button
 
   form.addEventListener('submit', async (e) => {
-
-    const formData = new FormData(e.target);
-
-// Generate UID from title and date
-const title = formData.get('name');
-const date = formData.get('date'); // format: yyyy-mm-dd
-const uid = generateUID(title, date);
-
-// Add UID to the form data object
-const dataToSend = Object.fromEntries(formData);
-dataToSend.uid = uid;
-
-
     e.preventDefault();
     
     // Disable the submit button to prevent multiple clicks
@@ -146,7 +111,7 @@ dataToSend.uid = uid;
     try {
       const response = await fetch('/api/add-event', {
         method: 'POST',
-        body: JSON.stringify(dataToSend),
+        body: JSON.stringify(Object.fromEntries(formData)),
         headers: {
           'Content-Type': 'application/json'
         }
