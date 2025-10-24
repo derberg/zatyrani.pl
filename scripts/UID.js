@@ -1,12 +1,9 @@
 // scripts/generate-uids.js
 
-import fs from "fs";
+import fs from "fs/promises";
 import path from "path";
 
 const dataPath = path.resolve("src/data/events.json");
-
-// Load and parse the events JSON
-const events = JSON.parse(fs.readFileSync(dataPath, "utf-8"));
 
 // Helper to slugify strings (lowercase, replace non-alphanumeric with hyphens)
 export function slugify(str) {
@@ -27,12 +24,27 @@ export function slugify(str) {
     .replace(/^-+|-+$/g, "");
 }
 
-// Generate UID for each event
-for (const event of events) {
-  const titleSlug = slugify(event.title || "");
-  const dateSlug = slugify(event.date || "");
-  event.uid = `${titleSlug}-${dateSlug}`;
+async function generateUIDs() {
+  try {
+    // Load and parse the events JSON asynchronously
+    const fileContent = await fs.readFile(dataPath, "utf-8");
+    const events = JSON.parse(fileContent);
+
+    // Generate UID for each event
+    for (const event of events) {
+      const titleSlug = slugify(event.title || "");
+      const dateSlug = slugify(event.date || "");
+      event.uid = `${titleSlug}-${dateSlug}`;
+    }
+
+    // Write the updated events back to file asynchronously
+    await fs.writeFile(dataPath, JSON.stringify(events, null, 2), "utf-8");
+
+    console.log("UIDs generated successfully!");
+  } catch (error) {
+    console.error("Error generating UIDs:", error);
+  }
 }
 
-// Write the updated events back to file
-fs.writeFileSync(dataPath, JSON.stringify(events, null, 2), "utf-8");
+// Run the function
+generateUIDs();
