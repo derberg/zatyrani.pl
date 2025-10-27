@@ -7,7 +7,7 @@ on:
 
 jobs:
   test:
-    runs-on: windows-latest
+    runs-on: wi-latest
 
     steps:
       - name: Checkout repository
@@ -26,6 +26,6 @@ jobs:
         run: npm run build
 
       - name: Run tests
-  run: npm test
-  env:
-    TZ: UTC
+        run: npm test
+        env:
+          TZ:UTC
