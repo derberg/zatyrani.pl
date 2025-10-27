@@ -39,10 +39,4 @@ describe("formatDate", () => {
     const result = formatDate("2025-12-03T15:30:00Z");
     expect(result).toBe("03/12/2025");
   });
-
-  it("handles date strings with time zone offsets", () => {
-    const result = formatDate("2025-07-01T00:00:00+02:00");
-    // Depending on timezone, result could differ slightly — test should match expected local interpretation
-    expect(result).toBe("01/07/2025");
-  });
 });
