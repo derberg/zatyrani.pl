@@ -60,13 +60,13 @@ export default async function handler(req, res) {
 
 //needed as for returns 2025-01-09 and I need 09/01/2025
 export function formatDate(dateString) {
-	const date = new Date(dateString);
+  const date = new Date(dateString);
 
-	const day = String(date.getDate()).padStart(2, "0"); // Ensures two digits
-	const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed
-	const year = date.getFullYear();
+  const day = String(date.getUTCDate()).padStart(2, "0");
+  const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+  const year = date.getUTCFullYear();
 
-	return `${day}/${month}/${year}`;
+  return `${day}/${month}/${year}`;
 }
 
 export function generateUID(title, date) {
