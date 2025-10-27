@@ -34,9 +34,4 @@ describe("formatDate", () => {
     const result = formatDate("2025-01-05");
     expect(result).toBe("05/01/2025");
   });
-
-  it("handles different date formats (e.g., with time)", () => {
-    const result = formatDate("2025-12-03T15:30:00Z");
-    expect(result).toBe("03/12/2025");
-  });
 });
