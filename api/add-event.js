@@ -9,22 +9,11 @@ export default async function handler(req, res) {
 	}
 
 	try {
-		const { name, date, website, registration, description, location } =
-			req.body;
+		const eventsData = normalizeEventData(req.body);
 
 		const octokit = new ExtendedOctokit({
 			auth: process.env.GITHUB_TOKEN,
 		});
-		const eventsData = {
-			date: formatDate(date),
-			title: name,
-			mainLink: website,
-			registrationLink: registration,
-			description: description,
-			image: "",
-			location: location,
-			uid: generateUID(name, date)
-		};
 
 		// Read existing data
 		const { data: currentFile } = await octokit.repos.getContent({
@@ -86,4 +75,18 @@ export function generateUID(title, date) {
 		.replace(/^-+|-+$/g, '');   // trim starting/ending "-"
 
 	return `${slug}-${formatDate(date).replace(/\//g, '-')}`;
+}
+
+export function normalizeEventData(body){
+	const { name, date, website, registration, description, location } = body
+	return {
+			date: formatDate(date),
+			title: name,
+			mainLink: website,
+			registrationLink: registration,
+			description: description,
+			image: "",
+			location: location,
+			uid: generateUID(name, date)
+		};
 }
