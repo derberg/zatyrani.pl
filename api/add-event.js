@@ -68,3 +68,29 @@ function formatDate(dateString) {
 
 	return `${day}/${month}/${year}`;
 }
+
+async function readExistingEventsData(octokit, useMock = false) {
+    // ✅ If running outside GitHub, return mock data
+    if (useMock) {
+        console.log("🧪 Using mocked events data (no GitHub API call).");
+        return [
+            { id: 1, name: "Mock Event A", date: "2025-01-01" },
+            { id: 2, name: "Mock Event B", date: "2025-02-01" },
+        ];
+    }
+
+    // ✅ Real GitHub API call
+    const { data: currentFile } = await octokit.repos.getContent({
+        owner: "derberg",
+        repo: "zatyrani.pl",
+        path: "src/data/events.json",
+    });
+
+    let events = [];
+    if (currentFile && currentFile.content) {
+        const decoded = Buffer.from(currentFile.content, "base64").toString();
+        events = JSON.parse(decoded);
+    }
+
+    return events;
+}
