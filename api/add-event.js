@@ -60,16 +60,19 @@ export default async function handler(req, res) {
 
 //needed as for returns 2025-01-09 and I need 09/01/2025
 export function formatDate(dateString) {
-  // Extract just the YYYY-MM-DD part
-  const datePart = dateString.split("T")[0]; // "2025-07-01T00:00:00+02:00" -> "2025-07-01"
+  if (typeof dateString !== 'string') {
+    throw new TypeError(`formatDate expected a string but got ${typeof dateString}`);
+  }
+
+  const datePart = dateString.split("T")[0];
   const [year, month, day] = datePart.split("-");
 
-  // Pad day and month just in case (e.g., "5" -> "05")
   const dayPadded = day.padStart(2, "0");
   const monthPadded = month.padStart(2, "0");
 
   return `${dayPadded}/${monthPadded}/${year}`;
 }
+
 
 export function generateUID(title, date) {
 	// Limit title to 40 characters
