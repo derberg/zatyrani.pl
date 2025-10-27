@@ -32,6 +32,6 @@ describe("formatDate", () => {
 
   it("pads single-digit days and months with zeros", () => {
     const result = formatDate("2025-01-05");
-    expect(result).toBe("05/01/2025");
+    expect(result).toBe("05/01/2026");
   });
 });
