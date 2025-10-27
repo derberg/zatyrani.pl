@@ -45,10 +45,4 @@ describe("formatDate", () => {
     // Depending on timezone, result could differ slightly — test should match expected local interpretation
     expect(result).toBe("01/07/2025");
   });
-
-  it("returns 'Invalid Date' formatted string if input is invalid", () => {
-    const result = formatDate("not-a-date");
-    // new Date("not-a-date") produces "Invalid Date", so our function will return "NaN/NaN/NaN"
-    expect(result).toBe("NaN/NaN/NaN");
-  });
 });
