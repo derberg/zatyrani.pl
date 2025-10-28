@@ -77,16 +77,16 @@ export function generateUID(title, date) {
 	return `${slug}-${formatDate(date).replace(/\//g, '-')}`;
 }
 
-export function normalizeEventData(body){
+export function normalizeEventData(body) {
 	const { name, date, website, registration, description, location } = body
 	return {
-			date: formatDate(date),
-			title: name,
-			mainLink: website,
-			registrationLink: registration,
-			description: description,
-			image: "",
-			location: location,
-			uid: generateUID(name, date)
-		};
+		date: formatDate(date),
+		title: name,
+		mainLink: website,
+		registrationLink: registration,
+		description: description,
+		image: "",
+		location: location,
+		uid: generateUID(name, date)
+	};
 }

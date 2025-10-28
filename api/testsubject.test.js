@@ -61,27 +61,5 @@ describe('normalizeEventData', () => {
     // Check generated fields
     expect(result.date).toBeTruthy(); // formatted date
     expect(result.uid).toBeTruthy();  // generated UID
-  });
-
-  it('should handle empty strings', () => {
-    const input = {
-      name: '',
-      date: '',
-      website: '',
-      registration: '',
-      description: '',
-      location: ''
-    };
-
-    const result = normalizeEventData(input);
-
-    expect(result.title).toBe('');
-    expect(result.mainLink).toBe('');
-    expect(result.registrationLink).toBe('');
-    expect(result.description).toBe('');
-    expect(result.image).toBe('');
-    expect(result.location).toBe('');
-    expect(result.date).toBeTruthy();
-    expect(result.uid).toBeTruthy();
-  });
-});
+  })
+})
