@@ -15,20 +15,7 @@ export default async function handler(req, res) {
 			auth: process.env.GITHUB_TOKEN,
 		});
 
-		// Read existing data
-		const { data: currentFile } = await octokit.repos.getContent({
-			owner: "derberg",
-			repo: "zatyrani.pl",
-			path: "src/data/events.json",
-		});
-
-		const content = currentFile.content;
-
-		let events = [];
-		if (currentFile) {
-			const eventsFileContent = Buffer.from(content, "base64").toString();
-			events = JSON.parse(eventsFileContent);
-		}
+		let events = await readExistingEventsData(octokit);
 
 		events.push(eventsData);
 
@@ -92,17 +79,8 @@ export function normalizeEventData(body) {
 }
 
 
-async function readExistingEventsData(octokit, useMock = false) {
-    // ✅ If running outside GitHub, return mock data
-    if (useMock) {
-        console.log("🧪 Using mocked events data (no GitHub API call).");
-        return [
-            { id: 1, name: "Mock Event A", date: "2025-01-01" },
-            { id: 2, name: "Mock Event B", date: "2025-02-01" },
-        ];
-    }
+export async function readExistingEventsData(octokit) {
 
-    // ✅ Real GitHub API call
     const { data: currentFile } = await octokit.repos.getContent({
         owner: "derberg",
         repo: "zatyrani.pl",
