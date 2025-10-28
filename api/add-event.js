@@ -24,7 +24,7 @@ export default async function handler(req, res) {
 			repo: "zatyrani.pl",
 			path: "src/data/events.json",
 			content: JSON.stringify(events, null, 2),
-			message: `chore(events): added event ${name}`,
+			message: `chore(events): added event ${eventsData.title}`,
 		});
 
 		res.status(200).json({ success: true });
