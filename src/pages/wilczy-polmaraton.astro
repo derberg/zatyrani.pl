@@ -3,12 +3,12 @@ import Layout from '../layouts/Layout.astro';
 import PhotoGallery from '../components/PhotoGallery.astro';
 import { marathonPhotos2024 } from '../data/marathon-photos';
 
-const eventDate = '18.10.2025';
-const eventNumber = 'III';
-const ytPreviewLink = 'https://www.youtube.com/embed/ftF3hJ-Qfcc'; 
+const eventDate = '17.10.2026';
+const eventNumber = 'IV';
+const ytPreviewLink = 'https://www.youtube.com/embed/sY6au0yZyp4'; 
 ---
 
-<Layout title="Zatyrani - III Wilczy Półmaraton">
+<Layout title="Zatyrani - IV Wilczy Półmaraton">
   <!-- Hero Section -->
   <div class="relative h-[60vh] flex items-center justify-center text-white">
     <div class="absolute inset-0">
@@ -23,7 +23,7 @@ const ytPreviewLink = 'https://www.youtube.com/embed/ftF3hJ-Qfcc';
       <div class="bg-white/20 px-8 py-4 rounded-lg shadow-lg backdrop-blur-sm mx-auto max-w-full">
         <h1 class="text-5xl font-bold text-white">{eventNumber} WILCZY PÓŁMARATON</h1>
         <div class="mt-3">
-          <h2 class="text-2xl font-semibold text-white">+ Marsz Nordic Walking (10,6km)</h2>
+          <h2 class="text-2xl font-semibold text-white"></h2>
         </div>
       </div>
       
@@ -31,7 +31,7 @@ const ytPreviewLink = 'https://www.youtube.com/embed/ftF3hJ-Qfcc';
         <h1 class="text-3xl font-bold text-white">{eventDate}</h1>
       </div>
       
-      <div>
+      <div> <!--
         <a
           href="https://www.facebook.com/events/907035574965780"
           target="_blank"
@@ -39,17 +39,24 @@ const ytPreviewLink = 'https://www.youtube.com/embed/ftF3hJ-Qfcc';
         >
           Wydarzenie
         </a>
+        -->
         <a
           href="https://zapisy.personalbest.pl/iii-wilczy-polmaraton-v13438"
           target="_blank"
           class="inline-block bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-full"
+          id = "zapiszsie"
         >
           Zapisz się
       </a>
       </div>
     </div>
-    
-    
+
+<script>
+  const button = document.getElementById('zapiszsie');
+  button.addEventListener('click', () => {
+  alert(`Rejestracja jest jeszcze niedostępna. Skontaktuj się z nami pod adresem biuro@zatyrani.pl, a powiadomimy Cię, gdy rejestracja będzie możliwa.`);
+});
+</script>
     
   </div>
 
@@ -146,11 +153,11 @@ const ytPreviewLink = 'https://www.youtube.com/embed/ftF3hJ-Qfcc';
     </div>
   </div>
   
-  <!-- Trail Map Section -->
+  <!-- Trail Map Section
   <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-    <h2 id="trasa"class="text-3xl font-bold text-center mb-8">Trasa</h2>
+    <h2 id="trasa"class="text-3xl font-bold text-center mb-8">Trasa</h2>  -->
     
-    <!-- GPX Download Buttons -->
+    <!-- GPX Download Buttons
     <div class="flex justify-center gap-4 mb-8 flex-wrap">
       <a
         href="https://drive.google.com/file/d/1eIAEeJ6OR500wlyb9CqDe5QNGCH6n43K/view?usp=sharing"
@@ -172,9 +179,9 @@ const ytPreviewLink = 'https://www.youtube.com/embed/ftF3hJ-Qfcc';
         </svg>
         Pobierz GPX - Nordic Walking (10,6km)
       </a>
-    </div>
+    </div>  -->
     
-    <!-- Google Maps Embed -->
+    <!-- Google Maps Embed
     <div class="max-w-5xl mx-auto">
       <div class="aspect-[16/9] rounded-lg overflow-hidden shadow-lg">
         <iframe
@@ -198,15 +205,15 @@ const ytPreviewLink = 'https://www.youtube.com/embed/ftF3hJ-Qfcc';
           <span class="text-center">Kliknij ikonę warstw w lewym górnym rogu mapy, aby sterować widokiem trasy.</span>
         </p>
       </div>
-    </div>
+    </div>  -->
   </section>
-  
+
     <!-- Photos Section -->
     <section class="max-w-7xl mx-auto">
-      <h2 class="text-3xl font-bold text-center">Zdjęcia z 2024</h2>
-      <PhotoGallery photos={marathonPhotos2024} author="Andrzej Jaźwiński" />
+      <h2 class="text-3xl font-bold text-center">Zdjęcia z 2025</h2>
+      <PhotoGallery photos={marathonPhotos2024} author="Paweł Bernas" />
       <div class="text-center mt-4 text-lg">
-        <p>Pełna galeria zdjęć Andrzeja znajduje się <a href="https://drive.google.com/drive/folders/1An5Tm9Pt9qMlrAQ8AxwfY7cEBWW0xlSE?usp=drive_link" class="text-blue-600 hover:underline">tutaj</a>. Zobaczcie również zdjęcia Adama Wrożyny <a href="https://photos.app.goo.gl/Gkmh9iEZHKa7Cm2x8" class="text-blue-600 hover:underline">tutaj</a>.    
+        <p>Pełna galeria zdjęć Pawła znajduje się <a href="https://www.instagram.com/pawelbernas.fotografia" class="text-blue-600 hover:underline">tutaj</a>.    
         </p>
       </div>
     </section>
