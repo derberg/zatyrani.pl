@@ -9,37 +9,13 @@ export default async function handler(req, res) {
 	}
 
 	try {
-		const { name, date, website, registration, description, location } =
-			req.body;
+		const eventsData = normalizeEventData(req.body);
 
 		const octokit = new ExtendedOctokit({
 			auth: process.env.GITHUB_TOKEN,
 		});
-		const eventsData = {
-			date: formatDate(date),
-			title: name,
-			mainLink: website,
-			registrationLink: registration,
-			description: description,
-			image: "",
-			location: location,
-			uid: generateUID(name, date)
-		};
 
-		// Read existing data
-		const { data: currentFile } = await octokit.repos.getContent({
-			owner: "derberg",
-			repo: "zatyrani.pl",
-			path: "src/data/events.json",
-		});
-
-		const content = currentFile.content;
-
-		let events = [];
-		if (currentFile) {
-			const eventsFileContent = Buffer.from(content, "base64").toString();
-			events = JSON.parse(eventsFileContent);
-		}
+		let events = await readExistingEventsData(octokit);
 
 		events.push(eventsData);
 
@@ -48,7 +24,7 @@ export default async function handler(req, res) {
 			repo: "zatyrani.pl",
 			path: "src/data/events.json",
 			content: JSON.stringify(events, null, 2),
-			message: `chore(events): added event ${name}`,
+			message: `chore(events): added event ${eventsData.title}`,
 		});
 
 		res.status(200).json({ success: true });
@@ -86,4 +62,36 @@ export function generateUID(title, date) {
 		.replace(/^-+|-+$/g, '');   // trim starting/ending "-"
 
 	return `${slug}-${formatDate(date).replace(/\//g, '-')}`;
+}
+
+export function normalizeEventData(body) {
+	const { name, date, website, registration, description, location } = body
+	return {
+		date: formatDate(date),
+		title: name,
+		mainLink: website,
+		registrationLink: registration,
+		description: description,
+		image: "",
+		location: location,
+		uid: generateUID(name, date)
+	};
+}
+
+
+export async function readExistingEventsData(octokit) {
+
+    const { data: currentFile } = await octokit.repos.getContent({
+        owner: "derberg",
+        repo: "zatyrani.pl",
+        path: "src/data/events.json",
+    });
+
+    let events = [];
+    if (currentFile && currentFile.content) {
+        const decoded = Buffer.from(currentFile.content, "base64").toString();
+        events = JSON.parse(decoded);
+    }
+
+    return events;
 }
