@@ -1,5 +1,5 @@
 ---
-import CookieBanner from '../components/CookieBanner.astro';
+import CookieBanner from "../components/CookieBanner.astro";
 
 interface Props {
   title: string;
@@ -8,15 +8,19 @@ interface Props {
 const { title } = Astro.props;
 
 const navItems = [
-  { name: 'Dołącz', href: '/dolacz', cta: true },
-  { name: 'Aktualności', href: '/aktualnosci' },
-  { name: 'Wydarzenia', href: '/wydarzenia' },
-  { name: 'Inicjatywy', href: '/inicjatywy' },
-  { name: 'Zatyrusy', href: '/zatyrusy' },
-  { name: 'Półmaraton', href: '/wilczy-polmaraton' },
-  { name: 'Rajd NW', href: '/rajdnw' },
-  { name: 'YouTube', target: '_blank', href: 'https://www.youtube.com/@Zatyranitv/videos' },
-  { name: 'Partner', href: '/partner' },
+  { name: "Dołącz", href: "/dolacz", cta: true },
+  { name: "Aktualności", href: "/aktualnosci" },
+  { name: "Wydarzenia", href: "/wydarzenia" },
+  { name: "Inicjatywy", href: "/inicjatywy" },
+  { name: "Zatyrusy", href: "/zatyrusy" },
+  { name: "Półmaraton", href: "/wilczy-polmaraton" },
+  { name: "Rajd NW", href: "/rajdnw" },
+  {
+    name: "YouTube",
+    target: "_blank",
+    href: "https://www.youtube.com/@Zatyranitv/videos",
+  },
+  { name: "Partner", href: "/partner" },
 ];
 ---
 
@@ -24,17 +28,25 @@ const navItems = [
 <html lang="pl">
   <head>
     <meta charset="UTF-8" />
-    <meta name="description" content="Stowarzyszenie ZATYRANI to organizacja zajmująca się popularyzowaniem biegania i innych form aktywności ruchowej. Dołącz do nas!" />
+    <meta
+      name="description"
+      content="Stowarzyszenie ZATYRANI to organizacja zajmująca się popularyzowaniem biegania i innych form aktywności ruchowej. Dołącz do nas!"
+    />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <title>{title}</title>
     <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5PS52KTJEZ"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5PS52KTJEZ"
+    ></script>
     <script>
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);} 
-      gtag('js', new Date());
-      gtag('config', 'G-5PS52KTJEZ');
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-5PS52KTJEZ", {
+        anonymize_ip: true,
+      });
     </script>
   </head>
   <body class="min-h-screen bg-white">
@@ -48,45 +60,71 @@ const navItems = [
           </div>
           <div class="sm:hidden">
             <!-- Mobile Hamburger Icon -->
-            <button id="menuButton" title="menu" class="text-gray-900 focus:outline-none">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            <button
+              id="menuButton"
+              title="menu"
+              class="text-gray-900 focus:outline-none"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                class="h-6 w-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h16"></path>
               </svg>
             </button>
           </div>
           <!-- Desktop Navigation Items (always visible) -->
           <div class="hidden sm:flex sm:space-x-8 items-center" id="desktopNav">
-            {navItems.map((item) => (
-              <a
-                target={item.target === '_blank' ? '_blank' : undefined}
-                href={item.href}
-                class={`inline-flex items-center text-sm font-medium hover:text-purple-600 ${
-                  item.cta ? 'bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-full' :
-                  'px-1 pt-1 ' + (item.name === 'YouTube' ? 'text-red-600 hover:text-red-700' : 
-                  item.name === 'Partner' ? 'text-orange-700 hover:text-[rgb(255,80,0)]' : 
-                  'text-gray-900')
-                }`}
-              >
-                {item.name}
-              </a>
-            ))}
+            {
+              navItems.map((item) => (
+                <a
+                  target={item.target === "_blank" ? "_blank" : undefined}
+                  href={item.href}
+                  class={`inline-flex items-center text-sm font-medium hover:text-purple-600 ${
+                    item.cta
+                      ? "bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-full"
+                      : "px-1 pt-1 " +
+                        (item.name === "YouTube"
+                          ? "text-red-600 hover:text-red-700"
+                          : item.name === "Partner"
+                            ? "text-orange-700 hover:text-[rgb(255,80,0)]"
+                            : "text-gray-900")
+                  }`}
+                >
+                  {item.name}
+                </a>
+              ))
+            }
           </div>
         </div>
 
         <!-- Mobile Navigation Items (hidden by default) -->
-        <div id="mobileNav" class="hidden sm:hidden flex-col space-y-4 bg-white shadow-md p-4">
-          {navItems.map((item) => (
-            <a
-              target={item.target === '_blank' ? '_blank' : undefined}
-              href={item.href}
-              class={`block px-4 py-2 text-sm font-medium hover:text-purple-600 ${
-                item.cta ? 'bg-purple-600 hover:bg-purple-700 text-white text-center rounded-full' :
-                'text-gray-900'
-              }`}
-            >
-              {item.name}
-            </a>
-          ))}
+        <div
+          id="mobileNav"
+          class="hidden sm:hidden flex-col space-y-4 bg-white shadow-md p-4"
+        >
+          {
+            navItems.map((item) => (
+              <a
+                target={item.target === "_blank" ? "_blank" : undefined}
+                href={item.href}
+                class={`block px-4 py-2 text-sm font-medium hover:text-purple-600 ${
+                  item.cta
+                    ? "bg-purple-600 hover:bg-purple-700 text-white text-center rounded-full"
+                    : "text-gray-900"
+                }`}
+              >
+                {item.name}
+              </a>
+            ))
+          }
         </div>
       </nav>
     </header>
@@ -99,11 +137,13 @@ const navItems = [
       <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <div class="text-center">
           <p class="text-sm text-gray-500">
-            © 2025 Zatyrani Gratisownia.pl Gmina Pilchowice. All rights reserved.
-            <a 
+            © 2025 Zatyrani Gratisownia.pl Gmina Pilchowice. All rights
+            reserved.
+            <a
               href="Statut-Stowarzyszenia-ZATYRANI.docx"
-              class="text-blue-600 hover:text-blue-700 block" 
-              download="statut" >
+              class="text-blue-600 hover:text-blue-700 block"
+              download="statut"
+            >
               Statut Stowarzyszenia.
             </a>
           </p>
@@ -111,16 +151,16 @@ const navItems = [
       </div>
     </footer>
     <CookieBanner />
-    
+
     <script>
       // JavaScript to toggle the mobile menu
-      const menuButton = document.getElementById('menuButton');
-      const mobileNav = document.getElementById('mobileNav');
-      
-      menuButton.addEventListener('click', () => {
+      const menuButton = document.getElementById("menuButton");
+      const mobileNav = document.getElementById("mobileNav");
+
+      menuButton.addEventListener("click", () => {
         // Toggle the visibility of mobileNav
         if (mobileNav) {
-          mobileNav.classList.toggle('hidden');
+          mobileNav.classList.toggle("hidden");
         }
       });
     </script>
