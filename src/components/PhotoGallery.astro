@@ -5,13 +5,31 @@ interface Props {
     alt: string;
   }[];
   author?: string;
+  authorLink?: string;
 }
 
-const { photos, author } = Astro.props;
+const { photos, author, authorLink } = Astro.props;
 ---
 
 <div class="space-y-4">
-  {author && <p class="text-center text-gray-600">Autor - {author}</p>}
+  {author && (
+    <p class="text-center text-gray-600">
+      Autor –{" "}
+      {authorLink ? (
+        <a
+          href={authorLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-blue-600 hover:underline"
+        >
+          {author}
+        </a>
+      ) : (
+        author
+      )}
+    </p>
+  )}
+
   <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
     {photos.map((photo) => (
       <a href={photo.src} target="_blank" rel="noopener noreferrer">

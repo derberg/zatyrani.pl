@@ -36,3 +36,42 @@ export const marathonPhotos2024 = [
 		alt: "Biegaczka bez psa",
 	},
 ];
+
+export const marathonPhotos2025 = [
+	{
+		src: "/halfmarathon/2025/1.webp",
+		alt: "Biegnący Zatyrani",
+	},
+	{
+		src: "/halfmarathon/2025/2.webp",
+		alt: "Skaczący biegacz",
+	},
+	{
+		src: "/halfmarathon/2025/3.webp",
+		alt: "Biegacz czytający tabliczkę",
+	},
+	{
+		src: "/halfmarathon/2025/4.webp",
+		alt: "Biegacze idą łeb w łeb",
+	},
+	{
+		src: "/halfmarathon/2025/5.webp",
+		alt: "Biegaczka z uśmiechem",
+	},
+	{
+		src: "/halfmarathon/2025/6.webp",
+		alt: "Radosna biegaczka",
+	},
+	{
+		src: "/halfmarathon/2025/7.webp",
+		alt: "Biegacz z psem",
+	},
+	{
+		src: "/halfmarathon/2025/8.webp",
+		alt: "Biegaczka bez psa",
+	},
+	{
+		src: "/halfmarathon/2025/9.webp",
+		alt: "Biegaczka z słuchawkami",
+	},
+];
