@@ -17,7 +17,7 @@ const ytPreviewLink = 'https://www.youtube.com/embed/sY6au0yZyp4';
         alt="Tło półmaratonu"
         class="w-full h-full object-cover"
       />
-      <div class="absolute inset-0 bg-black/50"></div>
+      <div class="absolute inset-0 bg-black/60"></div>
     </div>
     <div class="relative text-center space-y-4">
       <div class="bg-white/20 px-8 py-4 rounded-lg shadow-lg backdrop-blur-sm mx-auto max-w-full">
@@ -53,7 +53,8 @@ const ytPreviewLink = 'https://www.youtube.com/embed/sY6au0yZyp4';
 
 <script>
   const button = document.getElementById('zapiszsie');
-  button.addEventListener('click', () => {
+  button.addEventListener('click', (e) => {
+    e.preventDefault();
   alert(`Rejestracja jest jeszcze niedostępna. Skontaktuj się z nami pod adresem biuro@zatyrani.pl, a powiadomimy Cię, gdy rejestracja będzie możliwa.`);
 });
 </script>
