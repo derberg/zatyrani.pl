@@ -1,11 +1,11 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import PhotoGallery from '../components/PhotoGallery.astro';
-import { marathonPhotos2025 } from '../data/marathon-photos';
+import Layout from "../layouts/Layout.astro";
+import PhotoGallery from "../components/PhotoGallery.astro";
+import { marathonPhotos2025 } from "../data/marathon-photos";
 
-const eventDate = '17.10.2026';
-const eventNumber = 'IV';
-const ytPreviewLink = 'https://www.youtube.com/embed/sY6au0yZyp4'; 
+const eventDate = "17.10.2026";
+const eventNumber = "IV";
+const ytPreviewLink = "https://www.youtube.com/embed/sY6au0yZyp4";
 ---
 
 <Layout title="Zatyrani - IV Wilczy Półmaraton">
@@ -17,21 +17,28 @@ const ytPreviewLink = 'https://www.youtube.com/embed/sY6au0yZyp4';
         alt="Tło półmaratonu"
         class="w-full h-full object-cover"
       />
-      <div class="absolute inset-0 bg-black/50"></div>
+      <div class="absolute inset-0 bg-black/60"></div>
     </div>
     <div class="relative text-center space-y-4">
-      <div class="bg-white/20 px-8 py-4 rounded-lg shadow-lg backdrop-blur-sm mx-auto max-w-full">
-        <h1 class="text-5xl font-bold text-white">{eventNumber} WILCZY PÓŁMARATON</h1>
+      <div
+        class="bg-white/20 px-8 py-4 rounded-lg shadow-lg backdrop-blur-sm mx-auto max-w-full"
+      >
+        <h1 class="text-5xl font-bold text-white">
+          {eventNumber} WILCZY PÓŁMARATON
+        </h1>
         <div class="mt-3">
           <h2 class="text-2xl font-semibold text-white"></h2>
         </div>
       </div>
-      
-      <div class="bg-white/20 px-8 py-4 rounded-lg shadow-lg backdrop-blur-sm mx-auto inline-block">
+
+      <div
+        class="bg-white/20 px-8 py-4 rounded-lg shadow-lg backdrop-blur-sm mx-auto inline-block"
+      >
         <h1 class="text-3xl font-bold text-white">{eventDate}</h1>
       </div>
-      
-      <div> <!--
+
+      <div>
+        <!--
         <a
           href="https://www.facebook.com/events/907035574965780"
           target="_blank"
@@ -44,20 +51,22 @@ const ytPreviewLink = 'https://www.youtube.com/embed/sY6au0yZyp4';
           href="https://zatyrani.pl/wilczy-polmaraton"
           target="_blank"
           class="inline-block bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-full"
-          id = "zapiszsie"
+          id="zapiszsie"
         >
           Zapisz się
-      </a>
+        </a>
       </div>
     </div>
 
-<script>
-  const button = document.getElementById('zapiszsie');
-  button.addEventListener('click', () => {
-  alert(`Rejestracja jest jeszcze niedostępna. Skontaktuj się z nami pod adresem biuro@zatyrani.pl, a powiadomimy Cię, gdy rejestracja będzie możliwa.`);
-});
-</script>
-    
+    <script>
+      const button = document.getElementById("zapiszsie");
+      button.addEventListener("click", (e) => {
+        e.preventDefault();
+        alert(
+          `Rejestracja jest jeszcze niedostępna. Skontaktuj się z nami pod adresem biuro@zatyrani.pl, a powiadomimy Cię, gdy rejestracja będzie możliwa.`,
+        );
+      });
+    </script>
   </div>
 
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -69,33 +78,38 @@ const ytPreviewLink = 'https://www.youtube.com/embed/sY6au0yZyp4';
           <iframe
             width="100%"
             height="100%"
-            src={ ytPreviewLink }
+            src={ytPreviewLink}
             title="Wilczy Półmaraton"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
-          ></iframe>
+            allowfullscreen></iframe>
         </div>
       </div>
-    
+
       <!-- Text Section -->
       <div class="flex items-center">
         <div class="space-y-6 text-xl">
           <p class="text-gray-700">
-            Trasa półmaratonu (około 22km) wiedzie poprzez lasy Nadleśnictwa Rybnik a dokładnie kryjemy się pięknymi leśnymi ścieżkami uroczyska "Głębokie Doły".
+            Trasa półmaratonu (około 22km) wiedzie poprzez lasy Nadleśnictwa
+            Rybnik a dokładnie kryjemy się pięknymi leśnymi ścieżkami uroczyska
+            "Głębokie Doły".
           </p>
           <p class="text-gray-700">
-            Uroczysko jest pamiątką po prastarej puszczy, która dawniej porastała te tereny. Niepowtarzalny mikroklimat, bogactwo flory i fauny, a także naturalna rzadkość rodzimych, chronicznych gatunków roślin sprawia że miejsce to jest atrakcyjne zarówno przyrodniczo jak i turystycznie.
+            Uroczysko jest pamiątką po prastarej puszczy, która dawniej
+            porastała te tereny. Niepowtarzalny mikroklimat, bogactwo flory i
+            fauny, a także naturalna rzadkość rodzimych, chronicznych gatunków
+            roślin sprawia że miejsce to jest atrakcyjne zarówno przyrodniczo
+            jak i turystycznie.
           </p>
           <p class="text-gray-700">
-            Drugiego takiego półmaratonu na Śląsku nie znajdziecie. Zapraszamy do Wilczy!
+            Drugiego takiego półmaratonu na Śląsku nie znajdziecie. Zapraszamy
+            do Wilczy!
           </p>
         </div>
       </div>
     </div>
-    
   </div>
 
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <!-- Bullet List and Image Section -->
     <h2 class="text-3xl font-bold text-center">Atrakcje</h2>
     <div class="grid md:grid-cols-2 gap-12 mb-16 py-8">
@@ -104,44 +118,95 @@ const ytPreviewLink = 'https://www.youtube.com/embed/sY6au0yZyp4';
         <ul class="list-none space-y-3">
           <li class="flex items-center">
             <!-- Checkmark Icon -->
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-green-500 mr-2 flex-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-5 h-5 text-green-500 mr-2 flex-none"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M5 13l4 4L19 7"></path>
             </svg>
             Zapewniamy dużą dawkę adrenaliny.
           </li>
           <li class="flex items-center text-gray-700">
             <!-- Checkmark Icon -->
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-green-500 mr-2 flex-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-5 h-5 text-green-500 mr-2 flex-none"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M5 13l4 4L19 7"></path>
             </svg>
-            Gwarantowana satysfakcja dla biegaczy, którzy uwielbiają kros w pięknych, dzikich, leśnych terenach.
+            Gwarantowana satysfakcja dla biegaczy, którzy uwielbiają kros w pięknych,
+            dzikich, leśnych terenach.
           </li>
           <li class="flex items-center text-gray-700">
             <!-- Checkmark Icon -->
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-green-500 mr-2 flex-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-5 h-5 text-green-500 mr-2 flex-none"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M5 13l4 4L19 7"></path>
             </svg>
             Pamiątkowy medal dla każdego uczestnika.
           </li>
           <li class="flex items-center text-gray-700">
             <!-- Checkmark Icon -->
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-green-500 mr-2 flex-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-5 h-5 text-green-500 mr-2 flex-none"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M5 13l4 4L19 7"></path>
             </svg>
             Pieski mile widziane.
           </li>
           <li class="flex items-center text-gray-700">
             <!-- Checkmark Icon -->
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-green-500 mr-2 flex-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-5 h-5 text-green-500 mr-2 flex-none"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M5 13l4 4L19 7"></path>
             </svg>
-            Co roku zawsze znajdzie się biegacz, który musi szukać swojego buta w jedynym magicznym miejscu gdzie zwykła kałuża zamienia się w błotnistą pułapkę.
+            Co roku zawsze znajdzie się biegacz, który musi szukać swojego buta w
+            jedynym magicznym miejscu gdzie zwykła kałuża zamienia się w błotnistą
+            pułapkę.
           </li>
-          
         </ul>
-        
       </div>
-    
+
       <!-- Image Section -->
       <div class="flex items-center justify-center">
         <img
@@ -152,12 +217,12 @@ const ytPreviewLink = 'https://www.youtube.com/embed/sY6au0yZyp4';
       </div>
     </div>
   </div>
-  
+
   <!-- Trail Map Section
   <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
     <h2 id="trasa"class="text-3xl font-bold text-center mb-8">Trasa</h2>  -->
-    
-    <!-- GPX Download Buttons
+
+  <!-- GPX Download Buttons
     <div class="flex justify-center gap-4 mb-8 flex-wrap">
       <a
         href="https://drive.google.com/file/d/1eIAEeJ6OR500wlyb9CqDe5QNGCH6n43K/view?usp=sharing"
@@ -180,8 +245,8 @@ const ytPreviewLink = 'https://www.youtube.com/embed/sY6au0yZyp4';
         Pobierz GPX - Nordic Walking (10,6km)
       </a>
     </div>  -->
-    
-    <!-- Google Maps Embed
+
+  <!-- Google Maps Embed
     <div class="max-w-5xl mx-auto">
       <div class="aspect-[16/9] rounded-lg overflow-hidden shadow-lg">
         <iframe
@@ -206,40 +271,42 @@ const ytPreviewLink = 'https://www.youtube.com/embed/sY6au0yZyp4';
         </p>
       </div>
     </div>  -->
-  </section>
-
-    <!-- Photos Section -->
-    <section class="max-w-7xl mx-auto">
-      <h2 class="text-3xl font-bold text-center">Zdjęcia z 2025</h2>
-      <PhotoGallery
-  photos={marathonPhotos2025}
-  author="Paweł Bernas"
-  authorLink="https://www.instagram.com/pawelbernas.fotografia"
-/>
-      <div class="text-center mt-4 text-lg">
-        <p>Pełna galeria zdjęć Pawła znajduje się <a href="https://photos.google.com/share/AF1QipPUNi2uDta48zu80edE-TiK6R03kIAuLNt7XfEQmsiRSlGmXe0ZuYHzG89zg22zJw?key=cHZmY2kyeF91WkcydS13VmF1TTF3WnJqejdGV0Z3" class="text-blue-600 hover:underline">tutaj</a>.    
-        </p>
-      </div>
-    </section>
-
-    <!-- Race Office Location -->
-    <section class="mt-16">
-      <h2 class="text-3xl font-bold text-center">Biuro zawodów</h2>
-      <div class="max-w-3xl mx-auto">
-        <p class="mt-4 mb-2 text-gray-600 text-center">
-          Dom Kultury w Wilczy, Karola Miarki 123, 44-189 Wilcza
-        <div class="aspect-[16/9] rounded-lg overflow-hidden shadow-md">
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d796.6238701372778!2d18.59522346969745!3d50.188842198221465!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x471137d1988015fd%3A0xa1e08547df1cdfa8!2sDom%20Kultury%20w%20Wilczy%20(biuro%20GOK%20Pilchowice)!5e1!3m2!1sen!2spl!4v1735845595802!5m2!1sen!2spl"
-            width="100%"
-            height="100%"
-            style="border:0;"
-            allowfullscreen=""
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"
-          ></iframe>
-        </div>
-      </div>
-    </section>    
-  </div>
 </Layout>
+
+<!-- Photos Section -->
+<section class="max-w-7xl mx-auto">
+  <h2 class="text-3xl font-bold text-center">Zdjęcia z 2025</h2>
+  <PhotoGallery
+    photos={marathonPhotos2025}
+    author="Paweł Bernas"
+    authorLink="https://www.instagram.com/pawelbernas.fotografia"
+  />
+  <div class="text-center mt-4 text-lg">
+    <p>
+      Pełna galeria zdjęć Pawła znajduje się <a
+        href="https://photos.google.com/share/AF1QipPUNi2uDta48zu80edE-TiK6R03kIAuLNt7XfEQmsiRSlGmXe0ZuYHzG89zg22zJw?key=cHZmY2kyeF91WkcydS13VmF1TTF3WnJqejdGV0Z3"
+        class="text-blue-600 hover:underline">tutaj</a
+      >.
+    </p>
+  </div>
+</section>
+
+<!-- Race Office Location -->
+<section class="mt-16">
+  <h2 class="text-3xl font-bold text-center">Biuro zawodów</h2>
+  <div class="max-w-3xl mx-auto">
+    <p class="mt-4 mb-2 text-gray-600 text-center">
+      Dom Kultury w Wilczy, Karola Miarki 123, 44-189 Wilcza
+      <div class="aspect-[16/9] rounded-lg overflow-hidden shadow-md">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d796.6238701372778!2d18.59522346969745!3d50.188842198221465!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x471137d1988015fd%3A0xa1e08547df1cdfa8!2sDom%20Kultury%20w%20Wilczy%20(biuro%20GOK%20Pilchowice)!5e1!3m2!1sen!2spl!4v1735845595802!5m2!1sen!2spl"
+          width="100%"
+          height="100%"
+          style="border:0;"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </p>
+  </div>
+</section>
