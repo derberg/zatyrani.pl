@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import PhotoGallery from '../components/PhotoGallery.astro';
 import { marathonPhotos2024 } from '../data/marathon-photos';
+import { marathonPhotos2025 } from '../data/marathon-photos';
 
 const eventDate = '17.10.2026';
 const eventNumber = 'IV';
@@ -41,7 +42,7 @@ const ytPreviewLink = 'https://www.youtube.com/embed/sY6au0yZyp4';
         </a>
         -->
         <a
-          href="https://zapisy.personalbest.pl/iii-wilczy-polmaraton-v13438"
+          href="https://zatyrani.pl/wilczy-polmaraton"
           target="_blank"
           class="inline-block bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-full"
           id = "zapiszsie"
@@ -211,7 +212,11 @@ const ytPreviewLink = 'https://www.youtube.com/embed/sY6au0yZyp4';
     <!-- Photos Section -->
     <section class="max-w-7xl mx-auto">
       <h2 class="text-3xl font-bold text-center">Zdjęcia z 2025</h2>
-      <PhotoGallery photos={marathonPhotos2024} author="Paweł Bernas" />
+      <PhotoGallery
+  photos={marathonPhotos2025}
+  author="Paweł Bernas"
+  authorLink="https://www.instagram.com/pawelbernas.fotografia"
+/>
       <div class="text-center mt-4 text-lg">
         <p>Pełna galeria zdjęć Pawła znajduje się <a href="https://www.instagram.com/pawelbernas.fotografia" class="text-blue-600 hover:underline">tutaj</a>.    
         </p>
