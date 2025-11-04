@@ -36,20 +36,18 @@ const navItems = [
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <title>{title}</title>
     <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5PS52KTJEZ"
-    ></script>
-    <script>
+    <script is:inline>
       window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
-      gtag("config", "G-5PS52KTJEZ", {
-        anonymize_ip: true,
-      });
+      window.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
     </script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GTM-K8J5JRX"></script>
   </head>
   <body class="min-h-screen bg-white">
+    <noscript>
+     <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K8J5JRX"
+         height="0" width="0" style="display:none;visibility:hidden"></iframe>
+   </noscript>
+
     <header class="border-b">
       <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16 items-center">
