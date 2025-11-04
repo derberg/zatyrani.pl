@@ -61,13 +61,12 @@ const ytPreviewLink = "https://www.youtube.com/embed/sY6au0yZyp4";
     <!-- Modal Structure -->
 <div id="registrationModal" class="modal hidden">
   <div class="modal-content">
-    <span class="close">&times;</span>
     <h2 class="modal-title">Rejestracja chwilowo niedostępna</h2>
 <p class="modal-body">
   Rejestracja na półmaraton jeszcze się nie rozpoczęła.  
-  Napisz do nas pod adresem 
+  Napisz do nas na adres 
   <a href="mailto:biuro@zatyrani.pl" class="text-blue-600 hover:underline">biuro@zatyrani.pl</a>, 
-  a poinformujemy Cię, gdy będzie możliwa. Zachęcamy do śledzenia naszych aktualności!
+  a poinformujemy Cię, gdy będzie możliwa.
 </p>
     <button class="modal-btn">OK</button>
   </div>
@@ -156,7 +155,6 @@ const ytPreviewLink = "https://www.youtube.com/embed/sY6au0yZyp4";
 <script>
 const button = document.getElementById("zapiszsiepolmaraton");
 const modal = document.getElementById("registrationModal");
-const closeBtn = modal.querySelector(".close");
 const okBtn = modal.querySelector(".modal-btn");
 
 // Open modal on button click
@@ -165,8 +163,6 @@ button.addEventListener("click", (e) => {
   modal.classList.remove("hidden");
 });
 
-// Close modal via X button or OK button
-closeBtn.addEventListener("click", () => modal.classList.add("hidden"));
 okBtn.addEventListener("click", () => modal.classList.add("hidden"));
 
 // Close modal by clicking outside content
