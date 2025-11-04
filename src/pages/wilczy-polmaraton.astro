@@ -58,15 +58,122 @@ const ytPreviewLink = "https://www.youtube.com/embed/sY6au0yZyp4";
       </div>
     </div>
 
-    <script>
-      const button = document.getElementById("zapiszsiepolmaraton");
-      button.addEventListener("click", (e) => {
-        e.preventDefault();
-        alert(
-          `Rejestracja jest jeszcze niedostępna. Skontaktuj się z nami pod adresem biuro@zatyrani.pl, a powiadomimy Cię, gdy rejestracja będzie możliwa.`,
-        );
-      });
-    </script>
+    <!-- Modal Structure -->
+<div id="registrationModal" class="modal hidden">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2 class="modal-title">Rejestracja chwilowo niedostępna</h2>
+<p class="modal-body">
+  Rejestracja na półmaraton jeszcze się nie rozpoczęła.  
+  Napisz do nas pod adresem 
+  <a href="mailto:biuro@zatyrani.pl" class="text-blue-600 hover:underline">biuro@zatyrani.pl</a>, 
+  a poinformujemy Cię, gdy będzie możliwa. Zachęcamy do śledzenia naszych aktualności!
+</p>
+    <button class="modal-btn">OK</button>
+  </div>
+</div>
+
+<style>
+/* Modal background */
+.modal {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Hide by default */
+.hidden {
+  display: none;
+}
+
+/* Modal box */
+.modal-content {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  max-width: 450px;
+  width: 90%;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Close button */
+.close {
+  position: absolute;
+  top: 0.5rem;
+  right: 1rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  color: #555;
+}
+
+/* Modal title and body */
+.modal-title {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.modal-body {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+/* Modal button */
+.modal-btn {
+  background: #16A34A;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.5rem;
+  border-radius: 60px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.2s ease;
+}
+
+.modal-btn:hover {
+  background: #15803D;
+}
+
+.text-blue-600 {
+  color: #2563eb;
+}
+
+.text-blue-600:hover {
+  text-decoration: underline;
+}
+</style>
+
+<script>
+const button = document.getElementById("zapiszsiepolmaraton");
+const modal = document.getElementById("registrationModal");
+const closeBtn = modal.querySelector(".close");
+const okBtn = modal.querySelector(".modal-btn");
+
+// Open modal on button click
+button.addEventListener("click", (e) => {
+  e.preventDefault();
+  modal.classList.remove("hidden");
+});
+
+// Close modal via X button or OK button
+closeBtn.addEventListener("click", () => modal.classList.add("hidden"));
+okBtn.addEventListener("click", () => modal.classList.add("hidden"));
+
+// Close modal by clicking outside content
+window.addEventListener("click", (e) => {
+  if (e.target === modal) modal.classList.add("hidden");
+});
+</script>
   </div>
 
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
