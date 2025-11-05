@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { readExistingEventsData, generateUID, formatDate, normalizeEventData } from './add-event.js';
+import { readExistingEventsData, generateEventUID, formatDate, normalizeEventData } from './add-event.js';
 
 describe('readExistingEventsData', () => {
 	let mockOctokit;
@@ -53,24 +53,24 @@ describe('readExistingEventsData', () => {
 	});
 });
 
-describe('generateUID', () => {
+describe('generateEventUID', () => {
 	it('should normalize Polish characters and format UID', () => {
 		const date = new Date(2025, 9, 24); // YYYY-MM-DD: 2025-10-24
-		const uid = generateUID('Zażółć gęślą jaźń', date);
+		const uid = generateEventUID('Zażółć gęślą jaźń', date);
 		expect(uid).toBe('zazolc-gesla-jazn-24-10-2025');
 	});
 
 	it('should crop title longer than 40 chars', () => {
 		const longTitle = 'A'.repeat(50);
 		const date = new Date(2025, 9, 24);
-		const uid = generateUID(longTitle, date);
+		const uid = generateEventUID(longTitle, date);
 		expect(uid).toBe('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa-24-10-2025');
 	});
 
 	it('should replace spaces and special characters with hyphens', () => {
 		const title = 'Hello, World! This is @Test';
 		const date = new Date(2025, 9, 24);
-		const uid = generateUID(title, date);
+		const uid = generateEventUID(title, date);
 		expect(uid).toBe('hello-world-this-is-test-24-10-2025');
 	});
 });

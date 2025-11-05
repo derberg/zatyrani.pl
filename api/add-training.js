@@ -26,6 +26,7 @@ export default async function handler(req, res) {
 
     // przygotuj obiekt treningu
     const trainingData = {
+      uid: generateTrainingUID(type, datetime, location, distance, pace),
       type,
       datetime: formatDateTime(datetime),
       location,
@@ -73,4 +74,39 @@ function formatDateTime(dateTimeString) {
   const hours = String(d.getHours()).padStart(2, "0");
   const mins = String(d.getMinutes()).padStart(2, "0");
   return `${day}/${month}/${year} ${hours}:${mins}`;
+}
+
+function generateTrainingUID(type, datetime, location, distance, pace) {
+  const d = new Date(datetime);
+  const day = String(d.getDate());
+  const month = String(d.getMonth() + 1);
+  const year = d.getFullYear();
+  const hours = String(d.getHours());
+  const mins = String(d.getMinutes());
+
+  const polishMap = {
+    'ą': 'a', 'ć': 'c', 'ę': 'e', 'ł': 'l', 'ń': 'n', 'ó': 'o', 'ś': 's', 'ż': 'z', 'ź': 'z',
+    'Ą': 'a', 'Ć': 'c', 'Ę': 'e', 'Ł': 'l', 'Ń': 'n', 'Ó': 'o', 'Ś': 's', 'Ż': 'z', 'Ź': 'z'
+  };
+
+  const normalizedLocation = location
+    .toString()
+    .replace(/[ąćęłńóśżźĄĆĘŁŃÓŚŻŹ]/g, match => polishMap[match])
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+
+  const uid = [
+    type.toLowerCase(),
+    day,
+    month,
+    year,
+    hours,
+    mins,
+    normalizedLocation,
+    distance,
+    pace,
+  ].join("-");
+
+  return uid;
 }
