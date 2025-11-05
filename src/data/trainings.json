@@ -118,15 +118,5 @@
     "phone": "784640977",
     "distance": 10,
     "pace": 7
-  },
-  {
-    "type": "bieg",
-    "datetime": "08/11/2025 07:30",
-    "location": "Wilcza – Cmentarz",
-    "locationLink": "https://maps.app.goo.gl/NwiX62pvY3kmyV3M8",
-    "comment": "Trochę szybsze wybieganie",
-    "phone": "791997150",
-    "distance": 15,
-    "pace": 5
   }
 ]
