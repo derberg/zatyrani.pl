@@ -130,5 +130,16 @@
     "distance": 10,
     "pace": 7,
     "uid": "bieg-04-11-2025-19-00-nieborowice-ppk-10-7"
+  },
+  {
+    "uid": "nordic-walking-3-11-2025-11-33-nieborowice-krzyz-10-7",
+    "type": "nordic walking",
+    "datetime": "03/11/2025 11:33",
+    "location": "Nieborowice – Krzyż",
+    "locationLink": "https://maps.app.goo.gl/4t3qjRxQpny7Ln6KA",
+    "comment": "",
+    "phone": "784640977",
+    "distance": 10,
+    "pace": 7
   }
 ]
