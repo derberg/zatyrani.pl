@@ -69,12 +69,17 @@ const formatDateForInput = (dateString) => {
           <input type="url" name="registration" class="mt-1 block w-full rounded-md border-purple-300 shadow-sm border-2 focus:border-purple-500 focus:ring-purple-500" value={event?.registrationLink}>
         </div>
     
-            <button type="submit" class="w-full bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700">
-              {submitButtonText}
-            </button>
-                            <a href={`/wydarzenia-edytuj/${event?.uid}`} class="bg-gray-400 text-white px-4 py-2 rounded-md hover:bg-gray-500 text-center mt-2 inline-block mr-auto">
-                              Wróć
-                            </a>          </div>    </form>
+                    <button type="submit" class="w-full bg-purple-600 text-white px-4 py-2 rounded-full hover:bg-purple-700">
+    
+                      {submitButtonText}
+    
+                    </button>
+    
+                    <a href={`/wydarzenia-edytuj/${event?.uid}`} class="bg-gray-400 text-white px-4 py-2 rounded-full hover:bg-gray-500 text-center mt-2 inline-block mr-auto">
+    
+                      Wróć
+    
+                    </a>          </div>    </form>
 <script define:vars={{ initialEvent: event }}>
   window.addEventListener('DOMContentLoaded', () => {
     const textarea = document.getElementById("descriptionn");
