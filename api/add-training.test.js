@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { generateTrainingUID } from './add-training.js';
+import { generateTrainingUID, formatDateTime } from './add-training.js';
 
 describe('generateTrainingUID', () => {
   it('should generate a UID with a standard case', () => {
@@ -20,5 +20,17 @@ describe('generateTrainingUID', () => {
   it('should handle a different date format', () => {
     const uid = generateTrainingUID('nordic walking', '12/05/2025 18:30', 'Nieborowice – Krzyż', 8, 11);
     expect(uid).toBe('nordic-walking-12-05-2025-18-30-nieborowice-krzyz-8-11');
+  });
+});
+
+describe('formatDateTime', () => {
+  it('should format a standard date string correctly', () => {
+    const result = formatDateTime('2025-10-27T12:00:00Z');
+    expect(result).toBe('27/10/2025 12:00');
+  });
+
+  it('should pad single-digit days and months with zeros', () => {
+    const result = formatDateTime('2025-01-05T08:05:00Z');
+    expect(result).toBe('05/01/2025 08:05');
   });
 });
