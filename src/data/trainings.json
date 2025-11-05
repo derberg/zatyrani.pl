@@ -7,7 +7,8 @@
     "comment": "",
     "phone": "784640977",
     "distance": 20,
-    "pace": 7
+    "pace": 7,
+    "uid": "bieg-10-05-2025-08-00-stanica-stacja-20-7"
   },
   {
     "type": "bieg",
@@ -17,7 +18,8 @@
     "comment": "NieboCross wzdłuż Bierawki",
     "phone": "784640977",
     "distance": 10,
-    "pace": 7
+    "pace": 7,
+    "uid": "bieg-13-05-2025-19-00-nieborowice-ppk-10-7"
   },
   {
     "type": "bieg",
@@ -27,7 +29,8 @@
     "comment": "Długi półmaraton wzdłuż Bierawki.",
     "phone": "784640977",
     "distance": 24,
-    "pace": 7
+    "pace": 7,
+    "uid": "bieg-17-05-2025-07-00-nieborowice-ppk-24-7"
   },
   {
     "type": "nordic walking",
@@ -37,7 +40,8 @@
     "comment": "Skrzyżowanie cicha/zalesie ",
     "phone": "663473341",
     "distance": 8,
-    "pace": 11
+    "pace": 11,
+    "uid": "nordic walking-12-05-2025-18-30-nieborowice-krzyz-8-11"
   },
   {
     "type": "bieg",
@@ -47,7 +51,8 @@
     "comment": "LeboCross podbiegi",
     "phone": "784640977",
     "distance": 10,
-    "pace": 7
+    "pace": 7,
+    "uid": "bieg-15-05-2025-19-15-leboszowice-szwedownik-10-7"
   },
   {
     "type": "bieg",
@@ -57,7 +62,8 @@
     "comment": "Spokojne rozbieganie",
     "phone": "513592253",
     "distance": 10,
-    "pace": 6
+    "pace": 6,
+    "uid": "bieg-07-06-2025-08-00-wilcza-cmentarz-10-6"
   },
   {
     "type": "bieg",
@@ -67,7 +73,8 @@
     "comment": "Rekonesans trasy Wilczego Półmaratonu ",
     "phone": "513592253",
     "distance": 15,
-    "pace": 6
+    "pace": 6,
+    "uid": "bieg-27-06-2025-18-30-ochojec-azyl-zatyranych-15-6"
   },
   {
     "type": "bieg",
@@ -77,7 +84,8 @@
     "comment": "",
     "phone": "784640977",
     "distance": 10,
-    "pace": 7
+    "pace": 7,
+    "uid": "bieg-02-09-2025-19-00-nieborowice-ppk-10-7"
   },
   {
     "type": "bieg",
@@ -87,7 +95,8 @@
     "comment": "",
     "phone": "513592253",
     "distance": 10,
-    "pace": 6
+    "pace": 6,
+    "uid": "bieg-11-09-2025-19-00-wilcza-cmentarz-10-6"
   },
   {
     "type": "bieg",
@@ -97,7 +106,8 @@
     "comment": "",
     "phone": "513592253",
     "distance": 12,
-    "pace": 6
+    "pace": 6,
+    "uid": "bieg-09-10-2025-18-00-wilcza-cmentarz-12-6"
   },
   {
     "type": "bieg",
@@ -107,7 +117,8 @@
     "comment": "Będzie dużo podbiegów :)",
     "phone": "784640977",
     "distance": 10,
-    "pace": 8
+    "pace": 8,
+    "uid": "bieg-25-10-2025-08-00-leboszowice-szwedownik-10-8"
   },
   {
     "type": "bieg",
@@ -117,6 +128,7 @@
     "comment": "",
     "phone": "784640977",
     "distance": 10,
-    "pace": 7
+    "pace": 7,
+    "uid": "bieg-04-11-2025-19-00-nieborowice-ppk-10-7"
   }
 ]
