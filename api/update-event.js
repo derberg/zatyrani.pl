@@ -1,5 +1,6 @@
 import { Octokit } from "@octokit/rest";
 import { createOrUpdateTextFile } from "@octokit/plugin-create-or-update-text-file";
+import { readExistingEventsData, updateEventsFile } from "../src/utils/events.js";
 
 const ExtendedOctokit = Octokit.plugin(createOrUpdateTextFile);
 
@@ -19,15 +20,7 @@ export default async function handler(req, res) {
       auth: process.env.GITHUB_TOKEN,
     });
 
-    // Fetch existing events
-    const { data: currentFile } = await octokit.repos.getContent({
-      owner: "derberg",
-      repo: "zatyrani.pl",
-      path: "src/data/events.json",
-    });
-
-    const raw = Buffer.from(currentFile.content, "base64").toString();
-    let events = JSON.parse(raw || "[]");
+    let events = await readExistingEventsData(octokit);
 
     // Find the index of the event to update
     const eventIndex = events.findIndex(event => event.uid === uid);
@@ -47,15 +40,11 @@ export default async function handler(req, res) {
       registrationLink: registration,
     };
 
-    // Update the events.json file
-    await octokit.createOrUpdateTextFile({
-      owner: "derberg",
-      repo: "zatyrani.pl",
-      path: "src/data/events.json",
-      message: `chore(events): updated event with UID ${uid}`,
-      content: JSON.stringify(events, null, 2),
-      sha: currentFile.sha, // Required for updating existing file
-    });
+    await updateEventsFile(
+      octokit,
+      `chore(events): updated event with UID ${uid}`,
+      JSON.stringify(events, null, 2)
+    );
 
     res.status(200).json({ success: true, message: `Event with UID ${uid} updated successfully.` });
   } catch (error) {
