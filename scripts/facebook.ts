@@ -134,7 +134,7 @@ async function getPagePosts(pageToken: string): Promise<NewsItem[]> {
 			if (post.full_picture && post.created_time) {
 				const folderName = new Date(post.created_time)
 					.toISOString()
-					.replace(/[^a-zA-Z0-9\-]/g, "");
+					.replace(/[^a-zA-Z0-9-]/g, "");
 				const dirPath = path.join(__dirname, "public", "facebook", folderName);
 
 				await fsPromises.mkdir(dirPath, { recursive: true });

@@ -12,7 +12,10 @@
 		"build:scripts:facebook": "tsc --project ./tsconfig.scripts.json",
 		"fetch:facebook": "npm run build:scripts:facebook && node ./dist/facebook.js",
 		"test": "vitest run",
-		"test:watch": "vitest"
+		"test:watch": "vitest",
+		"lint": "eslint .",
+		"lint:fix": "eslint . --fix",
+		"prepare": "husky"
 	},
 	"dependencies": {
 		"@astrojs/tailwind": "^5.1.0",
@@ -24,7 +27,13 @@
 		"tailwindcss": "^3.4.1"
 	},
 	"devDependencies": {
+		"@eslint/js": "^9.39.1",
 		"@types/node": "^22.10.2",
+		"eslint": "^9.39.1",
+		"globals": "^16.5.0",
+		"husky": "^9.1.7",
+		"lint-staged": "^16.2.6",
+		"typescript-eslint": "^8.46.3",
 		"vitest": "^4.0.2"
 	}
 }
