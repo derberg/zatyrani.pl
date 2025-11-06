@@ -43,7 +43,7 @@ export function formatDate(dateString) {
 	return `${day}/${month}/${year}`;
 }
 
-export function generateUID(title, date) {
+export function generateEventUID(title, date) {
 	// Limit title to 40 characters
 	let croppedTitle = title.slice(0, 40);
 
@@ -72,7 +72,7 @@ export function normalizeEventData(body) {
 		description: description,
 		image: "",
 		location: location,
-		uid: generateUID(name, date)
+		uid: generateEventUID(name, date)
 	};
 }
 
