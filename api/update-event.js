@@ -43,7 +43,7 @@ export default async function handler(req, res) {
     await updateEventsFile(
       octokit,
       `chore(events): updated event with UID ${uid}`,
-      JSON.stringify(events, null, 2)
+      events
     );
 
     res.status(200).json({ success: true, message: `Event with UID ${uid} updated successfully.` });

@@ -67,7 +67,7 @@ export default async function handler(req, res) {
 		await updateEventsFile(
 			octokit,
 			`chore(events): added event ${eventsData.title}`,
-			JSON.stringify(events, null, 2)
+			events
 		);
 
 		res.status(200).json({ success: true });

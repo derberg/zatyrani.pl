@@ -43,12 +43,11 @@ export default async function handler(req, res) {
     }
 
     // Update the events.json file
-    		await updateEventsFile(
-    			octokit,
-    			`chore(events): deleted event with UID ${uid}`,
-    			JSON.stringify(updatedEvents, null, 2)
-    		);
-    res.status(200).json({ success: true, message: `Event with UID ${uid} deleted successfully.` });
+    				await updateEventsFile(
+    					octokit,
+    					`chore(events): deleted event with UID ${uid}`,
+    					updatedEvents
+    				);    res.status(200).json({ success: true, message: `Event with UID ${uid} deleted successfully.` });
   } catch (error) {
     console.error("Error deleting event:", error);
     res.status(500).json({ error: "Failed to process request" });

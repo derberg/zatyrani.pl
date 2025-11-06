@@ -23,7 +23,7 @@ export async function updateEventsFile(octokit, message, content) {
         repo: "zatyrani.pl",
         path: "src/data/events.json",
         message,
-        content,
+        content: JSON.stringify(content, null, 2),
     });
 }
 
