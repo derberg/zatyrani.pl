@@ -8,7 +8,7 @@ export default tseslint.config(
   ...tseslint.configs.recommended,
   ...astro.configs["flat/recommended"],
   {
-    ignores: ["src/pages/rajdnw.astro"], // Temporarily ignore parsing issues in this file
+    ignores: ["dist", "src/pages/rajdnw.astro"], // Temporarily ignore parsing issues in this file
   },
   {
     languageOptions: {
