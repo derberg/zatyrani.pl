@@ -77,4 +77,4 @@ export function normalizeEventData(body) {
 }
 
 
-import { readExistingEventsData, updateEventsFile } from "./utils.js";
+import { readExistingEventsData, updateEventsFile } from "../src/utils/events.js";

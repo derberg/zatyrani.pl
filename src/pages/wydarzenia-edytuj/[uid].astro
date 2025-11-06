@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import PageHeader from '../../components/PageHeader.astro';
 import ConfirmModal from '../../components/ConfirmModal.astro';
+import EventForm from '../../components/EventForm.astro';
 import { events } from '../../data/events';
 
 export async function getStaticPaths() {
@@ -27,7 +28,7 @@ const formatDate = (dateString) => {
     subtitle="Usuń lub zmodyfikuj istniejące wydarzenie."
   />
 
-  <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+  <div id="view-mode" class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
     <div class="bg-white shadow-md rounded-lg p-6">
       <h2 class="text-2xl font-bold mb-4">{event.title}</h2>
       <p class="text-gray-700 mb-2"><strong>Data:</strong> {formatDate(event.date)}</p>
@@ -42,12 +43,12 @@ const formatDate = (dateString) => {
         Usuń wydarzenie
       </button>
 
-      <a
-        href={`/wydarzenia-modyfikuj/${event.uid}`}
+      <button
+        id="edit-event-button"
         class="ml-4 bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline inline-block"
       >
         Edytuj wydarzenie
-      </a>
+      </button>
 
       <a
         href="/wydarzenia"
@@ -60,6 +61,19 @@ const formatDate = (dateString) => {
     </div>
   </div>
 
+  <div id="edit-mode" class="hidden">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <p>
+          Wypełnij poniższy formularz, aby zaktualizować wydarzenie. Pamiętaj, że wszystkie pola oznaczone gwiazdką <span class="text-red-600">*</span> są obowiązkowe.
+      </p>
+    </div>
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-0 mb-4">
+      <hr class="my-4 border-t border-gray-300" />
+    </div>
+    
+    <EventForm event={event} />
+  </div>
+
   <ConfirmModal
     title="Potwierdzenie usunięcia"
     message={`Czy na pewno chcesz usunąć wydarzenie: ${event.title}?`}
@@ -70,6 +84,9 @@ const formatDate = (dateString) => {
     const confirmButton = document.getElementById('confirm-button');
     const cancelButton = document.getElementById('cancel-button');
     const messageDiv = document.getElementById('message');
+    const viewMode = document.getElementById('view-mode');
+    const editMode = document.getElementById('edit-mode');
+    const editButton = document.getElementById('edit-event-button');
 
     document.getElementById('delete-event-button').addEventListener('click', () => {
       modal.classList.remove('hidden');
@@ -109,4 +126,10 @@ const formatDate = (dateString) => {
         messageDiv.textContent = 'Wystąpił błąd sieci lub serwera.';
       }
     });
+
+    editButton.addEventListener('click', () => {
+      viewMode.classList.add('hidden');
+      editMode.classList.remove('hidden');
+    });
   </script>
+</Layout>

@@ -1,7 +1,7 @@
 import { Octokit } from "@octokit/rest";
 import { createOrUpdateTextFile } from "@octokit/plugin-create-or-update-text-file";
 
-import { readExistingEventsData, updateEventsFile } from "./utils.js";
+import { readExistingEventsData, updateEventsFile } from "../src/utils/events.js";
 
 const ExtendedOctokit = Octokit.plugin(createOrUpdateTextFile);
 
