@@ -38,15 +38,18 @@ const navItems = [
     <!-- Google Analytics -->
     <script is:inline>
       window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+      window.dataLayer.push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
     </script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=GTM-K8J5JRX"></script>
   </head>
   <body class="min-h-screen bg-white">
     <noscript>
-     <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K8J5JRX"
-         height="0" width="0" style="display:none;visibility:hidden"></iframe>
-   </noscript>
+      <iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-K8J5JRX"
+        height="0"
+        width="0"
+        style="display:none;visibility:hidden"></iframe>
+    </noscript>
 
     <header class="border-b">
       <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -58,11 +61,7 @@ const navItems = [
           </div>
           <div class="sm:hidden">
             <!-- Mobile Hamburger Icon -->
-            <button
-              id="menuButton"
-              title="menu"
-              class="text-gray-900 focus:outline-none"
-            >
+            <button id="menuButton" title="menu" class="text-gray-900 focus:outline-none">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -104,10 +103,7 @@ const navItems = [
         </div>
 
         <!-- Mobile Navigation Items (hidden by default) -->
-        <div
-          id="mobileNav"
-          class="hidden sm:hidden flex-col space-y-4 bg-white shadow-md p-4"
-        >
+        <div id="mobileNav" class="hidden sm:hidden flex-col space-y-4 bg-white shadow-md p-4">
           {
             navItems.map((item) => (
               <a
@@ -135,8 +131,7 @@ const navItems = [
       <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <div class="text-center">
           <p class="text-sm text-gray-500">
-            © 2025 Zatyrani Gratisownia.pl Gmina Pilchowice. All rights
-            reserved.
+            © 2025 Zatyrani Gratisownia.pl Gmina Pilchowice. All rights reserved.
             <a
               href="Statut-Stowarzyszenia-ZATYRANI.docx"
               class="text-blue-600 hover:text-blue-700 block"

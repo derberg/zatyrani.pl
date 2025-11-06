@@ -1,13 +1,13 @@
 ---
 const locations = [
-  { name: 'Nieborowice – PPK', link: 'https://maps.app.goo.gl/cUnjGVWuHfnJDQTL8' },
-  { name: 'Nieborowice – Krzyż', link: 'https://maps.app.goo.gl/4t3qjRxQpny7Ln6KA' },
-  { name: 'Wilcza – Cmentarz', link: 'https://maps.app.goo.gl/NwiX62pvY3kmyV3M8' },
-  { name: 'Ochojec – Azyl Zatyranych', link: 'https://maps.app.goo.gl/VdEFVwTmG6TRd4M96' },
-  { name: 'Stanica – Stacja', link: 'https://maps.app.goo.gl/LGKq1drxyXzfK9bi7' },
-  { name: 'Leboszowice – Szwedownik', link: 'https://maps.app.goo.gl/UA4atBHW9mkCv9A1A' },
-  { name: 'Pilchowice – Damrota', link: 'https://maps.app.goo.gl/XnmUCsTWhwotmXr98' },
-  { name: 'Pilchowice – Wielopole', link: 'https://maps.app.goo.gl/fTGv37UHmFpk3zL57' },
+  { name: "Nieborowice – PPK", link: "https://maps.app.goo.gl/cUnjGVWuHfnJDQTL8" },
+  { name: "Nieborowice – Krzyż", link: "https://maps.app.goo.gl/4t3qjRxQpny7Ln6KA" },
+  { name: "Wilcza – Cmentarz", link: "https://maps.app.goo.gl/NwiX62pvY3kmyV3M8" },
+  { name: "Ochojec – Azyl Zatyranych", link: "https://maps.app.goo.gl/VdEFVwTmG6TRd4M96" },
+  { name: "Stanica – Stacja", link: "https://maps.app.goo.gl/LGKq1drxyXzfK9bi7" },
+  { name: "Leboszowice – Szwedownik", link: "https://maps.app.goo.gl/UA4atBHW9mkCv9A1A" },
+  { name: "Pilchowice – Damrota", link: "https://maps.app.goo.gl/XnmUCsTWhwotmXr98" },
+  { name: "Pilchowice – Wielopole", link: "https://maps.app.goo.gl/fTGv37UHmFpk3zL57" },
 ];
 ---
 
@@ -16,15 +16,29 @@ const locations = [
     <!-- Rodzaj treningu -->
     <div>
       <label class="block text-sm font-medium text-gray-700">
-        <strong>Rodzaj treningu</strong> <span class="text-red-600">*</span>
+        <strong>Rodzaj treningu</strong>
+        <span class="text-red-600">*</span>
       </label>
       <div class="mt-1 flex space-x-4">
         <label class="inline-flex items-center">
-          <input type="radio" name="type" value="bieg" checked required class="form-radio text-purple-600" />
+          <input
+            type="radio"
+            name="type"
+            value="bieg"
+            checked
+            required
+            class="form-radio text-purple-600"
+          />
           <span class="ml-2 text-sm text-gray-500">Bieg</span>
         </label>
         <label class="inline-flex items-center">
-          <input type="radio" name="type" value="nordic walking" required class="form-radio text-purple-600" />
+          <input
+            type="radio"
+            name="type"
+            value="nordic walking"
+            required
+            class="form-radio text-purple-600"
+          />
           <span class="ml-2 text-sm text-gray-500">Nordic Walking</span>
         </label>
       </div>
@@ -33,7 +47,8 @@ const locations = [
     <!-- Data i czas -->
     <div>
       <label for="datetime" class="block text-sm font-medium text-gray-700">
-        <strong>Data i czas</strong> <span class="text-red-600">*</span>
+        <strong>Data i czas</strong>
+        <span class="text-red-600">*</span>
       </label>
       <input
         type="datetime-local"
@@ -47,7 +62,8 @@ const locations = [
     <!-- Lokalizacja -->
     <div>
       <label for="location" class="block text-sm font-medium text-gray-700">
-        <strong>Lokalizacja</strong> <span class="text-red-600">*</span>
+        <strong>Lokalizacja</strong>
+        <span class="text-red-600">*</span>
       </label>
       <select
         id="location"
@@ -56,9 +72,13 @@ const locations = [
         class="mt-1 block w-full rounded-md border-purple-300 border-2 shadow-sm focus:border-purple-500 focus:ring-purple-500 text-gray-500"
       >
         <option value="" disabled selected class="text-gray-500">Wybierz lokalizację</option>
-        {locations.map(loc => (
-          <option value={loc.name} data-link={loc.link}>{loc.name}</option>
-        ))}
+        {
+          locations.map((loc) => (
+            <option value={loc.name} data-link={loc.link}>
+              {loc.name}
+            </option>
+          ))
+        }
       </select>
       <input type="hidden" name="locationLink" id="locationLink" />
     </div>
@@ -80,7 +100,8 @@ const locations = [
     <!-- Numer kontaktowy -->
     <div>
       <label for="phone" class="block text-sm font-medium text-gray-700">
-        <strong>Numer kontaktowy prowadzącego</strong> <span class="text-red-600">*</span>
+        <strong>Numer kontaktowy prowadzącego</strong>
+        <span class="text-red-600">*</span>
       </label>
       <input
         type="tel"
@@ -97,7 +118,8 @@ const locations = [
     <!-- Planowany dystans -->
     <div>
       <label for="distance" class="block text-sm font-medium text-gray-700">
-        <strong>Planowany dystans (km)</strong> <span class="text-red-600">*</span>
+        <strong>Planowany dystans (km)</strong>
+        <span class="text-red-600">*</span>
       </label>
       <input
         type="number"
@@ -115,7 +137,8 @@ const locations = [
     <!-- Planowane tempo -->
     <div>
       <label for="pace" class="block text-sm font-medium text-gray-700">
-        <strong>Planowane tempo (min/km)</strong> <span class="text-red-600">*</span>
+        <strong>Planowane tempo (min/km)</strong>
+        <span class="text-red-600">*</span>
       </label>
       <input
         type="number"
@@ -144,56 +167,56 @@ const locations = [
   </div>
 </form>
 
-<script type="module" client:load>
-  const form = document.getElementById('trainingForm');
+<script type="module">
+  const form = document.getElementById("trainingForm");
   const submitBtn = form.querySelector('button[type="submit"]');
-  const select = document.getElementById('location');
-  const linkInput = document.getElementById('locationLink');
-  const msgContainer = document.getElementById('msgContainer');
+  const select = document.getElementById("location");
+  const linkInput = document.getElementById("locationLink");
+  const msgContainer = document.getElementById("msgContainer");
 
   // update hidden link on selection change
-  select.addEventListener('change', () => {
+  select.addEventListener("change", () => {
     const opt = select.selectedOptions[0];
-    linkInput.value = opt?.dataset.link || '';
+    linkInput.value = opt?.dataset.link || "";
   });
 
   // reset form and populate link on load
   form.reset();
-  select.dispatchEvent(new Event('change'));
+  select.dispatchEvent(new Event("change"));
 
-  form.addEventListener('submit', async (e) => {
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
     if (!form.checkValidity()) {
       form.reportValidity();
       return;
     }
     submitBtn.disabled = true;
-    msgContainer.innerHTML = '';
+    msgContainer.innerHTML = "";
 
     // build data, always include link
     const formData = new FormData(form);
-    formData.set('locationLink', linkInput.value);
+    formData.set("locationLink", linkInput.value);
     const data = Object.fromEntries(formData.entries());
 
     try {
-      const res = await fetch('/api/add-training', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch("/api/add-training", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
-      if (!res.ok) throw new Error('Server error');
+      if (!res.ok) throw new Error("Server error");
 
-      const successMsg = document.createElement('div');
-      successMsg.textContent = 'Trening został dodany!';
-      successMsg.className = 'mt-2 p-2 bg-green-100 text-green-800 rounded-md';
+      const successMsg = document.createElement("div");
+      successMsg.textContent = "Trening został dodany!";
+      successMsg.className = "mt-2 p-2 bg-green-100 text-green-800 rounded-md";
       msgContainer.appendChild(successMsg);
 
       form.reset();
-      select.dispatchEvent(new Event('change'));
-    } catch (err) {
-      const errorMsg = document.createElement('div');
-      errorMsg.textContent = 'Wystąpił błąd. Spróbuj ponownie.';
-      errorMsg.className = 'mt-2 p-2 bg-red-100 text-red-800 rounded-md';
+      select.dispatchEvent(new Event("change"));
+    } catch {
+      const errorMsg = document.createElement("div");
+      errorMsg.textContent = "Wystąpił błąd. Spróbuj ponownie.";
+      errorMsg.className = "mt-2 p-2 bg-red-100 text-red-800 rounded-md";
       msgContainer.appendChild(errorMsg);
     } finally {
       submitBtn.disabled = false;

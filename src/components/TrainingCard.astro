@@ -1,12 +1,16 @@
 ---
-import type { Training } from '../data/trainings';
-const { type, datetime, location, locationLink, comment, phone, distance, pace } = Astro.props as Training;
+import type { Training } from "../data/trainings";
+const { type, datetime, location, locationLink, comment, phone, distance, pace } =
+  Astro.props as Training;
 ---
 
 <section class="mb-12">
   <h2 class="text-3xl font-bold mb-4">Nadchodzące treningi</h2>
 
-  <article data-datetime={datetime} class="border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition">
+  <article
+    data-datetime={datetime}
+    class="border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition"
+  >
     <header class="flex justify-between items-center mb-2">
       <span class="text-xs font-semibold uppercase text-purple-600">{type}</span>
       <time datetime={datetime} class="text-sm text-gray-500">{datetime}</time>
@@ -14,14 +18,17 @@ const { type, datetime, location, locationLink, comment, phone, distance, pace }
 
     <h3 class="text-lg font-medium text-gray-800 mb-1">{location}</h3>
     <p>
-      <a href={locationLink} target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline text-sm">
+      <a
+        href={locationLink}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-blue-600 hover:underline text-sm"
+      >
         Zobacz na mapie
       </a>
     </p>
 
-    {comment && (
-      <p class="mt-2 text-sm text-gray-600">{comment}</p>
-    )}
+    {comment && <p class="mt-2 text-sm text-gray-600">{comment}</p>}
 
     <div class="mt-4 grid grid-cols-2 gap-2 text-sm text-gray-700">
       <div><strong>Dystans:</strong> {distance} km</div>
@@ -36,27 +43,27 @@ const { type, datetime, location, locationLink, comment, phone, distance, pace }
 
   <!-- Inline filter script: hide past trainings and section if empty -->
   <script is:inline type="text/javascript">
-    (function() {
+    (function () {
       const script = document.currentScript;
       if (!script) return;
       const article = script.previousElementSibling;
       if (!article) return;
-      const raw = article.getAttribute('data-datetime');
+      const raw = article.getAttribute("data-datetime");
       if (!raw) return;
       const [dateStr, timeStr] = raw.trim().split(/\s+/);
-      const [day, month, year] = dateStr.split('/').map(Number);
-      const [hour, minute] = timeStr.split(':').map(Number);
+      const [day, month, year] = dateStr.split("/").map(Number);
+      const [hour, minute] = timeStr.split(":").map(Number);
       const eventTs = new Date(year, month - 1, day, hour, minute, 0).getTime();
       // Remove past event
       if (eventTs < Date.now()) {
         article.remove();
       }
       // After removal (or if valid), check if any articles remain
-      const section = script.closest('section');
+      const section = script.closest("section");
       if (section) {
-        const remaining = section.querySelectorAll('article[data-datetime]');
+        const remaining = section.querySelectorAll("article[data-datetime]");
         if (remaining.length === 0) {
-          section.style.display = 'none';
+          section.style.display = "none";
         }
       }
       script.remove();
