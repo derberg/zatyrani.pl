@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { readExistingEventsData, generateUID, formatDate, normalizeEventData } from '../src/utils/events.js';
+import { readExistingEventsData } from '../src/utils/events.js';
+import { generateUID, formatDate, normalizeEventData } from './add-event.js';
 
 describe('readExistingEventsData', () => {
 	let mockOctokit;
