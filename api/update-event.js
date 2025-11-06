@@ -4,7 +4,7 @@ import { createOrUpdateTextFile } from "@octokit/plugin-create-or-update-text-fi
 const ExtendedOctokit = Octokit.plugin(createOrUpdateTextFile);
 
 export default async function handler(req, res) {
-  if (req.method !== "POST") {
+  if (req.method !== "PUT") {
     return res.status(405).json({ error: "Method not allowed" });
   }
 

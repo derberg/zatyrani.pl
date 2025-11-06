@@ -19,13 +19,11 @@ export default async function handler(req, res) {
 
 		events.push(eventsData);
 
-		await octokit.createOrUpdateTextFile({
-			owner: "derberg",
-			repo: "zatyrani.pl",
-			path: "src/data/events.json",
-			content: JSON.stringify(events, null, 2),
-			message: `chore(events): added event ${eventsData.title}`,
-		});
+		await updateEventsFile(
+			octokit,
+			`chore(events): added event ${eventsData.title}`,
+			JSON.stringify(events, null, 2)
+		);
 
 		res.status(200).json({ success: true });
 	} catch (error) {
@@ -79,19 +77,4 @@ export function normalizeEventData(body) {
 }
 
 
-export async function readExistingEventsData(octokit) {
-
-    const { data: currentFile } = await octokit.repos.getContent({
-        owner: "derberg",
-        repo: "zatyrani.pl",
-        path: "src/data/events.json",
-    });
-
-    let events = [];
-    if (currentFile && currentFile.content) {
-        const decoded = Buffer.from(currentFile.content, "base64").toString();
-        events = JSON.parse(decoded);
-    }
-
-    return events;
-}
+import { readExistingEventsData, updateEventsFile } from "./utils.js";

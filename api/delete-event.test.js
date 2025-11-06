@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { deleteEventByUid } from './edit-event.js';
+import { deleteEventByUid } from './delete-event.js';
 
 describe('deleteEventByUid', () => {
   const events = [

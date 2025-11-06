@@ -1,6 +1,8 @@
 import { Octokit } from "@octokit/rest";
 import { createOrUpdateTextFile } from "@octokit/plugin-create-or-update-text-file";
 
+import { readExistingEventsData, updateEventsFile } from "./utils.js";
+
 const ExtendedOctokit = Octokit.plugin(createOrUpdateTextFile);
 
 export function deleteEventByUid(events, uid) {
@@ -31,14 +33,7 @@ export default async function handler(req, res) {
     });
 
     // Fetch existing events
-    const { data: currentFile } = await octokit.repos.getContent({
-      owner: "derberg",
-      repo: "zatyrani.pl",
-      path: "src/data/events.json",
-    });
-
-    const raw = Buffer.from(currentFile.content, "base64").toString();
-    let events = JSON.parse(raw || "[]");
+    let events = await readExistingEventsData(octokit);
 
     // Filter out the event with the matching UID
     const updatedEvents = deleteEventByUid(events, uid);
@@ -48,15 +43,11 @@ export default async function handler(req, res) {
     }
 
     // Update the events.json file
-    await octokit.createOrUpdateTextFile({
-      owner: "derberg",
-      repo: "zatyrani.pl",
-      path: "src/data/events.json",
-      message: `chore(events): deleted event with UID ${uid}`,
-      content: JSON.stringify(updatedEvents, null, 2),
-      sha: currentFile.sha, // Required for updating existing file
-    });
-
+    		await updateEventsFile(
+    			octokit,
+    			`chore(events): deleted event with UID ${uid}`,
+    			JSON.stringify(updatedEvents, null, 2)
+    		);
     res.status(200).json({ success: true, message: `Event with UID ${uid} deleted successfully.` });
   } catch (error) {
     console.error("Error deleting event:", error);
