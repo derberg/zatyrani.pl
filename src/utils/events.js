@@ -1,5 +1,3 @@
-import { Octokit } from "@octokit/rest";
-
 export async function readExistingEventsData(octokit) {
 
     const { data: currentFile } = await octokit.repos.getContent({
