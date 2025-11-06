@@ -1,9 +1,9 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import { participants as rawParticipants } from '../data/rajdnw-participants';
+import Layout from "../layouts/Layout.astro";
+import { participants as rawParticipants } from "../data/rajdnw-participants";
 
-const eventDate = '26.04.2025';
-const eventNumber = 'III';
+const eventDate = "26.04.2025";
+const eventNumber = "III";
 const maxParticipants = 55;
 
 const participants = rawParticipants.sort((a, b) => a.lastname.localeCompare(b.lastname));
@@ -14,18 +14,14 @@ const registeredCount = participants.length;
   <!-- Hero Section -->
   <div class="relative h-[60vh] flex items-center justify-center text-white">
     <div class="absolute inset-0">
-      <img
-        src="rajdnw/2024/header.webp"
-        alt="Tło rajdu"
-        class="w-full h-full object-cover"
-      />
+      <img src="rajdnw/2024/header.webp" alt="Tło rajdu" class="w-full h-full object-cover" />
       <div class="absolute inset-0 bg-black/50"></div>
     </div>
     <div class="relative text-center space-y-4">
       <div class="px-8 rounded-lg mx-auto max-w-full">
         <h1 class="text-5xl font-bold text-white">{eventNumber} Zatyrany Rajd Nordic Walking</h1>
       </div>
-      
+
       <div class="px-8 py-4 rounded-lg mx-auto inline-block">
         <h1 class="text-3xl font-bold text-white">{eventDate}</h1>
       </div>
@@ -35,22 +31,26 @@ const registeredCount = participants.length;
   <section class="mt-16">
     <h2 id="zapisy" class="text-3xl font-bold text-center">Lista Startowa</h2>
     <p class="text-center text-lg mt-2">Zapisanych: {registeredCount} / {maxParticipants}</p>
-    
+
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <p>
-        Jeżeli chcesz wprowadzić zmiany w liście startowej, skontaktuj się z nami pod adresem e-mail:     
+        Jeżeli chcesz wprowadzić zmiany w liście startowej, skontaktuj się z nami pod adresem
+        e-mail:
         <a href="mailto:lpgornicki@gmail.com" class="text-purple-600 hover:text-purple-800">
           lpgornicki@gmail.com
         </a>
       </p>
       <p>
-        Od momentu rejestracji do pojawienia się na liście startowej może minąć minuta lub dwie. Proszę o cierpliwość i sprawdzić listę za chwilę.
+        Od momentu rejestracji do pojawienia się na liście startowej może minąć minuta lub dwie.
+        Proszę o cierpliwość i sprawdzić listę za chwilę.
       </p>
       <hr class="my-4 border-t border-gray-300" />
-    
+
       <!-- Participants Table -->
       <div class="overflow-x-auto">
-        <table class="min-w-full bg-white border border-gray-200 rounded-lg overflow-hidden shadow-md">
+        <table
+          class="min-w-full bg-white border border-gray-200 rounded-lg overflow-hidden shadow-md"
+        >
           <thead class="bg-green-600 text-white">
             <tr>
               <th class="px-4 py-3">#</th>
@@ -61,15 +61,22 @@ const registeredCount = participants.length;
             </tr>
           </thead>
           <tbody>
-            {participants.map((participant, index) => (
-              <tr class="border-b hover:bg-blue-100 transition" key={`${participant.firstname}-${participant.lastname}`}>                
-                <td class="px-4 py-3 text-center">{index + 1}</td>
-                <td class="px-4 py-3">{participant.lastname} {participant.firstname}</td>
-                <td class="px-4 py-3">{participant.location}</td>
-                <td class="px-4 py-3 text-center">{participant.year}</td>
-                <td class="px-4 py-3 whitespace-nowrap">{participant.club}</td>
-              </tr>
-            ))}
+            {
+              participants.map((participant, index) => (
+                <tr
+                  class="border-b hover:bg-blue-100 transition"
+                  key={`${participant.firstname}-${participant.lastname}`}
+                >
+                  <td class="px-4 py-3 text-center">{index + 1}</td>
+                  <td class="px-4 py-3">
+                    {participant.lastname} {participant.firstname}
+                  </td>
+                  <td class="px-4 py-3">{participant.location}</td>
+                  <td class="px-4 py-3 text-center">{participant.year}</td>
+                  <td class="px-4 py-3 whitespace-nowrap">{participant.club}</td>
+                </tr>
+              ))
+            }
           </tbody>
         </table>
       </div>

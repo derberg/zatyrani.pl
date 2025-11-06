@@ -9,16 +9,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const {
-      type,
-      datetime,
-      location,
-      locationLink,
-      comment,
-      phone,
-      distance,
-      pace
-    } = req.body;
+    const { type, datetime, location, locationLink, comment, phone, distance, pace } = req.body;
 
     const octokit = new ExtendedOctokit({
       auth: process.env.GITHUB_TOKEN,
@@ -79,11 +70,13 @@ export function formatDateTime(dateTimeString) {
 export function generateTrainingUID(type, datetime, location, distance, pace) {
   let day, month, year, hours, mins;
 
-  if (datetime.includes('/')) { // DD/MM/YYYY HH:MM format
-    const [datePart, timePart] = datetime.split(' ');
-    [day, month, year] = datePart.split('/');
-    [hours, mins] = timePart.split(':');
-  } else { // Assuming ISO format YYYY-MM-DDTHH:MM:SSZ
+  if (datetime.includes("/")) {
+    // DD/MM/YYYY HH:MM format
+    const [datePart, timePart] = datetime.split(" ");
+    [day, month, year] = datePart.split("/");
+    [hours, mins] = timePart.split(":");
+  } else {
+    // Assuming ISO format YYYY-MM-DDTHH:MM:SSZ
     const d = new Date(datetime);
     day = String(d.getUTCDate());
     month = String(d.getUTCMonth() + 1);
@@ -93,23 +86,39 @@ export function generateTrainingUID(type, datetime, location, distance, pace) {
   }
 
   const polishMap = {
-    'ą': 'a', 'ć': 'c', 'ę': 'e', 'ł': 'l', 'ń': 'n', 'ó': 'o', 'ś': 's', 'ż': 'z', 'ź': 'z',
-    'Ą': 'a', 'Ć': 'c', 'Ę': 'e', 'Ł': 'l', 'Ń': 'n', 'Ó': 'o', 'Ś': 's', 'Ż': 'z', 'Ź': 'z'
+    ą: "a",
+    ć: "c",
+    ę: "e",
+    ł: "l",
+    ń: "n",
+    ó: "o",
+    ś: "s",
+    ż: "z",
+    ź: "z",
+    Ą: "a",
+    Ć: "c",
+    Ę: "e",
+    Ł: "l",
+    Ń: "n",
+    Ó: "o",
+    Ś: "s",
+    Ż: "z",
+    Ź: "z",
   };
 
   const normalizedType = type
     .toString()
-    .replace(/[ąćęłńóśżźĄĆĘŁŃÓŚŻŹ]/g, match => polishMap[match])
+    .replace(/[ąćęłńóśżźĄĆĘŁŃÓŚŻŹ]/g, (match) => polishMap[match])
     .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '');
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
 
   const normalizedLocation = location
     .toString()
-    .replace(/[ąćęłńóśżźĄĆĘŁŃÓŚŻŹ]/g, match => polishMap[match])
+    .replace(/[ąćęłńóśżźĄĆĘŁŃÓŚŻŹ]/g, (match) => polishMap[match])
     .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '');
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
 
   const uid = [
     normalizedType, // Use the normalizedType here

@@ -1,24 +1,28 @@
-import js from "@eslint/js";
 import globals from "globals";
+import js from "@eslint/js";
 import tseslint from "typescript-eslint";
-import { defineConfig } from "eslint/config";
+import astro from "eslint-plugin-astro";
+import prettier from "eslint-plugin-prettier";
 
-export default defineConfig([
+export default tseslint.config(
+  js.configs.recommended,
+  ...tseslint.configs.recommended,
+  ...astro.configs["flat/recommended"],
   {
-    files: ["**/*.{js,mjs,cjs,ts,mts,cts}"],
-    plugins: { js },
-    extends: ["js/recommended"],
     languageOptions: {
       globals: {
-        ...globals.browser, // keep browser globals
-        ...globals.node,    // add Node.js globals like process, Buffer
+        ...globals.browser,
+        ...globals.node,
       },
-      ecmaVersion: 2021,
-      sourceType: "module",
-    },
-    rules: {
-      // add custom rules here if needed
     },
   },
-  tseslint.configs.recommended,
-]);
+  {
+    files: ["**/*.{js,ts,astro}"],
+    rules: {
+      "prettier/prettier": "error",
+    },
+    plugins: {
+      prettier,
+    },
+  },
+);
