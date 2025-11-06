@@ -1,4 +1,4 @@
-import { Octokit } from "@octokit/rest";
+import { Octokit } from '@octokit/rest';
 import { createOrUpdateTextFile } from "@octokit/plugin-create-or-update-text-file";
 
 const ExtendedOctokit = Octokit.plugin(createOrUpdateTextFile);

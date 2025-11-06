@@ -1,39 +1,45 @@
 {
-	"name": "zatyrani-website",
-	"type": "module",
-	"version": "0.0.1",
-	"private": true,
-	"scripts": {
-		"dev": "astro dev",
-		"start": "astro dev",
-		"build": "astro build",
-		"preview": "astro preview",
-		"astro": "astro",
-		"build:scripts:facebook": "tsc --project ./tsconfig.scripts.json",
-		"fetch:facebook": "npm run build:scripts:facebook && node ./dist/facebook.js",
-		"test": "vitest run",
-		"test:watch": "vitest",
-		"lint": "eslint .",
-		"lint:fix": "eslint . --fix",
-		"prepare": "husky"
-	},
-	"dependencies": {
-		"@astrojs/tailwind": "^5.1.0",
-		"@octokit/plugin-create-or-update-text-file": "^5.1.0",
-		"@octokit/rest": "^21.0.2",
-		"@vercel/node": "^5.0.1",
-		"astro": "^4.15.3",
-		"node-fetch": "^3.3.2",
-		"tailwindcss": "^3.4.1"
-	},
-	"devDependencies": {
-		"@eslint/js": "^9.39.1",
-		"@types/node": "^22.10.2",
-		"eslint": "^9.39.1",
-		"globals": "^16.5.0",
-		"husky": "^9.1.7",
-		"lint-staged": "^16.2.6",
-		"typescript-eslint": "^8.46.3",
-		"vitest": "^4.0.2"
-	}
+  "name": "zatyrani-website",
+  "type": "module",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "build:scripts:facebook": "tsc --project ./tsconfig.scripts.json",
+    "fetch:facebook": "npm run build:scripts:facebook && node ./dist/facebook.js",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{js,ts,astro}": [
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "dependencies": {
+    "@astrojs/tailwind": "^5.1.0",
+    "@octokit/plugin-create-or-update-text-file": "^5.1.0",
+    "@octokit/rest": "^21.0.2",
+    "@vercel/node": "^5.0.1",
+    "astro": "^4.15.3",
+    "node-fetch": "^3.3.2",
+    "tailwindcss": "^3.4.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "@types/node": "^22.10.2",
+    "eslint": "^9.39.1",
+    "globals": "^16.5.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.6",
+    "typescript-eslint": "^8.46.3",
+    "vitest": "^4.0.2"
+  }
 }
