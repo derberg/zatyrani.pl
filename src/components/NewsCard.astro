@@ -16,35 +16,40 @@ function parseUrlsInMessage(message: string): string {
   });
 }
 
-
 // Preprocess message to parse URLs into anchor tags
 const { date, message, image, postUrl, height } = Astro.props;
-const parsedMessage = message ? parseUrlsInMessage(message) : '';
+const parsedMessage = message ? parseUrlsInMessage(message) : "";
 ---
 
 <article class="bg-white rounded-lg shadow-md overflow-hidden flex flex-col">
-  {image && (
-    <img
-      src={image}
-      alt="Główny obrazek posta"
-      class={`w-full object-cover ${height || 'h-64'}`}
-    />
-  )}
+  {
+    image && (
+      <img
+        src={image}
+        alt="Główny obrazek posta"
+        class={`w-full object-cover ${height || "h-64"}`}
+      />
+    )
+  }
   <div class="p-6 flex flex-col flex-grow">
     <time class="text-sm text-gray-500">{date}</time>
-    {parsedMessage && (
-      <p class="mt-2 text-gray-900 whitespace-pre-line flex-grow" set:html={parsedMessage} />
-    )}
+    {
+      parsedMessage && (
+        <p class="mt-2 text-gray-900 whitespace-pre-line flex-grow" set:html={parsedMessage} />
+      )
+    }
 
-    {postUrl && (
-      <a
-        href={postUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="mt-4 inline-block text-sm text-blue-800 hover:text-blue-900"
-      >
-        Więcej informacji na Fejsie
-      </a>
-    )}
+    {
+      postUrl && (
+        <a
+          href={postUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="mt-4 inline-block text-sm text-blue-800 hover:text-blue-900"
+        >
+          Więcej informacji na Fejsie
+        </a>
+      )
+    }
   </div>
 </article>

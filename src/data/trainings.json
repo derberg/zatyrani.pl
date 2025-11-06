@@ -152,5 +152,16 @@
     "phone": "784640977",
     "distance": 10,
     "pace": 7
+  },
+  {
+    "uid": "bieg-8-11-2025-6-15-nieborowice-ppk-20-10",
+    "type": "bieg",
+    "datetime": "08/11/2025 06:15",
+    "location": "Nieborowice – PPK",
+    "locationLink": "https://maps.app.goo.gl/cUnjGVWuHfnJDQTL8",
+    "comment": "Trening gorski biegowy. Dystans około 20 km. Tempo dostosowane do wszystkich 9-10-11 min na km. Trasa . Brenna Leśnica na stary groń Grabowa biały krzyż przez smerkowiec na trzy kopce wiślańskie i do leśnicy niebieskim potem żółtym szlakiem .  Jest druga opcja koło 23 km na Malinowska z Brennej. Do uzgodnienia. Zbiórka ppk Pilchowice o 6.15.  liczę że start będzie 7.30-7.45.  czas biegu około 3,5 godz . Powrót na około godz 12 . \nZapraszam będzie fajnie. Może będzie jeszcze ktoś z poza zatyranych ",
+    "phone": "519194995",
+    "distance": 20,
+    "pace": 10
   }
 ]

@@ -20,9 +20,7 @@ const ytPreviewLink = "https://www.youtube.com/embed/sY6au0yZyp4";
       <div class="absolute inset-0 bg-black/60"></div>
     </div>
     <div class="relative text-center space-y-4">
-      <div
-        class="bg-white/20 px-8 py-4 rounded-lg shadow-lg backdrop-blur-sm mx-auto max-w-full"
-      >
+      <div class="bg-white/20 px-8 py-4 rounded-lg shadow-lg backdrop-blur-sm mx-auto max-w-full">
         <h1 class="text-5xl font-bold text-white">
           {eventNumber} WILCZY PÓŁMARATON
         </h1>
@@ -31,9 +29,7 @@ const ytPreviewLink = "https://www.youtube.com/embed/sY6au0yZyp4";
         </div>
       </div>
 
-      <div
-        class="bg-white/20 px-8 py-4 rounded-lg shadow-lg backdrop-blur-sm mx-auto inline-block"
-      >
+      <div class="bg-white/20 px-8 py-4 rounded-lg shadow-lg backdrop-blur-sm mx-auto inline-block">
         <h1 class="text-3xl font-bold text-white">{eventDate}</h1>
       </div>
 
@@ -59,117 +55,119 @@ const ytPreviewLink = "https://www.youtube.com/embed/sY6au0yZyp4";
     </div>
 
     <!-- Modal Structure -->
-<div id="registrationModal" class="modal hidden">
-  <div class="modal-content">
-    <h2 class="modal-title">Rejestracja chwilowo niedostępna</h2>
-<p class="modal-body">
-  Rejestracja na półmaraton jeszcze się nie rozpoczęła.  
-  Napisz do nas na adres 
-  <a href="mailto:biuro@zatyrani.pl" class="text-blue-600 hover:underline">biuro@zatyrani.pl</a>, 
-  a poinformujemy Cię, gdy będzie możliwa.
-</p>
-    <button class="modal-btn">OK</button>
-  </div>
-</div>
+    <div id="registrationModal" class="modal hidden">
+      <div class="modal-content">
+        <h2 class="modal-title">Rejestracja chwilowo niedostępna</h2>
+        <p class="modal-body">
+          Rejestracja na półmaraton jeszcze się nie rozpoczęła. Napisz do nas na adres
+          <a href="mailto:biuro@zatyrani.pl" class="text-blue-600 hover:underline"
+            >biuro@zatyrani.pl</a
+          >, a poinformujemy Cię, gdy będzie możliwa.
+        </p>
+        <button class="modal-btn">OK</button>
+      </div>
+    </div>
 
-<style>
-/* Modal background */
-.modal {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
+    <style>
+      /* Modal background */
+      .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+      }
 
-/* Hide by default */
-.hidden {
-  display: none;
-}
+      /* Hide by default */
+      .hidden {
+        display: none;
+      }
 
-/* Modal box */
-.modal-content {
-  background: #fff;
-  padding: 2rem;
-  border-radius: 12px;
-  max-width: 450px;
-  width: 90%;
-  text-align: center;
-  position: relative;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-  font-family: 'Segoe UI', sans-serif;
-}
+      /* Modal box */
+      .modal-content {
+        background: #fff;
+        padding: 2rem;
+        border-radius: 12px;
+        max-width: 450px;
+        width: 90%;
+        text-align: center;
+        position: relative;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        font-family: "Segoe UI", sans-serif;
+      }
 
-/* Close button */
-.close {
-  position: absolute;
-  top: 0.5rem;
-  right: 1rem;
-  font-size: 1.5rem;
-  font-weight: bold;
-  cursor: pointer;
-  color: #555;
-}
+      /* Close button */
+      .close {
+        position: absolute;
+        top: 0.5rem;
+        right: 1rem;
+        font-size: 1.5rem;
+        font-weight: bold;
+        cursor: pointer;
+        color: #555;
+      }
 
-/* Modal title and body */
-.modal-title {
-  font-size: 1.5rem;
-  color: #333;
-  margin-bottom: 1rem;
-}
+      /* Modal title and body */
+      .modal-title {
+        font-size: 1.5rem;
+        color: #333;
+        margin-bottom: 1rem;
+      }
 
-.modal-body {
-  font-size: 1rem;
-  color: #666;
-  margin-bottom: 1.5rem;
-}
+      .modal-body {
+        font-size: 1rem;
+        color: #666;
+        margin-bottom: 1.5rem;
+      }
 
-/* Modal button */
-.modal-btn {
-  background: #16A34A;
-  color: white;
-  border: none;
-  padding: 0.6rem 1.5rem;
-  border-radius: 60px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background 0.2s ease;
-}
+      /* Modal button */
+      .modal-btn {
+        background: #16a34a;
+        color: white;
+        border: none;
+        padding: 0.6rem 1.5rem;
+        border-radius: 60px;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: background 0.2s ease;
+      }
 
-.modal-btn:hover {
-  background: #15803D;
-}
+      .modal-btn:hover {
+        background: #15803d;
+      }
 
-.text-blue-600 {
-  color: #2563eb;
-}
+      .text-blue-600 {
+        color: #2563eb;
+      }
 
-.text-blue-600:hover {
-  text-decoration: underline;
-}
-</style>
+      .text-blue-600:hover {
+        text-decoration: underline;
+      }
+    </style>
 
-<script>
-const button = document.getElementById("zapiszsiepolmaraton");
-const modal = document.getElementById("registrationModal");
-const okBtn = modal.querySelector(".modal-btn");
+    <script>
+      const button = document.getElementById("zapiszsiepolmaraton");
+      const modal = document.getElementById("registrationModal");
+      const okBtn = modal.querySelector(".modal-btn");
 
-// Open modal on button click
-button.addEventListener("click", (e) => {
-  e.preventDefault();
-  modal.classList.remove("hidden");
-});
+      // Open modal on button click
+      button.addEventListener("click", (e) => {
+        e.preventDefault();
+        modal.classList.remove("hidden");
+      });
 
-okBtn.addEventListener("click", () => modal.classList.add("hidden"));
+      okBtn.addEventListener("click", () => modal.classList.add("hidden"));
 
-// Close modal by clicking outside content
-window.addEventListener("click", (e) => {
-  if (e.target === modal) modal.classList.add("hidden");
-});
-</script>
+      // Close modal by clicking outside content
+      window.addEventListener("click", (e) => {
+        if (e.target === modal) modal.classList.add("hidden");
+      });
+    </script>
   </div>
 
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -192,20 +190,17 @@ window.addEventListener("click", (e) => {
       <div class="flex items-center">
         <div class="space-y-6 text-xl">
           <p class="text-gray-700">
-            Trasa półmaratonu (około 22km) wiedzie poprzez lasy Nadleśnictwa
-            Rybnik a dokładnie kryjemy się pięknymi leśnymi ścieżkami uroczyska
-            "Głębokie Doły".
+            Trasa półmaratonu (około 22km) wiedzie poprzez lasy Nadleśnictwa Rybnik a dokładnie
+            kryjemy się pięknymi leśnymi ścieżkami uroczyska "Głębokie Doły".
           </p>
           <p class="text-gray-700">
-            Uroczysko jest pamiątką po prastarej puszczy, która dawniej
-            porastała te tereny. Niepowtarzalny mikroklimat, bogactwo flory i
-            fauny, a także naturalna rzadkość rodzimych, chronicznych gatunków
-            roślin sprawia że miejsce to jest atrakcyjne zarówno przyrodniczo
-            jak i turystycznie.
+            Uroczysko jest pamiątką po prastarej puszczy, która dawniej porastała te tereny.
+            Niepowtarzalny mikroklimat, bogactwo flory i fauny, a także naturalna rzadkość
+            rodzimych, chronicznych gatunków roślin sprawia że miejsce to jest atrakcyjne zarówno
+            przyrodniczo jak i turystycznie.
           </p>
           <p class="text-gray-700">
-            Drugiego takiego półmaratonu na Śląsku nie znajdziecie. Zapraszamy
-            do Wilczy!
+            Drugiego takiego półmaratonu na Śląsku nie znajdziecie. Zapraszamy do Wilczy!
           </p>
         </div>
       </div>
@@ -229,10 +224,7 @@ window.addEventListener("click", (e) => {
               stroke="currentColor"
               stroke-width="2"
             >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M5 13l4 4L19 7"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
             </svg>
             Zapewniamy dużą dawkę adrenaliny.
           </li>
@@ -246,13 +238,10 @@ window.addEventListener("click", (e) => {
               stroke="currentColor"
               stroke-width="2"
             >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M5 13l4 4L19 7"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
             </svg>
-            Gwarantowana satysfakcja dla biegaczy, którzy uwielbiają kros w pięknych,
-            dzikich, leśnych terenach.
+            Gwarantowana satysfakcja dla biegaczy, którzy uwielbiają kros w pięknych, dzikich, leśnych
+            terenach.
           </li>
           <li class="flex items-center text-gray-700">
             <!-- Checkmark Icon -->
@@ -264,10 +253,7 @@ window.addEventListener("click", (e) => {
               stroke="currentColor"
               stroke-width="2"
             >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M5 13l4 4L19 7"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
             </svg>
             Pamiątkowy medal dla każdego uczestnika.
           </li>
@@ -281,10 +267,7 @@ window.addEventListener("click", (e) => {
               stroke="currentColor"
               stroke-width="2"
             >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M5 13l4 4L19 7"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
             </svg>
             Pieski mile widziane.
           </li>
@@ -298,14 +281,10 @@ window.addEventListener("click", (e) => {
               stroke="currentColor"
               stroke-width="2"
             >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M5 13l4 4L19 7"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
             </svg>
-            Co roku zawsze znajdzie się biegacz, który musi szukać swojego buta w
-            jedynym magicznym miejscu gdzie zwykła kałuża zamienia się w błotnistą
-            pułapkę.
+            Co roku zawsze znajdzie się biegacz, który musi szukać swojego buta w jedynym magicznym miejscu
+            gdzie zwykła kałuża zamienia się w błotnistą pułapkę.
           </li>
         </ul>
       </div>
@@ -375,41 +354,41 @@ window.addEventListener("click", (e) => {
       </div>
     </div>  -->
 
-<!-- Photos Section -->
-<section class="max-w-7xl mx-auto">
-  <h2 class="text-3xl font-bold text-center">Zdjęcia z 2025</h2>
-  <PhotoGallery
-    photos={marathonPhotos2025}
-    author="Paweł Bernas"
-    authorLink="https://www.instagram.com/pawelbernas.fotografia"
-  />
-  <div class="text-center mt-4 text-lg">
-    <p>
-      Pełna galeria zdjęć Pawła znajduje się <a
-        href="https://photos.google.com/share/AF1QipPUNi2uDta48zu80edE-TiK6R03kIAuLNt7XfEQmsiRSlGmXe0ZuYHzG89zg22zJw?key=cHZmY2kyeF91WkcydS13VmF1TTF3WnJqejdGV0Z3"
-        class="text-blue-600 hover:underline">tutaj</a
-      >
-    </p>
-  </div>
-</section>
+  <!-- Photos Section -->
+  <section class="max-w-7xl mx-auto">
+    <h2 class="text-3xl font-bold text-center">Zdjęcia z 2025</h2>
+    <PhotoGallery
+      photos={marathonPhotos2025}
+      author="Paweł Bernas"
+      authorLink="https://www.instagram.com/pawelbernas.fotografia"
+    />
+    <div class="text-center mt-4 text-lg">
+      <p>
+        Pełna galeria zdjęć Pawła znajduje się <a
+          href="https://photos.google.com/share/AF1QipPUNi2uDta48zu80edE-TiK6R03kIAuLNt7XfEQmsiRSlGmXe0ZuYHzG89zg22zJw?key=cHZmY2kyeF91WkcydS13VmF1TTF3WnJqejdGV0Z3"
+          class="text-blue-600 hover:underline">tutaj</a
+        >
+      </p>
+    </div>
+  </section>
 
-<!-- Race Office Location -->
-<section class="mt-16">
-  <h2 class="text-3xl font-bold text-center">Biuro zawodów</h2>
-  <div class="max-w-3xl mx-auto">
-    <p class="mt-4 mb-2 text-gray-600 text-center">
-      Dom Kultury w Wilczy, Karola Miarki 123, 44-189 Wilcza
-      <div class="aspect-[16/9] rounded-lg overflow-hidden shadow-md">
-        <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d796.6238701372778!2d18.59522346969745!3d50.188842198221465!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x471137d1988015fd%3A0xa1e08547df1cdfa8!2sDom%20Kultury%20w%20Wilczy%20(biuro%20GOK%20Pilchowice)!5e1!3m2!1sen!2spl!4v1735845595802!5m2!1sen!2spl"
-          width="100%"
-          height="100%"
-          style="border:0;"
-          allowfullscreen=""
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"></iframe>
-      </div>
-    </p>
-  </div>
-</section>
+  <!-- Race Office Location -->
+  <section class="mt-16">
+    <h2 class="text-3xl font-bold text-center">Biuro zawodów</h2>
+    <div class="max-w-3xl mx-auto">
+      <p class="mt-4 mb-2 text-gray-600 text-center">
+        Dom Kultury w Wilczy, Karola Miarki 123, 44-189 Wilcza
+        <div class="aspect-[16/9] rounded-lg overflow-hidden shadow-md">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d796.6238701372778!2d18.59522346969745!3d50.188842198221465!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x471137d1988015fd%3A0xa1e08547df1cdfa8!2sDom%20Kultury%20w%20Wilczy%20(biuro%20GOK%20Pilchowice)!5e1!3m2!1sen!2spl!4v1735845595802!5m2!1sen!2spl"
+            width="100%"
+            height="100%"
+            style="border:0;"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </p>
+    </div>
+  </section>
 </Layout>

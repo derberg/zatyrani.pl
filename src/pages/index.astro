@@ -1,16 +1,16 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import NewsCard from '../components/NewsCard.astro';
-import SubscribeForm from '../components/SubscribeForm.astro';
-import { news } from '../data/news';
-import { trainings } from '../data/trainings';
-import TrainingCard from '../components/TrainingCard.astro';
+import Layout from "../layouts/Layout.astro";
+import NewsCard from "../components/NewsCard.astro";
+import SubscribeForm from "../components/SubscribeForm.astro";
+import { news } from "../data/news";
+import { trainings } from "../data/trainings";
+import TrainingCard from "../components/TrainingCard.astro";
 
 // Parsuje "DD/MM/YYYY HH:mm" i zwraca timestamp (ms od 1970)
 function toTimestamp(datetime: string): number {
-  const [date, time] = datetime.split(' ');
-  const [day, month, year] = date.split('/').map(Number);
-  const [hour, minute] = time.split(':').map(Number);
+  const [date, time] = datetime.split(" ");
+  const [day, month, year] = date.split("/").map(Number);
+  const [hour, minute] = time.split(":").map(Number);
   return new Date(year, month - 1, day, hour, minute).getTime();
 }
 
@@ -18,30 +18,29 @@ const nowMs = Date.now();
 
 const upcomingTrainings = trainings
   // tylko te w przyszłości
-  .filter(t => toTimestamp(t.datetime) >= nowMs)
+  .filter((t) => toTimestamp(t.datetime) >= nowMs)
   // sortujemy rosnąco po timestamp: najmniejszy (najbliższy) najpierw
   .sort((a, b) => toTimestamp(a.datetime) - toTimestamp(b.datetime));
 ---
+
 <Layout title="Zatyrani Gratisownia.pl Gmina Pilchowice">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <div class="text-center mb-12">
-      <img
-        src="/zatyrani_logo.webp"
-        alt="Zatyrani"
-        class="mx-auto h-32"
-      />
+      <img src="/zatyrani_logo.webp" alt="Zatyrani" class="mx-auto h-32" />
     </div>
 
     {/* Only show upcoming trainings if any future items exist */}
-    {upcomingTrainings.length > 0 && (
-      <section class="mb-12">
-        <div class="grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-          {upcomingTrainings.slice(0, 6).map((t) => (
-            <TrainingCard {...t} />
-          ))}
-        </div>
-      </section>
-    )}
+    {
+      upcomingTrainings.length > 0 && (
+        <section class="mb-12">
+          <div class="grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            {upcomingTrainings.slice(0, 6).map((t) => (
+              <TrainingCard {...t} />
+            ))}
+          </div>
+        </section>
+      )
+    }
 
     <!-- Aktualności -->
     <section>
@@ -49,12 +48,12 @@ const upcomingTrainings = trainings
       <p class="text-gray-600 mb-8">Dowiedz się co w trawie piszczy.</p>
 
       <div class="grid gap-8 md:grid-cols-1 lg:grid-cols-2">
-        {news
-          .filter((post) => post.message)
-          .slice(0, 2)
-          .map((post) => (
-            <NewsCard {...post} height="h-2/3" />
-          ))}
+        {
+          news
+            .filter((post) => post.message)
+            .slice(0, 2)
+            .map((post) => <NewsCard {...post} height="h-2/3" />)
+        }
       </div>
 
       <div class="mt-8 text-center">

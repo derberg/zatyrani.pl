@@ -6,32 +6,49 @@ import { readExistingEventsData, updateEventsFile } from "../src/utils/events.js
 const ExtendedOctokit = Octokit.plugin(createOrUpdateTextFile);
 
 export function formatDate(dateString) {
-	const date = new Date(dateString);
+  const date = new Date(dateString);
 
-	const day = String(date.getDate()).padStart(2, "0"); // Ensures two digits
-	const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed
-	const year = date.getFullYear();
+  const day = String(date.getDate()).padStart(2, "0"); // Ensures two digits
+  const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed
+  const year = date.getFullYear();
 
-	return `${day}/${month}/${year}`;
+  return `${day}/${month}/${year}`;
 }
 
 export function generateUID(title, date) {
 	// Limit title to 40 characters
 	let croppedTitle = title.slice(0, 40);
 
-	// Normalize Polish characters
-	const polishMap = {
-		'ą': 'a', 'ć': 'c', 'ę': 'e', 'ł': 'l', 'ń': 'n', 'ó': 'o', 'ś': 's', 'ż': 'z', 'ź': 'z',
-		'Ą': 'a', 'Ć': 'c', 'Ę': 'e', 'Ł': 'l', 'Ń': 'n', 'Ó': 'o', 'Ś': 's', 'Ż': 'z', 'Ź': 'z'
-	};
-	croppedTitle = croppedTitle.replace(/[ąćęłńóśżźĄĆĘŁŃÓŚŻŹ]/g, match => polishMap[match]);
+  // Normalize Polish characters
+  const polishMap = {
+    ą: "a",
+    ć: "c",
+    ę: "e",
+    ł: "l",
+    ń: "n",
+    ó: "o",
+    ś: "s",
+    ż: "z",
+    ź: "z",
+    Ą: "a",
+    Ć: "c",
+    Ę: "e",
+    Ł: "l",
+    Ń: "n",
+    Ó: "o",
+    Ś: "s",
+    Ż: "z",
+    Ź: "z",
+  };
+  croppedTitle = croppedTitle.replace(/[ąćęłńóśżźĄĆĘŁŃÓŚŻŹ]/g, (match) => polishMap[match]);
 
-	// Lowercase and replace spaces/special chars with "-"
-	let slug = croppedTitle.toLowerCase()
-		.replace(/[^a-z0-9]+/g, '-') // any non-alphanumeric -> "-"
-		.replace(/^-+|-+$/g, '');   // trim starting/ending "-"
+  // Lowercase and replace spaces/special chars with "-"
+  let slug = croppedTitle
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-") // any non-alphanumeric -> "-"
+    .replace(/^-+|-+$/g, ""); // trim starting/ending "-"
 
-	return `${slug}-${formatDate(date).replace(/\//g, '-')}`;
+  return `${slug}-${formatDate(date).replace(/\//g, "-")}`;
 }
 
 export function normalizeEventData(body) {
