@@ -1,10 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-<<<<<<< HEAD
-import { readExistingEventsData, updateEventsFile } from './utils.js';
+import { readExistingEventsData, updateEventsFile } from '../src/utils/events.js';
 import { generateUID, formatDate, normalizeEventData } from './add-event.js';
-=======
-import { readExistingEventsData, generateEventUID, formatDate, normalizeEventData } from './add-event.js';
->>>>>>> 38b4499fc95a8d75f5bb522d6c87458bf77cd91a
 
 describe('readExistingEventsData', () => {
 	let mockOctokit;
@@ -58,24 +54,24 @@ describe('readExistingEventsData', () => {
 	});
 });
 
-describe('generateEventUID', () => {
+describe('generateUID', () => {
 	it('should normalize Polish characters and format UID', () => {
 		const date = new Date(2025, 9, 24); // YYYY-MM-DD: 2025-10-24
-		const uid = generateEventUID('Zażółć gęślą jaźń', date);
+		const uid = generateUID('Zażółć gęślą jaźń', date);
 		expect(uid).toBe('zazolc-gesla-jazn-24-10-2025');
 	});
 
 	it('should crop title longer than 40 chars', () => {
 		const longTitle = 'A'.repeat(50);
 		const date = new Date(2025, 9, 24);
-		const uid = generateEventUID(longTitle, date);
+		const uid = generateUID(longTitle, date);
 		expect(uid).toBe('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa-24-10-2025');
 	});
 
 	it('should replace spaces and special characters with hyphens', () => {
 		const title = 'Hello, World! This is @Test';
 		const date = new Date(2025, 9, 24);
-		const uid = generateEventUID(title, date);
+		const uid = generateUID(title, date);
 		expect(uid).toBe('hello-world-this-is-test-24-10-2025');
 	});
 });
