@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { readExistingEventsData } from '../utils.js';
+import { readExistingEventsData } from './utils.js';
 import { generateUID, formatDate, normalizeEventData } from './add-event.js';
 
 describe('readExistingEventsData', () => {
