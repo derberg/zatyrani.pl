@@ -167,7 +167,7 @@ const locations = [
   </div>
 </form>
 
-<script type="module" client:load>
+<script type="module">
   const form = document.getElementById("trainingForm");
   const submitBtn = form.querySelector('button[type="submit"]');
   const select = document.getElementById("location");
@@ -213,7 +213,7 @@ const locations = [
 
       form.reset();
       select.dispatchEvent(new Event("change"));
-    } catch (err) {
+    } catch {
       const errorMsg = document.createElement("div");
       errorMsg.textContent = "Wystąpił błąd. Spróbuj ponownie.";
       errorMsg.className = "mt-2 p-2 bg-red-100 text-red-800 rounded-md";
