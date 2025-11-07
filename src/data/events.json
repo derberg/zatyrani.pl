@@ -1,15 +1,5 @@
 [
   {
-    "title": "Bieg Ultra Trail",
-    "location": "Jaworze",
-    "date": "11/02/2023",
-    "description": "Każdy biegnie ile chce.",
-    "image": "events/tempfile0.webp",
-    "mainLink": "https://www.facebook.com/events/770434970865092",
-    "registrationLink": "https://zapisy.inessport.pl/index.php?idm=5&idp=0&act=zgloszenie-zawodnika&event=880",
-    "uid": "bieg-ultra-trail-11-02-2023"
-  },
-  {
     "title": "IX Parkowe Hercklekoty",
     "location": "Katowice",
     "date": "12/02/2023",
