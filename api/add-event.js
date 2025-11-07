@@ -1,53 +1,13 @@
 import { Octokit } from "@octokit/rest";
 import { createOrUpdateTextFile } from "@octokit/plugin-create-or-update-text-file";
 
+import { readExistingEventsData, updateEventsFile, formatDate} from "../src/utils/events.js";
+
 const ExtendedOctokit = Octokit.plugin(createOrUpdateTextFile);
 
-export default async function handler(req, res) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
-  }
-
-  try {
-    const eventsData = normalizeEventData(req.body);
-
-    const octokit = new ExtendedOctokit({
-      auth: process.env.GITHUB_TOKEN,
-    });
-
-    let events = await readExistingEventsData(octokit);
-
-    events.push(eventsData);
-
-    await octokit.createOrUpdateTextFile({
-      owner: "derberg",
-      repo: "zatyrani.pl",
-      path: "src/data/events.json",
-      content: JSON.stringify(events, null, 2),
-      message: `chore(events): added event ${eventsData.title}`,
-    });
-
-    res.status(200).json({ success: true });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Failed to process request" });
-  }
-}
-
-//needed as for returns 2025-01-09 and I need 09/01/2025
-export function formatDate(dateString) {
-  const date = new Date(dateString);
-
-  const day = String(date.getDate()).padStart(2, "0"); // Ensures two digits
-  const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed
-  const year = date.getFullYear();
-
-  return `${day}/${month}/${year}`;
-}
-
-export function generateEventUID(title, date) {
-  // Limit title to 40 characters
-  let croppedTitle = title.slice(0, 40);
+export function generateUID(title, date) {
+	// Limit title to 40 characters
+	let croppedTitle = title.slice(0, 40);
 
   // Normalize Polish characters
   const polishMap = {
@@ -82,31 +42,44 @@ export function generateEventUID(title, date) {
 }
 
 export function normalizeEventData(body) {
-  const { name, date, website, registration, description, location } = body;
-  return {
-    date: formatDate(date),
-    title: name,
-    mainLink: website,
-    registrationLink: registration,
-    description: description,
-    image: "",
-    location: location,
-    uid: generateEventUID(name, date),
-  };
+	const { name, date, website, registration, description, location } = body
+	return {
+		date: formatDate(date),
+		title: name,
+		mainLink: website,
+		registrationLink: registration,
+		description: description,
+		image: "",
+		location: location,
+		uid: generateUID(name, date)
+	};
 }
 
-export async function readExistingEventsData(octokit) {
-  const { data: currentFile } = await octokit.repos.getContent({
-    owner: "derberg",
-    repo: "zatyrani.pl",
-    path: "src/data/events.json",
-  });
+export default async function handler(req, res) {
+	if (req.method !== "POST") {
+		return res.status(405).json({ error: "Method not allowed" });
+	}
 
-  let events = [];
-  if (currentFile && currentFile.content) {
-    const decoded = Buffer.from(currentFile.content, "base64").toString();
-    events = JSON.parse(decoded);
-  }
+	try {
+		const eventsData = normalizeEventData(req.body);
 
-  return events;
+		const octokit = new ExtendedOctokit({
+			auth: process.env.GITHUB_TOKEN,
+		});
+
+		let events = await readExistingEventsData(octokit);
+
+		events.push(eventsData);
+
+		await updateEventsFile(
+			octokit,
+			`chore(events): added event ${eventsData.title}`,
+			events
+		);
+
+		res.status(200).json({ success: true });
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ error: "Failed to process request" });
+	}
 }

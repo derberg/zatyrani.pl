@@ -9,7 +9,7 @@ interface Props {
 const { title, subtitle, background = "blue", height = "py-16" } = Astro.props;
 
 // Determine the background image based on the `background` prop
-const backgroundImage = background === "pink" ? "pink_bg.png" : "blue_bg.png";
+const backgroundImage = background === "pink" ? "/pink_bg.png" : "/blue_bg.png";
 ---
 
 <div

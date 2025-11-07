@@ -1,5 +1,6 @@
 ---
 interface Props {
+  uid: string;
   title: string;
   date: string;
   location: string;
@@ -32,7 +33,7 @@ const formatDate = (dateString) => {
 // Randomly select a fallback image
 const randomFallbackImage = fallbackImages[Math.floor(Math.random() * fallbackImages.length)];
 
-const { title, date, location, description, mainLink, registrationLink, image } = Astro.props;
+const { title, date, location, description, mainLink, registrationLink, image, uid } = Astro.props;
 ---
 
 <article

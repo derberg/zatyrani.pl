@@ -1,5 +1,24 @@
+---
+import type { Events } from "../data/events";
+
+interface Props {
+  event?: Events;
+}
+
+const { event } = Astro.props;
+
+const submitButtonText = event ? "Zapisz zmiany" : "Dodaj wydarzenie";
+
+const formatDateForInput = (dateString) => {
+  if (!dateString) return "";
+  const [day, month, year] = dateString.split("/");
+  return `${year}-${month}-${day}`;
+};
+---
+
 <form id="eventForm" class="max-w-2xl mx-auto p-4">
   <div class="space-y-4">
+    {event && <input type="hidden" name="uid" value={event.uid} />}
     <div>
       <label class="block text-sm font-medium text-gray-700">
         <strong>Nazwa wydarzenia</strong>
@@ -11,6 +30,7 @@
         name="name"
         required
         class="mt-1 block w-full rounded-md border-purple-300 shadow-sm border-2 focus:border-purple-500 focus:ring-purple-500"
+        value={event?.title}
       />
     </div>
 
@@ -28,6 +48,7 @@
         name="date"
         required
         class="mt-1 block w-full rounded-md border-purple-300 shadow-sm border-2 focus:border-purple-500 focus:ring-purple-500"
+        value={event?.date ? formatDateForInput(event.date) : ""}
       />
     </div>
 
@@ -42,6 +63,7 @@
         name="location"
         required
         class="mt-1 block w-full rounded-md border-purple-300 shadow-sm border-2 focus:border-purple-500 focus:ring-purple-500"
+        value={event?.location}
       />
     </div>
 
@@ -63,6 +85,7 @@
         maxlength="150"
         required
         class="mt-1 block w-full rounded-md border-purple-300 shadow-sm border-2 focus:border-purple-500 focus:ring-purple-500"
+        value={event?.description}
       />
       <p id="charCount" class="text-purple-500 text-xs">0 / 150</p>
       <p id="warning" class="text-red-500 text-xs" style="display: none;">
@@ -83,6 +106,7 @@
         name="website"
         required
         class="mt-1 block w-full rounded-md border-purple-300 shadow-sm border-2 focus:border-purple-500 focus:ring-purple-500"
+        value={event?.mainLink}
       />
     </div>
 
@@ -99,23 +123,40 @@
         type="url"
         name="registration"
         class="mt-1 block w-full rounded-md border-purple-300 shadow-sm border-2 focus:border-purple-500 focus:ring-purple-500"
+        value={event?.registrationLink}
       />
     </div>
+    <div class="text-center">
+      <button
+        type="submit"
+        class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline"
+      >
+        {submitButtonText}
+      </button>
 
-    <button
-      type="submit"
-      class="w-full bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700"
-    >
-      Dodaj wydarzenie
-    </button>
+      <a
+        href="/wydarzenia"
+        class="ml-4 bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline inline-block"
+      >
+        Wróć
+      </a>
+    </div>
   </div>
 </form>
-
-<script>
+<script define:vars={{ initialEvent: event }}>
   window.addEventListener("DOMContentLoaded", () => {
     const textarea = document.getElementById("descriptionn");
     const charCount = document.getElementById("charCount");
     const warning = document.getElementById("warning");
+
+    // Initialize char count for pre-filled description
+    if (textarea) {
+      const length = textarea.value.length;
+      charCount.textContent = `${length} / 150`;
+      if (length > 149) {
+        warning.style.display = "block";
+      }
+    }
 
     textarea.addEventListener("input", () => {
       const length = textarea.value.length;
@@ -162,22 +203,36 @@
     }
 
     const formData = new FormData(e.target);
+    const eventData = Object.fromEntries(formData);
+
+    const isUpdate = initialEvent && initialEvent.uid;
+    const apiUrl = isUpdate ? "/api/update-event" : "/api/add-event";
+    const apiMethod = isUpdate ? "PUT" : "POST";
+    const successMessage = isUpdate
+      ? "Wydarzenie zaktualizowane pomyślnie!"
+      : "Wydarzenie dodane pomyślnie!";
+    const errorMessage = isUpdate
+      ? "Błąd podczas aktualizacji wydarzenia. Daj znała Łukaszowi bo pewnie on coś zdupił."
+      : "Błąd podczas dodawania wydarzenia. Daj znała Łukaszowi bo pewnie on coś zdupił.";
+
     try {
-      const response = await fetch("/api/add-event", {
-        method: "POST",
-        body: JSON.stringify(Object.fromEntries(formData)),
+      const response = await fetch(apiUrl, {
+        method: apiMethod,
+        body: JSON.stringify(eventData),
         headers: {
           "Content-Type": "application/json",
         },
       });
 
       if (response.ok) {
-        alert("Wydarzenie dodane pomyślnie!");
-        form.reset();
+        alert(successMessage);
+        if (!isUpdate) {
+          form.reset();
+        } else {
+          window.location.href = "/wydarzenia"; // Redirect to events list after update
+        }
       } else {
-        throw new Error(
-          "Błąd podczas dodawania wydarzenia. Daj znała Łukaszowi bo pewnie on coś zdupił.",
-        );
+        throw new Error(errorMessage);
       }
     } catch (error) {
       alert("Wystąpił błąd: " + error.message);

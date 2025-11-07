@@ -8,6 +8,7 @@ export interface Events {
   location: string;
   mainLink: string;
   registrationLink: string;
+  uid: string;
 }
 
 export const events: Events[] = eventsData as Events[];
