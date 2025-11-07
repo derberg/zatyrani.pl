@@ -22,7 +22,7 @@ export default async function handler(req, res) {
   }
 
   const { uid, name, date, website, registration, description, location } = req.body;
-  const dataForChange = { name, date, website, registration, description, location };
+  const dataForChange = { title: name, date, mainLink: website, registrationLink: registration, description, location };
   try {
     const octokit = new ExtendedOctokit({
       auth: process.env.GITHUB_TOKEN,

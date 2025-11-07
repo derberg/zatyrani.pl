@@ -112,11 +112,8 @@ const formatDate = (dateString) => {
         const data = await response.json();
 
         if (response.ok) {
-          messageDiv.className = 'text-green-600';
-          messageDiv.textContent = data.message || 'Wydarzenie usunięte pomyślnie!';
-          setTimeout(() => {
-            window.location.href = '/wydarzenia'; // Redirect after successful deletion
-          }, 2000);
+          alert("Wydarzenie usunięte pomyślnie! Na liście wydarzeń będzie widoczne jeszcze przez chwilę. Proszę o chwilę cierpliwości.");
+          window.location.href = '/wydarzenia'; // Redirect after successful deletion
         } else {
           messageDiv.className = 'text-red-600';
           messageDiv.textContent = data.error || 'Wystąpił błąd podczas usuwania wydarzenia.';
