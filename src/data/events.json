@@ -1288,5 +1288,15 @@
     "image": "",
     "location": "Katowice",
     "uid": "vi-polmaraton-gestwinami-murckowskimi-04-07-2026"
+  },
+  {
+    "date": "04/01/2022",
+    "title": "test",
+    "mainLink": "https://www.facebook.com/events/378534901711736",
+    "registrationLink": "",
+    "description": "Biegi na dystansach 30km, 50km, 70km i 100km. Jest też Nordic Walking i psiaki.",
+    "image": "",
+    "location": "Ustroń",
+    "uid": "test-04-01-2022"
   }
 ]
