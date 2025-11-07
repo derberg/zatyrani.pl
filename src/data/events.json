@@ -1,35 +1,5 @@
 [
   {
-    "title": "Bieg Ultra Trail",
-    "location": "Jaworze",
-    "date": "11/02/2023",
-    "description": "Każdy biegnie ile chce.",
-    "image": "events/tempfile0.webp",
-    "mainLink": "https://www.facebook.com/events/770434970865092",
-    "registrationLink": "https://zapisy.inessport.pl/index.php?idm=5&idp=0&act=zgloszenie-zawodnika&event=880",
-    "uid": "bieg-ultra-trail-11-02-2023"
-  },
-  {
-    "title": "IX Parkowe Hercklekoty",
-    "location": "Katowice",
-    "date": "12/02/2023",
-    "description": "Bieganie i Nordic Walking. Dystanse 5km i 10km.",
-    "image": "events/tempfile1.webp",
-    "mainLink": "https://www.facebook.com/events/1162008041374481/",
-    "registrationLink": "mkteamevents.pl/hercklekoty/informacje",
-    "uid": "ix-parkowe-hercklekoty-12-02-2023"
-  },
-  {
-    "title": "Walentynkowy Marsz Nordic Walking",
-    "location": "Knurów",
-    "date": "12/02/2023",
-    "description": "Dystans 5km.",
-    "image": "events/tempfile2.webp",
-    "mainLink": "https://www.facebook.com/story.php?story_fbid=pfbid02jLTuQHYfpBPbVnzR3FFPPqsu3cfcRDdNad2XUt3Vph9rmde4N6Zh4Wuf7ReJoFXUl&id=100063708474344",
-    "registrationLink": "https://chronotex.pl/opis-zawodow/?id_zawodow=874",
-    "uid": "walentynkowy-marsz-nordic-walking-12-02-2023"
-  },
-  {
     "title": "IX Bieg Fundacji Śląskie Anioły",
     "location": "Katowice",
     "date": "18/02/2023",
