@@ -1,6 +1,6 @@
 import { Octokit } from "@octokit/rest";
 import { createOrUpdateTextFile } from "@octokit/plugin-create-or-update-text-file";
-import { readExistingEventsData, updateEventsFile } from "../src/utils/events.js";
+import { readExistingEventsData, updateEventsFile, formatDate } from "../src/utils/events.js";
 
 const ExtendedOctokit = Octokit.plugin(createOrUpdateTextFile);
 
@@ -22,6 +22,9 @@ export default async function handler(req, res) {
   }
 
   const { uid, name, date, website, registration, description, location } = req.body;
+
+  date = formatDate(date);
+
   const dataForChange = { title: name, date, mainLink: website, registrationLink: registration, description, location };
   try {
     const octokit = new ExtendedOctokit({

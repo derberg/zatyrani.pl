@@ -1,19 +1,9 @@
 import { Octokit } from "@octokit/rest";
 import { createOrUpdateTextFile } from "@octokit/plugin-create-or-update-text-file";
 
-import { readExistingEventsData, updateEventsFile } from "../src/utils/events.js";
+import { readExistingEventsData, updateEventsFile, formatDate} from "../src/utils/events.js";
 
 const ExtendedOctokit = Octokit.plugin(createOrUpdateTextFile);
-
-export function formatDate(dateString) {
-  const date = new Date(dateString);
-
-  const day = String(date.getDate()).padStart(2, "0"); // Ensures two digits
-  const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed
-  const year = date.getFullYear();
-
-  return `${day}/${month}/${year}`;
-}
 
 export function generateUID(title, date) {
 	// Limit title to 40 characters
