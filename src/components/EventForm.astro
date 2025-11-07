@@ -150,7 +150,7 @@ const formatDateForInput = (dateString) => {
 
     try {
       const response = await fetch(apiUrl, {
-        method: 'POST',
+        method: 'PUT',
         body: JSON.stringify(eventData),
         headers: {
           "Content-Type": "application/json",
