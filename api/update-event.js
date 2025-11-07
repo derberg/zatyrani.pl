@@ -25,7 +25,7 @@ export default async function handler(req, res) {
 
   const newDate = formatDate(date);
 
-  const dataForChange = { title: name, newDate, mainLink: website, registrationLink: registration, description, location };
+  const dataForChange = { title: name, date: newDate, mainLink: website, registrationLink: registration, description, location };
   try {
     const octokit = new ExtendedOctokit({
       auth: process.env.GITHUB_TOKEN,
