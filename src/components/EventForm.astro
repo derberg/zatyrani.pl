@@ -207,6 +207,7 @@ const formatDateForInput = (dateString) => {
 
     const isUpdate = initialEvent && initialEvent.uid;
     const apiUrl = isUpdate ? "/api/update-event" : "/api/add-event";
+    const apiMethod = isUpdate ? "PUT" : "POST";
     const successMessage = isUpdate
       ? "Wydarzenie zaktualizowane pomyślnie!"
       : "Wydarzenie dodane pomyślnie!";
@@ -216,7 +217,7 @@ const formatDateForInput = (dateString) => {
 
     try {
       const response = await fetch(apiUrl, {
-        method: 'PUT',
+        method: apiMethod,
         body: JSON.stringify(eventData),
         headers: {
           "Content-Type": "application/json",
