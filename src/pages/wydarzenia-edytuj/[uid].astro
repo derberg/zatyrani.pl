@@ -100,7 +100,7 @@ const formatDate = (dateString) => {
       modal.classList.add('hidden');
 
       try {
-        const response = await fetch(`/api/edit-event`, {
+        const response = await fetch(`/api/delete-event`, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
