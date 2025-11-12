@@ -15,7 +15,10 @@
     "test:watch": "vitest",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "prepare": "husky"
+    "prepare": "husky",
+    "member:list": "node scripts/postgress/member-list.js",
+    "member:add": "node scripts/postgress/member-add.js",
+    "member:remove": "node scripts/postgress/member-remove.js"
   },
   "lint-staged": {
     "*.{js,ts,astro}": [
@@ -28,6 +31,7 @@
     "@astrojs/tailwind": "^5.1.0",
     "@octokit/plugin-create-or-update-text-file": "^5.1.0",
     "@octokit/rest": "^21.0.2",
+    "@supabase/supabase-js": "^2.81.1",
     "@vercel/node": "^5.0.1",
     "astro": "^4.15.3",
     "node-fetch": "^3.3.2",
@@ -38,6 +42,7 @@
     "@types/node": "^22.10.2",
     "@typescript-eslint/parser": "^8.46.3",
     "astro-eslint-parser": "^1.2.2",
+    "dotenv": "^17.2.3",
     "eslint": "^9.39.1",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-astro": "^1.5.0",
