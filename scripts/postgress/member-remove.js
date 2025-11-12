@@ -12,6 +12,7 @@ if (!supabaseUrl || !supabaseAnonKey) {
 
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
+
 async function removeMember(uid) {
     try {
         const { data, error } = await supabase
@@ -33,4 +34,9 @@ async function removeMember(uid) {
 }
 
 const uid = process.env.ID;
+
+if (!uid) {
+  console.error('Please provide ID as environment variable.');
+  process.exit(1);
+}
 removeMember(uid);
