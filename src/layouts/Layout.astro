@@ -20,11 +20,6 @@ const navItems = [
   },
   { name: "Półmaraton", href: "/wilczy-polmaraton" },
   { name: "Rajd NW", href: "/rajdnw" },
-  {
-    name: "YouTube",
-    target: "_blank",
-    href: "https://www.youtube.com/@Zatyranitv/videos",
-  },
   { name: "Partner", href: "/partner" },
 ];
 ---
@@ -130,11 +125,9 @@ const navItems = [
                       item.cta
                         ? "bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-full"
                         : "px-1 pt-1 " +
-                          (item.name === "YouTube"
-                            ? "text-red-600 hover:text-red-700"
-                            : item.name === "Partner"
-                              ? "text-orange-700 hover:text-[rgb(255,80,0)]"
-                              : "text-gray-900")
+                          (item.name === "Partner"
+                            ? "text-orange-700 hover:text-[rgb(255,80,0)]"
+                            : "text-gray-900")
                     }`}
                   >
                     {item.name}
@@ -190,6 +183,14 @@ const navItems = [
 
     <footer class="bg-white border-t mt-12 relative">
       <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-center mb-4">
+          <a href="https://www.youtube.com/@Zatyranitv/videos" target="_blank" class="text-gray-400 hover:text-gray-500">
+            <span class="sr-only">YouTube</span>
+            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path fill-rule="evenodd" d="M19.812 5.418c.861.23 1.538.907 1.768 1.768C21.998 8.78 22 12 22 12s0 3.22-.42 4.814a2.506 2.506 0 0 1-1.768 1.768c-1.59.42-7.81.42-7.81.42s-6.22 0-7.81-.42a2.506 2.506 0 0 1-1.768-1.768C2 15.22 2 12 2 12s0-3.22.42-4.814a2.506 2.506 0 0 1 1.768-1.768C5.78 5.002 12 5 12 5s6.22 0 7.812.418zM9.75 15.25V8.75l5.5 3.25-5.5 3.25z" clip-rule="evenodd" />
+            </svg>
+          </a>
+        </div>
         <div class="text-center">
           <p class="text-sm text-gray-500">
             © 2025 Zatyrani Gratisownia.pl Gmina Pilchowice. All rights reserved.
@@ -254,7 +255,7 @@ const navItems = [
         left: 0;
         right: 0;
         background-color: white;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        box-.shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         z-index: 10;
         transition: all 0.3s ease; /* Smooth transition */
       }
