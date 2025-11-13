@@ -40,8 +40,12 @@ const mainNavItems: NavItem[] = [
   { name: "Partner", href: "/partner" },
 ];
 
+// Separate "Zaloguj" for specific placement
+const zalogujButton: NavItem = { name: "Zaloguj", href: "/zaloguj", cta: true };
+const otherCtaItems: NavItem[] = ctaItems.filter(item => item.name !== "Zaloguj");
+
 // For mobile, ensure "Zaloguj" is last
-const allNavItems: NavItem[] = [...ctaItems, ...mainNavItems];
+const allNavItems: NavItem[] = [...otherCtaItems, ...mainNavItems, zalogujButton];
 ---
 
 <!doctype html>
@@ -81,9 +85,9 @@ const allNavItems: NavItem[] = [...ctaItems, ...mainNavItems];
           </div>
           {/* Desktop Navigation Items */}
           <div class="hidden sm:flex flex-1 items-center justify-center" id="desktopNav">
-            {/* CTA Buttons */}
+            {/* CTA Buttons (excluding Zaloguj) */}
             <div class="flex space-x-4 mr-8">
-              {ctaItems.map((item) => (
+              {otherCtaItems.map((item) => (
                 <a
                   href={item.href}
                   class="inline-flex items-center text-sm font-medium bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-full"
@@ -144,6 +148,15 @@ const allNavItems: NavItem[] = [...ctaItems, ...mainNavItems];
                   ),
                 )
               }
+            </div>
+            {/* Zaloguj Button - moved to the end */}
+            <div class="flex space-x-4 ml-8">
+              <a
+                href={zalogujButton.href}
+                class="inline-flex items-center text-sm font-medium bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-full"
+              >
+                {zalogujButton.name}
+              </a>
             </div>
           </div>
 
