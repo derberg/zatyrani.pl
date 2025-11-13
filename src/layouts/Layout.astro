@@ -84,8 +84,8 @@ const allNavItems = [...ctaItems, ...mainNavItems];
               {
                 mainNavItems.map((item) =>
                   item.children ? (
-                    <div class="relative z-10">
-                      <button class="desktop-dropdown-toggle inline-flex items-center text-sm font-medium hover:text-purple-600 text-gray-900 px-1 pt-1 z-10">
+                    <div class="relative">
+                      <button class="desktop-dropdown-toggle inline-flex items-center text-sm font-medium hover:text-purple-600 text-gray-900 px-1 pt-1">
                         {item.name}
                         <svg
                           class="ml-1 h-5 w-5"
@@ -227,9 +227,12 @@ const allNavItems = [...ctaItems, ...mainNavItems];
       document.querySelectorAll(".desktop-dropdown-toggle").forEach((button) => {
         button.addEventListener("click", (event) => {
           event.stopPropagation();
-          console.log("Desktop dropdown toggle clicked!"); // Debug log
           const menu = button.nextElementSibling;
-          menu.classList.toggle("hidden");
+          if (menu.style.display === 'block') {
+            menu.style.display = 'none';
+          } else {
+            menu.style.display = 'block';
+          }
         });
       });
 
@@ -237,7 +240,7 @@ const allNavItems = [...ctaItems, ...mainNavItems];
       document.addEventListener("click", (event) => {
         document.querySelectorAll(".desktop-dropdown-menu").forEach((menu) => {
           if (!menu.contains(event.target) && !menu.previousElementSibling.contains(event.target)) {
-            menu.classList.add("hidden");
+            menu.style.display = 'none';
           }
         });
       });
