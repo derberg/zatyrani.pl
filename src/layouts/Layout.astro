@@ -84,21 +84,8 @@ const allNavItems = [...ctaItems, ...mainNavItems];
             </button>
           </div>
           <!-- Desktop Navigation Items -->
-          <div class="hidden sm:flex flex-1 items-center" id="desktopNav">
-            {/* CTA Buttons */}
-            <div class="flex space-x-4 mr-8">
-              {ctaItems.map((item) => (
-                <a
-                  href={item.href}
-                  class="inline-flex items-center text-sm font-medium bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-full"
-                >
-                  {item.name}
-                </a>
-              ))}
-            </div>
-
-            {/* Main Navigation Links */}
-            <div class="flex-1 flex justify-center space-x-8">
+          <div class="hidden sm:flex flex-1 justify-center items-center" id="desktopNav">
+            <div class="flex space-x-8">
               {
                 mainNavItems.map((item) =>
                   item.children ? (
@@ -149,6 +136,16 @@ const allNavItems = [...ctaItems, ...mainNavItems];
                 )
               }
             </div>
+          </div>
+          <div class="hidden sm:flex items-center space-x-4">
+            {ctaItems.map((item) => (
+              <a
+                href={item.href}
+                class="inline-flex items-center text-sm font-medium bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-full"
+              >
+                {item.name}
+              </a>
+            ))}
           </div>
         </div>
 
