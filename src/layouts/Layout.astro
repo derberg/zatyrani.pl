@@ -227,6 +227,7 @@ const allNavItems = [...ctaItems, ...mainNavItems];
       document.querySelectorAll(".desktop-dropdown-toggle").forEach((button) => {
         button.addEventListener("click", (event) => {
           event.stopPropagation();
+          console.log("Desktop dropdown toggle clicked!"); // Debug log
           const menu = button.nextElementSibling;
           menu.classList.toggle("hidden");
         });
