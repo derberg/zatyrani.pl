@@ -9,26 +9,108 @@ import Layout from '../layouts/Layout.astro';
         <div class="flex justify-center mb-6">
           <img src="/zatyrani_logo.webp" alt="Zatyrani Logo" class="h-24 w-auto" />
         </div>
-        <div class="mb-4">
-          <label class="block text-gray-700 text-sm font-bold mb-2" for="phone">
-            Numer telefonu
-          </label>
-          <input
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="phone"
-            type="tel"
-            placeholder="np. 123 456 789"
-          />
+
+        <div id="phoneInputSection">
+          <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="phone">
+              Numer telefonu
+            </label>
+            <input
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="phone"
+              type="tel"
+              placeholder="np. 123 456 789"
+            />
+          </div>
+          <div class="flex items-center justify-center">
+            <button
+              id="sendCodeButton"
+              class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline"
+              type="button"
+            >
+              Wyślij kod potwierdzający
+            </button>
+          </div>
         </div>
-        <div class="flex items-center justify-center">
-          <button
-            class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline"
-            type="button"
-          >
-            Wyślij kod potwierdzenia
-          </button>
+
+        <div id="codeInputSection" class="hidden">
+          <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="code">
+              Kod potwierdzający
+            </label>
+            <input
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="code"
+              type="text"
+              placeholder="Wprowadź kod"
+            />
+          </div>
+          <div class="flex items-center justify-center">
+            <button
+              id="confirmButton"
+              class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline"
+              type="button"
+            >
+              Potwierdź
+            </button>
+          </div>
         </div>
       </form>
     </div>
   </div>
+
+  <!-- Success Modal -->
+  <div id="successModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden">
+    <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+      <div class="mt-3 text-center">
+        <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100">
+          <svg class="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+        </div>
+        <h3 class="text-lg leading-6 font-medium text-gray-900 mt-2">Zalogowano pomyślnie!</h3>
+        <div class="mt-2 px-7 py-3">
+          <p class="text-sm text-gray-500">
+            Zostaniesz przekierowany na stronę główną.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
 </Layout>
+
+<script is:inline>
+  const phoneInputSection = document.getElementById('phoneInputSection');
+  const codeInputSection = document.getElementById('codeInputSection');
+  const sendCodeButton = document.getElementById('sendCodeButton');
+  const confirmButton = document.getElementById('confirmButton');
+  const successModal = document.getElementById('successModal');
+
+  sendCodeButton.addEventListener('click', () => {
+    // Simulate sending code and show loading state briefly
+    sendCodeButton.textContent = 'Wysyłanie...';
+    sendCodeButton.disabled = true;
+
+    setTimeout(() => {
+      phoneInputSection.classList.add('hidden');
+      codeInputSection.classList.remove('hidden');
+      sendCodeButton.textContent = 'Wyślij kod potwierdzający'; // Reset button text
+      sendCodeButton.disabled = false; // Re-enable button
+    }, 1500); // Simulate 1.5 seconds delay
+  });
+
+  confirmButton.addEventListener('click', () => {
+    // Simulate confirmation and show modal
+    confirmButton.textContent = 'Potwierdzanie...';
+    confirmButton.disabled = true;
+
+    setTimeout(() => {
+      successModal.classList.remove('hidden'); // Show modal
+      confirmButton.textContent = 'Potwierdź'; // Reset button text
+      confirmButton.disabled = false; // Re-enable button
+
+      setTimeout(() => {
+        successModal.classList.add('hidden'); // Hide modal
+        window.location.href = '/'; // Redirect to home page
+      }, 2000); // Show modal for 2 seconds
+    }, 1500); // Simulate 1.5 seconds delay for confirmation
+  });
+</script>
