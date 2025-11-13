@@ -22,21 +22,24 @@ import Layout from '../layouts/Layout.astro';
               placeholder="np. 123 456 789"
             />
           </div>
-          <div class="flex items-center justify-center">
+          <div class="flex items-center justify-center space-x-4">
             <button
               id="sendCodeButton"
-              class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline"
+              class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline"
               type="button"
             >
-              Wyślij kod potwierdzający
+              Wyślij kod do logowania
             </button>
+            <a href="/" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline inline-block text-center">
+              Wróć
+            </a>
           </div>
         </div>
 
         <div id="codeInputSection" class="hidden">
           <div class="mb-4">
             <label class="block text-gray-700 text-sm font-bold mb-2" for="code">
-              Kod potwierdzający
+              Kod do logowania
             </label>
             <input
               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -45,13 +48,20 @@ import Layout from '../layouts/Layout.astro';
               placeholder="Wprowadź kod"
             />
           </div>
-          <div class="flex items-center justify-center">
+          <div class="flex items-center justify-center space-x-4">
             <button
               id="confirmButton"
-              class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline"
+              class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline"
               type="button"
             >
               Potwierdź
+            </button>
+            <button
+              id="backButton"
+              class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline"
+              type="button"
+            >
+              Wróć
             </button>
           </div>
         </div>
@@ -75,7 +85,7 @@ import Layout from '../layouts/Layout.astro';
         <div class="items-center px-4 py-3">
           <button
             id="okButton"
-            class="px-4 py-2 bg-purple-600 text-white text-base font-medium rounded-full w-full shadow-sm hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            class="px-4 py-2 bg-purple-600 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
           >
             OK
           </button>
@@ -92,6 +102,8 @@ import Layout from '../layouts/Layout.astro';
   const confirmButton = document.getElementById('confirmButton');
   const successModal = document.getElementById('successModal');
   const okButton = document.getElementById('okButton');
+  const backButton = document.getElementById('backButton');
+  const newBackButton = document.querySelector('#phoneInputSection a');
 
   sendCodeButton.addEventListener('click', () => {
     // Simulate sending code and show loading state briefly
@@ -101,7 +113,7 @@ import Layout from '../layouts/Layout.astro';
     setTimeout(() => {
       phoneInputSection.classList.add('hidden');
       codeInputSection.classList.remove('hidden');
-      sendCodeButton.textContent = 'Wyślij kod potwierdzający'; // Reset button text
+      sendCodeButton.textContent = 'Wyślij kod do logowania'; // Reset button text
       sendCodeButton.disabled = false; // Re-enable button
     }, 1500); // Simulate 1.5 seconds delay
   });
@@ -116,6 +128,15 @@ import Layout from '../layouts/Layout.astro';
       confirmButton.textContent = 'Potwierdź'; // Reset button text
       confirmButton.disabled = false; // Re-enable button
     }, 1500); // Simulate 1.5 seconds delay for confirmation
+  });
+
+  backButton.addEventListener('click', () => {
+    codeInputSection.classList.add('hidden');
+    phoneInputSection.classList.remove('hidden');
+  });
+
+  newBackButton.addEventListener('click', () => {
+    window.location.href = '/'; // Redirect to home page
   });
 
   okButton.addEventListener('click', () => {
