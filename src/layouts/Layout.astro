@@ -65,26 +65,21 @@ const allNavItems = [...ctaItems, ...mainNavItems];
               <img class="h-8 w-auto" src="/logo.png" alt="Zatyrani" />
             </a>
           </div>
-          <div class="sm:hidden">
-            <!-- Mobile Hamburger Icon -->
-            <button id="menuButton" title="menu" class="text-gray-900 focus:outline-none">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                class="h-6 w-6"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M4 6h16M4 12h16M4 18h16"></path>
-              </svg>
-            </button>
-          </div>
-          <!-- Desktop Navigation Items -->
-          <div class="hidden sm:flex flex-1 justify-center items-center" id="desktopNav">
+          {/* Desktop Navigation Items */}
+          <div class="hidden sm:flex flex-1 items-center justify-end" id="desktopNav">
+            {/* CTA Buttons */}
+            <div class="flex space-x-4 mr-8">
+              {ctaItems.map((item) => (
+                <a
+                  href={item.href}
+                  class="inline-flex items-center text-sm font-medium bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-full"
+                >
+                  {item.name}
+                </a>
+              ))}
+            </div>
+
+            {/* Main Navigation Links */}
             <div class="flex space-x-8">
               {
                 mainNavItems.map((item) =>
@@ -136,16 +131,6 @@ const allNavItems = [...ctaItems, ...mainNavItems];
                 )
               }
             </div>
-          </div>
-          <div class="hidden sm:flex items-center space-x-4">
-            {ctaItems.map((item) => (
-              <a
-                href={item.href}
-                class="inline-flex items-center text-sm font-medium bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-full"
-              >
-                {item.name}
-              </a>
-            ))}
           </div>
         </div>
 
