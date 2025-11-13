@@ -5,14 +5,27 @@ interface Props {
   title: string;
 }
 
+interface DropdownChild {
+  name: string;
+  href: string;
+}
+
+interface NavItem {
+  name: string;
+  href: string;
+  cta?: boolean;
+  target?: string;
+  children?: DropdownChild[];
+}
+
 const { title } = Astro.props;
 
-const ctaItems = [
+const ctaItems: NavItem[] = [
   { name: "Dołącz", href: "/dolacz", cta: true },
   { name: "Zaloguj", href: "/zaloguj", cta: true },
 ];
 
-const mainNavItems = [
+const mainNavItems: NavItem[] = [
   { name: "Aktualności", href: "/aktualnosci" },
   { name: "Wydarzenia", href: "/wydarzenia" },
   {
@@ -27,7 +40,7 @@ const mainNavItems = [
   { name: "Partner", href: "/partner" },
 ];
 
-const allNavItems = [...ctaItems, ...mainNavItems];
+const allNavItems: NavItem[] = [...ctaItems, ...mainNavItems];
 ---
 
 <!doctype html>
@@ -208,18 +221,21 @@ const allNavItems = [...ctaItems, ...mainNavItems];
       const menuButton = document.getElementById("menuButton");
       const mobileNav = document.getElementById("mobileNav");
 
-      menuButton.addEventListener("click", () => {
-        // Toggle the visibility of mobileNav
-        if (mobileNav) {
+      if (menuButton && mobileNav) {
+        menuButton.addEventListener("click", () => {
+          // Toggle the visibility of mobileNav
           mobileNav.classList.toggle("hidden");
-        }
-      });
+        });
+      }
+
 
       // JavaScript for mobile dropdowns
       document.querySelectorAll(".mobile-dropdown-toggle").forEach((button) => {
         button.addEventListener("click", () => {
           const menu = button.nextElementSibling;
-          menu.classList.toggle("hidden");
+          if (menu instanceof HTMLElement) {
+            menu.classList.toggle("hidden");
+          }
         });
       });
 
@@ -228,10 +244,12 @@ const allNavItems = [...ctaItems, ...mainNavItems];
         button.addEventListener("click", (event) => {
           event.stopPropagation();
           const menu = button.nextElementSibling;
-          if (menu.style.display === 'block') {
-            menu.style.display = 'none';
-          } else {
-            menu.style.display = 'block';
+          if (menu instanceof HTMLElement) { // Cast to HTMLElement
+            if (menu.style.display === 'block') {
+              menu.style.display = 'none';
+            } else {
+              menu.style.display = 'block';
+            }
           }
         });
       });
@@ -239,8 +257,10 @@ const allNavItems = [...ctaItems, ...mainNavItems];
       // Close dropdowns when clicking outside
       document.addEventListener("click", (event) => {
         document.querySelectorAll(".desktop-dropdown-menu").forEach((menu) => {
-          if (!menu.contains(event.target) && !menu.previousElementSibling.contains(event.target)) {
-            menu.style.display = 'none';
+          if (menu instanceof HTMLElement && event.target instanceof Node) { // Cast to HTMLElement and Node
+            if (!menu.contains(event.target) && !menu.previousElementSibling.contains(event.target)) {
+              menu.style.display = 'none';
+            }
           }
         });
       });
