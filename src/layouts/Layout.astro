@@ -7,7 +7,7 @@ interface Props {
 
 const { title } = Astro.props;
 
-const navItems = [
+const mainNavItems = [
   { name: "Aktualności", href: "/aktualnosci" },
   { name: "Wydarzenia", href: "/wydarzenia" },
   {
@@ -22,10 +22,12 @@ const navItems = [
   { name: "Partner", href: "/partner" },
 ];
 
-const ctaItems = [
+const ctaNavItems = [
   { name: "Dołącz", href: "/dolacz", cta: true },
   { name: "Zaloguj", href: "/zaloguj", cta: true },
 ];
+
+const allNavItems = [...mainNavItems, ...ctaNavItems];
 ---
 
 <!doctype html>
@@ -82,10 +84,10 @@ const ctaItems = [
             </button>
           </div>
           <!-- Desktop Navigation Items -->
-          <div class="hidden sm:flex flex-1 justify-center" id="desktopNav">
+          <div class="hidden sm:flex flex-1 justify-center items-center" id="desktopNav">
             <div class="flex space-x-8">
               {
-                navItems.map((item) =>
+                mainNavItems.map((item) =>
                   item.children ? (
                     <div class="relative">
                       <button class="desktop-dropdown-toggle inline-flex items-center text-sm font-medium hover:text-purple-600 text-gray-900 px-1 pt-1">
@@ -126,14 +128,7 @@ const ctaItems = [
                     <a
                       target={item.target === "_blank" ? "_blank" : undefined}
                       href={item.href}
-                      class={`inline-flex items-center text-sm font-medium hover:text-purple-600 ${
-                        item.cta
-                          ? "bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-full"
-                          : "px-1 pt-1 " +
-                            (item.name === "Partner"
-                              ? "text-orange-700 hover:text-[rgb(255,80,0)]"
-                              : "text-gray-900")
-                      }`}
+                      class="inline-flex items-center text-sm font-medium text-gray-900 hover:text-purple-600 px-1 pt-1"
                     >
                       {item.name}
                     </a>
@@ -143,10 +138,10 @@ const ctaItems = [
             </div>
           </div>
           <div class="hidden sm:flex items-center space-x-4">
-            {ctaItems.map((item) => (
+            {ctaNavItems.map((item) => (
               <a
                 href={item.href}
-                class="inline-flex items-center text-sm font-medium hover:text-purple-600 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-full"
+                class="inline-flex items-center text-sm font-medium bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-full"
               >
                 {item.name}
               </a>
@@ -157,7 +152,7 @@ const ctaItems = [
         <!-- Mobile Navigation Items (hidden by default) -->
         <div id="mobileNav" class="hidden sm:hidden flex-col space-y-4 bg-white shadow-md p-4">
           {
-            [...navItems, ...ctaItems].map((item) =>
+            allNavItems.map((item) =>
               item.children ? (
                 <div>
                   <button class="w-full text-left block px-4 py-2 text-sm font-medium text-gray-900 mobile-dropdown-toggle">
