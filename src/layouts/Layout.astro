@@ -12,7 +12,7 @@ interface DropdownChild {
 
 interface NavItem {
   name: string;
-  href: string;
+  href?: string; // Made optional
   cta?: boolean;
   target?: string;
   children?: DropdownChild[];
