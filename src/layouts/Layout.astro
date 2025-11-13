@@ -87,8 +87,8 @@ const navItems = [
             {
               navItems.map((item) =>
                 item.children ? (
-                  <div class="relative group">
-                    <button class="inline-flex items-center text-sm font-medium hover:text-purple-600 text-gray-900 px-1 pt-1">
+                  <div class="relative">
+                    <button class="desktop-dropdown-toggle inline-flex items-center text-sm font-medium hover:text-purple-600 text-gray-900 px-1 pt-1">
                       {item.name}
                       <svg
                         class="ml-1 h-5 w-5"
@@ -103,7 +103,7 @@ const navItems = [
                         />
                       </svg>
                     </button>
-                    <div class="absolute z-10 -ml-4 mt-3 transform px-2 w-screen max-w-xs sm:px-0 hidden group-hover:block">
+                    <div class="desktop-dropdown-menu absolute z-10 -ml-4 mt-3 transform px-2 w-screen max-w-xs sm:px-0 hidden">
                       <div class="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
                         <div class="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
                           {item.children.map((child) => (
@@ -223,6 +223,24 @@ const navItems = [
         button.addEventListener("click", () => {
           const menu = button.nextElementSibling;
           menu.classList.toggle("hidden");
+        });
+      });
+
+      // JavaScript for desktop dropdowns
+      document.querySelectorAll(".desktop-dropdown-toggle").forEach((button) => {
+        button.addEventListener("click", (event) => {
+          event.stopPropagation();
+          const menu = button.nextElementSibling;
+          menu.classList.toggle("hidden");
+        });
+      });
+
+      // Close dropdowns when clicking outside
+      document.addEventListener("click", (event) => {
+        document.querySelectorAll(".desktop-dropdown-menu").forEach((menu) => {
+          if (!menu.contains(event.target) && !menu.previousElementSibling.contains(event.target)) {
+            menu.classList.add("hidden");
+          }
         });
       });
     </script>
