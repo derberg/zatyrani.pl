@@ -1,0 +1,168 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import ConfirmModal from '../../components/ConfirmModal.astro';
+import TrainingForm from '../../components/TrainingForm.astro';
+import type { Training } from '../../data/trainings';
+import { trainings } from '../../data/trainings';
+
+interface Props {
+  training: Training;
+}
+
+export async function getStaticPaths() {
+  return trainings.map(training => ({
+    params: { uid: training.uid },
+    props: { training },
+  }));
+}
+
+const { training } = Astro.props;
+
+const formatDateTime = (dateString) => {
+  const [datePart, timePart] = dateString.split(' ');
+  const [day, month, year] = datePart.split('/').map(Number);
+  const [hours, minutes] = timePart.split(':');
+  
+  const dateObj = new Date(year, month - 1, day, hours, minutes);
+  return new Intl.DateTimeFormat('pl-PL', { 
+    day: 'numeric', 
+    month: 'long', 
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  }).format(dateObj);
+};
+---
+
+<Layout title={`Zatyrani - Edytuj Trening: ${training.type}`}>
+  <PageHeader
+    title="Edytuj Trening"
+    subtitle="Usuń lub zmodyfikuj istniejący trening."
+    background="pink"
+  />
+
+  <div id="view-mode" class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <div class="bg-white shadow-md rounded-lg p-6">
+      <h2 class="text-2xl font-bold mb-4">{training.type === 'bieg' ? 'Bieg' : 'Nordic Walking'}</h2>
+      <p class="text-gray-700 mb-2"><strong>Data:</strong> {formatDateTime(training.datetime)}</p>
+      <p class="text-gray-700 mb-4"><strong>Lokalizacja:</strong> {training.location}</p>
+      {training.comment && <p class="text-gray-700 mb-4"><strong>Komentarz:</strong> {training.comment}</p>}
+      <p class="text-gray-700 mb-4"><strong>Dystans:</strong> {training.distance} km</p>
+      <p class="text-gray-700 mb-4"><strong>Tempo:</strong> {training.pace} min/km</p>
+      <p class="text-gray-700 mb-4"><strong>Kontakt:</strong> {training.phone}</p>
+
+      <div class="flex flex-col sm:flex-row gap-3 mt-6">
+        <button
+          id="edit-training-button"
+          class="w-full sm:w-auto bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline"
+        >
+          Edytuj trening
+        </button>
+
+        <button
+          id="delete-training-button"
+          class="w-full sm:w-auto bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline"
+        >
+          Usuń trening
+        </button>
+
+        <a
+          href="/"
+          class="w-full sm:w-auto bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline text-center inline-block"
+        >
+          Wróć
+        </a>
+      </div>
+
+      <div id="message" class="mt-4 text-center"></div>
+    </div>
+  </div>
+
+  <div id="edit-mode" class="hidden">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <p>
+          Wypełnij poniższy formularz, aby zaktualizować trening. Pamiętaj, że wszystkie pola oznaczone gwiazdką <span class="text-red-600">*</span> są obowiązkowe.
+      </p>
+    </div>
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-0 mb-4">
+      <hr class="my-4 border-t border-gray-300" />
+    </div>
+    
+    <TrainingForm training={training} />
+
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <div class="flex flex-col sm:flex-row gap-3">
+        <button
+          id="cancel-edit-button"
+          class="w-full sm:w-auto bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline"
+        >
+          Anuluj
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <ConfirmModal
+    title="Potwierdzenie usunięcia"
+    message={`Czy na pewno chcesz usunąć trening: ${training.type} w ${training.location}?`}
+  />
+
+  <script define:vars={{ uid: training.uid }}>
+    const modal = document.getElementById('confirm-modal');
+    const confirmButton = document.getElementById('confirm-button');
+    const cancelButton = document.getElementById('cancel-button');
+    const messageDiv = document.getElementById('message');
+    const viewMode = document.getElementById('view-mode');
+    const editMode = document.getElementById('edit-mode');
+    const editButton = document.getElementById('edit-training-button');
+    const cancelEditButton = document.getElementById('cancel-edit-button');
+    const deleteButton = document.getElementById('delete-training-button');
+
+    // Delete button stays in view mode
+    deleteButton.addEventListener('click', () => {
+      modal.classList.remove('hidden');
+    });
+
+    editButton.addEventListener('click', () => {
+      viewMode.classList.add('hidden');
+      editMode.classList.remove('hidden');
+    });
+
+    cancelEditButton.addEventListener('click', () => {
+      viewMode.classList.remove('hidden');
+      editMode.classList.add('hidden');
+    });
+
+    cancelButton.addEventListener('click', () => {
+      modal.classList.add('hidden');
+    });
+
+    confirmButton.addEventListener('click', async () => {
+      modal.classList.add('hidden');
+
+      try {
+        const response = await fetch(`/api/delete-training`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ uid }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          alert("Trening usunięty pomyślnie! Na liście treningów będzie widoczny jeszcze przez chwilę. Proszę o chwilę cierpliwości.");
+          window.location.href = '/'; // Redirect after successful deletion
+        } else {
+          messageDiv.className = 'text-red-600';
+          messageDiv.textContent = data.error || 'Wystąpił błąd podczas usuwania treningu.';
+        }
+      } catch (error) {
+        messageDiv.className = 'text-red-600';
+        messageDiv.textContent = 'Wystąpił błąd podczas usuwania treningu.';
+      }
+    });
+  </script>
+</Layout>

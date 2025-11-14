@@ -1,6 +1,6 @@
 ---
 import type { Training } from "../data/trainings";
-const { type, datetime, location, locationLink, comment, phone, distance, pace } =
+const { type, datetime, location, locationLink, comment, phone, distance, pace, uid } =
   Astro.props as Training;
 ---
 
@@ -39,6 +39,16 @@ const { type, datetime, location, locationLink, comment, phone, distance, pace }
       <strong>Kontakt:</strong>
       <a href={`tel:${phone}`} class="text-purple-600 hover:underline ml-1">{phone}</a>
     </footer>
+
+    <!-- Admin controls -->
+    <div class="mt-4 flex justify-end">
+      <a 
+        href={`/trening-edytuj/${uid}`}
+        class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-1 px-3 rounded-md text-sm focus:outline-none focus:shadow-outline"
+      >
+        Edytuj
+      </a>
+    </div>
   </article>
 
   <!-- Inline filter script: hide past trainings and section if empty -->

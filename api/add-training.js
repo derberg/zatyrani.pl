@@ -121,7 +121,7 @@ export function generateTrainingUID(type, datetime, location, distance, pace) {
     .replace(/^-+|-+$/g, "");
 
   const uid = [
-    normalizedType, // Use the normalizedType here
+    normalizedType,
     day,
     month,
     year,

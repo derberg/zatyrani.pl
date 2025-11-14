@@ -1,4 +1,6 @@
 ---
+import type { Training } from "../data/trainings";
+
 const locations = [
   { name: "Nieborowice – PPK", link: "https://maps.app.goo.gl/cUnjGVWuHfnJDQTL8" },
   { name: "Nieborowice – Krzyż", link: "https://maps.app.goo.gl/4t3qjRxQpny7Ln6KA" },
@@ -9,10 +11,28 @@ const locations = [
   { name: "Pilchowice – Damrota", link: "https://maps.app.goo.gl/XnmUCsTWhwotmXr98" },
   { name: "Pilchowice – Wielopole", link: "https://maps.app.goo.gl/fTGv37UHmFpk3zL57" },
 ];
+
+interface Props {
+  training?: Training;
+}
+
+const { training } = Astro.props;
+
+const submitButtonText = training ? "Zapisz zmiany" : "Dodaj trening";
+
+const formatDateTimeForInput = (dateTimeString) => {
+  if (!dateTimeString) return "";
+  const [datePart, timePart] = dateTimeString.split(" ");
+  const [day, month, year] = datePart.split("/");
+  const [hours, minutes] = timePart.split(":");
+  return `${year}-${month}-${day}T${hours}:${minutes}`;
+};
 ---
 
 <form id="trainingForm" autocomplete="off" class="max-w-2xl mx-auto p-4" method="POST">
   <div class="space-y-4">
+    {training && <input type="hidden" name="uid" value={training.uid} />}
+    
     <!-- Rodzaj treningu -->
     <div>
       <label class="block text-sm font-medium text-gray-700">
@@ -25,7 +45,7 @@ const locations = [
             type="radio"
             name="type"
             value="bieg"
-            checked
+            checked={training?.type === 'bieg'}
             required
             class="form-radio text-purple-600"
           />
@@ -37,6 +57,7 @@ const locations = [
             name="type"
             value="nordic walking"
             required
+            checked={training?.type === 'nordic walking'}
             class="form-radio text-purple-600"
           />
           <span class="ml-2 text-sm text-gray-500">Nordic Walking</span>
@@ -56,6 +77,7 @@ const locations = [
         name="datetime"
         required
         class="mt-1 block w-full rounded-md border-purple-300 border-2 shadow-sm focus:border-purple-500 focus:ring-purple-500 text-gray-500"
+        value={training?.datetime ? formatDateTimeForInput(training.datetime) : ""}
       />
     </div>
 
@@ -71,16 +93,20 @@ const locations = [
         required
         class="mt-1 block w-full rounded-md border-purple-300 border-2 shadow-sm focus:border-purple-500 focus:ring-purple-500 text-gray-500"
       >
-        <option value="" disabled selected class="text-gray-500">Wybierz lokalizację</option>
+        <option value="" disabled selected={!training?.location} class="text-gray-500">Wybierz lokalizację</option>
         {
           locations.map((loc) => (
-            <option value={loc.name} data-link={loc.link}>
+            <option 
+              value={loc.name} 
+              data-link={loc.link}
+              selected={training?.location === loc.name}
+            >
               {loc.name}
             </option>
           ))
         }
       </select>
-      <input type="hidden" name="locationLink" id="locationLink" />
+      <input type="hidden" name="locationLink" id="locationLink" value={training?.locationLink} />
     </div>
 
     <!-- Komentarz -->
@@ -94,7 +120,7 @@ const locations = [
         rows="3"
         placeholder="Opcjonalny opis lub uwagi…"
         class="mt-1 block w-full rounded-md border-purple-300 border-2 shadow-sm focus:border-purple-500 focus:ring-purple-500 placeholder-gray-500 text-gray-500"
-      ></textarea>
+      >{training?.comment}</textarea>
     </div>
 
     <!-- Numer kontaktowy -->
@@ -112,6 +138,7 @@ const locations = [
         pattern="\\+?\\d{9,15}"
         placeholder="600 700 800"
         class="mt-1 block w-full rounded-md border-purple-300 border-2 shadow-sm focus:border-purple-500 focus:ring-purple-500 placeholder-gray-500 text-gray-500"
+        value={training?.phone}
       />
     </div>
 
@@ -131,6 +158,7 @@ const locations = [
         required
         placeholder="np. 10"
         class="mt-1 block w-full rounded-md border-purple-300 border-2 shadow-sm focus:border-purple-500 focus:ring-purple-500 placeholder-gray-500 text-gray-500"
+        value={training?.distance}
       />
     </div>
 
@@ -151,6 +179,7 @@ const locations = [
         required
         placeholder="np. 5"
         class="mt-1 block w-full rounded-md border-purple-300 border-2 shadow-sm focus:border-purple-500 focus:ring-purple-500 placeholder-gray-500 text-gray-500"
+        value={training?.pace}
       />
     </div>
 
@@ -159,7 +188,7 @@ const locations = [
       type="submit"
       class="w-full bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed"
     >
-      Dodaj trening
+      {submitButtonText}
     </button>
 
     <!-- Messages container -->
@@ -167,7 +196,7 @@ const locations = [
   </div>
 </form>
 
-<script type="module">
+<script define:vars={{ initialTraining: training }}>
   const form = document.getElementById("trainingForm");
   const submitBtn = form.querySelector('button[type="submit"]');
   const select = document.getElementById("location");
@@ -180,9 +209,11 @@ const locations = [
     linkInput.value = opt?.dataset.link || "";
   });
 
-  // reset form and populate link on load
-  form.reset();
-  select.dispatchEvent(new Event("change"));
+  // If not in edit mode, reset form and populate link
+  if (!initialTraining) {
+    form.reset();
+    select.dispatchEvent(new Event("change"));
+  }
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -198,24 +229,39 @@ const locations = [
     formData.set("locationLink", linkInput.value);
     const data = Object.fromEntries(formData.entries());
 
+    const isUpdate = initialTraining && initialTraining.uid;
+    const apiUrl = isUpdate ? "/api/update-training" : "/api/add-training";
+    const apiMethod = isUpdate ? "PUT" : "POST";
+    const successMessage = isUpdate
+      ? "Trening zaktualizowany pomyślnie!"
+      : "Trening został dodany!";
+    const errorMessage = isUpdate
+      ? "Błąd podczas aktualizacji treningu."
+      : "Wystąpił błąd. Spróbuj ponownie.";
+
     try {
-      const res = await fetch("/api/add-training", {
-        method: "POST",
+      const res = await fetch(apiUrl, {
+        method: apiMethod,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
+
       if (!res.ok) throw new Error("Server error");
 
       const successMsg = document.createElement("div");
-      successMsg.textContent = "Trening został dodany!";
+      successMsg.textContent = successMessage;
       successMsg.className = "mt-2 p-2 bg-green-100 text-green-800 rounded-md";
       msgContainer.appendChild(successMsg);
 
-      form.reset();
-      select.dispatchEvent(new Event("change"));
+      if (!isUpdate) {
+        form.reset();
+        select.dispatchEvent(new Event("change"));
+      } else {
+        window.location.href = "/"; // Redirect to home after update
+      }
     } catch {
       const errorMsg = document.createElement("div");
-      errorMsg.textContent = "Wystąpił błąd. Spróbuj ponownie.";
+      errorMsg.textContent = errorMessage;
       errorMsg.className = "mt-2 p-2 bg-red-100 text-red-800 rounded-md";
       msgContainer.appendChild(errorMsg);
     } finally {
