@@ -185,16 +185,5 @@
     "phone": "223432345",
     "distance": 10,
     "pace": 5
-  },
-  {
-    "uid": "nordic-walking-29-11-2025-7-0-brenna-19-10",
-    "type": "nordic walking",
-    "datetime": "29/11/2025 07:00",
-    "location": "Brenna",
-    "locationLink": "",
-    "comment": "Wyjazd o 7 i szybkie 20km po górach",
-    "phone": "784640977",
-    "distance": 19,
-    "pace": 10
   }
 ]
