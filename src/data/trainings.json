@@ -179,22 +179,11 @@
     "uid": "bieg-3-11-2025-16-2-pilchowice-wielopole-10-5",
     "type": "bieg",
     "datetime": "03/11/2025 16:02",
-    "location": "Pilchowice – Wielopole",
-    "locationLink": "https://maps.app.goo.gl/fTGv37UHmFpk3zL57",
-    "comment": "",
-    "phone": "223432345",
-    "distance": 10,
-    "pace": 5
-  },
-  {
-    "uid": "nordic-walking-29-11-2025-7-0-brenna-19-10",
-    "type": "nordic walking",
-    "datetime": "29/11/2025 07:00",
-    "location": "Brenna",
+    "location": "inne",
     "locationLink": "",
-    "comment": "Wyjazd o 7 i szybkie 20km po górach",
+    "comment": "",
     "phone": "784640977",
-    "distance": 19,
-    "pace": 10
+    "distance": 11,
+    "pace": 8
   }
 ]
