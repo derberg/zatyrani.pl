@@ -152,7 +152,7 @@ const formatDateTime = (dateString) => {
           
           let specificError;
           if (response.status === 404) {
-            specificError = 'Trening nie został znaleziony - prawdopodobnie został już usunięty przez innego użytkownika lub nie istnieje. Odśwież stronę, aby zobaczyć aktualną listę treningów.';
+            specificError = 'Trening nie został znaleziony - prawdopodobnie został już usunięty przez innego użytkownika lub nie istnieje. Odśwież stronę za kilka minut, aby zobaczyć aktualną listę treningów.';
           } else if (response.status === 403) {
             specificError = 'Nie masz uprawnień do usunięcia tego treningu. Możesz usuwać tylko treningi, które sam utworzyłeś.';
           } else if (response.status === 409) {
