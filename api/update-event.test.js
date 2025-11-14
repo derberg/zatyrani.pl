@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
-import { updateEventByUid } from "./update-event.js";
+import { updateByUid } from "../src/utils/events.js";
 
-describe('updateEventByUid', () => {
+describe('updateByUid', () => {
   const events = [
     { uid: 'abc', name: 'Event 1', description: 'jeden'},
     { uid: 'def', name: 'Event 2', description: 'dwa' },
@@ -11,7 +11,7 @@ describe('updateEventByUid', () => {
     const dataForChange = {name:'Event 4', description: 'trzy'}
 
   it('should modify an events name', () => {
-    const updatedEvents = updateEventByUid(dataForChange, events, 'ghi');
+    const updatedEvents = updateByUid(events, 'ghi', dataForChange);
     expect(updatedEvents).toEqual([
       { uid: 'abc', name: 'Event 1', description: 'jeden' },
       { uid: 'def', name: 'Event 2', description: 'dwa' },

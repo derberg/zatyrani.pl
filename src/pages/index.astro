@@ -34,9 +34,13 @@ const upcomingTrainings = trainings
       upcomingTrainings.length > 0 && (
         <section class="mb-12">
           <div class="grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-            {upcomingTrainings.slice(0, 6).map((t) => (
+            <section class="mb-12">
+              <h2 class="text-3xl font-bold mb-4">Nadchodzące treningi</h2>
+              {upcomingTrainings.slice(0, 6).map((t) => (
               <TrainingCard {...t} />
             ))}
+            </section>
+            
           </div>
         </section>
       )

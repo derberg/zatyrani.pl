@@ -1,6 +1,7 @@
 import trainingsData from "./trainings.json";
 
 export interface Training {
+  uid: string;
   type: "bieg" | "nordic walking";
   datetime: string;
   location: string;
