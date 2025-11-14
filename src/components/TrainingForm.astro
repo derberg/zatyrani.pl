@@ -257,7 +257,7 @@ const formatDateTimeForInput = (dateTimeString) => {
       });
 
       if (!res.ok) {
-        let specificError;
+        const specificError = 'There is an error on the server side. Check logs.;
         
         if (res.status === 400) {
           specificError = isUpdate 
