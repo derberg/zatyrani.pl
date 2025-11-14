@@ -150,7 +150,7 @@ const formatDateTime = (dateString) => {
         } else {
           messageDiv.className = 'text-red-600 mt-4 p-3 bg-red-50 rounded-md border border-red-200';
           
-          let specificError;
+          const specificError = 'Nie udało się usunąć treningu z nieznanych przyczyn. Ciężko powiedzieć z jakiego powodu. Napisz do Łysego.';
           if (response.status === 404) {
             specificError = 'Trening nie został znaleziony - prawdopodobnie został już usunięty przez innego użytkownika lub nie istnieje. Odśwież stronę za kilka minut, aby zobaczyć aktualną listę treningów.';
           } else if (response.status === 403) {
