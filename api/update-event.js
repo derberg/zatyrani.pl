@@ -1,20 +1,8 @@
 import { Octokit } from "@octokit/rest";
 import { createOrUpdateTextFile } from "@octokit/plugin-create-or-update-text-file";
-import { readExistingEventsData, updateEventsFile, formatDate } from "../src/utils/events.js";
+import { readExistingData, updateFile, updateByUid, formatDate } from "../src/utils/events.js";
 
 const ExtendedOctokit = Octokit.plugin(createOrUpdateTextFile);
-
-export function updateEventByUid(dataForChange, events, uid) {
-  // Find the index of the event to update
-  const eventIndex = events.findIndex(event => event.uid === uid);
-
-  // Update the event data
-  events[eventIndex] = {
-    ...events[eventIndex], // Keep existing fields like image
-    ...dataForChange
-  };
-  return events;
-}
 
 export default async function handler(req, res) {
   if (req.method !== "PUT") {
@@ -31,9 +19,14 @@ export default async function handler(req, res) {
       auth: process.env.GITHUB_TOKEN,
     });
 
-    let events = await readExistingEventsData(octokit);
-    const updatedEvents = updateEventByUid(dataForChange, events, uid);;
-    await updateEventsFile(
+    const events = await readExistingData(octokit);
+    const updatedEvents = updateByUid(events, uid, dataForChange);
+
+    if (updatedEvents === null) {
+      return res.status(404).json({ error: "Event not found" });
+    }
+
+    await updateFile(
       octokit,
       `chore(events): updated event with UID ${uid}`,
       updatedEvents

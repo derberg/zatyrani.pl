@@ -1,18 +1,8 @@
 import { Octokit } from "@octokit/rest";
 import { createOrUpdateTextFile } from "@octokit/plugin-create-or-update-text-file";
+import { readExistingData, updateFile, deleteByUid } from "../src/utils/events.js";
 
 const ExtendedOctokit = Octokit.plugin(createOrUpdateTextFile);
-
-export function deleteTrainingByUid(trainings, uid) {
-  const initialLength = trainings.length;
-  const updatedTrainings = trainings.filter(training => training.uid !== uid);
-
-  if (updatedTrainings.length === initialLength) {
-    return null;
-  }
-
-  return updatedTrainings;
-}
 
 export default async function handler(req, res) {
   if (req.method !== "DELETE") {
@@ -30,28 +20,15 @@ export default async function handler(req, res) {
       auth: process.env.GITHUB_TOKEN,
     });
 
-    const { data: currentFile } = await octokit.repos.getContent({
-      owner: "derberg",
-      repo: "zatyrani.pl",
-      path: "src/data/trainings.json",
-    });
+    const trainings = await readExistingData(octokit, true);
 
-    const raw = Buffer.from(currentFile.content, "base64").toString();
-    const trainings = JSON.parse(raw || "[]");
-    
-    const updatedTrainings = deleteTrainingByUid(trainings, uid);
+    const updatedTrainings = deleteByUid(trainings, uid);
 
     if (updatedTrainings === null) {
       return res.status(404).json({ error: "Training not found" });
     }
 
-    await octokit.createOrUpdateTextFile({
-      owner: "derberg",
-      repo: "zatyrani.pl",
-      path: "src/data/trainings.json",
-      message: `chore(trainings): deleted training with UID ${uid}`,
-      content: JSON.stringify(updatedTrainings, null, 2),
-    });
+    await updateFile(octokit, `chore(trainings): deleted training with UID ${uid}`, updatedTrainings, true);
 
     res.status(200).json({ success: true, message: `Training with UID ${uid} deleted successfully.` });
   } catch (error) {
