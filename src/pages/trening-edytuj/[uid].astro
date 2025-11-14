@@ -92,14 +92,6 @@ const formatDateTime = (dateString) => {
     <TrainingForm training={training} />
 
     <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-      <div class="flex flex-col sm:flex-row gap-3">
-        <button
-          id="cancel-edit-button"
-          class="w-full sm:w-auto bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline"
-        >
-          Anuluj
-        </button>
-      </div>
     </div>
   </div>
 
@@ -150,18 +142,41 @@ const formatDateTime = (dateString) => {
           body: JSON.stringify({ uid }),
         });
 
-        const data = await response.json();
+        const data = await response.json().catch(() => ({}));
 
         if (response.ok) {
           alert("Trening usunięty pomyślnie! Na liście treningów będzie widoczny jeszcze przez chwilę. Proszę o chwilę cierpliwości.");
           window.location.href = '/'; // Redirect after successful deletion
         } else {
-          messageDiv.className = 'text-red-600';
-          messageDiv.textContent = data.error || 'Wystąpił błąd podczas usuwania treningu.';
+          messageDiv.className = 'text-red-600 mt-4 p-3 bg-red-50 rounded-md border border-red-200';
+          
+          let specificError;
+          if (response.status === 404) {
+            specificError = 'Trening nie został znaleziony - prawdopodobnie został już usunięty przez innego użytkownika lub nie istnieje. Odśwież stronę, aby zobaczyć aktualną listę treningów.';
+          } else if (response.status === 403) {
+            specificError = 'Nie masz uprawnień do usunięcia tego treningu. Możesz usuwać tylko treningi, które sam utworzyłeś.';
+          } else if (response.status === 409) {
+            specificError = 'Nie można usunąć treningu - jest obecnie używany przez innych użytkowników lub ma powiązane dane. Spróbuj ponownie za chwilę.';
+          } else if (response.status >= 500) {
+            specificError = 'Serwer ma obecnie problemy techniczne i nie może przetworzyć żądania usunięcia. Spróbuj ponownie za kilka minut.';
+          } else if (response.status === 400) {
+            specificError = 'Żądanie usunięcia jest nieprawidłowe. Odśwież stronę i spróbuj ponownie.';
+          } else {
+            specificError = data.error || 'Nie udało się usunąć treningu z nieznanych przyczyn. Sprawdź połączenie internetowe i spróbuj ponownie. Jeśli problem się powtarza, skontaktuj się z administratorem.';
+          }
+          
+          messageDiv.textContent = specificError;
         }
       } catch (error) {
-        messageDiv.className = 'text-red-600';
-        messageDiv.textContent = 'Wystąpił błąd podczas usuwania treningu.';
+        messageDiv.className = 'text-red-600 mt-4 p-3 bg-red-50 rounded-md border border-red-200';
+        
+        if (error.name === 'TypeError' && error.message.includes('fetch')) {
+          messageDiv.textContent = 'Brak połączenia z internetem. Sprawdź połączenie sieciowe i spróbuj ponownie.';
+        } else if (error.name === 'AbortError') {
+          messageDiv.textContent = 'Żądanie zostało przerwane - prawdopodobnie z powodu wolnego połączenia. Spróbuj ponownie.';
+        } else {
+          messageDiv.textContent = 'Wystąpił nieoczekiwany problem podczas usuwania treningu. Sprawdź połączenie internetowe i spróbuj ponownie za chwilę.';
+        }
       }
     });
   </script>

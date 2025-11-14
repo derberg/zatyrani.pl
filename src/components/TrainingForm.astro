@@ -184,12 +184,22 @@ const formatDateTimeForInput = (dateTimeString) => {
     </div>
 
     <!-- Submit -->
-    <button
-      type="submit"
-      class="w-full bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed"
-    >
-      {submitButtonText}
-    </button>
+    <div class="flex justify-center gap-4">
+      <button
+        type="submit"
+        class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        {submitButtonText}
+      </button>
+      
+      <button
+        id="cancel-edit-button"
+        type="button"
+        class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline"
+      >
+        Wróć
+      </button>
+    </div>
 
     <!-- Messages container -->
     <div id="msgContainer"></div>
@@ -236,8 +246,8 @@ const formatDateTimeForInput = (dateTimeString) => {
       ? "Trening zaktualizowany pomyślnie!"
       : "Trening został dodany!";
     const errorMessage = isUpdate
-      ? "Błąd podczas aktualizacji treningu."
-      : "Wystąpił błąd. Spróbuj ponownie.";
+      ? "Nie udało się zaktualizować treningu. Sprawdź połączenie internetowe i upewnij się, że wszystkie pola są poprawnie wypełnione. Jeśli problem się powtarza, spróbuj odświeżyć stronę."
+      : "Nie udało się dodać treningu. Sprawdź połączenie internetowe i upewnij się, że wszystkie wymagane pola są wypełnione. Jeśli problem się powtarza, spróbuj odświeżyć stronę.";
 
     try {
       const res = await fetch(apiUrl, {
@@ -246,7 +256,27 @@ const formatDateTimeForInput = (dateTimeString) => {
         body: JSON.stringify(data),
       });
 
-      if (!res.ok) throw new Error("Server error");
+      if (!res.ok) {
+        let specificError;
+        
+        if (res.status === 400) {
+          specificError = isUpdate 
+            ? "Dane treningu są nieprawidłowe. Sprawdź czy wszystkie pola są poprawnie wypełnione, szczególnie datę, dystans i tempo."
+            : "Nie można dodać treningu - niektóre dane są nieprawidłowe. Sprawdź format daty, czy dystans jest liczbą dodatnią i czy tempo mieści się w dozwolonym zakresie.";
+        } else if (res.status === 404) {
+          specificError = "Trening nie został znaleziony. Możliwe, że został już usunięty przez innego użytkownika. Odśwież stronę i spróbuj ponownie.";
+        } else if (res.status === 409) {
+          specificError = "Konflikt danych - trening o podobnych parametrach już istnieje lub został zmodyfikowany przez innego użytkownika. Sprawdź listę treningów i spróbuj ponownie.";
+        } else if (res.status >= 500) {
+          specificError = isUpdate
+            ? "Serwer ma obecnie problemy techniczne. Twoje zmiany nie zostały zapisane. Spróbuj ponownie za kilka minut."
+            : "Serwer ma obecnie problemy techniczne. Trening nie został dodany. Spróbuj ponownie za kilka minut.";
+        } else {
+          specificError = errorMessage;
+        }
+        
+        throw new Error(specificError);
+      }
 
       const successMsg = document.createElement("div");
       successMsg.textContent = successMessage;
@@ -259,9 +289,9 @@ const formatDateTimeForInput = (dateTimeString) => {
       } else {
         window.location.href = "/"; // Redirect to home after update
       }
-    } catch {
+    } catch (error) {
       const errorMsg = document.createElement("div");
-      errorMsg.textContent = errorMessage;
+      errorMsg.textContent = error.message || errorMessage;
       errorMsg.className = "mt-2 p-2 bg-red-100 text-red-800 rounded-md";
       msgContainer.appendChild(errorMsg);
     } finally {
