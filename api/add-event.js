@@ -1,59 +1,11 @@
 import { Octokit } from "@octokit/rest";
 import { createOrUpdateTextFile } from "@octokit/plugin-create-or-update-text-file";
 
-import { readExistingEventsData, updateEventsFile, formatDate} from "../src/utils/events.js";
+import { readExistingData, updateFile, normalizeEventData, generateUID } from "../src/utils/events.js";
+
+export { generateUID, normalizeEventData };
 
 const ExtendedOctokit = Octokit.plugin(createOrUpdateTextFile);
-
-export function generateUID(title, date) {
-	// Limit title to 40 characters
-	let croppedTitle = title.slice(0, 40);
-
-  // Normalize Polish characters
-  const polishMap = {
-    ą: "a",
-    ć: "c",
-    ę: "e",
-    ł: "l",
-    ń: "n",
-    ó: "o",
-    ś: "s",
-    ż: "z",
-    ź: "z",
-    Ą: "a",
-    Ć: "c",
-    Ę: "e",
-    Ł: "l",
-    Ń: "n",
-    Ó: "o",
-    Ś: "s",
-    Ż: "z",
-    Ź: "z",
-  };
-  croppedTitle = croppedTitle.replace(/[ąćęłńóśżźĄĆĘŁŃÓŚŻŹ]/g, (match) => polishMap[match]);
-
-  // Lowercase and replace spaces/special chars with "-"
-  let slug = croppedTitle
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-") // any non-alphanumeric -> "-"
-    .replace(/^-+|-+$/g, ""); // trim starting/ending "-"
-
-  return `${slug}-${formatDate(date).replace(/\//g, "-")}`;
-}
-
-export function normalizeEventData(body) {
-	const { name, date, website, registration, description, location } = body
-	return {
-		date: formatDate(date),
-		title: name,
-		mainLink: website,
-		registrationLink: registration,
-		description: description,
-		image: "",
-		location: location,
-		uid: generateUID(name, date)
-	};
-}
 
 export default async function handler(req, res) {
 	if (req.method !== "POST") {
@@ -67,11 +19,11 @@ export default async function handler(req, res) {
 			auth: process.env.GITHUB_TOKEN,
 		});
 
-		let events = await readExistingEventsData(octokit);
+		let events = await readExistingData(octokit);
 
 		events.push(eventsData);
 
-		await updateEventsFile(
+		await updateFile(
 			octokit,
 			`chore(events): added event ${eventsData.title}`,
 			events

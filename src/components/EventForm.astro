@@ -1,5 +1,6 @@
 ---
 import type { Events } from "../data/events";
+import { formatDateForInput } from "../utils/events.js";
 
 interface Props {
   event?: Events;
@@ -8,12 +9,6 @@ interface Props {
 const { event } = Astro.props;
 
 const submitButtonText = event ? "Zapisz zmiany" : "Dodaj wydarzenie";
-
-const formatDateForInput = (dateString) => {
-  if (!dateString) return "";
-  const [day, month, year] = dateString.split("/");
-  return `${year}-${month}-${day}`;
-};
 ---
 
 <form id="eventForm" class="max-w-2xl mx-auto p-4">

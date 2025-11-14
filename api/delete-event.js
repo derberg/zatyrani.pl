@@ -1,20 +1,11 @@
 import { Octokit } from "@octokit/rest";
 import { createOrUpdateTextFile } from "@octokit/plugin-create-or-update-text-file";
 
-import { readExistingEventsData, updateEventsFile } from "../src/utils/events.js";
+import { readExistingData, updateFile, deleteByUid } from "../src/utils/events.js";
+
+export { deleteByUid as deleteEventByUid } from "../src/utils/events.js";
 
 const ExtendedOctokit = Octokit.plugin(createOrUpdateTextFile);
-
-export function deleteEventByUid(events, uid) {
-  const initialLength = events.length;
-  const updatedEvents = events.filter(event => event.uid !== uid);
-
-  if (updatedEvents.length === initialLength) {
-    return null; // Or throw an error, depending on desired behavior
-  }
-
-  return updatedEvents;
-}
 
 export default async function handler(req, res) {
   if (req.method !== "DELETE") {
@@ -32,22 +23,16 @@ export default async function handler(req, res) {
       auth: process.env.GITHUB_TOKEN,
     });
 
-    // Fetch existing events
-    let events = await readExistingEventsData(octokit);
+    const events = await readExistingData(octokit);
 
-    // Filter out the event with the matching UID
-    const updatedEvents = deleteEventByUid(events, uid);
+    const updatedEvents = deleteByUid(events, uid);
 
     if (updatedEvents === null) {
       return res.status(404).json({ error: "Event not found" });
     }
 
-    // Update the events.json file
-    				await updateEventsFile(
-    					octokit,
-    					`chore(events): deleted event with UID ${uid}`,
-    					updatedEvents
-    				);    res.status(200).json({ success: true, message: `Event with UID ${uid} deleted successfully.` });
+    await updateFile(octokit, `chore(events): deleted event with UID ${uid}`, updatedEvents);
+    res.status(200).json({ success: true, message: `Event with UID ${uid} deleted successfully.` });
   } catch (error) {
     console.error("Error deleting event:", error);
     res.status(500).json({ error: "Failed to process request" });

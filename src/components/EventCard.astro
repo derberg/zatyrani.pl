@@ -1,39 +1,28 @@
 ---
-interface Props {
-  uid: string;
-  title: string;
-  date: string;
-  location: string;
-  description: string;
-  mainLink: string;
-  registrationLink: string;
-  image?: string;
-  month?: string;
-}
+import type { Events } from "../data/events";
+import { formatDateDisplay } from "../utils/events.js";
 
-import.meta.glob;
+type Props = Events;
 
-// Read all images from the events folder that start with "runners"
-const imageFiles = import.meta.glob("/public/events/runners*", { eager: true });
+const {
+  title,
+  location,
+  date,
+  description,
+  image,
+  mainLink,
+  registrationLink,
+  uid,
+} = Astro.props;
+
+// Import all images from the public/events directory
+const imageFiles = import.meta.glob("/public/events/*", { eager: true });
 
 // Convert object keys to an array of file paths
 const fallbackImages = Object.keys(imageFiles).map((path) => path.replace("/public/", ""));
 
-const formatDate = (dateString) => {
-  const [day, month, year] = dateString.split("/").map(Number);
-  const dateObj = new Date(year, month - 1, day);
-
-  return new Intl.DateTimeFormat("pl-PL", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  }).format(dateObj);
-};
-
 // Randomly select a fallback image
 const randomFallbackImage = fallbackImages[Math.floor(Math.random() * fallbackImages.length)];
-
-const { title, date, location, description, mainLink, registrationLink, image, uid } = Astro.props;
 ---
 
 <article
@@ -51,7 +40,7 @@ const { title, date, location, description, mainLink, registrationLink, image, u
     </div>
     <div class="space-y-2 text-gray-600 mt-4">
       <p class="font-bold">
-        {formatDate(date)}
+        {formatDateDisplay(date)}
         <span
           class="inline-block px-2 py-1 text-xs font-semibold text-green-600 bg-green-100 rounded-full"
         >
