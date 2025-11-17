@@ -28,9 +28,46 @@ const futureEvents = events
     subtitle="Wszystkie wydarzenia małe i duże gdzie spotkać można jakąś Zatyruskę bądź Zatyrusa."
   />
 
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="text-center mb-8">
+      <a
+        id="add-event-button"
+        href="/wydarzenia-dodaj"
+        class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline inline-block"
+      >
+        Dodaj wydarzenie
+      </a>
+    </div>
+  </div>
+
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
     <div class="grid md:grid-cols-3 gap-8">
       {futureEvents.map((event) => <EventCard {...event} />)}
     </div>
   </div>
 </Layout>
+
+<script>
+  // Hide add event button if not logged in
+  function getAuthState() {
+    try {
+      const raw = window.localStorage.getItem('authState');
+      if (!raw) return { loggedIn: false };
+      const parsed = JSON.parse(raw);
+      if (!parsed || typeof parsed !== 'object') return { loggedIn: false };
+      if (parsed.expiresAt && Date.now() > parsed.expiresAt) {
+        window.localStorage.removeItem('authState');
+        return { loggedIn: false };
+      }
+      return { loggedIn: !!parsed.loggedIn, expiresAt: parsed.expiresAt };
+    } catch {
+      return { loggedIn: false };
+    }
+  }
+
+  const { loggedIn } = getAuthState();
+  if (!loggedIn) {
+    const addButton = document.getElementById('add-event-button');
+    if (addButton) addButton.style.display = 'none';
+  }
+</script>

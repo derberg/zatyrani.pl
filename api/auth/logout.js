@@ -16,7 +16,7 @@ function getSupabaseClient() {
 function systemError(res) {
   return res.status(500).json({
     error:
-      "Coś nie tak z systemem. Spróbuj znowy za pare minut. Jak problem nadal się powtarze to napisz do Łysego",
+      "Coś nie tak z systemem. Spróbuj znowy za pare minut. Jak problem nadal się powtarza to napisz do Łysego",
   });
 }
 
