@@ -1,5 +1,5 @@
 import { describe, it, expect} from 'vitest';
-import { generateUID, normalizeEventData } from './add-event.js';
+import { generateUID, normalizeEventData } from '../api/add-event.js';
 
 describe('generateEventUID', () => {
 	it('should normalize Polish characters and format UID', () => {

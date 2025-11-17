@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { generateTrainingUID, formatDateTime } from "./add-training.js";
+import { generateTrainingUID, formatDateTime } from "../api/add-training.js";
 
 describe("generateTrainingUID", () => {
   it("should generate a UID with a standard case", () => {
