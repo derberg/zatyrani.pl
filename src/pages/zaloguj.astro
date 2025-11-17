@@ -282,6 +282,11 @@ import Layout from '../layouts/Layout.astro';
 
         setMessage('Nowy kod został wysłany SMS-em.', 'success');
         startResendCountdown();
+
+        // Unlock input and buttons after resend since attempts are reset
+        codeInput.disabled = false;
+        confirmButton.disabled = false;
+        backButton.disabled = false;
       } catch (error) {
         console.error(error);
         setMessage(
@@ -330,6 +335,7 @@ import Layout from '../layouts/Layout.astro';
         if (res.status === 403) {
           confirmButton.disabled = true;
           codeInput.disabled = true;
+          backButton.disabled = true;
         } else {
           confirmButton.disabled = false;
           codeInput.disabled = false;

@@ -85,7 +85,7 @@ export default async function handler(req, res) {
     const member = members && members[0];
 
     if (!member) {
-      return res.status(404).json({ error: "Nie znaleziono konta dla tego numeru." });
+      return res.status(404).json({ error: "Nie znaleziono konta dla tego numeru. Napisz do Łysego." });
     }
 
     const accountSid = process.env.TWILIO_ACCOUNT_SID;
@@ -102,7 +102,7 @@ export default async function handler(req, res) {
 
     try {
       await client.messages.create({
-        body: `Twój kod do logowania: ${code}`,
+        body: `Twój kod do logowania do strony Zatyranych: ${code}`,
         to: normalizedPhone,
         from: twilioPhoneNumber,
       });
@@ -110,7 +110,7 @@ export default async function handler(req, res) {
       console.error("Error sending SMS:", smsError);
       return res.status(503).json({
         error:
-          "Coś nie tak z systemem. Spróbuj znowy za pare minut. Jak problem nadal się powtarze to napisz do Łysego",
+          "Coś nie tak z systemem. Spróbuj znowu za pare minut. Jak problem nadal się powtarza to napisz do Łysego",
       });
     }
 
