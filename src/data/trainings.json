@@ -185,5 +185,16 @@
     "phone": "784640977",
     "distance": 11,
     "pace": 8
+  },
+  {
+    "uid": "bieg-22-11-2025-7-0-nieborowice-ppk-17-7",
+    "type": "bieg",
+    "datetime": "22/11/2025 07:00",
+    "location": "Nieborowice – PPK",
+    "locationLink": "https://maps.app.goo.gl/cUnjGVWuHfnJDQTL8",
+    "comment": "",
+    "phone": "784640977",
+    "distance": 17,
+    "pace": 7
   }
 ]
