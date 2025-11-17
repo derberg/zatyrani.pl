@@ -149,14 +149,22 @@ const allNavItems: NavItem[] = [...otherCtaItems, ...mainNavItems, zalogujButton
                 )
               }
             </div>
-            {/* Zaloguj Button - moved to the end */}
+            {/* Zaloguj / Wyloguj controls - managed via JS based on authState */}
             <div class="flex space-x-4 ml-8">
               <a
+                id="loginDesktopButton"
                 href={zalogujButton.href}
-                class="inline-flex items-center text-sm font-medium bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md hidden"
+                class="inline-flex items-center text-sm font-medium bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md"
               >
                 {zalogujButton.name}
               </a>
+              <button
+                id="logoutDesktopButton"
+                type="button"
+                class="inline-flex items-center text-sm font-medium bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md hidden"
+              >
+                Wyloguj
+              </button>
             </div>
           </div>
 
@@ -256,6 +264,20 @@ const allNavItems: NavItem[] = [...otherCtaItems, ...mainNavItems, zalogujButton
               ),
             )
           }
+          <button
+            id="loginMobileButton"
+            type="button"
+            class="block w-full mt-2 px-4 py-2 text-sm font-medium bg-purple-600 hover:bg-purple-700 text-white text-center rounded-md"
+          >
+            Zaloguj
+          </button>
+          <button
+            id="logoutMobileButton"
+            type="button"
+            class="block w-full mt-2 px-4 py-2 text-sm font-medium bg-purple-600 hover:bg-purple-700 text-white text-center rounded-md hidden"
+          >
+            Wyloguj
+          </button>
         </div>
       </nav>
     </header>
@@ -338,6 +360,94 @@ const allNavItems: NavItem[] = [...otherCtaItems, ...mainNavItems, zalogujButton
           }
         });
       });
+
+      // Auth state handling: track last visited path and toggle login/logout
+        if (window.location && window.location.pathname) {
+          window.localStorage.setItem('lastPath', window.location.pathname);
+        }
+
+      function getAuthState() {
+        try {
+          const raw = window.localStorage.getItem('authState');
+          if (!raw) return { loggedIn: false };
+          const parsed = JSON.parse(raw);
+          if (!parsed || typeof parsed !== 'object') return { loggedIn: false };
+          if (parsed.expiresAt && Date.now() > parsed.expiresAt) {
+            window.localStorage.removeItem('authState');
+            return { loggedIn: false };
+          }
+          return { loggedIn: !!parsed.loggedIn, expiresAt: parsed.expiresAt };
+        } catch {
+          return { loggedIn: false };
+        }
+      }
+
+      function setAuthState(state) {
+          window.localStorage.setItem('authState', JSON.stringify(state));
+      }
+
+      function toggleAuthControls() {
+        const desktopLogin = document.getElementById('loginDesktopButton');
+        const desktopLogout = document.getElementById('logoutDesktopButton');
+        const mobileLogin = document.getElementById('loginMobileButton');
+        const mobileLogout = document.getElementById('logoutMobileButton');
+        const { loggedIn } = getAuthState();
+
+        if (desktopLogin && desktopLogout) {
+          if (loggedIn) {
+            desktopLogin.classList.add('hidden');
+            desktopLogout.classList.remove('hidden');
+          } else {
+            desktopLogin.classList.remove('hidden');
+            desktopLogout.classList.add('hidden');
+          }
+        }
+
+        if (mobileLogin && mobileLogout) {
+          if (loggedIn) {
+            mobileLogin.classList.add('hidden');
+            mobileLogout.classList.remove('hidden');
+          } else {
+            mobileLogin.classList.remove('hidden');
+            mobileLogout.classList.add('hidden');
+          }
+        }
+      }
+
+      async function performLogout() {
+        try {
+          await fetch('/api/auth/logout', { method: 'POST' });
+        } catch (e) {
+          console.error('Logout request failed', e);
+        }
+        setAuthState({ loggedIn: false });
+        toggleAuthControls();
+          if (window.location.pathname === '/zaloguj') {
+            window.location.href = '/';
+          } else {
+            window.location.reload();
+          }
+      }
+
+      toggleAuthControls();
+
+      const logoutDesktopButton = document.getElementById('logoutDesktopButton');
+      const logoutMobileButton = document.getElementById('logoutMobileButton');
+      const loginMobileButton = document.getElementById('loginMobileButton');
+
+      if (logoutDesktopButton) {
+        logoutDesktopButton.addEventListener('click', performLogout);
+      }
+
+      if (logoutMobileButton) {
+        logoutMobileButton.addEventListener('click', performLogout);
+      }
+
+      if (loginMobileButton) {
+        loginMobileButton.addEventListener('click', () => {
+          window.location.href = '/zaloguj';
+        });
+      }
     </script>
 
     <style>

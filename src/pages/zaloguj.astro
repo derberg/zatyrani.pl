@@ -12,15 +12,25 @@ import Layout from '../layouts/Layout.astro';
 
         <div id="phoneInputSection">
           <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="phone">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="phoneLocal">
               Numer telefonu
             </label>
-            <input
-              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="phone"
-              type="tel"
-              placeholder="np. 123 456 789"
-            />
+            <div class="flex">
+              <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
+                +48
+              </span>
+              <input
+                class="shadow appearance-none border rounded-r-md w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="phoneLocal"
+                type="tel"
+                inputmode="numeric"
+                autocomplete="tel"
+                placeholder="123 456 789"
+              />
+            </div>
+            <p class="mt-1 text-xs text-gray-500">
+              Podaj 9 cyfr numeru telefonu bez prefiksu kraju. Możesz używać spacji, ale tylko cyfry zostaną zapisane.
+            </p>
           </div>
           <div class="flex items-center justify-center space-x-4">
             <button
@@ -44,9 +54,25 @@ import Layout from '../layouts/Layout.astro';
             <input
               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="code"
-              type="text"
-              placeholder="Wprowadź kod"
+              type="tel"
+              inputmode="numeric"
+              autocomplete="one-time-code"
+              placeholder="Wprowadź 6-cyfrowy kod"
+              maxlength="6"
             />
+            <p class="mt-1 text-xs text-gray-500">
+              Kod jest ważny przez 10 minut. Masz maksymalnie 3 próby.
+            </p>
+          </div>
+          <div class="mb-4 text-center">
+            <button
+              id="resendCodeButton"
+              type="button"
+              class="text-sm text-purple-600 hover:text-purple-700 disabled:text-gray-400 disabled:cursor-not-allowed"
+              disabled
+            >
+              Wyślij kod ponownie (15s)
+            </button>
           </div>
           <div class="flex items-center justify-center space-x-4">
             <button
@@ -65,6 +91,7 @@ import Layout from '../layouts/Layout.astro';
             </button>
           </div>
         </div>
+        <div id="loginMessage" class="mt-4 text-center text-sm"></div>
       </form>
     </div>
   </div>
@@ -104,35 +131,244 @@ import Layout from '../layouts/Layout.astro';
   const okButton = document.getElementById('okButton');
   const backButton = document.getElementById('backButton');
   const newBackButton = document.querySelector('#phoneInputSection a');
+  const phoneLocalInput = document.getElementById('phoneLocal');
+  const codeInput = document.getElementById('code');
+  const resendCodeButton = document.getElementById('resendCodeButton');
+  const loginMessage = document.getElementById('loginMessage');
 
-  sendCodeButton.addEventListener('click', () => {
-    // Simulate sending code and show loading state briefly
+  let currentPhoneE164 = null;
+  let resendCountdown = 15;
+  let resendInterval = null;
+  let redirectTarget = '/';
+
+  function setMessage(text, type = 'info') {
+    if (!loginMessage) return;
+    loginMessage.textContent = text || '';
+    loginMessage.className =
+      'mt-4 text-center text-sm ' +
+      (type === 'error'
+        ? 'text-red-700'
+        : type === 'success'
+        ? 'text-green-700'
+        : 'text-gray-700');
+  }
+
+  function startResendCountdown() {
+    if (!resendCodeButton) return;
+    resendCountdown = 15;
+    resendCodeButton.disabled = true;
+    resendCodeButton.textContent = `Wyślij kod ponownie (${resendCountdown}s)`;
+    if (resendInterval) clearInterval(resendInterval);
+    resendInterval = setInterval(() => {
+      resendCountdown -= 1;
+      if (resendCountdown <= 0) {
+        clearInterval(resendInterval);
+        resendInterval = null;
+        resendCodeButton.disabled = false;
+        resendCodeButton.textContent = 'Wyślij kod ponownie';
+      } else {
+        resendCodeButton.textContent = `Wyślij kod ponownie (${resendCountdown}s)`;
+      }
+    }, 1000);
+  }
+
+  if (phoneLocalInput) {
+    phoneLocalInput.addEventListener('input', () => {
+      const digits = phoneLocalInput.value.replace(/\D/g, '').slice(0, 9);
+      phoneLocalInput.value = digits
+        .replace(/(\d{3})(\d{3})(\d{0,3})/, (_, a, b, c) => (c ? `${a} ${b} ${c}` : `${a} ${b}`))
+        .trim();
+    });
+  }
+
+  if (codeInput) {
+    codeInput.addEventListener('input', () => {
+      const digits = codeInput.value.replace(/\D/g, '').slice(0, 6);
+      codeInput.value = digits;
+    });
+  }
+
+  try {
+    const lastPath = window.localStorage.getItem('lastPath');
+    if (lastPath && lastPath !== '/zaloguj') {
+      redirectTarget = lastPath;
+    } else {
+      redirectTarget = '/wydarzenia';
+    }
+  } catch {
+    redirectTarget = '/wydarzenia';
+  }
+
+  sendCodeButton.addEventListener('click', async () => {
+    setMessage('');
+    if (!phoneLocalInput) return;
+
+    const rawDigits = phoneLocalInput.value.replace(/\D/g, '');
+    if (rawDigits.length !== 9) {
+      setMessage('Podaj poprawny numer telefonu (dokładnie 9 cyfr).', 'error');
+      return;
+    }
+
+    currentPhoneE164 = `+48${rawDigits}`;
+
     sendCodeButton.textContent = 'Wysyłanie...';
     sendCodeButton.disabled = true;
+    phoneLocalInput.disabled = true;
 
-    setTimeout(() => {
+    try {
+      const res = await fetch('/api/auth/request-code', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone: currentPhoneE164 }),
+      });
+
+      const data = await res.json().catch(() => ({}));
+
+      if (!res.ok || !data.success) {
+        const msg =
+          data && data.error
+            ? data.error
+            : 'Nie udało się wysłać kodu. Spróbuj ponownie za chwilę.';
+        setMessage(msg, 'error');
+        return;
+      }
+
+      setMessage('Kod został wysłany SMS-em. Sprawdź telefon.', 'success');
       phoneInputSection.classList.add('hidden');
       codeInputSection.classList.remove('hidden');
-      sendCodeButton.textContent = 'Wyślij kod do logowania'; // Reset button text
-      sendCodeButton.disabled = false; // Re-enable button
-    }, 1500); // Simulate 1.5 seconds delay
+      if (codeInput) codeInput.focus();
+      startResendCountdown();
+    } catch (error) {
+      console.error(error);
+      setMessage(
+        'Coś nie tak z systemem. Spróbuj znowy za pare minut. Jak problem nadal się powtarze to napisz do Łysego',
+        'error'
+      );
+    } finally {
+      sendCodeButton.textContent = 'Wyślij kod do logowania';
+      sendCodeButton.disabled = false;
+      phoneLocalInput.disabled = false;
+    }
   });
 
-  confirmButton.addEventListener('click', () => {
-    // Simulate confirmation and show modal
+  if (resendCodeButton) {
+    resendCodeButton.addEventListener('click', async () => {
+      if (!currentPhoneE164) {
+        setMessage('Najpierw podaj numer telefonu i poproś o kod.', 'error');
+        return;
+      }
+
+      setMessage('');
+      resendCodeButton.disabled = true;
+      resendCodeButton.textContent = 'Wysyłanie...';
+
+      try {
+        const res = await fetch('/api/auth/request-code', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ phone: currentPhoneE164 }),
+        });
+
+        const data = await res.json().catch(() => ({}));
+
+        if (!res.ok || !data.success) {
+          const msg =
+            data && data.error
+              ? data.error
+              : 'Nie udało się wysłać kodu ponownie. Spróbuj za chwilę.';
+          setMessage(msg, 'error');
+          return;
+        }
+
+        setMessage('Nowy kod został wysłany SMS-em.', 'success');
+        startResendCountdown();
+      } catch (error) {
+        console.error(error);
+        setMessage(
+          'Coś nie tak z systemem. Spróbuj znowy za pare minut. Jak problem nadal się powtarze to napisz do Łysego',
+          'error'
+        );
+      }
+    });
+  }
+
+  confirmButton.addEventListener('click', async () => {
+    setMessage('');
+    if (!currentPhoneE164) {
+      setMessage('Najpierw poproś o kod do logowania.', 'error');
+      return;
+    }
+    if (!codeInput) return;
+
+    const digits = codeInput.value.replace(/\D/g, '');
+    if (digits.length !== 6) {
+      setMessage('Podaj poprawny kod (6 cyfr).', 'error');
+      return;
+    }
+
     confirmButton.textContent = 'Potwierdzanie...';
     confirmButton.disabled = true;
+    codeInput.disabled = true;
+    backButton.disabled = true;
 
-    setTimeout(() => {
-      successModal.classList.remove('hidden'); // Show modal
-      confirmButton.textContent = 'Potwierdź'; // Reset button text
-      confirmButton.disabled = false; // Re-enable button
-    }, 1500); // Simulate 1.5 seconds delay for confirmation
+    try {
+      const res = await fetch('/api/auth/verify-code', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone: currentPhoneE164, code: digits }),
+      });
+
+      const data = await res.json().catch(() => ({}));
+
+      if (!res.ok || !data.success) {
+        const msg =
+          data && data.error
+            ? data.error
+            : 'Nie udało się potwierdzić kodu. Spróbuj ponownie.';
+        setMessage(msg, 'error');
+
+        if (res.status === 403) {
+          confirmButton.disabled = true;
+          codeInput.disabled = true;
+        } else {
+          confirmButton.disabled = false;
+          codeInput.disabled = false;
+          backButton.disabled = false;
+        }
+        confirmButton.textContent = 'Potwierdź';
+        return;
+      }
+
+      try {
+        const expiresAt = Date.now() + 60 * 24 * 60 * 60 * 1000;
+        window.localStorage.setItem(
+          'authState',
+          JSON.stringify({ loggedIn: true, expiresAt })
+        );
+      } catch (e) {
+        console.warn('Cannot use localStorage for authState', e);
+      }
+
+      successModal.classList.remove('hidden');
+      setMessage('Zalogowano pomyślnie.', 'success');
+    } catch (error) {
+      console.error(error);
+      setMessage(
+        'Coś nie tak z systemem. Spróbuj znowy za pare minut. Jak problem nadal się powtarze to napisz do Łysego',
+        'error'
+      );
+      confirmButton.disabled = false;
+      codeInput.disabled = false;
+      backButton.disabled = false;
+    } finally {
+      confirmButton.textContent = 'Potwierdź';
+    }
   });
 
   backButton.addEventListener('click', () => {
     codeInputSection.classList.add('hidden');
     phoneInputSection.classList.remove('hidden');
+    setMessage('');
   });
 
   newBackButton.addEventListener('click', () => {
@@ -141,6 +377,6 @@ import Layout from '../layouts/Layout.astro';
 
   okButton.addEventListener('click', () => {
     successModal.classList.add('hidden'); // Hide modal
-    window.location.href = '/'; // Redirect to home page
+    window.location.href = redirectTarget;
   });
 </script>

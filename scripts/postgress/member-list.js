@@ -14,7 +14,7 @@ const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 async function getMembers() {
   try {
-    const { data, error } = await supabase.from('members').select('uid, name, phone');
+    const { data, error } = await supabase.from('members').select('id, name, phone');
 
     if (error) {
       console.error('Supabase query error:', error);
