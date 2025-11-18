@@ -126,7 +126,6 @@ const { training } = Astro.props;
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({ uid }),
-          credentials: 'include',
         });
 
         if (response.ok) {
