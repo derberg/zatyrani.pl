@@ -45,6 +45,7 @@ const { type, datetime, location, locationLink, comment, phone, distance, pace, 
       <a
         href={`/trening-edytuj/${uid}`}
         class="text-purple-600 hover:text-purple-700"
+        style="display: none;"
       >
         Edytuj
       </a>
@@ -71,9 +72,9 @@ const { type, datetime, location, locationLink, comment, phone, distance, pace, 
   }
 
   const { loggedIn } = getAuthState();
-  if (!loggedIn) {
+  if (loggedIn) {
     const editLinks = document.querySelectorAll('a[href*="/trening-edytuj/"]');
-    editLinks.forEach(link => (link as HTMLElement).style.display = 'none');
+    editLinks.forEach(link => (link as HTMLElement).style.display = '');
   }
 </script>
 

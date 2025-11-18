@@ -1,6 +1,7 @@
 import { Octokit } from "@octokit/rest";
 import { createOrUpdateTextFile } from "@octokit/plugin-create-or-update-text-file";
 import { readExistingData, updateFile, formatDateTime, generateTrainingUID } from "../src/utils/events.js";
+import { verifyUser } from "../src/utils/auth.js";
 
 export { generateTrainingUID, formatDateTime };
 
@@ -12,6 +13,9 @@ export default async function handler(req, res) {
   }
 
   try {
+    // Verify user is logged in
+    await verifyUser(req);
+
     const { type, datetime, location, locationLink, comment, phone, distance, pace } = req.body;
 
     const octokit = new ExtendedOctokit({

@@ -55,8 +55,8 @@ const futureEvents = events
   }
 
   const { loggedIn } = getAuthState();
-  if (!loggedIn) {
+  if (loggedIn) {
     const addButton = document.getElementById('add-event-button');
-    if (addButton) addButton.style.display = 'none';
+    if (addButton) addButton.style.display = 'inline-block';
   }
 </script>

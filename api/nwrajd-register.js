@@ -1,5 +1,6 @@
 import { Octokit } from "@octokit/rest";
 import { createOrUpdateTextFile } from "@octokit/plugin-create-or-update-text-file";
+import { verifyUser } from "../src/utils/auth.js";
 
 const ExtendedOctokit = Octokit.plugin(createOrUpdateTextFile);
 
@@ -9,6 +10,9 @@ export default async function handler(req, res) {
   }
 
   try {
+    // Verify user is logged in
+    await verifyUser(req);
+
     const { name, surname, club, location, year } = req.body;
 
     const octokit = new ExtendedOctokit({

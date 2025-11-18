@@ -56,7 +56,7 @@ const upcomingTrainings = trainings
           news
             .filter((post) => post.message)
             .slice(0, 2)
-            .map((post) => <NewsCard {...post} height="h-2/3" />)
+            .map((post) => <NewsCard {...post} />)
         }
       </div>
 
@@ -72,4 +72,55 @@ const upcomingTrainings = trainings
 
     <SubscribeForm />
   </div>
+
+  <footer class="bg-white border-t mt-12 relative">
+    <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-center mb-4">
+        <a href="https://www.youtube.com/@Zatyranitv/videos" target="_blank" class="text-gray-500 hover:text-red-600 flex items-center space-x-2">
+          <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path fill-rule="evenodd" d="M19.812 5.418c.861.23 1.538.907 1.768 1.768C21.998 8.78 22 12 22 12s0 3.22-.42 4.814a2.506 2.506 0 0 1-1.768 1.768c-1.59.42-7.81.42-7.81.42s-6.22 0-7.81-.42a2.506 2.506 0 0 1-1.768-1.768C2 15.22 2 12 2 12s0-3.22.42-4.814a2.506 2.506 0 0 1 1.768-1.768C5.78 5.002 12 5 12 5s6.22 0 7.812.418zM9.75 15.25V8.75l5.5 3.25-5.5 3.25z" clip-rule="evenodd" />
+          </svg>
+          <span class="text-sm font-medium">Youtube - Zatyrani</span>
+        </a>
+      </div>
+      <div class="text-center">
+        <p class="text-sm text-gray-500">
+          2025 Zatyrani Gratisownia.pl Gmina Pilchowice. All rights reserved.
+          <a
+            href="Statut-Stowarzyszenia-ZATYRANI.docx"
+            class="text-blue-600 hover:text-blue-700 block"
+            download="statut"
+          >
+            Statut Stowarzyszenia.
+          </a>
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <div id="auth-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full mx-4 text-center">
+      <h2 class="text-xl font-bold mb-4">Brak uprawnień</h2>
+      <p class="mb-4">Wygląda na to, że nie masz uprawnień do tej funkcji. Napisz do Łysego</p>
+      <button id="modal-close" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">
+        OK
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // Check for access_denied param and show modal
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('access_denied')) {
+      const modal = document.getElementById('auth-modal');
+      const closeBtn = document.getElementById('modal-close');
+      modal.classList.remove('hidden');
+      closeBtn.addEventListener('click', () => {
+        modal.classList.add('hidden');
+        // Remove param from URL
+        const newUrl = window.location.pathname;
+        window.history.replaceState({}, document.title, newUrl);
+      });
+    }
+  </script>
 </Layout>
