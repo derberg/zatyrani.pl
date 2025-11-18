@@ -101,6 +101,7 @@ const { event } = Astro.props;
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({ uid }),
+          credentials: 'include',
         });
 
         const data = await response.json();

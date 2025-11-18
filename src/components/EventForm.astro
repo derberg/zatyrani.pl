@@ -217,6 +217,7 @@ const submitButtonText = event ? "Zapisz zmiany" : "Dodaj wydarzenie";
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: 'include',
       });
 
       if (response.ok) {
