@@ -36,7 +36,7 @@ export async function verifyUser(req) {
   const token = cookies[SESSION_COOKIE_NAME];
 
   if (!token) {
-    throw new Error("Wygląda na to, że nie masz uprawnień do tej funkcji. Napisz do Łysego");
+    throw new Error("Wygląda na to, że wygasły twoje uprawnienia do tej funkcji. Wyloguj się i zaloguj ponownie. Jak to nie zadziała to napisz do Łysego.");
   }
 
   const nowIso = new Date().toISOString();
@@ -56,7 +56,7 @@ export async function verifyUser(req) {
   const session = sessions && sessions[0];
 
   if (!session) {
-    throw new Error("Wygląda na to, że nie masz uprawnień do tej funkcji. Napisz do Łysego");
+    throw new Error("Wygląda na to, że nie masz uprawnień do tej funkcji. Napisz do Łysego.");
   }
 
   return {
