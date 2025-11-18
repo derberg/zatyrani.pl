@@ -207,5 +207,16 @@
     "phone": "784640977",
     "distance": 10,
     "pace": 7
+  },
+  {
+    "uid": "nordic-walking-22-11-2025-10-0-gliwice-8-11",
+    "type": "nordic walking",
+    "datetime": "22/11/2025 10:00",
+    "location": "Gliwice",
+    "locationLink": "",
+    "comment": "50°18'26.5\"N 18°41'57.4\"E",
+    "phone": "663473341",
+    "distance": 8,
+    "pace": 11
   }
 ]
