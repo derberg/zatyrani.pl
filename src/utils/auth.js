@@ -20,6 +20,7 @@ function parseCookies(req) {
     const [name, ...rest] = part.trim().split("=");
     if (!name) return acc;
     acc[name] = decodeURIComponent(rest.join("="));
+    return acc;
   }, {});
 }
 
