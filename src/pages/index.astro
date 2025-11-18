@@ -3,6 +3,24 @@ import Layout from "../layouts/Layout.astro";
 import NewsCard from "../components/NewsCard.astro";
 import SubscribeForm from "../components/SubscribeForm.astro";
 import { news } from "../data/news";
+import { trainings } from "../data/trainings";
+import TrainingCard from "../components/TrainingCard.astro";
+
+// Parsuje "DD/MM/YYYY HH:mm" i zwraca timestamp (ms od 1970)
+function toTimestamp(datetime: string): number {
+  const [date, time] = datetime.split(" ");
+  const [day, month, year] = date.split("/").map(Number);
+  const [hour, minute] = time.split(":").map(Number);
+  return new Date(year, month - 1, day, hour, minute).getTime();
+}
+
+const nowMs = Date.now();
+
+const upcomingTrainings = trainings
+  // tylko te w przyszłości
+  .filter((t) => toTimestamp(t.datetime) >= nowMs)
+  // sortujemy rosnąco po timestamp: najmniejszy (najbliższy) najpierw
+  .sort((a, b) => toTimestamp(a.datetime) - toTimestamp(b.datetime));
 ---
 
 <Layout title="Zatyrani Gratisownia.pl Gmina Pilchowice">
@@ -10,6 +28,23 @@ import { news } from "../data/news";
     <div class="text-center mb-12">
       <img src="/zatyrani_logo.webp" alt="Zatyrani" class="mx-auto h-32" />
     </div>
+
+    {/* Only show upcoming trainings if any future items exist */}
+    {
+      upcomingTrainings.length > 0 && (
+        <section class="mb-12">
+          <div class="grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            <section class="mb-12">
+              <h2 class="text-3xl font-bold mb-4">Nadchodzące treningi</h2>
+              {upcomingTrainings.slice(0, 6).map((t) => (
+              <TrainingCard {...t} />
+            ))}
+            </section>
+            
+          </div>
+        </section>
+      )
+    }
 
     <!-- Aktualności -->
     <section>
