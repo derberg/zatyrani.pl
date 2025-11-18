@@ -230,6 +230,7 @@ const submitButtonText = training ? "Zapisz zmiany" : "Dodaj trening";
   const customWrapper = document.getElementById("customLocationWrapper");
   const customInput = document.getElementById("customLocation");
   const msgContainer = document.getElementById("msgContainer");
+  const cancelBtn = document.getElementById("cancel-edit-button");
 
   function syncLocationState() {
     const opt = select.selectedOptions[0];
@@ -262,6 +263,13 @@ const submitButtonText = training ? "Zapisz zmiany" : "Dodaj trening";
     select.dispatchEvent(new Event("change"));
   } else {
     syncLocationState();
+  }
+
+  // Handle cancel button
+  if (cancelBtn) {
+    cancelBtn.addEventListener("click", () => {
+      window.location.href = "/treningi";
+    });
   }
 
   form.addEventListener("submit", async (e) => {
