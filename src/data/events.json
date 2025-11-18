@@ -1287,5 +1287,15 @@
     "image": "",
     "location": "Kędzierzyn-Koźle",
     "uid": "test-03-11-2025"
+  },
+  {
+    "date": "22/11/2025",
+    "title": "Towarzyski Bieg dla Serc",
+    "mainLink": "https://facebook.com/events/s/towarzyski-bieg-dla-serca/839049032403410/",
+    "registrationLink": "https://facebook.com/events/s/towarzyski-bieg-dla-serca/839049032403410/",
+    "description": "Bieg I Nordic Walking ",
+    "image": "",
+    "location": "Gliwice  park przy Chorzowskiej",
+    "uid": "towarzyski-bieg-dla-serc-22-11-2025"
   }
 ]
