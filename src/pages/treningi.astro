@@ -1,0 +1,64 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PageHeader from "../components/PageHeader.astro";
+import TrainingCard from "../components/TrainingCard.astro";
+import { trainings } from "../data/trainings";
+
+const currentDate = new Date(); // Get the current date
+
+// Function to parse a DD/MM/YYYY HH:MM string into a Date object
+function parseDateTime(dateTimeString: string): Date {
+  const [dateStr, timeStr] = dateTimeString.split(" ");
+  const [day, month, year] = dateStr.split("/");
+  const [hour, minute] = timeStr.split(":");
+  return new Date(+year, +month - 1, +day, +hour, +minute); // Use "+" to convert to numbers
+}
+
+// Filter and sort trainings: Show only future trainings, sorted from closest to the current date (ascending)
+const futureTrainings = trainings
+  .filter((training) => parseDateTime(training.datetime) > currentDate) // Filter future trainings
+  .sort((a, b) => {
+    const dateA = parseDateTime(a.datetime);
+    const dateB = parseDateTime(b.datetime);
+    return dateA.getTime() - dateB.getTime(); // Compare timestamps
+  });
+---
+
+<Layout title="Zatyrani - Treningi">
+  <PageHeader
+    title="Treningi"
+    subtitle="Wszystkie treningi biegowe i nordic walking organizowane przez Zatyranych."
+    showAddTrainingButton={true}
+  />
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <div class="grid md:grid-cols-3 gap-8">
+      {futureTrainings.map((training) => <TrainingCard {...training} />)}
+    </div>
+  </div>
+</Layout>
+
+<script>
+  // Hide add training button if not logged in
+  function getAuthState() {
+    try {
+      const raw = window.localStorage.getItem('authState');
+      if (!raw) return { loggedIn: false };
+      const parsed = JSON.parse(raw);
+      if (!parsed || typeof parsed !== 'object') return { loggedIn: false };
+      if (parsed.expiresAt && Date.now() > parsed.expiresAt) {
+        window.localStorage.removeItem('authState');
+        return { loggedIn: false };
+      }
+      return { loggedIn: !!parsed.loggedIn, expiresAt: parsed.expiresAt };
+    } catch {
+      return { loggedIn: false };
+    }
+  }
+
+  const { loggedIn } = getAuthState();
+  if (!loggedIn) {
+    const addButton = document.getElementById('add-training-button');
+    if (addButton) addButton.style.display = 'none';
+  }
+</script>
