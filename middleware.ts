@@ -2,9 +2,7 @@ import { verifyUser } from './src/utils/auth.js';
 
 export default async function middleware(request) {
   const url = new URL(request.url);
-  console.log('log1', url);
   const { pathname } = url;
-  console.log('log2', pathname);
 
   const protectedPaths = [
     '/wydarzenia-dodaj',
@@ -15,14 +13,14 @@ export default async function middleware(request) {
 
   if (protectedPaths.some(path => pathname.startsWith(path))) {
     try {
-        console.log('log3', request.headers.get('cookie'));
       const req = {
         headers: {
           cookie: request.headers.get('cookie') || '',
         },
       };
       await verifyUser(req);
-    } catch {
+    } catch (error) {
+      console.error('Middleware auth failure:', error);
       const redirectUrl = new URL('/', url);
       redirectUrl.searchParams.set('access_denied', 'true');
       return new Response(null, {
@@ -33,7 +31,7 @@ export default async function middleware(request) {
       });
     }
   }
-  console.log('ciebie tu nie powinno być');
+
   return new Response(null, { status: 200 });
 }
 
