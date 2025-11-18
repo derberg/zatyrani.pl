@@ -4,9 +4,11 @@ interface Props {
   subtitle: string;
   background?: "blue" | "pink"; // Background color options
   height?: string; // Optional height
+  showAddEventButton?: boolean; // Show "Dodaj wydarzenie" button
+  showAddTrainingButton?: boolean; // Show "Dodaj trening" button
 }
 
-const { title, subtitle, background = "blue", height = "py-16" } = Astro.props;
+const { title, subtitle, background = "blue", height = "py-16", showAddEventButton = false, showAddTrainingButton = false } = Astro.props;
 
 // Determine the background image based on the `background` prop
 const backgroundImage = background === "pink" ? "/pink_bg.png" : "/blue_bg.png";
@@ -19,5 +21,29 @@ const backgroundImage = background === "pink" ? "/pink_bg.png" : "/blue_bg.png";
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
     <h1 class="text-4xl font-bold mb-4">{title}</h1>
     <p class="text-xl">{subtitle}</p>
+    {showAddEventButton && (
+      <div class="mt-6">
+        <a
+          id="add-event-button"
+          href="/wydarzenia-dodaj"
+          class="bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded-md focus:outline-none focus:shadow-outline inline-block"
+          style="display: none;"
+        >
+          Dodaj wydarzenie
+        </a>
+      </div>
+    )}
+    {showAddTrainingButton && (
+      <div class="mt-6">
+        <a
+          id="add-training-button"
+          href="/trening-dodaj"
+          class="bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded-md focus:outline-none focus:shadow-outline inline-block"
+          style="display: none;"
+        >
+          Dodaj trening
+        </a>
+      </div>
+    )}
   </div>
 </div>

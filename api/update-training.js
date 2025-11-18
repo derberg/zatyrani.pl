@@ -1,6 +1,7 @@
 import { Octokit } from "@octokit/rest";
 import { createOrUpdateTextFile } from "@octokit/plugin-create-or-update-text-file";
 import { readExistingData, updateFile, updateByUid, formatDateTime } from "../src/utils/events.js";
+import { verifyUser } from "../src/utils/auth.js";
 
 const ExtendedOctokit = Octokit.plugin(createOrUpdateTextFile);
 
@@ -9,7 +10,11 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const { uid, type, datetime, location, locationLink, comment, phone, distance, pace } = req.body;
+  try {
+    // Verify user is logged in
+    await verifyUser(req);
+
+    const { uid, type, datetime, location, locationLink, comment, phone, distance, pace } = req.body;
 
   const newDateTime = formatDateTime(datetime);
 
@@ -45,7 +50,19 @@ export default async function handler(req, res) {
 
     res.status(200).json({ success: true, message: `Training with UID ${uid} updated successfully.` });
   } catch (error) {
+    if (error.message && (error.message.includes("Sesja") || error.message.includes("Brak"))) {
+      res.status(401).json({ error: error.message });
+    } else {
+      console.error("Error updating training:", error);
+      res.status(500).json({ error: "Failed to process request" });
+    }
+  }
+} catch (error) {
+  if (error.message && (error.message.includes("Sesja") || error.message.includes("Brak"))) {
+    res.status(401).json({ error: error.message });
+  } else {
     console.error("Error updating training:", error);
     res.status(500).json({ error: "Failed to process request" });
   }
+}
 }

@@ -5,23 +5,48 @@ interface Props {
   title: string;
 }
 
+interface DropdownChild {
+  name: string;
+  href: string;
+}
+
+interface NavItem {
+  name: string;
+  href?: string; // Made optional
+  cta?: boolean;
+  target?: string;
+  children?: DropdownChild[];
+}
+
 const { title } = Astro.props;
 
-const navItems = [
+const ctaItems: NavItem[] = [
   { name: "Dołącz", href: "/dolacz", cta: true },
+  { name: "Zaloguj", href: "/zaloguj", cta: true },
+];
+
+const mainNavItems: NavItem[] = [
   { name: "Aktualności", href: "/aktualnosci" },
-  { name: "Wydarzenia", href: "/wydarzenia" },
-  { name: "Inicjatywy", href: "/inicjatywy" },
-  { name: "Zatyrusy", href: "/zatyrusy" },
+  {
+    name: "O nas",
+    children: [
+      { name: "Wydarzenia", href: "/wydarzenia" }, // Moved here
+      { name: "Treningi", href: "/treningi" },
+      { name: "Inicjatywy", href: "/inicjatywy" },
+      { name: "Zatyrusy", href: "/zatyrusy" },
+    ],
+  },
   { name: "Półmaraton", href: "/wilczy-polmaraton" },
   { name: "Rajd NW", href: "/rajdnw" },
-  {
-    name: "YouTube",
-    target: "_blank",
-    href: "https://www.youtube.com/@Zatyranitv/videos",
-  },
   { name: "Partner", href: "/partner" },
 ];
+
+// Separate "Zaloguj" for specific placement
+const zalogujButton: NavItem = { name: "Zaloguj", href: "/zaloguj", cta: true };
+const otherCtaItems: NavItem[] = ctaItems.filter(item => item.name !== "Zaloguj");
+
+// For mobile, ensure "Zaloguj" is NOT in the nav items (handled separately)
+const allNavItems: NavItem[] = [...otherCtaItems, ...mainNavItems];
 ---
 
 <!doctype html>
@@ -54,71 +79,206 @@ const navItems = [
     <header class="border-b">
       <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16 items-center">
-          <div class="flex">
-            <a href="/" class="flex-shrink-0 flex items-center">
+          <div class="flex-shrink-0">
+            <a href="/" class="flex items-center">
               <img class="h-8 w-auto" src="/logo.png" alt="Zatyrani" />
             </a>
           </div>
-          <div class="sm:hidden">
-            <!-- Mobile Hamburger Icon -->
-            <button id="menuButton" title="menu" class="text-gray-900 focus:outline-none">
+          {/* Desktop Navigation Items */}
+          <div class="hidden sm:flex flex-1 items-center justify-center" id="desktopNav">
+            {/* CTA Buttons (excluding Zaloguj) */}
+            <div class="flex space-x-4 mr-8">
+              {otherCtaItems.map((item) => (
+                <a
+                  href={item.href}
+                  class="inline-flex items-center text-sm font-medium bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md"
+                >
+                  {item.name}
+                </a>
+              ))}
+            </div>
+
+            {/* Main Navigation Links */}
+            <div class="flex space-x-8">
+              {
+                mainNavItems.map((item) =>
+                  item.children ? (
+                    <div class="relative">
+                      <button class="desktop-dropdown-toggle inline-flex items-center text-sm font-medium hover:text-purple-600 text-gray-900 px-1 pt-1">
+                        {item.name}
+                        <svg
+                          class="ml-1 h-5 w-5"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                            clip-rule="evenodd"
+                          />
+                        </svg>
+                      </button>
+                      <div class="desktop-dropdown-menu absolute z-10 -ml-4 mt-3 transform px-2 w-screen max-w-xs sm:px-0 hidden">
+                        <div class="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
+                          <div class="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
+                            {item.children.map((child) => (
+                              <a
+                                href={child.href}
+                                class="-m-3 p-3 flex items-start rounded-lg hover:bg-gray-50"
+                              >
+                                <div class="items-center ml-4">
+                                  <p class="text-base font-medium text-gray-900">
+                                    {child.name}
+                                  </p>
+                                </div>
+                              </a>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <a
+                      target={item.target === "_blank" ? "_blank" : undefined}
+                      href={item.href}
+                      class={`inline-flex items-center text-sm font-medium px-1 pt-1 ${item.name === 'Partner' ? 'text-orange-400 hover:text-orange-500' : 'text-gray-900 hover:text-purple-600'}`}
+                    >
+                      {item.name}
+                    </a>
+                  ),
+                )
+              }
+            </div>
+            {/* Zaloguj / Wyloguj controls - managed via JS based on authState */}
+            <div class="hidden sm:flex space-x-4 ml-8">
+              <a
+                id="loginDesktopButton"
+                href={zalogujButton.href}
+                class="inline-flex items-center text-sm font-medium bg-[#2CC2D4] hover:bg-[#2AA2B4] text-white px-4 py-2 rounded-md"
+              >
+                {zalogujButton.name}
+              </a>
+              <button
+                id="logoutDesktopButton"
+                type="button"
+                class="inline-flex items-center text-sm font-medium bg-[#2CC2D4] hover:bg-[#2AA2B4] text-white px-4 py-2 rounded-md hidden"
+              >
+                Wyloguj
+              </button>
+            </div>
+          </div>
+
+          {/* Mobile menu button */}
+          <div class="-mr-2 flex items-center sm:hidden">
+            <button
+              type="button"
+              class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-purple-500"
+              aria-controls="mobile-menu"
+              aria-expanded="false"
+              id="menuButton"
+            >
+              <span class="sr-only">Open main menu</span>
+              <!-- Icon when menu is closed. -->
+              <!--
+                Heroicon name: outline/menu
+
+                Menu open: "hidden", Menu closed: "block"
+              -->
               <svg
+                class="block h-6 w-6"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
-                class="h-6 w-6"
+                aria-hidden="true"
               >
                 <path
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   stroke-width="2"
-                  d="M4 6h16M4 12h16M4 18h16"></path>
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              </svg>
+              <!-- Icon when menu is open. -->
+              <!--
+                Heroicon name: outline/x
+
+                Menu open: "block", Menu closed: "hidden"
+              -->
+              <svg
+                class="hidden h-6 w-6"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
               </svg>
             </button>
-          </div>
-          <!-- Desktop Navigation Items (always visible) -->
-          <div class="hidden sm:flex sm:space-x-8 items-center" id="desktopNav">
-            {
-              navItems.map((item) => (
-                <a
-                  target={item.target === "_blank" ? "_blank" : undefined}
-                  href={item.href}
-                  class={`inline-flex items-center text-sm font-medium hover:text-purple-600 ${
-                    item.cta
-                      ? "bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-full"
-                      : "px-1 pt-1 " +
-                        (item.name === "YouTube"
-                          ? "text-red-600 hover:text-red-700"
-                          : item.name === "Partner"
-                            ? "text-orange-700 hover:text-[rgb(255,80,0)]"
-                            : "text-gray-900")
-                  }`}
-                >
-                  {item.name}
-                </a>
-              ))
-            }
           </div>
         </div>
 
         <!-- Mobile Navigation Items (hidden by default) -->
         <div id="mobileNav" class="hidden sm:hidden flex-col space-y-4 bg-white shadow-md p-4">
           {
-            navItems.map((item) => (
-              <a
-                target={item.target === "_blank" ? "_blank" : undefined}
-                href={item.href}
-                class={`block px-4 py-2 text-sm font-medium hover:text-purple-600 ${
-                  item.cta
-                    ? "bg-purple-600 hover:bg-purple-700 text-white text-center rounded-full"
-                    : "text-gray-900"
-                }`}
-              >
-                {item.name}
-              </a>
-            ))
+            allNavItems.map((item) =>
+              item.children ? (
+                <div>
+                  <button class="w-full text-center px-4 py-2 text-sm font-medium text-gray-900 mobile-dropdown-toggle">
+                    <span class="inline-flex items-center justify-center gap-2">
+                      {item.name}
+                      <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                      </svg>
+                    </span>
+                  </button>
+                  <div class="pl-4 hidden mobile-dropdown-menu">
+                    {item.children.map((child) => (
+                      <a
+                        href={child.href}
+                        class="block px-4 py-2 text-sm font-medium text-gray-700 hover:text-purple-600"
+                      >
+                        {child.name}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <a
+                  target={item.target === "_blank" ? "_blank" : undefined}
+                  href={item.href}
+                  class={`block w-full px-4 py-2 text-sm font-medium ${item.name === 'Partner' ? 'text-orange-400 hover:text-orange-500' : 'hover:text-purple-600'} ${
+                    item.cta
+                      ? "bg-purple-600 hover:bg-purple-700 text-white text-center rounded-md"
+                      : "text-gray-900"
+                  }`}
+                >
+                  {item.name}
+                </a>
+              ),
+            )
           }
+          <button
+            id="loginMobileButton"
+            type="button"
+            class="block w-full mt-2 px-4 py-2 text-sm font-medium bg-[#2CC2D4] hover:bg-[#2AA2B4] text-white text-center rounded-md"
+          >
+            Zaloguj
+          </button>
+          <button
+            id="logoutMobileButton"
+            type="button"
+            class="block w-full mt-2 px-4 py-2 text-sm font-medium bg-[#2CC2D4] hover:bg-[#2AA2B4] text-white text-center rounded-md hidden"
+          >
+            Wyloguj
+          </button>
         </div>
       </nav>
     </header>
@@ -129,9 +289,17 @@ const navItems = [
 
     <footer class="bg-white border-t mt-12 relative">
       <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-center mb-4">
+          <a href="https://www.youtube.com/@Zatyranitv/videos" target="_blank" class="text-gray-500 hover:text-red-600 flex items-center space-x-2">
+            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path fill-rule="evenodd" d="M19.812 5.418c.861.23 1.538.907 1.768 1.768C21.998 8.78 22 12 22 12s0 3.22-.42 4.814a2.506 2.506 0 0 1-1.768 1.768c-1.59.42-7.81.42-7.81.42s-6.22 0-7.81-.42a2.506 2.506 0 0 1-1.768-1.768C2 15.22 2 12 2 12s0-3.22.42-4.814a2.506 2.506 0 0 1 1.768-1.768C5.78 5.002 12 5 12 5s6.22 0 7.812.418zM9.75 15.25V8.75l5.5 3.25-5.5 3.25z" clip-rule="evenodd" />
+            </svg>
+            <span class="text-sm font-medium">Youtube - Zatyrani</span>
+          </a>
+        </div>
         <div class="text-center">
           <p class="text-sm text-gray-500">
-            © 2025 Zatyrani Gratisownia.pl Gmina Pilchowice. All rights reserved.
+            2025 Zatyrani Gratisownia.pl Gmina Pilchowice. All rights reserved.
             <a
               href="Statut-Stowarzyszenia-ZATYRANI.docx"
               class="text-blue-600 hover:text-blue-700 block"
@@ -150,12 +318,137 @@ const navItems = [
       const menuButton = document.getElementById("menuButton");
       const mobileNav = document.getElementById("mobileNav");
 
-      menuButton.addEventListener("click", () => {
-        // Toggle the visibility of mobileNav
-        if (mobileNav) {
+      if (menuButton && mobileNav) {
+        menuButton.addEventListener("click", () => {
+          // Toggle the visibility of mobileNav
           mobileNav.classList.toggle("hidden");
-        }
+        });
+      }
+
+
+      // JavaScript for mobile dropdowns
+      document.querySelectorAll(".mobile-dropdown-toggle").forEach((button) => {
+        button.addEventListener("click", () => {
+          const menu = button.nextElementSibling;
+          if (menu instanceof HTMLElement) {
+            menu.classList.toggle("hidden");
+          }
+        });
       });
+
+      // JavaScript for desktop dropdowns
+      document.querySelectorAll(".desktop-dropdown-toggle").forEach((button) => {
+        button.addEventListener("click", (event) => {
+          event.stopPropagation();
+          const menu = button.nextElementSibling;
+          if (menu instanceof HTMLElement) { // Cast to HTMLElement
+            if (menu.style.display === 'block') {
+              menu.style.display = 'none';
+            } else {
+              menu.style.display = 'block';
+            }
+          }
+        });
+      });
+
+      // Close dropdowns when clicking outside
+      document.addEventListener("click", (event) => {
+        document.querySelectorAll(".desktop-dropdown-menu").forEach((menu) => {
+          if (menu instanceof HTMLElement && event.target instanceof Node) { // Cast to HTMLElement and Node
+            if (!menu.contains(event.target) && !menu.previousElementSibling.contains(event.target)) {
+              menu.style.display = 'none';
+            }
+          }
+        });
+      });
+
+      // Auth state handling: track last visited path and toggle login/logout
+        if (window.location && window.location.pathname) {
+          window.localStorage.setItem('lastPath', window.location.pathname);
+        }
+
+      function getAuthState() {
+        try {
+          const raw = window.localStorage.getItem('authState');
+          if (!raw) return { loggedIn: false };
+          const parsed = JSON.parse(raw);
+          if (!parsed || typeof parsed !== 'object') return { loggedIn: false };
+          if (parsed.expiresAt && Date.now() > parsed.expiresAt) {
+            window.localStorage.removeItem('authState');
+            return { loggedIn: false };
+          }
+          return { loggedIn: !!parsed.loggedIn, expiresAt: parsed.expiresAt };
+        } catch {
+          return { loggedIn: false };
+        }
+      }
+
+      function setAuthState(state) {
+          window.localStorage.setItem('authState', JSON.stringify(state));
+      }
+
+      function toggleAuthControls() {
+        const desktopLogin = document.getElementById('loginDesktopButton');
+        const desktopLogout = document.getElementById('logoutDesktopButton');
+        const mobileLogin = document.getElementById('loginMobileButton');
+        const mobileLogout = document.getElementById('logoutMobileButton');
+        const { loggedIn } = getAuthState();
+
+        if (desktopLogin && desktopLogout) {
+          if (loggedIn) {
+            desktopLogin.classList.add('hidden');
+            desktopLogout.classList.remove('hidden');
+          } else {
+            desktopLogin.classList.remove('hidden');
+            desktopLogout.classList.add('hidden');
+          }
+        }
+
+        if (mobileLogin && mobileLogout) {
+          if (loggedIn) {
+            mobileLogin.classList.add('hidden');
+            mobileLogout.classList.remove('hidden');
+          } else {
+            mobileLogin.classList.remove('hidden');
+            mobileLogout.classList.add('hidden');
+          }
+        }
+      }
+
+      async function performLogout() {
+        try {
+          await fetch('/api/auth/logout', { method: 'POST' });
+        } catch (e) {
+          console.error('Logout request failed', e);
+        }
+        setAuthState({ loggedIn: false });
+        toggleAuthControls();
+          if (window.location.pathname === '/zaloguj') {
+            window.location.href = '/';
+          } else {
+            window.location.reload();
+          }
+      }
+
+      toggleAuthControls();
+
+      const logoutDesktopButton = document.getElementById('logoutDesktopButton');
+      const logoutMobileButton = document.getElementById('logoutMobileButton');
+      const loginMobileButton = document.getElementById('loginMobileButton');
+
+      if (logoutDesktopButton) {
+        logoutDesktopButton.addEventListener('click', performLogout);
+      }
+
+      if (logoutMobileButton) {
+        logoutMobileButton.addEventListener('click', performLogout);
+      }
+
+      if (loginMobileButton) {
+        loginMobileButton.addEventListener('click', () => {
+          window.location.href = '/zaloguj';
+        });
+      }
     </script>
 
     <style>
@@ -167,7 +460,7 @@ const navItems = [
         left: 0;
         right: 0;
         background-color: white;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        box-.shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         z-index: 10;
         transition: all 0.3s ease; /* Smooth transition */
       }
@@ -188,7 +481,6 @@ const navItems = [
         width: 100%;
         display: block;
         text-decoration: none;
-        color: #333;
       }
 
       #mobileNav a:hover {

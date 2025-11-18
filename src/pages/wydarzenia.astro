@@ -26,6 +26,7 @@ const futureEvents = events
   <PageHeader
     title="Wydarzenia"
     subtitle="Wszystkie wydarzenia małe i duże gdzie spotkać można jakąś Zatyruskę bądź Zatyrusa."
+    showAddEventButton={true}
   />
 
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -34,3 +35,28 @@ const futureEvents = events
     </div>
   </div>
 </Layout>
+
+<script>
+  // Hide add event button if not logged in
+  function getAuthState() {
+    try {
+      const raw = window.localStorage.getItem('authState');
+      if (!raw) return { loggedIn: false };
+      const parsed = JSON.parse(raw);
+      if (!parsed || typeof parsed !== 'object') return { loggedIn: false };
+      if (parsed.expiresAt && Date.now() > parsed.expiresAt) {
+        window.localStorage.removeItem('authState');
+        return { loggedIn: false };
+      }
+      return { loggedIn: !!parsed.loggedIn, expiresAt: parsed.expiresAt };
+    } catch {
+      return { loggedIn: false };
+    }
+  }
+
+  const { loggedIn } = getAuthState();
+  if (loggedIn) {
+    const addButton = document.getElementById('add-event-button');
+    if (addButton) addButton.style.display = 'inline-block';
+  }
+</script>

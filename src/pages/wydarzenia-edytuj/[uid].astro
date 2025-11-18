@@ -30,25 +30,24 @@ const { event } = Astro.props;
       <p class="text-gray-700 mb-2"><strong>Data:</strong> {formatDateDisplay(event.date)}</p>
       <p class="text-gray-700 mb-4"><strong>Lokalizacja:</strong> {event.location}</p>
       <p class="text-gray-700 mb-4"><strong>Opis:</strong> {event.description}</p>
-      <p class="text-gray-700 mb-4"><strong>UID:</strong> {event.uid}</p>
 
       <button
         id="delete-event-button"
-        class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline"
+        class="bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded-md focus:outline-none focus:shadow-outline"
       >
         Usuń wydarzenie
       </button>
 
       <button
         id="edit-event-button"
-        class="ml-4 bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline inline-block"
+        class="ml-4 bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded-md focus:outline-none focus:shadow-outline inline-block"
       >
         Edytuj wydarzenie
       </button>
 
       <a
         href="/wydarzenia"
-        class="ml-4 bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline inline-block"
+        class="ml-4 bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded-md focus:outline-none focus:shadow-outline inline-block"
       >
         Wróć
       </a>

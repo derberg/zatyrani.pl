@@ -37,10 +37,46 @@ const { type, datetime, location, locationLink, comment, phone, distance, pace, 
   </div>
 
   <footer class="mt-3 text-sm text-gray-700">
-    <strong>Kontakt:</strong>
-    <a href={`tel:${phone}`} class="text-purple-600 hover:underline ml-1">{phone}</a>
+    <div class="flex mb-2">
+      <strong>Kontakt:</strong>
+      <a href={`tel:${phone}`} class="text-purple-600 hover:underline ml-1">{phone}</a>
+    </div>
+    <div class="flex">
+      <a
+        href={`/trening-edytuj/${uid}`}
+        class="text-purple-600 hover:text-purple-700"
+        style="display: none;"
+      >
+        Edytuj
+      </a>
+    </div>
   </footer>
 </article>
+
+<script>
+  // Hide edit link if not logged in
+  function getAuthState() {
+    try {
+      const raw = window.localStorage.getItem('authState');
+      if (!raw) return { loggedIn: false };
+      const parsed = JSON.parse(raw);
+      if (!parsed || typeof parsed !== 'object') return { loggedIn: false };
+      if (parsed.expiresAt && Date.now() > parsed.expiresAt) {
+        window.localStorage.removeItem('authState');
+        return { loggedIn: false };
+      }
+      return { loggedIn: !!parsed.loggedIn, expiresAt: parsed.expiresAt };
+    } catch {
+      return { loggedIn: false };
+    }
+  }
+
+  const { loggedIn } = getAuthState();
+  if (loggedIn) {
+    const editLinks = document.querySelectorAll('a[href*="/trening-edytuj/"]');
+    editLinks.forEach(link => (link as HTMLElement).style.display = '');
+  }
+</script>
 
 <!-- Inline filter script: hide past trainings and section if empty -->
 <script is:inline type="text/javascript">
