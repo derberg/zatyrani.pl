@@ -34,7 +34,7 @@ export async function verifyUser(req) {
 
   const cookies = parseCookies(req);
   const token = cookies[SESSION_COOKIE_NAME];
-console.log('log1', token, cookies);
+
   if (!token) {
     throw new Error("Wygląda na to, że wygasły twoje uprawnienia do tej funkcji. Wyloguj się i zaloguj ponownie. Jak to nie zadziała to napisz do Łysego.");
   }
@@ -54,7 +54,7 @@ console.log('log1', token, cookies);
   }
 
   const session = sessions && sessions[0];
-console.log('wyloguj', session);
+
   if (!session) {
     throw new Error("Wygląda na to, że nie masz uprawnień do tej funkcji. Napisz do Łysego.");
   }
