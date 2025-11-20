@@ -222,5 +222,12 @@
 		"image": "members/sonik.webp",
 		"joinDate": "4/11/2025",
 		"description": ""
+	},
+	{
+		"title": "Marzena",
+		"from": "Leboszowice",
+		"image": "members/marzena.webp",
+		"joinDate": "20/11/2025",
+		"description": ""
 	}
 ]
