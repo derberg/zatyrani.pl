@@ -215,5 +215,12 @@
 		"image": "members/pielgrzym.webp",
 		"joinDate": "1/7/2024",
 		"description": "Uwielbia spacery, zwiedzanie i marsze z kijami. Może kiedyś przemaszeruje cały świat."
+	},
+	{
+		"title": "Sonia - Sonik",
+		"from": "Żernica",
+		"image": "members/sonik.webp",
+		"joinDate": "4/11/2025",
+		"description": ""
 	}
 ]
