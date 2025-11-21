@@ -231,6 +231,13 @@
 		"description": "Uwielbia spacery, zwiedzanie i marsze z kijami. Może kiedyś przemaszeruje cały świat."
 	},
 	{
+		"title": "Radek",
+		"from": "Knurów",
+		"image": "members/radek.webp",
+		"joinDate": "21/09/2024",
+		"description": ""
+	},
+	{
 		"title": "Agnieszka",
 		"from": "Nieborowice",
 		"image": "members/agnieszka.webp",
