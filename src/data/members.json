@@ -182,6 +182,13 @@
 		"description": "Ponad dekada biegania zamieniło mnie w kolekcjonera koron, hurtownika maratonów i ultra w tym setki na czele. Podobno potrafię też usiąść...ale nie ma świadków."
 	},
 	{
+		"title": "Boszka",
+		"from": "Pilchowice",
+		"image": "members/boszka.webp",
+		"joinDate": "01/01/2023",
+		"description": "Chodzę o kijach od 2018 r. Instruktora mam 😉👌🏻"
+	},
+	{
 		"title": "Iza",
 		"from": "Żernica",
 		"image": "members/tempfile25.jpg",
@@ -222,6 +229,13 @@
 		"image": "members/pielgrzym.webp",
 		"joinDate": "1/7/2024",
 		"description": "Uwielbia spacery, zwiedzanie i marsze z kijami. Może kiedyś przemaszeruje cały świat."
+	},
+	{
+		"title": "Agnieszka",
+		"from": "Nieborowice",
+		"image": "members/agnieszka.webp",
+		"joinDate": "28/02/2025",
+		"description": ""
 	},
 	{
 		"title": "Sonia - Sonik",
