@@ -210,6 +210,27 @@
 		"description": "Kocha Andrzeja, ale tego co ją kocha ❤️ \n\n W górach czuje się jak w domu, z kijami pokonuje każdy szlak, a maraton to tylko kwestia czasu 💪"
 	},
 	{
+		"title": "Edyta",
+		"from": "Smolnica",
+		"image": "members/edyta.webp",
+		"joinDate": "01/08/2023",
+		"description": "Chodzę z kijami bo lubię. Nordic Walking Team to dziewczyny, dzięki którym każda chwila to salwy śmiechu. Zapraszam na treningi. Przekonasz się sam/sama!"
+	},
+	{
+		"title": "Ela",
+		"from": "Knurów",
+		"image": "members/ela.webp",
+		"joinDate": "01/09/2023",
+		"description": "Biegam bo lubię 😅😀"
+	},
+	{
+		"title": "Roksana",
+		"from": "Żernica",
+		"image": "members/roksana.webp",
+		"joinDate": "01/01/2024",
+		"description": "Mój komfortowy dystans to 10 km, ale regularnie wychodzę ze strefy komfortu, żeby sprawdzić, gdzie jest granica (i czy na pewno tam jest 😉)"
+	},
+	{
 		"title": "Mała Gosia zwana też Calineczką",
 		"from": "Wilcza",
 		"image": "members/malagosia.webp",
@@ -222,6 +243,13 @@
 		"image": "members/andrzej.webp",
 		"joinDate": "1/6/2024",
 		"description": "Kocha Asię ❤️ \n\n Swój skromny debiut biegowy z Zatyranymi rozpoczął od Wilczego Półmaratonu."
+	},
+	{
+		"title": "Magda",
+		"from": "Pilchowice",
+		"image": "members/magda.webp",
+		"joinDate": "02/06/2024",
+		"description": "Biegam żeby jeść więcej ciastków 🤩"
 	},
 	{
 		"title": "Michał, czyli Kędzior zwany Pielgrzymem",
