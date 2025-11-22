@@ -1,17 +1,17 @@
 [
 	{
+		"title": "Alicja 'Dziczek'",
+		"from": "Stanica",
+		"image": "members/tempfile16.jpg",
+		"joinDate": "21/9/2019",
+		"description": "Żeby nie było za nudno bieganie zaczęła od Runmageddonow. Zrobiła weterana i przerzuciła się na biegi górskie. Uwielbia dystanse maratońskie i ultra trudne trasy. Jak na dziczka przystało w 2022 roku zaliczyła rzeźnika dystans 80 km. Teraz chwilowo walczy z kijkami. Po wyleczeniu kontuzji zapowiada że wróci na górskie trasy."
+	},
+	{
 		"title": "Arek",
 		"from": "Wilcza",
 		"image": "members/tempfile1.jpg",
 		"joinDate": "21/9/2019",
 		"description": "Ojciec tego całego zamieszania."
-	},
-	{
-		"title": "Krzysiek",
-		"from": "Wilcza",
-		"image": "members/tempfile2.jpg",
-		"joinDate": "21/9/2019",
-		"description": ""
 	},
 	{
 		"title": "Ewka",
@@ -21,39 +21,11 @@
 		"description": "Biega od 2018. Kocha bieganie w lesie i górskie wycieczki a zimą chłodne kąpiele. Instruktorka Nordic Walking."
 	},
 	{
-		"title": "Misia",
-		"from": "Wilcza",
-		"image": "members/tempfile10.jpg",
-		"joinDate": "21/9/2019",
-		"description": "Bieganie? Czemu nie."
-	},
-	{
-		"title": "Małgosia",
-		"from": "Zabrze",
-		"image": "members/tempfile13.jpg",
-		"joinDate": "21/9/2019",
-		"description": "Matka tej zwariowanej ekipy."
-	},
-	{
 		"title": "Gosia",
 		"from": "Wilcza",
 		"image": "members/tempfile15.jpg",
 		"joinDate": "21/9/2019",
 		"description": ""
-	},
-	{
-		"title": "Alicja 'Dziczek'",
-		"from": "Stanica",
-		"image": "members/tempfile16.jpg",
-		"joinDate": "21/9/2019",
-		"description": "Żeby nie było za nudno bieganie zaczęła od Runmageddonow. Zrobiła weterana i przerzuciła się na biegi górskie. Uwielbia dystanse maratońskie i ultra trudne trasy. Jak na dziczka przystało w 2022 roku zaliczyła rzeźnika dystans 80 km. Teraz chwilowo walczy z kijkami. Po wyleczeniu kontuzji zapowiada że wróci na górskie trasy."
-	},
-	{
-		"title": "Tomasz",
-		"from": "Wilcza",
-		"image": "members/tempfile21.jpg",
-		"joinDate": "21/9/2019",
-		"description": "Lubi biegać boso i pić wodę z rzeczki."
 	},
 	{
 		"title": "Jola",
@@ -63,11 +35,46 @@
 		"description": "Biega od 2014. Najdłuższy dystans jaki pokonała spontanicznie to ultramaraton 67km. Marzy o maratonie na Islandii."
 	},
 	{
+		"title": "Krzysiek",
+		"from": "Wilcza",
+		"image": "members/tempfile2.jpg",
+		"joinDate": "21/9/2019",
+		"description": ""
+	},
+	{
+		"title": "Krzysiek",
+		"from": "Nieborowice",
+		"image": "members/krzysiek.webp",
+		"joinDate": "21/9/2019",
+		"description": "Biegam bo gram w hockey-a."
+	},
+	{
+		"title": "Małgosia",
+		"from": "Zabrze",
+		"image": "members/tempfile13.jpg",
+		"joinDate": "21/9/2019",
+		"description": "Matka tej zwariowanej ekipy."
+	},
+	{
+		"title": "Misia",
+		"from": "Wilcza",
+		"image": "members/tempfile10.jpg",
+		"joinDate": "21/9/2019",
+		"description": "Bieganie? Czemu nie."
+	},
+	{
 		"title": "Sonia",
 		"from": "Żernica",
 		"image": "members/tempfile22.webp",
 		"joinDate": "21/9/2019",
 		"description": "Biega od 2018. Biega wolno bo jej wolno."
+	},
+	{
+		"title": "Tomasz",
+		"from": "Wilcza",
+		"image": "members/tempfile21.jpg",
+		"joinDate": "21/9/2019",
+		"description": "Lubi biegać boso i pić wodę z rzeczki."
 	},
 	{
 		"title": "Gosia z Arią",
@@ -154,18 +161,18 @@
 		"description": "Kiedyś nie lubił biegać."
 	},
 	{
-		"title": "Magda",
-		"from": "Nieborowice",
-		"image": "members/magdah.webp",
-		"joinDate": "15/6/2022",
-		"description": "Instruktorka Nordic Walking, mobilizuje do treningów, planerka leśnych wypraw i \"prawie\" najlepsza fotografka tychże wędrówek."
-	},
-	{
 		"title": "Grzesiek",
 		"from": "Nieborowice",
 		"image": "members/hans.webp",
 		"joinDate": "15/6/2022",
 		"description": "Przygodę z bieganiem zaczął na sztafecie w Wilczy, miały być 2 okrążenia boiska a biega do dzisiaj...Teraz woli leśne wybiegania i spacery z kijastycznymi 😊"
+	},
+	{
+		"title": "Magda",
+		"from": "Nieborowice",
+		"image": "members/magdah.webp",
+		"joinDate": "15/6/2022",
+		"description": "Instruktorka Nordic Walking, mobilizuje do treningów, planerka leśnych wypraw i \"prawie\" najlepsza fotografka tychże wędrówek."
 	},
 	{
 		"title": "Tomek",
@@ -224,6 +231,13 @@
 		"description": "Biegam bo lubię 😅😀"
 	},
 	{
+		"title": "Szymon",
+		"from": "Wilcza",
+		"image": "members/szymon.webp",
+		"joinDate": "01/12/2023",
+		"description": ""
+	},
+	{
 		"title": "Roksana",
 		"from": "Żernica",
 		"image": "members/roksana.webp",
@@ -231,18 +245,18 @@
 		"description": "Mój komfortowy dystans to 10 km, ale regularnie wychodzę ze strefy komfortu, żeby sprawdzić, gdzie jest granica (i czy na pewno tam jest 😉)"
 	},
 	{
-		"title": "Mała Gosia zwana też Calineczką",
-		"from": "Wilcza",
-		"image": "members/malagosia.webp",
-		"joinDate": "1/6/2024",
-		"description": "Ale daleko jeszcze?"
-	},
-	{
 		"title": "Andrzej",
 		"from": "Nieborowice",
 		"image": "members/andrzej.webp",
 		"joinDate": "1/6/2024",
 		"description": "Kocha Asię ❤️ \n\n Swój skromny debiut biegowy z Zatyranymi rozpoczął od Wilczego Półmaratonu."
+	},
+	{
+		"title": "Mała Gosia zwana też Calineczką",
+		"from": "Wilcza",
+		"image": "members/malagosia.webp",
+		"joinDate": "1/6/2024",
+		"description": "Ale daleko jeszcze?"
 	},
 	{
 		"title": "Magda",
@@ -271,6 +285,13 @@
 		"image": "members/agnieszka.webp",
 		"joinDate": "28/02/2025",
 		"description": ""
+	},
+	{
+		"title": "Natka",
+		"from": "Gliwice",
+		"image": "members/natka.webp",
+		"joinDate": "04/09/2025",
+		"description": "Bieganie to moja pasja."
 	},
 	{
 		"title": "Sonia - Sonik",
