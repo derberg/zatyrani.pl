@@ -35,6 +35,21 @@ const futureTrainings = trainings
     <div class="grid md:grid-cols-3 gap-8">
       {futureTrainings.map((training) => <TrainingCard {...training} />)}
     </div>
+    
+    {futureTrainings.length === 0 && (
+      <div class="text-center py-12">
+        <div class="max-w-md mx-auto">
+          <div class="text-gray-500 text-lg mb-4">
+            Teraz nie ma zaplanowanych treningów.
+          </div>
+          <div class="text-gray-400 flex items-center justify-center gap-2">
+            Sprawdź jutro!
+            <img src="/nordic.png" alt="Nordic Walking & Running" class="w-5 h-5 inline">
+            <span class="text-lg">🏃‍♀️</span>
+          </div>
+        </div>
+      </div>
+    )}
   </div>
 </Layout>
 
