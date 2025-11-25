@@ -229,16 +229,5 @@
     "phone": "663473341",
     "distance": 8,
     "pace": 11
-  },
-  {
-    "uid": "bieg-25-11-2025-19-0-nieborowice-ppk-10-7",
-    "type": "bieg",
-    "datetime": "25/11/2025 19:00",
-    "location": "Nieborowice – PPK",
-    "locationLink": "https://maps.app.goo.gl/cUnjGVWuHfnJDQTL8",
-    "comment": "Pamiętajcie o czołówkach",
-    "phone": "512637906",
-    "distance": 10,
-    "pace": 7
   }
 ]
