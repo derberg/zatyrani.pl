@@ -229,5 +229,16 @@
     "phone": "663473341",
     "distance": 8,
     "pace": 11
+  },
+  {
+    "uid": "bieg-27-11-2025-19-0-wilcza-cmentarz-15-6",
+    "type": "bieg",
+    "datetime": "27/11/2025 19:00",
+    "location": "Wilcza – Cmentarz",
+    "locationLink": "https://maps.app.goo.gl/NwiX62pvY3kmyV3M8",
+    "comment": "Jesli będą chetni mozemy sie podzielić na dwie grupy , slow i ciut szybsza",
+    "phone": "513592253",
+    "distance": 15,
+    "pace": 6
   }
 ]
