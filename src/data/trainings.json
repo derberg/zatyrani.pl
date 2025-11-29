@@ -262,5 +262,16 @@
     "phone": "513592253",
     "distance": 21,
     "pace": 6
+  },
+  {
+    "uid": "bieg-30-11-2025-10-0-gliwice-osrodek-wypoczynkowy-czechowice-1-3",
+    "type": "bieg",
+    "datetime": "30/11/2025 10:00",
+    "location": "Gliwice Ośrodek wypoczynkowy Czechowice",
+    "locationLink": "",
+    "comment": "Zapraszamy chętnych na morsowanko ",
+    "phone": "663473341",
+    "distance": 1,
+    "pace": 3
   }
 ]
