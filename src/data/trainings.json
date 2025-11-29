@@ -251,5 +251,16 @@
     "phone": "512637906",
     "distance": 17,
     "pace": 7
+  },
+  {
+    "uid": "bieg-30-11-2025-12-0-wilcza-cmentarz-21-6",
+    "type": "bieg",
+    "datetime": "30/11/2025 12:00",
+    "location": "Wilcza – Cmentarz",
+    "locationLink": "https://maps.app.goo.gl/NwiX62pvY3kmyV3M8",
+    "comment": "Półmaraton poniżej 2 h",
+    "phone": "513592253",
+    "distance": 21,
+    "pace": 6
   }
 ]
