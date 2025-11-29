@@ -240,5 +240,16 @@
     "phone": "513592253",
     "distance": 15,
     "pace": 6
+  },
+  {
+    "uid": "bieg-30-11-2025-7-0-wierzbowa-2-nieborowice-17-7",
+    "type": "bieg",
+    "datetime": "30/11/2025 07:00",
+    "location": "Wierzbowa 2 Nieborowice",
+    "locationLink": "",
+    "comment": "W GPS wbić Wierzbową 6 Nieborowice",
+    "phone": "512637906",
+    "distance": 17,
+    "pace": 7
   }
 ]
