@@ -1307,5 +1307,15 @@
     "image": "",
     "location": "Szczawnica ",
     "uid": "pieniny-ultra-trail-25-04-2026"
+  },
+  {
+    "date": "01/02/2026",
+    "title": "Bieg zbója ",
+    "mainLink": "https://www.biegzboja.pl/",
+    "registrationLink": "",
+    "description": "Zimowy bieg górski na dwóch dystansach 13 km i 18 km.",
+    "image": "",
+    "location": "Bielsko - Biała ",
+    "uid": "bieg-zboja-01-02-2026"
   }
 ]
