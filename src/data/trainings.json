@@ -284,5 +284,16 @@
     "phone": "519194995",
     "distance": 10,
     "pace": 7
+  },
+  {
+    "uid": "nordic-walking-1-12-2025-18-30-nieborowice-krzyz-8-11",
+    "type": "nordic walking",
+    "datetime": "01/12/2025 18:30",
+    "location": "Nieborowice – Krzyż",
+    "locationLink": "https://maps.app.goo.gl/4t3qjRxQpny7Ln6KA",
+    "comment": "",
+    "phone": "663473341",
+    "distance": 8,
+    "pace": 11
   }
 ]
