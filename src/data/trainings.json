@@ -317,5 +317,16 @@
     "phone": "784640977",
     "distance": 0,
     "pace": 0
+  },
+  {
+    "uid": "morsowanie-7-12-2025-10-0-gliwice-osrodek-wypoczynkowy-czechowice-0-0",
+    "type": "morsowanie",
+    "datetime": "07/12/2025 10:00",
+    "location": "Gliwice ośrodek wypoczynkowy Czechowice",
+    "locationLink": "",
+    "comment": "",
+    "phone": "663473341",
+    "distance": 0,
+    "pace": 0
   }
 ]
