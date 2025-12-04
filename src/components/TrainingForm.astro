@@ -46,7 +46,7 @@ const submitButtonText = training ? "Zapisz zmiany" : "Dodaj trening";
             value="bieg"
             checked={training?.type === 'bieg'}
             required
-            class="form-radio text-purple-600"
+            class="form-radio text-purple-600 training-type-radio"
           />
           <span class="ml-2 text-sm text-gray-500">Bieg</span>
         </label>
@@ -57,9 +57,20 @@ const submitButtonText = training ? "Zapisz zmiany" : "Dodaj trening";
             value="nordic walking"
             required
             checked={training?.type === 'nordic walking'}
-            class="form-radio text-purple-600"
+            class="form-radio text-purple-600 training-type-radio"
           />
           <span class="ml-2 text-sm text-gray-500">Nordic Walking</span>
+        </label>
+        <label class="inline-flex items-center">
+          <input
+            type="radio"
+            name="type"
+            value="morsowanie"
+            required
+            checked={training?.type === 'morsowanie'}
+            class="form-radio text-purple-600 training-type-radio"
+          />
+          <span class="ml-2 text-sm text-gray-500">Morsowanie</span>
         </label>
       </div>
     </div>
@@ -159,7 +170,7 @@ const submitButtonText = training ? "Zapisz zmiany" : "Dodaj trening";
     </div>
 
     <!-- Planowany dystans -->
-    <div>
+    <div id="distance-field">
       <label for="distance" class="block text-sm font-medium text-gray-700">
         <strong>Planowany dystans (km)</strong>
         <span class="text-red-600">*</span>
@@ -179,7 +190,7 @@ const submitButtonText = training ? "Zapisz zmiany" : "Dodaj trening";
     </div>
 
     <!-- Planowane tempo -->
-    <div>
+    <div id="pace-field">
       <label for="pace" class="block text-sm font-medium text-gray-700">
         <strong>Planowane tempo (min/km)</strong>
         <span class="text-red-600">*</span>
@@ -231,6 +242,34 @@ const submitButtonText = training ? "Zapisz zmiany" : "Dodaj trening";
   const customInput = document.getElementById("customLocation");
   const msgContainer = document.getElementById("msgContainer");
   const cancelBtn = document.getElementById("cancel-edit-button");
+  const typeRadios = document.querySelectorAll(".training-type-radio");
+  const distanceField = document.getElementById("distance-field");
+  const paceField = document.getElementById("pace-field");
+  const distanceInput = document.getElementById("distance");
+  const paceInput = document.getElementById("pace");
+
+  function updateFieldVisibility() {
+    const selectedType = document.querySelector(".training-type-radio:checked")?.value;
+    const isMorsowanie = selectedType === "morsowanie";
+
+    if (distanceField && paceField && distanceInput && paceInput) {
+      if (isMorsowanie) {
+        distanceField.classList.add("hidden");
+        paceField.classList.add("hidden");
+        distanceInput.required = false;
+        paceInput.required = false;
+        distanceInput.value = "0";
+        paceInput.value = "0";
+      } else {
+        distanceField.classList.remove("hidden");
+        paceField.classList.remove("hidden");
+        distanceInput.required = true;
+        paceInput.required = true;
+        if (distanceInput.value === "0") distanceInput.value = "";
+        if (paceInput.value === "0") paceInput.value = "";
+      }
+    }
+  }
 
   function syncLocationState() {
     const opt = select.selectedOptions[0];
@@ -257,12 +296,19 @@ const submitButtonText = training ? "Zapisz zmiany" : "Dodaj trening";
   // update hidden link and custom input visibility on selection change
   select.addEventListener("change", syncLocationState);
 
+  // Update field visibility when training type changes
+  typeRadios.forEach(radio => {
+    radio.addEventListener("change", updateFieldVisibility);
+  });
+
   // If not in edit mode, reset form and populate link
   if (!initialTraining) {
     form.reset();
     select.dispatchEvent(new Event("change"));
+    updateFieldVisibility();
   } else {
     syncLocationState();
+    updateFieldVisibility();
   }
 
   // Handle cancel button
