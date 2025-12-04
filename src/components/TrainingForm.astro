@@ -258,6 +258,10 @@ const submitButtonText = training ? "Zapisz zmiany" : "Dodaj trening";
         paceField.classList.add("hidden");
         distanceInput.required = false;
         paceInput.required = false;
+        distanceInput.removeAttribute("min");
+        distanceInput.removeAttribute("max");
+        paceInput.removeAttribute("min");
+        paceInput.removeAttribute("max");
         distanceInput.value = "0";
         paceInput.value = "0";
       } else {
@@ -265,6 +269,10 @@ const submitButtonText = training ? "Zapisz zmiany" : "Dodaj trening";
         paceField.classList.remove("hidden");
         distanceInput.required = true;
         paceInput.required = true;
+        distanceInput.setAttribute("min", "1");
+        distanceInput.setAttribute("max", "50");
+        paceInput.setAttribute("min", "3");
+        paceInput.setAttribute("max", "14");
         if (distanceInput.value === "0") distanceInput.value = "";
         if (paceInput.value === "0") paceInput.value = "";
       }
