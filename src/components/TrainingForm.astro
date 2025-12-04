@@ -305,11 +305,12 @@ const submitButtonText = training ? "Zapisz zmiany" : "Dodaj trening";
   if (!initialTraining) {
     form.reset();
     select.dispatchEvent(new Event("change"));
-    updateFieldVisibility();
   } else {
     syncLocationState();
-    updateFieldVisibility();
   }
+  
+  // Always update field visibility after initialization
+  updateFieldVisibility();
 
   // Handle cancel button
   if (cancelBtn) {
@@ -344,6 +345,12 @@ const submitButtonText = training ? "Zapisz zmiany" : "Dodaj trening";
     formData.delete("customLocation");
 
     const data = Object.fromEntries(formData.entries());
+    
+    // For morsowanie, ensure distance and pace are set to 0 if not provided
+    if (data.type === "morsowanie") {
+      data.distance = data.distance || "0";
+      data.pace = data.pace || "0";
+    }
 
     const isUpdate = initialTraining && initialTraining.uid;
     const apiUrl = isUpdate ? "/api/update-training" : "/api/add-training";
@@ -375,6 +382,7 @@ const submitButtonText = training ? "Zapisz zmiany" : "Dodaj trening";
       if (!isUpdate) {
         form.reset();
         select.dispatchEvent(new Event("change"));
+        updateFieldVisibility();
       } else {
         window.location.href = "/"; // Redirect to home after update
       }
