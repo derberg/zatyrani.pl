@@ -339,5 +339,16 @@
     "phone": "663473341",
     "distance": 10,
     "pace": 11
+  },
+  {
+    "uid": "bieg-9-12-2025-19-0-stanica-stacja-10-7",
+    "type": "bieg",
+    "datetime": "09/12/2025 19:00",
+    "location": "Stanica – Stacja",
+    "locationLink": "https://maps.app.goo.gl/LGKq1drxyXzfK9bi7",
+    "comment": "Stanica kolejka wąskotorowa... Bieg leśny tajemniczymi ścieżkami 😊",
+    "phone": "519194995",
+    "distance": 10,
+    "pace": 7
   }
 ]
