@@ -372,5 +372,16 @@
     "phone": "512637906",
     "distance": 10,
     "pace": 7
+  },
+  {
+    "uid": "bieg-20-12-2025-7-0-wierzbowa-2-nieborowice-21-7",
+    "type": "bieg",
+    "datetime": "20/12/2025 07:00",
+    "location": "Wierzbowa 2 Nieborowice",
+    "locationLink": "",
+    "comment": "Spotykamy się u Górnickich pod domem. Biegniemy półmaraton, tempo slow",
+    "phone": "512637906",
+    "distance": 21,
+    "pace": 7
   }
 ]
