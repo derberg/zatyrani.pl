@@ -394,5 +394,16 @@
     "phone": "512637906",
     "distance": 10,
     "pace": 7
+  },
+  {
+    "uid": "bieg-28-12-2025-7-15-wilcza-cmentarz-21-7",
+    "type": "bieg",
+    "datetime": "28/12/2025 07:15",
+    "location": "Wilcza – Cmentarz",
+    "locationLink": "https://maps.app.goo.gl/NwiX62pvY3kmyV3M8",
+    "comment": "Będziemy biec trasą Wilczego Półmaratonu",
+    "phone": "512637906",
+    "distance": 21,
+    "pace": 7
   }
 ]
