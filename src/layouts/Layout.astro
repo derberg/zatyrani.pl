@@ -3,6 +3,8 @@ import CookieBanner from "../components/CookieBanner.astro";
 
 interface Props {
   title: string;
+  description?: string;
+  ogImage?: string;
 }
 
 interface DropdownChild {
@@ -18,7 +20,16 @@ interface NavItem {
   children?: DropdownChild[];
 }
 
-const { title } = Astro.props;
+const { title, description, ogImage } = Astro.props;
+
+const defaultDescription = "Stowarzyszenie ZATYRANI to organizacja zajmująca się popularyzowaniem biegania i innych form aktywności ruchowej. Dołącz do nas!";
+const defaultOgImage = "/logo.png";
+const finalDescription = description || defaultDescription;
+const relativeOgImage = ogImage || defaultOgImage;
+
+// OG images need absolute URLs
+const siteUrl = Astro.site?.toString() || "https://zatyrani.pl";
+const finalOgImage = new URL(relativeOgImage, siteUrl).toString();
 
 const ctaItems: NavItem[] = [
   { name: "Dołącz", href: "/dolacz", cta: true },
@@ -37,7 +48,7 @@ const mainNavItems: NavItem[] = [
     ],
   },
   { name: "Półmaraton", href: "/wilczy-polmaraton" },
-  { name: "Rajd NW", href: "/rajdnw" },
+  { name: "NieboCross", href: "/niebocross" },
   { name: "Partner", href: "/partner" },
 ];
 
@@ -53,12 +64,22 @@ const allNavItems: NavItem[] = [...otherCtaItems, ...mainNavItems];
 <html lang="pl">
   <head>
     <meta charset="UTF-8" />
-    <meta
-      name="description"
-      content="Stowarzyszenie ZATYRANI to organizacja zajmująca się popularyzowaniem biegania i innych form aktywności ruchowej. Dołącz do nas!"
-    />
+    <meta name="description" content={finalDescription} />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={finalDescription} />
+    <meta property="og:image" content={finalOgImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="627" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={finalDescription} />
+    <meta name="twitter:image" content={finalOgImage} />
+    
     <title>{title}</title>
     <!-- Google Analytics -->
     <script is:inline>
