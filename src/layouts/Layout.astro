@@ -25,7 +25,11 @@ const { title, description, ogImage } = Astro.props;
 const defaultDescription = "Stowarzyszenie ZATYRANI to organizacja zajmująca się popularyzowaniem biegania i innych form aktywności ruchowej. Dołącz do nas!";
 const defaultOgImage = "/logo.png";
 const finalDescription = description || defaultDescription;
-const finalOgImage = ogImage || defaultOgImage;
+const relativeOgImage = ogImage || defaultOgImage;
+
+// OG images need absolute URLs
+const siteUrl = Astro.site?.toString() || "https://zatyrani.pl";
+const finalOgImage = new URL(relativeOgImage, siteUrl).toString();
 
 const ctaItems: NavItem[] = [
   { name: "Dołącz", href: "/dolacz", cta: true },
