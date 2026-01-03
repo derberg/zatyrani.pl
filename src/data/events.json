@@ -1367,5 +1367,15 @@
     "image": "",
     "location": "Dąbrowa Górnicza",
     "uid": "xiv-bieg-walentynkowy-15-02-2026"
+  },
+  {
+    "date": "04/07/2026",
+    "title": "Dyrfjallahlaup",
+    "mainLink": "https://www.dyrfjallahlaup.is",
+    "registrationLink": "https://netskraning.is/dyrfjallahlaup/?lang=en",
+    "description": "Dyrfjallahlaupið býður hlaupurum af öllum getustigum að… w wolnym tłumaczeniu: będzie pięknie na dystansie 50km, 24km lub 12km.",
+    "image": "",
+    "location": "Bakkagerði, Islandia",
+    "uid": "dyrfjallahlaup-04-07-2026"
   }
 ]
