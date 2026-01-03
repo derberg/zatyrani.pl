@@ -427,5 +427,16 @@
     "phone": "663473341",
     "distance": 15,
     "pace": 10
+  },
+  {
+    "uid": "bieg-4-1-2026-7-15-wilcza-cmentarz-22-6",
+    "type": "bieg",
+    "datetime": "04/01/2026 07:15",
+    "location": "Wilcza – Cmentarz",
+    "locationLink": "https://maps.app.goo.gl/NwiX62pvY3kmyV3M8",
+    "comment": "Trasa Wilczy Półmaraton - żwawe tempo 😉",
+    "phone": "791997150",
+    "distance": 22,
+    "pace": 6
   }
 ]
