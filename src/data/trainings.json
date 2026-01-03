@@ -416,5 +416,16 @@
     "phone": "508504013",
     "distance": 10,
     "pace": 7
+  },
+  {
+    "uid": "bieg-4-1-2026-7-0-nieborowice-krzyz-15-10",
+    "type": "bieg",
+    "datetime": "04/01/2026 07:00",
+    "location": "Nieborowice – Krzyż",
+    "locationLink": "https://maps.app.goo.gl/4t3qjRxQpny7Ln6KA",
+    "comment": "Trening NW I slow bieg koło 15km",
+    "phone": "663473341",
+    "distance": 15,
+    "pace": 10
   }
 ]
