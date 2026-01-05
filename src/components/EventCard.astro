@@ -2,7 +2,7 @@
 import type { Events } from "../data/events";
 import { formatDateDisplay } from "../utils/events.js";
 
-type Props = Events;
+type Props = Events & { assignedFallbackImage?: string };
 
 const {
   title,
@@ -13,16 +13,11 @@ const {
   mainLink,
   registrationLink,
   uid,
+  assignedFallbackImage,
 } = Astro.props;
 
-// Import all images from the public/events directory
-const imageFiles = import.meta.glob("/public/events/*", { eager: true });
-
-// Convert object keys to an array of file paths
-const fallbackImages = Object.keys(imageFiles).map((path) => path.replace("/public/", ""));
-
-// Randomly select a fallback image
-const randomFallbackImage = fallbackImages[Math.floor(Math.random() * fallbackImages.length)];
+// Use provided fallback image or the event's image
+const displayImage = image || assignedFallbackImage;
 ---
 
 <article
@@ -32,7 +27,7 @@ const randomFallbackImage = fallbackImages[Math.floor(Math.random() * fallbackIm
     <div class="flex items-center space-x-4">
       <img
         id="event-image"
-        src={image || randomFallbackImage}
+        src={displayImage}
         alt={title}
         class="w-16 h-16 object-contain"
       />

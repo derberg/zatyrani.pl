@@ -20,6 +20,38 @@ const futureEvents = events
     const dateB = parseDate(b.date);
     return dateA.getTime() - dateB.getTime(); // Compare timestamps
   });
+
+// Image assignment logic with caching
+const imageFiles = import.meta.glob("/public/events/ai/*", { eager: true });
+const fallbackImages = Object.keys(imageFiles).map((path) => path.replace("/public/", ""));
+const usedImagesCache = new Set<string>();
+
+function getNextFallbackImage(): string {
+  // If all images have been used, reset the cache
+  if (usedImagesCache.size === fallbackImages.length) {
+    usedImagesCache.clear();
+  }
+
+  // Find unused images
+  const unusedImages = fallbackImages.filter(img => !usedImagesCache.has(img));
+  
+  // Use unused images if available, otherwise fall back to all images
+  const availableImages = unusedImages.length > 0 ? unusedImages : fallbackImages;
+  
+  // Randomly select from available images
+  const selectedImage = availableImages[Math.floor(Math.random() * availableImages.length)];
+  
+  // Mark as used
+  usedImagesCache.add(selectedImage);
+  
+  return selectedImage;
+}
+
+// Assign images to events with caching
+const eventsWithAssignedImages = futureEvents.map(event => ({
+  ...event,
+  assignedFallbackImage: event.image ? event.image : getNextFallbackImage()
+}));
 ---
 
 <Layout title="Zatyrani - Wydarzenia">
@@ -31,7 +63,7 @@ const futureEvents = events
 
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
     <div class="grid md:grid-cols-3 gap-8">
-      {futureEvents.map((event) => <EventCard {...event} />)}
+      {eventsWithAssignedImages.map((event) => <EventCard {...event} assignedFallbackImage={event.assignedFallbackImage} />)}
     </div>
   </div>
 </Layout>
