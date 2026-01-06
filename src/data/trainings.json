@@ -438,5 +438,16 @@
     "phone": "791997150",
     "distance": 22,
     "pace": 6
+  },
+  {
+    "uid": "bieg-6-1-2026-19-0-nieborowice-ppk-10-7",
+    "type": "bieg",
+    "datetime": "06/01/2026 19:00",
+    "location": "Nieborowice – PPK",
+    "locationLink": "https://maps.app.goo.gl/cUnjGVWuHfnJDQTL8",
+    "comment": "Pamiętajcie o latarkach",
+    "phone": "512637906",
+    "distance": 10,
+    "pace": 7
   }
 ]
