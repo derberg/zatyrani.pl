@@ -449,5 +449,16 @@
     "phone": "512637906",
     "distance": 10,
     "pace": 7
+  },
+  {
+    "uid": "bieg-11-1-2026-9-30-wilcza-cmentarz-22-6",
+    "type": "bieg",
+    "datetime": "11/01/2026 09:30",
+    "location": "Wilcza – Cmentarz",
+    "locationLink": "https://maps.app.goo.gl/NwiX62pvY3kmyV3M8",
+    "comment": "Wspólny start dwóch grup: slow w tempie ok 7:00 oraz szybki slow w tempie 6:00 :) Zapraszam wszystkich.",
+    "phone": "791997150",
+    "distance": 22,
+    "pace": 6
   }
 ]
