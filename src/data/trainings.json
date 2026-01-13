@@ -460,5 +460,16 @@
     "phone": "791997150",
     "distance": 22,
     "pace": 6
+  },
+  {
+    "uid": "bieg-13-1-2026-19-0-nieborowice-krzyz-8-7",
+    "type": "bieg",
+    "datetime": "13/01/2026 19:00",
+    "location": "Nieborowice – Krzyż",
+    "locationLink": "https://maps.app.goo.gl/4t3qjRxQpny7Ln6KA",
+    "comment": "",
+    "phone": "663473341",
+    "distance": 8,
+    "pace": 7
   }
 ]
