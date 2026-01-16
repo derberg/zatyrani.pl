@@ -471,5 +471,16 @@
     "phone": "663473341",
     "distance": 8,
     "pace": 7
+  },
+  {
+    "uid": "bieg-18-1-2026-7-0-leboszowice-szwedownik-24-7",
+    "type": "bieg",
+    "datetime": "18/01/2026 07:00",
+    "location": "Leboszowice – Szwedownik",
+    "locationLink": "https://maps.app.goo.gl/UA4atBHW9mkCv9A1A",
+    "comment": "Trening tlenowy max 7",
+    "phone": "784640977",
+    "distance": 24,
+    "pace": 7
   }
 ]
