@@ -164,11 +164,9 @@ Organize keys by namespace for better maintainability:
 src/pages/
   index.astro              (Polish - root level)
   niebocross.astro         (Polish - root level)
-  wilczy-polmaraton.astro  (Polish - root level)
   en/
     index.astro            (English)
     niebocross.astro       (English)
-    wolf-half-marathon.astro (English - custom route name)
 ```
 
 ## 🌐 How it works:

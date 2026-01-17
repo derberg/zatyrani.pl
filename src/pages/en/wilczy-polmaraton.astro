@@ -1,0 +1,11 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import WilczyPolmaratonContent from "../../components/content/WilczyPolmaraton.astro";
+import { t as tBase } from "../../utils/i18n";
+
+const t = (key: string) => tBase(key, 'en');
+---
+
+<Layout title={t("halfmarathon.meta_title")}>
+  <WilczyPolmaratonContent t={t} />
+</Layout>

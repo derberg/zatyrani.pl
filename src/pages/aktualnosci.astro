@@ -1,22 +1,9 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import NewsCard from "../components/NewsCard.astro";
-import { news } from "../data/news";
+import AktualnosciContent from "../components/content/Aktualnosci.astro";
+import { t } from "../utils/i18n";
 ---
 
-<Layout title="Zatyrani - Aktualności">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <section>
-      <h1 class="text-3xl font-bold mb-2">Aktualności</h1>
-      <p class="text-gray-600 mb-8">Dowiedz się co w trawie piszczy.</p>
-
-      <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-        {
-          news
-            .filter((post) => post.message) // Filter out posts without a message
-            .map((post) => <NewsCard {...post} />)
-        }
-      </div>
-    </section>
-  </div>
+<Layout title={t("news.meta_title")}>
+  <AktualnosciContent t={t} />
 </Layout>

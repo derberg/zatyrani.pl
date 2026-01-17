@@ -1,0 +1,25 @@
+---
+import NewsCard from "../NewsCard.astro";
+import { news } from "../../data/news";
+
+interface Props {
+  t: (key: string) => string;
+}
+
+const { t } = Astro.props;
+---
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+  <section>
+    <h1 class="text-3xl font-bold mb-2">{t("news.title")}</h1>
+    <p class="text-gray-600 mb-8">{t("news.description")}</p>
+
+    <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+      {
+        news
+          .filter((post) => post.message)
+          .map((post) => <NewsCard {...post} />)
+      }
+    </div>
+  </section>
+</div>

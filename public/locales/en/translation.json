@@ -14,6 +14,11 @@
     "email": "biuro@zatyrani.pl",
     "phone": "784 640 977"
   },
+  "news": {
+    "meta_title": "Zatyrani - News",
+    "title": "News",
+    "description": "Find out what's happening."
+  },
   "niebocross": {
     "title": "NieboCross",
     "meta_description": "Charity run and Nordic Walking at Bierawka - 12.04.2026 in Nieborowice. Routes 3+ km and 9+ km, 100% of fees for charity.",
@@ -92,5 +97,32 @@
     "visit_partner": "Visit Partner",
     "youtube": "YouTube",
     "logo_alt": "Gratisownia.pl logo"
+  },
+  "halfmarathon": {
+    "title": "Wilczy Half Marathon",
+    "meta_title": "Zatyrani - IV Wilczy Half Marathon",
+    "event_name": "WILCZY HALF MARATHON",
+    "event_button": "Event",
+    "register_button": "Register",
+    "modal_title": "Registration temporarily unavailable",
+    "modal_body": "Registration for the half marathon has not started yet. Write to us at",
+    "modal_body_end": "and we will inform you when it becomes available.",
+    "modal_ok": "OK",
+    "paragraph1": "The half marathon route (approximately 22km) runs through the forests of the Rybnik Forest District, specifically through the beautiful forest trails of the \"Głębokie Doły\" forest reserve.",
+    "paragraph2": "The reserve is a remnant of an ancient primeval forest that once covered these areas. The unique microclimate, richness of flora and fauna, as well as the natural rarity of native, protected plant species make this place attractive both from a natural and tourist perspective.",
+    "paragraph3": "You won't find another half marathon like this in Silesia. Welcome to Wilcza!",
+    "attractions_title": "Attractions",
+    "attraction1": "We guarantee a large dose of adrenaline.",
+    "attraction2": "Guaranteed satisfaction for runners who love cross-country running in beautiful, wild, forest terrain.",
+    "attraction3": "Commemorative medal for every participant.",
+    "attraction4": "Dogs are welcome.",
+    "attraction5": "Every year there's always a runner who has to look for their shoe in the one magical place where an ordinary puddle turns into a muddy trap.",
+    "photos_title": "Photos from 2025",
+    "photos_full_gallery": "Full photo gallery by Paweł is available",
+    "photos_here": "here",
+    "race_office_title": "Race office",
+    "race_office_location": "Cultural Center in Wilcza, Karola Miarki 123, 44-189 Wilcza",
+    "logo_alt": "Wilczy Half Marathon logo",
+    "background_alt": "Half marathon background"
   }
 }

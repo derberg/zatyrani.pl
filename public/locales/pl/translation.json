@@ -14,6 +14,11 @@
     "email": "biuro@zatyrani.pl",
     "phone": "784 640 977"
   },
+  "news": {
+    "meta_title": "Zatyrani - Aktualności",
+    "title": "Aktualności",
+    "description": "Dowiedz się co w trawie piszczy."
+  },
   "niebocross": {
     "title": "NieboCross",
     "meta_description": "Charytatywny bieg i Nordic Walking nad Bierawką - 12.04.2026 w Nieborowicach. Trasy 3+ km i 9+ km, 100% opłat na cel charytatywny.",
@@ -92,5 +97,32 @@
     "visit_partner": "Odwiedź Partnera",
     "youtube": "YouTube",
     "logo_alt": "Gratisownia.pl logo"
+  },
+  "halfmarathon": {
+    "title": "Wilczy Półmaraton",
+    "meta_title": "Zatyrani - IV Wilczy Półmaraton",
+    "event_name": "WILCZY PÓŁMARATON",
+    "event_button": "Wydarzenie",
+    "register_button": "Zapisz się",
+    "modal_title": "Rejestracja chwilowo niedostępna",
+    "modal_body": "Rejestracja na półmaraton jeszcze się nie rozpoczęła. Napisz do nas na adres",
+    "modal_body_end": "a poinformujemy Cię, gdy będzie możliwa.",
+    "modal_ok": "OK",
+    "paragraph1": "Trasa półmaratonu (około 22km) wiedzie poprzez lasy Nadleśnictwa Rybnik a dokładnie kryjemy się pięknymi leśnymi ścieżkami uroczyska \"Głębokie Doły\".",
+    "paragraph2": "Uroczysko jest pamiątką po prastarej puszczy, która dawniej porastała te tereny. Niepowtarzalny mikroklimat, bogactwo flory i fauny, a także naturalna rzadkość rodzimych, chronicznych gatunków roślin sprawia że miejsce to jest atrakcyjne zarówno przyrodniczo jak i turystycznie.",
+    "paragraph3": "Drugiego takiego półmaratonu na Śląsku nie znajdziecie. Zapraszamy do Wilczy!",
+    "attractions_title": "Atrakcje",
+    "attraction1": "Zapewniamy dużą dawkę adrenaliny.",
+    "attraction2": "Gwarantowana satysfakcja dla biegaczy, którzy uwielbiają kros w pięknych, dzikich, leśnych terenach.",
+    "attraction3": "Pamiątkowy medal dla każdego uczestnika.",
+    "attraction4": "Pieski mile widziane.",
+    "attraction5": "Co roku zawsze znajdzie się biegacz, który musi szukać swojego buta w jedynym magicznym miejscu gdzie zwykła kałuża zamienia się w błotnistą pułapkę.",
+    "photos_title": "Zdjęcia z 2025",
+    "photos_full_gallery": "Pełna galeria zdjęć Pawła znajduje się",
+    "photos_here": "tutaj",
+    "race_office_title": "Biuro zawodów",
+    "race_office_location": "Dom Kultury w Wilczy, Karola Miarki 123, 44-189 Wilcza",
+    "logo_alt": "Logo Wilczy Półmaraton",
+    "background_alt": "Tło półmaratonu"
   }
 }

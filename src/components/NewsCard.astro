@@ -19,13 +19,16 @@ function parseUrlsInMessage(message: string): string {
 // Preprocess message to parse URLs into anchor tags
 const { date, message, image, postUrl, height } = Astro.props;
 const parsedMessage = message ? parseUrlsInMessage(message) : "";
+
+// Ensure image path starts with / for absolute path from public folder
+const imagePath = image && !image.startsWith('/') ? `/${image}` : image;
 ---
 
 <article class="bg-white rounded-lg shadow-md overflow-hidden flex flex-col">
   {
-    image && (
+    imagePath && (
       <img
-        src={image}
+        src={imagePath}
         alt="Główny obrazek posta"
         class={`w-full object-cover ${height || "h-64"}`}
       />
