@@ -327,5 +327,56 @@
     "error_verification": "Błąd weryfikacji",
     "error_login": "Błąd logowania",
     "error_connection": "Błąd połączenia"
+  },
+  "add_event": {
+    "meta_title": "Zatyrani - dodawanie wydarzeń",
+    "title": "Dodaj wydarzenie",
+    "subtitle": "Podziel się informacją o wydarzeniach biegowych, kijkowych czy dla chodziarzy.",
+    "avoid_duplicates": "Unikajmy duplikatów",
+    "check_existing": "Sprawdź proszę wcześniej czy danego wydarzenia nie ma czasem już na obecnej liście",
+    "events_link": "wydarzeń",
+    "check_help": "Zajmie ci to kilka chwil, a nam pomoże w utrzymaniu porządku na stronie. Dziękujemy!",
+    "form_intro": "Jeśli chcesz dodać wydarzenie do listy, wypełnij poniższy formularz. Pamiętaj, że wszystkie pola oznaczone gwiazdką",
+    "required": "są obowiązkowe."
+  },
+  "add_training": {
+    "meta_title": "Zatyrani - dodawanie treningu",
+    "title": "Dodaj trening",
+    "subtitle": "Podziel się informacją o nadchodzącym treningu biegowym lub nordic walking.",
+    "visible_after": "Po dodaniu treningu, zobaczysz go na stronie głównej po około maksymalnie 10 sekundach.",
+    "form_intro": "Wypełnij poniższy formularz. Wszystkie pola oznaczone gwiazdką",
+    "required": "są obowiązkowe."
+  },
+  "edit_event": {
+    "meta_title": "Zatyrani - Edytuj Wydarzenie",
+    "title": "Edytuj Wydarzenie",
+    "subtitle": "Usuń lub zmodyfikuj istniejące wydarzenie.",
+    "date_label": "Data:",
+    "location_label": "Lokalizacja:",
+    "description_label": "Opis:",
+    "delete_button": "Usuń wydarzenie",
+    "edit_button": "Edytuj wydarzenie",
+    "back_button": "Wróć do wydarzeń",
+    "confirm_delete": "Czy na pewno chcesz usunąć to wydarzenie?",
+    "confirm_action": "Ta operacja jest nieodwracalna."
+  },
+  "edit_training": {
+    "meta_title": "Zatyrani - Edytuj Trening",
+    "title": "Edytuj Trening",
+    "subtitle": "Usuń lub zmodyfikuj istniejący trening.",
+    "type_run": "Bieg",
+    "type_nordic": "Nordic Walking",
+    "type_swimming": "Morsowanie",
+    "date_label": "Data:",
+    "location_label": "Lokalizacja:",
+    "comment_label": "Komentarz:",
+    "distance_label": "Dystans:",
+    "pace_label": "Tempo:",
+    "contact_label": "Kontakt:",
+    "edit_button": "Edytuj trening",
+    "delete_button": "Usuń trening",
+    "back_button": "Wróć do treningów",
+    "confirm_delete": "Czy na pewno chcesz usunąć ten trening?",
+    "confirm_action": "Ta operacja jest nieodwracalna."
   }
 }

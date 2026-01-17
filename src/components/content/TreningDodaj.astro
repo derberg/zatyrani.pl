@@ -1,0 +1,31 @@
+---
+import PageHeader from "../PageHeader.astro";
+import TrainingForm from "../TrainingForm.astro";
+
+interface Props {
+  t: (key: string) => string;
+}
+
+const { t } = Astro.props;
+---
+
+<PageHeader
+  title={t("add_training.title")}
+  subtitle={t("add_training.subtitle")}
+  background="pink"
+/>
+
+<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <p>{t("add_training.visible_after")}</p>
+</div>
+
+<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-0 mb-4">
+  <p>
+    {t("add_training.form_intro")} <span class="text-red-600"
+      >*</span
+    > {t("add_training.required")}
+  </p>
+  <hr class="my-4 border-t border-gray-300" />
+</div>
+
+<TrainingForm />

@@ -327,5 +327,56 @@
     "error_verification": "Verification error",
     "error_login": "Login error",
     "error_connection": "Connection error"
+  },
+  "add_event": {
+    "meta_title": "Zatyrani - add event",
+    "title": "Add Event",
+    "subtitle": "Share information about running, nordic walking, or walking events.",
+    "avoid_duplicates": "Avoid duplicates",
+    "check_existing": "Please check first if the event is not already on the current list of",
+    "events_link": "events",
+    "check_help": "It will take you a few moments, and it will help us keep the site organized. Thank you!",
+    "form_intro": "If you want to add an event to the list, fill out the form below. Remember that all fields marked with an asterisk",
+    "required": "are required."
+  },
+  "add_training": {
+    "meta_title": "Zatyrani - add training",
+    "title": "Add Training",
+    "subtitle": "Share information about an upcoming running or nordic walking training session.",
+    "visible_after": "After adding the training, you will see it on the homepage within a maximum of 10 seconds.",
+    "form_intro": "Fill out the form below. All fields marked with an asterisk",
+    "required": "are required."
+  },
+  "edit_event": {
+    "meta_title": "Zatyrani - Edit Event",
+    "title": "Edit Event",
+    "subtitle": "Delete or modify an existing event.",
+    "date_label": "Date:",
+    "location_label": "Location:",
+    "description_label": "Description:",
+    "delete_button": "Delete event",
+    "edit_button": "Edit event",
+    "back_button": "Back to events",
+    "confirm_delete": "Are you sure you want to delete this event?",
+    "confirm_action": "This operation is irreversible."
+  },
+  "edit_training": {
+    "meta_title": "Zatyrani - Edit Training",
+    "title": "Edit Training",
+    "subtitle": "Delete or modify an existing training.",
+    "type_run": "Run",
+    "type_nordic": "Nordic Walking",
+    "type_swimming": "Ice Swimming",
+    "date_label": "Date:",
+    "location_label": "Location:",
+    "comment_label": "Comment:",
+    "distance_label": "Distance:",
+    "pace_label": "Pace:",
+    "contact_label": "Contact:",
+    "edit_button": "Edit training",
+    "delete_button": "Delete training",
+    "back_button": "Back to trainings",
+    "confirm_delete": "Are you sure you want to delete this training?",
+    "confirm_action": "This operation is irreversible."
   }
 }

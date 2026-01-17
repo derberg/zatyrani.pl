@@ -1,28 +1,9 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import PageHeader from "../components/PageHeader.astro";
-import TrainingForm from "../components/TrainingForm.astro";
+import TreningDodaj from "../components/content/TreningDodaj.astro";
+import { t } from "../utils/i18n";
 ---
 
-<Layout title="Zatyrani - dodawanie treningu">
-  <PageHeader
-    title="Dodaj trening"
-    subtitle="Podziel się informacją o nadchodzącym treningu biegowym lub nordic walking."
-    background="pink"
-  />
-
-  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <p>Po dodaniu treningu, zobaczysz go na stronie głównej po około maksymalnie 10 sekundach.</p>
-  </div>
-
-  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-0 mb-4">
-    <p>
-      Wypełnij poniższy formularz. Wszystkie pola oznaczone gwiazdką <span class="text-red-600"
-        >*</span
-      > są obowiązkowe.
-    </p>
-    <hr class="my-4 border-t border-gray-300" />
-  </div>
-
-  <TrainingForm />
+<Layout t={t} title={t("add_training.meta_title")}>
+  <TreningDodaj t={t} />
 </Layout>

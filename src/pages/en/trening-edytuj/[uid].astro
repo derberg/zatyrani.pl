@@ -1,0 +1,27 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import TreningEdytuj from '../../../components/content/TreningEdytuj.astro';
+import type { Training } from '../../../data/trainings';
+import { trainings } from '../../../data/trainings';
+import { t } from '../../../utils/i18n';
+
+const tEn = (key: string) => t(key, "en");
+
+interface Props {
+  training: Training;
+}
+
+export async function getStaticPaths() {
+  return trainings.map(training => ({
+    params: { uid: training.uid },
+    props: { training },
+  }));
+}
+
+const { training } = Astro.props;
+const trainingType = training.type === 'bieg' ? tEn("edit_training.type_run") : training.type === 'nordic walking' ? tEn("edit_training.type_nordic") : tEn("edit_training.type_swimming");
+---
+
+<Layout t={tEn} title={`${tEn("edit_training.meta_title")}: ${trainingType}`}>
+  <TreningEdytuj t={tEn} training={training} />
+</Layout>

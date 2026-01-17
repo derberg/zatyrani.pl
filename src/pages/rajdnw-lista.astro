@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import { participants as rawParticipants } from "../data/rajdnw-participants";
+import { t } from "../utils/i18n";
 
 const eventDate = "26.04.2025";
 const eventNumber = "III";
@@ -10,7 +11,7 @@ const participants = rawParticipants.sort((a, b) => a.lastname.localeCompare(b.l
 const registeredCount = participants.length;
 ---
 
-<Layout title="Zatyrani - III Zatyrany Rajd Nordic Walking">
+<Layout t={t} title="Zatyrani - III Zatyrany Rajd Nordic Walking">
   <!-- Hero Section -->
   <div class="relative h-[60vh] flex items-center justify-center text-white">
     <div class="absolute inset-0">

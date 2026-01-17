@@ -1,0 +1,11 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import TreningDodaj from "../../components/content/TreningDodaj.astro";
+import { t } from "../../utils/i18n";
+
+const tEn = (key: string) => t(key, "en");
+---
+
+<Layout t={tEn} title={tEn("add_training.meta_title")}>
+  <TreningDodaj t={tEn} />
+</Layout>

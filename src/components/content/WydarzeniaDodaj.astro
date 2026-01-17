@@ -1,0 +1,35 @@
+---
+import PageHeader from "../PageHeader.astro";
+import EventForm from "../EventForm.astro";
+
+interface Props {
+  t: (key: string) => string;
+}
+
+const { t } = Astro.props;
+---
+
+<PageHeader
+  title={t("add_event.title")}
+  subtitle={t("add_event.subtitle")}
+  background="pink"
+/>
+
+<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <p>
+    <strong>{t("add_event.avoid_duplicates")}</strong>. {t("add_event.check_existing")} <a
+      href="wydarzenia"
+      target="_blank"
+      class="text-blue-600 hover:underline">{t("add_event.events_link")}</a
+    >. {t("add_event.check_help")}
+  </p>
+</div>
+<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-0 mb-4">
+  <p>
+    {t("add_event.form_intro")} <span class="text-red-600">*</span> {t("add_event.required")}
+  </p>
+
+  <hr class="my-4 border-t border-gray-300" />
+</div>
+
+<EventForm />

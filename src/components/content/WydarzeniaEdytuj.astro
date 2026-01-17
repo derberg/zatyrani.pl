@@ -1,0 +1,123 @@
+---
+import PageHeader from "../PageHeader.astro";
+import ConfirmModal from "../ConfirmModal.astro";
+import EventForm from "../EventForm.astro";
+import { formatDateDisplay } from "../../utils/events.js";
+import type { Events } from "../../data/events";
+
+interface Props {
+  t: (key: string) => string;
+  event: Events;
+}
+
+const { t, event } = Astro.props;
+---
+
+<PageHeader
+  title={t("edit_event.title")}
+  subtitle={t("edit_event.subtitle")}
+  background="pink"
+/>
+
+<div id="view-mode" class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+  <div class="bg-white shadow-md rounded-lg p-6">
+    <h2 class="text-2xl font-bold mb-4">{event.title}</h2>
+    <p class="text-gray-700 mb-2"><strong>{t("edit_event.date_label")}</strong> {formatDateDisplay(event.date)}</p>
+    <p class="text-gray-700 mb-4"><strong>{t("edit_event.location_label")}</strong> {event.location}</p>
+    <p class="text-gray-700 mb-4"><strong>{t("edit_event.description_label")}</strong> {event.description}</p>
+    
+    <div class="flex flex-col sm:flex-row gap-3 mt-6">
+      <button
+        id="delete-event-button"
+        class="w-full sm:w-auto bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded-md focus:outline-none focus:shadow-outline"
+      >
+        {t("edit_event.delete_button")}
+      </button>
+
+      <button
+        id="edit-event-button"
+        class="w-full sm:w-auto bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded-md focus:outline-none focus:shadow-outline"
+      >
+        {t("edit_event.edit_button")}
+      </button>
+
+      <a
+        href="/wydarzenia"
+        class="w-full sm:w-auto bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded-md focus:outline-none focus:shadow-outline text-center inline-block"
+      >
+        {t("edit_event.back_button")}
+      </a>
+    </div>
+
+    <div id="message" class="mt-4 text-center"></div>
+  </div>
+</div>
+
+<div id="edit-mode" class="hidden">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <p>
+        {t("add_event.form_intro")} <span class="text-red-600">*</span> {t("add_event.required")}
+    </p>
+  </div>
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-0 mb-4">
+    <hr class="my-4 border-t border-gray-300" />
+  </div>
+  
+  <EventForm event={event} />
+</div>
+
+<ConfirmModal
+  title={t("edit_event.confirm_delete")}
+  message={`${t("edit_event.confirm_action")}`}
+/>
+
+<script define:vars={{ uid: event.uid }}>
+  const modal = document.getElementById('confirm-modal');
+  const confirmButton = document.getElementById('confirm-button');
+  const cancelButton = document.getElementById('cancel-button');
+  const messageDiv = document.getElementById('message');
+  const viewMode = document.getElementById('view-mode');
+  const editMode = document.getElementById('edit-mode');
+  const editButton = document.getElementById('edit-event-button');
+
+  document.getElementById('delete-event-button').addEventListener('click', () => {
+    modal.classList.remove('hidden');
+  });
+
+  cancelButton.addEventListener('click', () => {
+    modal.classList.add('hidden');
+  });
+
+  confirmButton.addEventListener('click', async () => {
+    modal.classList.add('hidden');
+
+    try {
+      const response = await fetch(`/api/delete-event`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ uid }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert("Wydarzenie usunięte pomyślnie! Na liście wydarzeń będzie widoczne jeszcze przez chwilę. Proszę o chwilę cierpliwości.");
+        window.location.href = '/wydarzenia';
+      } else {
+        messageDiv.className = 'text-red-600';
+        messageDiv.textContent = data.error || 'Wystąpił błąd podczas usuwania wydarzenia.';
+      }
+    } catch (error) {
+      console.error('Błąd:', error);
+      messageDiv.className = 'text-red-600';
+      messageDiv.textContent = 'Wystąpił błąd sieci lub serwera.';
+    }
+  });
+
+  editButton.addEventListener('click', () => {
+    viewMode.classList.add('hidden');
+    editMode.classList.remove('hidden');
+  });
+</script>

@@ -1,34 +1,9 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import PageHeader from "../components/PageHeader.astro";
-import EventForm from "../components/EventForm.astro";
+import WydarzeniaDodaj from "../components/content/WydarzeniaDodaj.astro";
+import { t } from "../utils/i18n";
 ---
 
-<Layout title="Zatyrani - dodawanie wydarzeń">
-  <PageHeader
-    title="Dodaj wydarzenie"
-    subtitle="Podziel się informacją o wydarzeniach biegowych, kijkowych czy dla chodziarzy."
-    background="pink"
-  />
-
-  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <p>
-      <strong>Unikajmy duplikatów</strong>. Sprawdź proszę wcześniej czy danego wydarzenia nie ma
-      czasem już na obecnej liście <a
-        href="wydarzenia"
-        target="_blank"
-        class="text-blue-600 hover:underline">wydarzeń</a
-      >. Zajmie ci to kilka chwil, a nam pomoże w utrzymaniu porządku na stronie. Dziękujemy!
-    </p>
-  </div>
-  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-0 mb-4">
-    <p>
-      Jeśli chcesz dodać wydarzenie do listy, wypełnij poniższy formularz. Pamiętaj, że wszystkie
-      pola oznaczone gwiazdką <span class="text-red-600">*</span> są obowiązkowe.
-    </p>
-
-    <hr class="my-4 border-t border-gray-300" />
-  </div>
-
-  <EventForm />
+<Layout t={t} title={t("add_event.meta_title")}>
+  <WydarzeniaDodaj t={t} />
 </Layout>

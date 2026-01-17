@@ -3,12 +3,13 @@ import Layout from '../layouts/Layout.astro';
 import PhotoGallery from '../components/PhotoGallery.astro';
 import { rajdnwPhotos2024 } from '../data/rajdnw-photos';
 import NWRegistry from '../components/NWRegistry.astro';
+import { t } from "../utils/i18n";
 
 const eventDate = '26.04.2025 godz. 9:00';
 const eventNumber = 'III';
 ---
 
-<Layout title="Zatyrani - III Rajd Nordic Walking Zatyrani">
+<Layout t={t} title="Zatyrani - III Rajd Nordic Walking Zatyrani">
   <!-- Hero Section -->
   <div class="relative h-[85vh] flex items-center justify-center text-white">
     <div class="absolute inset-0">
