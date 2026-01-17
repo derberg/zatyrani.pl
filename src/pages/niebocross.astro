@@ -1,5 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import PhotoGallery from "../components/PhotoGallery.astro";
 
 const eventDate = "12.04.2026";
 const locationName = "Nieborowice";
@@ -51,6 +52,17 @@ const longDistance = "Bieg krosowy i NW · 9 km";
             class="rounded-full bg-emerald-500 px-6 py-3 text-base font-semibold text-slate-900 shadow-lg shadow-emerald-500/30 transition hover:-translate-y-0.5 hover:bg-emerald-400"
           >
             Zapisz się (wkrótce)
+          </a>
+          <a
+            href="https://www.facebook.com/events/1586078795903551"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 rounded-full bg-blue-600 px-6 py-3 text-base font-semibold text-white shadow-lg shadow-blue-600/30 transition hover:-translate-y-0.5 hover:bg-blue-500"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+            </svg>
+            Wydarzenie
           </a>
           <!-- <a
             href="#lista-startowa"
@@ -116,7 +128,7 @@ const longDistance = "Bieg krosowy i NW · 9 km";
             <ul class="mt-4 space-y-2 text-sm text-slate-700">
               <li class="flex items-start gap-2">
                 <span class="mt-2 h-2 w-2 flex-none rounded-full bg-cyan-500"></span>
-                Naturalne single-tracki, fragmenty piachu i korzeni.
+                Naturalne single-tracki, fragmenty korzeni.
               </li>
               <li class="flex items-start gap-2">
                 <span class="mt-2 h-2 w-2 flex-none rounded-full bg-cyan-500"></span>
@@ -144,65 +156,185 @@ const longDistance = "Bieg krosowy i NW · 9 km";
           </div>
         </div>
       </div>
+    </div>
+  </section>
 
-      
+  <section class="mx-auto max-w-6xl px-6 py-8">
+    <div class="mb-8 text-center">
+      <h2 class="text-3xl font-bold text-slate-900">Cel charytatywny</h2>
+      <p class="mt-3 text-lg text-slate-700">
+        Wspólnie wspieramy leczenie zwierząt ratowanych przez <strong><a href="http://otoz.gliwice.pl/" target="_blank" rel="noopener noreferrer" class="text-slate-900 underline hover:text-emerald-700 transition">OTOZ Animals Inspektorat Gliwice</a></strong>.
+      </p>
+    </div>
+
+    <div class="rounded-3xl border border-slate-200 bg-white p-8 shadow-lg">
+      <div class="grid lg:grid-cols-[1.5fr_1fr] gap-8 items-center">
+        <!-- Tekst po lewej -->
+        <div class="space-y-4">
+          <h3 class="text-2xl font-bold text-slate-900">
+            OTOZ Animals Inspektorat Gliwice
+            <a 
+              href="https://www.facebook.com/otoz.gliwice"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-block ml-2 text-blue-600 hover:text-blue-700 transition"
+              title="Facebook OTOZ Gliwice"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+              </svg>
+            </a>
+          </h3>
+          <p class="text-slate-700">
+            Inspektor ds. Ochrony Zwierząt OTOZ ANIMALS – Gliwice pełni funkcję społeczną, nie przyjmuje z tego tytułu żadnego wynagrodzenia – to praca charytatywna.
+          </p>
+          <p class="text-slate-700">
+            Inspektorzy działają w zakresie, który reguluje Ustawa o Ochronie Zwierząt.
+          </p>
+        </div>
+
+        <!-- Logo po prawej -->
+        <div class="flex items-center justify-center lg:justify-end">
+          <div class="rounded-2xl bg-white p-8 ring-1 ring-slate-200">
+            <img 
+              src="/niebocross/otoz.svg" 
+              alt="OTOZ Animals Inspektorat Gliwice" 
+              class="h-40 w-auto object-contain"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-6 py-4">
+    <div class="mb-8 text-center">
+      <h2 class="text-3xl font-bold text-slate-900">Partnerzy wydarzenia</h2>
+      <p class="mt-3 text-lg text-slate-700">
+        Dziękujemy za wsparcie organizacji NieboCross!
+      </p>
+    </div>
+
+    <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+      <!-- Partner 1 -->
+      <div class="rounded-3xl border border-slate-200 bg-white p-8 shadow-lg flex flex-col items-center justify-center">
+        <img 
+          src="/niebocross/nieborowice.webp" 
+          alt="Sołectwo Nieborowice" 
+          class="h-32 w-auto object-contain mb-4"
+        />
+        <h3 class="text-lg font-bold text-slate-900 text-center">
+          Sołectwo Nieborowice
+          <a 
+            href="https://www.facebook.com/profile.php?id=61565108935494"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-block ml-2 text-blue-600 hover:text-blue-700 transition"
+            title="Facebook Sołectwa Nieborowice"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+            </svg>
+          </a>
+        </h3>
+        <p class="text-sm text-slate-600 text-center mt-2">Sołtys wraz z Radą Sołecką</p>
+      </div>
+
+      <!-- Miejsce na kolejnych partnerów -->
+      <div class="rounded-3xl border border-dashed border-slate-300 bg-slate-50 p-8 shadow-lg flex flex-col items-center justify-center">
+        <div class="text-center space-y-3">
+          <div class="w-20 h-20 mx-auto rounded-full bg-slate-200 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+            </svg>
+          </div>
+          <p class="font-semibold text-slate-700">Twoje logo tutaj!</p>
+          <p class="text-sm text-slate-600">Wspólnie możemy zrobić więcej dla dobrej sprawy.</p>
+        </div>
+      </div>
+
+      <div class="rounded-3xl border border-dashed border-slate-300 bg-slate-50 p-8 shadow-lg flex flex-col items-center justify-center sm:col-span-2 lg:col-span-1">
+        <div class="text-center space-y-3">
+          <p class="font-semibold text-slate-700">Zostań partnerem</p>
+          <p class="text-sm text-slate-600">
+            Kontakt: <a class="font-semibold text-emerald-700 hover:text-emerald-800" href="mailto:biuro@zatyrani.pl">biuro@zatyrani.pl</a><br/>
+            lub <a class="font-semibold text-emerald-700 hover:text-emerald-800" href="tel:+48784640977">784 640 977</a>
+          </p>
+        </div>
+      </div>
     </div>
   </section>
 
   <section id="oplaty" class="mx-auto max-w-6xl px-6 py-6">
     <div class="mb-8 text-center">
-      <h2 class="text-3xl font-bold text-slate-900">Finanse i współpraca</h2>
-      <p class="mt-3 text-lg text-slate-700">
-        Cel charytatywny NieboCross wspieramy wspólnie – poprzez wpłaty od uczestników oraz poszukiwanie sponsorów i partnerów.
-        <strong>Szczegóły celu charytatywnego ogłosimy wkrótce.</strong>
-        Jeśli chcesz się zaangażować, skontaktuj się z nami.
-      </p>
+      <h2 class="text-3xl font-bold text-slate-900">Opłaty startowe</h2>
     </div>
 
-    <div class="grid gap-8 lg:grid-cols-2">
-      <!-- Opłaty -->
+    <div class="grid gap-8 sm:grid-cols-2 max-w-4xl mx-auto">
       <div class="rounded-3xl border border-slate-200 bg-gradient-to-br from-white to-slate-50 p-8 shadow-lg">
-        <h3 class="text-2xl font-bold text-slate-900">Opłaty startowe</h3>
-        <ul class="mt-4 space-y-3 text-slate-700">
-          <li class="flex items-start gap-3">
-            <span class="mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full bg-emerald-100 text-sm font-semibold text-emerald-700">60</span>
-            <div>
-              <p class="font-semibold text-slate-900">Bieg / Nordic Walking (dorośli)</p>
-              <p>Pełna kwota 60 zł trafia na cel charytatywny.</p>
-            </div>
+        <div class="flex items-start gap-3">
+          <span class="mt-1 inline-flex h-8 w-8 items-center justify-center rounded-full bg-emerald-100 text-lg font-semibold text-emerald-700">60</span>
+          <div>
+            <p class="font-semibold text-slate-900 text-lg">Bieg / Nordic Walking (dorośli)</p>
+            <p class="text-slate-700 mt-1">100% dochodu z zapisów trafia na cel charytatywny.</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="rounded-3xl border border-slate-200 bg-gradient-to-br from-white to-slate-50 p-8 shadow-lg">
+        <div class="flex items-start gap-3">
+          <span class="mt-1 inline-flex h-8 w-8 items-center justify-center rounded-full bg-cyan-100 text-lg font-semibold text-cyan-700">20</span>
+          <div>
+            <p class="font-semibold text-slate-900 text-lg">Bieg dzieci</p>
+            <p class="text-slate-700 mt-1">100% dochodu z zapisów trafia na cel charytatywny.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-8 max-w-4xl mx-auto space-y-4">
+      <div class="rounded-2xl border border-slate-200 bg-white px-6 py-4">
+        <h3 class="font-semibold text-slate-900 mb-2">📊 Jak wspomagamy cel charytatywny?</h3>
+        <ul class="space-y-2 text-sm text-slate-700">
+          <li class="flex items-start gap-2">
+            <span class="mt-1 h-1.5 w-1.5 flex-none rounded-full bg-emerald-500"></span>
+            <span><strong>Zapisy:</strong> 100% dochodu z opłat startowych trafia na cel charytatywny.</span>
           </li>
-          <li class="flex items-start gap-3">
-            <span class="mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full bg-cyan-100 text-sm font-semibold text-cyan-700">20</span>
-            <div>
-              <p class="font-semibold text-slate-900">Bieg dzieci</p>
-              <p>20 zł – także w całości na wsparcie celu.</p>
-            </div>
+          <li class="flex items-start gap-2">
+            <span class="mt-1 h-1.5 w-1.5 flex-none rounded-full bg-emerald-500"></span>
+            <span><strong>Koszulki:</strong> 10 zł z każdej sprzedanej koszulki zasila cel, reszta pokrywa koszt produkcji.</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="mt-1 h-1.5 w-1.5 flex-none rounded-full bg-emerald-500"></span>
+            <span><strong>Partnerzy:</strong> Wsparcie od partnerów jest przekazywane na cel po odliczeniu niezbędnych kosztów organizacji wydarzenia które staramy się ograniczyć do niezbędnego minimum.</span>
           </li>
         </ul>
-        <div class="mt-6 rounded-2xl border border-dashed border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900">
-          Rejestracja i płatności online zostaną uruchomione wkrótce. Przyciski powyżej zaprowadzą Cię do formularza
-          oraz listy startowej, gdy tylko będą dostępne.
-        </div>
       </div>
 
-      <!-- Sponsorzy i Partnerzy -->
-      <div class="rounded-3xl border border-slate-200 bg-white p-8 shadow-lg">
-        <h3 class="text-2xl font-bold text-slate-900">Sponsorzy i Partnerzy</h3>
-        <p class="mt-4 text-slate-700">
-          Jesteśmy otwarci na każdą współpracę i pomoc przy NieboCross.
-          Jeśli chcesz wesprzeć wydarzenie (finansowo, rzeczowo lub usługowo),
-          skontaktuj się z nami — chętnie porozmawiamy o szczegółach.
-        </p>
-        <p class="mt-6 text-sm text-slate-700">
-          Kontakt:
-          <a class="font-semibold text-emerald-700 hover:text-emerald-800" href="mailto:biuro@zatyrani.pl">biuro@zatyrani.pl</a>
-          lub <a class="font-semibold text-emerald-700 hover:text-emerald-800" href="tel:+48784640977">784 640 977</a>
-        </p>
-        <div class="mt-6 rounded-2xl border border-dashed border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-700">
-          Twoje logo może pojawić się tutaj! Wspólnie możemy zrobić więcej dla dobrej sprawy.
-        </div>
+      <div class="rounded-2xl border border-dashed border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900">
+        Rejestracja i płatności online zostaną uruchomione wkrótce. Przyciski powyżej zaprowadzą Cię do formularza
+        oraz listy startowej, gdy tylko będą dostępne.
       </div>
     </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-6 py-16">
+    <div class="mb-8 text-center">
+      <h2 class="text-3xl font-bold text-slate-900">Dolina Bierawki</h2>
+      <p class="mt-3 text-lg text-slate-700">
+        Wydarzenie odbędzie się w malowniczej dolinie rzeki Bierawki. Trasa 9 km wiedzie wzdłuż rzeki,
+        oferując uczestnikom piękne widoki i techniczne wyzwania. Naturalne single-tracki, fragmenty korzeni, okopy z czasów II wojny światowej tworzą idealną krosową trasę dla miłośników biegania w terenie.
+      </p>
+    </div>
+    <PhotoGallery
+      photos={[
+        { src: "/niebocross/bierawa1.jpg", alt: "Dolina Bierawki" },
+        { src: "/niebocross/bierawa2.jpg", alt: "Dolina Bierawki" },
+        { src: "/niebocross/bierawa3.jpg", alt: "Dolina Bierawki" }
+      ]}
+      author="Paweł Bernas"
+      authorLink="https://www.instagram.com/pawelbernas.fotografia"
+    />
   </section>
   
   <section class="border-y border-slate-200 bg-slate-50">
@@ -220,7 +352,7 @@ const longDistance = "Bieg krosowy i NW · 9 km";
           <div class="grid gap-3 sm:grid-cols-2">
             <div class="rounded-2xl bg-emerald-50 p-4 text-slate-900">
               <p class="text-sm font-semibold text-emerald-700">Start i meta</p>
-              <p class="text-base">Nieborowice, okolice rzeki Bierawki. Dokładny punkt i mapka zostaną opublikowane wkrótce.</p>
+              <p class="text-base">Główny plac sołectwa Nieborowice, przy przedszkolu. <a href="https://maps.app.goo.gl/hJtbRWM52ZCxp3S19" target="_blank" rel="noopener noreferrer" class="font-semibold underline text-emerald-700 hover:text-emerald-800">Zobacz na mapie</a></p>
             </div>
             <div class="rounded-2xl bg-cyan-50 p-4 text-slate-900">
               <p class="text-sm font-semibold text-cyan-700">Nawierzchnia</p>
