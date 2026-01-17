@@ -316,6 +316,16 @@
     "confirm": "Confirm",
     "resend_now": "Resend code",
     "resend_wait": "Resend code ({seconds}s)",
-    "success_title": "Logged in successfully!"
+    "success_title": "Logged in successfully!",
+    "error_invalid_phone": "Enter a valid phone number",
+    "error_general": "Error",
+    "success_code_sent": "Code sent via SMS",
+    "error_sending": "Error sending",
+    "success_code_resent": "Code sent again",
+    "error_invalid_code": "Enter a 6-digit code",
+    "error_no_phone": "No phone number",
+    "error_verification": "Verification error",
+    "error_login": "Login error",
+    "error_connection": "Connection error"
   }
 }

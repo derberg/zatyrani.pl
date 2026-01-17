@@ -316,6 +316,16 @@
     "confirm": "Potwierdź",
     "resend_now": "Wyślij kod ponownie",
     "resend_wait": "Wyślij kod ponownie ({seconds}s)",
-    "success_title": "Zalogowano pomyślnie!"
+    "success_title": "Zalogowano pomyślnie!",
+    "error_invalid_phone": "Podaj poprawny numer telefonu",
+    "error_general": "Błąd",
+    "success_code_sent": "Kod wysłany na SMS",
+    "error_sending": "Błąd wysyłania",
+    "success_code_resent": "Kod wysłany ponownie",
+    "error_invalid_code": "Podaj 6-cyfrowy kod",
+    "error_no_phone": "Brak numeru",
+    "error_verification": "Błąd weryfikacji",
+    "error_login": "Błąd logowania",
+    "error_connection": "Błąd połączenia"
   }
 }

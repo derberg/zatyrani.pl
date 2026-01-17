@@ -138,7 +138,17 @@ const { t } = Astro.props;
 
 <script is:inline define:vars={{ translations: {
   resend_now: t("login.resend_now"),
-  resend_wait: t("login.resend_wait")
+  resend_wait: t("login.resend_wait"),
+  error_invalid_phone: t("login.error_invalid_phone"),
+  error_general: t("login.error_general"),
+  success_code_sent: t("login.success_code_sent"),
+  error_sending: t("login.error_sending"),
+  success_code_resent: t("login.success_code_resent"),
+  error_invalid_code: t("login.error_invalid_code"),
+  error_no_phone: t("login.error_no_phone"),
+  error_verification: t("login.error_verification"),
+  error_login: t("login.error_login"),
+  error_connection: t("login.error_connection")
 }}}>
   const phoneInputSection = document.getElementById('phoneInputSection');
   const codeInputSection = document.getElementById('codeInputSection');
@@ -218,7 +228,7 @@ const { t } = Astro.props;
   sendCodeButton.addEventListener('click', async () => {
     const digits = (phoneLocalInput.value || '').replace(/\D/g, '');
     if (digits.length !== 9) {
-      setMessage('Podaj poprawny numer telefonu', 'error');
+      setMessage(translations.error_invalid_phone, 'error');
       return;
     }
     const phone = `+48${digits}`;
@@ -232,16 +242,16 @@ const { t } = Astro.props;
       });
       if (!res.ok) {
         const errData = await res.json();
-        setMessage(errData.message || 'Błąd', 'error');
+        setMessage(errData.message || translations.error_general, 'error');
         return;
       }
-      setMessage('Kod wysłany na SMS', 'success');
+      setMessage(translations.success_code_sent, 'success');
       phoneInputSection.classList.add('hidden');
       codeInputSection.classList.remove('hidden');
       startResendCountdown();
     } catch (err) {
       console.error(err);
-      setMessage('Błąd wysyłania', 'error');
+      setMessage(translations.error_sending, 'error');
     }
   });
 
@@ -256,14 +266,14 @@ const { t } = Astro.props;
         });
         if (!res.ok) {
           const errData = await res.json();
-          setMessage(errData.message || 'Błąd', 'error');
+          setMessage(errData.message || translations.error_general, 'error');
           return;
         }
-        setMessage('Kod wysłany ponownie', 'success');
+        setMessage(translations.success_code_resent, 'success');
         startResendCountdown();
       } catch (err) {
         console.error(err);
-        setMessage('Błąd wysyłania', 'error');
+        setMessage(translations.error_sending, 'error');
       }
     });
   }
@@ -271,11 +281,11 @@ const { t } = Astro.props;
   confirmButton.addEventListener('click', async () => {
     const code = codeInput.value.trim();
     if (code.length !== 6) {
-      setMessage('Podaj 6-cyfrowy kod', 'error');
+      setMessage(translations.error_invalid_code, 'error');
       return;
     }
     if (!currentPhoneE164) {
-      setMessage('Brak numeru', 'error');
+      setMessage(translations.error_no_phone, 'error');
       return;
     }
 
@@ -287,12 +297,12 @@ const { t } = Astro.props;
       });
       if (!res.ok) {
         const errData = await res.json();
-        setMessage(errData.message || 'Błąd weryfikacji', 'error');
+        setMessage(errData.message || translations.error_verification, 'error');
         return;
       }
       const data = await res.json();
       if (!data.token) {
-        setMessage('Błąd logowania', 'error');
+        setMessage(translations.error_login, 'error');
         return;
       }
 
@@ -307,7 +317,7 @@ const { t } = Astro.props;
       successModal.classList.remove('hidden');
     } catch (err) {
       console.error(err);
-      setMessage('Błąd połączenia', 'error');
+      setMessage(translations.error_connection, 'error');
     }
   });
 
