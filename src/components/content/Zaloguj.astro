@@ -138,8 +138,10 @@ const { t } = Astro.props;
 
 <script is:inline define:vars={{ translations: {
   resend_now: t("login.resend_now"),
-  resend_wait: t("login.resend_wait"),
-  error_invalid_phone: t("login.error_invalid_phone"),
+  resend_wait: t("login.resend_wait"),  send_code: t("login.send_code"),
+  send_code_sending: t("login.send_code_sending"),
+  confirm: t("login.confirm"),
+  confirm_confirming: t("login.confirm_confirming"),  error_invalid_phone: t("login.error_invalid_phone"),
   error_general: t("login.error_general"),
   success_code_sent: t("login.success_code_sent"),
   error_sending: t("login.error_sending"),
@@ -238,7 +240,7 @@ const { t } = Astro.props;
 
     currentPhoneE164 = `+48${rawDigits}`;
 
-    sendCodeButton.textContent = 'Wysyłanie...';
+    sendCodeButton.textContent = translations.send_code_sending;
     sendCodeButton.disabled = true;
     phoneLocalInput.disabled = true;
 
@@ -272,7 +274,7 @@ const { t } = Astro.props;
         'error'
       );
     } finally {
-      sendCodeButton.textContent = 'Wyślij kod do logowania';
+      sendCodeButton.textContent = translations.send_code;
       sendCodeButton.disabled = false;
       phoneLocalInput.disabled = false;
     }
@@ -287,7 +289,7 @@ const { t } = Astro.props;
 
       setMessage('');
       resendCodeButton.disabled = true;
-      resendCodeButton.textContent = 'Wysyłanie...';
+      resendCodeButton.textContent = translations.send_code_sending;
 
       try {
         const res = await fetch('/api/auth/request-code', {
@@ -338,7 +340,7 @@ const { t } = Astro.props;
       return;
     }
 
-    confirmButton.textContent = 'Potwierdzanie...';
+    confirmButton.textContent = translations.confirm_confirming;
     confirmButton.disabled = true;
     codeInput.disabled = true;
     backButton.disabled = true;
@@ -368,7 +370,7 @@ const { t } = Astro.props;
           codeInput.disabled = false;
           backButton.disabled = false;
         }
-        confirmButton.textContent = 'Potwierdź';
+        confirmButton.textContent = translations.confirm;
         return;
       }
 
@@ -394,7 +396,7 @@ const { t } = Astro.props;
       codeInput.disabled = false;
       backButton.disabled = false;
     } finally {
-      confirmButton.textContent = 'Potwierdź';
+      confirmButton.textContent = translations.confirm;
     }
   });
 
