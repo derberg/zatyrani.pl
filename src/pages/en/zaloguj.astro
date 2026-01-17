@@ -1,0 +1,16 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Zaloguj from "../../components/content/Zaloguj.astro";
+import { t } from "../../utils/i18n";
+
+const tEn = (key: string) => t(key, "en");
+---
+
+<Layout
+  t={tEn}
+  title={tEn("login.meta_title")}
+  description="Login for ZATYRANI members"
+  image="/zatyrani_logo.webp"
+>
+  <Zaloguj t={tEn} />
+</Layout>

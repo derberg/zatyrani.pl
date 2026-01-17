@@ -1,4 +1,24 @@
 {
+  "layout": {
+    "default_description": "ZATYRANI Association is an organization dedicated to promoting running and other forms of physical activity. Join us!",
+    "nav": {
+      "join": "Join",
+      "login": "Login",
+      "news": "News",
+      "about": "About us",
+      "events": "Events",
+      "trainings": "Trainings",
+      "initiatives": "Initiatives",
+      "members": "Members",
+      "halfmarathon": "Half Marathon",
+      "partner": "Partner"
+    },
+    "footer": {
+      "youtube": "Youtube - Zatyrani",
+      "rights": "All rights reserved.",
+      "statute": "Association Statute."
+    }
+  },
   "nav": {
     "home": "Home",
     "events": "Events",
@@ -282,5 +302,20 @@
     "member_42": "Running is my passion.",
     "member_43": "Nature is the place where I rest, clear my head and charge my batteries.\nSorry, the poles are ringing, I have to go 😊",
     "member_44": ""
+  },
+  "login": {
+    "meta_title": "Zatyrani - Login",
+    "members_only": "This login is exclusively for registered members of the ZATYRANI Association.",
+    "phone_number": "Phone Number",
+    "phone_help": "Enter your mobile number without spaces",
+    "send_code": "Send login code",
+    "back": "Back",
+    "code_label": "Verification Code",
+    "code_placeholder": "123456",
+    "code_help": "Enter the code received via SMS",
+    "confirm": "Confirm",
+    "resend_now": "Resend code",
+    "resend_wait": "Resend code ({seconds}s)",
+    "success_title": "Logged in successfully!"
   }
 }

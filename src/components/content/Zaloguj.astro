@@ -1,0 +1,329 @@
+---
+interface Props {
+  t: (key: string) => string;
+}
+
+const { t } = Astro.props;
+---
+
+<div class="flex items-center justify-center min-h-[calc(100vh-200px)]">
+  <div class="w-full max-w-md">
+    <div class="bg-purple-50 border-l-4 border-purple-600 p-4 mb-6">
+      <div class="flex">
+        <div class="flex-shrink-0">
+          <svg class="h-5 w-5 text-purple-600" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+          </svg>
+        </div>
+        <div class="ml-3">
+          <p class="text-sm text-purple-700">
+            {t("login.members_only")}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+      <div class="flex justify-center mb-6">
+        <img src="/zatyrani_logo.webp" alt="Zatyrani Logo" class="h-24 w-auto" />
+      </div>
+
+      <div id="phoneInputSection">
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="phoneLocal">
+            {t("login.phone_number")}
+          </label>
+          <div class="flex">
+            <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
+              +48
+            </span>
+            <input
+              class="shadow appearance-none border rounded-r-md w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="phoneLocal"
+              type="tel"
+              inputmode="numeric"
+              autocomplete="off"
+              placeholder="123 456 789"
+            />
+          </div>
+          <p class="mt-1 text-xs text-gray-500">
+            {t("login.phone_help")}
+          </p>
+        </div>
+        <div class="flex items-center justify-center space-x-4">
+          <button
+            id="sendCodeButton"
+            class="bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded-md focus:outline-none focus:shadow-outline"
+            type="button"
+          >
+            {t("login.send_code")}
+          </button>
+          <a href="/" class="bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded-md focus:outline-none focus:shadow-outline inline-block text-center">
+            {t("login.back")}
+          </a>
+        </div>
+      </div>
+
+      <div id="codeInputSection" class="hidden">
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="code">
+            {t("login.code_label")}
+          </label>
+          <input
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="code"
+            type="tel"
+            inputmode="numeric"
+            autocomplete="off"
+            placeholder={t("login.code_placeholder")}
+            maxlength="6"
+          />
+          <p class="mt-1 text-xs text-gray-500">
+            {t("login.code_help")}
+          </p>
+        </div>
+        <div class="mb-4 text-center">
+          <button
+            id="resendCodeButton"
+            type="button"
+            class="text-sm text-purple-600 hover:text-purple-700 disabled:text-gray-400 disabled:cursor-not-allowed"
+            disabled
+          >
+            <span data-translate="resend"></span>
+          </button>
+        </div>
+        <div class="flex items-center justify-center space-x-4">
+          <button
+            id="confirmButton"
+            class="bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded-md focus:outline-none focus:shadow-outline"
+            type="button"
+          >
+            {t("login.confirm")}
+          </button>
+          <button
+            id="backButton"
+            class="bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded-md focus:outline-none focus:shadow-outline"
+            type="button"
+          >
+            {t("login.back")}
+          </button>
+        </div>
+      </div>
+      <div id="loginMessage" class="mt-4 text-center text-sm"></div>
+    </form>
+  </div>
+</div>
+
+<!-- Success Modal -->
+<div id="successModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden">
+  <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+    <div class="mt-3 text-center">
+      <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100">
+        <svg class="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+      </div>
+      <h3 class="text-lg leading-6 font-medium text-gray-900 mt-2">{t("login.success_title")}</h3>
+      <div class="mt-2 px-7 py-3">
+      </div>
+      <div class="items-center px-4 py-3">
+        <button
+          id="okButton"
+          class="px-4 py-2 bg-purple-600 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
+        >
+          OK
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script is:inline define:vars={{ translations: {
+  resend_now: t("login.resend_now"),
+  resend_wait: t("login.resend_wait")
+}}}>
+  const phoneInputSection = document.getElementById('phoneInputSection');
+  const codeInputSection = document.getElementById('codeInputSection');
+  const sendCodeButton = document.getElementById('sendCodeButton');
+  const confirmButton = document.getElementById('confirmButton');
+  const successModal = document.getElementById('successModal');
+  const okButton = document.getElementById('okButton');
+  const backButton = document.getElementById('backButton');
+  const phoneLocalInput = document.getElementById('phoneLocal');
+  const codeInput = document.getElementById('code');
+  const resendCodeButton = document.getElementById('resendCodeButton');
+  const loginMessage = document.getElementById('loginMessage');
+
+  let currentPhoneE164 = null;
+  let resendCountdown = 15;
+  let resendInterval = null;
+  let redirectTarget = '/';
+
+  function setMessage(text, type = 'info') {
+    if (!loginMessage) return;
+    loginMessage.textContent = text || '';
+    loginMessage.className =
+      'mt-4 text-center text-sm ' +
+      (type === 'error'
+        ? 'text-red-700'
+        : type === 'success'
+        ? 'text-green-700'
+        : 'text-gray-700');
+  }
+
+  function startResendCountdown() {
+    if (!resendCodeButton) return;
+    resendCountdown = 15;
+    resendCodeButton.disabled = true;
+    resendCodeButton.textContent = translations.resend_wait.replace('{seconds}', resendCountdown);
+    if (resendInterval) clearInterval(resendInterval);
+    resendInterval = setInterval(() => {
+      resendCountdown -= 1;
+      if (resendCountdown <= 0) {
+        clearInterval(resendInterval);
+        resendInterval = null;
+        resendCodeButton.disabled = false;
+        resendCodeButton.textContent = translations.resend_now;
+      } else {
+        resendCodeButton.textContent = translations.resend_wait.replace('{seconds}', resendCountdown);
+      }
+    }, 1000);
+  }
+
+  if (phoneLocalInput) {
+    phoneLocalInput.addEventListener('input', () => {
+      const digits = phoneLocalInput.value.replace(/\D/g, '').slice(0, 9);
+      phoneLocalInput.value = digits
+        .replace(/(\d{3})(\d{3})(\d{0,3})/, (_, a, b, c) => (c ? `${a} ${b} ${c}` : `${a} ${b}`))
+        .trim();
+    });
+  }
+
+  if (codeInput) {
+    codeInput.addEventListener('input', () => {
+      const digits = codeInput.value.replace(/\D/g, '').slice(0, 6);
+      codeInput.value = digits;
+    });
+  }
+
+  try {
+    const lastPath = window.localStorage.getItem('lastPath');
+    if (lastPath && lastPath !== '/zaloguj') {
+      redirectTarget = lastPath;
+    } else {
+      redirectTarget = '/wydarzenia';
+    }
+  } catch {
+    redirectTarget = '/wydarzenia';
+  }
+
+  sendCodeButton.addEventListener('click', async () => {
+    const digits = (phoneLocalInput.value || '').replace(/\D/g, '');
+    if (digits.length !== 9) {
+      setMessage('Podaj poprawny numer telefonu', 'error');
+      return;
+    }
+    const phone = `+48${digits}`;
+    currentPhoneE164 = phone;
+
+    try {
+      const res = await fetch('/api/auth/request-code', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone }),
+      });
+      if (!res.ok) {
+        const errData = await res.json();
+        setMessage(errData.message || 'Błąd', 'error');
+        return;
+      }
+      setMessage('Kod wysłany na SMS', 'success');
+      phoneInputSection.classList.add('hidden');
+      codeInputSection.classList.remove('hidden');
+      startResendCountdown();
+    } catch (err) {
+      console.error(err);
+      setMessage('Błąd wysyłania', 'error');
+    }
+  });
+
+  if (resendCodeButton) {
+    resendCodeButton.addEventListener('click', async () => {
+      if (!currentPhoneE164) return;
+      try {
+        const res = await fetch('/api/auth/request-code', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ phone: currentPhoneE164 }),
+        });
+        if (!res.ok) {
+          const errData = await res.json();
+          setMessage(errData.message || 'Błąd', 'error');
+          return;
+        }
+        setMessage('Kod wysłany ponownie', 'success');
+        startResendCountdown();
+      } catch (err) {
+        console.error(err);
+        setMessage('Błąd wysyłania', 'error');
+      }
+    });
+  }
+
+  confirmButton.addEventListener('click', async () => {
+    const code = codeInput.value.trim();
+    if (code.length !== 6) {
+      setMessage('Podaj 6-cyfrowy kod', 'error');
+      return;
+    }
+    if (!currentPhoneE164) {
+      setMessage('Brak numeru', 'error');
+      return;
+    }
+
+    try {
+      const res = await fetch('/api/auth/verify-code', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone: currentPhoneE164, code }),
+      });
+      if (!res.ok) {
+        const errData = await res.json();
+        setMessage(errData.message || 'Błąd weryfikacji', 'error');
+        return;
+      }
+      const data = await res.json();
+      if (!data.token) {
+        setMessage('Błąd logowania', 'error');
+        return;
+      }
+
+      try {
+        const expiry = Date.now() + 30 * 24 * 60 * 60 * 1000;
+        window.localStorage.setItem('authState', JSON.stringify({ loggedIn: true, expiresAt: expiry }));
+        window.dispatchEvent(new Event('authStateChange'));
+      } catch {
+        // Ignore localStorage errors
+      }
+
+      successModal.classList.remove('hidden');
+    } catch (err) {
+      console.error(err);
+      setMessage('Błąd połączenia', 'error');
+    }
+  });
+
+  if (backButton) {
+    backButton.addEventListener('click', () => {
+      phoneInputSection.classList.remove('hidden');
+      codeInputSection.classList.add('hidden');
+      codeInput.value = '';
+      setMessage('');
+      if (resendInterval) clearInterval(resendInterval);
+    });
+  }
+
+  if (okButton) {
+    okButton.addEventListener('click', () => {
+      window.location.href = redirectTarget;
+    });
+  }
+</script>

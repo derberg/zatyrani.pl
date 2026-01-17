@@ -1,4 +1,24 @@
 {
+  "layout": {
+    "default_description": "Stowarzyszenie ZATYRANI to organizacja zajmująca się popularyzowaniem biegania i innych form aktywności ruchowej. Dołącz do nas!",
+    "nav": {
+      "join": "Dołącz",
+      "login": "Zaloguj",
+      "news": "Aktualności",
+      "about": "O nas",
+      "events": "Wydarzenia",
+      "trainings": "Treningi",
+      "initiatives": "Inicjatywy",
+      "members": "Zatyrusy",
+      "halfmarathon": "Półmaraton",
+      "partner": "Partner"
+    },
+    "footer": {
+      "youtube": "Youtube - Zatyrani",
+      "rights": "All rights reserved.",
+      "statute": "Statut Stowarzyszenia."
+    }
+  },
   "nav": {
     "home": "Strona główna",
     "events": "Wydarzenia",
@@ -282,5 +302,20 @@
     "member_42": "Bieganie to moja pasja.",
     "member_43": "Natura to miejsce gdzie odpoczywam, wietrzę głowę  i ładuje baterię. \nSorry kijki dzwonią, muszę lecieć 😊",
     "member_44": ""
+  },
+  "login": {
+    "meta_title": "Zatyrani - Logowanie",
+    "members_only": "To logowanie jest przeznaczone wyłącznie dla zarejestrowanych członków Stowarzyszenia ZATYRANI.",
+    "phone_number": "Numer telefonu",
+    "phone_help": "Podaj numer komórkowy bez spacji",
+    "send_code": "Wyślij kod do logowania",
+    "back": "Wróć",
+    "code_label": "Kod weryfikacyjny",
+    "code_placeholder": "123456",
+    "code_help": "Wpisz kod otrzymany w SMS",
+    "confirm": "Potwierdź",
+    "resend_now": "Wyślij kod ponownie",
+    "resend_wait": "Wyślij kod ponownie ({seconds}s)",
+    "success_title": "Zalogowano pomyślnie!"
   }
 }
