@@ -1,24 +1,21 @@
 ---
-interface Props {
-  title: string;
-  description: string;
-  schedule: string;
-  image: string;
-  link: string;
-  imageClass?: string; // Optional prop for custom image class
+import type { Initiative } from "../data/initiatives";
+
+interface Props extends Initiative {
+  t: (key: string) => string;
 }
 
-const { title, description, schedule, link, image, imageClass } = Astro.props;
+const { id, image, link, imageClass, t } = Astro.props;
 ---
 
 <article class="bg-white rounded-lg shadow-md overflow-hidden flex flex-col">
   <a href={link} target="_blank" rel="noopener noreferrer" class="block">
-    <img src={image} alt="" class={`w-full object-cover ${imageClass}`} />
+    <img src={image} alt="" class={`w-full object-cover ${imageClass || ''}`} />
 
     <div class="p-6 flex flex-col flex-grow">
-      <h3 class="text-2xl font-bold mb-4">{title}</h3>
-      <p class="text-gray-600 mb-4">{description}</p>
-      <p class="text-purple-600 font-semibold">{schedule}</p>
+      <h3 class="text-2xl font-bold mb-4">{t(`initiatives_content.${id}.title`)}</h3>
+      <p class="text-gray-600 mb-4">{t(`initiatives_content.${id}.description`)}</p>
+      <p class="text-purple-600 font-semibold">{t(`initiatives_content.${id}.schedule`)}</p>
     </div>
   </a>
 </article>

@@ -62,6 +62,53 @@
     "description": "Want to join us? Or maybe you'd like to sponsor us?",
     "email_prompt": "Send an email to"
   },
+  "initiatives": {
+    "meta_title": "Zatyrani - Initiatives",
+    "page_title": "Our Initiatives",
+    "page_subtitle": "Discover what we organize regularly. Learn how to join."
+  },
+  "initiatives_content": {
+    "kids_training": {
+      "title": "Youngest Children Training",
+      "description": "Athletics training for the youngest children in the gym at the school-preschool complex (ZSP) in Pilchowice.",
+      "schedule": "Fridays - 4:00 PM"
+    },
+    "youth_training": {
+      "title": "Youth Training",
+      "description": "Athletics training for youth in the gym at the school-preschool complex (ZSP) in Pilchowice.",
+      "schedule": "Call and schedule a training"
+    },
+    "charity_relay": {
+      "title": "NieboCross Charity Event",
+      "description": "Charity run and Nordic Walking at Bierawka River in Nieborowice. Routes 3+ km and 9+ km.",
+      "schedule": "April"
+    },
+    "kids_championship": {
+      "title": "Children and Youth Run for Pilchowice Municipality Championship",
+      "description": "An annual event aimed at encouraging children to adopt a sporty lifestyle.",
+      "schedule": "September"
+    },
+    "wilczy_halfmarathon": {
+      "title": "Wilczy Half Marathon",
+      "description": "An annual half marathon organized in the village of Wilcza.",
+      "schedule": "October"
+    },
+    "slow_running": {
+      "title": "Slow Running",
+      "description": "Every Tuesday we run slowly to shed some kilos and chat about random stuff.",
+      "schedule": "Tuesdays - 7:00 PM"
+    },
+    "nordic_walking_rally": {
+      "title": "Nordic Walking Rally",
+      "description": "An annual forest rally for Nordic Walking enthusiasts.",
+      "schedule": "April"
+    },
+    "sticks": {
+      "title": "Sticks",
+      "description": "Running is great, but knees need to rest too. Best done on Monday with walking poles in hand.",
+      "schedule": "Mondays - 6:30 PM"
+    }
+  },
   "niebocross": {
     "title": "NieboCross",
     "meta_description": "Charity run and Nordic Walking at Bierawka - 12.04.2026 in Nieborowice. Routes 3+ km and 9+ km, 100% of fees for charity.",

@@ -1,0 +1,22 @@
+---
+import PageHeader from "../PageHeader.astro";
+import InitiativeCard from "../InitiativeCard.astro";
+import { initiatives } from "../../data/initiatives";
+
+interface Props {
+  t: (key: string) => string;
+}
+
+const { t } = Astro.props;
+---
+
+<PageHeader
+  title={t("initiatives.page_title")}
+  subtitle={t("initiatives.page_subtitle")}
+/>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+  <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+    {initiatives.filter(i => !i.hidden).map((initiative) => <InitiativeCard {...initiative} t={t} />)}
+  </div>
+</div>

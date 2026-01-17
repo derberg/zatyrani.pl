@@ -1,0 +1,11 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import InicjatywyContent from "../../components/content/Inicjatywy.astro";
+import { t as tBase } from "../../utils/i18n";
+
+const t = (key: string) => tBase(key, 'en');
+---
+
+<Layout title={t("initiatives.meta_title")}>
+  <InicjatywyContent t={t} />
+</Layout>

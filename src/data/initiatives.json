@@ -1,55 +1,41 @@
 [
   {
-    "title": "Szkolenia Najmłodszych",
-    "description": "Szkolenie lekkoatletyczne dla najmłodszych w sali gimnastycznej w zespole szkolno-przedszkolny (ZSP) w Pilchowicach.",
-    "schedule": "Piątki - 16:00",
-    "image": "initiatives/dzieci.jpg"
+    "id": "kids_training",
+    "image": "/initiatives/dzieci.jpg"
   },
   {
-    "title": "Szkolenia Młodzieży",
-    "description": "Szkolenie lekkoatletyczne dla młodzieży w sali gimnastycznej w zespole szkolno-przedszkolny (ZSP) w Pilchowicach.",
-    "schedule": "Zadzwoń i umów się na trening",
-    "image": "initiatives/mlodzi.jpg"
+    "id": "youth_training",
+    "image": "/initiatives/mlodzi.jpg"
   },
   {
-    "title": "Sztafeta Charytatywna",
-    "description": "Pomaganie przez bieganie. Coroczna inicjatywa organizowana przez Zatyranych na cele charytatywne",
-    "schedule": "Czerwiec",
-    "image": "initiatives/charytatywnie.jpg",
+    "id": "charity_relay",
+    "image": "/niebocross_logo.webp",
+    "imageClass": "h-96",
+    "link": "/niebocross"
+  },
+  {
+    "id": "kids_championship",
+    "image": "/initiatives/mistrzostwa.jpg",
     "imageClass": "h-96"
   },
   {
-    "title": "Bieg Dzieci i Młodzieży o Mistrzostwo Gminy Pilchowice",
-    "description": "Coroczna impreza której celem jest zachęcenie dzieci do sportowego stylu życia.",
-    "schedule": "Wrzesień",
-    "image": "initiatives/mistrzostwa.jpg",
-    "imageClass": "h-96"
-  },
-  {
-    "title": "Wilczy Półmaraton",
-    "description": "Coroczny półmaraton organizowany w sołectwie Wilcza.",
-    "schedule": "Październik",
-    "image": "initiatives/wilczy.png",
+    "id": "wilczy_halfmarathon",
+    "image": "/initiatives/wilczy.png",
     "link": "/wilczy-polmaraton"
   },
   {
-    "title": "Wybieganie Slow",
-    "description": "Co Wtorek biegamy powoli, żeby zbić kilogramy i pogadać o dupie marynie.",
-    "schedule": "Wtorki - 19:00",
-    "image": "initiatives/wybieganie.jpg",
+    "id": "slow_running",
+    "image": "/initiatives/wybieganie.jpg",
     "imageClass": "h-96"
   },
   {
-    "title": "Rajd Nordic Walking",
-    "description": "Coroczny rajd leśny miłośników Nordic Walking.",
-    "schedule": "Kwiecień",
-    "image": "initiatives/rajdnw.png",
-    "link": "/rajdnw"
+    "id": "nordic_walking_rally",
+    "image": "/initiatives/rajdnw.png",
+    "link": "/rajdnw",
+    "hidden": true
   },
   {
-    "title": "Kije",
-    "description": "Bieganie jest spoko, ale kolana też muszą kiedyś odpocząć. A najlepiej zrobić to w Poniedziałek z kijaszkami w ręce.",
-    "schedule": "Poniedziałki - 18:30",
-    "image": "initiatives/kije.webp"
+    "id": "sticks",
+    "image": "/initiatives/kije.webp"
   }
 ]

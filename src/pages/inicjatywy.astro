@@ -1,19 +1,9 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import PageHeader from "../components/PageHeader.astro";
-import InitiativeCard from "../components/InitiativeCard.astro";
-import { initiatives } from "../data/initiatives";
+import InicjatywyContent from "../components/content/Inicjatywy.astro";
+import { t } from "../utils/i18n";
 ---
 
-<Layout title="Zatyrani - Inicjatywy">
-  <PageHeader
-    title="Nasze Inicjatywy"
-    subtitle="Poznaj co organizujemy regularnie. Dowiedz się jak dołączyć."
-  />
-
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-    <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-      {initiatives.map((initiative) => <InitiativeCard {...initiative} />)}
-    </div>
-  </div>
+<Layout title={t("initiatives.meta_title")}>
+  <InicjatywyContent t={t} />
 </Layout>

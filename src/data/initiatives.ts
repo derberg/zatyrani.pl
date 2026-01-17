@@ -1,12 +1,11 @@
 import initiativesData from "./initiatives.json";
 
 export interface Initiative {
-  title: string;
-  description: string;
-  schedule: string;
+  id: string;
   image: string;
-  link: string;
+  link?: string;
   imageClass?: string;
+  hidden?: boolean;
 }
 
 export const initiatives: Initiative[] = initiativesData as Initiative[];

@@ -60,6 +60,53 @@
     "title": "Masz jakieś pytania?",
     "description": "Chcesz do nas dołączyć? a może masz ochotę nas zasponsorować?",
     "email_prompt": "Napisz maila do"
+  },
+  "initiatives": {
+    "meta_title": "Zatyrani - Inicjatywy",
+    "page_title": "Nasze Inicjatywy",
+    "page_subtitle": "Poznaj co organizujemy regularnie. Dowiedz się jak dołączyć."
+  },
+  "initiatives_content": {
+    "kids_training": {
+      "title": "Szkolenia Najmłodszych",
+      "description": "Szkolenie lekkoatletyczne dla najmłodszych w sali gimnastycznej w zespole szkolno-przedszkolny (ZSP) w Pilchowicach.",
+      "schedule": "Piątki - 16:00"
+    },
+    "youth_training": {
+      "title": "Szkolenia Młodzieży",
+      "description": "Szkolenie lekkoatletyczne dla młodzieży w sali gimnastycznej w zespole szkolno-przedszkolny (ZSP) w Pilchowicach.",
+      "schedule": "Zadzwoń i umów się na trening"
+    },
+    "charity_relay": {
+      "title": "Wydarzenie Charytatywne NieboCross",
+      "description": "Charytatywny bieg i Nordic Walking nad Bierawką w Nieborowicach. Trasy 3+ km i 9+ km.",
+      "schedule": "Kwiecień"
+    },
+    "kids_championship": {
+      "title": "Bieg Dzieci i Młodzieży o Mistrzostwo Gminy Pilchowice",
+      "description": "Coroczna impreza której celem jest zachęcenie dzieci do sportowego stylu życia.",
+      "schedule": "Wrzesień"
+    },
+    "wilczy_halfmarathon": {
+      "title": "Wilczy Półmaraton",
+      "description": "Coroczny półmaraton organizowany w sołectwie Wilcza.",
+      "schedule": "Październik"
+    },
+    "slow_running": {
+      "title": "Wybieganie Slow",
+      "description": "Co Wtorek biegamy powoli, żeby zbić kilogramy i pogadać o dupie marynie.",
+      "schedule": "Wtorki - 19:00"
+    },
+    "nordic_walking_rally": {
+      "title": "Rajd Nordic Walking",
+      "description": "Coroczny rajd leśny miłośników Nordic Walking.",
+      "schedule": "Kwiecień"
+    },
+    "sticks": {
+      "title": "Kije",
+      "description": "Bieganie jest spoko, ale kolana też muszą kiedyś odpocząć. A najlepiej zrobić to w Poniedziałek z kijaszkami w ręce.",
+      "schedule": "Poniedziałki - 18:30"
+    }
   },  "niebocross": {
     "title": "NieboCross",
     "meta_description": "Charytatywny bieg i Nordic Walking nad Bierawką - 12.04.2026 w Nieborowicach. Trasy 3+ km i 9+ km, 100% opłat na cel charytatywny.",
