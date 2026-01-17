@@ -1,6 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import NieboCrossContent from "../components/NieboCrossContent.astro";
+import NieboCross from "../components/content/NieboCross.astro";
 import { t } from "../utils/i18n";
 ---
 
@@ -9,5 +9,5 @@ import { t } from "../utils/i18n";
   description={t("niebocross.meta_description")}
   ogImage="/niebocross_og.jpg"
 >
-  <NieboCrossContent t={t} />
+  <NieboCross t={t} />
 </Layout>
