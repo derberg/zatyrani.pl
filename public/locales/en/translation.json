@@ -19,6 +19,26 @@
     "title": "News",
     "description": "Find out what's happening."
   },
+  "join": {
+    "meta_title": "Zatyrani - Join Us",
+    "page_title": "Join Us!",
+    "page_subtitle": "Become part of our enthusiastic group of runners and Nordic Walking lovers!",
+    "why_join_title": "Why join us?",
+    "why_join_description": "We are the ZATYRANI association - a group of running and Nordic Walking enthusiasts who not only train together, but also work together for the local community.",
+    "contact_title": "Contact us",
+    "contact_description": "Have questions? Want to join? Call us!",
+    "contact_note": "Don't hesitate! We are open to new members of all ages and skill levels.",
+    "what_we_offer": "What we offer:",
+    "offer1": "Joint running and Nordic Walking training sessions",
+    "offer2": "Organization of sports events",
+    "offer3": "Social and charity activities",
+    "offer4": "Social integration events",
+    "offer5": "Joint mountain trips and family outings",
+    "initiatives_title": "Our initiatives",
+    "initiatives_description": "Check out what projects we implement for our community!",
+    "initiatives_button": "See our initiatives",
+    "logo_alt": "ZATYRANI logo"
+  },
   "niebocross": {
     "title": "NieboCross",
     "meta_description": "Charity run and Nordic Walking at Bierawka - 12.04.2026 in Nieborowice. Routes 3+ km and 9+ km, 100% of fees for charity.",

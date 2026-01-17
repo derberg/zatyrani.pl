@@ -19,6 +19,26 @@
     "title": "Aktualności",
     "description": "Dowiedz się co w trawie piszczy."
   },
+  "join": {
+    "meta_title": "Zatyrani - Dołącz do nas",
+    "page_title": "Dołącz do nas!",
+    "page_subtitle": "Stań się częścią zatyranej grupy biegaczy i miłośników Nordic Walking!",
+    "why_join_title": "Dlaczego warto do nas dołączyć?",
+    "why_join_description": "Jesteśmy stowarzyszeniem ZATYRANI - grupą pasjonatów biegania i Nordic Walking, którzy nie tylko razem trenują, ale także wspólnie działają dla lokalnej społeczności.",
+    "contact_title": "Skontaktuj się z nami",
+    "contact_description": "Masz pytania? Chcesz dołączyć? Zadzwoń do nas!",
+    "contact_note": "Nie wahaj się! Jesteśmy otwarci na nowych członków w każdym wieku i na każdym poziomie zaawansowania.",
+    "what_we_offer": "Co oferujemy:",
+    "offer1": "Wspólne treningi biegowe i Nordic Walking",
+    "offer2": "Organizację wydarzeń sportowych",
+    "offer3": "Działalność społeczną i charytatywną",
+    "offer4": "Wspólne imprezy integracyjne",
+    "offer5": "Wspólne wypady w góry oraz wyjazdy rodzinne",
+    "initiatives_title": "Nasze inicjatywy",
+    "initiatives_description": "Sprawdź, jakie projekty realizujemy dla naszej społeczności!",
+    "initiatives_button": "Zobacz nasze inicjatywy",
+    "logo_alt": "Logo ZATYRANI"
+  },
   "niebocross": {
     "title": "NieboCross",
     "meta_description": "Charytatywny bieg i Nordic Walking nad Bierawką - 12.04.2026 w Nieborowicach. Trasy 3+ km i 9+ km, 100% opłat na cel charytatywny.",

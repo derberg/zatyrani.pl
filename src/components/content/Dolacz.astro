@@ -1,0 +1,208 @@
+---
+import PageHeader from "../PageHeader.astro";
+
+interface Props {
+  t: (key: string) => string;
+}
+
+const { t } = Astro.props;
+---
+
+<PageHeader
+  title={t("join.page_title")}
+  subtitle={t("join.page_subtitle")}
+  background="pink"
+/>
+
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+  <!-- Main Content -->
+  <div class="space-y-16">
+    <!-- Welcome Section -->
+    <section class="text-center space-y-6">
+      <h2 class="text-3xl font-bold text-gray-900">{t("join.why_join_title")}</h2>
+      <p class="text-xl text-gray-700 leading-relaxed">
+        {t("join.why_join_description")}
+      </p>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="text-center space-y-8 bg-gray-50 rounded-2xl p-8">
+      <h3 class="text-3xl font-semibold text-gray-900">{t("join.contact_title")}</h3>
+      <p class="text-lg text-gray-700">{t("join.contact_description")}</p>
+
+      <div class="grid md:grid-cols-2 gap-8 max-w-2xl mx-auto">
+        <!-- Arek Contact -->
+        <div
+          class="bg-white border-2 border-gray-200 rounded-xl p-6 hover:border-blue-400 transition-colors"
+        >
+          <div class="space-y-4">
+            <div class="w-20 h-20 mx-auto">
+              <img
+                src="/members/tempfile1.jpg"
+                alt="Arek"
+                class="w-full h-full object-cover rounded-full border-4 border-blue-100"
+              />
+            </div>
+            <h4 class="text-xl font-semibold text-gray-900">Arek</h4>
+            <a
+              href="tel:+48513592253"
+              class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full transition-colors"
+            >
+              +48 513 592 253
+            </a>
+          </div>
+        </div>
+
+        <!-- Karina Contact -->
+        <div
+          class="bg-white border-2 border-gray-200 rounded-xl p-6 hover:border-pink-400 transition-colors"
+        >
+          <div class="space-y-4">
+            <div class="w-20 h-20 mx-auto">
+              <img
+                src="/members/karina.webp"
+                alt="Karina"
+                class="w-full h-full object-cover rounded-full border-4 border-pink-100"
+              />
+            </div>
+            <h4 class="text-xl font-semibold text-gray-900">Karina</h4>
+            <a
+              href="tel:+48512637906"
+              class="inline-block bg-pink-600 hover:bg-pink-700 text-white px-6 py-2 rounded-full transition-colors"
+            >
+              +48 512 637 906
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <p class="text-gray-600 italic">
+        {t("join.contact_note")}
+      </p>
+    </section>
+
+    <!-- Benefits Grid -->
+    <section
+      class="grid md:grid-cols-2 gap-8 bg-white rounded-2xl p-8 border border-gray-100 shadow-sm"
+    >
+      <div class="space-y-6">
+        <h3 class="text-2xl font-semibold text-gray-900">{t("join.what_we_offer")}</h3>
+        <ul class="space-y-4">
+          <li class="flex items-start">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-6 h-6 text-green-500 mr-3 mt-1 flex-shrink-0"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"></path>
+            </svg>
+            <span class="text-gray-700">{t("join.offer1")}</span>
+          </li>
+          <li class="flex items-start">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-6 h-6 text-green-500 mr-3 mt-1 flex-shrink-0"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"></path>
+            </svg>
+            <span class="text-gray-700">{t("join.offer2")}</span>
+          </li>
+          <li class="flex items-start">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-6 h-6 text-green-500 mr-3 mt-1 flex-shrink-0"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"></path>
+            </svg>
+            <span class="text-gray-700">{t("join.offer3")}</span>
+          </li>
+          <li class="flex items-start">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-6 h-6 text-green-500 mr-3 mt-1 flex-shrink-0"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"></path>
+            </svg>
+            <span class="text-gray-700">{t("join.offer4")}</span>
+          </li>
+          <li class="flex items-start">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-6 h-6 text-green-500 mr-3 mt-1 flex-shrink-0"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"></path>
+            </svg>
+            <span class="text-gray-700">{t("join.offer5")}</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="flex items-center justify-center">
+        <img src="/members/zatyrani.jpeg" alt={t("join.logo_alt")} class="w-full max-w-sm" />
+      </div>
+    </section>
+
+    <!-- Initiatives Section -->
+    <section class="bg-blue-50 rounded-2xl p-8 border border-blue-100">
+      <h3 class="text-2xl font-semibold text-gray-900 mb-4 text-center">{t("join.initiatives_title")}</h3>
+      <p class="text-gray-700 text-center mb-6">
+        {t("join.initiatives_description")}
+      </p>
+      <div class="text-center">
+        <a
+          href="/inicjatywy"
+          class="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-full transition-colors"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-5 h-5 mr-2"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+          </svg>
+          {t("join.initiatives_button")}
+        </a>
+      </div>
+    </section>
+  </div>
+</div>
