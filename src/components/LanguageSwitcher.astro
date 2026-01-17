@@ -1,0 +1,92 @@
+---
+const currentPath = Astro.url.pathname;
+
+// Detect current locale from URL path
+const isEnglishPage = currentPath.startsWith('/en');
+const currentLocale = isEnglishPage ? 'en' : 'pl';
+
+// Create paths for both languages
+const plPath = isEnglishPage ? currentPath.replace(/^\/en/, '') || '/' : currentPath;
+const enPath = isEnglishPage ? currentPath : `/en${currentPath}`;
+---
+
+<div class="language-switcher">
+  <a 
+    href={plPath}
+    class={currentLocale === "pl" ? "active" : ""}
+    aria-label="Switch to Polish"
+    data-lang="pl"
+  >
+    PL
+  </a>
+  <span class="separator">|</span>
+  <a 
+    href={enPath}
+    class={currentLocale === "en" ? "active" : ""}
+    aria-label="Switch to English"
+    data-lang="en"
+  >
+    EN
+  </a>
+</div>
+
+<script>
+  // Save language preference when clicking language switcher
+  document.querySelectorAll('.language-switcher a').forEach(link => {
+    link.addEventListener('click', (e) => {
+      const lang = (e.currentTarget as HTMLAnchorElement).getAttribute('data-lang');
+      if (lang) {
+        localStorage.setItem('preferredLanguage', lang);
+      }
+    });
+  });
+
+  // On page load, check if user has a preferred language and redirect if needed
+  const preferredLang = localStorage.getItem('preferredLanguage');
+  if (preferredLang) {
+    const currentPath = window.location.pathname;
+    const isEnglishPage = currentPath.startsWith('/en');
+    const currentLang = isEnglishPage ? 'en' : 'pl';
+    
+    // If preferred language doesn't match current page, redirect
+    if (preferredLang !== currentLang) {
+      const newPath = preferredLang === 'en'
+        ? `/en${currentPath}`
+        : currentPath.replace(/^\/en/, '') || '/';
+      window.location.href = newPath;
+    }
+  }
+</script>
+
+<style>
+  .language-switcher {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  .language-switcher a {
+    color: #64748b;
+    text-decoration: none;
+    transition: color 0.2s;
+    padding: 0.125rem 0.375rem;
+    border-radius: 0.25rem;
+  }
+
+  .language-switcher a:hover {
+    color: #0f172a;
+    background-color: #f1f5f9;
+  }
+
+  .language-switcher a.active {
+    color: #10b981;
+    font-weight: 700;
+  }
+
+  .separator {
+    color: #cbd5e1;
+    margin: 0 0.125rem;
+  }
+</style>

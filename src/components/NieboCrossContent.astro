@@ -1,0 +1,359 @@
+---
+import PhotoGallery from "./PhotoGallery.astro";
+
+interface Props {
+  t: (key: string) => string;
+}
+
+const { t } = Astro.props;
+
+const eventDate = "12.04.2026";
+const locationName = "Nieborowice";
+---
+
+<section class="relative isolate overflow-hidden bg-gradient-to-br from-sky-900 via-slate-900 to-emerald-900 text-white">
+  <div class="absolute inset-0 opacity-60">
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(94,234,212,0.15),transparent_40%)]"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_80%_0%,rgba(56,189,248,0.18),transparent_40%)]"></div>
+  </div>
+
+  <div class="relative mx-auto max-w-6xl px-6 py-16 lg:grid lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-12">
+    <div class="space-y-6">
+      <p class="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-semibold uppercase tracking-widest text-emerald-100 ring-1 ring-white/20">
+        {t("niebocross.charity_event")}
+      </p>
+      <h1 class="text-4xl font-black leading-tight sm:text-5xl">{t("niebocross.title")}</h1>
+      <p class="text-lg text-slate-100 sm:text-xl">
+        {t("niebocross.hero_description")}
+      </p>
+
+      <div class="grid gap-4 sm:grid-cols-3">
+        <div class="rounded-2xl bg-white/10 px-4 py-3 ring-1 ring-white/15">
+          <p class="text-sm text-emerald-100">{t("niebocross.date")}</p>
+          <p class="text-xl font-semibold">{eventDate}</p>
+        </div>
+        <div class="rounded-2xl bg-white/10 px-4 py-3 ring-1 ring-white/15">
+          <p class="text-sm text-emerald-100">{t("niebocross.place")}</p>
+          <p class="text-xl font-semibold">{locationName}</p>
+        </div>
+        <div class="rounded-2xl bg-white/10 px-4 py-3 ring-1 ring-white/15">
+          <p class="text-sm text-emerald-100">{t("niebocross.routes")}</p>
+          <p class="text-xl font-semibold">3+ km · 9+ km</p>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap gap-3">
+        <a
+          href="#oplaty"
+          class="rounded-full bg-emerald-500 px-6 py-3 text-base font-semibold text-slate-900 shadow-lg shadow-emerald-500/30 transition hover:-translate-y-0.5 hover:bg-emerald-400"
+        >
+          {t("common.register_soon")}
+        </a>
+        <a
+          href="https://www.facebook.com/events/1586078795903551"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 rounded-full bg-blue-600 px-6 py-3 text-base font-semibold text-white shadow-lg shadow-blue-600/30 transition hover:-translate-y-0.5 hover:bg-blue-500"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+          </svg>
+          {t("common.event")}
+        </a>
+      </div>
+    </div>
+
+    <div class="mt-10 flex justify-center lg:mt-0">
+      <div class="relative w-full max-w-md">
+        <div class="absolute -left-6 -top-6 h-24 w-24 rounded-full bg-emerald-400/30 blur-3xl"></div>
+        <div class="absolute -right-6 -bottom-6 h-24 w-24 rounded-full bg-cyan-400/30 blur-3xl"></div>
+        <div class="relative overflow-hidden rounded-3xl bg-[#fbfbfb] p-6 ring-1 ring-slate-200 shadow-2xl">
+          <img
+            src="/niebocross_logo.webp"
+            alt="Logo NieboCross"
+            class="mx-auto w-full max-w-sm"
+            loading="lazy"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="mx-auto max-w-6xl px-6 py-16">
+  <div class="grid gap-10">
+    <div class="space-y-6">
+      <h2 class="text-3xl font-bold text-slate-900 text-center">{t("niebocross.two_routes_one_goal")}</h2>
+      <p class="text-lg text-slate-700  text-center">
+        {t("niebocross.two_routes_desc")}
+      </p>
+
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+          <p class="text-sm font-semibold uppercase tracking-widest text-emerald-700">{t("niebocross.route_short")}</p>
+          <h3 class="mt-2 text-2xl font-bold text-slate-900">{t("niebocross.for_beginners")}</h3>
+          <p class="mt-3 text-slate-700">
+            {t("niebocross.for_beginners_desc")}
+          </p>
+          <ul class="mt-4 space-y-2 text-sm text-slate-700">
+            <li class="flex items-start gap-2">
+              <span class="mt-2 h-2 w-2 flex-none rounded-full bg-emerald-500"></span>
+              {t("niebocross.for_beginners_point1")}
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="mt-2 h-2 w-2 flex-none rounded-full bg-emerald-500"></span>
+              {t("niebocross.for_beginners_point2")}
+            </li>
+          </ul>
+        </div>
+
+        <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+          <p class="text-sm font-semibold uppercase tracking-widest text-cyan-700">{t("niebocross.route_long")}</p>
+          <h3 class="mt-2 text-2xl font-bold text-slate-900">{t("niebocross.for_challengers")}</h3>
+          <p class="mt-3 text-slate-700">
+            {t("niebocross.for_challengers_desc")}
+          </p>
+          <ul class="mt-4 space-y-2 text-sm text-slate-700">
+            <li class="flex items-start gap-2">
+              <span class="mt-2 h-2 w-2 flex-none rounded-full bg-cyan-500"></span>
+              {t("niebocross.for_challengers_point1")}
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="mt-2 h-2 w-2 flex-none rounded-full bg-cyan-500"></span>
+              {t("niebocross.for_challengers_point2")}
+            </li>
+          </ul>
+        </div>
+
+        <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+          <p class="text-sm font-semibold uppercase tracking-widest text-amber-700">{t("niebocross.kids_run")}</p>
+          <h3 class="mt-2 text-2xl font-bold text-slate-900">{t("niebocross.kids_run_distances")}</h3>
+          <p class="mt-3 text-slate-700">
+            {t("niebocross.kids_run_desc")}
+          </p>
+          <ul class="mt-4 space-y-2 text-sm text-slate-700">
+            <li class="flex items-start gap-2">
+              <span class="mt-2 h-2 w-2 flex-none rounded-full bg-amber-500"></span>
+              {t("niebocross.kids_run_point1")}
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="mt-2 h-2 w-2 flex-none rounded-full bg-amber-500"></span>
+              {t("niebocross.kids_run_point2")}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="mx-auto max-w-6xl px-6 py-8">
+  <div class="mb-8 text-center">
+    <h2 class="text-3xl font-bold text-slate-900">{t("niebocross.charity_goal")}</h2>
+    <p class="mt-3 text-lg text-slate-700">
+      {t("niebocross.charity_desc")} <strong><a href="http://otoz.gliwice.pl/" target="_blank" rel="noopener noreferrer" class="text-slate-900 underline hover:text-emerald-700 transition">{t("niebocross.otoz_name")}</a></strong>.
+    </p>
+  </div>
+
+  <div class="rounded-3xl border border-slate-200 bg-white p-8 shadow-lg">
+    <div class="grid lg:grid-cols-[1.5fr_1fr] gap-8 items-center">
+      <div class="space-y-4">
+        <h3 class="text-2xl font-bold text-slate-900">
+          {t("niebocross.otoz_name")}
+          <a 
+            href="https://www.facebook.com/otoz.gliwice"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-block ml-2 text-blue-600 hover:text-blue-700 transition"
+            title="Facebook OTOZ Gliwice"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+            </svg>
+          </a>
+        </h3>
+        <p class="text-slate-700">
+          {t("niebocross.otoz_desc1")}
+        </p>
+        <p class="text-slate-700">
+          {t("niebocross.otoz_desc2")}
+        </p>
+      </div>
+
+      <div class="flex items-center justify-center lg:justify-end">
+        <div class="rounded-2xl bg-white p-8 ring-1 ring-slate-200">
+          <img 
+            src="/niebocross/otoz.svg" 
+            alt="OTOZ Animals Inspektorat Gliwice" 
+            class="h-40 w-auto object-contain"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="mx-auto max-w-6xl px-6 py-4">
+  <div class="mb-8 text-center">
+    <h2 class="text-3xl font-bold text-slate-900">{t("niebocross.partners")}</h2>
+    <p class="mt-3 text-lg text-slate-700">
+      {t("niebocross.partners_thanks")}
+    </p>
+  </div>
+
+  <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+    <div class="rounded-3xl border border-slate-200 bg-white p-8 shadow-lg flex flex-col items-center justify-center">
+      <img 
+        src="/niebocross/nieborowice.webp" 
+        alt="Sołectwo Nieborowice" 
+        class="h-32 w-auto object-contain mb-4"
+      />
+      <h3 class="text-lg font-bold text-slate-900 text-center">
+        {t("niebocross.solectwo_name")}
+        <a 	
+          href="https://www.facebook.com/profile.php?id=61565108935494"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-block ml-2 text-blue-600 hover:text-blue-700 transition"
+          title="Facebook Sołectwa Nieborowice"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+          </svg>
+        </a>
+      </h3>
+      <p class="text-sm text-slate-600 text-center mt-2">{t("niebocross.solectwo_desc")}</p>
+    </div>
+
+    <div class="rounded-3xl border border-dashed border-slate-300 bg-slate-50 p-8 shadow-lg flex flex-col items-center justify-center">
+      <div class="text-center space-y-3">
+        <div class="w-20 h-20 mx-auto rounded-full bg-slate-200 flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+          </svg>
+        </div>
+        <p class="font-semibold text-slate-700">{t("niebocross.your_logo_here")}</p>
+        <p class="text-sm text-slate-600">{t("niebocross.your_logo_desc")}</p>
+      </div>
+    </div>
+
+    <div class="rounded-3xl border border-dashed border-slate-300 bg-slate-50 p-8 shadow-lg flex flex-col items-center justify-center sm:col-span-2 lg:col-span-1">
+      <div class="text-center space-y-3">
+        <p class="font-semibold text-slate-700">{t("niebocross.become_partner")}</p>
+        <p class="text-sm text-slate-600">
+          {t("niebocross.partner_contact")} <a class="font-semibold text-emerald-700 hover:text-emerald-800" href="mailto:biuro@zatyrani.pl">{t("common.email")}</a><br/>
+          {t("niebocross.or_call")} <a class="font-semibold text-emerald-700 hover:text-emerald-800" href="tel:+48784640977">{t("common.phone")}</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="oplaty" class="mx-auto max-w-6xl px-6 py-6">
+  <div class="mb-8 text-center">
+    <h2 class="text-3xl font-bold text-slate-900">{t("niebocross.fees")}</h2>
+  </div>
+
+  <div class="grid gap-8 sm:grid-cols-2 max-w-4xl mx-auto">
+    <div class="rounded-3xl border border-slate-200 bg-gradient-to-br from-white to-slate-50 p-8 shadow-lg">
+      <div class="flex items-start gap-3">
+        <span class="mt-1 inline-flex h-10 w-10 items-center justify-center rounded-full bg-emerald-100 text-md font-semibold text-emerald-700">60zł</span>
+        <div>
+          <p class="font-semibold text-slate-900 text-lg">{t("niebocross.adult_run")}</p>
+          <p class="text-slate-700 mt-1">{t("niebocross.adult_run_desc")}</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="rounded-3xl border border-slate-200 bg-gradient-to-br from-white to-slate-50 p-8 shadow-lg">
+      <div class="flex items-start gap-3">
+        <span class="mt-1 inline-flex h-10 w-10 items-center justify-center rounded-full bg-cyan-100 text-md font-semibold text-cyan-700">20zł</span>
+        <div>
+          <p class="font-semibold text-slate-900 text-lg">{t("niebocross.kids_run_fee")}</p>
+          <p class="text-slate-700 mt-1">{t("niebocross.kids_run_fee_desc")}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-8 max-w-4xl mx-auto space-y-4">
+    <div class="rounded-2xl border border-slate-200 bg-white px-6 py-4">
+      <h3 class="font-semibold text-slate-900 mb-2">{t("niebocross.how_we_support")}</h3>
+      <ul class="space-y-2 text-sm text-slate-700">
+        <li class="flex items-start gap-2">
+          <span class="mt-1 h-1.5 w-1.5 flex-none rounded-full bg-emerald-500"></span>
+          <span><strong>{t("niebocross.support_registrations")}</strong> {t("niebocross.support_registrations_desc")}</span>
+        </li>
+        <li class="flex items-start gap-2">
+          <span class="mt-1 h-1.5 w-1.5 flex-none rounded-full bg-emerald-500"></span>
+          <span><strong>{t("niebocross.support_tshirts")}</strong> {t("niebocross.support_tshirts_desc")}</span>
+        </li>
+        <li class="flex items-start gap-2">
+          <span class="mt-1 h-1.5 w-1.5 flex-none rounded-full bg-emerald-500"></span>
+          <span><strong>{t("niebocross.support_partners")}</strong> {t("niebocross.support_partners_desc")}</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="rounded-2xl border border-dashed border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900">
+      {t("niebocross.registration_info")}
+    </div>
+  </div>
+</section>
+
+<section class="mx-auto max-w-6xl px-6 py-16">
+  <div class="mb-8 text-center">
+    <h2 class="text-3xl font-bold text-slate-900">{t("niebocross.bierawka_valley")}</h2>
+    <p class="mt-3 text-lg text-slate-700">
+      {t("niebocross.bierawka_desc")}
+    </p>
+  </div>
+  <PhotoGallery
+    photos={[
+      { src: "/niebocross/bierawa1.jpg", alt: "Dolina Bierawki" },
+      { src: "/niebocross/bierawa2.jpg", alt: "Dolina Bierawki" },
+      { src: "/niebocross/bierawa3.jpg", alt: "Dolina Bierawki" }
+    ]}
+    author="Paweł Bernas"
+    authorLink="https://www.instagram.com/pawelbernas.fotografia"
+  />
+</section>
+
+<section class="border-y border-slate-200 bg-slate-50">
+  <div class="mx-auto max-w-6xl px-6 py-14">
+    <div class="grid gap-10 lg:grid-cols-2 lg:items-center">
+      <div class="space-y-4">
+        <p class="text-sm font-semibold uppercase tracking-widest text-emerald-700">{t("niebocross.logo_section")}</p>
+        <h2 class="text-3xl font-bold text-slate-900">{t("niebocross.heart_and_crane")}</h2>
+        <p class="text-lg text-slate-700">
+          {t("niebocross.heart_crane_desc")}
+        </p>
+      </div>
+      <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-md">
+        <div class="grid gap-3 sm:grid-cols-2">
+          <div class="rounded-2xl bg-emerald-50 p-4 text-slate-900">
+            <p class="text-sm font-semibold text-emerald-700">{t("niebocross.start_finish")}</p>
+            <p class="text-base">{t("niebocross.start_finish_desc")} <a href="https://maps.app.goo.gl/hJtbRWM52ZCxp3S19" target="_blank" rel="noopener noreferrer" class="font-semibold underline text-emerald-700 hover:text-emerald-800">{t("niebocross.view_on_map")}</a></p>
+          </div>
+          <div class="rounded-2xl bg-cyan-50 p-4 text-slate-900">
+            <p class="text-sm font-semibold text-cyan-700">{t("niebocross.surface")}</p>
+            <p class="text-base">{t("niebocross.surface_desc")}</p>
+          </div>
+          <div class="rounded-2xl bg-amber-50 p-4 text-slate-900">
+            <p class="text-sm font-semibold text-amber-700">{t("niebocross.attractions")}</p>
+            <p class="text-base">{t("niebocross.attractions_desc")}</p>
+          </div>
+          <div class="rounded-2xl bg-slate-900 p-4 text-white">
+            <p class="text-sm font-semibold text-emerald-200">{t("niebocross.contact_title")}</p>
+            <p class="text-base">
+              {t("niebocross.contact_desc")}
+              <a class="font-semibold underline decoration-emerald-300" href="mailto:biuro@zatyrani.pl">{t("common.email")}</a>
+              {t("niebocross.or_call")}
+              <a class="font-semibold underline decoration-emerald-300" href="tel:+48784640977">{t("common.phone")}</a>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

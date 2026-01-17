@@ -1,5 +1,6 @@
 ---
 import CookieBanner from "../components/CookieBanner.astro";
+import LanguageSwitcher from "../components/LanguageSwitcher.astro";
 
 interface Props {
   title: string;
@@ -172,7 +173,7 @@ const allNavItems: NavItem[] = [...otherCtaItems, ...mainNavItems];
               }
             </div>
             {/* Zaloguj / Wyloguj controls - managed via JS based on authState */}
-            <div class="hidden sm:flex space-x-4 ml-8">
+            <div class="hidden sm:flex items-center space-x-3 ml-8">
               <a
                 id="loginDesktopButton"
                 href={zalogujButton.href}
@@ -187,11 +188,13 @@ const allNavItems: NavItem[] = [...otherCtaItems, ...mainNavItems];
               >
                 Wyloguj
               </button>
+              <LanguageSwitcher />
             </div>
           </div>
 
           {/* Mobile menu button */}
-          <div class="-mr-2 flex items-center sm:hidden">
+          <div class="-mr-2 flex items-center gap-3 sm:hidden">
+            <LanguageSwitcher />
             <button
               type="button"
               class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-purple-500"

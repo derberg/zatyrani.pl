@@ -1,0 +1,16 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import NieboCrossContent from "../../components/NieboCrossContent.astro";
+import { t as tBase } from "../../utils/i18n";
+
+// Helper that defaults to English
+const t = (key: string) => tBase(key, 'en');
+---
+
+<Layout 
+  title={`Zatyrani - ${t("niebocross.title")}`}
+  description={t("niebocross.meta_description")}
+  ogImage="/niebocross_og.jpg"
+>
+  <NieboCrossContent t={t} />
+</Layout>
