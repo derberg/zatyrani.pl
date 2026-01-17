@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Zaloguj from "../components/content/Zaloguj.astro";
+import ZalogujContent from "../components/content/Zaloguj.astro";
 import { t } from "../utils/i18n";
 ---
 
@@ -8,7 +8,7 @@ import { t } from "../utils/i18n";
   t={t}
   title={t("login.meta_title")}
   description="Logowanie dla członków ZATYRANI"
-  image="/zatyrani_logo.webp"
+  ogImage="/zatyrani_logo.webp"
 >
-  <Zaloguj t={t} />
+  <ZalogujContent t={t} />
 </Layout>

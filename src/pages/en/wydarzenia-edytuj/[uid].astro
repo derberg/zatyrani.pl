@@ -1,6 +1,6 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
-import WydarzeniaEdytuj from '../../../components/content/WydarzeniaEdytuj.astro';
+import WydarzeniaEdytujContent from '../../../components/content/WydarzeniaEdytuj.astro';
 import { events } from '../../../data/events';
 import { t } from '../../../utils/i18n';
 
@@ -18,5 +18,5 @@ const { event } = Astro.props;
 ---
 
 <Layout t={tEn} title={`${tEn("edit_event.meta_title")}: ${event.title}`}>
-  <WydarzeniaEdytuj t={tEn} event={event} />
+  <WydarzeniaEdytujContent t={tEn} event={event} />
 </Layout>

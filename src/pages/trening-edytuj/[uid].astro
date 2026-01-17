@@ -1,6 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import TreningEdytuj from '../../components/content/TreningEdytuj.astro';
+import TreningEdytujContent from '../../components/content/TreningEdytuj.astro';
 import type { Training } from '../../data/trainings';
 import { trainings } from '../../data/trainings';
 import { t } from '../../utils/i18n';
@@ -21,5 +21,5 @@ const trainingType = training.type === 'bieg' ? t("edit_training.type_run") : tr
 ---
 
 <Layout t={t} title={`${t("edit_training.meta_title")}: ${trainingType}`}>
-  <TreningEdytuj t={t} training={training} />
+  <TreningEdytujContent t={t} training={training} />
 </Layout>

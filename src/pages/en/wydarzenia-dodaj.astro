@@ -1,11 +1,11 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import WydarzeniaDodaj from "../../components/content/WydarzeniaDodaj.astro";
+import WydarzeniaDodajContent from "../../components/content/WydarzeniaDodaj.astro";
 import { t } from "../../utils/i18n";
 
 const tEn = (key: string) => t(key, "en");
 ---
 
 <Layout t={tEn} title={tEn("add_event.meta_title")}>
-  <WydarzeniaDodaj t={tEn} />
+  <WydarzeniaDodajContent t={tEn} />
 </Layout>
