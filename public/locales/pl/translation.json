@@ -321,6 +321,7 @@
     "error_general": "Błąd",
     "success_code_sent": "Kod został wysłany SMS-em. Sprawdź telefon.",
     "error_sending": "Nie udało się wysłać kodu. Spróbuj ponownie za chwilę.",
+    "error_sending_resend": "Nie udało się wysłać kodu ponownie. Spróbuj za chwilę.",
     "success_code_resent": "Nowy kod został wysłany SMS-em.",
     "error_invalid_code": "Podaj poprawny kod (6 cyfr).",
     "error_no_phone": "Najpierw poproś o kod do logowania.",

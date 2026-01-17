@@ -321,6 +321,7 @@
     "error_general": "Error",
     "success_code_sent": "Code sent via SMS. Check your phone.",
     "error_sending": "Failed to send code. Please try again in a moment.",
+    "error_sending_resend": "Failed to send code again. Please try in a moment.",
     "success_code_resent": "New code sent via SMS.",
     "error_invalid_code": "Enter a valid code (6 digits).",
     "error_no_phone": "Please request a login code first.",

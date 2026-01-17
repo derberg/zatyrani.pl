@@ -143,6 +143,7 @@ const { t } = Astro.props;
   error_general: t("login.error_general"),
   success_code_sent: t("login.success_code_sent"),
   error_sending: t("login.error_sending"),
+  error_sending_resend: t("login.error_sending_resend"),
   success_code_resent: t("login.success_code_resent"),
   error_invalid_code: t("login.error_invalid_code"),
   error_no_phone: t("login.error_no_phone"),
@@ -226,113 +227,188 @@ const { t } = Astro.props;
   }
 
   sendCodeButton.addEventListener('click', async () => {
-    const digits = (phoneLocalInput.value || '').replace(/\D/g, '');
-    if (digits.length !== 9) {
+    setMessage('');
+    if (!phoneLocalInput) return;
+
+    const rawDigits = phoneLocalInput.value.replace(/\D/g, '');
+    if (rawDigits.length !== 9) {
       setMessage(translations.error_invalid_phone, 'error');
       return;
     }
-    const phone = `+48${digits}`;
-    currentPhoneE164 = phone;
+
+    currentPhoneE164 = `+48${rawDigits}`;
+
+    sendCodeButton.textContent = 'Wysyłanie...';
+    sendCodeButton.disabled = true;
+    phoneLocalInput.disabled = true;
 
     try {
       const res = await fetch('/api/auth/request-code', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phone }),
+        body: JSON.stringify({ phone: currentPhoneE164 }),
       });
-      if (!res.ok) {
-        const errData = await res.json();
-        setMessage(errData.message || translations.error_general, 'error');
+
+      const data = await res.json().catch(() => ({}));
+
+      if (!res.ok || !data.success) {
+        const msg =
+          data && data.error
+            ? data.error
+            : translations.error_sending;
+        setMessage(msg, 'error');
         return;
       }
+
       setMessage(translations.success_code_sent, 'success');
       phoneInputSection.classList.add('hidden');
       codeInputSection.classList.remove('hidden');
+      if (codeInput) codeInput.focus();
       startResendCountdown();
-    } catch (err) {
-      console.error(err);
-      setMessage(translations.error_sending, 'error');
+    } catch (error) {
+      console.error(error);
+      setMessage(
+        translations.error_connection,
+        'error'
+      );
+    } finally {
+      sendCodeButton.textContent = 'Wyślij kod do logowania';
+      sendCodeButton.disabled = false;
+      phoneLocalInput.disabled = false;
     }
   });
 
   if (resendCodeButton) {
     resendCodeButton.addEventListener('click', async () => {
-      if (!currentPhoneE164) return;
+      if (!currentPhoneE164) {
+        setMessage(translations.error_no_phone, 'error');
+        return;
+      }
+
+      setMessage('');
+      resendCodeButton.disabled = true;
+      resendCodeButton.textContent = 'Wysyłanie...';
+
       try {
         const res = await fetch('/api/auth/request-code', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ phone: currentPhoneE164 }),
         });
-        if (!res.ok) {
-          const errData = await res.json();
-          setMessage(errData.message || translations.error_general, 'error');
+
+        const data = await res.json().catch(() => ({}));
+
+        if (!res.ok || !data.success) {
+          const msg =
+            data && data.error
+              ? data.error
+              : translations.error_sending_resend;
+          setMessage(msg, 'error');
           return;
         }
+
         setMessage(translations.success_code_resent, 'success');
         startResendCountdown();
-      } catch (err) {
-        console.error(err);
-        setMessage(translations.error_sending, 'error');
+
+        // Unlock input and buttons after resend since attempts are reset
+        codeInput.disabled = false;
+        confirmButton.disabled = false;
+        backButton.disabled = false;
+      } catch (error) {
+        console.error(error);
+        setMessage(
+          translations.error_connection,
+          'error'
+        );
       }
     });
   }
 
   confirmButton.addEventListener('click', async () => {
-    const code = codeInput.value.trim();
-    if (code.length !== 6) {
-      setMessage(translations.error_invalid_code, 'error');
-      return;
-    }
+    setMessage('');
     if (!currentPhoneE164) {
       setMessage(translations.error_no_phone, 'error');
       return;
     }
+    if (!codeInput) return;
+
+    const digits = codeInput.value.replace(/\D/g, '');
+    if (digits.length !== 6) {
+      setMessage(translations.error_invalid_code, 'error');
+      return;
+    }
+
+    confirmButton.textContent = 'Potwierdzanie...';
+    confirmButton.disabled = true;
+    codeInput.disabled = true;
+    backButton.disabled = true;
 
     try {
       const res = await fetch('/api/auth/verify-code', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phone: currentPhoneE164, code }),
+        body: JSON.stringify({ phone: currentPhoneE164, code: digits }),
       });
-      if (!res.ok) {
-        const errData = await res.json();
-        setMessage(errData.message || translations.error_verification, 'error');
-        return;
-      }
-      const data = await res.json();
-      if (!data.token) {
-        setMessage(translations.error_login, 'error');
+
+      const data = await res.json().catch(() => ({}));
+
+      if (!res.ok || !data.success) {
+        const msg =
+          data && data.error
+            ? data.error
+            : translations.error_verification;
+        setMessage(msg, 'error');
+
+        if (res.status === 403) {
+          confirmButton.disabled = true;
+          codeInput.disabled = true;
+          backButton.disabled = true;
+        } else {
+          confirmButton.disabled = false;
+          codeInput.disabled = false;
+          backButton.disabled = false;
+        }
+        confirmButton.textContent = 'Potwierdź';
         return;
       }
 
       try {
-        const expiry = Date.now() + 30 * 24 * 60 * 60 * 1000;
-        window.localStorage.setItem('authState', JSON.stringify({ loggedIn: true, expiresAt: expiry }));
-        window.dispatchEvent(new Event('authStateChange'));
-      } catch {
-        // Ignore localStorage errors
+        const expiresAt = Date.now() + 60 * 24 * 60 * 60 * 1000;
+        window.localStorage.setItem(
+          'authState',
+          JSON.stringify({ loggedIn: true, expiresAt })
+        );
+      } catch (e) {
+        console.warn('Cannot use localStorage for authState', e);
       }
 
       successModal.classList.remove('hidden');
-    } catch (err) {
-      console.error(err);
-      setMessage(translations.error_connection, 'error');
+      setMessage(translations.success_title, 'success');
+    } catch (error) {
+      console.error(error);
+      setMessage(
+        translations.error_connection,
+        'error'
+      );
+      confirmButton.disabled = false;
+      codeInput.disabled = false;
+      backButton.disabled = false;
+    } finally {
+      confirmButton.textContent = 'Potwierdź';
     }
   });
 
   if (backButton) {
     backButton.addEventListener('click', () => {
-      phoneInputSection.classList.remove('hidden');
       codeInputSection.classList.add('hidden');
-      codeInput.value = '';
+      phoneInputSection.classList.remove('hidden');
       setMessage('');
-      if (resendInterval) clearInterval(resendInterval);
     });
   }
 
   if (okButton) {
     okButton.addEventListener('click', () => {
+      successModal.classList.add('hidden');
       window.location.href = redirectTarget;
     });
   }
