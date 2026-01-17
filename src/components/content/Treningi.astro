@@ -1,0 +1,82 @@
+---
+import PageHeader from "../PageHeader.astro";
+import TrainingCard from "../TrainingCard.astro";
+import { trainings } from "../../data/trainings";
+
+interface Props {
+  t: (key: string) => string;
+}
+
+const { t } = Astro.props;
+
+const currentDate = new Date(); // Get the current date
+
+// Function to parse a DD/MM/YYYY HH:MM string into a Date object
+function parseDateTime(dateTimeString: string): Date {
+  const [dateStr, timeStr] = dateTimeString.split(" ");
+  const [day, month, year] = dateStr.split("/");
+  const [hour, minute] = timeStr.split(":");
+  return new Date(+year, +month - 1, +day, +hour, +minute); // Use "+" to convert to numbers
+}
+
+// Filter and sort trainings: Show only future trainings, sorted from closest to the current date (ascending)
+const futureTrainings = trainings
+  .filter((training) => parseDateTime(training.datetime) > currentDate) // Filter future trainings
+  .sort((a, b) => {
+    const dateA = parseDateTime(a.datetime);
+    const dateB = parseDateTime(b.datetime);
+    return dateA.getTime() - dateB.getTime(); // Compare timestamps
+  });
+---
+
+<PageHeader
+  title={t("trainings.page_title")}
+  subtitle={t("trainings.page_subtitle")}
+  showAddTrainingButton={true}
+/>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+  <div class="grid md:grid-cols-3 gap-8">
+    {futureTrainings.map((training) => <TrainingCard {...training} t={t} />)}
+  </div>
+  
+  {futureTrainings.length === 0 && (
+    <div class="text-center py-12">
+      <div class="max-w-md mx-auto">
+        <div class="text-gray-500 text-lg mb-4">
+          {t("trainings.no_trainings")}
+        </div>
+        <div class="text-gray-400 flex items-center justify-center gap-2">
+          {t("trainings.check_tomorrow")}
+          <img src="/nordic.png" alt="Nordic Walking & Running" class="w-5 h-5 inline">
+          <span class="text-lg">🏃‍♀️</span>
+        </div>
+      </div>
+    </div>
+  )}
+</div>
+
+<script>
+  // Hide add training button if not logged in
+  function getAuthState() {
+    try {
+      const raw = window.localStorage.getItem('authState');
+      if (!raw) return { loggedIn: false };
+      const parsed = JSON.parse(raw);
+      if (!parsed || typeof parsed !== 'object') return { loggedIn: false };
+      if (parsed.expiresAt && Date.now() > parsed.expiresAt) {
+        window.localStorage.removeItem('authState');
+        return { loggedIn: false };
+      }
+      return { loggedIn: !!parsed.loggedIn, expiresAt: parsed.expiresAt };
+    } catch {
+      return { loggedIn: false };
+    }
+  }
+
+  const { loggedIn } = getAuthState();
+  if (loggedIn) {
+    const addButton = document.getElementById('add-training-button');
+    if (addButton) addButton.style.display = 'inline-block';
+  }
+</script>

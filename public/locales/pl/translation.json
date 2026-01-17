@@ -116,6 +116,21 @@
     "from": "Skąd",
     "joined": "Dołączył(a)"
   },
+  "trainings": {
+    "meta_title": "Zatyrani - Treningi",
+    "page_title": "Treningi",
+    "page_subtitle": "Wszystkie treningi biegowe i nordic walking organizowane przez Zatyranych.",
+    "no_trainings": "Teraz nie ma zaplanowanych treningów.",
+    "check_tomorrow": "Sprawdź jutro!"
+  },
+  "events": {
+    "meta_title": "Zatyrani - Wydarzenia",
+    "page_title": "Wydarzenia",
+    "page_subtitle": "Wszystkie wydarzenia małe i duże gdzie spotkać można jakąś Zatyryuskę bądź Zatyrusa.",
+    "more_info": "Więcej info",
+    "edit": "Edytuj",
+    "registration": "Rejestracja"
+  },
   "niebocross": {
     "title": "NieboCross",
     "meta_description": "Charytatywny bieg i Nordic Walking nad Bierawką - 12.04.2026 w Nieborowicach. Trasy 3+ km i 9+ km, 100% opłat na cel charytatywny.",

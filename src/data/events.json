@@ -4,7 +4,7 @@
     "location": "Kędzierzyn-Koźle",
     "date": "04/03/2023",
     "description": "Bieg na 37km i 57km",
-    "image": "events/tempfile5.webp",
+    "image": "/events/tempfile5.webp",
     "mainLink": "https://www.facebook.com/events/nadle%C5%9Bnictwo-k%C4%99dzierzyn-lasy-pa%C5%84stwowe/ultra-zadek-2023/567462768499493",
     "registrationLink": "https://dostartu.pl/ultra-zadek-v8082",
     "uid": "ultra-zadek-04-03-2023"
@@ -14,7 +14,7 @@
     "location": "Knurów",
     "date": "04/03/2023",
     "description": "Bieg na 5km + Nordic Walking",
-    "image": "events/tempfile6.webp",
+    "image": "/events/tempfile6.webp",
     "mainLink": "https://www.facebook.com/100057616811041/posts/pfbid02C8rnRNYWV4b55pHFmTfWA5mQTvvFWznpZWtEyqHz5kMUkPcKqARcJqX1kpjfxV9nl/?sfnsn=mo",
     "registrationLink": "https://docs.google.com/forms/d/e/1FAIpQLSePQuG2-ZTG4XfMX5rkmrwDd4SV1reZcGYkztzDXHgEnxpxAA/viewform",
     "uid": "4-knurowski-bieg-i-nordic-walking-z-czerwonymi-ustami-04-03-2023"
@@ -24,7 +24,7 @@
     "location": "Gliwice",
     "date": "05/03/2023",
     "description": "Bieg na 11km i kije na 6km",
-    "image": "events/tempfile7.webp",
+    "image": "/events/tempfile7.webp",
     "mainLink": "https://www.facebook.com/tropemwilczym.gliwice",
     "registrationLink": "https://elektronicznezapisy.pl/event/7940.html",
     "uid": "tropem-wilczym-bieg-pamieci-zolnierzy-wykletych-05-03-2023"
@@ -34,7 +34,7 @@
     "location": "Pafos, Cypr",
     "date": "12/03/2023",
     "description": "Jest też Wine Run :)",
-    "image": "events/tempfile8.webp",
+    "image": "/events/tempfile8.webp",
     "mainLink": "https://www.logicomcyprusmarathon.com/",
     "registrationLink": "https://register-sportsincyprus.com/cyprusmarathon/home-website/select_competition",
     "uid": "logicom-cyprus-marathon-12-03-2023"
@@ -44,7 +44,7 @@
     "location": "Chorzów",
     "date": "12/03/2023",
     "description": "Bieg na 10km.",
-    "image": "events/tempfile9.webp",
+    "image": "/events/tempfile9.webp",
     "mainLink": "https://parkslaski.pl/bieg-wiosenny-2023",
     "registrationLink": "https://zapisy.sts-timing.pl/877/",
     "uid": "bieg-wiosenny-w-parku-slaskim-12-03-2023"
@@ -54,7 +54,7 @@
     "location": "Rybnik",
     "date": "19/03/2023",
     "description": "Sztafeta charytatywna.",
-    "image": "events/tempfile10.webp",
+    "image": "/events/tempfile10.webp",
     "mainLink": "https://www.facebook.com/events/902561867663604",
     "registrationLink": "https://online.datasport.pl/zapisy/portal/zawody.php?zawody=7641",
     "uid": "charytatywny-bieg-dla-wojtka-parzycha-19-03-2023"
@@ -64,7 +64,7 @@
     "location": "Kraków",
     "date": "19/03/2023",
     "description": "Jest półmaraton, oraz bieg na 10km.",
-    "image": "events/tempfile11.webp",
+    "image": "/events/tempfile11.webp",
     "mainLink": "http://www.polmaratonmarzanny.pl/en/main/",
     "registrationLink": "https://zapisy.sts-timing.pl/874/",
     "uid": "19-krakowski-polmaraton-marzanny-19-03-2023"
@@ -74,7 +74,7 @@
     "location": "Prudnik",
     "date": "25/03/2023",
     "description": "",
-    "image": "events/tempfile12.webp",
+    "image": "/events/tempfile12.webp",
     "mainLink": "http://inws.info/puchar_nordic_walking/",
     "registrationLink": "https://inws.info/puchar_nordic_walking/2503__prudnik__mp_gorski_polmaraton",
     "uid": "5-otwarte-gorskie-mistrzostwa-polski-nordic-walking-w-polmaratonie-25-03-2023"
@@ -84,7 +84,7 @@
     "location": "Niegowa",
     "date": "02/04/2023",
     "description": "Od półmaratonu do 5km i Nordic Walking",
-    "image": "events/tempfile13.webp",
+    "image": "/events/tempfile13.webp",
     "mainLink": "https://extremejura.com/",
     "registrationLink": "https://dostartu.pl/biegowa-niegowa-v8699",
     "uid": "biegowa-niegowa-02-04-2023"
@@ -94,7 +94,7 @@
     "location": "Dębno",
     "date": "16/04/2023",
     "description": "",
-    "image": "events/tempfile14.webp",
+    "image": "/events/tempfile14.webp",
     "mainLink": "http://www.maratondebno.pl/",
     "registrationLink": "http://online.datasport.pl/zapisy/portal/zawody.php?zawody=7465",
     "uid": "49-maraton-debno-16-04-2023"
@@ -104,7 +104,7 @@
     "location": "Kraków",
     "date": "23/04/2023",
     "description": "",
-    "image": "events/tempfile15.webp",
+    "image": "/events/tempfile15.webp",
     "mainLink": "https://cracoviamaraton.pl/",
     "registrationLink": "http://online.datasport.pl/zapisy/portal/zawody.php?zawody=7325",
     "uid": "cracovia-maraton-23-04-2023"
@@ -114,7 +114,7 @@
     "location": "Jejkowice",
     "date": "23/04/2023",
     "description": "Dystans 5km.",
-    "image": "events/tempfile16.webp",
+    "image": "/events/tempfile16.webp",
     "mainLink": "https://www.facebook.com/events/904181987241489",
     "registrationLink": "https://zapisy.personalbest.pl/ii-jejkowicki-eco-bieg-v8476?fbclid=IwAR1aezzMos2JdAVYxKEOE5Vc8ihysT1Eo8CzIdnV1zyCB1TJm9CjOt90kG8",
     "uid": "ii-jejkowicki-eko-bieg-23-04-2023"
@@ -124,7 +124,7 @@
     "location": "Katowice",
     "date": "23/04/2023",
     "description": "Dystanse 5km i 10km do biegania i na kije",
-    "image": "events/tempfile17.webp",
+    "image": "/events/tempfile17.webp",
     "mainLink": "https://www.facebook.com/events/s/aktywuj-sie-w-ligocie-ii-bieg-/655167692984578/",
     "registrationLink": "https://dostartu.pl/aktywuj-sie-w-ligocie-bieg-na-kokocincu-v8332?fbclid=IwAR0sMh61YgCgvjFcbjbQa3YrgajbydOMy2LrB6w3tdIPmGApZu5iLh0gPPA",
     "uid": "ii-bieg-na-kokocincu-23-04-2023"
@@ -134,7 +134,7 @@
     "location": "Knurów",
     "date": "07/05/2023",
     "description": "Dystans 8km.",
-    "image": "events/tempfile18.webp",
+    "image": "/events/tempfile18.webp",
     "mainLink": "https://chronotex.pl/opis-zawodow/?id_zawodow=847",
     "registrationLink": "https://chronotex.pl/rejestracja/?id_zawodow=847",
     "uid": "bieg-przelajowy-07-05-2023"
@@ -144,7 +144,7 @@
     "location": "Czerwionka-Leszczyny",
     "date": "14/05/2023",
     "description": "Biegi na 5km i 10km i Nordic Walking 5km. Jak zawsze też biegi dla dzieci.",
-    "image": "events/tempfile19.webp",
+    "image": "/events/tempfile19.webp",
     "mainLink": "https://www.facebook.com/events/s/xv-bieg-po-g%C5%82ebokich-do%C5%82ach/565569378866616/",
     "registrationLink": "https://time-sport.pl/bieg/7391",
     "uid": "xv-bieg-po-glebokich-dolach-14-05-2023"
@@ -154,7 +154,7 @@
     "location": "Susiec",
     "date": "20/05/2023",
     "description": "Niby Ultra w nazwie, ale jest tam też bieg na 12km.",
-    "image": "events/tempfile20.jpg",
+    "image": "/events/tempfile20.jpg",
     "mainLink": "https://tourdezboj.com/ultraroztocze",
     "registrationLink": "https://ratemytrail.com/enrolment/ultra-roztocze-2023",
     "uid": "ultra-roztocze-20-05-2023"
@@ -164,7 +164,7 @@
     "location": "Będzin",
     "date": "21/05/2023",
     "description": "Bieg i kije na ok 10km.",
-    "image": "events/tempfile21.webp",
+    "image": "/events/tempfile21.webp",
     "mainLink": "https://www.facebook.com/events/s/ii-cross-bedzina/911660129882162/",
     "registrationLink": "https://elektronicznezapisy.pl/event/8004.html",
     "uid": "ii-cross-bedzina-21-05-2023"
@@ -174,7 +174,7 @@
     "location": "Pilchowice",
     "date": "27/05/2023",
     "description": "NAJWAŻNIEJSZY BIEG W ROKU",
-    "image": "events/tempfile22.webp",
+    "image": "/events/tempfile22.webp",
     "mainLink": "https://www.facebook.com/gokpilchowice/posts/pfbid026pgNu7ozVn8scugze9gFnnAt2LhLP7KjbRyAqBX4rXT3fYdrWX1DQVdo53P4y8N2l",
     "registrationLink": "https://dostartu.pl/xii-bieg-im-ksiedza-konstantego-damrota-v8983?fbclid=IwAR36KD-0aYt03SbNh0zFIOFyGVZAcbQK0GIyCXXjoZ4R-gT6TUqN3oBvyCs",
     "uid": "xii-bieg-damrota-27-05-2023"
@@ -184,7 +184,7 @@
     "location": "Radzionków",
     "date": "03/06/2023",
     "description": "Dystans 10 km w biegu oraz 5 i 10 km w Nordic Walking.",
-    "image": "events/tempfile23.webp",
+    "image": "/events/tempfile23.webp",
     "mainLink": "https://www.facebook.com/events/s/vii-eco-cidry-cross-dychej-na-/698784875329651/",
     "registrationLink": "https://elektronicznezapisy.pl/event/8102/strona.html",
     "uid": "vii-eco-cidry-cross-dychej-na-ksiezej-gorze-03-06-2023"
@@ -194,7 +194,7 @@
     "location": "Cisna",
     "date": "08/06/2023",
     "description": "",
-    "image": "events/tempfile24.webp",
+    "image": "/events/tempfile24.webp",
     "mainLink": "https://www.biegrzeznika.pl/maraton-rzeznika/",
     "registrationLink": "https://b4sportonline.pl/Rzeznicki_Festiwal_Biegowy/",
     "uid": "ii-maraton-rzeznika-08-06-2023"
@@ -204,7 +204,7 @@
     "location": "Olsztyn",
     "date": "10/06/2023",
     "description": "Różne biegi na różnych dystansach, do tego kije i biegi dzieci.",
-    "image": "events/tempfile25.jpg",
+    "image": "/events/tempfile25.jpg",
     "mainLink": "https://www.facebook.com/events/178760987853233/",
     "registrationLink": "https://b4sportonline.pl/sloncajury/",
     "uid": "jura-fest-10-06-2023"
@@ -214,7 +214,7 @@
     "location": "Leboszowice",
     "date": "11/06/2023",
     "description": "Bieganie i jedzenie :)",
-    "image": "events/tempfile26.webp",
+    "image": "/events/tempfile26.webp",
     "mainLink": "",
     "registrationLink": "",
     "uid": "iii-sztafeta-charytatywna-zatyranych-11-06-2023"
@@ -224,7 +224,7 @@
     "location": "Rogoźnik",
     "date": "17/06/2023",
     "description": "Różne biegi, od ultra do biegów dla dzieci.",
-    "image": "events/tempfile27.jpg",
+    "image": "/events/tempfile27.jpg",
     "mainLink": "http://www.biegiwrogozniku.pl/",
     "registrationLink": "https://zapisy.raatiming.pl/rejestracja-rg/",
     "uid": "biegi-w-rogozniku-17-06-2023"
@@ -234,7 +234,7 @@
     "location": "Kędzierzyn Koźle",
     "date": "18/06/2023",
     "description": "Bieg na 10km.",
-    "image": "events/tempfile28.webp",
+    "image": "/events/tempfile28.webp",
     "mainLink": "https://www.facebook.com/events/s/uliczny-bieg-dobra-rodzina/248255451086095/",
     "registrationLink": "https://online.datasport.pl/zapisy/portal/zawody.php?zawody=8005",
     "uid": "uliczny-bieg-dobra-rodina-18-06-2023"
@@ -244,7 +244,7 @@
     "location": "Żarki",
     "date": "23/06/2023",
     "description": "Bieg 15km i 9km ora kije 9km.",
-    "image": "events/tempfile29.jpg",
+    "image": "/events/tempfile29.jpg",
     "mainLink": "https://extremejura.com/",
     "registrationLink": "https://dostartu.pl/biegaj-z-duchami-jurajskimi-sciezkami-v9193",
     "uid": "bieg-z-duchami-23-06-2023"
@@ -254,7 +254,7 @@
     "location": "Rybnik",
     "date": "24/06/2023",
     "description": "Bieg ma półmaraton w nazwie, ale są tam też biegi na dychę, na 2.5km oraz dla dzieciaków.",
-    "image": "events/tempfile30.png",
+    "image": "/events/tempfile30.png",
     "mainLink": "https://mosir.rybnik.pl/imprezy/rybnicki-polmaraton-ksiezycowy/edycja-2022/edycja-2023",
     "registrationLink": "https://time-sport.pl/bieg/7317",
     "uid": "rybnicki-polmaraton-ksiezycowy-24-06-2023"
@@ -264,7 +264,7 @@
     "location": "Dębowa, Reńska Wieś",
     "date": "01/07/2023",
     "description": "Bieg z browarem.",
-    "image": "events/tempfile31.webp",
+    "image": "/events/tempfile31.webp",
     "mainLink": "https://dostartu.pl/8-bursztynowa-mila-key-key-v7827",
     "registrationLink": "https://dostartu.pl/8-bursztynowa-mila-key-key-v7827",
     "uid": "8-bursztynowa-mila-01-07-2023"
@@ -274,7 +274,7 @@
     "location": "Wodzisław Śląski",
     "date": "01/07/2023",
     "description": "Bieg 5km i 10km.",
-    "image": "events/tempfile32.jpg",
+    "image": "/events/tempfile32.jpg",
     "mainLink": "https://www.facebook.com/events/s/erigo-ix-nocny-bieg-z-gwiazdam/1052311909060997/",
     "registrationLink": "https://dostartu.pl/erigo-ix-nocny-bieg-z-gwiazdami-v9148",
     "uid": "erigo-ix-nocny-bieg-z-gwiazdami-01-07-2023"
@@ -284,7 +284,7 @@
     "location": "Wilkowice",
     "date": "08/07/2023",
     "description": "Bieg górski 14.5km i nordic walking 8km przez Magurkę i Czupel.",
-    "image": "events/tempfile33.webp",
+    "image": "/events/tempfile33.webp",
     "mainLink": "https://www.eurobeskidy.org.pl/imprezy-sportowe/ekstremalny-bieg-gorski-oraz-rajd-nordic-walking",
     "registrationLink": "https://www.bgtimesport.pl/zawody/info/id/660",
     "uid": "ekstremalny-bieg-gorski-i-rajd-nordic-walking-08-07-2023"
@@ -294,7 +294,7 @@
     "location": "Lądek Zdrój",
     "date": "15/07/2023",
     "description": "",
-    "image": "events/tempfile34.webp",
+    "image": "/events/tempfile34.webp",
     "mainLink": "http://dfbg.pl/trasy-biegow/ultra-68",
     "registrationLink": "https://b4sportonline.pl/dolnoslaski_festiwal_biegow_gorskich/zapisy_na_bieg_ultra_trail__68_km_2023",
     "uid": "dolnoslaski-festiwal-biegow-gorskich-15-07-2023"
@@ -304,7 +304,7 @@
     "location": "Koty",
     "date": "05/08/2023",
     "description": "Bieg i kije na 6km.",
-    "image": "events/tempfile35.webp",
+    "image": "/events/tempfile35.webp",
     "mainLink": "https://www.facebook.com/events/s/v-kotowski-bieg-i-marsz-nw/189565320651002/",
     "registrationLink": "https://www.zmierzymyczas.pl/1716/v-kotowski-bieg-i-marsz-nw.html",
     "uid": "v-kotowski-bieg-i-marsz-nw-05-08-2023"
@@ -314,7 +314,7 @@
     "location": "Katowice",
     "date": "27/08/2023",
     "description": "Bieg i kije na 5km. Są też warsztaty dla dzieci.",
-    "image": "events/tempfile36.webp",
+    "image": "/events/tempfile36.webp",
     "mainLink": "https://www.facebook.com/events/536066658487928",
     "registrationLink": "",
     "uid": "zubry-murckowskie-powrot-do-korzeni-ii-edycja-27-08-2023"
@@ -324,7 +324,7 @@
     "location": "Pławowice",
     "date": "27/08/2023",
     "description": "Impreza będzie składać się z biegu głównego na dystansie 5 km i nordic walking na dystansie ok. 3,3 km",
-    "image": "events/tempfile37.webp",
+    "image": "/events/tempfile37.webp",
     "mainLink": "https://www.facebook.com/events/982725362869237",
     "registrationLink": "https://bgtimesport.pl/zawody/info/id/666",
     "uid": "bieg-pawlowicki-27-08-2023"
@@ -334,7 +334,7 @@
     "location": "Jaworze",
     "date": "03/09/2023",
     "description": "Zadaniem każdego uczestnika jest zdobycie szczytu Błatniej minimum 1 raz",
-    "image": "events/tempfile38.webp",
+    "image": "/events/tempfile38.webp",
     "mainLink": "https://www.facebook.com/events/770326570982651/",
     "registrationLink": "",
     "uid": "ultra-blatnia-24-h-dla-filipka-03-09-2023"
@@ -344,7 +344,7 @@
     "location": "Kroczyce",
     "date": "22/09/2023",
     "description": "Różne biegi i Nordic Walking",
-    "image": "events/tempfile39.webp",
+    "image": "/events/tempfile39.webp",
     "mainLink": "https://www.jurajskifestiwalbiegowy.pl/",
     "registrationLink": "https://www.jurajskifestiwalbiegowy.pl/",
     "uid": "jurajski-festival-biegowy-22-09-2023"
@@ -354,7 +354,7 @@
     "location": "Gliwice",
     "date": "24/09/2023",
     "description": "Krótkie biegi i Nordic Walking. Można z psiakiem.",
-    "image": "events/tempfile40.webp",
+    "image": "/events/tempfile40.webp",
     "mainLink": "https://www.facebook.com/events/904776147503762",
     "registrationLink": "https://elektronicznezapisy.pl/event/7855/signup.html",
     "uid": "6-bieg-oko-w-oko-z-rakiem-24-09-2023"
@@ -364,7 +364,7 @@
     "location": "Warszawa",
     "date": "24/09/2023",
     "description": "",
-    "image": "events/tempfile41.webp",
+    "image": "/events/tempfile41.webp",
     "mainLink": "https://maratonwarszawski.com/",
     "registrationLink": "https://rejestracja.maratonwarszawski.com/pl/",
     "uid": "maraton-warszawski-24-09-2023"
@@ -374,7 +374,7 @@
     "location": "Tarnowskie Góry",
     "date": "24/09/2023",
     "description": "Trasa 21,1km.",
-    "image": "events/tempfile42.webp",
+    "image": "/events/tempfile42.webp",
     "mainLink": "https://www.facebook.com/events/s/iii-otwarte-mistrzostwa-polski/3084240775208986/",
     "registrationLink": "https://inws.info/puchar_nordic_walking/tarnowskie_gory",
     "uid": "iii-otwarte-mistrzostwa-polski-nordic-walking-24-09-2023"
@@ -384,7 +384,7 @@
     "location": "Gliwice",
     "date": "08/10/2023",
     "description": "Półmaraton i bieg na 10km",
-    "image": "events/tempfile43.webp",
+    "image": "/events/tempfile43.webp",
     "mainLink": "https://www.polmaratongliwicki.pl/",
     "registrationLink": "",
     "uid": "9-polmaraton-gliwicki-08-10-2023"
@@ -403,7 +403,7 @@
     "location": "Czerwionka-Leszczyny",
     "date": "15/10/2023",
     "description": "Biegi na 5km i 10km i Nordic Walking 5km. Jak zawsze też biegi dla dzieci.",
-    "image": "events/tempfile45.webp",
+    "image": "/events/tempfile45.webp",
     "mainLink": "https://www.facebook.com/events/3606907996210907/?acontext=%7B%22event_action_history%22%3A[%7B%22mechanism%22%3A%22your_upcoming_events_unit%22%2C%22surface%22%3A%22bookmark%22%7D]%2C%22ref_notif_type%22%3Anull%7D",
     "registrationLink": "https://dostartu.pl/xv-bieg-po-glebokich-dolach-v9652",
     "uid": "xvi-bieg-po-glebokich-dolach-15-10-2023"
@@ -423,7 +423,7 @@
     "location": "Knurów",
     "date": "11/11/2023",
     "description": "Bieg na 5km",
-    "image": "events/tempfile47.webp",
+    "image": "/events/tempfile47.webp",
     "mainLink": "https://mosirknurow.pl/5-knurowski-bieg-niepodleglosci/",
     "registrationLink": "https://chronotex.pl/opis-zawodow/?id_zawodow=846",
     "uid": "5-knurowski-bieg-niepodleglosci-11-11-2023"
@@ -433,7 +433,7 @@
     "location": "Larnaka, Cypr",
     "date": "18/11/2023",
     "description": "Różne dystanse.",
-    "image": "events/tempfile48.webp",
+    "image": "/events/tempfile48.webp",
     "mainLink": "https://www.larnakamarathon.com/en/races/marathon/",
     "registrationLink": "https://raceroster.com/events/2023/67244/radisson-blu-larnaka-international-marathon",
     "uid": "larnaka-international-marathon-18-11-2023"
@@ -443,7 +443,7 @@
     "location": "Zabrze",
     "date": "19/11/2023",
     "description": "6km trasa biegowa w kopalni!",
-    "image": "events/tempfile49.webp",
+    "image": "/events/tempfile49.webp",
     "mainLink": "https://www.facebook.com/events/s/iv-bieg-pod-ziemia-kopalnia-gu/553948326619295/",
     "registrationLink": "",
     "uid": "iv-bieg-pod-ziemia-kopalnia-guido-19-11-2023"
@@ -453,7 +453,7 @@
     "location": "Rybnik",
     "date": "03/12/2023",
     "description": "19. Bieg Barbórkowy na 10km, to zimowy, uliczny bieg ulicami Rybnika.",
-    "image": "events/tempfile50.webp",
+    "image": "/events/tempfile50.webp",
     "mainLink": "https://www.facebook.com/events/1335339453884646/?sfnsn=mo",
     "registrationLink": "https://dostartu.pl/19-bieg-barborkowy-v9080?fbclid=IwAR3fGr7VWv4XOE61xqXDI89hZfNvoJhlGfABwSUxON1AzCPhwFb8596-j-A",
     "uid": "19-bieg-barborkowy-03-12-2023"
@@ -463,7 +463,7 @@
     "location": "Kędzierzyn-Koźle",
     "date": "02/03/2024",
     "description": "Bieg na 30, 50 i 70 kilometrów.",
-    "image": "events/tempfile51.webp",
+    "image": "/events/tempfile51.webp",
     "mainLink": "https://www.facebook.com/events/834198268059502/?acontext=%7B%22event_action_history%22%3A[%7B%22extra_data%22%3A%22%22%2C%22mechanism%22%3A%22left_rail%22%2C%22surface%22%3A%22bookmark%22%7D%2C%7B%22extra_data%22%3A%22%22%2C%22mechanism%22%3A%22surface%22%2C%22surface%22%3A%22create_dialog%22%7D]%2C%22ref_notif_type%22%3Anull%7D",
     "registrationLink": "https://dostartu.pl/zadek-2024-v9746",
     "uid": "ultra-zadek-02-03-2024"
@@ -473,7 +473,7 @@
     "location": "Brenna",
     "date": "09/03/2024",
     "description": "",
-    "image": "events/tempfile52.webp",
+    "image": "/events/tempfile52.webp",
     "mainLink": "https://www.facebook.com/events/s/10-jubileuszowa-gorska-petla-u/902888661229697/",
     "registrationLink": "https://www.bgtimesport.pl/zawody/info/id/664",
     "uid": "10-jubileuszowa-gorska-petla-ubs-12-12-09-03-2024"
@@ -483,7 +483,7 @@
     "location": "Żywiec",
     "date": "17/03/2024",
     "description": "",
-    "image": "events/tempfile53.webp",
+    "image": "/events/tempfile53.webp",
     "mainLink": "https://www.halfmarathon.zywiec.pl/",
     "registrationLink": "https://online.datasport.pl/zapisy/portal/zawody.php?zawody=8731",
     "uid": "23-pko-polmaraton-dookola-jeziora-zywieckiego-17-03-2024"
@@ -493,7 +493,7 @@
     "location": "Gliwice",
     "date": "24/03/2024",
     "description": "Pętla 2km - robisz ile chcesz. Dla biegaczy i NW",
-    "image": "events/tempfile54.webp",
+    "image": "/events/tempfile54.webp",
     "mainLink": "https://www.facebook.com/events/s/3-gliwicki-bieg-kolorowych-ska/725956642971787/",
     "registrationLink": "https://www.zmierzymyczas.pl/1914/iii-gliwicki-bieg-kolorowych-skarpetek.html",
     "uid": "3-gliwicki-bieg-kolorowych-skarpetek-24-03-2024"
@@ -503,7 +503,7 @@
     "location": "Niegowa",
     "date": "24/03/2024",
     "description": "Od półmaratonu do 5km i Nordic Walking",
-    "image": "events/tempfile55.webp",
+    "image": "/events/tempfile55.webp",
     "mainLink": "https://extremejura.com/",
     "registrationLink": "https://dostartu.pl/biegowa-niegowa-extremejura-v10232",
     "uid": "biegowa-niegowa-24-03-2024"
@@ -513,7 +513,7 @@
     "location": "Warszawa",
     "date": "24/03/2024",
     "description": "",
-    "image": "events/tempfile56.webp",
+    "image": "/events/tempfile56.webp",
     "mainLink": "https://www.facebook.com/events/659560722283672",
     "registrationLink": "https://rejestracja.maratonwarszawski.com/pl/",
     "uid": "maraton-warszawski-24-03-2024"
@@ -523,7 +523,7 @@
     "location": "Prudnik",
     "date": "06/04/2024",
     "description": "NW 21km i 5km i nawet mini NW dla dzieci na 200m",
-    "image": "events/tempfile57.webp",
+    "image": "/events/tempfile57.webp",
     "mainLink": "https://www.facebook.com/events/s/vi-otwarte-mistrzostwa-polski-/1371009523487603/",
     "registrationLink": "https://inws.info/puchar_nordic_walking/2503__prudnik__mp_gorski_polmaraton",
     "uid": "vi-otwarte-mistrzostwa-polski-w-polmaratonie-gorskim-nordic-walking-06-04-2024"
@@ -533,7 +533,7 @@
     "location": "Dąbrowa Górnicza",
     "date": "06/04/2024",
     "description": "",
-    "image": "events/tempfile58.webp",
+    "image": "/events/tempfile58.webp",
     "mainLink": "https://csir.pl/imprezy/polmaraton-dabrowski/",
     "registrationLink": "https://online.datasport.pl/zapisy/portal/zawody.php?zawody=8956",
     "uid": "polmaraton-dabrowski-06-04-2024"
@@ -543,7 +543,7 @@
     "location": "Książenice",
     "date": "06/04/2024",
     "description": "4 treningi 50minutowe",
-    "image": "events/tempfile59.webp",
+    "image": "/events/tempfile59.webp",
     "mainLink": "https://www.facebook.com/events/s/treningowy-poranek-dla-krzysia/2165740867098354/",
     "registrationLink": "",
     "uid": "treningowy-poranek-dla-krzysia-06-04-2024"
@@ -553,7 +553,7 @@
     "location": "Siemianowice Śląskie",
     "date": "06/04/2024",
     "description": "Bieg i kije na 5.5km",
-    "image": "events/tempfile60.png",
+    "image": "/events/tempfile60.png",
     "mainLink": "http://www.mosir.siemianowice.pl/?xviii-bieg-wiosny-oraz-nordic-walking,866",
     "registrationLink": "",
     "uid": "xviii-bieg-wiosny-oraz-nordic-walking-06-04-2024"
@@ -563,7 +563,7 @@
     "location": "Świerklany",
     "date": "07/04/2024",
     "description": "5.5km biegowo i NW z limitem na 60min",
-    "image": "events/tempfile61.webp",
+    "image": "/events/tempfile61.webp",
     "mainLink": "https://www.facebook.com/events/1401084240840475",
     "registrationLink": "https://time-sport.pl/zapisy-07-04-2024-vi-charytatywny-bieg-i-marsz-nw-z-sercem-na-dloni/",
     "uid": "6-charytatywny-bieg-i-marsz-nw-z-sercem-na-dloni-07-04-2024"
@@ -573,7 +573,7 @@
     "location": "Tychy",
     "date": "07/04/2024",
     "description": "bieg 8km",
-    "image": "events/tempfile62.webp",
+    "image": "/events/tempfile62.webp",
     "mainLink": "https://spla.com.pl/biegi/bieg-jelenia/",
     "registrationLink": "https://dostartu.pl/vii-bieg-jelenia-v10533",
     "uid": "bieg-jelenia-07-04-2024"
@@ -583,7 +583,7 @@
     "location": "Szczawnica",
     "date": "20/04/2024",
     "description": "Biegi od 6.5km to 96km!",
-    "image": "events/tempfile63.webp",
+    "image": "/events/tempfile63.webp",
     "mainLink": "https://pieninyultratrail.pl/",
     "registrationLink": "https://zapisy.strefaprzygod.pl/en/competition/pieniny-ultra-trail-2024/",
     "uid": "pieniny-ultra-trail-20-04-2024"
@@ -593,7 +593,7 @@
     "location": "Porąbka",
     "date": "27/04/2024",
     "description": "Bieg na 21km i 33km",
-    "image": "events/tempfile64.webp",
+    "image": "/events/tempfile64.webp",
     "mainLink": "https://wlodkowa.pl/",
     "registrationLink": "https://b4sportonline.pl/wlodkowa/",
     "uid": "sladami-okrutnej-wlodkowej-27-04-2024"
@@ -603,7 +603,7 @@
     "location": "Gaszowice",
     "date": "28/04/2024",
     "description": "Uliczny bieg na 10km",
-    "image": "events/tempfile65.webp",
+    "image": "/events/tempfile65.webp",
     "mainLink": "https://www.facebook.com/events/s/wartko-z-jejkowic-do-gaszowic/908530390639561/",
     "registrationLink": "https://dostartu.pl/wartko-z-jejkowic-do-gaszowic-v10408",
     "uid": "wartko-z-jejkowic-do-gaszowic-28-04-2024"
@@ -613,7 +613,7 @@
     "location": "Knurów",
     "date": "05/05/2024",
     "description": "Bieg uliczny na 10km",
-    "image": "events/tempfile66.webp",
+    "image": "/events/tempfile66.webp",
     "mainLink": "https://mosirknurow.pl/bieg-konstytucji/",
     "registrationLink": "https://chronotex.pl/opis-zawodow/?id_zawodow=1030",
     "uid": "grand-prix-knurowa-cz-i-bieg-konstytucji-05-05-2024"
@@ -623,7 +623,7 @@
     "location": "Żory",
     "date": "11/05/2024",
     "description": "Bieg na 5km",
-    "image": "events/tempfile67.webp",
+    "image": "/events/tempfile67.webp",
     "mainLink": "https://www.facebook.com/events/430134192767707",
     "registrationLink": "https://online.datasport.pl/zapisy/portal/zawody.php?zawody=9314%3Fdark%3D0",
     "uid": "11-zorski-bieg-ogniowy-11-05-2024"
@@ -633,7 +633,7 @@
     "location": "Wirtualny",
     "date": "12/05/2024",
     "description": "bieg lub NW wirtualny min 5km,",
-    "image": "events/tempfile68.webp",
+    "image": "/events/tempfile68.webp",
     "mainLink": "https://bieg.kobietawbiegu.pl/?fbclid=IwAR3hyqyxZfZwXao3TQKWxVCzyCM0pZqcq-GAFFbawibb8Q9lk7EGwTE5Flc_aem_AQ-Z2RjxtfoTswu90At2cxkqZXDkjbCtxJgumHHkuoiS6-s9Xmghogx6hAkDPwiHxEk",
     "registrationLink": "https://bieg.kobietawbiegu.pl/produkt/biegkobiet/",
     "uid": "bieg-kobiet-zawsze-pierwsi-12-05-2024"
@@ -643,7 +643,7 @@
     "location": "Dębno",
     "date": "12/05/2024",
     "description": "",
-    "image": "events/tempfile69.webp",
+    "image": "/events/tempfile69.webp",
     "mainLink": "http://www.maratondebno.pl/",
     "registrationLink": "https://online.datasport.pl/zapisy/portal/zawody.php?zawody=8198",
     "uid": "50-maraton-debno-12-05-2024"
@@ -653,7 +653,7 @@
     "location": "Andrychów",
     "date": "18/05/2024",
     "description": "Biegi od 104km do 10km",
-    "image": "events/tempfile70.webp",
+    "image": "/events/tempfile70.webp",
     "mainLink": "https://beskidzkitopor.pl/",
     "registrationLink": "https://my.raceresult.com/271027/registration",
     "uid": "beskidzki-topor-18-05-2024"
@@ -663,7 +663,7 @@
     "location": "Czerwionka-Leszczyny",
     "date": "19/05/2024",
     "description": "Biegi na 5km i 10km i Nordic Walking 5km. Jak zawsze też biegi dla dzieci.",
-    "image": "events/tempfile71.webp",
+    "image": "/events/tempfile71.webp",
     "mainLink": "https://www.facebook.com/events/1336172263927620",
     "registrationLink": "https://time-sport.pl/zapisy-19-05-2024-xvii-bieg-po-glebokich-dolach/",
     "uid": "xvii-bieg-po-glebokich-dolach-19-05-2024"
@@ -673,7 +673,7 @@
     "location": "Katowice",
     "date": "19/05/2024",
     "description": "Bieg na 5km, kije i biegi dziecięce",
-    "image": "events/tempfile72.webp",
+    "image": "/events/tempfile72.webp",
     "mainLink": "https://www.facebook.com/events/411962387926639",
     "registrationLink": "https://elektronicznezapisy.pl/event/10514.html",
     "uid": "iii-bieg-ratownika-19-05-2024"
@@ -683,7 +683,7 @@
     "location": "Jastrzębie Zdrój",
     "date": "26/05/2024",
     "description": "Biegi i NW na 5km",
-    "image": "events/tempfile73.webp",
+    "image": "/events/tempfile73.webp",
     "mainLink": "https://www.biegjastrzebie.pl/kobiety-na-5/zgloszenia",
     "registrationLink": "https://b4sportonline.pl/Jastrzebski_Bieg_Kobiet/zapisy_na_kobiety_na_5__x_jastrzebski_bieg_kobiet/8191",
     "uid": "x-bieg-kobiet-i-viii-marsz-nw-kobiety-na-5-26-05-2024"
@@ -693,7 +693,7 @@
     "location": "Rogoźnik",
     "date": "15/06/2024",
     "description": "Różne biegi, od ultra do biegów dla dzieci.",
-    "image": "events/tempfile74.jpg",
+    "image": "/events/tempfile74.jpg",
     "mainLink": "http://www.biegiwrogozniku.pl/",
     "registrationLink": "https://zapisy.raatiming.pl/rejestracja-rg/",
     "uid": "biegi-w-rogozniku-15-06-2024"
@@ -703,7 +703,7 @@
     "location": "Księży Las",
     "date": "22/06/2024",
     "description": "Bieg i kije na 10",
-    "image": "events/tempfile75.webp",
+    "image": "/events/tempfile75.webp",
     "mainLink": "https://www.facebook.com/events/285237134570197",
     "registrationLink": "https://dostartu.pl/ii-bieg-po-truskawke-v10410",
     "uid": "ii-bieg-po-truskawke-22-06-2024"
@@ -713,7 +713,7 @@
     "location": "Rybnik",
     "date": "22/06/2024",
     "description": "Bieg ma półmaraton w nazwie, ale są tam też biegi na dychę, na 2.5km oraz dla dzieciaków.",
-    "image": "events/tempfile76.png",
+    "image": "/events/tempfile76.png",
     "mainLink": "https://www.facebook.com/events/s/14-pko-rybnicki-po%C5%82maraton-ksi/7666876356673061/",
     "registrationLink": "https://dostartu.pl/14-pko-rybnicki-po-maraton-ksiezycowy-oraz-nocna-dycha-v10412",
     "uid": "rybnicki-polmaraton-ksiezycowy-22-06-2024"
@@ -723,7 +723,7 @@
     "location": "Kędzierzyn-Koźle",
     "date": "29/06/2024",
     "description": "Bieg i kije na 5 i 12",
-    "image": "events/tempfile77.webp",
+    "image": "/events/tempfile77.webp",
     "mainLink": "https://www.facebook.com/fabrykaaktywnosciXYZ",
     "registrationLink": "https://dostartu.pl/grubo-aktywnie-2024-v10375",
     "uid": "grubo-aktywnie-29-06-2024"
@@ -733,7 +733,7 @@
     "location": "Lądek Zdrój",
     "date": "18/07/2024",
     "description": "Kilka różnych górskich biegów od 10km do 230km",
-    "image": "events/tempfile78.webp",
+    "image": "/events/tempfile78.webp",
     "mainLink": "http://dfbg.pl/trasy-biegow/ultra-68",
     "registrationLink": "https://b4sportonline.pl/dolnoslaski_festiwal_biegow_gorskich/",
     "uid": "dolnoslaski-festiwal-biegow-gorskich-18-07-2024"
@@ -743,7 +743,7 @@
     "location": "Ujsoły",
     "date": "10/08/2024",
     "description": "Biegi na 2,9km aż do 80km",
-    "image": "events/tempfile79.webp",
+    "image": "/events/tempfile79.webp",
     "mainLink": "https://chudywawrzyniec.pl/",
     "registrationLink": "https://zapisy.krokdonatury.pl/events/53",
     "uid": "chudy-wawrzyniec-10-08-2024"
@@ -753,7 +753,7 @@
     "location": "Cisna",
     "date": "24/08/2024",
     "description": "Pieszo 5, 26 i 49 km",
-    "image": "events/tempfile80.webp",
+    "image": "/events/tempfile80.webp",
     "mainLink": "https://www.biegrzeznika.pl/bieszczadzki-rajd-pieszy-maraton-pieszy-od-switu-do-zmierzchu/",
     "registrationLink": "https://b4sportonline.pl/maraton_pieszy/",
     "uid": "bieszczadzki-rajd-pieszy-maraton-pieszy-od-switu-do-zmierzchu-24-08-2024"
@@ -763,7 +763,7 @@
     "location": "Kroczyce",
     "date": "20/09/2024",
     "description": "Duża impreza z różnymi biegami, kijami i biegami dla dzieciaków",
-    "image": "events/tempfile81.webp",
+    "image": "/events/tempfile81.webp",
     "mainLink": "https://www.facebook.com/events/715334980408222/?acontext=%7B%22event_action_history%22%3A[]%7D",
     "registrationLink": "https://www.jurajskifestiwalbiegowy.pl/zapisy/",
     "uid": "jurajski-festival-biegowy-20-09-2024"
@@ -773,7 +773,7 @@
     "location": "Zabrze",
     "date": "21/09/2024",
     "description": "Bieg na 5 i 10 i do tego kije na 5",
-    "image": "events/tempfile82.webp",
+    "image": "/events/tempfile82.webp",
     "mainLink": "https://www.facebook.com/events/933259328512325/",
     "registrationLink": "",
     "uid": "jesienny-bieg-lesny-21-09-2024"
@@ -783,7 +783,7 @@
     "location": "Kędzierzyn-Koźle",
     "date": "05/10/2024",
     "description": "Bieg i kije na dystansach 12-22-42",
-    "image": "events/tempfile83.webp",
+    "image": "/events/tempfile83.webp",
     "mainLink": "https://www.facebook.com/DzienDobryFastiwalXYZ",
     "registrationLink": "https://dostartu.pl/ddkk-festiwal-biegowy-2024-v10519",
     "uid": "dzien-dobry-kedzierzyn-kozle-05-10-2024"
@@ -793,7 +793,7 @@
     "location": "Poznań",
     "date": "13/10/2024",
     "description": "",
-    "image": "events/tempfile84.webp",
+    "image": "/events/tempfile84.webp",
     "mainLink": "https://marathon.poznan.pl/",
     "registrationLink": "https://runner.marathon.poznan.pl/run/join/4/choose",
     "uid": "poznan-maraton-13-10-2024"
@@ -803,7 +803,7 @@
     "location": "Bobrowniki",
     "date": "06/07/2024",
     "description": "Biegi 21/42/60km i rower 42km",
-    "image": "events/tempfile85.webp",
+    "image": "/events/tempfile85.webp",
     "mainLink": "https://zaleczeultrarun.com/",
     "registrationLink": "https://dostartu.pl/za-ecze-ultra-run-v10182",
     "uid": "zalecze-ultra-run-06-07-2024"
@@ -813,7 +813,7 @@
     "location": "Żarki",
     "date": "21/06/2024",
     "description": "Biegi na 9km i 15km oraz NW na 9km",
-    "image": "events/tempfile86.webp",
+    "image": "/events/tempfile86.webp",
     "mainLink": "https://www.facebook.com/events/s/biegaj-z-duchami-straszna-extr/455658160273084/",
     "registrationLink": "https://dostartu.pl/biegaj-z-duchami-straszna-extremejura-v11798",
     "uid": "biegaj-z-duchami-straszna-extremejura-21-06-2024"
@@ -1134,7 +1134,7 @@
     "mainLink": "https://www.facebook.com/BiegDamrota",
     "registrationLink": "https://time-sport.pl/zapisy-31-05-2025-14-bieg-im-ksiedza-konstantego-damrota",
     "description": "Bieg na 6km i 10km i NW na 6km",
-    "image": "events/14damrot.webp",
+    "image": "/events/14damrot.webp",
     "location": "Pilchowice",
     "uid": "14-bieg-damrota-31-05-2025"
   },

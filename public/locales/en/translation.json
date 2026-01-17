@@ -116,6 +116,21 @@
     "from": "From",
     "joined": "Joined"
   },
+  "trainings": {
+    "meta_title": "Zatyrani - Trainings",
+    "page_title": "Trainings",
+    "page_subtitle": "All running and Nordic Walking trainings organized by Zatyrani.",
+    "no_trainings": "There are no trainings scheduled right now.",
+    "check_tomorrow": "Check back tomorrow!"
+  },
+  "events": {
+    "meta_title": "Zatyrani - Events",
+    "page_title": "Events",
+    "page_subtitle": "All events big and small where you can meet members of Zatyrani.",
+    "more_info": "More info",
+    "edit": "Edit",
+    "registration": "Registration"
+  },
   "niebocross": {
     "title": "NieboCross",
     "meta_description": "Charity run and Nordic Walking at Bierawka - 12.04.2026 in Nieborowice. Routes 3+ km and 9+ km, 100% of fees for charity.",

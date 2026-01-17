@@ -2,7 +2,10 @@
 import type { Events } from "../data/events";
 import { formatDateDisplay } from "../utils/events.js";
 
-type Props = Events & { assignedFallbackImage?: string };
+type Props = Events & { 
+  assignedFallbackImage?: string;
+  t: (key: string) => string;
+};
 
 const {
   title,
@@ -14,6 +17,7 @@ const {
   registrationLink,
   uid,
   assignedFallbackImage,
+  t,
 } = Astro.props;
 
 // Use provided fallback image or the event's image
@@ -56,7 +60,7 @@ const displayImage = image || assignedFallbackImage;
           rel="noopener noreferrer"
           class="text-sm text-blue-500 hover:text-blue-700"
         >
-          Więcej info
+          {t("events.more_info")}
         </a>
       )
     }
@@ -65,7 +69,7 @@ const displayImage = image || assignedFallbackImage;
       class="text-sm text-purple-600 hover:text-purple-700"
       style="display: none;"
     >
-      Edytuj
+      {t("events.edit")}
     </a>
     {
       registrationLink && (
@@ -75,7 +79,7 @@ const displayImage = image || assignedFallbackImage;
           rel="noopener noreferrer"
           class="text-sm text-green-500 hover:text-green-700"
         >
-          Rejestracja
+          {t("events.registration")}
         </a>
       )
     }

@@ -1,0 +1,11 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import TreningiContent from "../../components/content/Treningi.astro";
+import { t as tBase } from "../../utils/i18n";
+
+const t = (key: string) => tBase(key, 'en');
+---
+
+<Layout title={t("trainings.meta_title")}>
+  <TreningiContent t={t} />
+</Layout>
