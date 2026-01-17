@@ -1,11 +1,11 @@
 import membersData from "./members.json";
 
 export interface Member {
+  id: string;
   title: string;
-  description: string;
+  from: string;
   image: string;
   joinDate: string;
-  from: string;
 }
 
 export const members: Member[] = membersData as Member[];

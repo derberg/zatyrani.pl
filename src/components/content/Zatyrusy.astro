@@ -1,0 +1,23 @@
+---
+import PageHeader from "../PageHeader.astro";
+import MemberCard from "../MemberCard.astro";
+import { members } from "../../data/members";
+
+interface Props {
+  t: (key: string) => string;
+}
+
+const { t } = Astro.props;
+---
+
+<PageHeader
+  title={t("zatyrusy.page_title")}
+  subtitle={t("zatyrusy.page_subtitle")}
+  background="pink"
+/>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+  <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+    {members.map((member) => <MemberCard {...member} t={t} />)}
+  </div>
+</div>

@@ -1,0 +1,11 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ZatyrusyContent from "../../components/content/Zatyrusy.astro";
+import { t as tBase } from "../../utils/i18n";
+
+const t = (key: string) => tBase(key, 'en');
+---
+
+<Layout title={t("zatyrusy.meta_title")}>
+  <ZatyrusyContent t={t} />
+</Layout>

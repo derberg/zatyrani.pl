@@ -56,7 +56,8 @@
     "run": "bieg",
     "nordic_walking": "nordic walking",
     "ice_swimming": "morsowanie"
-  },  "subscribe": {
+  },
+  "subscribe": {
     "title": "Masz jakieś pytania?",
     "description": "Chcesz do nas dołączyć? a może masz ochotę nas zasponsorować?",
     "email_prompt": "Napisz maila do"
@@ -107,7 +108,15 @@
       "description": "Bieganie jest spoko, ale kolana też muszą kiedyś odpocząć. A najlepiej zrobić to w Poniedziałek z kijaszkami w ręce.",
       "schedule": "Poniedziałki - 18:30"
     }
-  },  "niebocross": {
+  },
+  "zatyrusy": {
+    "meta_title": "Zatyrani - Wszyscy Członkowie",
+    "page_title": "Wszystkie Zatyrusy",
+    "page_subtitle": "Cała ekipa wchodząca w skład Zatyranych",
+    "from": "Skąd",
+    "joined": "Dołączył(a)"
+  },
+  "niebocross": {
     "title": "NieboCross",
     "meta_description": "Charytatywny bieg i Nordic Walking nad Bierawką - 12.04.2026 w Nieborowicach. Trasy 3+ km i 9+ km, 100% opłat na cel charytatywny.",
     "charity_event": "Wydarzenie charytatywne",
@@ -212,5 +221,51 @@
     "race_office_location": "Dom Kultury w Wilczy, Karola Miarki 123, 44-189 Wilcza",
     "logo_alt": "Logo Wilczy Półmaraton",
     "background_alt": "Tło półmaratonu"
+  },
+  "members_content": {
+    "member_1": "Żeby nie było za nudno bieganie zaczęła od Runmageddonow. Zrobiła weterana i przerzuciła się na biegi górskie. Uwielbia dystanse maratońskie i ultra trudne trasy. Jak na dziczka przystało w 2022 roku zaliczyła rzeźnika dystans 80 km. Teraz chwilowo walczy z kijkami. Po wyleczeniu kontuzji zapowiada że wróci na górskie trasy.",
+    "member_2": "Ojciec tego całego zamieszania.",
+    "member_3": "Biega od 2018. Kocha bieganie w lesie i górskie wycieczki a zimą chłodne kąpiele. Instruktorka Nordic Walking.",
+    "member_4": "",
+    "member_5": "Biega od 2014. Najdłuższy dystans jaki pokonała spontanicznie to ultramaraton 67km. Marzy o maratonie na Islandii.",
+    "member_6": "",
+    "member_7": "Biegam bo gram w hockey-a.",
+    "member_8": "Matka tej zwariowanej ekipy.",
+    "member_9": "Bieganie? Czemu nie.",
+    "member_10": "Biega od 2018. Biega wolno bo jej wolno.",
+    "member_11": "Lubi biegać boso i pić wodę z rzeczki.",
+    "member_12": "Kilka biegów ultra na koncie i zdobyła Koronę Maratonów Polskich. Dziś przemierza kilometry ze swoim psim przyjacielem.",
+    "member_13": "Podczas biegania zawsze szuka roweru.",
+    "member_14": "",
+    "member_15": "Biega od 2017. Lubi długie dystanse. Ma na koncie kilka maratonów i biegów ultra. Marzy jej się triathlon.",
+    "member_16": "Lubi podbiegi i tam mija kolejnych zawodników. Złota rączka Zatyranych. Spec od izotoników.",
+    "member_17": "Nie dotarłem jeszcze do mety, ale jestem bliżej niż wczoraj.",
+    "member_18": "Biega po to żeby żreć.",
+    "member_19": "Biega od 2013. Ukończył Koronę Półmaratonów Polskich. Realizuje Koronę Maratonów Polskich. Wchodzi w biegi ultra.",
+    "member_20": "Ostatni będą pierwszymi.",
+    "member_21": "Pierwsza szklanka Stanicy.",
+    "member_22": "Chyba już uzależniony od biegania.",
+    "member_23": "Kiedyś nie lubił biegać.",
+    "member_24": "Przygodę z bieganiem zaczął na sztafecie w Wilczy, miały być 2 okrążenia boiska a biega do dzisiaj...Teraz woli leśne wybiegania i spacery z kijastycznymi 😊",
+    "member_25": "Instruktorka Nordic Walking, mobilizuje do treningów, planerka leśnych wypraw i \"prawie\" najlepsza fotografka tychże wędrówek.",
+    "member_26": "Biegam bo jak przyjdą ZOMBIE to zjedzą tych wolniejszych.",
+    "member_27": "Ponad dekada biegania zamieniło mnie w kolekcjonera koron, hurtownika maratonów i ultra w tym setki na czele. Podobno potrafię też usiąść...ale nie ma świadków.",
+    "member_28": "Chodzę o kijach od 2018 r. Instruktorka Nordic Walking.",
+    "member_29": "",
+    "member_30": "Dziewczyna z wypiekami - biegam dla słodkości.",
+    "member_31": "Kocha Andrzeja, ale tego co ją kocha ❤️ \n\n W górach czuje się jak w domu, z kijami pokonuje każdy szlak, a maraton to tylko kwestia czasu 💪",
+    "member_32": "Chodzę z kijami bo lubię. Nordic Walking Team to dziewczyny, dzięki którym każda chwila to salwy śmiechu. Zapraszam na treningi. Przekonasz się sam/sama!",
+    "member_33": "Biegam bo lubię 😅😀",
+    "member_34": "",
+    "member_35": "Mój komfortowy dystans to 10 km, ale regularnie wychodzę ze strefy komfortu, żeby sprawdzić, gdzie jest granica (i czy na pewno tam jest 😉)",
+    "member_36": "Kocha Asię ❤️ \n\n Swój skromny debiut biegowy z Zatyranymi rozpoczął od Wilczego Półmaratonu.",
+    "member_37": "Ale daleko jeszcze?",
+    "member_38": "Biegam żeby jeść więcej ciastków 🤩",
+    "member_39": "Uwielbia spacery, zwiedzanie i marsze z kijami. Może kiedyś przemaszeruje cały świat.",
+    "member_40": "",
+    "member_41": "",
+    "member_42": "Bieganie to moja pasja.",
+    "member_43": "Natura to miejsce gdzie odpoczywam, wietrzę głowę  i ładuje baterię. \nSorry kijki dzwonią, muszę lecieć 😊",
+    "member_44": ""
   }
 }

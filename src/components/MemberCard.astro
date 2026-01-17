@@ -1,13 +1,12 @@
 ---
-interface Props {
-  title: string;
-  description: string;
-  image: string;
-  joinDate: string;
-  from: string;
+import type { Member } from "../data/members";
+
+interface Props extends Member {
+  t: (key: string) => string;
 }
 
-const { title, description, image, joinDate, from } = Astro.props;
+const { id, title, image, joinDate, from, t } = Astro.props;
+const description = t(`members_content.${id}`);
 ---
 
 <article class="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col h-full">
@@ -22,7 +21,7 @@ const { title, description, image, joinDate, from } = Astro.props;
 
   {/* Always at the bottom of the card */}
   <div class="p-6 text-sm text-gray-500 mt-auto">
-    <p><strong>Skąd?</strong> {from}</p>
-    <p><strong>Dołączył(a):</strong> {joinDate}</p>
+    <p><strong>{t("zatyrusy.from")}:</strong> {from}</p>
+    <p><strong>{t("zatyrusy.joined")}:</strong> {joinDate}</p>
   </div>
 </article>
