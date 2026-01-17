@@ -39,7 +39,28 @@
     "initiatives_button": "Zobacz nasze inicjatywy",
     "logo_alt": "Logo ZATYRANI"
   },
-  "niebocross": {
+  "home": {
+    "meta_title": "Zatyrani Gratisownia.pl Gmina Pilchowice",
+    "upcoming_trainings": "Nadchodzące treningi",
+    "more_news": "Więcej aktualności",
+    "no_permissions_title": "Brak uprawnień",
+    "no_permissions_message": "Wygląda na to, że nie masz uprawnień do tej funkcji. Napisz do Łysego",
+    "ok": "OK"
+  },
+  "training": {
+    "view_on_map": "Zobacz na mapie",
+    "distance": "Dystans",
+    "tempo": "Tempo",
+    "contact": "Kontakt",
+    "edit": "Edytuj",
+    "run": "bieg",
+    "nordic_walking": "nordic walking",
+    "ice_swimming": "morsowanie"
+  },  "subscribe": {
+    "title": "Masz jakieś pytania?",
+    "description": "Chcesz do nas dołączyć? a może masz ochotę nas zasponsorować?",
+    "email_prompt": "Napisz maila do"
+  },  "niebocross": {
     "title": "NieboCross",
     "meta_description": "Charytatywny bieg i Nordic Walking nad Bierawką - 12.04.2026 w Nieborowicach. Trasy 3+ km i 9+ km, 100% opłat na cel charytatywny.",
     "charity_event": "Wydarzenie charytatywne",

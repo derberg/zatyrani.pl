@@ -1,0 +1,99 @@
+---
+import NewsCard from "../NewsCard.astro";
+import SubscribeForm from "../SubscribeForm.astro";
+import TrainingCard from "../TrainingCard.astro";
+import { news } from "../../data/news";
+import { trainings } from "../../data/trainings";
+
+interface Props {
+  t: (key: string) => string;
+}
+
+const { t } = Astro.props;
+
+// Parse "DD/MM/YYYY HH:mm" and return timestamp (ms since 1970)
+function toTimestamp(datetime: string): number {
+  const [date, time] = datetime.split(" ");
+  const [day, month, year] = date.split("/").map(Number);
+  const [hour, minute] = time.split(":").map(Number);
+  return new Date(year, month - 1, day, hour, minute).getTime();
+}
+
+const nowMs = Date.now();
+
+const upcomingTrainings = trainings
+  .filter((training) => toTimestamp(training.datetime) >= nowMs)
+  .sort((a, b) => toTimestamp(a.datetime) - toTimestamp(b.datetime));
+---
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+  <div class="text-center mb-12">
+    <img src="/zatyrani_logo.webp" alt="Zatyrani" class="mx-auto h-32" />
+  </div>
+
+  {/* Only show upcoming trainings if any future items exist */}
+  {
+    upcomingTrainings.length > 0 && (
+      <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-4">{t("home.upcoming_trainings")}</h2>
+        <div class="grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+          {upcomingTrainings.slice(0, 6).map((training) => (
+            <TrainingCard {...training} t={t} />
+          ))}
+        </div>
+      </section>
+    )
+  }
+
+  <!-- Aktualności -->
+  <section>
+    <h1 class="text-3xl font-bold mb-2">{t("news.title")}</h1>
+    <p class="text-gray-600 mb-8">{t("news.description")}</p>
+
+    <div class="grid gap-8 md:grid-cols-1 lg:grid-cols-2">
+      {
+        news
+          .filter((post) => post.message)
+          .slice(0, 2)
+          .map((post) => <NewsCard {...post} />)
+      }
+    </div>
+
+    <div class="mt-8 text-center">
+      <a
+        href="/aktualnosci"
+        class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700"
+      >
+        {t("home.more_news")}
+      </a>
+    </div>
+  </section>
+
+  <SubscribeForm t={t} />
+</div>
+
+<div id="auth-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+  <div class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full mx-4 text-center">
+    <h2 class="text-xl font-bold mb-4">{t("home.no_permissions_title")}</h2>
+    <p class="mb-4">{t("home.no_permissions_message")}</p>
+    <button id="modal-close" class="bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded">
+      {t("home.ok")}
+    </button>
+  </div>
+</div>
+
+<script>
+  // Check for access_denied param and show modal
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.has('access_denied')) {
+    const modal = document.getElementById('auth-modal');
+    const closeBtn = document.getElementById('modal-close');
+    modal.classList.remove('hidden');
+    closeBtn.addEventListener('click', () => {
+      modal.classList.add('hidden');
+      // Remove param from URL
+      const newUrl = window.location.pathname;
+      window.history.replaceState({}, document.title, newUrl);
+    });
+  }
+</script>

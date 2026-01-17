@@ -39,6 +39,29 @@
     "initiatives_button": "See our initiatives",
     "logo_alt": "ZATYRANI logo"
   },
+  "home": {
+    "meta_title": "Zatyrani Gratisownia.pl Gmina Pilchowice",
+    "upcoming_trainings": "Upcoming trainings",
+    "more_news": "More news",
+    "no_permissions_title": "No permissions",
+    "no_permissions_message": "It looks like you don't have permission for this feature. Contact Łysy",
+    "ok": "OK"
+  },
+  "training": {
+    "view_on_map": "View on map",
+    "distance": "Distance",
+    "tempo": "Tempo",
+    "contact": "Contact",
+    "edit": "Edit",
+    "run": "run",
+    "nordic_walking": "nordic walking",
+    "ice_swimming": "winter swimming"
+  },
+  "subscribe": {
+    "title": "Have any questions?",
+    "description": "Want to join us? Or maybe you'd like to sponsor us?",
+    "email_prompt": "Send an email to"
+  },
   "niebocross": {
     "title": "NieboCross",
     "meta_description": "Charity run and Nordic Walking at Bierawka - 12.04.2026 in Nieborowice. Routes 3+ km and 9+ km, 100% of fees for charity.",

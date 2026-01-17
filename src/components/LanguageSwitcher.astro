@@ -6,8 +6,11 @@ const isEnglishPage = currentPath.startsWith('/en');
 const currentLocale = isEnglishPage ? 'en' : 'pl';
 
 // Create paths for both languages
-const plPath = isEnglishPage ? currentPath.replace(/^\/en/, '') || '/' : currentPath;
-const enPath = isEnglishPage ? currentPath : `/en${currentPath}`;
+// Remove trailing slashes to match Astro's trailingSlash: "never" config
+const plPath = isEnglishPage ? (currentPath.replace(/^\/en/, '') || '/') : currentPath;
+const enPath = isEnglishPage 
+  ? currentPath 
+  : (currentPath === '/' ? '/en' : `/en${currentPath}`);
 ---
 
 <div class="language-switcher">
@@ -51,7 +54,7 @@ const enPath = isEnglishPage ? currentPath : `/en${currentPath}`;
     // If preferred language doesn't match current page, redirect
     if (preferredLang !== currentLang) {
       const newPath = preferredLang === 'en'
-        ? `/en${currentPath}`
+        ? (currentPath === '/' ? '/en' : `/en${currentPath}`)
         : currentPath.replace(/^\/en/, '') || '/';
       window.location.href = newPath;
     }
