@@ -444,15 +444,44 @@ const locationName = "Nieborowice";
       {t("niebocross.bierawka_desc")}
     </p>
   </div>
-  <PhotoGallery
-    photos={[
-      { src: "/niebocross/bierawa1.jpg", alt: "Dolina Bierawki" },
-      { src: "/niebocross/bierawa2.jpg", alt: "Dolina Bierawki" },
-      { src: "/niebocross/bierawa3.jpg", alt: "Dolina Bierawki" }
-    ]}
-    author="Paweł Bernas"
-    authorLink="https://www.instagram.com/pawelbernas.fotografia"
-  />
+  <div class="space-y-4">
+    <p class="text-center text-gray-600">
+      {t("niebocross.photo_author")} –{" "}
+      <a
+        href="https://www.instagram.com/pawelbernas.fotografia"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-blue-600 hover:underline"
+      >
+        Paweł Bernas
+      </a>
+    </p>
+    <div class="space-y-4">
+      <a href="/niebocross/bierawa1.jpg" target="_blank" rel="noopener noreferrer" class="block">
+        <img
+          src="/niebocross/bierawa1.jpg"
+          alt="Dolina Bierawki"
+          class="w-full aspect-[9/16] object-cover rounded-lg hover:shadow-md transition-shadow"
+        />
+      </a>
+      <div class="grid grid-cols-2 gap-4">
+        <a href="/niebocross/bierawa2.jpg" target="_blank" rel="noopener noreferrer">
+          <img
+            src="/niebocross/bierawa2.jpg"
+            alt="Dolina Bierawki"
+            class="w-full aspect-[9/16] object-cover rounded-lg hover:shadow-md transition-shadow"
+          />
+        </a>
+        <a href="/niebocross/bierawa3.jpg" target="_blank" rel="noopener noreferrer">
+          <img
+            src="/niebocross/bierawa3.jpg"
+            alt="Dolina Bierawki"
+            class="w-full aspect-[9/16] object-cover rounded-lg hover:shadow-md transition-shadow"
+          />
+        </a>
+      </div>
+    </div>
+  </div>
 </section>
 
 <section class="border-y border-slate-200 bg-slate-50">
