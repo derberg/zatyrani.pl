@@ -1,0 +1,22 @@
+---
+interface Props {
+  value?: string;
+  name?: string;
+  t: (key: string) => string;
+}
+
+const { value = "", name = "tshirtSize", t } = Astro.props;
+---
+
+<select
+  name={name}
+  class="mt-1 block w-full rounded-lg border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
+>
+  <option value="">{t("niebocross.form.no_tshirt")}</option>
+  <option value="XS" selected={value === "XS"}>XS</option>
+  <option value="S" selected={value === "S"}>S</option>
+  <option value="M" selected={value === "M"}>M</option>
+  <option value="L" selected={value === "L"}>L</option>
+  <option value="XL" selected={value === "XL"}>XL</option>
+  <option value="XXL" selected={value === "XXL"}>XXL</option>
+</select>

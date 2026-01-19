@@ -1,0 +1,24 @@
+---
+interface Props {
+  value?: string;
+  name?: string;
+  required?: boolean;
+  t: (key: string) => string;
+}
+
+const { value = "", name = "raceCategory", required = true, t } = Astro.props;
+---
+
+<select
+  name={name}
+  required={required}
+  class="mt-1 block w-full rounded-lg border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
+>
+  <option value="">{t("niebocross.form.select_category")}</option>
+  <option value="3km_run" selected={value === "3km_run"}>{t("niebocross.categories.3km_run")}</option>
+  <option value="3km_nw" selected={value === "3km_nw"}>{t("niebocross.categories.3km_nw")}</option>
+  <option value="9km_run" selected={value === "9km_run"}>{t("niebocross.categories.9km_run")}</option>
+  <option value="9km_nw" selected={value === "9km_nw"}>{t("niebocross.categories.9km_nw")}</option>
+  <option value="kids_100m" selected={value === "kids_100m"}>{t("niebocross.categories.kids_100m")}</option>
+  <option value="kids_300m" selected={value === "kids_300m"}>{t("niebocross.categories.kids_300m")}</option>
+</select>

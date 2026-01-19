@@ -1,0 +1,190 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import NieboCrossHeader from "../../components/niebocross/NieboCrossHeader.astro";
+import { t } from "../../utils/i18n";
+---
+
+<Layout 
+  title={`NieboCross - ${t("niebocross.login.title")}`}
+  description={t("niebocross.login.meta_description")}
+  t={t}
+>
+  <NieboCrossHeader t={t} />
+
+  <div class="mx-auto max-w-md px-6 py-12">
+    <div class="text-center mb-8">
+      <h2 class="text-3xl font-bold text-slate-900">{t("niebocross.login.title")}</h2>
+      <p class="mt-2 text-slate-600">{t("niebocross.login.description")}</p>
+    </div>
+
+    <div class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+      <!-- Step 1: Enter Email -->
+      <div id="step1">
+        <form id="emailForm" class="space-y-4">
+          <div>
+            <label for="email" class="block text-sm font-semibold text-slate-700">
+              {t("niebocross.form.email")} <span class="text-red-600">*</span>
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              required
+              class="mt-1 block w-full rounded-lg border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
+              placeholder="twoj@email.pl"
+            />
+          </div>
+
+          <div id="emailError" class="hidden rounded-lg bg-red-50 p-3 text-sm text-red-700"></div>
+
+          <button
+            type="submit"
+            class="w-full rounded-lg bg-emerald-600 px-6 py-3 font-semibold text-white transition hover:bg-emerald-700 disabled:bg-slate-300"
+            id="emailSubmitBtn"
+          >
+            {t("niebocross.form.send_code")}
+          </button>
+        </form>
+
+        <p class="mt-4 text-center text-sm text-slate-600">
+          {t("niebocross.login.no_account")} 
+          <a href="/niebocross/rejestracja" class="font-semibold text-emerald-600 hover:underline">
+            {t("niebocross.login.register_here")}
+          </a>
+        </p>
+      </div>
+
+      <!-- Step 2: Enter Code -->
+      <div id="step2" class="hidden">
+        <form id="codeForm" class="space-y-4">
+          <div>
+            <label for="code" class="block text-sm font-semibold text-slate-700">
+              {t("niebocross.form.verification_code")} <span class="text-red-600">*</span>
+            </label>
+            <p class="text-xs text-slate-500 mb-2">{t("niebocross.login.code_sent")}</p>
+            <input
+              type="text"
+              id="code"
+              name="code"
+              required
+              maxlength="6"
+              pattern="[0-9]{6}"
+              class="mt-1 block w-full rounded-lg border-slate-300 text-center text-2xl font-bold tracking-widest shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
+              placeholder="000000"
+            />
+          </div>
+
+          <div id="codeError" class="hidden rounded-lg bg-red-50 p-3 text-sm text-red-700"></div>
+
+          <button
+            type="submit"
+            class="w-full rounded-lg bg-emerald-600 px-6 py-3 font-semibold text-white transition hover:bg-emerald-700 disabled:bg-slate-300"
+            id="codeSubmitBtn"
+          >
+            {t("niebocross.form.verify_code")}
+          </button>
+
+          <button
+            type="button"
+            id="backToEmail"
+            class="w-full rounded-lg border border-slate-300 bg-white px-6 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+          >
+            ← {t("niebocross.form.back_to_email")}
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API_BASE = '/api/niebocross';
+
+    let currentEmail = '';
+
+    const step1 = document.getElementById('step1')!;
+    const step2 = document.getElementById('step2')!;
+    const emailForm = document.getElementById('emailForm') as HTMLFormElement;
+    const codeForm = document.getElementById('codeForm') as HTMLFormElement;
+    const emailError = document.getElementById('emailError')!;
+    const codeError = document.getElementById('codeError')!;
+    const backToEmailBtn = document.getElementById('backToEmail')!;
+
+    // Check if already logged in
+    const cookies = document.cookie.split(';').map(c => c.trim());
+    const sessionCookie = cookies.find(c => c.startsWith('niebocross_session='));
+    if (sessionCookie) {
+      window.location.href = '/niebocross/panel';
+    }
+
+    // Step 1: Request code
+    emailForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      emailError.classList.add('hidden');
+
+      const formData = new FormData(emailForm);
+      const email = formData.get('email') as string;
+      currentEmail = email;
+
+      try {
+        const response = await fetch(`${API_BASE}/auth/request-code`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          emailError.textContent = data.error || 'Wystąpił błąd';
+          emailError.classList.remove('hidden');
+          return;
+        }
+
+        // Move to step 2
+        step1.classList.add('hidden');
+        step2.classList.remove('hidden');
+      } catch {
+        emailError.textContent = 'Wystąpił błąd połączenia';
+        emailError.classList.remove('hidden');
+      }
+    });
+
+    // Back to email
+    backToEmailBtn.addEventListener('click', () => {
+      step2.classList.add('hidden');
+      step1.classList.remove('hidden');
+      codeError.classList.add('hidden');
+    });
+
+    // Step 2: Verify code
+    codeForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      codeError.classList.add('hidden');
+
+      const formData = new FormData(codeForm);
+      const code = formData.get('code') as string;
+
+      try {
+        const response = await fetch(`${API_BASE}/auth/verify-code`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: currentEmail, code }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          codeError.textContent = data.error || 'Nieprawidłowy kod';
+          codeError.classList.remove('hidden');
+          return;
+        }
+
+        // Redirect to dashboard
+        window.location.href = '/niebocross/panel';
+      } catch {
+        codeError.textContent = 'Wystąpił błąd połączenia';
+        codeError.classList.remove('hidden');
+      }
+    });
+  </script>
+</Layout>
