@@ -1,0 +1,480 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import NieboCrossHeader from "../../components/niebocross/NieboCrossHeader.astro";
+import { t } from "../../utils/i18n";
+---
+
+<Layout 
+  title={`NieboCross - ${t("niebocross.dashboard.title")}`}
+  description={t("niebocross.dashboard.meta_description")}
+  t={t}
+>
+  <NieboCrossHeader t={t} />
+
+  <div class="mx-auto max-w-4xl px-6 py-12">
+    <div id="loading" class="text-center py-12">
+      <div class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-emerald-600 border-r-transparent"></div>
+      <p class="mt-4 text-slate-600">{t("niebocross.dashboard.loading")}</p>
+    </div>
+
+    <div id="content" class="hidden space-y-6">
+      <!-- Header -->
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="text-3xl font-bold text-slate-900">{t("niebocross.dashboard.title")}</h2>
+          <p class="mt-1 text-slate-600" id="emailDisplay"></p>
+        </div>
+        <button
+          id="logoutBtn"
+          class="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+        >
+          {t("niebocross.dashboard.logout")}
+        </button>
+      </div>
+
+      <!-- Payment Status -->
+      <div id="paymentStatus" class="rounded-xl border p-6"></div>
+
+      <!-- Participants List -->
+      <div class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+        <div class="mb-4 flex items-center justify-between">
+          <h3 class="text-xl font-bold text-slate-900">{t("niebocross.dashboard.participants")}</h3>
+          <button
+            id="addParticipantBtn"
+            class="hidden rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-700"
+          >
+            + {t("niebocross.form.add_participant")}
+          </button>
+        </div>
+        <div id="participantsList" class="space-y-4"></div>
+      </div>
+
+      <!-- Edit Modal -->
+      <div id="editModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50">
+        <div class="mx-4 max-w-2xl w-full rounded-xl bg-white p-6 shadow-xl">
+          <div class="mb-4 flex items-center justify-between">
+            <h3 class="text-xl font-bold text-slate-900">{t("niebocross.dashboard.edit_participant")}</h3>
+            <button id="closeModal" class="text-slate-400 hover:text-slate-600">
+              <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+              </svg>
+            </button>
+          </div>
+
+          <form id="editForm" class="space-y-4">
+            <input type="hidden" id="editParticipantId" />
+            
+            <div>
+              <label class="block text-sm font-semibold text-slate-700">
+                {t("niebocross.form.full_name")} <span class="text-red-600">*</span>
+              </label>
+              <input
+                type="text"
+                id="editFullName"
+                required
+                class="mt-1 block w-full rounded-lg border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
+              />
+            </div>
+
+            <div class="grid gap-4 sm:grid-cols-2">
+              <div>
+                <label class="block text-sm font-semibold text-slate-700">
+                  {t("niebocross.form.birth_date")} <span class="text-red-600">*</span>
+                </label>
+                <input
+                  type="date"
+                  id="editBirthDate"
+                  required
+                  class="mt-1 block w-full rounded-lg border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-semibold text-slate-700">
+                  {t("niebocross.form.city")} <span class="text-red-600">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="editCity"
+                  required
+                  class="mt-1 block w-full rounded-lg border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-semibold text-slate-700">
+                  {t("niebocross.form.nationality")} <span class="text-red-600">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="editNationality"
+                  required
+                  class="mt-1 block w-full rounded-lg border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-semibold text-slate-700">
+                  {t("niebocross.form.club")}
+                </label>
+                <input
+                  type="text"
+                  id="editClub"
+                  class="mt-1 block w-full rounded-lg border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-semibold text-slate-700">
+                  {t("niebocross.form.race_category")} <span class="text-red-600">*</span>
+                </label>
+                <select
+                  id="editRaceCategory"
+                  required
+                  class="mt-1 block w-full rounded-lg border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
+                >
+                  <option value="">Wybierz kategorię</option>
+                  <option value="3km_run">3km - Bieg</option>
+                  <option value="3km_nw">3km - Nordic Walking</option>
+                  <option value="9km_run">9km - Bieg</option>
+                  <option value="9km_nw">9km - Nordic Walking</option>
+                  <option value="kids_100m">Dzieci - 100m</option>
+                  <option value="kids_300m">Dzieci - 300m</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-sm font-semibold text-slate-700">
+                  {t("niebocross.form.tshirt_size")}
+                </label>
+                <select
+                  id="editTshirtSize"
+                  class="mt-1 block w-full rounded-lg border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
+                >
+                  <option value="">Bez koszulki</option>
+                  <option value="XS">XS</option>
+                  <option value="S">S</option>
+                  <option value="M">M</option>
+                  <option value="L">L</option>
+                  <option value="XL">XL</option>
+                  <option value="XXL">XXL</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label class="flex items-start gap-2">
+                <input
+                  type="checkbox"
+                  id="editHideNamePublic"
+                  class="mt-1 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500"
+                />
+                <span class="text-sm text-slate-700">{t("niebocross.form.hide_name_public")}</span>
+              </label>
+            </div>
+
+            <div id="editError" class="hidden rounded-lg bg-red-50 p-3 text-sm text-red-700"></div>
+
+            <div class="flex gap-3">
+              <button
+                type="submit"
+                class="flex-1 rounded-lg bg-emerald-600 px-6 py-3 font-semibold text-white transition hover:bg-emerald-700"
+              >
+                {t("niebocross.form.save_changes")}
+              </button>
+              <button
+                type="button"
+                id="cancelEdit"
+                class="rounded-lg border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 transition hover:bg-slate-50"
+              >
+                {t("niebocross.form.cancel")}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API_BASE = '/api/niebocross';
+
+    let canEdit = false;
+    let dashboardData: {registration: {id: string, email: string, fullName: string}, participants: Array<{id: string, fullName: string, birthDate: string, city: string, nationality: string, club: string | null, raceCategory: string, hideNamePublic: boolean, tshirtSize: string | null}>, payment: {totalAmount: number, raceFees: number, tshirtFees: number, charityAmount: number, paymentStatus: string, paymentLink: string} | null, canEdit: boolean} | null = null;
+
+    // Check authentication
+    const cookies = document.cookie.split(';').map(c => c.trim());
+    const sessionCookie = cookies.find(c => c.startsWith('niebocross_session='));
+    
+    if (!sessionCookie) {
+      window.location.href = '/niebocross/zaloguj';
+    }
+
+    // Load dashboard data
+    async function loadDashboard() {
+      try {
+        const response = await fetch(`${API_BASE}/dashboard`, {
+          credentials: 'include'
+        });
+
+        if (!response.ok) {
+          if (response.status === 401) {
+            window.location.href = '/niebocross/zaloguj';
+            return;
+          }
+          throw new Error('Failed to load dashboard');
+        }
+
+        dashboardData = await response.json();
+        canEdit = dashboardData.canEdit;
+
+        renderDashboard();
+      } catch (error) {
+        console.error('Error loading dashboard:', error);
+        alert('Wystąpił błąd podczas ładowania danych');
+      }
+    }
+
+    function renderDashboard() {
+      document.getElementById('loading')!.classList.add('hidden');
+      document.getElementById('content')!.classList.remove('hidden');
+
+      // Display email
+      document.getElementById('emailDisplay')!.textContent = dashboardData.registration.email;
+
+      // Render payment status
+      renderPaymentStatus();
+
+      // Render participants
+      renderParticipants();
+
+      // Show add button if editing is allowed
+      if (canEdit && dashboardData.payment) {
+        document.getElementById('addParticipantBtn')!.classList.remove('hidden');
+      }
+    }
+
+    function renderPaymentStatus() {
+      const statusDiv = document.getElementById('paymentStatus')!;
+      const payment = dashboardData.payment;
+
+      if (!payment) {
+        statusDiv.innerHTML = `
+          <p class="text-slate-600">Brak zarejestrowanych uczestników</p>
+        `;
+        return;
+      }
+
+      const isPaid = payment.paymentStatus === 'paid';
+      const statusColor = isPaid ? 'emerald' : 'amber';
+      const statusText = isPaid ? 'Opłacone' : 'Oczekuje na płatność';
+
+      statusDiv.className = `rounded-xl border-2 border-${statusColor}-200 bg-${statusColor}-50 p-6`;
+      statusDiv.innerHTML = `
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="text-lg font-bold text-slate-900">${statusText}</h3>
+            <p class="mt-1 text-sm text-slate-600">Kwota do zapłaty: <strong>${payment.totalAmount} zł</strong></p>
+            <p class="text-xs text-slate-500 mt-1">W tym ${payment.charityAmount.toFixed(2)} zł na cel charytatywny 💚</p>
+          </div>
+          ${!isPaid && payment.paymentLink ? `
+            <a 
+              href="${payment.paymentLink}"
+              class="rounded-lg bg-emerald-600 px-6 py-3 font-semibold text-white transition hover:bg-emerald-700"
+            >
+              Opłać teraz
+            </a>
+          ` : ''}
+          ${isPaid ? `
+            <svg class="h-12 w-12 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          ` : ''}
+        </div>
+      `;
+    }
+
+    function renderParticipants() {
+      const listDiv = document.getElementById('participantsList')!;
+      const participants = dashboardData.participants;
+
+      if (participants.length === 0) {
+        listDiv.innerHTML = '<p class="text-slate-600">Brak uczestników</p>';
+        return;
+      }
+
+      listDiv.innerHTML = participants.map((p: {id: string, fullName: string, birthDate: string, city: string, nationality: string, club: string | null, raceCategory: string, hideNamePublic: boolean, tshirtSize: string | null}) => {
+        const categoryLabel = getCategoryLabel(p.raceCategory);
+        return `
+          <div class="rounded-lg border border-slate-200 bg-slate-50 p-4">
+            <div class="flex items-start justify-between">
+              <div class="flex-1">
+                <h4 class="font-bold text-slate-900">${p.fullName}</h4>
+                <div class="mt-2 grid gap-2 text-sm text-slate-600 sm:grid-cols-2">
+                  <p>📅 ${p.birthDate}</p>
+                  <p>📍 ${p.city}, ${p.nationality}</p>
+                  ${p.club ? `<p>🏃 ${p.club}</p>` : ''}
+                  <p>🏅 ${categoryLabel}</p>
+                  ${p.tshirtSize ? `<p>👕 Koszulka: ${p.tshirtSize}</p>` : ''}
+                </div>
+              </div>
+              ${canEdit ? `
+                <div class="flex gap-2">
+                  <button 
+                    class="edit-btn rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+                    data-id="${p.id}"
+                    data-participant='${JSON.stringify(p)}'
+                  >
+                    Edytuj
+                  </button>
+                  <button 
+                    class="delete-btn rounded-lg border border-red-300 bg-white px-3 py-1.5 text-sm font-semibold text-red-700 transition hover:bg-red-50"
+                    data-id="${p.id}"
+                  >
+                    Usuń
+                  </button>
+                </div>
+              ` : ''}
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      // Attach event listeners
+      if (canEdit) {
+        document.querySelectorAll('.edit-btn').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            const participant = JSON.parse((e.target as HTMLElement).getAttribute('data-participant')!);
+            openEditModal(participant);
+          });
+        });
+
+        document.querySelectorAll('.delete-btn').forEach(btn => {
+          btn.addEventListener('click', async (e) => {
+            const id = (e.target as HTMLElement).getAttribute('data-id')!;
+            if (confirm('Czy na pewno chcesz usunąć tego uczestnika?')) {
+              await deleteParticipant(id);
+            }
+          });
+        });
+      }
+    }
+
+    function getCategoryLabel(category: string): string {
+      const labels: Record<string, string> = {
+        '3km_run': '3km - Bieg',
+        '3km_nw': '3km - Nordic Walking',
+        '9km_run': '9km - Bieg',
+        '9km_nw': '9km - Nordic Walking',
+        'kids_100m': 'Dzieci - 100m',
+        'kids_300m': 'Dzieci - 300m',
+      };
+      return labels[category] || category;
+    }
+
+    // Edit modal
+    const editModal = document.getElementById('editModal')!;
+    const editForm = document.getElementById('editForm') as HTMLFormElement;
+    const closeModalBtn = document.getElementById('closeModal')!;
+    const cancelEditBtn = document.getElementById('cancelEdit')!;
+
+    function openEditModal(participant: {id: string, fullName: string, birthDate: string, city: string, nationality: string, club: string | null, raceCategory: string, hideNamePublic: boolean, tshirtSize: string | null}) {
+      (document.getElementById('editParticipantId') as HTMLInputElement).value = participant.id;
+      (document.getElementById('editFullName') as HTMLInputElement).value = participant.fullName;
+      (document.getElementById('editBirthDate') as HTMLInputElement).value = participant.birthDate;
+      (document.getElementById('editCity') as HTMLInputElement).value = participant.city;
+      (document.getElementById('editNationality') as HTMLInputElement).value = participant.nationality;
+      (document.getElementById('editClub') as HTMLInputElement).value = participant.club || '';
+      (document.getElementById('editRaceCategory') as HTMLSelectElement).value = participant.raceCategory;
+      (document.getElementById('editTshirtSize') as HTMLSelectElement).value = participant.tshirtSize || '';
+      (document.getElementById('editHideNamePublic') as HTMLInputElement).checked = participant.hideNamePublic;
+
+      editModal.classList.remove('hidden');
+      editModal.classList.add('flex');
+    }
+
+    function closeEditModal() {
+      editModal.classList.add('hidden');
+      editModal.classList.remove('flex');
+      document.getElementById('editError')!.classList.add('hidden');
+    }
+
+    closeModalBtn.addEventListener('click', closeEditModal);
+    cancelEditBtn.addEventListener('click', closeEditModal);
+
+    editForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const errorDiv = document.getElementById('editError')!;
+      errorDiv.classList.add('hidden');
+
+      const participantId = (document.getElementById('editParticipantId') as HTMLInputElement).value;
+      const participant = {
+        fullName: (document.getElementById('editFullName') as HTMLInputElement).value,
+        birthDate: (document.getElementById('editBirthDate') as HTMLInputElement).value,
+        city: (document.getElementById('editCity') as HTMLInputElement).value,
+        nationality: (document.getElementById('editNationality') as HTMLInputElement).value,
+        club: (document.getElementById('editClub') as HTMLInputElement).value || null,
+        raceCategory: (document.getElementById('editRaceCategory') as HTMLSelectElement).value,
+        tshirtSize: (document.getElementById('editTshirtSize') as HTMLSelectElement).value || null,
+        hideNamePublic: (document.getElementById('editHideNamePublic') as HTMLInputElement).checked,
+      };
+
+      try {
+        const response = await fetch(`${API_BASE}/update-participant`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ participantId, participant }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          errorDiv.textContent = data.error || 'Wystąpił błąd';
+          errorDiv.classList.remove('hidden');
+          return;
+        }
+
+        closeEditModal();
+        await loadDashboard();
+      } catch {
+        errorDiv.textContent = 'Wystąpił błąd połączenia';
+        errorDiv.classList.remove('hidden');
+      }
+    });
+
+    async function deleteParticipant(participantId: string) {
+      try {
+        const response = await fetch(`${API_BASE}/delete-participant`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ participantId }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          alert(data.error || 'Wystąpił błąd');
+          return;
+        }
+
+        await loadDashboard();
+      } catch {
+        alert('Wystąpił błąd połączenia');
+      }
+    }
+
+    // Logout
+    document.getElementById('logoutBtn')!.addEventListener('click', async () => {
+      try {
+        await fetch(`${API_BASE}/auth/logout`, {
+          method: 'POST',
+          credentials: 'include'
+        });
+        window.location.href = '/niebocross';
+      } catch (error) {
+        console.error('Logout error:', error);
+        window.location.href = '/niebocross';
+      }
+    });
+
+    // Load dashboard on page load
+    loadDashboard();
+  </script>
+</Layout>
