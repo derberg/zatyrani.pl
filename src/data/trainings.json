@@ -482,5 +482,16 @@
     "phone": "784640977",
     "distance": 24,
     "pace": 7
+  },
+  {
+    "uid": "bieg-20-1-2026-19-30-nieborowice-ppk-10-7",
+    "type": "bieg",
+    "datetime": "20/01/2026 19:30",
+    "location": "Nieborowice – PPK",
+    "locationLink": "https://maps.app.goo.gl/cUnjGVWuHfnJDQTL8",
+    "comment": "Dystans 10 km, tempo slow",
+    "phone": "691698608",
+    "distance": 10,
+    "pace": 7
   }
 ]
