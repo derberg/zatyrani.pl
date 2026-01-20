@@ -17,6 +17,20 @@ const { t } = Astro.props;
       <span class="text-slate-700">{t("niebocross.summary.tshirt_fees")}</span>
       <span class="font-semibold text-slate-900" id="tshirtFees">0 zł</span>
     </div>
+    <div class="flex justify-between items-center">
+      <span class="text-slate-700">{t("niebocross.summary.extra_donation")}</span>
+      <div class="flex items-center gap-2">
+        <input
+          type="number"
+          id="extraDonation"
+          min="0"
+          step="1"
+          value="0"
+          class="w-20 rounded border-emerald-300 border-2 px-2 py-1 text-right text-sm focus:border-emerald-500 focus:ring-emerald-500"
+        />
+        <span class="text-xs">zł</span>
+      </div>
+    </div>
     <div class="h-px bg-emerald-200"></div>
     <div class="flex justify-between text-base">
       <span class="font-semibold text-slate-900">{t("niebocross.summary.total")}</span>

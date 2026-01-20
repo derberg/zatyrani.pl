@@ -1,7 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
 import { verifyToken } from "./utils/auth.js";
-import dotenv from 'dotenv';
-dotenv.config({ path: './.env.production' });
 
 function getSupabaseClient() {
   const url = process.env.SUPABASE_URL;

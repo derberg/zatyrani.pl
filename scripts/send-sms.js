@@ -1,6 +1,4 @@
 import twilio from 'twilio';
-import dotenv from 'dotenv';
-dotenv.config({ path: './.env.production' });
 
 async function sendSms() {
 

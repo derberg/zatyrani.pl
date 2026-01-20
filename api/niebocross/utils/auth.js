@@ -1,6 +1,5 @@
 import jwt from "jsonwebtoken";
-import dotenv from 'dotenv';
-dotenv.config({ path: './.env.production' });
+
 
 export function verifyToken(req) {
   // Try to get token from header or cookie

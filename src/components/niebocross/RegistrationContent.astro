@@ -33,7 +33,7 @@ const panelLink = locale === 'en' ? '/en/niebocross/panel' : '/niebocross/panel'
               id="email"
               name="email"
               required
-              class="mt-1 block w-full rounded-lg border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
+              class="mt-1 block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2"
               placeholder="twoj@email.pl"
             />
           </div>
@@ -48,7 +48,7 @@ const panelLink = locale === 'en' ? '/en/niebocross/panel' : '/niebocross/panel'
               id="fullName"
               name="fullName"
               required
-              class="mt-1 block w-full rounded-lg border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
+              class="mt-1 block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2"
               placeholder="Jan Kowalski"
             />
           </div>
@@ -59,10 +59,23 @@ const panelLink = locale === 'en' ? '/en/niebocross/panel' : '/niebocross/panel'
               id="rodoAccepted"
               name="rodoAccepted"
               required
-              class="mt-1 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500"
+              class="mt-1 rounded border-emerald-300 border-2 text-emerald-600 focus:ring-emerald-500"
             />
             <label for="rodoAccepted" class="text-sm text-slate-700">
               {t("niebocross.form.rodo_consent")} <span class="text-red-600">*</span>
+            </label>
+          </div>
+
+          <div class="flex items-start gap-2">
+            <input
+              type="checkbox"
+              id="termsAccepted"
+              name="termsAccepted"
+              required
+              class="mt-1 rounded border-emerald-300 border-2 text-emerald-600 focus:ring-emerald-500"
+            />
+            <label for="termsAccepted" class="text-sm text-slate-700">
+              {t("niebocross.form.terms_consent")} <a href="https://docs.google.com/document/d/12FChbcF7rbxy0P9B1gMyn9KobLx8IgpJi365ymROYjk/edit?usp=sharing" target="_blank" class="text-emerald-600 hover:underline">{t("niebocross.form.terms_link")}</a> <span class="text-red-600">*</span>
             </label>
           </div>
 
@@ -111,12 +124,19 @@ const panelLink = locale === 'en' ? '/en/niebocross/panel' : '/niebocross/panel'
               required
               maxlength="6"
               pattern="[0-9]{6}"
-              class="mt-1 block w-full rounded-lg border-slate-300 text-center text-2xl font-bold tracking-widest shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
+              class="mt-1 block w-full rounded-lg border-emerald-300 text-center text-2xl font-bold tracking-widest shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2 border-2"
               placeholder="000000"
             />
           </div>
 
+          <!-- Spam check info -->
+          <div class="rounded-lg bg-blue-50 p-3 text-sm text-blue-700">
+            <p>{t("niebocross.form.check_spam")}</p>
+          </div>
+
           <div id="codeError" class="hidden rounded-lg bg-red-50 p-3 text-sm text-red-700"></div>
+          
+          <div id="codeSuccess" class="hidden rounded-lg bg-green-50 p-3 text-sm text-green-700"></div>
 
           <button
             type="submit"
@@ -128,8 +148,16 @@ const panelLink = locale === 'en' ? '/en/niebocross/panel' : '/niebocross/panel'
 
           <button
             type="button"
+            id="resendCodeBtn"
+            class="w-full rounded-lg border border-emerald-600 bg-white px-6 py-2 text-sm font-semibold text-emerald-600 transition hover:bg-emerald-50 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {t("niebocross.form.resend_code")}
+          </button>
+
+          <button
+            type="button"
             id="backToEmail"
-            class="w-full rounded-lg border border-slate-300 bg-white px-6 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+            class="w-full rounded-lg border border-emerald-300 border-2 bg-white px-6 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
           >
             ← {t("niebocross.form.back_to_email")}
           </button>
@@ -210,7 +238,20 @@ const panelLink = locale === 'en' ? '/en/niebocross/panel' : '/niebocross/panel'
     </div>
   </div>
 
-  <script>
+  <script define:vars={{
+    errorMessages: {
+      EMAIL_EXISTS: t("niebocross.errors.email_exists"),
+      INVALID_CODE: t("niebocross.errors.invalid_code"),
+      CODE_EXPIRED: t("niebocross.errors.code_expired"),
+      connection: t("niebocross.errors.connection_error"),
+      generic: t("niebocross.errors.generic_error")
+    },
+    uiMessages: {
+      resending: t("niebocross.form.resending"),
+      resendCode: t("niebocross.form.resend_code"),
+      codeResent: t("niebocross.form.code_resent")
+    }
+  }}>
     // API Base URL
     const API_BASE = '/api/niebocross';
 
@@ -228,8 +269,10 @@ const panelLink = locale === 'en' ? '/en/niebocross/panel' : '/niebocross/panel'
     const participantsForm = document.getElementById('participantsForm') as HTMLFormElement;
     const emailError = document.getElementById('emailError')!;
     const codeError = document.getElementById('codeError')!;
+    const codeSuccess = document.getElementById('codeSuccess')!;
     const participantsError = document.getElementById('participantsError')!;
     const backToEmailBtn = document.getElementById('backToEmail')!;
+    const resendCodeBtn = document.getElementById('resendCodeBtn')!;
     const addParticipantBtn = document.getElementById('addParticipantBtn')!;
     const participantsContainer = document.getElementById('participantsContainer')!;
     const paymentLink = document.getElementById('paymentLink') as HTMLAnchorElement;
@@ -252,6 +295,7 @@ const panelLink = locale === 'en' ? '/en/niebocross/panel' : '/niebocross/panel'
       const email = formData.get('email') as string;
       const fullName = formData.get('fullName') as string;
       const rodoAccepted = formData.get('rodoAccepted') === 'on';
+      const termsAccepted = formData.get('termsAccepted') === 'on';
       const website = formData.get('website') as string || '';
 
       currentEmail = email;
@@ -260,13 +304,13 @@ const panelLink = locale === 'en' ? '/en/niebocross/panel' : '/niebocross/panel'
         const response = await fetch(`${API_BASE}/auth/start-registration`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, fullName, rodoAccepted, website }),
+          body: JSON.stringify({ email, fullName, rodoAccepted, termsAccepted, website }),
         });
 
         const data = await response.json();
 
         if (!response.ok) {
-          emailError.textContent = data.error || 'Wystąpił błąd';
+          emailError.textContent = errorMessages[data.error] || errorMessages.generic;
           emailError.classList.remove('hidden');
           return;
         }
@@ -275,7 +319,7 @@ const panelLink = locale === 'en' ? '/en/niebocross/panel' : '/niebocross/panel'
         step1.classList.add('hidden');
         step2.classList.remove('hidden');
       } catch {
-        emailError.textContent = 'Wystąpił błąd połączenia';
+        emailError.textContent = errorMessages.connection;
         emailError.classList.remove('hidden');
       }
     });
@@ -285,6 +329,41 @@ const panelLink = locale === 'en' ? '/en/niebocross/panel' : '/niebocross/panel'
       step2.classList.add('hidden');
       step1.classList.remove('hidden');
       codeError.classList.add('hidden');
+      codeSuccess.classList.add('hidden');
+    });
+
+    // Resend code
+    resendCodeBtn.addEventListener('click', async () => {
+      if (!currentEmail) return;
+      
+      resendCodeBtn.disabled = true;
+      resendCodeBtn.textContent = uiMessages.resending;
+      codeError.classList.add('hidden');
+      codeSuccess.classList.add('hidden');
+
+      try {
+        const response = await fetch(`${API_BASE}/auth/request-code`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: currentEmail }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          codeError.textContent = errorMessages[data.error] || errorMessages.generic;
+          codeError.classList.remove('hidden');
+        } else {
+          codeSuccess.textContent = uiMessages.codeResent;
+          codeSuccess.classList.remove('hidden');
+        }
+      } catch {
+        codeError.textContent = errorMessages.connection;
+        codeError.classList.remove('hidden');
+      } finally {
+        resendCodeBtn.disabled = false;
+        resendCodeBtn.textContent = uiMessages.resendCode;
+      }
     });
 
     // Step 2: Code verification
@@ -305,7 +384,7 @@ const panelLink = locale === 'en' ? '/en/niebocross/panel' : '/niebocross/panel'
         const data = await response.json();
 
         if (!response.ok) {
-          codeError.textContent = data.error || 'Nieprawidłowy kod';
+          codeError.textContent = errorMessages[data.error] || errorMessages.generic;
           codeError.classList.remove('hidden');
           return;
         }
@@ -317,7 +396,7 @@ const panelLink = locale === 'en' ? '/en/niebocross/panel' : '/niebocross/panel'
         step3.classList.remove('hidden');
         addParticipant(); // Add first participant
       } catch {
-        codeError.textContent = 'Wystąpił błąd połączenia';
+        codeError.textContent = errorMessages.connection;
         codeError.classList.remove('hidden');
       }
     });
@@ -339,51 +418,69 @@ const panelLink = locale === 'en' ? '/en/niebocross/panel' : '/niebocross/panel'
             <label class="block text-sm font-semibold text-slate-700">
               Imię i nazwisko <span class="text-red-600">*</span>
             </label>
-            <input type="text" name="fullName_${participantCount}" required class="mt-1 block w-full rounded-lg border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500" />
+            <input type="text" name="fullName_${participantCount}" required class="mt-1 block w-full rounded-lg border-emerald-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2 border-2" />
           </div>
           <div>
             <label class="block text-sm font-semibold text-slate-700">
               Data urodzenia <span class="text-red-600">*</span>
             </label>
-            <input type="date" name="birthDate_${participantCount}" required class="mt-1 block w-full rounded-lg border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500" />
+            <input type="date" name="birthDate_${participantCount}" required class="mt-1 block w-full rounded-lg border-emerald-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2 border-2" />
           </div>
           <div>
             <label class="block text-sm font-semibold text-slate-700">
               Miejscowość <span class="text-red-600">*</span>
             </label>
-            <input type="text" name="city_${participantCount}" required class="mt-1 block w-full rounded-lg border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500" />
+            <input type="text" name="city_${participantCount}" required class="mt-1 block w-full rounded-lg border-emerald-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2 border-2" />
           </div>
           <div>
             <label class="block text-sm font-semibold text-slate-700">
               Narodowość <span class="text-red-600">*</span>
             </label>
-            <input type="text" name="nationality_${participantCount}" required value="Polska" class="mt-1 block w-full rounded-lg border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500" />
+            <input type="text" name="nationality_${participantCount}" required value="Polska" class="mt-1 block w-full rounded-lg border-emerald-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2 border-2" />
           </div>
           <div>
             <label class="block text-sm font-semibold text-slate-700">
               Klub (opcjonalnie)
             </label>
-            <input type="text" name="club_${participantCount}" class="mt-1 block w-full rounded-lg border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500" />
+            <input type="text" name="club_${participantCount}" class="mt-1 block w-full rounded-lg border-emerald-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2 border-2" />
           </div>
-          <div>
-            <label class="block text-sm font-semibold text-slate-700">
-              Kategoria biegu <span class="text-red-600">*</span>
+          <div class="sm:col-span-2">
+            <label class="block text-sm font-semibold text-slate-700 mb-3">
+              Dystans i aktywność <span class="text-red-600">*</span>
             </label>
-            <select name="raceCategory_${participantCount}" required class="mt-1 block w-full rounded-lg border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 race-category">
-              <option value="">Wybierz kategorię</option>
-              <option value="3km_run">3km - Bieg</option>
-              <option value="3km_nw">3km - Nordic Walking</option>
-              <option value="9km_run">9km - Bieg</option>
-              <option value="9km_nw">9km - Nordic Walking</option>
-              <option value="kids_100m">Dzieci - 100m</option>
-              <option value="kids_300m">Dzieci - 300m</option>
-            </select>
+            <div class="grid gap-3 sm:grid-cols-2">
+              <label class="flex items-center gap-2 p-3 rounded-lg border-2 border-emerald-300 cursor-pointer hover:bg-emerald-50 transition">
+                <input type="radio" name="raceCategory_${participantCount}" value="3km_run" required class="text-emerald-600 focus:ring-emerald-500" />
+                <span class="text-sm font-medium">3km - Bieg</span>
+              </label>
+              <label class="flex items-center gap-2 p-3 rounded-lg border-2 border-emerald-300 cursor-pointer hover:bg-emerald-50 transition">
+                <input type="radio" name="raceCategory_${participantCount}" value="3km_nw" required class="text-emerald-600 focus:ring-emerald-500" />
+                <span class="text-sm font-medium">3km - Nordic Walking</span>
+              </label>
+              <label class="flex items-center gap-2 p-3 rounded-lg border-2 border-emerald-300 cursor-pointer hover:bg-emerald-50 transition">
+                <input type="radio" name="raceCategory_${participantCount}" value="9km_run" required class="text-emerald-600 focus:ring-emerald-500" />
+                <span class="text-sm font-medium">9km - Bieg</span>
+              </label>
+              <label class="flex items-center gap-2 p-3 rounded-lg border-2 border-emerald-300 cursor-pointer hover:bg-emerald-50 transition">
+                <input type="radio" name="raceCategory_${participantCount}" value="9km_nw" required class="text-emerald-600 focus:ring-emerald-500" />
+                <span class="text-sm font-medium">9km - Nordic Walking</span>
+              </label>
+              <label class="flex items-center gap-2 p-3 rounded-lg border-2 border-emerald-300 cursor-pointer hover:bg-emerald-50 transition">
+                <input type="radio" name="raceCategory_${participantCount}" value="kids_100m" required class="text-emerald-600 focus:ring-emerald-500" />
+                <span class="text-sm font-medium">Dzieci - 100m</span>
+              </label>
+              <label class="flex items-center gap-2 p-3 rounded-lg border-2 border-emerald-300 cursor-pointer hover:bg-emerald-50 transition">
+                <input type="radio" name="raceCategory_${participantCount}" value="kids_300m" required class="text-emerald-600 focus:ring-emerald-500" />
+                <span class="text-sm font-medium">Dzieci - 300m</span>
+              </label>
+            </div>
           </div>
           <div>
             <label class="block text-sm font-semibold text-slate-700">
               Rozmiar koszulki (opcjonalnie, +80 zł)
             </label>
-            <select name="tshirtSize_${participantCount}" class="mt-1 block w-full rounded-lg border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 tshirt-size">
+            <p class="text-xs text-slate-500 mt-1">Koszt produkcji: 70 zł, Na cel charytatywny: 10 zł</p>
+            <select name="tshirtSize_${participantCount}" class="mt-1 block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 tshirt-size">
               <option value="">Bez koszulki</option>
               <option value="XS">XS</option>
               <option value="S">S</option>
@@ -395,14 +492,8 @@ const panelLink = locale === 'en' ? '/en/niebocross/panel' : '/niebocross/panel'
           </div>
           <div class="sm:col-span-2">
             <label class="flex items-start gap-2">
-              <input type="checkbox" name="hideNamePublic_${participantCount}" class="mt-1 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500" />
+              <input type="checkbox" name="hideNamePublic_${participantCount}" class="mt-1 rounded border-emerald-300 border-2 text-emerald-600 focus:ring-emerald-500" />
               <span class="text-sm text-slate-700">Ukryj moje nazwisko na publicznej liście uczestników</span>
-            </label>
-          </div>
-          <div class="sm:col-span-2">
-            <label class="flex items-start gap-2">
-              <input type="checkbox" name="termsAccepted_${participantCount}" required class="mt-1 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500" />
-              <span class="text-sm text-slate-700">Akceptuję regulamin <span class="text-red-600">*</span></span>
             </label>
           </div>
         </div>
@@ -421,12 +512,15 @@ const panelLink = locale === 'en' ? '/en/niebocross/panel' : '/niebocross/panel'
       }
 
       // Add event listeners for category and tshirt changes
-      participantDiv.querySelectorAll('.race-category, .tshirt-size').forEach(el => {
+      participantDiv.querySelectorAll('input[type="radio"], .tshirt-size').forEach(el => {
         el.addEventListener('change', updateSummary);
       });
     }
 
     addParticipantBtn.addEventListener('click', addParticipant);
+    
+    // Add event listener for extra donation
+    document.getElementById('extraDonation')!.addEventListener('input', updateSummary);
 
     // Update payment summary
     function updateSummary() {
@@ -435,7 +529,7 @@ const panelLink = locale === 'en' ? '/en/niebocross/panel' : '/niebocross/panel'
 
       document.querySelectorAll('[data-index]').forEach(div => {
         const index = div.getAttribute('data-index');
-        const category = (document.querySelector(`[name="raceCategory_${index}"]`) as HTMLSelectElement)?.value;
+        const category = (document.querySelector(`input[name="raceCategory_${index}"]:checked`) as HTMLInputElement)?.value;
         const tshirt = (document.querySelector(`[name="tshirtSize_${index}"]`) as HTMLSelectElement)?.value;
 
         if (category === 'kids_100m' || category === 'kids_300m') {
@@ -449,8 +543,9 @@ const panelLink = locale === 'en' ? '/en/niebocross/panel' : '/niebocross/panel'
         }
       });
 
-      const totalAmount = raceFees + tshirtFees;
-      const charityAmount = raceFees + (tshirtFees * 10 / 80);
+      const extraDonation = parseInt((document.getElementById('extraDonation') as HTMLInputElement)?.value || '0');
+      const totalAmount = raceFees + tshirtFees + extraDonation;
+      const charityAmount = raceFees + (tshirtFees * 10 / 80) + extraDonation;
 
       document.getElementById('raceFees')!.textContent = `${raceFees} zł`;
       document.getElementById('tshirtFees')!.textContent = `${tshirtFees} zł`;
@@ -463,7 +558,7 @@ const panelLink = locale === 'en' ? '/en/niebocross/panel' : '/niebocross/panel'
       e.preventDefault();
       participantsError.classList.add('hidden');
 
-      const participants: Array<{fullName: string, birthDate: string, city: string, nationality: string, club: string, raceCategory: string, hideNamePublic: boolean, tshirtSize: string, termsAccepted: boolean}> = [];
+      const participants: Array<{fullName: string, birthDate: string, city: string, nationality: string, club: string, raceCategory: string, hideNamePublic: boolean, tshirtSize: string}> = [];
       
       document.querySelectorAll('[data-index]').forEach(div => {
         const index = div.getAttribute('data-index');
@@ -473,12 +568,13 @@ const panelLink = locale === 'en' ? '/en/niebocross/panel' : '/niebocross/panel'
           city: (document.querySelector(`[name="city_${index}"]`) as HTMLInputElement).value,
           nationality: (document.querySelector(`[name="nationality_${index}"]`) as HTMLInputElement).value,
           club: (document.querySelector(`[name="club_${index}"]`) as HTMLInputElement).value || null,
-          raceCategory: (document.querySelector(`[name="raceCategory_${index}"]`) as HTMLSelectElement).value,
+          raceCategory: (document.querySelector(`input[name="raceCategory_${index}"]:checked`) as HTMLInputElement).value,
           tshirtSize: (document.querySelector(`[name="tshirtSize_${index}"]`) as HTMLSelectElement).value || null,
           hideNamePublic: (document.querySelector(`[name="hideNamePublic_${index}"]`) as HTMLInputElement).checked,
-          termsAccepted: (document.querySelector(`[name="termsAccepted_${index}"]`) as HTMLInputElement).checked,
         });
       });
+
+      const extraDonation = parseInt((document.getElementById('extraDonation') as HTMLInputElement).value || '0');
 
       try {
         const response = await fetch(`${API_BASE}/register`, {
@@ -487,13 +583,13 @@ const panelLink = locale === 'en' ? '/en/niebocross/panel' : '/niebocross/panel'
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${sessionToken}`
           },
-          body: JSON.stringify({ participants }),
+          body: JSON.stringify({ participants, extraDonation }),
         });
 
         const data = await response.json();
 
         if (!response.ok) {
-          participantsError.textContent = data.error || 'Wystąpił błąd';
+          participantsError.textContent = data.error || errorMessages.generic;
           participantsError.classList.remove('hidden');
           return;
         }
@@ -503,7 +599,7 @@ const panelLink = locale === 'en' ? '/en/niebocross/panel' : '/niebocross/panel'
         step3.classList.add('hidden');
         step4.classList.remove('hidden');
       } catch {
-        participantsError.textContent = 'Wystąpił błąd połączenia';
+        participantsError.textContent = errorMessages.connection;
         participantsError.classList.remove('hidden');
       }
     });

@@ -26,7 +26,7 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
         </div>
         <button
           id="logoutBtn"
-          class="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+          class="rounded-lg border border-emerald-300 border-2 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
         >
           {t("niebocross.dashboard.logout")}
         </button>
@@ -72,7 +72,7 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
                 type="text"
                 id="editFullName"
                 required
-                class="mt-1 block w-full rounded-lg border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
+                class="mt-1 block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2"
               />
             </div>
 
@@ -85,7 +85,7 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
                   type="date"
                   id="editBirthDate"
                   required
-                  class="mt-1 block w-full rounded-lg border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
+                  class="mt-1 block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2"
                 />
               </div>
               <div>
@@ -96,7 +96,7 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
                   type="text"
                   id="editCity"
                   required
-                  class="mt-1 block w-full rounded-lg border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
+                  class="mt-1 block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2"
                 />
               </div>
               <div>
@@ -107,7 +107,7 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
                   type="text"
                   id="editNationality"
                   required
-                  class="mt-1 block w-full rounded-lg border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
+                  class="mt-1 block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2"
                 />
               </div>
               <div>
@@ -117,7 +117,7 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
                 <input
                   type="text"
                   id="editClub"
-                  class="mt-1 block w-full rounded-lg border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
+                  class="mt-1 block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2"
                 />
               </div>
               <div>
@@ -127,7 +127,7 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
                 <select
                   id="editRaceCategory"
                   required
-                  class="mt-1 block w-full rounded-lg border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
+                  class="mt-1 block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2"
                 >
                   <option value="">Wybierz kategorię</option>
                   <option value="3km_run">3km - Bieg</option>
@@ -144,7 +144,7 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
                 </label>
                 <select
                   id="editTshirtSize"
-                  class="mt-1 block w-full rounded-lg border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
+                  class="mt-1 block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
                 >
                   <option value="">Bez koszulki</option>
                   <option value="XS">XS</option>
@@ -162,7 +162,7 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
                 <input
                   type="checkbox"
                   id="editHideNamePublic"
-                  class="mt-1 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500"
+                  class="mt-1 rounded border-emerald-300 border-2 text-emerald-600 focus:ring-emerald-500"
                 />
                 <span class="text-sm text-slate-700">{t("niebocross.form.hide_name_public")}</span>
               </label>
@@ -180,7 +180,7 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
               <button
                 type="button"
                 id="cancelEdit"
-                class="rounded-lg border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 transition hover:bg-slate-50"
+                class="rounded-lg border border-emerald-300 border-2 bg-white px-6 py-3 font-semibold text-slate-700 transition hover:bg-slate-50"
               >
                 {t("niebocross.form.cancel")}
               </button>
@@ -191,7 +191,15 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
     </div>
   </div>
 
-  <script>
+  <script define:vars={{
+    errorMessages: {
+      load: t("niebocross.errors.load_error"),
+      update: t("niebocross.errors.update_error"),
+      delete: t("niebocross.errors.delete_error"),
+      connection: t("niebocross.errors.connection_error"),
+      generic: t("niebocross.errors.generic_error")
+    }
+  }}>
     const API_BASE = '/api/niebocross';
 
     let canEdit = false;
@@ -226,7 +234,7 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
         renderDashboard();
       } catch (error) {
         console.error('Error loading dashboard:', error);
-        alert('Wystąpił błąd podczas ładowania danych');
+        alert(errorMessages.load);
       }
     }
 
@@ -316,7 +324,7 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
               ${canEdit ? `
                 <div class="flex gap-2">
                   <button 
-                    class="edit-btn rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+                    class="edit-btn rounded-lg border border-emerald-300 border-2 bg-white px-3 py-1.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
                     data-id="${p.id}"
                     data-participant='${JSON.stringify(p)}'
                   >
@@ -425,7 +433,7 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
         const data = await response.json();
 
         if (!response.ok) {
-          errorDiv.textContent = data.error || 'Wystąpił błąd';
+          errorDiv.textContent = errorMessages[data.error] || errorMessages.update;
           errorDiv.classList.remove('hidden');
           return;
         }
@@ -433,7 +441,7 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
         closeEditModal();
         await loadDashboard();
       } catch {
-        errorDiv.textContent = 'Wystąpił błąd połączenia';
+        errorDiv.textContent = errorMessages.connection;
         errorDiv.classList.remove('hidden');
       }
     });
@@ -450,13 +458,13 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
         const data = await response.json();
 
         if (!response.ok) {
-          alert(data.error || 'Wystąpił błąd');
+          alert(errorMessages[data.error] || errorMessages.delete);
           return;
         }
 
         await loadDashboard();
       } catch {
-        alert('Wystąpił błąd połączenia');
+        alert(errorMessages.connection);
       }
     }
 
