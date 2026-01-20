@@ -13,9 +13,10 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  // Clear the session cookie
+  // Clear the session cookies
   res.setHeader('Set-Cookie', [
-    `niebocross_session=; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=0`
+    `niebocross_session=; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=0`,
+    `niebocross_auth_status=; Path=/; Secure; SameSite=Strict; Max-Age=0`
   ]);
 
   return res.status(200).json({

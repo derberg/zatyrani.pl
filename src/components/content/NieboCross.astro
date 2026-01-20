@@ -573,7 +573,10 @@ const locationName = "Nieborowice";
   </div>
 </section>
 
-<script>
+<script define:vars={{
+  panelTitle: t("niebocross.dashboard.title"),
+  participantsListBtn: t("niebocross.participants_list_btn")
+}}>
   document.addEventListener('DOMContentLoaded', () => {
     // Feature flag for registration buttons
     const urlParams = new URLSearchParams(window.location.search);
@@ -582,8 +585,33 @@ const locationName = "Nieborowice";
     const registrationButtons = document.getElementById('registration-buttons');
     const registerSoonButton = document.getElementById('register-soon-button');
     
+    // Check if user is authenticated by checking the auth status cookie
+    const cookies = document.cookie.split(';').map(c => c.trim());
+    const authStatusCookie = cookies.find(c => c.startsWith('niebocross_auth_status='));
+    const isAuthenticated = authStatusCookie && authStatusCookie.split('=')[1] === 'true';
+    
     if (registrationEnabled) {
-      if (registrationButtons) registrationButtons.style.display = '';
+      if (registrationButtons) {
+        // Show different buttons based on authentication status
+        if (isAuthenticated) {
+          // Show panel button for authenticated users
+          registrationButtons.innerHTML = `
+            <a
+              href="/niebocross/panel"
+              class="inline-flex items-center justify-center rounded-full bg-emerald-500 px-6 py-3 text-base font-semibold text-slate-900 shadow-lg shadow-emerald-500/30 transition hover:-translate-y-0.5 hover:bg-emerald-400"
+            >
+              ${panelTitle}
+            </a>
+            <a
+              href="/niebocross/lista"
+              class="inline-flex items-center justify-center rounded-full border-2 border-slate-300 bg-white px-6 py-3 text-base font-semibold text-slate-700 shadow-lg transition hover:-translate-y-0.5 hover:bg-slate-50"
+            >
+              ${participantsListBtn}
+            </a>
+          `;
+        }
+        registrationButtons.style.display = '';
+      }
       if (registerSoonButton) registerSoonButton.style.display = 'none';
     } else {
       if (registrationButtons) registrationButtons.style.display = 'none';

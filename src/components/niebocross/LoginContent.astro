@@ -128,8 +128,8 @@ const emailPlaceholder = locale === 'en' ? 'your@email.com' : 'twoj@email.pl';
 
   // Check if already logged in
   const cookies = document.cookie.split(';').map(c => c.trim());
-  const sessionCookie = cookies.find(c => c.startsWith('niebocross_session='));
-  if (sessionCookie) {
+  const authStatusCookie = cookies.find(c => c.startsWith('niebocross_auth_status='));
+  if (authStatusCookie && authStatusCookie.split('=')[1] === 'true') {
     window.location.href = panelLink;
   }
 

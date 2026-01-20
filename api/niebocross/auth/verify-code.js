@@ -97,9 +97,10 @@ export default async function handler(req, res) {
       { expiresIn: '180d' }
     );
 
-    // Set HTTP-only cookie
+    // Set HTTP-only cookie and status cookie
     res.setHeader('Set-Cookie', [
-      `niebocross_session=${sessionToken}; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=${180 * 24 * 60 * 60}`
+      `niebocross_session=${sessionToken}; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=${180 * 24 * 60 * 60}`,
+      `niebocross_auth_status=true; Path=/; Secure; SameSite=Strict; Max-Age=${180 * 24 * 60 * 60}`
     ]);
 
     return res.status(200).json({

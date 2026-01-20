@@ -207,9 +207,9 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
 
     // Check authentication
     const cookies = document.cookie.split(';').map(c => c.trim());
-    const sessionCookie = cookies.find(c => c.startsWith('niebocross_session='));
+    const authStatusCookie = cookies.find(c => c.startsWith('niebocross_auth_status='));
     
-    if (!sessionCookie) {
+    if (!authStatusCookie || authStatusCookie.split('=')[1] !== 'true') {
       window.location.href = '/niebocross/zaloguj';
     }
 
