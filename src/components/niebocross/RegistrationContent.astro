@@ -13,3 +13,498 @@ const emailPlaceholder = locale === 'en' ? 'your@email.pl' : 'twoj@email.pl';
 const namePlaceholder = locale === 'en' ? 'John Doe' : 'Jan Kowalski';
 const panelLink = locale === 'en' ? '/en/niebocross/panel' : '/niebocross/panel';
 ---
+
+  <div class="mx-auto max-w-4xl px-6 py-12">
+    <!-- Step 1: Email Verification -->
+    <div id="step1" class="space-y-6">
+      <div class="text-center">
+        <h2 class="text-3xl font-bold text-slate-900">{t("niebocross.registration.email_step_title")}</h2>
+        <p class="mt-2 text-slate-600">{t("niebocross.registration.email_step_desc")}</p>
+      </div>
+
+      <div class="mx-auto max-w-md rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+        <form id="emailForm" class="space-y-4">
+          <div>
+            <label for="email" class="block text-sm font-semibold text-slate-700">
+              {t("niebocross.form.email")} <span class="text-red-600">*</span>
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              required
+              class="mt-1 block w-full rounded-lg border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
+              placeholder="twoj@email.pl"
+            />
+          </div>
+
+          <div>
+            <label for="fullName" class="block text-sm font-semibold text-slate-700">
+              {t("niebocross.form.contact_person")} <span class="text-red-600">*</span>
+            </label>
+            <p class="text-xs text-slate-500">{t("niebocross.form.contact_person_desc")}</p>
+            <input
+              type="text"
+              id="fullName"
+              name="fullName"
+              required
+              class="mt-1 block w-full rounded-lg border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
+              placeholder="Jan Kowalski"
+            />
+          </div>
+
+          <div class="flex items-start gap-2">
+            <input
+              type="checkbox"
+              id="rodoAccepted"
+              name="rodoAccepted"
+              required
+              class="mt-1 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500"
+            />
+            <label for="rodoAccepted" class="text-sm text-slate-700">
+              {t("niebocross.form.rodo_consent")} <span class="text-red-600">*</span>
+            </label>
+          </div>
+
+          <!-- Honeypot field - hidden from humans, bots will fill it -->
+          <div class="absolute -left-full -top-full opacity-0 pointer-events-none overflow-hidden h-0 w-0" aria-hidden="true">
+            <label for="website">Website</label>
+            <input
+              type="text"
+              id="website"
+              name="website"
+              tabindex="-1"
+              autocomplete="off"
+            />
+          </div>
+
+          <div id="emailError" class="hidden rounded-lg bg-red-50 p-3 text-sm text-red-700"></div>
+
+          <button
+            type="submit"
+            class="w-full rounded-lg bg-emerald-600 px-6 py-3 font-semibold text-white transition hover:bg-emerald-700 disabled:bg-slate-300"
+            id="emailSubmitBtn"
+          >
+            {t("niebocross.form.send_code")}
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Step 2: Code Verification -->
+    <div id="step2" class="hidden space-y-6">
+      <div class="text-center">
+        <h2 class="text-3xl font-bold text-slate-900">{t("niebocross.registration.code_step_title")}</h2>
+        <p class="mt-2 text-slate-600">{t("niebocross.registration.code_step_desc")}</p>
+      </div>
+
+      <div class="mx-auto max-w-md rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+        <form id="codeForm" class="space-y-4">
+          <div>
+            <label for="code" class="block text-sm font-semibold text-slate-700">
+              {t("niebocross.form.verification_code")} <span class="text-red-600">*</span>
+            </label>
+            <input
+              type="text"
+              id="code"
+              name="code"
+              required
+              maxlength="6"
+              pattern="[0-9]{6}"
+              class="mt-1 block w-full rounded-lg border-slate-300 text-center text-2xl font-bold tracking-widest shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
+              placeholder="000000"
+            />
+          </div>
+
+          <div id="codeError" class="hidden rounded-lg bg-red-50 p-3 text-sm text-red-700"></div>
+
+          <button
+            type="submit"
+            class="w-full rounded-lg bg-emerald-600 px-6 py-3 font-semibold text-white transition hover:bg-emerald-700 disabled:bg-slate-300"
+            id="codeSubmitBtn"
+          >
+            {t("niebocross.form.verify_code")}
+          </button>
+
+          <button
+            type="button"
+            id="backToEmail"
+            class="w-full rounded-lg border border-slate-300 bg-white px-6 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+          >
+            ← {t("niebocross.form.back_to_email")}
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Step 3: Add Participants -->
+    <div id="step3" class="hidden space-y-6">
+      <div class="text-center">
+        <h2 class="text-3xl font-bold text-slate-900">{t("niebocross.registration.participants_step_title")}</h2>
+        <p class="mt-2 text-slate-600">{t("niebocross.registration.participants_step_desc")}</p>
+      </div>
+
+      <div class="grid gap-6 lg:grid-cols-[1fr_300px]">
+        <div class="space-y-6">
+          <form id="participantsForm" class="space-y-6">
+            <div id="participantsContainer"></div>
+
+            <button
+              type="button"
+              id="addParticipantBtn"
+              class="rounded-lg border-2 border-dashed border-emerald-300 bg-emerald-50 px-6 py-3 font-semibold text-emerald-700 transition hover:border-emerald-400 hover:bg-emerald-100"
+            >
+              + {t("niebocross.form.add_participant")}
+            </button>
+
+            <div id="participantsError" class="hidden rounded-lg bg-red-50 p-3 text-sm text-red-700"></div>
+
+            <button
+              type="submit"
+              class="w-full rounded-lg bg-emerald-600 px-6 py-3 font-semibold text-white transition hover:bg-emerald-700 disabled:bg-slate-300"
+              id="participantsSubmitBtn"
+            >
+              {t("niebocross.form.proceed_to_payment")}
+            </button>
+          </form>
+        </div>
+
+        <div class="lg:sticky lg:top-6 lg:self-start">
+          <RegistrationSummary t={t} />
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 4: Payment -->
+    <div id="step4" class="hidden space-y-6">
+      <div class="text-center">
+        <h2 class="text-3xl font-bold text-slate-900">{t("niebocross.registration.payment_step_title")}</h2>
+        <p class="mt-2 text-slate-600">{t("niebocross.registration.payment_step_desc")}</p>
+      </div>
+
+      <div class="mx-auto max-w-md rounded-xl border border-emerald-200 bg-white p-6 shadow-sm">
+        <div class="mb-4 text-center">
+          <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-100">
+            <svg class="h-8 w-8 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+          </div>
+          <p class="text-sm text-slate-600">{t("niebocross.registration.payment_link_sent")}</p>
+        </div>
+
+        <a
+          id="paymentLink"
+          href="#"
+          class="block w-full rounded-lg bg-emerald-600 px-6 py-3 text-center font-semibold text-white transition hover:bg-emerald-700"
+        >
+          {t("niebocross.form.pay_now")}
+        </a>
+
+        <p class="mt-4 text-center text-sm text-slate-600">
+          {t("niebocross.registration.or_access_later")} 
+          <a href="/niebocross/panel" class="font-semibold text-emerald-600 hover:underline">
+            {t("niebocross.registration.your_panel")}
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // API Base URL
+    const API_BASE = '/api/niebocross';
+
+    // State
+    let currentEmail = '';
+    let sessionToken = '';
+
+    // DOM Elements
+    const step1 = document.getElementById('step1')!;
+    const step2 = document.getElementById('step2')!;
+    const step3 = document.getElementById('step3')!;
+    const step4 = document.getElementById('step4')!;
+    const emailForm = document.getElementById('emailForm') as HTMLFormElement;
+    const codeForm = document.getElementById('codeForm') as HTMLFormElement;
+    const participantsForm = document.getElementById('participantsForm') as HTMLFormElement;
+    const emailError = document.getElementById('emailError')!;
+    const codeError = document.getElementById('codeError')!;
+    const participantsError = document.getElementById('participantsError')!;
+    const backToEmailBtn = document.getElementById('backToEmail')!;
+    const addParticipantBtn = document.getElementById('addParticipantBtn')!;
+    const participantsContainer = document.getElementById('participantsContainer')!;
+    const paymentLink = document.getElementById('paymentLink') as HTMLAnchorElement;
+
+    let participantCount = 0;
+
+    // Check if already logged in
+    const cookies = document.cookie.split(';').map(c => c.trim());
+    const sessionCookie = cookies.find(c => c.startsWith('niebocross_session='));
+    if (sessionCookie) {
+      window.location.href = '/niebocross/panel';
+    }
+
+    // Step 1: Email submission
+    emailForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      emailError.classList.add('hidden');
+      
+      const formData = new FormData(emailForm);
+      const email = formData.get('email') as string;
+      const fullName = formData.get('fullName') as string;
+      const rodoAccepted = formData.get('rodoAccepted') === 'on';
+      const website = formData.get('website') as string || '';
+
+      currentEmail = email;
+
+      try {
+        const response = await fetch(`${API_BASE}/auth/start-registration`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, fullName, rodoAccepted, website }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          emailError.textContent = data.error || 'Wystąpił błąd';
+          emailError.classList.remove('hidden');
+          return;
+        }
+
+        // Move to step 2
+        step1.classList.add('hidden');
+        step2.classList.remove('hidden');
+      } catch {
+        emailError.textContent = 'Wystąpił błąd połączenia';
+        emailError.classList.remove('hidden');
+      }
+    });
+
+    // Back to email
+    backToEmailBtn.addEventListener('click', () => {
+      step2.classList.add('hidden');
+      step1.classList.remove('hidden');
+      codeError.classList.add('hidden');
+    });
+
+    // Step 2: Code verification
+    codeForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      codeError.classList.add('hidden');
+
+      const formData = new FormData(codeForm);
+      const code = formData.get('code') as string;
+
+      try {
+        const response = await fetch(`${API_BASE}/auth/verify-code`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: currentEmail, code }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          codeError.textContent = data.error || 'Nieprawidłowy kod';
+          codeError.classList.remove('hidden');
+          return;
+        }
+
+        sessionToken = data.token;
+
+        // Move to step 3
+        step2.classList.add('hidden');
+        step3.classList.remove('hidden');
+        addParticipant(); // Add first participant
+      } catch {
+        codeError.textContent = 'Wystąpił błąd połączenia';
+        codeError.classList.remove('hidden');
+      }
+    });
+
+    // Add participant form
+    function addParticipant() {
+      participantCount++;
+      const participantDiv = document.createElement('div');
+      participantDiv.className = 'rounded-xl border border-slate-200 bg-white p-6 shadow-sm';
+      participantDiv.dataset.index = String(participantCount);
+      
+      participantDiv.innerHTML = `
+        <div class="mb-4 flex items-center justify-between">
+          <h3 class="text-lg font-bold text-slate-900">Uczestnik ${participantCount}</h3>
+          ${participantCount > 1 ? `<button type="button" class="remove-participant text-sm text-red-600 hover:underline" data-index="${participantCount}">Usuń</button>` : ''}
+        </div>
+        <div class="grid gap-4 sm:grid-cols-2">
+          <div class="sm:col-span-2">
+            <label class="block text-sm font-semibold text-slate-700">
+              Imię i nazwisko <span class="text-red-600">*</span>
+            </label>
+            <input type="text" name="fullName_${participantCount}" required class="mt-1 block w-full rounded-lg border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500" />
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-slate-700">
+              Data urodzenia <span class="text-red-600">*</span>
+            </label>
+            <input type="date" name="birthDate_${participantCount}" required class="mt-1 block w-full rounded-lg border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500" />
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-slate-700">
+              Miejscowość <span class="text-red-600">*</span>
+            </label>
+            <input type="text" name="city_${participantCount}" required class="mt-1 block w-full rounded-lg border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500" />
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-slate-700">
+              Narodowość <span class="text-red-600">*</span>
+            </label>
+            <input type="text" name="nationality_${participantCount}" required value="Polska" class="mt-1 block w-full rounded-lg border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500" />
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-slate-700">
+              Klub (opcjonalnie)
+            </label>
+            <input type="text" name="club_${participantCount}" class="mt-1 block w-full rounded-lg border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500" />
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-slate-700">
+              Kategoria biegu <span class="text-red-600">*</span>
+            </label>
+            <select name="raceCategory_${participantCount}" required class="mt-1 block w-full rounded-lg border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 race-category">
+              <option value="">Wybierz kategorię</option>
+              <option value="3km_run">3km - Bieg</option>
+              <option value="3km_nw">3km - Nordic Walking</option>
+              <option value="9km_run">9km - Bieg</option>
+              <option value="9km_nw">9km - Nordic Walking</option>
+              <option value="kids_100m">Dzieci - 100m</option>
+              <option value="kids_300m">Dzieci - 300m</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-slate-700">
+              Rozmiar koszulki (opcjonalnie, +80 zł)
+            </label>
+            <select name="tshirtSize_${participantCount}" class="mt-1 block w-full rounded-lg border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 tshirt-size">
+              <option value="">Bez koszulki</option>
+              <option value="XS">XS</option>
+              <option value="S">S</option>
+              <option value="M">M</option>
+              <option value="L">L</option>
+              <option value="XL">XL</option>
+              <option value="XXL">XXL</option>
+            </select>
+          </div>
+          <div class="sm:col-span-2">
+            <label class="flex items-start gap-2">
+              <input type="checkbox" name="hideNamePublic_${participantCount}" class="mt-1 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500" />
+              <span class="text-sm text-slate-700">Ukryj moje nazwisko na publicznej liście uczestników</span>
+            </label>
+          </div>
+          <div class="sm:col-span-2">
+            <label class="flex items-start gap-2">
+              <input type="checkbox" name="termsAccepted_${participantCount}" required class="mt-1 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500" />
+              <span class="text-sm text-slate-700">Akceptuję regulamin <span class="text-red-600">*</span></span>
+            </label>
+          </div>
+        </div>
+      `;
+
+      participantsContainer.appendChild(participantDiv);
+      updateSummary();
+
+      // Add event listeners for remove buttons
+      const removeBtn = participantDiv.querySelector('.remove-participant');
+      if (removeBtn) {
+        removeBtn.addEventListener('click', () => {
+          participantDiv.remove();
+          updateSummary();
+        });
+      }
+
+      // Add event listeners for category and tshirt changes
+      participantDiv.querySelectorAll('.race-category, .tshirt-size').forEach(el => {
+        el.addEventListener('change', updateSummary);
+      });
+    }
+
+    addParticipantBtn.addEventListener('click', addParticipant);
+
+    // Update payment summary
+    function updateSummary() {
+      let raceFees = 0;
+      let tshirtFees = 0;
+
+      document.querySelectorAll('[data-index]').forEach(div => {
+        const index = div.getAttribute('data-index');
+        const category = (document.querySelector(`[name="raceCategory_${index}"]`) as HTMLSelectElement)?.value;
+        const tshirt = (document.querySelector(`[name="tshirtSize_${index}"]`) as HTMLSelectElement)?.value;
+
+        if (category === 'kids_100m' || category === 'kids_300m') {
+          raceFees += 20;
+        } else if (category) {
+          raceFees += 60;
+        }
+
+        if (tshirt) {
+          tshirtFees += 80;
+        }
+      });
+
+      const totalAmount = raceFees + tshirtFees;
+      const charityAmount = raceFees + (tshirtFees * 10 / 80);
+
+      document.getElementById('raceFees')!.textContent = `${raceFees} zł`;
+      document.getElementById('tshirtFees')!.textContent = `${tshirtFees} zł`;
+      document.getElementById('totalAmount')!.textContent = `${totalAmount} zł`;
+      document.getElementById('charityAmount')!.textContent = `${charityAmount.toFixed(2)} zł`;
+    }
+
+    // Step 3: Submit participants
+    participantsForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      participantsError.classList.add('hidden');
+
+      const participants: Array<{fullName: string, birthDate: string, city: string, nationality: string, club: string, raceCategory: string, hideNamePublic: boolean, tshirtSize: string, termsAccepted: boolean}> = [];
+      
+      document.querySelectorAll('[data-index]').forEach(div => {
+        const index = div.getAttribute('data-index');
+        participants.push({
+          fullName: (document.querySelector(`[name="fullName_${index}"]`) as HTMLInputElement).value,
+          birthDate: (document.querySelector(`[name="birthDate_${index}"]`) as HTMLInputElement).value,
+          city: (document.querySelector(`[name="city_${index}"]`) as HTMLInputElement).value,
+          nationality: (document.querySelector(`[name="nationality_${index}"]`) as HTMLInputElement).value,
+          club: (document.querySelector(`[name="club_${index}"]`) as HTMLInputElement).value || null,
+          raceCategory: (document.querySelector(`[name="raceCategory_${index}"]`) as HTMLSelectElement).value,
+          tshirtSize: (document.querySelector(`[name="tshirtSize_${index}"]`) as HTMLSelectElement).value || null,
+          hideNamePublic: (document.querySelector(`[name="hideNamePublic_${index}"]`) as HTMLInputElement).checked,
+          termsAccepted: (document.querySelector(`[name="termsAccepted_${index}"]`) as HTMLInputElement).checked,
+        });
+      });
+
+      try {
+        const response = await fetch(`${API_BASE}/register`, {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${sessionToken}`
+          },
+          body: JSON.stringify({ participants }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          participantsError.textContent = data.error || 'Wystąpił błąd';
+          participantsError.classList.remove('hidden');
+          return;
+        }
+
+        // Move to step 4
+        paymentLink.href = data.paymentLink;
+        step3.classList.add('hidden');
+        step4.classList.remove('hidden');
+      } catch {
+        participantsError.textContent = 'Wystąpił błąd połączenia';
+        participantsError.classList.remove('hidden');
+      }
+    });
+  </script>
