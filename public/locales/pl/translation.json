@@ -265,6 +265,7 @@
     "errors": {
       "email_required": "Email i imię są wymagane",
       "email_invalid": "Nieprawidłowy format email",
+      "rodo_required": "Musisz zaakceptować zgodę RODO",
       "terms_required": "Musisz zaakceptować regulamin wydarzenia",
       "email_exists": "Ten email jest już zarejestrowany. Użyj przycisku 'Zaloguj się' aby uzyskać dostęp do swojej rejestracji.",
       "db_error": "Wystąpił problem techniczny. Skontaktuj się z organizatorem: https://zatyrani.pl/niebocross#kontakt",
@@ -312,6 +313,7 @@
       "email": "Adres email",
       "contact_person": "Imię i nazwisko osoby kontaktowej",
       "contact_person_desc": "To będzie główna osoba kontaktowa dla tej rejestracji",
+      "rodo_consent": "Oświadczam, że wyrażam zgodę na przetwarzanie moich danych osobowych przez Organizatora imprezy (Stowarzyszenie Zatyrani) dla celów związanych z organizacją, przygotowaniem i przeprowadzeniem imprezy. Jednocześnie oświadczam, że wyrażam zgodę na przesyłanie przez Organizatora, na mój adres e-mail informacji dotyczących tej imprezy. Oświadczam również, że wszystkie podane przeze mnie dane i informacje, związane z moim udziałem w imprezie są zgodne z prawdą i stanem faktycznym. (w imieniu osób niepełnoletnich oświadczenie składa rodzic / pełnoletni opiekun).",
       "terms_consent": "Akceptuję",
       "terms_link": "regulamin wydarzenia",
       "send_code": "Wyślij kod weryfikacyjny",

@@ -38,7 +38,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { email, fullName, termsAccepted, website } = req.body;
+    const { email, fullName, rodoAccepted, termsAccepted, website } = req.body;
 
     // Honeypot check - if website field is filled, it's a bot
     if (website) {
@@ -61,6 +61,13 @@ export default async function handler(req, res) {
       return res.status(400).json({ 
         success: false,
         error: "EMAIL_INVALID"
+      });
+    }
+
+    if (!rodoAccepted) {
+      return res.status(400).json({ 
+        success: false,
+        error: "RODO_REQUIRED"
       });
     }
 

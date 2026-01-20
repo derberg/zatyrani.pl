@@ -56,6 +56,19 @@ const panelLink = locale === 'en' ? '/en/niebocross/panel' : '/niebocross/panel'
           <div class="flex items-start gap-2">
             <input
               type="checkbox"
+              id="rodoAccepted"
+              name="rodoAccepted"
+              required
+              class="mt-1 rounded border-emerald-300 border-2 text-emerald-600 focus:ring-emerald-500"
+            />
+            <label for="rodoAccepted" class="text-sm text-slate-700">
+              {t("niebocross.form.rodo_consent")} <span class="text-red-600">*</span>
+            </label>
+          </div>
+
+          <div class="flex items-start gap-2">
+            <input
+              type="checkbox"
               id="termsAccepted"
               name="termsAccepted"
               required
@@ -231,6 +244,7 @@ const panelLink = locale === 'en' ? '/en/niebocross/panel' : '/niebocross/panel'
       EMAIL_EXISTS: t("niebocross.errors.email_exists"),
       EMAIL_REQUIRED: t("niebocross.errors.email_required"),
       EMAIL_INVALID: t("niebocross.errors.email_invalid"),
+      RODO_REQUIRED: t("niebocross.errors.rodo_required"),
       TERMS_REQUIRED: t("niebocross.errors.terms_required"),
       INVALID_CODE: t("niebocross.errors.invalid_code"),
       CODE_EXPIRED: t("niebocross.errors.code_expired"),
@@ -270,6 +284,7 @@ const panelLink = locale === 'en' ? '/en/niebocross/panel' : '/niebocross/panel'
     const emailSubmitBtn = document.getElementById('emailSubmitBtn') as HTMLButtonElement;
     const emailInput = document.getElementById('email') as HTMLInputElement;
     const fullNameInput = document.getElementById('fullName') as HTMLInputElement;
+    const rodoCheckbox = document.getElementById('rodoAccepted') as HTMLInputElement;
     const termsCheckbox = document.getElementById('termsAccepted') as HTMLInputElement;
 
     let participantCount = 0;
@@ -285,6 +300,7 @@ const panelLink = locale === 'en' ? '/en/niebocross/panel' : '/niebocross/panel'
     function validateEmailForm() {
       const isValid = emailInput.value.trim() !== '' && 
                       fullNameInput.value.trim() !== '' &&
+                      rodoCheckbox.checked &&
                       termsCheckbox.checked;
       emailSubmitBtn.disabled = !isValid;
     }
@@ -292,6 +308,7 @@ const panelLink = locale === 'en' ? '/en/niebocross/panel' : '/niebocross/panel'
     // Add event listeners to form fields
     emailInput.addEventListener('input', validateEmailForm);
     fullNameInput.addEventListener('input', validateEmailForm);
+    rodoCheckbox.addEventListener('change', validateEmailForm);
     termsCheckbox.addEventListener('change', validateEmailForm);
 
     // Step 1: Email submission
@@ -302,10 +319,11 @@ const panelLink = locale === 'en' ? '/en/niebocross/panel' : '/niebocross/panel'
       const formData = new FormData(emailForm);
       const email = formData.get('email') as string;
       const fullName = formData.get('fullName') as string;
+      const rodoAccepted = formData.get('rodoAccepted') === 'on';
       const termsAccepted = formData.get('termsAccepted') === 'on';
       const website = formData.get('website') as string || '';
 
-      console.log('Form submitted:', { email, fullName, termsAccepted });
+      console.log('Form submitted:', { email, fullName, rodoAccepted, termsAccepted });
 
       currentEmail = email;
 
@@ -314,7 +332,7 @@ const panelLink = locale === 'en' ? '/en/niebocross/panel' : '/niebocross/panel'
         const response = await fetch(`${API_BASE}/auth/start-registration`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, fullName, termsAccepted, website }),
+          body: JSON.stringify({ email, fullName, rodoAccepted, termsAccepted, website }),
         });
 
         console.log('Response status:', response.status);
