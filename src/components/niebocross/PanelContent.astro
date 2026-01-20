@@ -269,7 +269,7 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
     }
 
     function renderPaymentStatus() {
-      const statusDiv = document.getElementById('paymentStatus')!;
+      const statusDiv = document.getElementById('paymentStatus');
       const payment = dashboardData.payment;
 
       if (!payment) {
@@ -309,7 +309,7 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
     }
 
     function renderParticipants() {
-      const listDiv = document.getElementById('participantsList')!;
+      const listDiv = document.getElementById('participantsList');
       const participants = dashboardData.participants;
 
       if (participants.length === 0) {
@@ -317,7 +317,7 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
         return;
       }
 
-      listDiv.innerHTML = participants.map((p: {id: string, fullName: string, birthDate: string, city: string, nationality: string, club: string | null, raceCategory: string, hideNamePublic: boolean, tshirtSize: string | null}) => {
+      listDiv.innerHTML = participants.map((p) => {
         const categoryLabel = getCategoryLabel(p.raceCategory);
         return `
           <div class="rounded-lg border border-slate-200 bg-slate-50 p-4">
@@ -358,14 +358,14 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
       if (canEdit) {
         document.querySelectorAll('.edit-btn').forEach(btn => {
           btn.addEventListener('click', (e) => {
-            const participant = JSON.parse((e.target as HTMLElement).getAttribute('data-participant')!);
+            const participant = JSON.parse(e.target.getAttribute('data-participant'));
             openEditModal(participant);
           });
         });
 
         document.querySelectorAll('.delete-btn').forEach(btn => {
           btn.addEventListener('click', async (e) => {
-            const id = (e.target as HTMLElement).getAttribute('data-id')!;
+            const id = e.target.getAttribute('data-id');
             if (confirm('Czy na pewno chcesz usunąć tego uczestnika?')) {
               await deleteParticipant(id);
             }
@@ -387,21 +387,21 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
     }
 
     // Edit modal
-    const editModal = document.getElementById('editModal')!;
-    const editForm = document.getElementById('editForm') as HTMLFormElement;
-    const closeModalBtn = document.getElementById('closeModal')!;
-    const cancelEditBtn = document.getElementById('cancelEdit')!;
+    const editModal = document.getElementById('editModal');
+    const editForm = document.getElementById('editForm');
+    const closeModalBtn = document.getElementById('closeModal');
+    const cancelEditBtn = document.getElementById('cancelEdit');
 
-    function openEditModal(participant: {id: string, fullName: string, birthDate: string, city: string, nationality: string, club: string | null, raceCategory: string, hideNamePublic: boolean, tshirtSize: string | null}) {
-      (document.getElementById('editParticipantId') as HTMLInputElement).value = participant.id;
-      (document.getElementById('editFullName') as HTMLInputElement).value = participant.fullName;
-      (document.getElementById('editBirthDate') as HTMLInputElement).value = participant.birthDate;
-      (document.getElementById('editCity') as HTMLInputElement).value = participant.city;
-      (document.getElementById('editNationality') as HTMLInputElement).value = participant.nationality;
-      (document.getElementById('editClub') as HTMLInputElement).value = participant.club || '';
-      (document.getElementById('editRaceCategory') as HTMLSelectElement).value = participant.raceCategory;
-      (document.getElementById('editTshirtSize') as HTMLSelectElement).value = participant.tshirtSize || '';
-      (document.getElementById('editHideNamePublic') as HTMLInputElement).checked = participant.hideNamePublic;
+    function openEditModal(participant) {
+      document.getElementById('editParticipantId').value = participant.id;
+      document.getElementById('editFullName').value = participant.fullName;
+      document.getElementById('editBirthDate').value = participant.birthDate;
+      document.getElementById('editCity').value = participant.city;
+      document.getElementById('editNationality').value = participant.nationality;
+      document.getElementById('editClub').value = participant.club || '';
+      document.getElementById('editRaceCategory').value = participant.raceCategory;
+      document.getElementById('editTshirtSize').value = participant.tshirtSize || '';
+      document.getElementById('editHideNamePublic').checked = participant.hideNamePublic;
 
       editModal.classList.remove('hidden');
       editModal.classList.add('flex');
@@ -418,19 +418,19 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
 
     editForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const errorDiv = document.getElementById('editError')!;
+      const errorDiv = document.getElementById('editError');
       errorDiv.classList.add('hidden');
 
-      const participantId = (document.getElementById('editParticipantId') as HTMLInputElement).value;
+      const participantId = document.getElementById('editParticipantId').value;
       const participant = {
-        fullName: (document.getElementById('editFullName') as HTMLInputElement).value,
-        birthDate: (document.getElementById('editBirthDate') as HTMLInputElement).value,
-        city: (document.getElementById('editCity') as HTMLInputElement).value,
-        nationality: (document.getElementById('editNationality') as HTMLInputElement).value,
-        club: (document.getElementById('editClub') as HTMLInputElement).value || null,
-        raceCategory: (document.getElementById('editRaceCategory') as HTMLSelectElement).value,
-        tshirtSize: (document.getElementById('editTshirtSize') as HTMLSelectElement).value || null,
-        hideNamePublic: (document.getElementById('editHideNamePublic') as HTMLInputElement).checked,
+        fullName: document.getElementById('editFullName').value,
+        birthDate: document.getElementById('editBirthDate').value,
+        city: document.getElementById('editCity').value,
+        nationality: document.getElementById('editNationality').value,
+        club: document.getElementById('editClub').value || null,
+        raceCategory: document.getElementById('editRaceCategory').value,
+        tshirtSize: document.getElementById('editTshirtSize').value || null,
+        hideNamePublic: document.getElementById('editHideNamePublic').checked,
       };
 
       try {
