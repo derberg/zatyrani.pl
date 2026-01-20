@@ -242,19 +242,19 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
       } catch (error) {
         console.error('Error loading dashboard:', error);
         if (error.name === 'AbortError') {
-          document.getElementById('loadingText')!.textContent = 'Przekroczono czas oczekiwania. Spróbuj odświeżyć stronę.';
+          document.getElementById('loadingText').textContent = 'Przekroczono czas oczekiwania. Spróbuj odświeżyć stronę.';
         } else {
-          document.getElementById('loadingText')!.textContent = errorMessages.load;
+          document.getElementById('loadingText').textContent = errorMessages.load;
         }
       }
     }
 
     function renderDashboard() {
-      document.getElementById('loading')!.classList.add('hidden');
-      document.getElementById('content')!.classList.remove('hidden');
+      document.getElementById('loading').classList.add('hidden');
+      document.getElementById('content').classList.remove('hidden');
 
       // Display email
-      document.getElementById('emailDisplay')!.textContent = dashboardData.registration.email;
+      document.getElementById('emailDisplay').textContent = dashboardData.registration.email;
 
       // Render payment status
       renderPaymentStatus();
@@ -264,7 +264,7 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
 
       // Show add button if editing is allowed
       if (canEdit && dashboardData.payment) {
-        document.getElementById('addParticipantBtn')!.classList.remove('hidden');
+        document.getElementById('addParticipantBtn').classList.remove('hidden');
       }
     }
 
@@ -410,7 +410,7 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
     function closeEditModal() {
       editModal.classList.add('hidden');
       editModal.classList.remove('flex');
-      document.getElementById('editError')!.classList.add('hidden');
+      document.getElementById('editError').classList.add('hidden');
     }
 
     closeModalBtn.addEventListener('click', closeEditModal);
@@ -480,7 +480,7 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
     }
 
     // Logout
-    document.getElementById('logoutBtn')!.addEventListener('click', async () => {
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
       try {
         await fetch(`${API_BASE}/auth/logout`, {
           method: 'POST',
