@@ -203,7 +203,7 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
     const API_BASE = '/api/niebocross';
 
     let canEdit = false;
-    let dashboardData: {registration: {id: string, email: string, fullName: string}, participants: Array<{id: string, fullName: string, birthDate: string, city: string, nationality: string, club: string | null, raceCategory: string, hideNamePublic: boolean, tshirtSize: string | null}>, payment: {totalAmount: number, raceFees: number, tshirtFees: number, charityAmount: number, paymentStatus: string, paymentLink: string} | null, canEdit: boolean} | null = null;
+    let dashboardData = null;
 
     // Check authentication
     const cookies = document.cookie.split(';').map(c => c.trim());
@@ -211,6 +211,7 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
     
     if (!authStatusCookie || authStatusCookie.split('=')[1] !== 'true') {
       window.location.href = '/niebocross/zaloguj';
+      return;
     }
 
     // Load dashboard data
