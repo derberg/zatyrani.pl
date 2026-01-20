@@ -50,7 +50,7 @@ export default async function handler(req, res) {
       .from("niebocross_payments")
       .select(`
         *,
-        niebocross_registrations!inner(email, full_name)
+        niebocross_registrations!inner(email, contact_person)
       `)
       .eq("id", paymentId)
       .single();
@@ -98,11 +98,11 @@ export default async function handler(req, res) {
           to: registration.email,
           from: process.env.SENDGRID_FROM_EMAIL || "zatyrani@zatyrani.pl",
           subject: "Potwierdzenie płatności - NieboCross 2026",
-          text: `Witaj ${registration.full_name},\n\nTwoja płatność została przyjęta!\n\nKwota: ${payment.total_amount} zł\nID transakcji: ${transactionId}\n\nMożesz pobrać potwierdzenie logując się na:\nhttps://zatyrani.pl/niebocross/panel\n\nDziękujemy za wpłatę! ${payment.charity_amount.toFixed(2)} zł zostanie przekazane na cel charytatywny.\n\nDo zobaczenia w Nieborowicach 12 kwietnia 2026!\n\n--\nStowarzyszenie ZATYRANI\nwww.zatyrani.pl`,
+          text: `Witaj ${registration.contact_person},\n\nTwoja płatność została przyjęta!\n\nKwota: ${payment.total_amount} zł\nID transakcji: ${transactionId}\n\nMożesz pobrać potwierdzenie logując się na:\nhttps://zatyrani.pl/niebocross/panel\n\nDziękujemy za wpłatę! ${payment.charity_amount.toFixed(2)} zł zostanie przekazane na cel charytatywny.\n\nDo zobaczenia w Nieborowicach 12 kwietnia 2026!\n\n--\nStowarzyszenie ZATYRANI\nwww.zatyrani.pl`,
           html: `
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
               <h2 style="color: #4CAF50;">✓ Płatność potwierdzona!</h2>
-              <p>Witaj ${registration.full_name},</p>
+              <p>Witaj ${registration.contact_person},</p>
               <p>Twoja płatność została przyjęta!</p>
               <div style="background-color: #f9f9f9; padding: 20px; margin: 20px 0; border-left: 4px solid #4CAF50;">
                 <p style="margin: 0;"><strong>Kwota: ${payment.total_amount} zł</strong></p>

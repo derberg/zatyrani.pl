@@ -97,7 +97,7 @@ export default async function handler(req, res) {
       registration: {
         id: registration.id,
         email: registration.email,
-        fullName: registration.full_name,
+        fullName: registration.contact_person,
         createdAt: registration.created_at
       },
       participants: participants.map(p => ({

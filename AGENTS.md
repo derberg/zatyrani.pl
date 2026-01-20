@@ -40,3 +40,26 @@ Follow the patterns documented in [I18N_GUIDE.md](I18N_GUIDE.md) for all transla
   - Component receives `t` function as prop: `interface Props { t: (key: string) => string; }`
   - Polish page passes `t` directly, English page wraps it: `const t = (key: string) => tBase(key, 'en');`
   - This reduces duplication and maintains a single source of truth for HTML/CSS
+
+## Project-Specific Patterns
+
+### Authentication Confirmation
+
+This project uses a dual-layer authentication system for the NieboCross feature:
+
+1. **Client-Side Cookie Check**: A `niebocross_auth_status=true` cookie is set upon successful login (via `/api/niebocross/auth/verify-code`). This cookie is used for quick client-side checks to avoid unnecessary API calls and provide immediate UI feedback.
+
+2. **Server-Side JWT Verification**: The actual authentication is handled via JWT tokens stored in an HttpOnly `niebocross_session` cookie. Server endpoints (like `/api/niebocross/dashboard`) use `verifyToken()` from `api/niebocross/utils/auth.js` to validate the JWT and extract the `registration_id`.
+
+3. **Dashboard API Verification**: Protected endpoints like `/api/niebocross/dashboard` perform JWT verification server-side. If the token is invalid, they return 401, triggering a redirect to login.
+
+**Usage Guidelines**:
+- Use the cookie for initial UI state checks and quick redirects.
+- Protected API endpoints handle JWT verification automatically.
+- No separate status endpoint is needed since dashboard APIs verify tokens.
+
+**Security Note**: The `niebocross_auth_status` cookie is not HttpOnly and can be manipulated client-side, so always rely on server-side JWT verification for sensitive operations.
+
+### More files to follow
+
+openspec/AGENTS.md

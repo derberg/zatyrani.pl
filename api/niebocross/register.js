@@ -202,7 +202,7 @@ export default async function handler(req, res) {
     // Get registration email
     const { data: registration } = await supabase
       .from("niebocross_registrations")
-      .select("email, full_name")
+      .select("email, contact_person")
       .eq("id", registration_id)
       .single();
 
@@ -219,11 +219,11 @@ export default async function handler(req, res) {
         to: registration.email,
         from: process.env.SENDGRID_FROM_EMAIL || "zatyrani@zatyrani.pl",
         subject: "Potwierdzenie rejestracji - NieboCross 2026",
-        text: `Witaj ${registration.full_name},\n\nDziękujemy za rejestrację na wydarzenie NieboCross 2026!\n\nZarejestrowani uczestnicy:\n${participantsList}\n\nDo zapłaty: ${payment.totalAmount} zł\n(w tym ${payment.charityAmount.toFixed(2)} zł na cel charytatywny)\n\nAby dokończyć rejestrację, opłać udział klikając poniższy link:\n${paymentLink}\n\nLink jest ważny przez 48 godzin.\n\nMożesz sprawdzić status płatności i pobrać potwierdzenie logując się na:\nhttps://zatyrani.pl/niebocross/panel\n\nDo zobaczenia w Nieborowicach 12 kwietnia 2026!\n\n--\nStowarzyszenie ZATYRANI\nwww.zatyrani.pl`,
+        text: `Witaj ${registration.contact_person},\n\nDziękujemy za rejestrację na wydarzenie NieboCross 2026!\n\nZarejestrowani uczestnicy:\n${participantsList}\n\nDo zapłaty: ${payment.totalAmount} zł\n(w tym ${payment.charityAmount.toFixed(2)} zł na cel charytatywny)\n\nAby dokończyć rejestrację, opłać udział klikając poniższy link:\n${paymentLink}\n\nLink jest ważny przez 48 godzin.\n\nMożesz sprawdzić status płatności i pobrać potwierdzenie logując się na:\nhttps://zatyrani.pl/niebocross/panel\n\nDo zobaczenia w Nieborowicach 12 kwietnia 2026!\n\n--\nStowarzyszenie ZATYRANI\nwww.zatyrani.pl`,
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
             <h2>Potwierdzenie rejestracji - NieboCross 2026</h2>
-            <p>Witaj ${registration.full_name},</p>
+            <p>Witaj ${registration.contact_person},</p>
             <p>Dziękujemy za rejestrację na wydarzenie NieboCross 2026!</p>
             <h3>Zarejestrowani uczestnicy:</h3>
             <ul>

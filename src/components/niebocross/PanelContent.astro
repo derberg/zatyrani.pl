@@ -14,7 +14,7 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
   <div class="mx-auto max-w-4xl px-6 py-12">
     <div id="loading" class="text-center py-12">
       <div class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-emerald-600 border-r-transparent"></div>
-      <p class="mt-4 text-slate-600">{t("niebocross.dashboard.loading")}</p>
+      <p id="loadingText" class="mt-4 text-slate-600">{t("niebocross.dashboard.loading")}</p>
     </div>
 
     <div id="content" class="hidden space-y-6">
@@ -216,16 +216,22 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
     // Load dashboard data
     async function loadDashboard() {
       try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
         const response = await fetch(`${API_BASE}/dashboard`, {
-          credentials: 'include'
+          credentials: 'include',
+          signal: controller.signal
         });
+
+        clearTimeout(timeoutId);
 
         if (!response.ok) {
           if (response.status === 401) {
             window.location.href = '/niebocross/zaloguj';
             return;
           }
-          throw new Error('Failed to load dashboard');
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
         }
 
         dashboardData = await response.json();
@@ -234,7 +240,11 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
         renderDashboard();
       } catch (error) {
         console.error('Error loading dashboard:', error);
-        alert(errorMessages.load);
+        if (error.name === 'AbortError') {
+          document.getElementById('loadingText')!.textContent = 'Przekroczono czas oczekiwania. Spróbuj odświeżyć stronę.';
+        } else {
+          document.getElementById('loadingText')!.textContent = errorMessages.load;
+        }
       }
     }
 

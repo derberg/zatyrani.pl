@@ -109,7 +109,7 @@ export default async function handler(req, res) {
       registration: {
         id: registration.id,
         email: registration.email,
-        fullName: registration.full_name
+        fullName: registration.contact_person
       }
     });
 
