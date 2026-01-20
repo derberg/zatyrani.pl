@@ -8,10 +8,6 @@ interface Props {
   locale?: string;
 }
 const { t, locale = 'pl' } = Astro.props;
-
-const emailPlaceholder = locale === 'en' ? 'your@email.pl' : 'twoj@email.pl';
-const namePlaceholder = locale === 'en' ? 'John Doe' : 'Jan Kowalski';
-const panelLink = locale === 'en' ? '/en/niebocross/panel' : '/niebocross/panel';
 ---
 
   <div class="mx-auto max-w-4xl px-6 py-12">
@@ -265,27 +261,35 @@ const panelLink = locale === 'en' ? '/en/niebocross/panel' : '/niebocross/panel'
     let sessionToken = '';
 
     // DOM Elements
-    const step1 = document.getElementById('step1')!;
-    const step2 = document.getElementById('step2')!;
-    const step3 = document.getElementById('step3')!;
-    const step4 = document.getElementById('step4')!;
-    const emailForm = document.getElementById('emailForm') as HTMLFormElement;
-    const codeForm = document.getElementById('codeForm') as HTMLFormElement;
-    const participantsForm = document.getElementById('participantsForm') as HTMLFormElement;
-    const emailError = document.getElementById('emailError')!;
-    const codeError = document.getElementById('codeError')!;
-    const codeSuccess = document.getElementById('codeSuccess')!;
-    const participantsError = document.getElementById('participantsError')!;
-    const backToEmailBtn = document.getElementById('backToEmail')!;
-    const resendCodeBtn = document.getElementById('resendCodeBtn')!;
-    const addParticipantBtn = document.getElementById('addParticipantBtn')!;
-    const participantsContainer = document.getElementById('participantsContainer')!;
-    const paymentLink = document.getElementById('paymentLink') as HTMLAnchorElement;
-    const emailSubmitBtn = document.getElementById('emailSubmitBtn') as HTMLButtonElement;
-    const emailInput = document.getElementById('email') as HTMLInputElement;
-    const fullNameInput = document.getElementById('fullName') as HTMLInputElement;
-    const rodoCheckbox = document.getElementById('rodoAccepted') as HTMLInputElement;
-    const termsCheckbox = document.getElementById('termsAccepted') as HTMLInputElement;
+    const step1 = document.getElementById('step1');
+    const step2 = document.getElementById('step2');
+    const step3 = document.getElementById('step3');
+    const step4 = document.getElementById('step4');
+    const emailForm = document.getElementById('emailForm');
+    const codeForm = document.getElementById('codeForm');
+    const participantsForm = document.getElementById('participantsForm');
+    const emailError = document.getElementById('emailError');
+    const codeError = document.getElementById('codeError');
+    const codeSuccess = document.getElementById('codeSuccess');
+    const participantsError = document.getElementById('participantsError');
+    const backToEmailBtn = document.getElementById('backToEmail');
+    const resendCodeBtn = document.getElementById('resendCodeBtn');
+    const addParticipantBtn = document.getElementById('addParticipantBtn');
+    const participantsContainer = document.getElementById('participantsContainer');
+    const paymentLink = document.getElementById('paymentLink');
+    const emailSubmitBtn = document.getElementById('emailSubmitBtn');
+    const emailInput = document.getElementById('email');
+    const fullNameInput = document.getElementById('fullName');
+    const rodoCheckbox = document.getElementById('rodoAccepted');
+    const termsCheckbox = document.getElementById('termsAccepted');
+
+    console.log('Elements found:', { 
+      emailSubmitBtn: !!emailSubmitBtn, 
+      emailInput: !!emailInput, 
+      fullNameInput: !!fullNameInput, 
+      rodoCheckbox: !!rodoCheckbox, 
+      termsCheckbox: !!termsCheckbox 
+    });
 
     let participantCount = 0;
 
@@ -298,11 +302,16 @@ const panelLink = locale === 'en' ? '/en/niebocross/panel' : '/niebocross/panel'
 
     // Validate email form and enable/disable submit button
     function validateEmailForm() {
-      const isValid = emailInput.value.trim() !== '' && 
-                      fullNameInput.value.trim() !== '' &&
-                      rodoCheckbox.checked &&
-                      termsCheckbox.checked;
+      const emailValid = emailInput.value.trim() !== '';
+      const nameValid = fullNameInput.value.trim() !== '';
+      const rodoValid = rodoCheckbox.checked;
+      const termsValid = termsCheckbox.checked;
+      
+      console.log('Validation check:', { emailValid, nameValid, rodoValid, termsValid });
+      
+      const isValid = emailValid && nameValid && rodoValid && termsValid;
       emailSubmitBtn.disabled = !isValid;
+      console.log('Button disabled:', !isValid);
     }
 
     // Add event listeners to form fields
@@ -311,17 +320,20 @@ const panelLink = locale === 'en' ? '/en/niebocross/panel' : '/niebocross/panel'
     rodoCheckbox.addEventListener('change', validateEmailForm);
     termsCheckbox.addEventListener('change', validateEmailForm);
 
+    // Run initial validation in case form is pre-filled
+    validateEmailForm();
+
     // Step 1: Email submission
     emailForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       emailError.classList.add('hidden');
       
       const formData = new FormData(emailForm);
-      const email = formData.get('email') as string;
-      const fullName = formData.get('fullName') as string;
+      const email = formData.get('email');
+      const fullName = formData.get('fullName');
       const rodoAccepted = formData.get('rodoAccepted') === 'on';
       const termsAccepted = formData.get('termsAccepted') === 'on';
-      const website = formData.get('website') as string || '';
+      const website = formData.get('website') || '';
 
       console.log('Form submitted:', { email, fullName, rodoAccepted, termsAccepted });
 
@@ -405,7 +417,7 @@ const panelLink = locale === 'en' ? '/en/niebocross/panel' : '/niebocross/panel'
       codeError.classList.add('hidden');
 
       const formData = new FormData(codeForm);
-      const code = formData.get('code') as string;
+      const code = formData.get('code');
 
       try {
         const response = await fetch(`${API_BASE}/auth/verify-code`, {
@@ -553,7 +565,7 @@ const panelLink = locale === 'en' ? '/en/niebocross/panel' : '/niebocross/panel'
     addParticipantBtn.addEventListener('click', addParticipant);
     
     // Add event listener for extra donation
-    document.getElementById('extraDonation')!.addEventListener('input', updateSummary);
+    document.getElementById('extraDonation').addEventListener('input', updateSummary);
 
     // Update payment summary
     function updateSummary() {
@@ -562,8 +574,8 @@ const panelLink = locale === 'en' ? '/en/niebocross/panel' : '/niebocross/panel'
 
       document.querySelectorAll('[data-index]').forEach(div => {
         const index = div.getAttribute('data-index');
-        const category = (document.querySelector(`input[name="raceCategory_${index}"]:checked`) as HTMLInputElement)?.value;
-        const tshirt = (document.querySelector(`[name="tshirtSize_${index}"]`) as HTMLSelectElement)?.value;
+        const category = document.querySelector(`input[name="raceCategory_${index}"]:checked`)?.value;
+        const tshirt = document.querySelector(`[name="tshirtSize_${index}"]`)?.value;
 
         if (category === 'kids_100m' || category === 'kids_300m') {
           raceFees += 20;
@@ -576,14 +588,14 @@ const panelLink = locale === 'en' ? '/en/niebocross/panel' : '/niebocross/panel'
         }
       });
 
-      const extraDonation = parseInt((document.getElementById('extraDonation') as HTMLInputElement)?.value || '0');
+      const extraDonation = parseInt(document.getElementById('extraDonation')?.value || '0');
       const totalAmount = raceFees + tshirtFees + extraDonation;
       const charityAmount = raceFees + (tshirtFees * 10 / 80) + extraDonation;
 
-      document.getElementById('raceFees')!.textContent = `${raceFees} zł`;
-      document.getElementById('tshirtFees')!.textContent = `${tshirtFees} zł`;
-      document.getElementById('totalAmount')!.textContent = `${totalAmount} zł`;
-      document.getElementById('charityAmount')!.textContent = `${charityAmount.toFixed(2)} zł`;
+      document.getElementById('raceFees').textContent = `${raceFees} zł`;
+      document.getElementById('tshirtFees').textContent = `${tshirtFees} zł`;
+      document.getElementById('totalAmount').textContent = `${totalAmount} zł`;
+      document.getElementById('charityAmount').textContent = `${charityAmount.toFixed(2)} zł`;
     }
 
     // Step 3: Submit participants
@@ -591,23 +603,23 @@ const panelLink = locale === 'en' ? '/en/niebocross/panel' : '/niebocross/panel'
       e.preventDefault();
       participantsError.classList.add('hidden');
 
-      const participants: Array<{fullName: string, birthDate: string, city: string, nationality: string, club: string, raceCategory: string, hideNamePublic: boolean, tshirtSize: string}> = [];
+      const participants = [];
       
       document.querySelectorAll('[data-index]').forEach(div => {
         const index = div.getAttribute('data-index');
         participants.push({
-          fullName: (document.querySelector(`[name="fullName_${index}"]`) as HTMLInputElement).value,
-          birthDate: (document.querySelector(`[name="birthDate_${index}"]`) as HTMLInputElement).value,
-          city: (document.querySelector(`[name="city_${index}"]`) as HTMLInputElement).value,
-          nationality: (document.querySelector(`[name="nationality_${index}"]`) as HTMLInputElement).value,
-          club: (document.querySelector(`[name="club_${index}"]`) as HTMLInputElement).value || null,
-          raceCategory: (document.querySelector(`input[name="raceCategory_${index}"]:checked`) as HTMLInputElement).value,
-          tshirtSize: (document.querySelector(`[name="tshirtSize_${index}"]`) as HTMLSelectElement).value || null,
-          hideNamePublic: (document.querySelector(`[name="hideNamePublic_${index}"]`) as HTMLInputElement).checked,
+          fullName: document.querySelector(`[name="fullName_${index}"]`).value,
+          birthDate: document.querySelector(`[name="birthDate_${index}"]`).value,
+          city: document.querySelector(`[name="city_${index}"]`).value,
+          nationality: document.querySelector(`[name="nationality_${index}"]`).value,
+          club: document.querySelector(`[name="club_${index}"]`).value || null,
+          raceCategory: document.querySelector(`input[name="raceCategory_${index}"]:checked`).value,
+          tshirtSize: document.querySelector(`[name="tshirtSize_${index}"]`).value || null,
+          hideNamePublic: document.querySelector(`[name="hideNamePublic_${index}"]`).checked,
         });
       });
 
-      const extraDonation = parseInt((document.getElementById('extraDonation') as HTMLInputElement).value || '0');
+      const extraDonation = parseInt(document.getElementById('extraDonation').value || '0');
 
       try {
         const response = await fetch(`${API_BASE}/register`, {
