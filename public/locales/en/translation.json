@@ -265,7 +265,8 @@
     "errors": {
       "email_required": "Email and name are required",
       "email_invalid": "Invalid email format",
-      "rodo_required": "You must accept GDPR consent",
+
+      "terms_required": "You must accept the event terms and conditions",
       "email_exists": "This email is already registered. Use the 'Log in' button to access your registration.",
       "db_error": "A technical problem occurred. Contact the organizer: https://zatyrani.pl/niebocross#kontakt",
       "rate_limit": "Too many attempts. Try again in an hour.",
@@ -312,7 +313,7 @@
       "email": "Email address",
       "contact_person": "Contact person full name",
       "contact_person_desc": "This will be the main contact person for this registration",
-      "rodo_consent": "I declare that I consent to the processing of my personal data by the Event Organizer (Zatyrani Association) for purposes related to organizing, preparing and conducting the event. At the same time, I declare that I consent to the Organizer sending information about this event to my email address. I also declare that all data and information provided by me, related to my participation in the event, are true and factual. (on behalf of minors, the declaration is made by a parent / adult guardian).",
+
       "terms_consent": "I accept the",
       "terms_link": "event terms and conditions",
       "send_code": "Send verification code",

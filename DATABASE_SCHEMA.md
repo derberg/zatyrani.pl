@@ -10,7 +10,6 @@ CREATE TABLE niebocross_registrations (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   email VARCHAR(255) NOT NULL UNIQUE,
   contact_person VARCHAR(255) NOT NULL,
-  rodo_consent BOOLEAN NOT NULL DEFAULT false,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
@@ -20,7 +19,6 @@ CREATE TABLE niebocross_registrations (
 - `id` - Unique identifier for the registration
 - `email` - Contact email (unique)
 - `contact_person` - Full name of the contact person for this registration
-- `rodo_consent` - Whether GDPR consent was given
 - `created_at` - Registration creation timestamp
 - `updated_at` - Last update timestamp
 

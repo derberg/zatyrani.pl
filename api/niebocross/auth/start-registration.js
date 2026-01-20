@@ -38,7 +38,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { email, fullName, rodoAccepted, website } = req.body;
+    const { email, fullName, termsAccepted, website } = req.body;
 
     // Honeypot check - if website field is filled, it's a bot
     if (website) {
@@ -64,10 +64,10 @@ export default async function handler(req, res) {
       });
     }
 
-    if (!rodoAccepted) {
+    if (!termsAccepted) {
       return res.status(400).json({ 
         success: false,
-        error: "RODO_REQUIRED"
+        error: "TERMS_REQUIRED"
       });
     }
 
@@ -92,8 +92,7 @@ export default async function handler(req, res) {
       .from("niebocross_registrations")
       .insert({
         email: email.toLowerCase(),
-        contact_person: fullName,
-        rodo_consent: true
+        contact_person: fullName
       })
       .select()
       .single();

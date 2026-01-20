@@ -56,19 +56,6 @@ const panelLink = locale === 'en' ? '/en/niebocross/panel' : '/niebocross/panel'
           <div class="flex items-start gap-2">
             <input
               type="checkbox"
-              id="rodoAccepted"
-              name="rodoAccepted"
-              required
-              class="mt-1 rounded border-emerald-300 border-2 text-emerald-600 focus:ring-emerald-500"
-            />
-            <label for="rodoAccepted" class="text-sm text-slate-700">
-              {t("niebocross.form.rodo_consent")} <span class="text-red-600">*</span>
-            </label>
-          </div>
-
-          <div class="flex items-start gap-2">
-            <input
-              type="checkbox"
               id="termsAccepted"
               name="termsAccepted"
               required
@@ -95,8 +82,9 @@ const panelLink = locale === 'en' ? '/en/niebocross/panel' : '/niebocross/panel'
 
           <button
             type="submit"
-            class="w-full rounded-lg bg-emerald-600 px-6 py-3 font-semibold text-white transition hover:bg-emerald-700 disabled:bg-slate-300"
+            class="w-full rounded-lg bg-emerald-600 px-6 py-3 font-semibold text-white transition hover:bg-emerald-700 disabled:bg-slate-300 disabled:cursor-not-allowed"
             id="emailSubmitBtn"
+            disabled
           >
             {t("niebocross.form.send_code")}
           </button>
@@ -241,6 +229,9 @@ const panelLink = locale === 'en' ? '/en/niebocross/panel' : '/niebocross/panel'
   <script define:vars={{
     errorMessages: {
       EMAIL_EXISTS: t("niebocross.errors.email_exists"),
+      EMAIL_REQUIRED: t("niebocross.errors.email_required"),
+      EMAIL_INVALID: t("niebocross.errors.email_invalid"),
+      TERMS_REQUIRED: t("niebocross.errors.terms_required"),
       INVALID_CODE: t("niebocross.errors.invalid_code"),
       CODE_EXPIRED: t("niebocross.errors.code_expired"),
       connection: t("niebocross.errors.connection_error"),
@@ -276,6 +267,10 @@ const panelLink = locale === 'en' ? '/en/niebocross/panel' : '/niebocross/panel'
     const addParticipantBtn = document.getElementById('addParticipantBtn')!;
     const participantsContainer = document.getElementById('participantsContainer')!;
     const paymentLink = document.getElementById('paymentLink') as HTMLAnchorElement;
+    const emailSubmitBtn = document.getElementById('emailSubmitBtn') as HTMLButtonElement;
+    const emailInput = document.getElementById('email') as HTMLInputElement;
+    const fullNameInput = document.getElementById('fullName') as HTMLInputElement;
+    const termsCheckbox = document.getElementById('termsAccepted') as HTMLInputElement;
 
     let participantCount = 0;
 
@@ -286,6 +281,19 @@ const panelLink = locale === 'en' ? '/en/niebocross/panel' : '/niebocross/panel'
       window.location.href = '/niebocross/panel';
     }
 
+    // Validate email form and enable/disable submit button
+    function validateEmailForm() {
+      const isValid = emailInput.value.trim() !== '' && 
+                      fullNameInput.value.trim() !== '' &&
+                      termsCheckbox.checked;
+      emailSubmitBtn.disabled = !isValid;
+    }
+
+    // Add event listeners to form fields
+    emailInput.addEventListener('input', validateEmailForm);
+    fullNameInput.addEventListener('input', validateEmailForm);
+    termsCheckbox.addEventListener('change', validateEmailForm);
+
     // Step 1: Email submission
     emailForm.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -294,31 +302,38 @@ const panelLink = locale === 'en' ? '/en/niebocross/panel' : '/niebocross/panel'
       const formData = new FormData(emailForm);
       const email = formData.get('email') as string;
       const fullName = formData.get('fullName') as string;
-      const rodoAccepted = formData.get('rodoAccepted') === 'on';
       const termsAccepted = formData.get('termsAccepted') === 'on';
       const website = formData.get('website') as string || '';
+
+      console.log('Form submitted:', { email, fullName, termsAccepted });
 
       currentEmail = email;
 
       try {
+        console.log('Sending request to:', `${API_BASE}/auth/start-registration`);
         const response = await fetch(`${API_BASE}/auth/start-registration`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, fullName, rodoAccepted, termsAccepted, website }),
+          body: JSON.stringify({ email, fullName, termsAccepted, website }),
         });
 
+        console.log('Response status:', response.status);
         const data = await response.json();
+        console.log('Response data:', data);
 
         if (!response.ok) {
+          console.log('Error from API:', data.error);
           emailError.textContent = errorMessages[data.error] || errorMessages.generic;
           emailError.classList.remove('hidden');
           return;
         }
 
+        console.log('Success! Moving to step 2');
         // Move to step 2
         step1.classList.add('hidden');
         step2.classList.remove('hidden');
-      } catch {
+      } catch (error) {
+        console.error('Fetch error:', error);
         emailError.textContent = errorMessages.connection;
         emailError.classList.remove('hidden');
       }
