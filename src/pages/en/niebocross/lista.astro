@@ -1,0 +1,17 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import NieboCrossHeader from "../../../components/niebocross/NieboCrossHeader.astro";
+import ParticipantsListContent from "../../../components/niebocross/ParticipantsListContent.astro";
+import { t as tBase } from "../../../utils/i18n";
+
+const t = (key: string) => tBase(key, 'en');
+---
+
+<Layout 
+  title={`NieboCross - ${t("niebocross.participants_list.title")}`}
+  description={t("niebocross.participants_list.meta_description")}
+  t={t}
+>
+  <NieboCrossHeader t={t} />
+  <ParticipantsListContent t={t} />
+</Layout>

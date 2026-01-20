@@ -35,7 +35,7 @@ export default async function handler(req, res) {
     if (!email || !code) {
       return res.status(400).json({ 
         success: false,
-        error: "Email i kod są wymagane" 
+        error: "CODE_REQUIRED"
       });
     }
 
@@ -56,7 +56,7 @@ export default async function handler(req, res) {
     if (codeError || !authCode) {
       return res.status(400).json({
         success: false,
-        error: "Nieprawidłowy lub wygasły kod weryfikacyjny"
+        error: "INVALID_CODE"
       });
     }
 
@@ -76,7 +76,7 @@ export default async function handler(req, res) {
     if (regError || !registration) {
       return res.status(404).json({
         success: false,
-        error: "Nie znaleziono rejestracji"
+        error: "REGISTRATION_NOT_FOUND"
       });
     }
 
@@ -86,7 +86,7 @@ export default async function handler(req, res) {
       console.error("SUPABASE_JWT_SECRET not configured");
       return res.status(500).json({
         success: false,
-        error: "Konfiguracja serwera nieprawidłowa"
+        error: "SERVER_CONFIG_ERROR"
       });
     }
 
@@ -118,7 +118,7 @@ export default async function handler(req, res) {
     console.error("Unexpected error:", error);
     return res.status(500).json({
       success: false,
-      error: "Wystąpił nieoczekiwany błąd. Spróbuj ponownie."
+      error: "UNEXPECTED_ERROR"
     });
   }
 }

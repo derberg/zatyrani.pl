@@ -1,0 +1,9 @@
+---
+interface Props {
+  t: (key: string) => string;
+  locale?: string;
+}
+const { t, locale = 'pl' } = Astro.props;
+
+const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
+---

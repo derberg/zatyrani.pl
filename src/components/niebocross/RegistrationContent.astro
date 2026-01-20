@@ -1,0 +1,15 @@
+---
+import RaceCategorySelector from "./RaceCategorySelector.astro";
+import TshirtSizeSelector from "./TshirtSizeSelector.astro";
+import RegistrationSummary from "./RegistrationSummary.astro";
+
+interface Props {
+  t: (key: string) => string;
+  locale?: string;
+}
+const { t, locale = 'pl' } = Astro.props;
+
+const emailPlaceholder = locale === 'en' ? 'your@email.pl' : 'twoj@email.pl';
+const namePlaceholder = locale === 'en' ? 'John Doe' : 'Jan Kowalski';
+const panelLink = locale === 'en' ? '/en/niebocross/panel' : '/niebocross/panel';
+---

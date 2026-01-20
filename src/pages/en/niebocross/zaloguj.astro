@@ -1,0 +1,17 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import NieboCrossHeader from "../../../components/niebocross/NieboCrossHeader.astro";
+import LoginContent from "../../../components/niebocross/LoginContent.astro";
+import { t as tBase } from "../../../utils/i18n";
+
+const t = (key: string) => tBase(key, 'en');
+---
+
+<Layout 
+  title={`NieboCross - ${t("niebocross.login.title")}`}
+  description={t("niebocross.login.meta_description")}
+  t={t}
+>
+  <NieboCrossHeader t={t} />
+  <LoginContent t={t} locale="en" />
+</Layout>

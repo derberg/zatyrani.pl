@@ -55,21 +55,21 @@ export default async function handler(req, res) {
     if (!email || !fullName) {
       return res.status(400).json({ 
         success: false,
-        error: "Email i imię są wymagane" 
+        error: "EMAIL_REQUIRED"
       });
     }
 
     if (!validateEmail(email)) {
       return res.status(400).json({ 
         success: false,
-        error: "Nieprawidłowy format email" 
+        error: "EMAIL_INVALID"
       });
     }
 
     if (!rodoAccepted) {
       return res.status(400).json({ 
         success: false,
-        error: "Musisz zaakceptować zgodę RODO" 
+        error: "RODO_REQUIRED"
       });
     }
 
@@ -85,7 +85,7 @@ export default async function handler(req, res) {
     if (existingReg) {
       return res.status(400).json({
         success: false,
-        error: "Ten email jest już zarejestrowany. Użyj przycisku 'Zaloguj się' aby uzyskać dostęp do swojej rejestracji."
+        error: "EMAIL_EXISTS"
       });
     }
 
@@ -94,7 +94,8 @@ export default async function handler(req, res) {
       .from("niebocross_registrations")
       .insert({
         email: email.toLowerCase(),
-        full_name: fullName
+        contact_person: fullName,
+        rodo_consent: true
       })
       .select()
       .single();
@@ -103,7 +104,7 @@ export default async function handler(req, res) {
       console.error("Error creating registration:", regError);
       return res.status(500).json({
         success: false,
-        error: "Nie udało się utworzyć rejestracji. Spróbuj ponownie."
+        error: "DB_ERROR"
       });
     }
 
@@ -125,7 +126,7 @@ export default async function handler(req, res) {
     if (recentCodes && recentCodes.length >= 3) {
       return res.status(429).json({
         success: false,
-        error: "Zbyt wiele prób. Spróbuj ponownie za godzinę."
+        error: "RATE_LIMIT"
       });
     }
 
@@ -143,7 +144,7 @@ export default async function handler(req, res) {
       console.error("Error storing code:", codeError);
       return res.status(500).json({
         success: false,
-        error: "Nie udało się wygenerować kodu. Spróbuj ponownie."
+        error: "CODE_STORE_ERROR"
       });
     }
 
@@ -153,7 +154,7 @@ export default async function handler(req, res) {
       console.error("SendGrid API key not configured");
       return res.status(500).json({
         success: false,
-        error: "Email nie został wysłany. Skontaktuj się z organizatorem."
+        error: "EMAIL_NOT_SENT"
       });
     }
 
@@ -198,7 +199,7 @@ export default async function handler(req, res) {
     console.error("Unexpected error:", error);
     return res.status(500).json({
       success: false,
-      error: "Wystąpił nieoczekiwany błąd. Spróbuj ponownie."
+      error: "UNEXPECTED_ERROR"
     });
   }
 }

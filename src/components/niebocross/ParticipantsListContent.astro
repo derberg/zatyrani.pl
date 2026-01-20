@@ -1,0 +1,271 @@
+---
+interface Props {
+  t: (key: string) => string;
+}
+const { t } = Astro.props;
+---
+
+<div class="mx-auto max-w-6xl px-6 py-12">
+  <div class="mb-8 text-center">
+    <h2 class="text-3xl font-bold text-slate-900">{t("niebocross.participants_list.title")}</h2>
+    <p class="mt-2 text-slate-600">{t("niebocross.participants_list.description")}</p>
+  </div>
+
+  <!-- Filters -->
+  <div class="mb-6 rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+    <h3 class="mb-4 text-lg font-bold text-slate-900">{t("niebocross.participants_list.filters")}</h3>
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div>
+        <label for="filterCategory" class="block text-sm font-semibold text-slate-700">
+          {t("niebocross.form.race_category")}
+        </label>
+        <select
+          id="filterCategory"
+          class="mt-1 block w-full rounded-lg border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
+        >
+          <option value="">{t("niebocross.participants_list.all_categories")}</option>
+          <option value="3km_run">{t("niebocross.categories.3km_run")}</option>
+          <option value="3km_nw">{t("niebocross.categories.3km_nw")}</option>
+          <option value="9km_run">{t("niebocross.categories.9km_run")}</option>
+          <option value="9km_nw">{t("niebocross.categories.9km_nw")}</option>
+          <option value="kids_100m">{t("niebocross.categories.kids_100m")}</option>
+          <option value="kids_300m">{t("niebocross.categories.kids_300m")}</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="filterCity" class="block text-sm font-semibold text-slate-700">
+          {t("niebocross.form.city")}
+        </label>
+        <input
+          type="text"
+          id="filterCity"
+          placeholder={t("niebocross.participants_list.search_city")}
+          class="mt-1 block w-full rounded-lg border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
+        />
+      </div>
+
+      <div>
+        <label for="filterClub" class="block text-sm font-semibold text-slate-700">
+          {t("niebocross.form.club")}
+        </label>
+        <input
+          type="text"
+          id="filterClub"
+          placeholder={t("niebocross.participants_list.search_club")}
+          class="mt-1 block w-full rounded-lg border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
+        />
+      </div>
+    </div>
+
+    <div class="mt-4">
+      <button
+        id="clearFilters"
+        class="rounded-lg border border-slate-300 bg-white px-6 py-2 font-semibold text-slate-700 transition hover:bg-slate-50"
+      >
+        {t("niebocross.participants_list.clear_filters")}
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div id="loading" class="text-center py-12">
+    <div class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-emerald-600 border-r-transparent"></div>
+    <p class="mt-4 text-slate-600">{t("niebocross.dashboard.loading")}</p>
+  </div>
+
+  <!-- Error Message -->
+  <div id="errorMessage" class="hidden rounded-xl border border-red-200 bg-red-50 p-6">
+    <div class="flex items-start gap-3">
+      <svg class="h-6 w-6 flex-shrink-0 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+      </svg>
+      <div>
+        <h3 class="text-lg font-semibold text-red-900">Problem z wyświetlaniem listy uczestników</h3>
+        <p class="mt-2 text-red-800">Nie udało się załadować listy uczestników. W razie problemów skontaktuj się z organizatorem.</p>
+        <div class="mt-3">
+          <a 
+            href="/niebocross#kontakt" 
+            class="inline-flex items-center gap-2 rounded-lg bg-red-900 px-4 py-2 text-sm font-semibold text-white hover:bg-red-800 transition"
+          >
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+            </svg>
+            Skontaktuj się z organizatorem
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div id="results" class="hidden">
+    <div class="mb-4 flex items-center justify-between">
+      <p class="text-sm text-slate-600">
+        {t("niebocross.participants_list.total")}: <span id="totalCount" class="font-semibold">0</span>
+      </p>
+    </div>
+
+    <div class="overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
+      <table class="w-full">
+        <thead class="bg-slate-50">
+          <tr>
+            <th class="px-4 py-3 text-left text-sm font-semibold text-slate-700">{t("niebocross.form.full_name")}</th>
+            <th class="px-4 py-3 text-left text-sm font-semibold text-slate-700">{t("niebocross.form.birth_date")}</th>
+            <th class="px-4 py-3 text-left text-sm font-semibold text-slate-700">{t("niebocross.form.city")}</th>
+            <th class="px-4 py-3 text-left text-sm font-semibold text-slate-700">{t("niebocross.form.club")}</th>
+            <th class="px-4 py-3 text-left text-sm font-semibold text-slate-700">{t("niebocross.form.race_category")}</th>
+          </tr>
+        </thead>
+        <tbody id="participantsTableBody" class="divide-y divide-slate-200">
+        </tbody>
+      </table>
+    </div>
+
+    <div id="noResults" class="hidden rounded-xl border border-slate-200 bg-white p-12 text-center">
+      <p class="text-slate-600">{t("niebocross.participants_list.no_results")}</p>
+    </div>
+  </div>
+</div>
+
+<script define:vars={{ 
+  categoryLabels: {
+    '3km_run': t('niebocross.categories.3km_run'),
+    '3km_nw': t('niebocross.categories.3km_nw'),
+    '9km_run': t('niebocross.categories.9km_run'),
+    '9km_nw': t('niebocross.categories.9km_nw'),
+    'kids_100m': t('niebocross.categories.kids_100m'),
+    'kids_300m': t('niebocross.categories.kids_300m'),
+  }
+}}>
+  const API_BASE = '/api/niebocross';
+
+  let currentFilters = {
+    raceCategory: '',
+    city: '',
+    club: ''
+  };
+
+  // DOM Elements
+  const loading = document.getElementById('loading');
+  const results = document.getElementById('results');
+  const noResults = document.getElementById('noResults');
+  const tableBody = document.getElementById('participantsTableBody');
+  const totalCount = document.getElementById('totalCount');
+  const clearFiltersBtn = document.getElementById('clearFilters');
+  const filterCategory = document.getElementById('filterCategory');
+  const filterCity = document.getElementById('filterCity');
+  const filterClub = document.getElementById('filterClub');
+  const errorMessage = document.getElementById('errorMessage');
+
+  async function loadParticipants() {
+    loading.classList.remove('hidden');
+    results.classList.add('hidden');
+    errorMessage.classList.add('hidden');
+
+    const params = new URLSearchParams();
+    if (currentFilters.raceCategory) params.append('raceCategory', currentFilters.raceCategory);
+    if (currentFilters.city) params.append('city', currentFilters.city);
+    if (currentFilters.club) params.append('club', currentFilters.club);
+
+    try {
+      const response = await fetch(`${API_BASE}/registrations/list?${params.toString()}`);
+      
+      // Check if response is actually JSON
+      const contentType = response.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        throw new Error('Server returned non-JSON response');
+      }
+      
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to load participants');
+      }
+
+      renderParticipants(data.participants, data.total);
+    } catch (error) {
+      console.error('Error loading participants:', error);
+      loading.classList.add('hidden');
+      errorMessage.classList.remove('hidden');
+      return;
+    } finally {
+      loading.classList.add('hidden');
+    }
+  }
+
+  function renderParticipants(participants, total) {
+    totalCount.textContent = String(total);
+
+    if (participants.length === 0) {
+      tableBody.innerHTML = '';
+      noResults.classList.remove('hidden');
+      results.classList.remove('hidden');
+      return;
+    }
+
+    noResults.classList.add('hidden');
+    results.classList.remove('hidden');
+
+    tableBody.innerHTML = participants.map(p => {
+      const categoryLabel = categoryLabels[p.raceCategory] || p.raceCategory;
+      return `
+        <tr class="hover:bg-slate-50">
+          <td class="px-4 py-3 text-sm text-slate-900">${p.fullName}</td>
+          <td class="px-4 py-3 text-sm text-slate-600">${p.birthDate}</td>
+          <td class="px-4 py-3 text-sm text-slate-600">${p.city}</td>
+          <td class="px-4 py-3 text-sm text-slate-600">${p.club || '-'}</td>
+          <td class="px-4 py-3 text-sm text-slate-600">${categoryLabel}</td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  // Debounce helper
+  function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+      const later = () => {
+        clearTimeout(timeout);
+        func(...args);
+      };
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+    };
+  }
+
+  // Update filters and load participants
+  function updateFilters() {
+    currentFilters = {
+      raceCategory: filterCategory.value,
+      city: filterCity.value,
+      club: filterClub.value,
+    };
+    loadParticipants();
+  }
+
+  // Debounced version for text inputs
+  const debouncedUpdateFilters = debounce(updateFilters, 500);
+
+  // Live filtering listeners
+  filterCategory.addEventListener('change', updateFilters);
+  filterCity.addEventListener('input', debouncedUpdateFilters);
+  filterClub.addEventListener('input', debouncedUpdateFilters);
+
+  clearFiltersBtn.addEventListener('click', () => {
+    filterCategory.value = '';
+    filterCity.value = '';
+    filterClub.value = '';
+    
+    currentFilters = {
+      raceCategory: '',
+      city: '',
+      club: '',
+    };
+    
+    loadParticipants();
+  });
+
+  // Load on page load
+  loadParticipants();
+</script>
