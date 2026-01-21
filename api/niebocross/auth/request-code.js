@@ -44,17 +44,20 @@ export default async function handler(req, res) {
 
     const supabase = getSupabaseClient();
 
-    // Verify email exists in registrations (returning user)
+    // Silently check if email exists in registrations (for security - don't reveal if email is registered)
     const { data: registration } = await supabase
       .from("niebocross_registrations")
       .select("email")
       .eq("email", email.toLowerCase())
       .single();
 
+    // If email doesn't exist, still return success to prevent user enumeration
+    // The user will see the code entry form but won't receive an email
     if (!registration) {
-      return res.status(404).json({
-        success: false,
-        error: "Nie znaleziono rejestracji dla tego adresu email"
+      console.log(`Login attempt with unregistered email: ${email.toLowerCase()}`);
+      return res.status(200).json({
+        success: true,
+        message: "Kod weryfikacyjny został wysłany na email."
       });
     }
 

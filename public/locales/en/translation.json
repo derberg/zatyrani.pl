@@ -260,7 +260,11 @@
       "description": "Enter your email to receive access code",
       "no_account": "Don't have an account yet?",
       "register_here": "Register here",
-      "code_sent": "Verification code has been sent to your email"
+      "code_sent": "Verification code has been sent to your email",
+      "code_info": "If your account is registered, you will receive an email with an authentication code within approximately 5 minutes. If no email has arrived and you don't have any message from us in spam, this means you are not yet registered and you should",
+      "code_info_register": "register",
+      "code_info_contact": "Otherwise",
+      "code_info_contact_link": "contact us"
     },
     "errors": {
       "email_required": "Email and name are required",
