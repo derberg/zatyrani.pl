@@ -319,10 +319,12 @@
       "send_code": "Send verification code",
       "verification_code": "Verification code",
       "verify_code": "Verify code",
-      "back_to_email": "Back to email address",      "check_spam": "Didn't receive the code? Check your SPAM folder",
+      "back_to_email": "Back to email address",      
+      "check_spam": "Didn't receive the code? Check your SPAM folder",
       "resend_code": "Resend code",
       "resending": "Sending...",
-      "code_resent": "Code has been resent",      "add_participant": "Add participant",
+      "code_resent": "Code has been resent",      
+      "add_participant": "Add participant",
       "full_name": "Full name",
       "birth_date": "Date of birth",
       "city": "City",
@@ -337,7 +339,8 @@
       "proceed_to_payment": "Proceed to payment",
       "pay_now": "Pay now",
       "save_changes": "Save changes",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "race_category": "Category"
     },
     "categories": {
       "3km_run": "3km - Run",

@@ -339,7 +339,8 @@
       "proceed_to_payment": "Przejdź do płatności",
       "pay_now": "Opłać teraz",
       "save_changes": "Zapisz zmiany",
-      "cancel": "Anuluj"
+      "cancel": "Anuluj",
+      "race_category": "Kategoria"
     },
     "categories": {
       "3km_run": "3km - Bieg",
