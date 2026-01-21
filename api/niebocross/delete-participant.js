@@ -18,7 +18,7 @@ function calculatePayment(participants) {
 
   participants.forEach(p => {
     // Race fees
-    if (p.race_category === 'kids_100m' || p.race_category === 'kids_300m') {
+    if (p.race_category === 'kids_run') {
       raceFees += 20;
     } else {
       raceFees += 60;

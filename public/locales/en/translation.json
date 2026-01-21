@@ -172,9 +172,9 @@
     "for_challengers_point1": "Natural single-tracks, root sections.",
     "for_challengers_point2": "Views of Bierawka Valley and shaded forest sections.",
     "kids_run": "Kids race",
-    "kids_run_distances": "100 m and 300 m",
+    "kids_run_distances": "3 different distances",
     "kids_run_desc": "Short, safe races for youngest participants near the start/finish zone.",
-    "kids_run_point1": "Distances: 100 m (younger kids) and 300 m (older kids).",
+    "kids_run_point1": "We have prepared 3 different distances tailored to the age of the children. Details will be clarified later and emailed to registrants.",
     "kids_run_point2": "Guaranteed gift!",
     "charity_goal": "Charity goal",
     "charity_desc": "Together we support the treatment of animals rescued by",
@@ -344,15 +344,16 @@
       "pay_now": "Pay now",
       "save_changes": "Save changes",
       "cancel": "Cancel",
-      "race_category": "Category"
+      "race_category": "Category",
+      "select_category": "Select category",
+      "kids_run_info": "For kids: specific distance will be assigned automatically on event day based on child's age. Details will be emailed."
     },
     "categories": {
       "3km_run": "3km - Run",
       "3km_nw": "3km - Nordic Walking",
       "9km_run": "9km - Run",
       "9km_nw": "9km - Nordic Walking",
-      "kids_100m": "Kids - 100m",
-      "kids_300m": "Kids - 300m"
+      "kids_run": "Kids race (distance adjusted by age)"
     },
     "summary": {
       "title": "Payment summary",

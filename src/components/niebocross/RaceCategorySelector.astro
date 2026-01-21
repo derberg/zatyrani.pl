@@ -19,6 +19,6 @@ const { value = "", name = "raceCategory", required = true, t } = Astro.props;
   <option value="3km_nw" selected={value === "3km_nw"}>{t("niebocross.categories.3km_nw")}</option>
   <option value="9km_run" selected={value === "9km_run"}>{t("niebocross.categories.9km_run")}</option>
   <option value="9km_nw" selected={value === "9km_nw"}>{t("niebocross.categories.9km_nw")}</option>
-  <option value="kids_100m" selected={value === "kids_100m"}>{t("niebocross.categories.kids_100m")}</option>
-  <option value="kids_300m" selected={value === "kids_300m"}>{t("niebocross.categories.kids_300m")}</option>
+  <option value="kids_run" selected={value === "kids_run"}>{t("niebocross.categories.kids_run")}</option>
 </select>
+<p class="mt-1 text-sm text-slate-600">{t("niebocross.form.kids_run_info")}</p>

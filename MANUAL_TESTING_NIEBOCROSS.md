@@ -6,19 +6,12 @@
 
 ## 1. Feature Flag (Flaga funkcjonalności)
 
-### Test 1.1: Strona bez flagi
-- [ ] Odwiedź `/niebocross` (bez parametru)
-- [ ] **Oczekiwany rezultat:** Widoczny przycisk "Zapisz się (wkrótce)"
-- [ ] **Oczekiwany rezultat:** BRAK przycisków "Zapisz się teraz", "Zaloguj się", "Lista uczestników"
-
-### Test 1.2: Strona z flagą
-- [ ] Odwiedź `/niebocross?registration=true`
+### Test 1.1: Strona dla nie zarejestrowanego
+- [ ] Odwiedź `/niebocross`
 - [ ] **Oczekiwany rezultat:** Widoczne przyciski:
   - "Zapisz się teraz" → prowadzi do `/niebocross/rejestracja`
   - "Zaloguj się" → prowadzi do `/niebocross/zaloguj`
   - "Lista uczestników" → prowadzi do `/niebocross/lista`
-- [ ] **Oczekiwany rezultat:** BRAK przycisku "Zapisz się (wkrótce)"
-
 ---
 
 ## 2. Proces Rejestracji

@@ -135,9 +135,9 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
                   <option value="3km_nw">3km - Nordic Walking</option>
                   <option value="9km_run">9km - Bieg</option>
                   <option value="9km_nw">9km - Nordic Walking</option>
-                  <option value="kids_100m">Dzieci - 100m</option>
-                  <option value="kids_300m">Dzieci - 300m</option>
+                  <option value="kids_run">Bieg dla dzieci</option>
                 </select>
+                <p class="mt-1 text-xs text-slate-600">Dla dzieci: dystans przypisany w dniu wydarzenia na podstawie wieku</p>
               </div>
               <div>
                 <label class="block text-sm font-semibold text-slate-700">
@@ -381,8 +381,7 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
         '3km_nw': '3km - Nordic Walking',
         '9km_run': '9km - Bieg',
         '9km_nw': '9km - Nordic Walking',
-        'kids_100m': 'Dzieci - 100m',
-        'kids_300m': 'Dzieci - 300m',
+        'kids_run': 'Bieg dla dzieci'
       };
       return labels[category] || category;
     }

@@ -50,7 +50,12 @@ export default async function handler(req, res) {
 
     // Apply filters
     if (raceCategory) {
-      query = query.eq("race_category", raceCategory);
+      // Handle kids_run filter to match all kids categories (for backwards compatibility)
+      if (raceCategory === 'kids_run') {
+        query = query.in("race_category", ['kids_run', 'kids_100m', 'kids_300m', 'kids_500m']);
+      } else {
+        query = query.eq("race_category", raceCategory);
+      }
     }
     if (club) {
       query = query.ilike("club", `%${club}%`);

@@ -27,7 +27,7 @@ export function validateParticipant(participant) {
   }
 
   // Validate race category
-  const validCategories = ['3km_run', '3km_nw', '9km_run', '9km_nw', 'kids_100m', 'kids_300m'];
+  const validCategories = ['3km_run', '3km_nw', '9km_run', '9km_nw', 'kids_run'];
   if (!validCategories.includes(raceCategory)) {
     return { valid: false, error: "Nieprawidłowa kategoria biegu" };
   }
@@ -37,7 +37,7 @@ export function validateParticipant(participant) {
   const age = calculateAge(birthDate, eventDate);
 
   const adultRaces = ['3km_run', '3km_nw', '9km_run', '9km_nw'];
-  const kidsRaces = ['kids_100m', 'kids_300m'];
+  const kidsRaces = ['kids_run'];
 
   if (adultRaces.includes(raceCategory) && age < 16) {
     return { valid: false, error: "Minimalny wiek dla tras 3km i 9km to 16 lat" };
@@ -62,7 +62,7 @@ export function calculatePaymentForParticipants(participants) {
   participants.forEach(p => {
     // Race fees
     const category = p.race_category || p.raceCategory;
-    if (category === 'kids_100m' || category === 'kids_300m') {
+    if (category === 'kids_run') {
       raceFees += 20;
     } else {
       raceFees += 60;

@@ -172,9 +172,9 @@
     "for_challengers_point1": "Naturalne single-tracki, fragmenty korzeni.",
     "for_challengers_point2": "Widok na dolinę Bierawki i odcinki w cieniu lasu.",
     "kids_run": "Bieg dla dzieci",
-    "kids_run_distances": "100 m i 300 m",
+    "kids_run_distances": "3 różne dystanse",
     "kids_run_desc": "Krótkie, bezpieczne biegi dla najmłodszych uczestników przy strefie startu/mety.",
-    "kids_run_point1": "Dystanse: 100 m (młodsze dzieci) oraz 300 m (starsze dzieci).",
+    "kids_run_point1": "Przygotowaliśmy 3 różne dystanse dostosowane do wieku dzieci. Szczegóły zostaną podane później i wysłane mailowo do uczestników.",
     "kids_run_point2": "Upominek gwarantowany!",
     "charity_goal": "Cel charytatywny",
     "charity_desc": "Wspólnie wspieramy leczenie zwierząt ratowanych przez",
@@ -344,15 +344,16 @@
       "pay_now": "Opłać teraz",
       "save_changes": "Zapisz zmiany",
       "cancel": "Anuluj",
-      "race_category": "Kategoria"
+      "race_category": "Kategoria",
+      "select_category": "Wybierz kategorię",
+      "kids_run_info": "Dla dzieci: konkretny dystans zostanie przypisany automatycznie w dniu wydarzenia na podstawie wieku dziecka. Szczegóły zostaną wysłane mailem."
     },
     "categories": {
       "3km_run": "3km - Bieg",
       "3km_nw": "3km - Nordic Walking",
       "9km_run": "9km - Bieg",
       "9km_nw": "9km - Nordic Walking",
-      "kids_100m": "Dzieci - 100m",
-      "kids_300m": "Dzieci - 300m"
+      "kids_run": "Bieg dla dzieci (dystans dostosowany do wieku)"
     },
     "summary": {
       "title": "Podsumowanie płatności",
