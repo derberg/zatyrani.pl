@@ -62,4 +62,4 @@ This project uses a dual-layer authentication system for the NieboCross feature:
 
 ### More files to follow
 
-openspec/AGENTS.md
+[openspec/AGENTS.md](openspec/AGENTS.md)
