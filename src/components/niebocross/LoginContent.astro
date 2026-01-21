@@ -38,8 +38,9 @@ const emailPlaceholder = locale === 'en' ? 'your@email.com' : 'twoj@email.pl';
 
         <button
           type="submit"
-          class="w-full rounded-lg bg-emerald-600 px-6 py-3 font-semibold text-white transition hover:bg-emerald-700 disabled:bg-slate-300"
+          class="w-full rounded-lg bg-emerald-600 px-6 py-3 font-semibold text-white transition hover:bg-emerald-700 disabled:bg-slate-300 disabled:cursor-not-allowed"
           id="emailSubmitBtn"
+          disabled
         >
           {t("niebocross.form.send_code")}
         </button>
@@ -128,6 +129,15 @@ const emailPlaceholder = locale === 'en' ? 'your@email.com' : 'twoj@email.pl';
   const emailError = document.getElementById('emailError');
   const codeError = document.getElementById('codeError');
   const backToEmailBtn = document.getElementById('backToEmail');
+  const emailInput = document.getElementById('email');
+  const emailSubmitBtn = document.getElementById('emailSubmitBtn');
+
+  // Enable/disable submit button based on email input
+  emailInput.addEventListener('input', () => {
+    const email = emailInput.value.trim();
+    const isValidEmail = email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    emailSubmitBtn.disabled = !isValidEmail;
+  });
 
   // Check if already logged in
   const cookies = document.cookie.split(';').map(c => c.trim());
