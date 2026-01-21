@@ -137,8 +137,9 @@ const { t, locale = 'pl' } = Astro.props;
 
           <button
             type="submit"
-            class="w-full rounded-lg bg-emerald-600 px-6 py-3 font-semibold text-white transition hover:bg-emerald-700 disabled:bg-slate-300"
+            class="w-full rounded-lg bg-emerald-600 px-6 py-3 font-semibold text-white transition hover:bg-emerald-700 disabled:bg-slate-300 disabled:cursor-not-allowed"
             id="codeSubmitBtn"
+            disabled
           >
             {t("niebocross.form.verify_code")}
           </button>
@@ -283,6 +284,8 @@ const { t, locale = 'pl' } = Astro.props;
     const fullNameInput = document.getElementById('fullName');
     const rodoCheckbox = document.getElementById('rodoAccepted');
     const termsCheckbox = document.getElementById('termsAccepted');
+    const codeInput = document.getElementById('code');
+    const codeSubmitBtn = document.getElementById('codeSubmitBtn');
 
     console.log('Elements found:', {
       emailSubmitBtn: !!emailSubmitBtn,
@@ -339,6 +342,16 @@ const { t, locale = 'pl' } = Astro.props;
 
     // Run initial validation in case form is pre-filled
     validateEmailForm();
+
+    // Validate code input and enable/disable verify button
+    function validateCodeForm() {
+      const code = codeInput.value.trim();
+      const isValidCode = code && /^[0-9]{6}$/.test(code);
+      codeSubmitBtn.disabled = !isValidCode;
+    }
+
+    // Add event listener to code input
+    codeInput.addEventListener('input', validateCodeForm);
 
     // Step 1: Email submission
     emailForm.addEventListener('submit', async (e) => {

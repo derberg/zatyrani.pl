@@ -261,7 +261,7 @@
       "no_account": "Nie masz jeszcze konta?",
       "register_here": "Zarejestruj się tutaj",
       "code_sent": "Kod weryfikacyjny został wysłany na twój email",
-      "code_info": "Jeśli Twoje konto jest zarejestrowane, otrzymasz email z kodem uwierzytelniającym w ciągu około 5 minut. Jeśli email nie dotarł i nie masz od nas żadnej wiadomości w spamie, oznacza to, że nie jesteś jeszcze zarejestrowany i powinieneś się",
+      "code_info": "Jeśli Twoje konto jest zarejestrowane, otrzymasz email z kodem uwierzytelniającym w ciągu około 5 minut. Jeśli email nie dotarł i nie masz od nas żadnej wiadomości w spamie, oznacza to, że nie jesteś jeszcze zarejestrowany/a i powinieneś/powinnaś się",
       "code_info_register": "zarejestrować",
       "code_info_contact": "W przeciwnym razie",
       "code_info_contact_link": "skontaktuj się z nami"
