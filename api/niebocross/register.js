@@ -1,6 +1,8 @@
 import { createClient } from "@supabase/supabase-js";
 import sgMail from "@sendgrid/mail";
 import { verifyToken } from "./utils/auth.js";
+import { validateParticipant as validateParticipantBase, calculatePaymentForParticipants } from "./utils/participant-validation.js";
+import { createParticipantRecords, upsertClubs } from "./utils/database-operations.js";
 
 function getSupabaseClient() {
   const url = process.env.SUPABASE_URL;
@@ -13,79 +15,24 @@ function getSupabaseClient() {
   return createClient(url, serviceKey);
 }
 
-function calculateAge(birthDate, eventDate) {
-  const birth = new Date(birthDate);
-  const event = new Date(eventDate);
-  let age = event.getFullYear() - birth.getFullYear();
-  const monthDiff = event.getMonth() - birth.getMonth();
-  if (monthDiff < 0 || (monthDiff === 0 && event.getDate() < birth.getDate())) {
-    age--;
-  }
-  return age;
-}
-
 function validateParticipant(participant) {
-  const { fullName, birthDate, city, nationality, raceCategory, termsAccepted } = participant;
-  
-  if (!fullName || !birthDate || !city || !nationality || !raceCategory) {
-    return { valid: false, error: "Wszystkie wymagane pola muszą być wypełnione" };
-  }
+  const { termsAccepted } = participant;
 
   if (!termsAccepted) {
     return { valid: false, error: "Musisz zaakceptować regulamin" };
   }
 
-  // Validate race category
-  const validCategories = ['3km_run', '3km_nw', '9km_run', '9km_nw', 'kids_100m', 'kids_300m'];
-  if (!validCategories.includes(raceCategory)) {
-    return { valid: false, error: "Nieprawidłowa kategoria biegu" };
-  }
-
-  // Validate age restrictions (event date: April 12, 2026)
-  const eventDate = '2026-04-12';
-  const age = calculateAge(birthDate, eventDate);
-
-  const adultRaces = ['3km_run', '3km_nw', '9km_run', '9km_nw'];
-  const kidsRaces = ['kids_100m', 'kids_300m'];
-
-  if (adultRaces.includes(raceCategory) && age < 16) {
-    return { valid: false, error: "Minimalny wiek dla tras 3km i 9km to 16 lat" };
-  }
-
-  if (kidsRaces.includes(raceCategory) && age > 14) {
-    return { valid: false, error: "Biegi dzieci dla uczestników do 14 lat" };
-  }
-
-  return { valid: true };
+  // Use shared validation
+  return validateParticipantBase(participant);
 }
 
 function calculatePayment(participants) {
-  let raceFees = 0;
-  let tshirtFees = 0;
-
-  participants.forEach(p => {
-    // Race fees
-    if (p.raceCategory === 'kids_100m' || p.raceCategory === 'kids_300m') {
-      raceFees += 20;
-    } else {
-      raceFees += 60;
-    }
-
-    // T-shirt fees
-    if (p.tshirtSize) {
-      tshirtFees += 80;
-    }
-  });
-
-  // Charity amount: race_fees + (tshirt_fees * 10/80)
-  const charityAmount = raceFees + (tshirtFees * 10 / 80);
-
-  return {
-    raceFees,
-    tshirtFees,
-    totalAmount: raceFees + tshirtFees,
-    charityAmount
-  };
+  // Convert camelCase to snake_case for shared function
+  const participantsForCalc = participants.map(p => ({
+    race_category: p.raceCategory,
+    tshirt_size: p.tshirtSize
+  }));
+  return calculatePaymentForParticipants(participantsForCalc);
 }
 
 export default async function handler(req, res) {
@@ -137,19 +84,7 @@ export default async function handler(req, res) {
     const supabase = getSupabaseClient();
 
     // Create participant records
-    const participantRecords = participants.map(p => ({
-      registration_id: registration_id,
-      full_name: p.fullName,
-      birth_date: p.birthDate,
-      city: p.city,
-      nationality: p.nationality,
-      club: p.club || null,
-      race_category: p.raceCategory,
-      hide_name_public: p.hideNamePublic || false,
-      tshirt_size: p.tshirtSize || null,
-      terms_accepted: p.termsAccepted,
-      rodo_accepted: true
-    }));
+    const participantRecords = createParticipantRecords(participants, registration_id);
 
     const { error: participantsError } = await supabase
       .from("niebocross_participants")
@@ -259,16 +194,7 @@ export default async function handler(req, res) {
     }
 
     // Add clubs to database if they don't exist
-    for (const participant of participants) {
-      if (participant.club) {
-        await supabase
-          .from("niebocross_clubs")
-          .upsert(
-            { name: participant.club },
-            { onConflict: 'name', ignoreDuplicates: true }
-          );
-      }
-    }
+    await upsertClubs(supabase, participants);
 
     return res.status(200).json({
       success: true,

@@ -259,6 +259,7 @@ const { t, locale = 'pl' } = Astro.props;
     // State
     let currentEmail = '';
     let sessionToken = '';
+    let isAddingToExistingRegistration = false;
 
     // DOM Elements
     const step1 = document.getElementById('step1');
@@ -283,12 +284,12 @@ const { t, locale = 'pl' } = Astro.props;
     const rodoCheckbox = document.getElementById('rodoAccepted');
     const termsCheckbox = document.getElementById('termsAccepted');
 
-    console.log('Elements found:', { 
-      emailSubmitBtn: !!emailSubmitBtn, 
-      emailInput: !!emailInput, 
-      fullNameInput: !!fullNameInput, 
-      rodoCheckbox: !!rodoCheckbox, 
-      termsCheckbox: !!termsCheckbox 
+    console.log('Elements found:', {
+      emailSubmitBtn: !!emailSubmitBtn,
+      emailInput: !!emailInput,
+      fullNameInput: !!fullNameInput,
+      rodoCheckbox: !!rodoCheckbox,
+      termsCheckbox: !!termsCheckbox
     });
 
     let participantCount = 0;
@@ -297,7 +298,23 @@ const { t, locale = 'pl' } = Astro.props;
     const cookies = document.cookie.split(';').map(c => c.trim());
     const authStatusCookie = cookies.find(c => c.startsWith('niebocross_auth_status='));
     if (authStatusCookie && authStatusCookie.split('=')[1] === 'true') {
-      window.location.href = '/niebocross/panel';
+      // User is authenticated - check if they want to add participant or go to panel
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('action') === 'add-participant') {
+        // Skip to step 3 to add participants
+        isAddingToExistingRegistration = true;
+        step1.classList.add('hidden');
+        step3.classList.remove('hidden');
+        addParticipant(); // Add first participant form
+        // Change submit button text
+        const submitBtn = document.getElementById('participantsSubmitBtn');
+        if (submitBtn) {
+          submitBtn.textContent = 'Dodaj uczestników';
+        }
+      } else {
+        // Redirect to panel
+        window.location.href = '/niebocross/panel';
+      }
     }
 
     // Validate email form and enable/disable submit button
@@ -552,6 +569,8 @@ const { t, locale = 'pl' } = Astro.props;
       if (removeBtn) {
         removeBtn.addEventListener('click', () => {
           participantDiv.remove();
+          participantCount--;
+          renumberTitles();
           updateSummary();
         });
       }
@@ -559,6 +578,17 @@ const { t, locale = 'pl' } = Astro.props;
       // Add event listeners for category and tshirt changes
       participantDiv.querySelectorAll('input[type="radio"], .tshirt-size').forEach(el => {
         el.addEventListener('change', updateSummary);
+      });
+    }
+
+    // Renumber participant titles after removal
+    function renumberTitles() {
+      const participantDivs = participantsContainer.querySelectorAll('[data-index]');
+      participantDivs.forEach((div, index) => {
+        const title = div.querySelector('h3');
+        if (title) {
+          title.textContent = `Uczestnik ${index + 1}`;
+        }
       });
     }
 
@@ -619,17 +649,31 @@ const { t, locale = 'pl' } = Astro.props;
         });
       });
 
-      const extraDonation = parseInt(document.getElementById('extraDonation').value || '0');
-
       try {
-        const response = await fetch(`${API_BASE}/register`, {
-          method: 'POST',
-          headers: { 
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${sessionToken}`
-          },
-          body: JSON.stringify({ participants, extraDonation }),
-        });
+        let response;
+
+        if (isAddingToExistingRegistration) {
+          // Adding participants to existing registration
+          response = await fetch(`${API_BASE}/add-participants`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            credentials: 'include',
+            body: JSON.stringify({ participants }),
+          });
+        } else {
+          // New registration with multiple participants
+          const extraDonation = parseInt(document.getElementById('extraDonation').value || '0');
+          response = await fetch(`${API_BASE}/register`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${sessionToken}`
+            },
+            body: JSON.stringify({ participants, extraDonation }),
+          });
+        }
 
         const data = await response.json();
 
@@ -639,10 +683,15 @@ const { t, locale = 'pl' } = Astro.props;
           return;
         }
 
-        // Move to step 4
-        paymentLink.href = data.paymentLink;
-        step3.classList.add('hidden');
-        step4.classList.remove('hidden');
+        if (isAddingToExistingRegistration) {
+          // Redirect back to panel
+          window.location.href = '/niebocross/panel';
+        } else {
+          // Move to step 4
+          paymentLink.href = data.paymentLink;
+          step3.classList.add('hidden');
+          step4.classList.remove('hidden');
+        }
       } catch {
         participantsError.textContent = errorMessages.connection;
         participantsError.classList.remove('hidden');

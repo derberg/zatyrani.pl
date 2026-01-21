@@ -39,12 +39,13 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
       <div class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
         <div class="mb-4 flex items-center justify-between">
           <h3 class="text-xl font-bold text-slate-900">{t("niebocross.dashboard.participants")}</h3>
-          <button
+          <a
             id="addParticipantBtn"
+            href={`${locale === 'en' ? '/en' : ''}/niebocross/rejestracja?action=add-participant`}
             class="hidden rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-700"
           >
             + {t("niebocross.form.add_participant")}
-          </button>
+          </a>
         </div>
         <div id="participantsList" class="space-y-4"></div>
       </div>
@@ -263,7 +264,7 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
       renderParticipants();
 
       // Show add button if editing is allowed
-      if (canEdit && dashboardData.payment) {
+      if (canEdit) {
         document.getElementById('addParticipantBtn').classList.remove('hidden');
       }
     }
