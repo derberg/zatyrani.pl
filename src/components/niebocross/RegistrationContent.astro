@@ -591,7 +591,10 @@ const { t, locale = 'pl' } = Astro.props;
             <label class="block text-sm font-semibold text-slate-700">
               ${formLabels.club}
             </label>
-            <input type="text" name="club_${participantCount}" class="mt-1 block w-full rounded-lg border-emerald-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2 border-2" />
+            <div class="relative">
+              <input type="text" name="club_${participantCount}" class="club-input mt-1 block w-full rounded-lg border-emerald-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2 border-2" data-participant-index="${participantCount}" autocomplete="off" />
+              <div class="club-suggestions absolute z-10 w-full bg-white border border-gray-300 rounded-lg shadow-lg mt-1 hidden max-h-48 overflow-y-auto"></div>
+            </div>
           </div>
           <div>
             <label class="block text-sm font-semibold text-slate-700">
@@ -820,5 +823,93 @@ const { t, locale = 'pl' } = Astro.props;
         participantsError.textContent = errorMessages.connection;
         participantsError.classList.remove('hidden');
       }
+    });
+
+    // Club autocomplete functionality
+    let currentClubInput = null;
+    let debounceTimer = null;
+
+    function setupClubAutocomplete() {
+      document.querySelectorAll('.club-input').forEach(input => {
+        const suggestionsContainer = input.parentElement.querySelector('.club-suggestions');
+        
+        input.addEventListener('input', (e) => {
+          const query = e.target.value.trim();
+          currentClubInput = e.target;
+          
+          if (query.length < 2) {
+            suggestionsContainer.classList.add('hidden');
+            return;
+          }
+
+          // Debounce API calls
+          clearTimeout(debounceTimer);
+          debounceTimer = setTimeout(() => {
+            fetchClubSuggestions(query, suggestionsContainer);
+          }, 300);
+        });
+
+        input.addEventListener('focus', () => {
+          if (input.value.trim().length >= 2) {
+            fetchClubSuggestions(input.value.trim(), suggestionsContainer);
+          }
+        });
+
+        input.addEventListener('blur', () => {
+          // Delay hiding to allow click on suggestions
+          setTimeout(() => {
+            suggestionsContainer.classList.add('hidden');
+          }, 150);
+        });
+
+        input.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') {
+            suggestionsContainer.classList.add('hidden');
+          }
+        });
+      });
+    }
+
+    async function fetchClubSuggestions(query, container) {
+      try {
+        const response = await fetch(`/api/niebocross/clubs/search?q=${encodeURIComponent(query)}`);
+        const data = await response.json();
+        
+        if (data.success && data.clubs && data.clubs.length > 0) {
+          showClubSuggestions(data.clubs, container);
+        } else {
+          container.classList.add('hidden');
+        }
+      } catch (error) {
+        console.error('Error fetching club suggestions:', error);
+        container.classList.add('hidden');
+      }
+    }
+
+    function showClubSuggestions(clubs, container) {
+      container.innerHTML = '';
+      
+      clubs.forEach(club => {
+        const suggestionItem = document.createElement('div');
+        suggestionItem.className = 'px-3 py-2 hover:bg-emerald-50 cursor-pointer text-sm border-b border-gray-100 last:border-b-0';
+        suggestionItem.textContent = club.name;
+        suggestionItem.addEventListener('click', () => {
+          if (currentClubInput) {
+            currentClubInput.value = club.name;
+            container.classList.add('hidden');
+          }
+        });
+        container.appendChild(suggestionItem);
+      });
+      
+      container.classList.remove('hidden');
+    }
+
+    // Initialize autocomplete for existing inputs and set up for dynamically added ones
+    setupClubAutocomplete();
+    
+    // Re-initialize when adding new participants
+    document.getElementById('addParticipantBtn').addEventListener('click', () => {
+      setTimeout(setupClubAutocomplete, 100);
     });
   </script>
