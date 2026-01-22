@@ -343,6 +343,31 @@ const { t, locale = 'pl' } = Astro.props;
 
     let participantCount = 0;
 
+    // Function to validate all participants
+    function validateParticipants() {
+      const participantDivs = participantsContainer.querySelectorAll('[data-index]');
+      let allValid = true;
+
+      participantDivs.forEach(div => {
+        const index = div.getAttribute('data-index');
+        const fullName = document.querySelector(`[name="fullName_${index}"]`).value.trim();
+        const birthDate = document.querySelector(`[name="birthDate_${index}"]`).value;
+        const city = document.querySelector(`[name="city_${index}"]`).value.trim();
+        const nationality = document.querySelector(`[name="nationality_${index}"]`).value.trim();
+        const phoneNumber = document.querySelector(`[name="phoneNumber_${index}"]`).value.trim();
+        const raceCategory = document.querySelector(`input[name="raceCategory_${index}"]:checked`);
+
+        if (!fullName || !birthDate || !city || !nationality || !phoneNumber || !raceCategory) {
+          allValid = false;
+        }
+      });
+
+      // Disable buttons if no participants or any invalid
+      const hasParticipants = participantDivs.length > 0;
+      participantsSubmitBtn.disabled = !hasParticipants || !allValid;
+      finishAddingBtn.disabled = !hasParticipants || !allValid;
+    }
+
     // Check if already logged in
     const cookies = document.cookie.split(';').map(c => c.trim());
     const authStatusCookie = cookies.find(c => c.startsWith('niebocross_auth_status='));
@@ -358,6 +383,9 @@ const { t, locale = 'pl' } = Astro.props;
       }
       // If authenticated but no specific action, allow normal registration flow
     }
+
+    // Initial validation
+    validateParticipants();
 
 
     // Validate email form and enable/disable submit button
@@ -526,7 +554,7 @@ const { t, locale = 'pl' } = Astro.props;
     function addParticipant() {
       participantCount++;
       const participantDiv = document.createElement('div');
-      participantDiv.className = 'rounded-xl border border-slate-200 bg-white p-6 shadow-sm';
+      participantDiv.className = 'rounded-xl border border-slate-200 bg-white p-6 shadow-sm mb-4';
       participantDiv.dataset.index = String(participantCount);
       
       participantDiv.innerHTML = `
@@ -627,6 +655,19 @@ const { t, locale = 'pl' } = Astro.props;
       participantsContainer.appendChild(participantDiv);
       updateSummary();
 
+      // Add event listeners for validation
+      const inputs = participantDiv.querySelectorAll('input[name], select[name]');
+      inputs.forEach(input => {
+        if (input.type === 'radio' || input.type === 'checkbox') {
+          input.addEventListener('change', validateParticipants);
+        } else {
+          input.addEventListener('input', validateParticipants);
+        }
+      });
+
+      // Validate after adding
+      validateParticipants();
+
       // Add phone input validation
       const phoneInput = participantDiv.querySelector(`[name="phoneNumber_${participantCount}"]`);
       if (phoneInput) {
@@ -644,6 +685,7 @@ const { t, locale = 'pl' } = Astro.props;
           participantCount--;
           renumberTitles();
           updateSummary();
+          validateParticipants();
         });
       }
 
