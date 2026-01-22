@@ -206,7 +206,18 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
   </div>
 
   <script define:vars={{
-    t: t,
+    translations: {
+      no_registered_participants: t("niebocross.panel.no_registered_participants"),
+      paid: t("niebocross.panel.paid"),
+      awaiting_payment: t("niebocross.panel.awaiting_payment"),
+      amount_to_pay: t("niebocross.panel.amount_to_pay"),
+      including_charity: t("niebocross.panel.including_charity"),
+      pay_now: t("niebocross.panel.pay_now"),
+      no_participants: t("niebocross.panel.no_participants"),
+      edit: t("niebocross.panel.edit"),
+      delete: t("niebocross.panel.delete"),
+      confirm_delete_participant: t("niebocross.panel.confirm_delete_participant")
+    },
     errorMessages: {
       load: t("niebocross.errors.load_error"),
       update: t("niebocross.errors.update_error"),
@@ -290,29 +301,29 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
 
       if (!payment) {
         statusDiv.innerHTML = `
-          <p class="text-slate-600">${t("niebocross.panel.no_registered_participants")}</p>
+          <p class="text-slate-600">${translations.no_registered_participants}</p>
         `;
         return;
       }
 
       const isPaid = payment.paymentStatus === 'paid';
       const statusColor = isPaid ? 'emerald' : 'amber';
-      const statusText = isPaid ? t("niebocross.panel.paid") : t("niebocross.panel.awaiting_payment");
+      const statusText = isPaid ? translations.paid : translations.awaiting_payment;
 
       statusDiv.className = `rounded-xl border-2 border-${statusColor}-200 bg-${statusColor}-50 p-6`;
       statusDiv.innerHTML = `
         <div class="flex items-center justify-between">
           <div>
             <h3 class="text-lg font-bold text-slate-900">${statusText}</h3>
-            <p class="mt-1 text-sm text-slate-600">${t("niebocross.panel.amount_to_pay")}: <strong>${payment.totalAmount} zł</strong></p>
-            <p class="text-xs text-slate-500 mt-1">${t("niebocross.panel.including_charity", { amount: payment.charityAmount.toFixed(2) })}</p>
+            <p class="mt-1 text-sm text-slate-600">${translations.amount_to_pay}: <strong>${payment.totalAmount} zł</strong></p>
+            <p class="text-xs text-slate-500 mt-1">${translations.including_charity.replace('{{amount}}', payment.charityAmount.toFixed(2))}</p>
           </div>
           ${!isPaid ? `
             <a
               href="/niebocross/payment?id=${dashboardData.registration.id}"
               class="rounded-lg bg-emerald-600 px-6 py-3 font-semibold text-white transition hover:bg-emerald-700"
             >
-              ${t("niebocross.panel.pay_now")}
+              ${translations.pay_now}
             </a>
           ` : ''}
           ${isPaid ? `
@@ -329,7 +340,7 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
       const participants = dashboardData.participants;
 
       if (participants.length === 0) {
-        listDiv.innerHTML = '<p class="text-slate-600">${t("niebocross.panel.no_participants")}</p>';
+        listDiv.innerHTML = `<p class="text-slate-600">${translations.no_participants}</p>`;
         return;
       }
 
@@ -355,13 +366,13 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
                     data-id="${p.id}"
                     data-participant='${JSON.stringify(p)}'
                   >
-                    ${t("niebocross.panel.edit")}
+                    ${translations.edit}
                   </button>
                   <button 
                     class="delete-btn rounded-lg border border-red-300 bg-white px-3 py-1.5 text-sm font-semibold text-red-700 transition hover:bg-red-50"
                     data-id="${p.id}"
                   >
-                    ${t("niebocross.panel.delete")}
+                    ${translations.delete}
                   </button>
                 </div>
               ` : ''}
@@ -382,7 +393,7 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
         document.querySelectorAll('.delete-btn').forEach(btn => {
           btn.addEventListener('click', async (e) => {
             const id = e.target.getAttribute('data-id');
-            if (confirm('${t("niebocross.panel.confirm_delete_participant")}')) {
+            if (confirm(translations.confirm_delete_participant)) {
               await deleteParticipant(id);
             }
           });
