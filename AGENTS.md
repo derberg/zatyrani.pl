@@ -63,3 +63,15 @@ This project uses a dual-layer authentication system for the NieboCross feature:
 ### More files to follow
 
 [openspec/AGENTS.md](openspec/AGENTS.md)
+
+## Deployment Architecture
+
+This project uses **Static Site Generation (SSG) only** with ZERO Server-Side Rendering:
+
+- **Frontend**: Astro v4.15.3 with static generation
+- **Deployment**: Vercel static hosting + Vercel API functions
+- **No SSR**: All pages must be pre-rendered at build time
+- **API**: Serverless functions in `/api/` directory handle backend operations
+- **Client-side only**: No `export const prerender = false;` allowed
+
+**Critical Constraint**: Never add SSR dependencies or configurations. All dynamic functionality must work within static generation paradigm using client-side JavaScript and API calls.
