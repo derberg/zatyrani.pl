@@ -22,7 +22,8 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
       <div class="flex items-center justify-between">
         <div>
           <h2 class="text-3xl font-bold text-slate-900">{t("niebocross.dashboard.title")}</h2>
-          <p class="mt-1 text-slate-600" id="emailDisplay"></p>
+          <p class="mt-1 font-medium text-slate-700" id="nameDisplay"></p>
+          <p class="text-sm text-slate-600" id="emailDisplay"></p>
         </div>
         <button
           id="logoutBtn"
@@ -254,7 +255,8 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
       document.getElementById('loading').classList.add('hidden');
       document.getElementById('content').classList.remove('hidden');
 
-      // Display email
+      // Display contact name and email
+      document.getElementById('nameDisplay').textContent = dashboardData.registration.fullName;
       document.getElementById('emailDisplay').textContent = dashboardData.registration.email;
 
       // Render payment status
