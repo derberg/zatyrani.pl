@@ -279,6 +279,8 @@
       "connection_error": "Wystąpił błąd połączenia",
       "generic_error": "Wystąpił błąd",
       "invalid_code": "Nieprawidłowy kod",
+      "invalid_code_contact": "Jeśli wpisujesz kod z emaila i nadal widzisz ten błąd",
+      "invalid_code_contact_link": "skontaktuj się z nami",
       "code_expired": "Kod wygasł",
       "code_not_found": "Kod nie znaleziony",
       "unauthorized": "Nieautoryzowany dostęp",

@@ -21,31 +21,25 @@
 - [ ] Wpisz prawidłowy adres email
 - [ ] Wpisz imię i nazwisko osoby kontaktowej
 - [ ] Zaznacz zgodę RODO
+- [ ] Zaznacz zgodę na Regulamin
+- [ ] **Oczekiwany rezultat:** Przycisk wysłania kodu nieaktywny póki wszystkie pola nie są wypełnione
 - [ ] Kliknij "Wyślij kod weryfikacyjny"
 - [ ] **Oczekiwany rezultat:** Email z 6-cyfrowym kodem dotarł na skrzynkę
 - [ ] **Oczekiwany rezultat:** Przejście do kroku 2 (weryfikacja kodu)
 
-### Test 2.2: Walidacja emaila (Krok 1)
-- [ ] Spróbuj wysłać formularz bez emaila
-- [ ] **Oczekiwany rezultat:** Walidacja HTML5 - wymagane pole
-- [ ] Spróbuj wysłać formularz bez zgody RODO
-- [ ] **Oczekiwany rezultat:** Walidacja HTML5 - wymagane pole
-- [ ] Spróbuj użyć emaila, który już istnieje w bazie
-- [ ] **Oczekiwany rezultat:** Komunikat błędu: "Ten email jest już zarejestrowany. Jeśli to Ty, zaloguj się używając linku w emailu."
-
-### Test 2.3: Rate limiting emaili
+### Test 2.2: Rate limiting emaili
 - [ ] Spróbuj wysłać kod więcej niż 3 razy w ciągu godziny dla tego samego emaila
 - [ ] **Oczekiwany rezultat:** Komunikat: "Zbyt wiele prób. Spróbuj ponownie za godzinę."
 
-### Test 2.4: Weryfikacja kodu (Krok 2)
+### Test 2.3: Weryfikacja kodu (Krok 2)
 - [ ] Wpisz otrzymany 6-cyfrowy kod
 - [ ] Kliknij "Zweryfikuj kod"
 - [ ] **Oczekiwany rezultat:** Kod zaakceptowany, sesja utworzona (ciasteczko ustawione)
 - [ ] **Oczekiwany rezultat:** Przejście do kroku 3 (dodawanie uczestników)
 
-### Test 2.5: Nieprawidłowy kod
+### Test 2.4: Nieprawidłowy kod
 - [ ] Wpisz nieprawidłowy kod (np. 000000)
-- [ ] **Oczekiwany rezultat:** Komunikat błędu: "Nieprawidłowy lub wygasły kod"
+- [ ] **Oczekiwany rezultat:** Komunikat błędu: "Nieprawidłowy kod. Jeśli wpisujesz kod z emaila i nadal widzisz ten błąd, [skontaktuj się z nami](#kontakt)." (z klikalnym linkiem do sekcji kontakt)
 
 ### Test 2.6: Wygasły kod
 - [ ] Poczekaj 10 minut po otrzymaniu kodu

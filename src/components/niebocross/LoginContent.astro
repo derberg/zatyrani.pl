@@ -108,6 +108,8 @@ const emailPlaceholder = locale === 'en' ? 'your@email.com' : 'twoj@email.pl';
     EMAIL_NOT_SENT: t('niebocross.errors.email_not_sent'),
     CODE_REQUIRED: t('niebocross.errors.code_required'),
     INVALID_CODE: t('niebocross.errors.invalid_code'),
+    INVALID_CODE_CONTACT: t('niebocross.errors.invalid_code_contact'),
+    INVALID_CODE_CONTACT_LINK: t('niebocross.errors.invalid_code_contact_link'),
     CODE_EXPIRED: t('niebocross.errors.code_expired'),
     RATE_LIMIT: t('niebocross.errors.rate_limit'),
     CONNECTION_ERROR: t('niebocross.errors.connection_error'),
@@ -116,6 +118,10 @@ const emailPlaceholder = locale === 'en' ? 'your@email.com' : 'twoj@email.pl';
   panelLink
 }}>
   function getErrorMessage(errorCode) {
+    // Special handling for INVALID_CODE to include clickable link
+    if (errorCode === 'INVALID_CODE') {
+      return `${errorMessages.INVALID_CODE}. ${errorMessages.INVALID_CODE_CONTACT}, <a href="/niebocross#kontakt" class="font-semibold text-emerald-600 hover:underline">${errorMessages.INVALID_CODE_CONTACT_LINK}</a>.`;
+    }
     return errorMessages[errorCode] || errorMessages.GENERIC;
   }
   
@@ -214,7 +220,13 @@ const emailPlaceholder = locale === 'en' ? 'your@email.com' : 'twoj@email.pl';
       const data = await response.json();
 
       if (!response.ok) {
-        codeError.textContent = getErrorMessage(data.error);
+        const errorMsg = getErrorMessage(data.error);
+        // Use innerHTML for INVALID_CODE to render the link
+        if (data.error === 'INVALID_CODE') {
+          codeError.innerHTML = errorMsg;
+        } else {
+          codeError.textContent = errorMsg;
+        }
         codeError.classList.remove('hidden');
         return;
       }

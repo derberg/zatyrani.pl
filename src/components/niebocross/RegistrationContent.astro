@@ -244,6 +244,8 @@ const { t, locale = 'pl' } = Astro.props;
       RODO_REQUIRED: t("niebocross.errors.rodo_required"),
       TERMS_REQUIRED: t("niebocross.errors.terms_required"),
       INVALID_CODE: t("niebocross.errors.invalid_code"),
+      INVALID_CODE_CONTACT: t("niebocross.errors.invalid_code_contact"),
+      INVALID_CODE_CONTACT_LINK: t("niebocross.errors.invalid_code_contact_link"),
       CODE_EXPIRED: t("niebocross.errors.code_expired"),
       connection: t("niebocross.errors.connection_error"),
       generic: t("niebocross.errors.generic_error")
@@ -256,6 +258,15 @@ const { t, locale = 'pl' } = Astro.props;
   }}>
     // API Base URL
     const API_BASE = '/api/niebocross';
+
+    // Helper function to get error message with special handling for INVALID_CODE
+    function getErrorMessage(errorCode) {
+      // Special handling for INVALID_CODE to include clickable link
+      if (errorCode === 'INVALID_CODE') {
+        return `${errorMessages.INVALID_CODE}. ${errorMessages.INVALID_CODE_CONTACT}, <a href="/niebocross#kontakt" class="font-semibold text-emerald-600 hover:underline">${errorMessages.INVALID_CODE_CONTACT_LINK}</a>.`;
+      }
+      return errorMessages[errorCode] || errorMessages.generic;
+    }
 
     // State
     let currentEmail = '';
@@ -426,7 +437,7 @@ const { t, locale = 'pl' } = Astro.props;
         const data = await response.json();
 
         if (!response.ok) {
-          codeError.textContent = errorMessages[data.error] || errorMessages.generic;
+          codeError.textContent = getErrorMessage(data.error);
           codeError.classList.remove('hidden');
         } else {
           codeSuccess.textContent = uiMessages.codeResent;
@@ -459,7 +470,13 @@ const { t, locale = 'pl' } = Astro.props;
         const data = await response.json();
 
         if (!response.ok) {
-          codeError.textContent = errorMessages[data.error] || errorMessages.generic;
+          const errorMsg = getErrorMessage(data.error);
+          // Use innerHTML for INVALID_CODE to render the link
+          if (data.error === 'INVALID_CODE') {
+            codeError.innerHTML = errorMsg;
+          } else {
+            codeError.textContent = errorMsg;
+          }
           codeError.classList.remove('hidden');
           return;
         }

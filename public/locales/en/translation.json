@@ -279,6 +279,8 @@
       "connection_error": "Connection error occurred",
       "generic_error": "An error occurred",
       "invalid_code": "Invalid code",
+      "invalid_code_contact": "If you're entering the code from your email and still see this error",
+      "invalid_code_contact_link": "please contact us",
       "code_expired": "Code expired",
       "code_not_found": "Code not found",
       "unauthorized": "Unauthorized access",
