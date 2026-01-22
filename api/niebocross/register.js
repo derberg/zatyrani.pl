@@ -129,8 +129,8 @@ export default async function handler(req, res) {
       .eq("id", registration_id)
       .single();
 
-    // Payment link points to payment page - SIBS link will be created on demand when user clicks
-    const paymentLink = `https://zatyrani.pl/niebocross/payment?id=${registration_id}`;
+    // Payment page URL - SIBS link will be created on demand when user visits this page
+    const paymentPageUrl = `https://zatyrani.pl/niebocross/payment?id=${registration_id}`;
 
     // Send confirmation email
     const sendgridKey = process.env.SENDGRID_API_KEY;
@@ -143,9 +143,9 @@ export default async function handler(req, res) {
 
       const msg = {
         to: registration.email,
-        from: process.env.SENDGRID_FROM_EMAIL || "zatyrani@zatyrani.pl",
+        from: process.env.SENDGRID_FROM_EMAIL || "biuro@zatyrani.pl",
         subject: "Potwierdzenie rejestracji - NieboCross 2026",
-        text: `Witaj ${registration.contact_person},\n\nDziękujemy za rejestrację na wydarzenie NieboCross 2026!\n\nZarejestrowani uczestnicy:\n${participantsList}\n\nDo zapłaty: ${payment.totalAmount} zł\n(w tym ${payment.charityAmount.toFixed(2)} zł na cel charytatywny)\n\nAby dokończyć rejestrację, opłać udział klikając poniższy link:\n${paymentLink}\n\nLink jest ważny przez 48 godzin.\n\nMożesz sprawdzić status płatności i pobrać potwierdzenie logując się na:\nhttps://zatyrani.pl/niebocross/panel\n\nDo zobaczenia w Nieborowicach 12 kwietnia 2026!\n\n--\nStowarzyszenie ZATYRANI\nwww.zatyrani.pl`,
+        text: `Witaj ${registration.contact_person},\n\nDziękujemy za rejestrację na wydarzenie NieboCross 2026!\n\nZarejestrowani uczestnicy:\n${participantsList}\n\nDo zapłaty: ${payment.totalAmount} zł\n(w tym ${payment.charityAmount.toFixed(2)} zł na cel charytatywny)\n\nAby dokończyć rejestrację, opłać udział klikając poniższy link:\n${paymentPageUrl}\n\nMożesz sprawdzić status płatności i pobrać potwierdzenie logując się na:\nhttps://zatyrani.pl/niebocross/panel\n\nDo zobaczenia w Nieborowicach 12 kwietnia 2026!\n\n--\nStowarzyszenie ZATYRANI\nwww.zatyrani.pl`,
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
             <h2>Potwierdzenie rejestracji - NieboCross 2026</h2>
@@ -161,7 +161,7 @@ export default async function handler(req, res) {
             </div>
             <p>Aby dokończyć rejestrację, opłać udział klikając poniższy link:</p>
             <p style="text-align: center; margin: 30px 0;">
-              <a href="${paymentLink}" style="background-color: #4CAF50; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; display: inline-block;">Opłać rejestrację</a>
+              <a href="${paymentPageUrl}" style="background-color: #4CAF50; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; display: inline-block;">Opłać rejestrację</a>
             </p>
             <p style="color: #666; font-size: 14px;">Link jest ważny przez 48 godzin.</p>
             <p>Możesz sprawdzić status płatności i pobrać potwierdzenie logując się na:<br>
@@ -190,7 +190,6 @@ export default async function handler(req, res) {
     return res.status(200).json({
       success: true,
       registrationId: registration_id,
-      paymentLink: paymentLink,
       message: "Rejestracja utworzona. Link do płatności został wysłany na email."
     });
 

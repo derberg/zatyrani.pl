@@ -728,7 +728,7 @@ const { t, locale = 'pl' } = Astro.props;
           window.location.href = '/niebocross/panel';
         } else {
           // Move to step 4
-          paymentLink.href = data.paymentLink;
+          paymentLink.href = `/niebocross/payment?id=${data.registrationId}`;
           step3.classList.add('hidden');
           step4.classList.remove('hidden');
         }

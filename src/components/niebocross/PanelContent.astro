@@ -294,9 +294,9 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
             <p class="mt-1 text-sm text-slate-600">Kwota do zapłaty: <strong>${payment.totalAmount} zł</strong></p>
             <p class="text-xs text-slate-500 mt-1">W tym ${payment.charityAmount.toFixed(2)} zł na cel charytatywny 💚</p>
           </div>
-          ${!isPaid && payment.paymentLink ? `
-            <a 
-              href="${payment.paymentLink}"
+          ${!isPaid ? `
+            <a
+              href="/niebocross/payment?id=${dashboardData.registration.id}"
               class="rounded-lg bg-emerald-600 px-6 py-3 font-semibold text-white transition hover:bg-emerald-700"
             >
               Opłać teraz
