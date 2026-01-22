@@ -116,11 +116,15 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
                 <label class="block text-sm font-semibold text-slate-700">
                   {t("niebocross.form.club")}
                 </label>
-                <input
-                  type="text"
-                  id="editClub"
-                  class="mt-1 block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2"
-                />
+                <div class="relative">
+                  <input
+                    type="text"
+                    id="editClub"
+                    class="club-input mt-1 block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2"
+                    autocomplete="off"
+                  />
+                  <div class="club-suggestions absolute z-10 w-full bg-white border border-gray-300 rounded-lg shadow-lg mt-1 hidden max-h-48 overflow-y-auto"></div>
+                </div>
               </div>
               <div>
                 <label class="block text-sm font-semibold text-slate-700">
@@ -227,6 +231,9 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
     }
   }}>
     const API_BASE = '/api/niebocross';
+
+    // Club autocomplete functionality
+    import { setupClubAutocomplete } from '../../utils/clubAutocomplete.js';
 
     let canEdit = false;
     let dashboardData = null;
@@ -432,6 +439,11 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
 
       editModal.classList.remove('hidden');
       editModal.classList.add('flex');
+
+      // Setup club autocomplete for the edit modal
+      setTimeout(() => {
+        setupClubAutocomplete();
+      }, 100);
     }
 
     function closeEditModal() {
