@@ -209,7 +209,7 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
     </div>
   </div>
 
-  <script type="module" define:vars={{
+  <script define:vars={{
     translations: {
       no_registered_participants: t("niebocross.panel.no_registered_participants"),
       paid: t("niebocross.panel.paid"),
@@ -244,7 +244,6 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
     
     if (!authStatusCookie || authStatusCookie.split('=')[1] !== 'true') {
       window.location.href = '/niebocross/zaloguj';
-      return;
     }
 
     // Load dashboard data
