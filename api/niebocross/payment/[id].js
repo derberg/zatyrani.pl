@@ -1,5 +1,4 @@
 import { createClient } from "@supabase/supabase-js";
-import { verifyToken } from "../utils/auth.js";
 
 function getSupabaseClient() {
   const url = process.env.SUPABASE_URL;
@@ -28,28 +27,22 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Verify JWT token
-    const authResult = verifyToken(req);
-    if (authResult.error) {
-      return res.status(authResult.status).json({
+    const registrationId = req.query.id;
+
+    if (!registrationId) {
+      return res.status(400).json({
         success: false,
-        error: authResult.error
+        error: "Registration ID is required"
       });
     }
-
-    const { registration_id } = authResult;
 
     const supabase = getSupabaseClient();
 
     // Get pending payment first, otherwise get latest payment
-    // A registration can have multiple payments (e.g., after adding more participants post-payment)
     let { data: payment, error: paymentError } = await supabase
       .from("niebocross_payments")
-      .select(`
-        *,
-        niebocross_registrations!inner(email, contact_person)
-      `)
-      .eq("registration_id", registration_id)
+      .select("id, total_amount, payment_status, payment_link, created_at")
+      .eq("registration_id", registrationId)
       .eq("payment_status", "pending")
       .single();
 
@@ -57,11 +50,8 @@ export default async function handler(req, res) {
     if (paymentError || !payment) {
       const { data: latestPayment, error: latestError } = await supabase
         .from("niebocross_payments")
-        .select(`
-          *,
-          niebocross_registrations!inner(email, contact_person)
-        `)
-        .eq("registration_id", registration_id)
+        .select("id, total_amount, payment_status, payment_link, created_at")
+        .eq("registration_id", registrationId)
         .order("created_at", { ascending: false })
         .limit(1)
         .single();
