@@ -280,6 +280,7 @@ const { t, locale = 'pl' } = Astro.props;
     let currentEmail = '';
     let sessionToken = '';
     let isAddingToExistingRegistration = false;
+    let skipPaymentStep = false;
 
     // DOM Elements
     const step1 = document.getElementById('step1');
@@ -334,8 +335,6 @@ const { t, locale = 'pl' } = Astro.props;
       // If authenticated but no specific action, allow normal registration flow
     }
 
-    // Set finish button state
-    finishAddingBtn.disabled = !isAddingToExistingRegistration;
 
     // Validate email form and enable/disable submit button
     function validateEmailForm() {
@@ -627,11 +626,10 @@ const { t, locale = 'pl' } = Astro.props;
 
     addParticipantBtn.addEventListener('click', addParticipant);
     
-    // Add event listener for finish adding button
+    // Add event listener for finish adding button (always enabled - user can pay later)
     finishAddingBtn.addEventListener('click', () => {
-      if (isAddingToExistingRegistration) {
-        participantsForm.requestSubmit();
-      }
+      skipPaymentStep = true;
+      participantsForm.requestSubmit();
     });
     
     // Add event listener for extra donation
@@ -705,12 +703,15 @@ const { t, locale = 'pl' } = Astro.props;
         } else {
           // New registration with multiple participants
           const extraDonation = parseInt(document.getElementById('extraDonation').value || '0');
+          const headers = { 'Content-Type': 'application/json' };
+          // Use Bearer token if available, otherwise rely on cookie auth
+          if (sessionToken) {
+            headers['Authorization'] = `Bearer ${sessionToken}`;
+          }
           response = await fetch(`${API_BASE}/register`, {
             method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${sessionToken}`
-            },
+            headers,
+            credentials: 'include',
             body: JSON.stringify({ participants, extraDonation }),
           });
         }
@@ -723,8 +724,8 @@ const { t, locale = 'pl' } = Astro.props;
           return;
         }
 
-        if (isAddingToExistingRegistration) {
-          // Redirect back to panel
+        if (isAddingToExistingRegistration || skipPaymentStep) {
+          // Redirect to panel (user can pay later)
           window.location.href = '/niebocross/panel';
         } else {
           // Move to step 4
