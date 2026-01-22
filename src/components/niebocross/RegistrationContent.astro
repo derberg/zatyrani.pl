@@ -343,6 +343,84 @@ const { t, locale = 'pl' } = Astro.props;
 
     let participantCount = 0;
 
+    // Category to group mapping for limit checking
+    const CATEGORY_TO_GROUP = {
+      '3km_run': 'adults_runners',
+      '9km_run': 'adults_runners',
+      '3km_nw': 'nw',
+      '9km_nw': 'nw',
+      'kids_run': 'kids'
+    };
+
+    // Store current limits and counts
+    let currentLimitsAndCounts = null;
+
+    // Function to fetch current participant limits and counts
+    async function fetchLimitsAndCounts() {
+      try {
+        const response = await fetch(`${API_BASE}/registrations/list`);
+        const data = await response.json();
+        if (data.success) {
+          currentLimitsAndCounts = data.limitsAndCounts;
+          console.log('Fetched limits and counts:', currentLimitsAndCounts);
+          return true;
+        }
+      } catch (error) {
+        console.error('Error fetching limits and counts:', error);
+      }
+      return false;
+    }
+
+    // Function to get disabled categories based on current counts
+    function getDisabledCategories() {
+      if (!currentLimitsAndCounts) return [];
+
+      const disabled = [];
+      for (const [category, group] of Object.entries(CATEGORY_TO_GROUP)) {
+        const groupData = currentLimitsAndCounts[group];
+        if (groupData && groupData.count >= groupData.limit) {
+          disabled.push(category);
+        }
+      }
+      return disabled;
+    }
+
+    // Function to update category options (disable/enable based on limits)
+    async function updateCategoryOptions() {
+      // First fetch the latest limits and counts
+      await fetchLimitsAndCounts();
+      
+      const disabledCategories = getDisabledCategories();
+      console.log('Disabled categories:', disabledCategories);
+
+      // Update all existing participant forms
+      const participantDivs = participantsContainer.querySelectorAll('[data-index]');
+      participantDivs.forEach(div => {
+        const index = div.getAttribute('data-index');
+        const categoryInputs = div.querySelectorAll(`input[name="raceCategory_${index}"]`);
+
+        categoryInputs.forEach(input => {
+          const category = input.value;
+          const isDisabled = disabledCategories.includes(category);
+          input.disabled = isDisabled;
+
+          // Update visual styling
+          const label = input.closest('label');
+          if (label) {
+            if (isDisabled) {
+              label.classList.add('opacity-50', 'cursor-not-allowed');
+              label.classList.remove('cursor-pointer', 'hover:bg-emerald-50');
+              label.title = 'Kategoria jest już pełna';
+            } else {
+              label.classList.remove('opacity-50', 'cursor-not-allowed');
+              label.classList.add('cursor-pointer', 'hover:bg-emerald-50');
+              label.title = '';
+            }
+          }
+        });
+      });
+    }
+
     // Function to validate all participants
     function validateParticipants() {
       const participantDivs = participantsContainer.querySelectorAll('[data-index]');
@@ -658,6 +736,9 @@ const { t, locale = 'pl' } = Astro.props;
       participantsContainer.appendChild(participantDiv);
       updateSummary();
 
+      // Update category options based on current limits
+      updateCategoryOptions();
+
       // Add event listeners for validation
       const inputs = participantDiv.querySelectorAll('input[name], select[name]');
       inputs.forEach(input => {
@@ -892,10 +973,10 @@ const { t, locale = 'pl' } = Astro.props;
       clubs.forEach(club => {
         const suggestionItem = document.createElement('div');
         suggestionItem.className = 'px-3 py-2 hover:bg-emerald-50 cursor-pointer text-sm border-b border-gray-100 last:border-b-0';
-        suggestionItem.textContent = club.name;
+        suggestionItem.textContent = club;
         suggestionItem.addEventListener('click', () => {
           if (currentClubInput) {
-            currentClubInput.value = club.name;
+            currentClubInput.value = club;
             container.classList.add('hidden');
           }
         });
@@ -907,9 +988,13 @@ const { t, locale = 'pl' } = Astro.props;
 
     // Initialize autocomplete for existing inputs and set up for dynamically added ones
     setupClubAutocomplete();
+    updateCategoryOptions();
     
     // Re-initialize when adding new participants
     document.getElementById('addParticipantBtn').addEventListener('click', () => {
-      setTimeout(setupClubAutocomplete, 100);
+      setTimeout(() => {
+        setupClubAutocomplete();
+        updateCategoryOptions();
+      }, 100);
     });
   </script>
