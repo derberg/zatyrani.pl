@@ -1,5 +1,6 @@
 ---
 import NieboCrossHeader from './NieboCrossHeader.astro';
+import ClubAutocomplete from './ClubAutocomplete.astro';
 
 interface Props {
   t: (key: string) => string;
@@ -10,6 +11,7 @@ const { t, locale = 'pl' } = Astro.props;
 const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
 ---
   <NieboCrossHeader t={t} />
+  <ClubAutocomplete />
 
   <div class="mx-auto max-w-4xl px-6 py-12">
     <div id="loading" class="text-center py-12">
@@ -231,9 +233,6 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
     }
   }}>
     const API_BASE = '/api/niebocross';
-
-    // Club autocomplete functionality
-    import { setupClubAutocomplete } from '../../utils/clubAutocomplete.js';
 
     let canEdit = false;
     let dashboardData = null;
