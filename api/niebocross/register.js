@@ -3,7 +3,6 @@ import sgMail from "@sendgrid/mail";
 import { verifyToken } from "./utils/auth.js";
 import { validateParticipant as validateParticipantBase, calculatePaymentForParticipants } from "./utils/participant-validation.js";
 import { createParticipantRecords, upsertClubs } from "./utils/database-operations.js";
-import { createPaymentLink } from "./utils/sibs.js";
 
 function getSupabaseClient() {
   const url = process.env.SUPABASE_URL;
@@ -103,8 +102,8 @@ export default async function handler(req, res) {
     // Calculate payment
     const payment = calculatePayment(participants);
 
-    // Create payment record
-    const { data: paymentRecord, error: paymentError } = await supabase
+    // Create payment record (payment_link will be created on demand when user clicks pay)
+    const { error: paymentError } = await supabase
       .from("niebocross_payments")
       .insert({
         registration_id: registration_id,
@@ -113,9 +112,7 @@ export default async function handler(req, res) {
         tshirt_fees: payment.tshirtFees,
         charity_amount: payment.charityAmount,
         payment_status: 'pending'
-      })
-      .select()
-      .single();
+      });
 
     if (paymentError) {
       console.error("Error creating payment:", paymentError);
@@ -125,36 +122,15 @@ export default async function handler(req, res) {
       });
     }
 
-    // Get registration email for payment
+    // Get registration email for confirmation
     const { data: registration } = await supabase
       .from("niebocross_registrations")
       .select("email, contact_person")
       .eq("id", registration_id)
       .single();
 
-    // Create payment link with SIBS
-    let paymentLink;
-    try {
-      const paymentResult = await createPaymentLink({
-        paymentId: paymentRecord.id,
-        amount: Math.round(payment.totalAmount * 100), // Convert to cents (EUR)
-        description: `NieboCross 2026 - rejestracja ${registration.contact_person}`,
-        email: registration.email,
-        urlReturn: `https://zatyrani.pl/niebocross/panel?payment=success`,
-        urlStatus: `https://zatyrani.pl/api/niebocross/payment/webhook`
-      });
-      paymentLink = paymentResult.paymentUrl;
-    } catch (paymentError) {
-      console.error("Error creating payment link:", paymentError);
-      // Fallback to manual payment instructions
-      paymentLink = `https://zatyrani.pl/niebocross/payment?id=${paymentRecord.id}`;
-    }
-
-    // Update payment with link
-    await supabase
-      .from("niebocross_payments")
-      .update({ payment_link: paymentLink })
-      .eq("id", paymentRecord.id);
+    // Payment link points to payment page - SIBS link will be created on demand when user clicks
+    const paymentLink = `https://zatyrani.pl/niebocross/payment?id=${registration_id}`;
 
     // Send confirmation email
     const sendgridKey = process.env.SENDGRID_API_KEY;

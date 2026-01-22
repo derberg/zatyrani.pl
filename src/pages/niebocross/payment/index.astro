@@ -47,14 +47,36 @@
         border-radius: 8px;
         margin-top: 1rem;
       }
+      .info {
+        color: #059669;
+        background: #ecfdf5;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-top: 1rem;
+      }
+      .btn {
+        display: inline-block;
+        margin-top: 1rem;
+        padding: 0.75rem 1.5rem;
+        background: #667eea;
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: 500;
+      }
+      .btn:hover {
+        background: #5a67d8;
+      }
     </style>
   </head>
   <body>
     <div class="container">
-      <h1>Przetwarzanie płatności...</h1>
-      <div class="spinner"></div>
-      <p>Proszę czekać, trwa przekierowanie do bramki płatniczej.</p>
+      <h1 id="title">Przetwarzanie płatności...</h1>
+      <div id="spinner" class="spinner"></div>
+      <p id="message">Proszę czekać, trwa przekierowanie do bramki płatniczej.</p>
+      <div id="info-message" class="info" style="display: none;"></div>
       <div id="error-message" class="error" style="display: none;"></div>
+      <a id="panel-link" href="/niebocross/panel" class="btn" style="display: none;">Przejdź do panelu</a>
     </div>
 
     <script>
@@ -101,7 +123,7 @@
         }
 
         try {
-          // Fetch payment details
+          // Fetch payment details (this will also create SIBS link if needed)
           const response = await fetch(`/api/niebocross/payment/${paymentId}`);
           const data = await response.json();
 
@@ -109,22 +131,32 @@
             throw new Error(data.error || 'Failed to load payment details');
           }
 
-          if (data.payment.payment_status === 'paid') {
-            window.location.href = '/niebocross/panel?payment=already_paid';
+          // No pending payments
+          if (!data.has_pending_payment) {
+            document.getElementById('title').textContent = 'Brak nieopłaconych płatności';
+            document.getElementById('message').textContent = data.message || 'Wszystkie płatności zostały już zrealizowane.';
+            document.getElementById('spinner').style.display = 'none';
+            document.getElementById('info-message').textContent = 'Możesz przejść do panelu, aby zobaczyć szczegóły rejestracji.';
+            document.getElementById('info-message').style.display = 'block';
+            document.getElementById('panel-link').style.display = 'inline-block';
             return;
           }
 
-          if (data.payment.payment_link) {
+          // Has pending payment with link - redirect
+          if (data.payment && data.payment.payment_link) {
             window.location.href = data.payment.payment_link;
           } else {
             throw new Error('Payment link not available');
           }
         } catch (error) {
           console.error('Payment error:', error);
+          document.getElementById('title').textContent = 'Błąd płatności';
+          document.getElementById('message').style.display = 'none';
           document.getElementById('error-message').textContent =
-            'Wystąpił błąd podczas ładowania płatności. Spróbuj ponownie lub skontaktuj się z organizatorem.';
+            'Wystąpił błąd podczas tworzenia płatności. Spróbuj ponownie lub skontaktuj się z organizatorem.';
           document.getElementById('error-message').style.display = 'block';
-          document.querySelector('.spinner').style.display = 'none';
+          document.getElementById('spinner').style.display = 'none';
+          document.getElementById('panel-link').style.display = 'inline-block';
         }
       }
 
