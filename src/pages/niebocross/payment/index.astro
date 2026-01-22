@@ -95,9 +95,8 @@
         }
 
         if (!paymentId) {
-          document.getElementById('error-message').textContent = 'Brak identyfikatora płatności w URL.';
-          document.getElementById('error-message').style.display = 'block';
-          document.querySelector('.spinner').style.display = 'none';
+          // If no payment ID is provided, redirect to panel
+          window.location.href = '/niebocross/panel';
           return;
         }
 
