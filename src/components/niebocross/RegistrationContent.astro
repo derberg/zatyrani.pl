@@ -778,6 +778,11 @@ const { t, locale = 'pl' } = Astro.props;
       participantDiv.querySelectorAll('input[type="radio"], .tshirt-size').forEach(el => {
         el.addEventListener('change', updateSummary);
       });
+
+      // Initialize club autocomplete for the new input
+      if (window.setupClubAutocomplete) {
+        window.setupClubAutocomplete();
+      }
     }
 
     // Renumber participant titles after removal

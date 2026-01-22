@@ -85,4 +85,8 @@
 
   // Make setupClubAutocomplete globally available
   window.setupClubAutocomplete = setupClubAutocomplete;
+
+  // Initialize autocomplete on page load
+  document.addEventListener('DOMContentLoaded', setupClubAutocomplete);
+
 </script>
