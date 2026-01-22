@@ -74,7 +74,7 @@ export async function updateOrCreatePayment(supabase, registration_id, allPartic
     return { ...existingPendingPayment, ...payment };
   } else {
     // Create new pending payment record
-    const paymentLink = `https://zatyrani.pl/niebocross/payment?=${registration_id}`;
+    const paymentLink = `https://zatyrani.pl/niebocross/payment?id=${registration_id}`;
 
     const { data: newPayment, error: createError } = await supabase
       .from("niebocross_payments")
