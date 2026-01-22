@@ -1,13 +1,5 @@
 ---
-import { getCollection } from "astro:content";
-
-export async function getStaticPaths() {
-  // For static generation, we can't know payment IDs ahead of time
-  // This page will be client-side rendered or we need to handle it differently
-  return [];
-}
-
-const { id } = Astro.params;
+// Static payment page that handles payment IDs dynamically
 ---
 
 <html lang="pl">
@@ -66,9 +58,41 @@ const { id } = Astro.params;
     </div>
 
     <script>
+      // Handle legacy URLs with ID in path - redirect to query parameter format
+      function handleLegacyUrl() {
+        const pathParts = window.location.pathname.split('/');
+        const paymentIndex = pathParts.indexOf('payment');
+
+        if (paymentIndex !== -1 && paymentIndex < pathParts.length - 1) {
+          const potentialId = pathParts[paymentIndex + 1];
+          // Check if it looks like a UUID
+          if (potentialId && potentialId !== 'index' && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(potentialId)) {
+            const newUrl = `/niebocross/payment/?id=${potentialId}`;
+            window.location.href = newUrl;
+            return true; // Indicate that we're redirecting
+          }
+        }
+        return false; // No redirect needed
+      }
+
       async function handlePayment() {
+        // First check if we need to redirect from legacy URL format
+        if (handleLegacyUrl()) {
+          return; // Exit early, redirect is happening
+        }
+
         const urlParams = new URLSearchParams(window.location.search);
-        const paymentId = urlParams.get('id') || window.location.pathname.split('/').pop();
+        let paymentId = urlParams.get('id');
+
+        // If no ID in query params, check if it's in the URL path (legacy format)
+        if (!paymentId) {
+          const pathParts = window.location.pathname.split('/');
+          // Look for UUID in the path (should be the last segment if present)
+          const lastPart = pathParts[pathParts.length - 1];
+          if (lastPart && lastPart !== 'payment' && lastPart !== '') {
+            paymentId = lastPart;
+          }
+        }
 
         if (!paymentId) {
           document.getElementById('error-message').textContent = 'Brak identyfikatora płatności w URL.';

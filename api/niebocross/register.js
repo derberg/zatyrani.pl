@@ -147,7 +147,7 @@ export default async function handler(req, res) {
     } catch (paymentError) {
       console.error("Error creating payment link:", paymentError);
       // Fallback to manual payment instructions
-      paymentLink = `https://zatyrani.pl/niebocross/payment/${paymentRecord.id}`;
+      paymentLink = `https://zatyrani.pl/niebocross/payment?id=${paymentRecord.id}`;
     }
 
     // Update payment with link
