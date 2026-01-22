@@ -16,12 +16,6 @@ function getSupabaseClient() {
 }
 
 function validateParticipant(participant) {
-  const { termsAccepted } = participant;
-
-  if (!termsAccepted) {
-    return { valid: false, error: "Musisz zaakceptować regulamin" };
-  }
-
   // Use shared validation
   return validateParticipantBase(participant);
 }
