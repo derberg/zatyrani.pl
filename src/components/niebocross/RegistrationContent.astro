@@ -244,7 +244,7 @@ const { t, locale = 'pl' } = Astro.props;
     </div>
   </div>
 
-  <script define:vars={{
+  <script type="module" define:vars={{
     errorMessages: {
       EMAIL_EXISTS: t("niebocross.errors.email_exists"),
       EMAIL_REQUIRED: t("niebocross.errors.email_required"),
