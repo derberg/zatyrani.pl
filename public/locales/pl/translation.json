@@ -374,7 +374,9 @@
       "no_participants": "Brak uczestników",
       "edit": "Edytuj",
       "delete": "Usuń",
-      "confirm_delete_participant": "Czy na pewno chcesz usunąć tego uczestnika?"
+      "confirm_delete_participant": "Czy na pewno chcesz usunąć tego uczestnika?",
+      "loading_error_title": "Problem z wyświetlaniem listy uczestników",
+      "loading_error_message": "Nie udało się załadować listy uczestników. W razie problemów skontaktuj się z organizatorem."
     },
     "summary": {
       "title": "Podsumowanie płatności",

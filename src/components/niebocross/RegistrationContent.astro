@@ -659,7 +659,7 @@ const { t, locale = 'pl' } = Astro.props;
       participantDivs.forEach((div, index) => {
         const title = div.querySelector('h3');
         if (title) {
-          title.textContent = `Uczestnik ${index + 1}`;
+          title.textContent = `${formLabels.participant} ${index + 1}`;
         }
       });
     }

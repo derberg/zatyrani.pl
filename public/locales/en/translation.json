@@ -364,6 +364,20 @@
       "9km_nw": "9km - Nordic Walking",
       "kids_run": "Kids race (distance adjusted by age)"
     },
+    "panel": {
+      "no_registered_participants": "No registered participants",
+      "paid": "Paid",
+      "awaiting_payment": "Awaiting payment",
+      "amount_to_pay": "Amount to pay",
+      "including_charity": "Including {{amount}} PLN for charity 💚",
+      "pay_now": "Pay now",
+      "no_participants": "No participants",
+      "edit": "Edit",
+      "delete": "Delete",
+      "confirm_delete_participant": "Are you sure you want to delete this participant?",
+      "loading_error_title": "Problem displaying participants list",
+      "loading_error_message": "Failed to load participants list. If you have problems, contact the organizer."
+    },
     "summary": {
       "title": "Payment summary",
       "race_fees": "Entry fees",

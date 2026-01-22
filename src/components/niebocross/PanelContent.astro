@@ -289,29 +289,29 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
 
       if (!payment) {
         statusDiv.innerHTML = `
-          <p class="text-slate-600">Brak zarejestrowanych uczestników</p>
+          <p class="text-slate-600">${t("niebocross.panel.no_registered_participants")}</p>
         `;
         return;
       }
 
       const isPaid = payment.paymentStatus === 'paid';
       const statusColor = isPaid ? 'emerald' : 'amber';
-      const statusText = isPaid ? 'Opłacone' : 'Oczekuje na płatność';
+      const statusText = isPaid ? t("niebocross.panel.paid") : t("niebocross.panel.awaiting_payment");
 
       statusDiv.className = `rounded-xl border-2 border-${statusColor}-200 bg-${statusColor}-50 p-6`;
       statusDiv.innerHTML = `
         <div class="flex items-center justify-between">
           <div>
             <h3 class="text-lg font-bold text-slate-900">${statusText}</h3>
-            <p class="mt-1 text-sm text-slate-600">Kwota do zapłaty: <strong>${payment.totalAmount} zł</strong></p>
-            <p class="text-xs text-slate-500 mt-1">W tym ${payment.charityAmount.toFixed(2)} zł na cel charytatywny 💚</p>
+            <p class="mt-1 text-sm text-slate-600">${t("niebocross.panel.amount_to_pay")}: <strong>${payment.totalAmount} zł</strong></p>
+            <p class="text-xs text-slate-500 mt-1">${t("niebocross.panel.including_charity", { amount: payment.charityAmount.toFixed(2) })}</p>
           </div>
           ${!isPaid ? `
             <a
               href="/niebocross/payment?id=${dashboardData.registration.id}"
               class="rounded-lg bg-emerald-600 px-6 py-3 font-semibold text-white transition hover:bg-emerald-700"
             >
-              Opłać teraz
+              ${t("niebocross.panel.pay_now")}
             </a>
           ` : ''}
           ${isPaid ? `
@@ -328,7 +328,7 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
       const participants = dashboardData.participants;
 
       if (participants.length === 0) {
-        listDiv.innerHTML = '<p class="text-slate-600">Brak uczestników</p>';
+        listDiv.innerHTML = '<p class="text-slate-600">${t("niebocross.panel.no_participants")}</p>';
         return;
       }
 
@@ -354,13 +354,13 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
                     data-id="${p.id}"
                     data-participant='${JSON.stringify(p)}'
                   >
-                    Edytuj
+                    ${t("niebocross.panel.edit")}
                   </button>
                   <button 
                     class="delete-btn rounded-lg border border-red-300 bg-white px-3 py-1.5 text-sm font-semibold text-red-700 transition hover:bg-red-50"
                     data-id="${p.id}"
                   >
-                    Usuń
+                    ${t("niebocross.panel.delete")}
                   </button>
                 </div>
               ` : ''}
@@ -381,7 +381,7 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
         document.querySelectorAll('.delete-btn').forEach(btn => {
           btn.addEventListener('click', async (e) => {
             const id = e.target.getAttribute('data-id');
-            if (confirm('Czy na pewno chcesz usunąć tego uczestnika?')) {
+            if (confirm('${t("niebocross.panel.confirm_delete_participant")}')) {
               await deleteParticipant(id);
             }
           });
