@@ -307,13 +307,13 @@
       "description": "Wszyscy opłaceni uczestnicy wydarzenia NieboCross 2026",
       "filters": "Filtry",
       "all_categories": "Wszystkie kategorie",
-      "search_city": "Wpisz miejscowość",
-      "search_club": "Wpisz klub",
-      "search_nationality": "Wpisz narodowość",
-      "apply_filters": "Zastosuj filtry",
       "clear_filters": "Wyczyść filtry",
       "total": "Łącznie uczestników",
-      "no_results": "Brak uczestników spełniających kryteria wyszukiwania"
+      "no_results": "Brak uczestników spełniających kryteria wyszukiwania",
+      "payment_status": "Opłata",
+      "status_paid": "Opłacone",
+      "status_pending": "Oczekuje",
+      "all_payment_statuses": "Wszystkie statusy"
     },
     "form": {
       "email": "Adres email",

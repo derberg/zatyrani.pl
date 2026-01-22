@@ -307,13 +307,13 @@
       "description": "All paid participants of NieboCross 2026 event",
       "filters": "Filters",
       "all_categories": "All categories",
-      "search_city": "Enter city",
-      "search_club": "Enter club",
-      "search_nationality": "Enter nationality",
-      "apply_filters": "Apply filters",
       "clear_filters": "Clear filters",
       "total": "Total participants",
-      "no_results": "No participants matching search criteria"
+      "no_results": "No participants matching search criteria",
+      "payment_status": "Payment",
+      "status_paid": "Paid",
+      "status_pending": "Pending",
+      "all_payment_statuses": "All statuses"
     },
     "form": {
       "email": "Email address",

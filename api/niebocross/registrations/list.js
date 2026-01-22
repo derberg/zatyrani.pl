@@ -28,7 +28,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { raceCategory, club, city, nationality } = req.query;
+    const { raceCategory, paymentStatus } = req.query;
     const supabase = getSupabaseClient();
 
     // Build query with proper join through registrations
@@ -57,15 +57,6 @@ export default async function handler(req, res) {
         query = query.eq("race_category", raceCategory);
       }
     }
-    if (club) {
-      query = query.ilike("club", `%${club}%`);
-    }
-    if (city) {
-      query = query.ilike("city", `%${city}%`);
-    }
-    if (nationality) {
-      query = query.eq("nationality", nationality);
-    }
 
     const { data: participants, error } = await query.order("full_name", { ascending: true });
 
@@ -78,15 +69,18 @@ export default async function handler(req, res) {
     }
 
     // Filter and format results (respect hide_name_public)
-    const results = participants.map(p => ({
+    let results = participants.map(p => ({
       fullName: p.hide_name_public ? "***" : p.full_name,
-      birthDate: p.birth_date,
       city: p.city,
-      nationality: p.nationality,
       club: p.club,
       raceCategory: p.race_category,
       paymentStatus: p.niebocross_registrations?.niebocross_payments?.[0]?.payment_status || 'pending'
     }));
+
+    // Apply payment status filter
+    if (paymentStatus) {
+      results = results.filter(p => p.paymentStatus === paymentStatus);
+    }
 
     return res.status(200).json({
       success: true,
