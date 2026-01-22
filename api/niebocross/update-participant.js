@@ -1,5 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import { verifyToken } from "./utils/auth.js";
+import { validateParticipant, calculatePaymentForParticipants } from "./utils/participant-validation.js";
 
 function getSupabaseClient() {
   const url = process.env.SUPABASE_URL;
@@ -10,82 +11,6 @@ function getSupabaseClient() {
   }
 
   return createClient(url, serviceKey);
-}
-
-function calculateAge(birthDate, eventDate) {
-  const birth = new Date(birthDate);
-  const event = new Date(eventDate);
-  let age = event.getFullYear() - birth.getFullYear();
-  const monthDiff = event.getMonth() - birth.getMonth();
-  if (monthDiff < 0 || (monthDiff === 0 && event.getDate() < birth.getDate())) {
-    age--;
-  }
-  return age;
-}
-
-function validateParticipant(participant) {
-  const { fullName, birthDate, city, nationality, raceCategory, phoneNumber } = participant;
-  
-  if (!fullName || !birthDate || !city || !nationality || !raceCategory || !phoneNumber) {
-    return { valid: false, error: "Wszystkie wymagane pola muszą być wypełnione" };
-  }
-
-  // Validate phone number (Polish format: 9 digits)
-  if (!/^\d{9}$/.test(phoneNumber)) {
-    return { valid: false, error: "Numer telefonu musi składać się z 9 cyfr" };
-  }
-
-  // Validate race category
-  const validCategories = ['3km_run', '3km_nw', '9km_run', '9km_nw', 'kids_run'];
-  if (!validCategories.includes(raceCategory)) {
-    return { valid: false, error: "Nieprawidłowa kategoria biegu" };
-  }
-
-  // Validate age restrictions (event date: April 12, 2026)
-  const eventDate = '2026-04-12';
-  const age = calculateAge(birthDate, eventDate);
-
-  const adultRaces = ['3km_run', '3km_nw', '9km_run', '9km_nw'];
-  const kidsRaces = ['kids_run'];
-
-  if (adultRaces.includes(raceCategory) && age < 16) {
-    return { valid: false, error: "Minimalny wiek dla tras 3km i 9km to 16 lat" };
-  }
-
-  if (kidsRaces.includes(raceCategory) && age > 14) {
-    return { valid: false, error: "Biegi dzieci dla uczestników do 14 lat" };
-  }
-
-  return { valid: true };
-}
-
-function calculatePayment(participants) {
-  let raceFees = 0;
-  let tshirtFees = 0;
-
-  participants.forEach(p => {
-    // Race fees
-    if (p.race_category === 'kids_run') {
-      raceFees += 20;
-    } else {
-      raceFees += 60;
-    }
-
-    // T-shirt fees
-    if (p.tshirt_size) {
-      tshirtFees += 80;
-    }
-  });
-
-  // Charity amount: race_fees + (tshirt_fees * 10/80)
-  const charityAmount = raceFees + (tshirtFees * 10 / 80);
-
-  return {
-    raceFees,
-    tshirtFees,
-    totalAmount: raceFees + tshirtFees,
-    charityAmount
-  };
 }
 
 export default async function handler(req, res) {
@@ -222,7 +147,7 @@ export default async function handler(req, res) {
       });
     }
 
-    const paymentCalc = calculatePayment(allParticipants);
+    const paymentCalc = calculatePaymentForParticipants(allParticipants);
 
     // Update pending payment record only
     const { error: paymentUpdateError } = await supabase
