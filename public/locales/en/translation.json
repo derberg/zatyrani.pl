@@ -249,6 +249,7 @@
       "code_step_title": "Email verification",
       "code_step_desc": "Check your inbox and enter the code you received",
       "participants_step_title": "Add participants",
+      "participants_step_end": "Complete adding participants and pay later",
       "participants_step_desc": "Fill in the details of all event participants",
       "payment_step_title": "Payment",
       "payment_step_desc": "Complete registration by paying for event participation",

@@ -249,6 +249,7 @@
       "code_step_title": "Weryfikacja email",
       "code_step_desc": "Sprawdź swoją skrzynkę pocztową i wpisz otrzymany kod",
       "participants_step_title": "Dodaj uczestników",
+      "participants_step_end": "Zakończ dodawanie uczestników i zapłać później",
       "participants_step_desc": "Wypełnij dane wszystkich uczestników wydarzenia",
       "payment_step_title": "Płatność",
       "payment_step_desc": "Dokończ rejestrację, opłacając udział w wydarzeniu",

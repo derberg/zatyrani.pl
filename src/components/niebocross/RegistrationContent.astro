@@ -192,6 +192,14 @@ const { t, locale = 'pl' } = Astro.props;
             >
               {t("niebocross.form.proceed_to_payment")}
             </button>
+
+            <button
+              type="button"
+              class="w-full rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white transition hover:bg-blue-700 disabled:bg-slate-300 disabled:cursor-not-allowed"
+              id="finishAddingBtn"
+            >
+              {t("niebocross.form.participants_step_end")}
+            </button>
           </form>
         </div>
 
@@ -253,7 +261,7 @@ const { t, locale = 'pl' } = Astro.props;
     uiMessages: {
       resending: t("niebocross.form.resending"),
       resendCode: t("niebocross.form.resend_code"),
-      codeResent: t("niebocross.form.code_resent")
+      codeResent: t("niebocross.form.code_resent")    
     }
   }}>
     // API Base URL
@@ -298,6 +306,8 @@ const { t, locale = 'pl' } = Astro.props;
     const codeInput = document.getElementById('code');
     const codeSubmitBtn = document.getElementById('codeSubmitBtn');
 
+    const finishAddingBtn = document.getElementById('finishAddingBtn');
+
     console.log('Elements found:', {
       emailSubmitBtn: !!emailSubmitBtn,
       emailInput: !!emailInput,
@@ -312,7 +322,7 @@ const { t, locale = 'pl' } = Astro.props;
     const cookies = document.cookie.split(';').map(c => c.trim());
     const authStatusCookie = cookies.find(c => c.startsWith('niebocross_auth_status='));
     if (authStatusCookie && authStatusCookie.split('=')[1] === 'true') {
-      // User is authenticated - check if they want to add participant or go to panel
+      // User is authenticated - check if they want to add participant
       const urlParams = new URLSearchParams(window.location.search);
       if (urlParams.get('action') === 'add-participant') {
         // Skip to step 3 to add participants
@@ -320,16 +330,12 @@ const { t, locale = 'pl' } = Astro.props;
         step1.classList.add('hidden');
         step3.classList.remove('hidden');
         addParticipant(); // Add first participant form
-        // Change submit button text
-        const submitBtn = document.getElementById('participantsSubmitBtn');
-        if (submitBtn) {
-          submitBtn.textContent = 'Dodaj uczestników';
-        }
-      } else {
-        // Redirect to panel
-        window.location.href = '/niebocross/panel';
       }
+      // If authenticated but no specific action, allow normal registration flow
     }
+
+    // Set finish button state
+    finishAddingBtn.disabled = !isAddingToExistingRegistration;
 
     // Validate email form and enable/disable submit button
     function validateEmailForm() {
@@ -620,6 +626,13 @@ const { t, locale = 'pl' } = Astro.props;
     }
 
     addParticipantBtn.addEventListener('click', addParticipant);
+    
+    // Add event listener for finish adding button
+    finishAddingBtn.addEventListener('click', () => {
+      if (isAddingToExistingRegistration) {
+        participantsForm.requestSubmit();
+      }
+    });
     
     // Add event listener for extra donation
     document.getElementById('extraDonation').addEventListener('input', updateSummary);
