@@ -4,7 +4,9 @@
 
 import crypto from 'crypto';
 
-const SIBS_API_URL = process.env.SIBS_API_URL || 'https://api.sibsgateway.com';
+// Ensure SIBS_API_URL has https:// protocol
+const rawSibsUrl = process.env.SIBS_API_URL || 'https://api.sibsgateway.com';
+const SIBS_API_URL = rawSibsUrl.startsWith('http') ? rawSibsUrl : `https://${rawSibsUrl}`;
 const SIBS_CLIENT_ID = process.env.SIBS_CLIENT_ID;
 const SIBS_CLIENT_SECRET = process.env.SIBS_CLIENT_SECRET;
 
