@@ -8,43 +8,7 @@ import crypto from 'crypto';
 const rawSibsUrl = process.env.SIBS_API_URL || 'https://api.sibsgateway.com';
 const SIBS_API_URL = rawSibsUrl.startsWith('http') ? rawSibsUrl : `https://${rawSibsUrl}`;
 const SIBS_CLIENT_ID = process.env.SIBS_CLIENT_ID;
-const SIBS_CLIENT_SECRET = process.env.SIBS_CLIENT_SECRET;
-
-/**
- * Get OAuth2 access token from SIBS
- */
-async function getAccessToken() {
-  if (!SIBS_CLIENT_ID || !SIBS_CLIENT_SECRET) {
-    throw new Error('SIBS credentials are not configured');
-  }
-
-  const auth = Buffer.from(`${SIBS_CLIENT_ID}:${SIBS_CLIENT_SECRET}`).toString('base64');
-
-  try {
-    const response = await fetch(`${SIBS_API_URL}/oauth2/token`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Authorization': `Basic ${auth}`
-      },
-      body: new URLSearchParams({
-        grant_type: 'client_credentials',
-        scope: 'payment'
-      })
-    });
-
-    const data = await response.json();
-
-    if (!response.ok || data.error) {
-      throw new Error(`SIBS OAuth error: ${data.error_description || data.error || 'Unknown error'}`);
-    }
-
-    return data.access_token;
-  } catch (error) {
-    console.error('Error getting SIBS access token:', error);
-    throw new Error('Failed to authenticate with SIBS');
-  }
-}
+const SIBS_BEARER_TOKEN = process.env.SIBS_BEARER_TOKEN;
 
 /**
  * Generate payment link for SIBS Gateway
@@ -52,14 +16,16 @@ async function getAccessToken() {
 export async function createPaymentLink(paymentData) {
   const {
     paymentId,
-    amount, // in cents (EUR * 100)
+    amount, // in grosz (PLN * 100)
     description,
     email,
     urlReturn,
     urlStatus
   } = paymentData;
 
-  const accessToken = await getAccessToken();
+  if (!SIBS_BEARER_TOKEN) {
+    throw new Error('SIBS Bearer token is not configured');
+  }
 
   // Prepare transaction data for SIBS
   const transactionData = {
@@ -75,9 +41,9 @@ export async function createPaymentLink(paymentData) {
       paymentType: "PURS",
       amount: {
         value: amount,
-        currency: "EUR"
+        currency: "PLN"
       },
-      paymentMethod: ["CARD"],
+      paymentMethod: ["CARD", "BLIK", "PBLKV", "GOOGLEPAY"],
       paymentReference: {
         type: "REFERENCE",
         reference: paymentId
@@ -101,7 +67,8 @@ export async function createPaymentLink(paymentData) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${accessToken}`
+        'Authorization': `Bearer ${SIBS_BEARER_TOKEN}`,
+        'x-ibm-client-id': SIBS_CLIENT_ID
       },
       body: JSON.stringify(transactionData)
     });
@@ -112,15 +79,18 @@ export async function createPaymentLink(paymentData) {
       throw new Error(`SIBS API error: ${result.returnStatus?.statusMsg || 'Unknown error'}`);
     }
 
-    // Extract payment URL from transaction response
-    const paymentUrl = result.transactionResponse?.paymentMethodResponse?.redirectUrl;
+    // Extract transaction ID from response
+    const transactionId = result.transactionID;
 
-    if (!paymentUrl) {
-      throw new Error('No payment URL received from SIBS');
+    if (!transactionId) {
+      throw new Error('No transaction ID received from SIBS');
     }
 
+    // Construct hosted checkout payment URL
+    const paymentUrl = `https://pay.sibs.com/transaction/${transactionId}`;
+
     return {
-      token: result.transactionResponse?.transactionId,
+      token: transactionId,
       paymentUrl: paymentUrl
     };
   } catch (error) {
@@ -134,9 +104,9 @@ export async function createPaymentLink(paymentData) {
  */
 export function verifyWebhookSignature(data, receivedSign) {
   // SIBS typically uses HMAC-SHA256 for webhook signatures
-  // This is a placeholder - actual implementation depends on SIBS documentation
-  if (!SIBS_CLIENT_SECRET) {
-    throw new Error('SIBS client secret is not configured');
+  // Using bearer token as the signing key (needs verification with SIBS docs)
+  if (!SIBS_BEARER_TOKEN) {
+    throw new Error('SIBS Bearer token is not configured');
   }
 
   // Create signature from webhook data
@@ -147,7 +117,7 @@ export function verifyWebhookSignature(data, receivedSign) {
     .join('&');
 
   const expectedSign = crypto
-    .createHmac('sha256', SIBS_CLIENT_SECRET)
+    .createHmac('sha256', SIBS_BEARER_TOKEN)
     .update(signString)
     .digest('hex');
 
