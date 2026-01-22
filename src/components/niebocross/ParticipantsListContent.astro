@@ -57,6 +57,25 @@ const { t } = Astro.props;
     </div>
   </div>
 
+  <!-- Participant Counters -->
+  <div id="counters" class="hidden mb-6 rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+    <h3 class="mb-4 text-lg font-bold text-slate-900">{t("niebocross.participants_list.registered_counts_title")}</h3>
+    <div class="grid gap-4 sm:grid-cols-3">
+      <div class="text-center">
+        <div class="text-2xl font-bold text-emerald-600" id="kidsCount">0</div>
+        <div class="text-sm text-slate-600">{t("niebocross.participants_list.kids_label")} / <span id="kidsLimit">0</span></div>
+      </div>
+      <div class="text-center">
+        <div class="text-2xl font-bold text-emerald-600" id="adultsRunnersCount">0</div>
+        <div class="text-sm text-slate-600">{t("niebocross.participants_list.adults_runners_label")} / <span id="adultsRunnersLimit">0</span></div>
+      </div>
+      <div class="text-center">
+        <div class="text-2xl font-bold text-emerald-600" id="nwCount">0</div>
+        <div class="text-sm text-slate-600">{t("niebocross.participants_list.nw_label")} / <span id="nwLimit">0</span></div>
+      </div>
+    </div>
+  </div>
+
   <!-- Loading -->
   <div id="loading" class="text-center py-12">
     <div class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-emerald-600 border-r-transparent"></div>
@@ -140,9 +159,16 @@ const { t } = Astro.props;
   // DOM Elements
   const loading = document.getElementById('loading');
   const results = document.getElementById('results');
+  const counters = document.getElementById('counters');
   const noResults = document.getElementById('noResults');
   const tableBody = document.getElementById('participantsTableBody');
   const totalCount = document.getElementById('totalCount');
+  const kidsCount = document.getElementById('kidsCount');
+  const kidsLimit = document.getElementById('kidsLimit');
+  const adultsRunnersCount = document.getElementById('adultsRunnersCount');
+  const adultsRunnersLimit = document.getElementById('adultsRunnersLimit');
+  const nwCount = document.getElementById('nwCount');
+  const nwLimit = document.getElementById('nwLimit');
   const clearFiltersBtn = document.getElementById('clearFilters');
   const filterCategory = document.getElementById('filterCategory');
   const filterPayment = document.getElementById('filterPayment');
@@ -172,10 +198,11 @@ const { t } = Astro.props;
         throw new Error(data.error || 'Failed to load participants');
       }
 
-      renderParticipants(data.participants, data.total);
+      renderParticipants(data.participants, data.total, data.limitsAndCounts);
     } catch (error) {
       console.error('Error loading participants:', error);
       loading.classList.add('hidden');
+      counters.classList.add('hidden');
       errorMessage.classList.remove('hidden');
       return;
     } finally {
@@ -183,8 +210,27 @@ const { t } = Astro.props;
     }
   }
 
-  function renderParticipants(participants, total) {
+  function renderParticipants(participants, total, limitsAndCounts) {
     totalCount.textContent = String(total);
+
+    // Update counters
+    if (limitsAndCounts) {
+      counters.classList.remove('hidden');
+      if (limitsAndCounts.kids) {
+        kidsCount.textContent = String(limitsAndCounts.kids.count);
+        kidsLimit.textContent = String(limitsAndCounts.kids.limit);
+      }
+      if (limitsAndCounts.adults_runners) {
+        adultsRunnersCount.textContent = String(limitsAndCounts.adults_runners.count);
+        adultsRunnersLimit.textContent = String(limitsAndCounts.adults_runners.limit);
+      }
+      if (limitsAndCounts.nw) {
+        nwCount.textContent = String(limitsAndCounts.nw.count);
+        nwLimit.textContent = String(limitsAndCounts.nw.limit);
+      }
+    } else {
+      counters.classList.add('hidden');
+    }
 
     if (participants.length === 0) {
       tableBody.innerHTML = '';

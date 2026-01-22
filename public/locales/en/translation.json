@@ -316,7 +316,11 @@
       "payment_status": "Payment",
       "status_paid": "Paid",
       "status_pending": "Pending",
-      "all_payment_statuses": "All statuses"
+      "all_payment_statuses": "All statuses",
+      "registered_counts_title": "Number of registered participants (paid)",
+      "kids_label": "Kids",
+      "adults_runners_label": "Adult runners",
+      "nw_label": "Nordic Walking"
     },
     "form": {
       "email": "Email address",

@@ -1,4 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
+import { PARTICIPANT_LIMITS, getGroupForCategory } from "../utils/limits.js";
 
 
 function getSupabaseClient() {
@@ -48,7 +49,7 @@ export default async function handler(req, res) {
         )
       `);
 
-    // Apply filters
+    // Apply race category filter if specified
     if (raceCategory) {
       // Handle kids_run filter to match all kids categories (for backwards compatibility)
       if (raceCategory === 'kids_run') {
@@ -68,7 +69,23 @@ export default async function handler(req, res) {
       });
     }
 
-    // Filter and format results (respect hide_name_public)
+    // Calculate counts for paid participants per group
+    const paidCounts = {};
+    for (const group in PARTICIPANT_LIMITS) {
+      paidCounts[group] = 0;
+    }
+
+    participants.forEach(p => {
+      const paymentStatus = p.niebocross_registrations?.niebocross_payments?.[0]?.payment_status || 'pending';
+      if (paymentStatus === 'paid') {
+        const group = getGroupForCategory(p.race_category);
+        if (group && Object.hasOwn(paidCounts, group)) {
+          paidCounts[group]++;
+        }
+      }
+    });
+
+    // Format results (respect hide_name_public)
     let results = participants.map(p => ({
       fullName: p.hide_name_public ? "***" : p.full_name,
       city: p.city,
@@ -82,10 +99,20 @@ export default async function handler(req, res) {
       results = results.filter(p => p.paymentStatus === paymentStatus);
     }
 
+    // Prepare limits and counts response
+    const limitsAndCounts = {};
+    for (const [group, config] of Object.entries(PARTICIPANT_LIMITS)) {
+      limitsAndCounts[group] = {
+        count: paidCounts[group],
+        limit: config.limit
+      };
+    }
+
     return res.status(200).json({
       success: true,
       participants: results,
-      total: results.length
+      total: results.length,
+      limitsAndCounts
     });
 
   } catch (error) {
