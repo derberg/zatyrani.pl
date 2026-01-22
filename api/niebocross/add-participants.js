@@ -72,20 +72,14 @@ export default async function handler(req, res) {
       });
     }
 
-    // Get existing payment
-    const { data: existingPayment } = await supabase
+    // Get existing pending payment (if any)
+    // Note: A registration can have multiple payments, but only one pending at a time
+    const { data: existingPendingPayment } = await supabase
       .from("niebocross_payments")
       .select("*")
       .eq("registration_id", registration_id)
+      .eq("payment_status", "pending")
       .single();
-
-    // Check if payment is already paid
-    if (existingPayment && existingPayment.payment_status === 'paid') {
-      return res.status(400).json({
-        success: false,
-        error: "Nie można dodać uczestników po opłaceniu rejestracji"
-      });
-    }
 
     // Create participant records
     const participantRecords = createParticipantRecords(participants, registration_id);
@@ -117,9 +111,10 @@ export default async function handler(req, res) {
       });
     }
 
-    // Update or create payment record based on all participants
+    // Update existing pending payment or create new one
+    // If there's a pending payment, update it; otherwise create a new pending payment
     try {
-      await updateOrCreatePayment(supabase, registration_id, allParticipants, existingPayment);
+      await updateOrCreatePayment(supabase, registration_id, allParticipants, existingPendingPayment);
     } catch (error) {
       console.error("Error updating/creating payment:", error);
       return res.status(500).json({

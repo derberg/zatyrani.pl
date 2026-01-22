@@ -218,7 +218,7 @@ export default async function handler(req, res) {
 
     const paymentCalc = calculatePayment(allParticipants);
 
-    // Update payment record
+    // Update pending payment record only
     const { error: paymentUpdateError } = await supabase
       .from("niebocross_payments")
       .update({
@@ -227,7 +227,8 @@ export default async function handler(req, res) {
         tshirt_fees: paymentCalc.tshirtFees,
         charity_amount: paymentCalc.charityAmount
       })
-      .eq("registration_id", registration_id);
+      .eq("registration_id", registration_id)
+      .eq("payment_status", "pending");
 
     if (paymentUpdateError) {
       console.error("Error updating payment:", paymentUpdateError);

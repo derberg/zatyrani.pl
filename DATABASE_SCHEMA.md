@@ -90,7 +90,7 @@ Stores payment information for each registration.
 ```sql
 CREATE TABLE niebocross_payments (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  registration_id UUID NOT NULL UNIQUE REFERENCES niebocross_registrations(id) ON DELETE CASCADE,
+  registration_id UUID NOT NULL REFERENCES niebocross_registrations(id) ON DELETE CASCADE,
   race_fees DECIMAL(10, 2) NOT NULL DEFAULT 0,
   tshirt_fees DECIMAL(10, 2) NOT NULL DEFAULT 0,
   total_amount DECIMAL(10, 2) NOT NULL DEFAULT 0,
@@ -106,7 +106,7 @@ CREATE TABLE niebocross_payments (
 
 **Columns:**
 - `id` - Unique identifier for the payment
-- `registration_id` - Foreign key to niebocross_registrations (unique - one payment per registration)
+- `registration_id` - Foreign key to niebocross_registrations (multiple payments allowed per registration)
 - `race_fees` - Total fees for race entries
 - `tshirt_fees` - Total fees for t-shirts
 - `total_amount` - Total amount to pay
@@ -158,5 +158,5 @@ ALTER TABLE niebocross_clubs DISABLE ROW LEVEL SECURITY;
 ## Important Notes
 
 - **contact_person vs full_name**: The `niebocross_registrations` table uses `contact_person` for the main contact name, while `niebocross_participants` uses `full_name` for individual participant names.
-- **One payment per registration**: The `registration_id` in `niebocross_payments` is UNIQUE.
+- **Multiple payments per registration**: A registration can have multiple payments (e.g., initial payment, then additional payment after adding more participants). Only one 'pending' payment per registration at a time - if pending exists, update it; if paid, create new pending.
 - **Cascade deletes**: Deleting a registration will automatically delete associated participants and payment records.

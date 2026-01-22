@@ -43,19 +43,19 @@ export async function upsertClubs(supabase, participants) {
 }
 
 /**
- * Update existing payment or create new one based on all participants
+ * Update existing pending payment or create new one based on all participants
  * @param {Object} supabase - Supabase client instance
  * @param {string} registration_id - Registration UUID
  * @param {Array} allParticipants - All participants for this registration (from DB, snake_case)
- * @param {Object|null} existingPayment - Existing payment record or null
+ * @param {Object|null} existingPendingPayment - Existing pending payment record or null
  * @returns {Object} Updated or created payment record
  */
-export async function updateOrCreatePayment(supabase, registration_id, allParticipants, existingPayment) {
+export async function updateOrCreatePayment(supabase, registration_id, allParticipants, existingPendingPayment) {
   // Calculate payment based on all participants
   const payment = calculatePaymentForParticipants(allParticipants);
 
-  if (existingPayment) {
-    // Update existing payment
+  if (existingPendingPayment) {
+    // Update existing pending payment by its ID
     const { error: updateError } = await supabase
       .from("niebocross_payments")
       .update({
@@ -65,15 +65,15 @@ export async function updateOrCreatePayment(supabase, registration_id, allPartic
         charity_amount: payment.charityAmount,
         updated_at: new Date().toISOString()
       })
-      .eq("registration_id", registration_id);
+      .eq("id", existingPendingPayment.id);
 
     if (updateError) {
       throw new Error("Failed to update payment");
     }
 
-    return { ...existingPayment, ...payment };
+    return { ...existingPendingPayment, ...payment };
   } else {
-    // Create new payment record
+    // Create new pending payment record
     const paymentLink = `https://zatyrani.pl/niebocross/payment/${registration_id}`;
 
     const { data: newPayment, error: createError } = await supabase

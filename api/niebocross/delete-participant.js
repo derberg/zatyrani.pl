@@ -156,12 +156,13 @@ export default async function handler(req, res) {
       });
     }
 
-    // If no participants left, delete payment record
+    // If no participants left, delete pending payment record
     if (!remainingParticipants || remainingParticipants.length === 0) {
       await supabase
         .from("niebocross_payments")
         .delete()
-        .eq("registration_id", registration_id);
+        .eq("registration_id", registration_id)
+        .eq("payment_status", "pending");
 
       return res.status(200).json({
         success: true,
@@ -170,7 +171,7 @@ export default async function handler(req, res) {
       });
     }
 
-    // Update payment record
+    // Update pending payment record only
     const paymentCalc = calculatePayment(remainingParticipants);
 
     const { error: paymentUpdateError } = await supabase
@@ -181,7 +182,8 @@ export default async function handler(req, res) {
         tshirt_fees: paymentCalc.tshirtFees,
         charity_amount: paymentCalc.charityAmount
       })
-      .eq("registration_id", registration_id);
+      .eq("registration_id", registration_id)
+      .eq("payment_status", "pending");
 
     if (paymentUpdateError) {
       console.error("Error updating payment:", paymentUpdateError);

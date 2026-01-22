@@ -84,13 +84,17 @@ export default async function handler(req, res) {
       paymentData = payment;
     }
 
-    // Determine if editing is allowed
-    // canEdit = false when payment.status === 'paid' OR current date >= April 12 2026
+    // Determine editing permissions
     const eventDate = new Date('2026-04-12');
     const currentDate = new Date();
     const isPaid = paymentData && paymentData.payment_status === 'paid';
     const isAfterEventDate = currentDate >= eventDate;
+
+    // canEdit: can edit/delete existing participants (only when payment is pending and before event)
     const canEdit = !isPaid && !isAfterEventDate;
+
+    // canAddParticipants: can add new participants (allowed even after payment, creates new pending payment)
+    const canAddParticipants = !isAfterEventDate;
 
     return res.status(200).json({
       success: true,
@@ -124,7 +128,8 @@ export default async function handler(req, res) {
         paidAt: paymentData.paid_at,
         createdAt: paymentData.created_at
       } : null,
-      canEdit
+      canEdit,
+      canAddParticipants
     });
 
   } catch (error) {

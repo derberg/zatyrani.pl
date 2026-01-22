@@ -38,33 +38,42 @@ export default async function handler(req, res) {
     }
 
     const { registration_id } = authResult;
-    const { id: paymentId } = req.query;
-
-    if (!paymentId) {
-      return res.status(400).json({
-        success: false,
-        error: "Payment ID is required"
-      });
-    }
 
     const supabase = getSupabaseClient();
 
-    // Get payment details and verify ownership
-    const { data: payment, error: paymentError } = await supabase
+    // Get pending payment first, otherwise get latest payment
+    // A registration can have multiple payments (e.g., after adding more participants post-payment)
+    let { data: payment, error: paymentError } = await supabase
       .from("niebocross_payments")
       .select(`
         *,
         niebocross_registrations!inner(email, contact_person)
       `)
-      .eq("id", paymentId)
       .eq("registration_id", registration_id)
+      .eq("payment_status", "pending")
       .single();
 
+    // If no pending payment, get the latest payment
     if (paymentError || !payment) {
-      return res.status(404).json({
-        success: false,
-        error: "Payment not found"
-      });
+      const { data: latestPayment, error: latestError } = await supabase
+        .from("niebocross_payments")
+        .select(`
+          *,
+          niebocross_registrations!inner(email, contact_person)
+        `)
+        .eq("registration_id", registration_id)
+        .order("created_at", { ascending: false })
+        .limit(1)
+        .single();
+
+      if (latestError || !latestPayment) {
+        return res.status(404).json({
+          success: false,
+          error: "Payment not found"
+        });
+      }
+
+      payment = latestPayment;
     }
 
     return res.status(200).json({
