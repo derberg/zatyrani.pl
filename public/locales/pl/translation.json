@@ -367,6 +367,31 @@
       "charity_info": "Na cel charytatywny trafi:",
       "add_donation": "Dodaj dodatkową wpłatę na cel charytatywny",
       "extra_donation": "Dodatkowa wpłata"
+    },
+    "payment": {
+      "title": "Płatność",
+      "meta_description": "Opłać udział w wydarzeniu NieboCross 2026",
+      "loading": "Ładowanie płatności...",
+      "error_title": "Błąd płatności",
+      "error_message": "Nie udało się załadować danych płatności",
+      "go_to_panel": "Przejdź do panelu",
+      "already_paid_title": "Płatność zakończona",
+      "already_paid_message": "Ta płatność została już zrealizowana",
+      "subtitle": "Dokończ rejestrację opłacając udział",
+      "amount_label": "Kwota do zapłaty",
+      "bank_transfer_info": "Jeśli płatność online nie działa, możesz opłacić przelewem bankowym:",
+      "bank_details": "Dane do przelewu",
+      "transfer_title": "Tytuł przelewu",
+      "back_to_panel": "Wróć do panelu",
+      "processing_title": "Przetwarzanie płatności",
+      "verifying": "Weryfikowanie płatności...",
+      "success_title": "Płatność zakończona pomyślnie",
+      "success_message": "Dziękujemy za opłacenie udziału w NieboCross 2026!",
+      "pending_title": "Płatność w trakcie",
+      "pending_message": "Twoja płatność jest przetwarzana. Status zostanie zaktualizowany wkrótce.",
+      "failed_title": "Płatność nieudana",
+      "failed_message": "Płatność nie została zrealizowana. Spróbuj ponownie.",
+      "try_again": "Spróbuj ponownie"
     }
   },
   "partner": {

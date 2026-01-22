@@ -367,6 +367,31 @@
       "charity_info": "Will go to charity:",
       "add_donation": "Add extra donation to charity",
       "extra_donation": "Extra donation"
+    },
+    "payment": {
+      "title": "Payment",
+      "meta_description": "Pay for NieboCross 2026 event participation",
+      "loading": "Loading payment...",
+      "error_title": "Payment error",
+      "error_message": "Failed to load payment data",
+      "go_to_panel": "Go to panel",
+      "already_paid_title": "Payment completed",
+      "already_paid_message": "This payment has already been completed",
+      "subtitle": "Complete registration by paying for participation",
+      "amount_label": "Amount to pay",
+      "bank_transfer_info": "If online payment doesn't work, you can pay by bank transfer:",
+      "bank_details": "Bank transfer details",
+      "transfer_title": "Transfer title",
+      "back_to_panel": "Back to panel",
+      "processing_title": "Processing payment",
+      "verifying": "Verifying payment...",
+      "success_title": "Payment successful",
+      "success_message": "Thank you for paying for NieboCross 2026!",
+      "pending_title": "Payment in progress",
+      "pending_message": "Your payment is being processed. Status will be updated soon.",
+      "failed_title": "Payment failed",
+      "failed_message": "Payment was not completed. Please try again.",
+      "try_again": "Try again"
     }
   },
   "partner": {

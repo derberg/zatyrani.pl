@@ -1,5 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import sgMail from "@sendgrid/mail";
+import { verifyWebhookSignature, parseWebhookData } from "../utils/sibs.js";
 
 function getSupabaseClient() {
   const url = process.env.SUPABASE_URL;
@@ -28,18 +29,20 @@ export default async function handler(req, res) {
   }
 
   try {
-    // TODO: Implement SIBS signature verification
-    // const signature = req.headers['x-sibs-signature'];
-    // if (!verifySignature(req.body, signature)) {
-    //   return res.status(401).json({ error: "Invalid signature" });
-    // }
+    // Verify SIBS webhook signature
+    const isValidSignature = verifyWebhookSignature(req.body, req.body.signature);
+    if (!isValidSignature) {
+      return res.status(401).json({ error: "Invalid signature" });
+    }
 
-    const { paymentId, transactionId, status } = req.body;
+    // Parse webhook data
+    const webhookData = parseWebhookData(req.body);
+    const { merchantTransactionId: paymentId, transactionId, status } = webhookData;
 
-    if (!paymentId || !transactionId || !status) {
+    if (!paymentId) {
       return res.status(400).json({
         success: false,
-        error: "Missing required fields"
+        error: "Missing payment ID"
       });
     }
 
@@ -63,13 +66,14 @@ export default async function handler(req, res) {
       });
     }
 
-    // Update payment status
+    // Update payment status based on SIBS response
+    // SIBS status codes: '000' = success, others = various failure states
     const updateData = {
-      transaction_id: transactionId,
-      payment_status: status === 'success' ? 'paid' : 'failed'
+      transaction_id: transactionId || req.body.transactionId,
+      payment_status: status === '000' ? 'paid' : 'failed'
     };
 
-    if (status === 'success') {
+    if (status === '000') {
       updateData.paid_at = new Date().toISOString();
     }
 
@@ -87,7 +91,7 @@ export default async function handler(req, res) {
     }
 
     // Send confirmation email on success
-    if (status === 'success') {
+    if (status === '000') {
       const sendgridKey = process.env.SENDGRID_API_KEY;
       if (sendgridKey && payment.niebocross_registrations) {
         sgMail.setApiKey(sendgridKey);

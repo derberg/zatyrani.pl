@@ -3,6 +3,7 @@ import sgMail from "@sendgrid/mail";
 import { verifyToken } from "./utils/auth.js";
 import { validateParticipant as validateParticipantBase, calculatePaymentForParticipants } from "./utils/participant-validation.js";
 import { createParticipantRecords, upsertClubs } from "./utils/database-operations.js";
+import { createPaymentLink } from "./utils/sibs.js";
 
 function getSupabaseClient() {
   const url = process.env.SUPABASE_URL;
@@ -124,22 +125,36 @@ export default async function handler(req, res) {
       });
     }
 
-    // TODO: Generate SIBS payment link
-    // For now, use placeholder
-    const paymentLink = `https://zatyrani.pl/niebocross/payment/${paymentRecord.id}`;
+    // Get registration email for payment
+    const { data: registration } = await supabase
+      .from("niebocross_registrations")
+      .select("email, contact_person")
+      .eq("id", registration_id)
+      .single();
+
+    // Create payment link with SIBS
+    let paymentLink;
+    try {
+      const paymentResult = await createPaymentLink({
+        paymentId: paymentRecord.id,
+        amount: Math.round(payment.totalAmount * 100), // Convert to cents (EUR)
+        description: `NieboCross 2026 - rejestracja ${registration.contact_person}`,
+        email: registration.email,
+        urlReturn: `https://zatyrani.pl/niebocross/panel?payment=success`,
+        urlStatus: `https://zatyrani.pl/api/niebocross/payment/webhook`
+      });
+      paymentLink = paymentResult.paymentUrl;
+    } catch (paymentError) {
+      console.error("Error creating payment link:", paymentError);
+      // Fallback to manual payment instructions
+      paymentLink = `https://zatyrani.pl/niebocross/payment/${paymentRecord.id}`;
+    }
 
     // Update payment with link
     await supabase
       .from("niebocross_payments")
       .update({ payment_link: paymentLink })
       .eq("id", paymentRecord.id);
-
-    // Get registration email
-    const { data: registration } = await supabase
-      .from("niebocross_registrations")
-      .select("email, contact_person")
-      .eq("id", registration_id)
-      .single();
 
     // Send confirmation email
     const sendgridKey = process.env.SENDGRID_API_KEY;
