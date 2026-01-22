@@ -20,10 +20,15 @@ export function calculateAge(birthDate, eventDate) {
  * Validate a single participant's data
  */
 export function validateParticipant(participant) {
-  const { fullName, birthDate, city, nationality, raceCategory } = participant;
+  const { fullName, birthDate, city, nationality, raceCategory, phoneNumber } = participant;
 
-  if (!fullName || !birthDate || !city || !nationality || !raceCategory) {
+  if (!fullName || !birthDate || !city || !nationality || !raceCategory || !phoneNumber) {
     return { valid: false, error: "Wszystkie wymagane pola muszą być wypełnione" };
+  }
+
+  // Validate phone number (Polish format: 9 digits)
+  if (!/^\d{9}$/.test(phoneNumber)) {
+    return { valid: false, error: "Numer telefonu musi składać się z 9 cyfr" };
   }
 
   // Validate race category

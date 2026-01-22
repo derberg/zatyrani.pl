@@ -20,7 +20,8 @@ export function createParticipantRecords(participants, registration_id) {
     club: p.club || null,
     race_category: p.raceCategory,
     hide_name_public: p.hideNamePublic || false,
-    tshirt_size: p.tshirtSize || null
+    tshirt_size: p.tshirtSize || null,
+    phone_number: p.phoneNumber
   }));
 }
 

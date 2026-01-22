@@ -63,6 +63,7 @@ CREATE TABLE niebocross_participants (
   race_category VARCHAR(50) NOT NULL CHECK (race_category IN ('3km_run', '3km_nw', '9km_run', '9km_nw', 'kids_run')),
   tshirt_size VARCHAR(10) CHECK (tshirt_size IN ('XS', 'S', 'M', 'L', 'XL', 'XXL')),
   hide_name_public BOOLEAN NOT NULL DEFAULT false,
+  phone_number VARCHAR(20) NOT NULL,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
@@ -79,6 +80,7 @@ CREATE TABLE niebocross_participants (
 - `race_category` - Race category: `3km_run`, `3km_nw`, `9km_run`, `9km_nw`, `kids_run` (for kids, specific distance will be assigned on event day based on age)
 - `tshirt_size` - Optional t-shirt size: `XS`, `S`, `M`, `L`, `XL`, `XXL`
 - `hide_name_public` - Whether to hide the name on public participant lists
+- `phone_number` - Participant's phone number (required for emergency contact and notifications)
 - `created_at` - Participant creation timestamp
 - `updated_at` - Last update timestamp
 

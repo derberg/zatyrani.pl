@@ -339,6 +339,10 @@
       "city": "Miejscowość",
       "nationality": "Narodowość",
       "club": "Klub",
+      "participant": "Uczestnik",
+      "remove": "Usuń",
+      "phone_number": "Numer telefonu",
+      "phone_help": "Upewnij się, że podajesz prawidłowy numer telefonu, ponieważ będziemy go potrzebować w przypadku nagłych wypadków lub aby powiadomić Cię o ważnych zmianach związanych z zawodami",
       "distance_activity": "Dystans i aktywność",
       "select_distance": "Wybierz dystans i aktywność",
       "tshirt_size": "Rozmiar koszulki",
@@ -359,6 +363,18 @@
       "9km_run": "9km - Bieg",
       "9km_nw": "9km - Nordic Walking",
       "kids_run": "Bieg dla dzieci (dystans dostosowany do wieku)"
+    },
+    "panel": {
+      "no_registered_participants": "Brak zarejestrowanych uczestników",
+      "paid": "Opłacone",
+      "awaiting_payment": "Oczekuje na płatność",
+      "amount_to_pay": "Kwota do zapłaty",
+      "including_charity": "W tym {{amount}} zł na cel charytatywny 💚",
+      "pay_now": "Opłać teraz",
+      "no_participants": "Brak uczestników",
+      "edit": "Edytuj",
+      "delete": "Usuń",
+      "confirm_delete_participant": "Czy na pewno chcesz usunąć tego uczestnika?"
     },
     "summary": {
       "title": "Podsumowanie płatności",

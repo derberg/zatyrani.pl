@@ -262,6 +262,30 @@ const { t, locale = 'pl' } = Astro.props;
       resending: t("niebocross.form.resending"),
       resendCode: t("niebocross.form.resend_code"),
       codeResent: t("niebocross.form.code_resent")    
+    },
+    formLabels: {
+      participant: t("niebocross.form.participant"),
+      remove: t("niebocross.form.remove"),
+      fullName: t("niebocross.form.full_name"),
+      birthDate: t("niebocross.form.birth_date"),
+      city: t("niebocross.form.city"),
+      nationality: t("niebocross.form.nationality"),
+      club: t("niebocross.form.club"),
+      phoneNumber: t("niebocross.form.phone_number"),
+      phoneHelp: t("niebocross.form.phone_help"),
+      distanceActivity: t("niebocross.form.distance_activity"),
+      tshirtSize: t("niebocross.form.tshirt_size"),
+      tshirtInfo: t("niebocross.form.tshirt_info"),
+      noTshirt: t("niebocross.form.no_tshirt"),
+      hideNamePublic: t("niebocross.form.hide_name_public"),
+      kidsRunInfo: t("niebocross.form.kids_run_info"),
+      categories: {
+        "3km_run": t("niebocross.categories.3km_run"),
+        "3km_nw": t("niebocross.categories.3km_nw"),
+        "9km_run": t("niebocross.categories.9km_run"),
+        "9km_nw": t("niebocross.categories.9km_nw"),
+        "kids_run": t("niebocross.categories.kids_run")
+      }
     }
   }}>
     // API Base URL
@@ -507,75 +531,82 @@ const { t, locale = 'pl' } = Astro.props;
       
       participantDiv.innerHTML = `
         <div class="mb-4 flex items-center justify-between">
-          <h3 class="text-lg font-bold text-slate-900">Uczestnik ${participantCount}</h3>
-          ${participantCount > 1 ? `<button type="button" class="remove-participant text-sm text-red-600 hover:underline" data-index="${participantCount}">Usuń</button>` : ''}
+          <h3 class="text-lg font-bold text-slate-900">${formLabels.participant} ${participantCount}</h3>
+          ${participantCount > 1 ? `<button type="button" class="remove-participant text-sm text-red-600 hover:underline" data-index="${participantCount}">${formLabels.remove}</button>` : ''}
         </div>
         <div class="grid gap-4 sm:grid-cols-2">
           <div class="sm:col-span-2">
             <label class="block text-sm font-semibold text-slate-700">
-              Imię i nazwisko <span class="text-red-600">*</span>
+              ${formLabels.fullName} <span class="text-red-600">*</span>
             </label>
             <input type="text" name="fullName_${participantCount}" required class="mt-1 block w-full rounded-lg border-emerald-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2 border-2" />
           </div>
           <div>
             <label class="block text-sm font-semibold text-slate-700">
-              Data urodzenia <span class="text-red-600">*</span>
+              ${formLabels.birthDate} <span class="text-red-600">*</span>
             </label>
             <input type="date" name="birthDate_${participantCount}" required class="mt-1 block w-full rounded-lg border-emerald-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2 border-2" />
           </div>
           <div>
             <label class="block text-sm font-semibold text-slate-700">
-              Miejscowość <span class="text-red-600">*</span>
+              ${formLabels.city} <span class="text-red-600">*</span>
             </label>
             <input type="text" name="city_${participantCount}" required class="mt-1 block w-full rounded-lg border-emerald-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2 border-2" />
           </div>
           <div>
             <label class="block text-sm font-semibold text-slate-700">
-              Narodowość <span class="text-red-600">*</span>
+              ${formLabels.nationality} <span class="text-red-600">*</span>
             </label>
             <input type="text" name="nationality_${participantCount}" required value="Polska" class="mt-1 block w-full rounded-lg border-emerald-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2 border-2" />
           </div>
           <div>
             <label class="block text-sm font-semibold text-slate-700">
-              Klub (opcjonalnie)
+              ${formLabels.club}
             </label>
             <input type="text" name="club_${participantCount}" class="mt-1 block w-full rounded-lg border-emerald-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2 border-2" />
           </div>
+          <div>
+            <label class="block text-sm font-semibold text-slate-700">
+              ${formLabels.phoneNumber} <span class="text-red-600">*</span>
+            </label>
+            <input type="text" name="phoneNumber_${participantCount}" required class="mt-1 block w-full rounded-lg border-emerald-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2 border-2" placeholder="123456789" />
+            <p class="mt-1 text-xs text-slate-600">${formLabels.phoneHelp}</p>
+          </div>
           <div class="sm:col-span-2">
             <label class="block text-sm font-semibold text-slate-700 mb-3">
-              Dystans i aktywność <span class="text-red-600">*</span>
+              ${formLabels.distanceActivity} <span class="text-red-600">*</span>
             </label>
             <div class="grid gap-3 sm:grid-cols-2">
               <label class="flex items-center gap-2 p-3 rounded-lg border-2 border-emerald-300 cursor-pointer hover:bg-emerald-50 transition">
                 <input type="radio" name="raceCategory_${participantCount}" value="3km_run" required class="text-emerald-600 focus:ring-emerald-500" />
-                <span class="text-sm font-medium">3km - Bieg</span>
+                <span class="text-sm font-medium">${formLabels.categories["3km_run"]}</span>
               </label>
               <label class="flex items-center gap-2 p-3 rounded-lg border-2 border-emerald-300 cursor-pointer hover:bg-emerald-50 transition">
                 <input type="radio" name="raceCategory_${participantCount}" value="3km_nw" required class="text-emerald-600 focus:ring-emerald-500" />
-                <span class="text-sm font-medium">3km - Nordic Walking</span>
+                <span class="text-sm font-medium">${formLabels.categories["3km_nw"]}</span>
               </label>
               <label class="flex items-center gap-2 p-3 rounded-lg border-2 border-emerald-300 cursor-pointer hover:bg-emerald-50 transition">
                 <input type="radio" name="raceCategory_${participantCount}" value="9km_run" required class="text-emerald-600 focus:ring-emerald-500" />
-                <span class="text-sm font-medium">9km - Bieg</span>
+                <span class="text-sm font-medium">${formLabels.categories["9km_run"]}</span>
               </label>
               <label class="flex items-center gap-2 p-3 rounded-lg border-2 border-emerald-300 cursor-pointer hover:bg-emerald-50 transition">
                 <input type="radio" name="raceCategory_${participantCount}" value="9km_nw" required class="text-emerald-600 focus:ring-emerald-500" />
-                <span class="text-sm font-medium">9km - Nordic Walking</span>
+                <span class="text-sm font-medium">${formLabels.categories["9km_nw"]}</span>
               </label>
               <label class="flex items-center gap-2 p-3 rounded-lg border-2 border-emerald-300 cursor-pointer hover:bg-emerald-50 transition">
                 <input type="radio" name="raceCategory_${participantCount}" value="kids_run" required class="text-emerald-600 focus:ring-emerald-500" />
-                <span class="text-sm font-medium">Bieg dla dzieci</span>
+                <span class="text-sm font-medium">${formLabels.categories["kids_run"]}</span>
               </label>
             </div>
-            <p class="mt-2 text-sm text-slate-600">ℹ️ Dla dzieci: konkretny dystans zostanie przypisany automatycznie w dniu wydarzenia na podstawie wieku dziecka.</p>
+            <p class="mt-2 text-sm text-slate-600">ℹ️ ${formLabels.kidsRunInfo}</p>
           </div>
           <div>
             <label class="block text-sm font-semibold text-slate-700">
-              Rozmiar koszulki (opcjonalnie, +80 zł)
+              ${formLabels.tshirtSize}
             </label>
-            <p class="text-xs text-slate-500 mt-1">Koszt produkcji: 70 zł, Na cel charytatywny: 10 zł</p>
+            <p class="text-xs text-slate-500 mt-1">${formLabels.tshirtInfo}</p>
             <select name="tshirtSize_${participantCount}" class="mt-1 block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 tshirt-size">
-              <option value="">Bez koszulki</option>
+              <option value="">${formLabels.noTshirt}</option>
               <option value="XS">XS</option>
               <option value="S">S</option>
               <option value="M">M</option>
@@ -587,7 +618,7 @@ const { t, locale = 'pl' } = Astro.props;
           <div class="sm:col-span-2">
             <label class="flex items-start gap-2">
               <input type="checkbox" name="hideNamePublic_${participantCount}" class="mt-1 rounded border-emerald-300 border-2 text-emerald-600 focus:ring-emerald-500" />
-              <span class="text-sm text-slate-700">Ukryj moje nazwisko na publicznej liście uczestników</span>
+              <span class="text-sm text-slate-700">${formLabels.hideNamePublic}</span>
             </label>
           </div>
         </div>
@@ -595,6 +626,15 @@ const { t, locale = 'pl' } = Astro.props;
 
       participantsContainer.appendChild(participantDiv);
       updateSummary();
+
+      // Add phone input validation
+      const phoneInput = participantDiv.querySelector(`[name="phoneNumber_${participantCount}"]`);
+      if (phoneInput) {
+        phoneInput.addEventListener('input', () => {
+          const digits = phoneInput.value.replace(/\D/g, '').slice(0, 9);
+          phoneInput.value = digits;
+        });
+      }
 
       // Add event listeners for remove buttons
       const removeBtn = participantDiv.querySelector('.remove-participant');
@@ -681,6 +721,7 @@ const { t, locale = 'pl' } = Astro.props;
           city: document.querySelector(`[name="city_${index}"]`).value,
           nationality: document.querySelector(`[name="nationality_${index}"]`).value,
           club: document.querySelector(`[name="club_${index}"]`).value || null,
+          phoneNumber: document.querySelector(`[name="phoneNumber_${index}"]`).value,
           raceCategory: document.querySelector(`input[name="raceCategory_${index}"]:checked`).value,
           tshirtSize: document.querySelector(`[name="tshirtSize_${index}"]`).value || null,
           hideNamePublic: document.querySelector(`[name="hideNamePublic_${index}"]`).checked,

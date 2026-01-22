@@ -24,10 +24,15 @@ function calculateAge(birthDate, eventDate) {
 }
 
 function validateParticipant(participant) {
-  const { fullName, birthDate, city, nationality, raceCategory } = participant;
+  const { fullName, birthDate, city, nationality, raceCategory, phoneNumber } = participant;
   
-  if (!fullName || !birthDate || !city || !nationality || !raceCategory) {
+  if (!fullName || !birthDate || !city || !nationality || !raceCategory || !phoneNumber) {
     return { valid: false, error: "Wszystkie wymagane pola muszą być wypełnione" };
+  }
+
+  // Validate phone number (Polish format: 9 digits)
+  if (!/^\d{9}$/.test(phoneNumber)) {
+    return { valid: false, error: "Numer telefonu musi składać się z 9 cyfr" };
   }
 
   // Validate race category
@@ -189,7 +194,8 @@ export default async function handler(req, res) {
         club: participant.club || null,
         race_category: participant.raceCategory,
         hide_name_public: participant.hideNamePublic || false,
-        tshirt_size: participant.tshirtSize || null
+        tshirt_size: participant.tshirtSize || null,
+        phone_number: participant.phoneNumber
       })
       .eq("id", participantId)
       .eq("registration_id", registration_id);
