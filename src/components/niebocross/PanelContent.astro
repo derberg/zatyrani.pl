@@ -353,7 +353,7 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
         const categoryLabel = getCategoryLabel(p.raceCategory);
         return `
           <div class="rounded-lg border border-slate-200 bg-slate-50 p-4">
-            <div class="flex items-start justify-between">
+            <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between">
               <div class="flex-1">
                 <h4 class="font-bold text-slate-900">${p.fullName}</h4>
                 <div class="mt-2 grid gap-2 text-sm text-slate-600 sm:grid-cols-2">
@@ -365,15 +365,15 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
                 </div>
               </div>
               ${canEdit ? `
-                <div class="flex gap-2">
-                  <button 
+                <div class="flex gap-2 mt-4 sm:mt-0 sm:ml-4">
+                  <button
                     class="edit-btn rounded-lg border border-emerald-300 border-2 bg-white px-3 py-1.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
                     data-id="${p.id}"
                     data-participant='${JSON.stringify(p)}'
                   >
                     ${translations.edit}
                   </button>
-                  <button 
+                  <button
                     class="delete-btn rounded-lg border border-red-300 bg-white px-3 py-1.5 text-sm font-semibold text-red-700 transition hover:bg-red-50"
                     data-id="${p.id}"
                   >
