@@ -248,8 +248,10 @@ const { t, locale = 'pl' } = Astro.props;
   <ClubAutocomplete />
 
   <script define:vars={{
+    locale,
     errorMessages: {
       EMAIL_EXISTS: t("niebocross.errors.email_exists"),
+      EMAIL_EXISTS_LOGIN: t("niebocross.errors.email_exists_login"),
       EMAIL_REQUIRED: t("niebocross.errors.email_required"),
       EMAIL_INVALID: t("niebocross.errors.email_invalid"),
       RODO_REQUIRED: t("niebocross.errors.rodo_required"),
@@ -312,11 +314,16 @@ const { t, locale = 'pl' } = Astro.props;
     // API Base URL
     const API_BASE = '/api/niebocross';
   
-    // Helper function to get error message with special handling for INVALID_CODE
+    // Helper function to get error message with special handling for certain errors
     function getErrorMessage(errorCode) {
       // Special handling for INVALID_CODE to include clickable link
       if (errorCode === 'INVALID_CODE') {
         return `${errorMessages.INVALID_CODE}. ${errorMessages.INVALID_CODE_CONTACT}, <a href="/niebocross#kontakt" class="font-semibold text-emerald-600 hover:underline">${errorMessages.INVALID_CODE_CONTACT_LINK}</a>.`;
+      }
+      // Special handling for EMAIL_EXISTS to include login link
+      if (errorCode === 'EMAIL_EXISTS') {
+        const loginUrl = locale === 'en' ? '/en/niebocross/zaloguj' : '/niebocross/zaloguj';
+        return `${errorMessages.EMAIL_EXISTS} <a href="${loginUrl}" class="font-semibold text-emerald-600 hover:underline">${errorMessages.EMAIL_EXISTS_LOGIN}</a>`;
       }
       return errorMessages[errorCode] || errorMessages.generic;
     }
@@ -552,7 +559,13 @@ const { t, locale = 'pl' } = Astro.props;
 
         if (!response.ok) {
           console.log('Error from API:', data.error);
-          emailError.textContent = errorMessages[data.error] || errorMessages.generic;
+          const errorMsg = getErrorMessage(data.error);
+          // Use innerHTML for EMAIL_EXISTS to render the login link
+          if (data.error === 'EMAIL_EXISTS') {
+            emailError.innerHTML = errorMsg;
+          } else {
+            emailError.textContent = errorMsg;
+          }
           emailError.classList.remove('hidden');
           return;
         }
