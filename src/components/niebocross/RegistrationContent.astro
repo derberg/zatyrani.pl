@@ -271,6 +271,23 @@ const { t, locale = 'pl' } = Astro.props;
       remove: t("niebocross.form.remove"),
       fullName: t("niebocross.form.full_name"),
       birthDate: t("niebocross.form.birth_date"),
+      day: t("niebocross.form.day"),
+      month: t("niebocross.form.month"),
+      year: t("niebocross.form.year"),
+      months: {
+        jan: t("niebocross.form.months.jan"),
+        feb: t("niebocross.form.months.feb"),
+        mar: t("niebocross.form.months.mar"),
+        apr: t("niebocross.form.months.apr"),
+        may: t("niebocross.form.months.may"),
+        jun: t("niebocross.form.months.jun"),
+        jul: t("niebocross.form.months.jul"),
+        aug: t("niebocross.form.months.aug"),
+        sep: t("niebocross.form.months.sep"),
+        oct: t("niebocross.form.months.oct"),
+        nov: t("niebocross.form.months.nov"),
+        dec: t("niebocross.form.months.dec")
+      },
       city: t("niebocross.form.city"),
       nationality: t("niebocross.form.nationality"),
       club: t("niebocross.form.club"),
@@ -433,13 +450,15 @@ const { t, locale = 'pl' } = Astro.props;
       participantDivs.forEach(div => {
         const index = div.getAttribute('data-index');
         const fullName = document.querySelector(`[name="fullName_${index}"]`).value.trim();
-        const birthDate = document.querySelector(`[name="birthDate_${index}"]`).value;
+        const birthDay = document.querySelector(`[name="birthDay_${index}"]`).value;
+        const birthMonth = document.querySelector(`[name="birthMonth_${index}"]`).value;
+        const birthYear = document.querySelector(`[name="birthYear_${index}"]`).value;
         const city = document.querySelector(`[name="city_${index}"]`).value.trim();
         const nationality = document.querySelector(`[name="nationality_${index}"]`).value.trim();
         const phoneNumber = document.querySelector(`[name="phoneNumber_${index}"]`).value.trim();
         const raceCategory = document.querySelector(`input[name="raceCategory_${index}"]:checked`);
 
-        if (!fullName || !birthDate || !city || !nationality || !phoneNumber || !raceCategory) {
+        if (!fullName || !birthDay || !birthMonth || !birthYear || !city || !nationality || !phoneNumber || !raceCategory) {
           allValid = false;
         }
       });
@@ -655,7 +674,36 @@ const { t, locale = 'pl' } = Astro.props;
             <label class="block text-sm font-semibold text-slate-700">
               ${formLabels.birthDate} <span class="text-red-600">*</span>
             </label>
-            <input type="date" name="birthDate_${participantCount}" required class="mt-1 block w-full rounded-lg border-emerald-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2 border-2" />
+            <div class="mt-1 grid grid-cols-3 gap-2">
+              <select name="birthDay_${participantCount}" required class="block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-2 py-2 text-center">
+                <option value="">${formLabels.day || 'Dzień'}</option>
+                ${Array.from({length: 31}, (_, i) => `<option value="${String(i + 1).padStart(2, '0')}">${i + 1}</option>`).join('')}
+              </select>
+              <select name="birthMonth_${participantCount}" required class="block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-2 py-2 text-center">
+                <option value="">${formLabels.month || 'Miesiąc'}</option>
+                ${[
+                  {val: '01', label: formLabels.months?.jan || 'Sty'},
+                  {val: '02', label: formLabels.months?.feb || 'Lut'},
+                  {val: '03', label: formLabels.months?.mar || 'Mar'},
+                  {val: '04', label: formLabels.months?.apr || 'Kwi'},
+                  {val: '05', label: formLabels.months?.may || 'Maj'},
+                  {val: '06', label: formLabels.months?.jun || 'Cze'},
+                  {val: '07', label: formLabels.months?.jul || 'Lip'},
+                  {val: '08', label: formLabels.months?.aug || 'Sie'},
+                  {val: '09', label: formLabels.months?.sep || 'Wrz'},
+                  {val: '10', label: formLabels.months?.oct || 'Paź'},
+                  {val: '11', label: formLabels.months?.nov || 'Lis'},
+                  {val: '12', label: formLabels.months?.dec || 'Gru'}
+                ].map(m => `<option value="${m.val}">${m.label}</option>`).join('')}
+              </select>
+              <select name="birthYear_${participantCount}" required class="block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-2 py-2 text-center">
+                <option value="">${formLabels.year || 'Rok'}</option>
+                ${Array.from({length: 100}, (_, i) => {
+                  const year = new Date().getFullYear() - i;
+                  return `<option value="${year}">${year}</option>`;
+                }).join('')}
+              </select>
+            </div>
           </div>
           <div>
             <label class="block text-sm font-semibold text-slate-700">
@@ -847,9 +895,12 @@ const { t, locale = 'pl' } = Astro.props;
       
       document.querySelectorAll('[data-index]').forEach(div => {
         const index = div.getAttribute('data-index');
+        const birthDay = document.querySelector(`[name="birthDay_${index}"]`).value;
+        const birthMonth = document.querySelector(`[name="birthMonth_${index}"]`).value;
+        const birthYear = document.querySelector(`[name="birthYear_${index}"]`).value;
         participants.push({
           fullName: document.querySelector(`[name="fullName_${index}"]`).value,
-          birthDate: document.querySelector(`[name="birthDate_${index}"]`).value,
+          birthDate: `${birthYear}-${birthMonth}-${birthDay}`,
           city: document.querySelector(`[name="city_${index}"]`).value,
           nationality: document.querySelector(`[name="nationality_${index}"]`).value,
           club: document.querySelector(`[name="club_${index}"]`).value || null,
