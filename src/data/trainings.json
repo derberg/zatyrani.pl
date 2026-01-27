@@ -493,5 +493,16 @@
     "phone": "691698608",
     "distance": 10,
     "pace": 7
+  },
+  {
+    "uid": "bieg-27-1-2026-18-30-stanica-stacja-10-7",
+    "type": "bieg",
+    "datetime": "27/01/2026 18:30",
+    "location": "Stanica – Stacja",
+    "locationLink": "https://maps.app.goo.gl/LGKq1drxyXzfK9bi7",
+    "comment": "Trening slow 10 km w wolnym tempie",
+    "phone": "519194995",
+    "distance": 10,
+    "pace": 7
   }
 ]
