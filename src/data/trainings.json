@@ -526,5 +526,16 @@
     "phone": "663473341",
     "distance": 8,
     "pace": 11
+  },
+  {
+    "uid": "bieg-3-2-2026-18-30-wilcza-cmentarz-11-7",
+    "type": "bieg",
+    "datetime": "03/02/2026 18:30",
+    "location": "Wilcza – Cmentarz",
+    "locationLink": "https://maps.app.goo.gl/NwiX62pvY3kmyV3M8",
+    "comment": "Zapraszam",
+    "phone": "791997150",
+    "distance": 11,
+    "pace": 7
   }
 ]
