@@ -871,7 +871,7 @@ const { t, locale = 'pl' } = Astro.props;
     // Update payment summary
     function updateSummary() {
       let raceFees = 0;
-      let tshirtFees = 0; // T-shirt fees temporarily disabled until partnership confirmed
+      const tshirtFees = 0; // T-shirt fees temporarily disabled until partnership confirmed
 
       document.querySelectorAll('[data-index]').forEach(div => {
         const index = div.getAttribute('data-index');
