@@ -222,7 +222,9 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
       no_participants: t("niebocross.panel.no_participants"),
       edit: t("niebocross.panel.edit"),
       delete: t("niebocross.panel.delete"),
-      confirm_delete_participant: t("niebocross.panel.confirm_delete_participant")
+      confirm_delete_participant: t("niebocross.panel.confirm_delete_participant"),
+      status_paid: t("niebocross.participants_list.status_paid"),
+      status_pending: t("niebocross.participants_list.status_pending")
     },
     errorMessages: {
       load: t("niebocross.errors.load_error"),
@@ -351,11 +353,19 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
 
       listDiv.innerHTML = participants.map((p) => {
         const categoryLabel = getCategoryLabel(p.raceCategory);
+        const paymentStatus = dashboardData.payment?.paymentStatus || 'pending';
+        const isPaid = paymentStatus === 'paid';
+        const paymentLabel = isPaid ? translations.status_paid : translations.status_pending;
+        const paymentClass = isPaid ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800';
+
         return `
           <div class="rounded-lg border border-slate-200 bg-slate-50 p-4">
             <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between">
               <div class="flex-1">
-                <h4 class="font-bold text-slate-900">${p.fullName}</h4>
+                <div class="flex items-center gap-2 mb-2">
+                  <h4 class="font-bold text-slate-900">${p.fullName}</h4>
+                  <span class="inline-flex rounded-full px-2 py-1 text-xs font-medium ${paymentClass}">${paymentLabel}</span>
+                </div>
                 <div class="mt-2 grid gap-2 text-sm text-slate-600 sm:grid-cols-2">
                   <p>📅 ${p.birthDate}</p>
                   <p>📍 ${p.city}, ${p.nationality}</p>
