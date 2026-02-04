@@ -3,7 +3,6 @@ import RaceCategorySelector from "./RaceCategorySelector.astro";
 import TshirtSizeSelector from "./TshirtSizeSelector.astro";
 import RegistrationSummary from "./RegistrationSummary.astro";
 import ClubAutocomplete from "./ClubAutocomplete.astro";
-import BirthDatePicker from "./BirthDatePicker.vue";
 
 interface Props {
   t: (key: string) => string;
@@ -11,6 +10,8 @@ interface Props {
 }
 const { t, locale = 'pl' } = Astro.props;
 ---
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
   <div class="mx-auto max-w-4xl px-6 py-12">
     <!-- Step 1: Email Verification -->
@@ -481,10 +482,18 @@ const { t, locale = 'pl' } = Astro.props;
     // Check if already logged in
     const cookies = document.cookie.split(';').map(c => c.trim());
     const authStatusCookie = cookies.find(c => c.startsWith('niebocross_auth_status='));
-    if (authStatusCookie && authStatusCookie.split('=')[1] === 'true') {
+
+    // Dev mode: Check for localhost/development environment
+    const isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    const urlParams = new URLSearchParams(window.location.search);
+    const hasAddParticipantAction = urlParams.get('action') === 'add-participant';
+
+    // Allow dev bypass for testing
+    const isAuthenticated = (authStatusCookie && authStatusCookie.split('=')[1] === 'true') || (isDev && hasAddParticipantAction);
+
+    if (isAuthenticated) {
       // User is authenticated - check if they want to add participant
-      const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.get('action') === 'add-participant') {
+      if (hasAddParticipantAction) {
         // Skip to step 3 to add participants
         isAddingToExistingRegistration = true;
         step1.classList.add('hidden');
@@ -686,7 +695,17 @@ const { t, locale = 'pl' } = Astro.props;
             <input type="text" name="fullName_${participantCount}" required class="mt-1 block w-full rounded-lg border-emerald-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2 border-2" />
           </div>
           <div>
-            <div id="datepicker-${participantCount}" class="date-picker-container" data-index="${participantCount}"></div>
+            <label class="block text-sm font-semibold text-slate-700">
+              ${formLabels.birthDate} <span class="text-red-600">*</span>
+            </label>
+            <input
+              type="text"
+              name="birthDate_${participantCount}"
+              class="flatpickr-input mt-1 block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2"
+              placeholder="DD/MM/YYYY"
+              required
+              readonly
+            />
             <input type="hidden" name="birthDay_${participantCount}" required />
             <input type="hidden" name="birthMonth_${participantCount}" required />
             <input type="hidden" name="birthYear_${participantCount}" required />
@@ -818,10 +837,34 @@ const { t, locale = 'pl' } = Astro.props;
         window.setupClubAutocomplete();
       }
 
-      // Mount Vue date picker for this participant
+      // Initialize Flatpickr for the birth date input
       setTimeout(() => {
-        if (window.mountDatePickers) {
-          window.mountDatePickers();
+        const dateInput = participantDiv.querySelector('.flatpickr-input');
+        if (dateInput && window.flatpickr) {
+          window.flatpickr(dateInput, {
+            dateFormat: 'd/m/Y',
+            maxDate: 'today',
+            yearRange: [1925, new Date().getFullYear()],
+            locale: {
+              firstDayOfWeek: 1
+            },
+            onChange: function(selectedDates) {
+              if (selectedDates.length > 0) {
+                const date = selectedDates[0];
+                const index = dateInput.name.replace('birthDate_', '');
+                const day = String(date.getDate()).padStart(2, '0');
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const year = date.getFullYear();
+
+                document.querySelector(`[name="birthDay_${index}"]`).value = day;
+                document.querySelector(`[name="birthMonth_${index}"]`).value = month;
+                document.querySelector(`[name="birthYear_${index}"]`).value = year;
+
+                // Trigger validation
+                validateParticipants();
+              }
+            }
+          });
         }
       }, 0);
     }
@@ -965,48 +1008,25 @@ const { t, locale = 'pl' } = Astro.props;
       setTimeout(() => {
         setupClubAutocomplete();
         updateCategoryOptions();
-        mountDatePickers();
       }, 100);
     });
   </script>
 
-  <script>
-    import { createApp } from 'vue';
-    import BirthDatePicker from './BirthDatePicker.vue';
-
-    // Extend Window interface
-    declare global {
-      interface Window {
-        mountDatePickers?: () => void;
-      }
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <style>
+    .flatpickr-calendar {
+      box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
     }
-
-    // Function to mount Vue date pickers
-    window.mountDatePickers = function() {
-      const containers = document.querySelectorAll('.date-picker-container:not([data-vue-mounted])');
-
-      containers.forEach(container => {
-        const index = container.getAttribute('data-index');
-        const dayInput = document.querySelector(`[name="birthDay_${index}"]`) as HTMLInputElement;
-        const monthInput = document.querySelector(`[name="birthMonth_${index}"]`) as HTMLInputElement;
-        const yearInput = document.querySelector(`[name="birthYear_${index}"]`) as HTMLInputElement;
-
-        const app = createApp(BirthDatePicker, {
-          participantIndex: parseInt(index || '0'),
-          label: document.querySelector('#step3')?.getAttribute('data-birth-label') || 'Birth Date',
-          'onUpdate:birthDate': ({ day, month, year }: { day: string; month: string; year: string }) => {
-            if (dayInput && monthInput && yearInput) {
-              dayInput.value = day;
-              monthInput.value = month;
-              yearInput.value = year;
-              // Trigger validation by dispatching input event
-              dayInput.dispatchEvent(new Event('input', { bubbles: true }));
-            }
-          }
-        });
-
-        app.mount(container);
-        container.setAttribute('data-vue-mounted', 'true');
-      });
-    };
-  </script>
+    .flatpickr-day.selected {
+      background: #059669 !important;
+      border-color: #059669 !important;
+    }
+    .flatpickr-day.selected:hover {
+      background: #047857 !important;
+      border-color: #047857 !important;
+    }
+    .flatpickr-day:hover {
+      background: #d1fae5;
+      border-color: #a7f3d0;
+    }
+  </style>
