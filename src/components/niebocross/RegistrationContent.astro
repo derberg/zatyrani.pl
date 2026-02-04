@@ -871,12 +871,12 @@ const { t, locale = 'pl' } = Astro.props;
     // Update payment summary
     function updateSummary() {
       let raceFees = 0;
-      let tshirtFees = 0;
+      let tshirtFees = 0; // T-shirt fees temporarily disabled until partnership confirmed
 
       document.querySelectorAll('[data-index]').forEach(div => {
         const index = div.getAttribute('data-index');
         const category = document.querySelector(`input[name="raceCategory_${index}"]:checked`)?.value;
-        const tshirt = document.querySelector(`[name="tshirtSize_${index}"]`)?.value;
+        // const tshirt = document.querySelector(`[name="tshirtSize_${index}"]`)?.value; // Disabled until partnership confirmed
 
         if (category === 'kids_run') {
           raceFees += 20;
@@ -884,17 +884,18 @@ const { t, locale = 'pl' } = Astro.props;
           raceFees += 60;
         }
 
-        if (tshirt) {
-          tshirtFees += 80;
-        }
+        // T-shirt fees calculation disabled until partnership confirmed
+        // if (tshirt) {
+        //   tshirtFees += 80;
+        // }
       });
 
       const extraDonation = parseInt(document.getElementById('extraDonation')?.value || '0');
-      const totalAmount = raceFees + tshirtFees + extraDonation;
+      const totalAmount = raceFees + tshirtFees + extraDonation; // tshirtFees is 0 for now
       const charityAmount = raceFees + (tshirtFees * 10 / 80) + extraDonation;
 
       document.getElementById('raceFees').textContent = `${raceFees} zł`;
-      document.getElementById('tshirtFees').textContent = `${tshirtFees} zł`;
+      // document.getElementById('tshirtFees').textContent = `${tshirtFees} zł`; // Hidden in UI
       document.getElementById('totalAmount').textContent = `${totalAmount} zł`;
       document.getElementById('charityAmount').textContent = `${charityAmount.toFixed(2)} zł`;
     }
