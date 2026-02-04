@@ -537,5 +537,16 @@
     "phone": "791997150",
     "distance": 11,
     "pace": 7
+  },
+  {
+    "uid": "bieg-5-2-2026-18-30-wilcza-cmentarz-11-7",
+    "type": "bieg",
+    "datetime": "05/02/2026 18:30",
+    "location": "Wilcza – Cmentarz",
+    "locationLink": "https://maps.app.goo.gl/NwiX62pvY3kmyV3M8",
+    "comment": "W poszukiwaniu bucika Łukasza, czyli Kopciuszek - wersja biegowa. Zapraszam wszystkie księżniczki i bestie. ",
+    "phone": "791977150",
+    "distance": 11,
+    "pace": 7
   }
 ]
