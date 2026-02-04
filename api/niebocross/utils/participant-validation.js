@@ -20,9 +20,9 @@ export function calculateAge(birthDate, eventDate) {
  * Validate a single participant's data
  */
 export function validateParticipant(participant) {
-  const { fullName, birthDate, city, nationality, raceCategory, phoneNumber } = participant;
+  const { fullName, birthDate, city, nationality, raceCategory, phoneNumber, tshirtSize } = participant;
 
-  if (!fullName || !birthDate || !city || !nationality || !raceCategory || !phoneNumber) {
+  if (!fullName || !birthDate || !city || !nationality || !raceCategory || !phoneNumber || !tshirtSize) {
     return { valid: false, error: "Wszystkie wymagane pola muszą być wypełnione" };
   }
 
@@ -35,6 +35,12 @@ export function validateParticipant(participant) {
   const validCategories = ['3km_run', '3km_nw', '9km_run', '9km_nw', 'kids_run'];
   if (!validCategories.includes(raceCategory)) {
     return { valid: false, error: "Nieprawidłowa kategoria biegu" };
+  }
+
+  // Validate t-shirt size
+  const validTshirtSizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
+  if (!validTshirtSizes.includes(tshirtSize)) {
+    return { valid: false, error: "Nieprawidłowy rozmiar koszulki" };
   }
 
   // Validate age restrictions (event date: April 12, 2026)

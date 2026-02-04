@@ -160,13 +160,14 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
               </div>
               <div>
                 <label class="block text-sm font-semibold text-slate-700">
-                  {t("niebocross.form.tshirt_size")}
+                  {t("niebocross.form.tshirt_size")} <span class="text-red-600">*</span>
                 </label>
                 <select
                   id="editTshirtSize"
+                  required
                   class="mt-1 block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
                 >
-                  <option value="">{t("niebocross.form.no_tshirt")}</option>
+                  <option value="" disabled>Wybierz rozmiar</option>
                   <option value="XS">XS</option>
                   <option value="S">S</option>
                   <option value="M">M</option>
@@ -355,7 +356,7 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
         const categoryLabel = getCategoryLabel(p.raceCategory);
         const paymentStatus = dashboardData.payment?.paymentStatus || 'pending';
         const isPaid = paymentStatus === 'paid';
-        const paymentLabel = isPaid ? translations.status_paid : translations.status_pending;
+        const paymentLabel = isPaid ? translations.status_paid : translations.awaiting_payment;
         const paymentClass = isPaid ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800';
 
         return `
@@ -477,7 +478,7 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
         club: document.getElementById('editClub').value || null,
         phoneNumber: document.getElementById('editPhoneNumber').value,
         raceCategory: document.getElementById('editRaceCategory').value,
-        tshirtSize: document.getElementById('editTshirtSize').value || null,
+        tshirtSize: document.getElementById('editTshirtSize').value,
         hideNamePublic: document.getElementById('editHideNamePublic').checked,
       };
 

@@ -302,11 +302,11 @@
       "meta_description": "Panel uczestnika NieboCross 2026",
       "loading": "Ładowanie...",
       "logout": "Wyloguj",
-      "participants": "Twoi uczestnicy",
+      "participants": "Uczestnicy zarejestrowani przez ciebie",
       "edit_participant": "Edytuj uczestnika"
     },
     "participants_list": {
-      "title": "Uczestnicy zarejestrowani przez ciebie.",
+      "title": "Lista uczestników",
       "meta_description": "Pełna lista uczestników NieboCross 2026",
       "description": "Wszyscy uczestnicy wydarzenia NieboCross 2026",
       "filters": "Filtry",
