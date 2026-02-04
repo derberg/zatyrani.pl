@@ -11,8 +11,6 @@ interface Props {
 const { t, locale = 'pl' } = Astro.props;
 ---
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-
   <div class="mx-auto max-w-4xl px-6 py-12">
     <!-- Step 1: Email Verification -->
     <div id="step1" class="space-y-6">
@@ -694,21 +692,34 @@ const { t, locale = 'pl' } = Astro.props;
             </label>
             <input type="text" name="fullName_${participantCount}" required class="mt-1 block w-full rounded-lg border-emerald-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2 border-2" />
           </div>
-          <div>
+          <div class="sm:col-span-2">
             <label class="block text-sm font-semibold text-slate-700">
               ${formLabels.birthDate} <span class="text-red-600">*</span>
             </label>
-            <input
-              type="text"
-              name="birthDate_${participantCount}"
-              class="flatpickr-input mt-1 block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2"
-              placeholder="DD/MM/YYYY"
-              required
-              readonly
-            />
-            <input type="hidden" name="birthDay_${participantCount}" required />
-            <input type="hidden" name="birthMonth_${participantCount}" required />
-            <input type="hidden" name="birthYear_${participantCount}" required />
+            <div class="grid grid-cols-3 gap-2 mt-1">
+              <select name="birthYear_${participantCount}" required class="birth-year block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2 text-xs" data-participant="${participantCount}">
+                <option value="" disabled selected>${formLabels.year}</option>
+                ${Array.from({length: 100}, (_, i) => new Date().getFullYear() - i).map(y => `<option value="${y}">${y}</option>`).join('')}
+              </select>
+              <select name="birthMonth_${participantCount}" required class="birth-month block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2 text-xs" data-participant="${participantCount}">
+                <option value="" disabled selected>${formLabels.month}</option>
+                <option value="01">${formLabels.months.jan}</option>
+                <option value="02">${formLabels.months.feb}</option>
+                <option value="03">${formLabels.months.mar}</option>
+                <option value="04">${formLabels.months.apr}</option>
+                <option value="05">${formLabels.months.may}</option>
+                <option value="06">${formLabels.months.jun}</option>
+                <option value="07">${formLabels.months.jul}</option>
+                <option value="08">${formLabels.months.aug}</option>
+                <option value="09">${formLabels.months.sep}</option>
+                <option value="10">${formLabels.months.oct}</option>
+                <option value="11">${formLabels.months.nov}</option>
+                <option value="12">${formLabels.months.dec}</option>
+              </select>
+              <select name="birthDay_${participantCount}" required class="birth-day block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2 text-xs" data-participant="${participantCount}" disabled>
+                <option value="" disabled selected>${formLabels.day}</option>
+              </select>
+            </div>
           </div>
           <div>
             <label class="block text-sm font-semibold text-slate-700">
@@ -815,6 +826,47 @@ const { t, locale = 'pl' } = Astro.props;
         });
       }
 
+      // Setup dynamic day dropdown based on year and month selection
+      const yearSelect = participantDiv.querySelector('.birth-year');
+      const monthSelect = participantDiv.querySelector('.birth-month');
+      const daySelect = participantDiv.querySelector('.birth-day');
+
+      function updateDayOptions() {
+        const year = parseInt(yearSelect.value);
+        const month = parseInt(monthSelect.value);
+        
+        if (!year || !month) {
+          daySelect.disabled = true;
+          daySelect.innerHTML = `<option value="" disabled selected>${formLabels.day}</option>`;
+          return;
+        }
+
+        // Calculate days in month
+        const daysInMonth = new Date(year, month, 0).getDate();
+        const currentDay = daySelect.value;
+
+        // Populate day options
+        daySelect.innerHTML = `<option value="" disabled>${formLabels.day}</option>` +
+          Array.from({length: daysInMonth}, (_, i) => i + 1)
+            .map(d => {
+              const val = String(d).padStart(2, '0');
+              const selected = val === currentDay ? 'selected' : '';
+              return `<option value="${val}" ${selected}>${d}</option>`;
+            }).join('');
+
+        daySelect.disabled = false;
+
+        // If previously selected day is now invalid, reset
+        if (currentDay && parseInt(currentDay) > daysInMonth) {
+          daySelect.value = '';
+        }
+
+        validateParticipants();
+      }
+
+      yearSelect.addEventListener('change', updateDayOptions);
+      monthSelect.addEventListener('change', updateDayOptions);
+
       // Add event listeners for remove buttons
       const removeBtn = participantDiv.querySelector('.remove-participant');
       if (removeBtn) {
@@ -836,37 +888,6 @@ const { t, locale = 'pl' } = Astro.props;
       if (window.setupClubAutocomplete) {
         window.setupClubAutocomplete();
       }
-
-      // Initialize Flatpickr for the birth date input
-      setTimeout(() => {
-        const dateInput = participantDiv.querySelector('.flatpickr-input');
-        if (dateInput && window.flatpickr) {
-          window.flatpickr(dateInput, {
-            dateFormat: 'd/m/Y',
-            maxDate: 'today',
-            yearRange: [1925, new Date().getFullYear()],
-            locale: {
-              firstDayOfWeek: 1
-            },
-            onChange: function(selectedDates) {
-              if (selectedDates.length > 0) {
-                const date = selectedDates[0];
-                const index = dateInput.name.replace('birthDate_', '');
-                const day = String(date.getDate()).padStart(2, '0');
-                const month = String(date.getMonth() + 1).padStart(2, '0');
-                const year = date.getFullYear();
-
-                document.querySelector(`[name="birthDay_${index}"]`).value = day;
-                document.querySelector(`[name="birthMonth_${index}"]`).value = month;
-                document.querySelector(`[name="birthYear_${index}"]`).value = year;
-
-                // Trigger validation
-                validateParticipants();
-              }
-            }
-          });
-        }
-      }, 0);
     }
 
     // Renumber participant titles after removal
@@ -1012,21 +1033,4 @@ const { t, locale = 'pl' } = Astro.props;
     });
   </script>
 
-  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-  <style>
-    .flatpickr-calendar {
-      box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
-    }
-    .flatpickr-day.selected {
-      background: #059669 !important;
-      border-color: #059669 !important;
-    }
-    .flatpickr-day.selected:hover {
-      background: #047857 !important;
-      border-color: #047857 !important;
-    }
-    .flatpickr-day:hover {
-      background: #d1fae5;
-      border-color: #a7f3d0;
-    }
-  </style>
+
