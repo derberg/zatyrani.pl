@@ -177,6 +177,8 @@ const { t, locale = 'pl' } = Astro.props;
     element.querySelectorAll('[name]').forEach(input => {
       const name = input.getAttribute('name');
       input.setAttribute('name', name.replace(/_\d+$/, `_${newIndex}`));
+      // Clear listener attribute so it can be re-attached with new listeners
+      input.removeAttribute('data-listener-attached');
     });
 
     const title = element.querySelector('h3');
@@ -191,7 +193,7 @@ const { t, locale = 'pl' } = Astro.props;
   }
 
   function clearFieldValues(element) {
-    element.querySelectorAll('input[type="text"], input[type="email"]').forEach(input => {
+    element.querySelectorAll('input[type="text"], input[type="email"], input[type="date"]').forEach(input => {
       if (!input.classList.contains('club-input')) {
         input.value = '';
       }
@@ -285,17 +287,20 @@ const { t, locale = 'pl' } = Astro.props;
   function setupValidationListeners(participantDiv) {
     const inputs = participantDiv.querySelectorAll('input[name], select[name]');
     inputs.forEach(input => {
-      // Remove existing listeners by cloning and replacing (prevents duplicates)
-      const newInput = input.cloneNode(true);
-      input.parentNode.replaceChild(newInput, input);
+      // Skip if already has listener (has data-listener-attached attribute)
+      if (input.hasAttribute('data-listener-attached')) {
+        return;
+      }
 
-      if (newInput.type === 'radio' || newInput.type === 'checkbox') {
-        newInput.addEventListener('change', () => {
+      input.setAttribute('data-listener-attached', 'true');
+
+      if (input.type === 'radio' || input.type === 'checkbox') {
+        input.addEventListener('change', () => {
           validateParticipants();
           updateSummary();
         });
       } else {
-        newInput.addEventListener('input', () => {
+        input.addEventListener('input', () => {
           validateParticipants();
           updateSummary();
         });
