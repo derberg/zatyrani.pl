@@ -68,7 +68,7 @@ export function validateParticipant(participant) {
  */
 export function calculatePaymentForParticipants(participants) {
   let raceFees = 0;
-  let tshirtFees = 0;
+  const tshirtFees = 0; // T-shirt fees temporarily disabled until partnership confirmed
 
   participants.forEach(p => {
     // Race fees
@@ -79,15 +79,15 @@ export function calculatePaymentForParticipants(participants) {
       raceFees += 60;
     }
 
-    // T-shirt fees
-    const tshirt = p.tshirt_size || p.tshirtSize;
-    if (tshirt) {
-      tshirtFees += 80;
-    }
+    // T-shirt fees calculation disabled until partnership confirmed
+    // const tshirt = p.tshirt_size || p.tshirtSize;
+    // if (tshirt) {
+    //   tshirtFees += 80;
+    // }
   });
 
-  // Charity amount: race_fees + (tshirt_fees * 10/80)
-  const charityAmount = raceFees + (tshirtFees * 10 / 80);
+  // Charity amount: race_fees only (t-shirt fees disabled)
+  const charityAmount = raceFees;
 
   return {
     raceFees,
