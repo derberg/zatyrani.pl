@@ -1,6 +1,7 @@
 /**
  * Shared validation and calculation utilities for NieboCross participants
  */
+import { TSHIRT_SIZES, VALID_RACE_CATEGORIES, EVENT_DATE } from './constants.js';
 
 /**
  * Calculate age based on birth date and event date
@@ -32,20 +33,17 @@ export function validateParticipant(participant) {
   }
 
   // Validate race category
-  const validCategories = ['3km_run', '3km_nw', '9km_run', '9km_nw', 'kids_run'];
-  if (!validCategories.includes(raceCategory)) {
+  if (!VALID_RACE_CATEGORIES.includes(raceCategory)) {
     return { valid: false, error: "Nieprawidłowa kategoria biegu" };
   }
 
   // Validate t-shirt size
-  const validTshirtSizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
-  if (!validTshirtSizes.includes(tshirtSize)) {
+  if (!TSHIRT_SIZES.includes(tshirtSize)) {
     return { valid: false, error: "Nieprawidłowy rozmiar koszulki" };
   }
 
   // Validate age restrictions (event date: April 12, 2026)
-  const eventDate = '2026-04-12';
-  const age = calculateAge(birthDate, eventDate);
+  const age = calculateAge(birthDate, EVENT_DATE);
 
   const adultRaces = ['3km_run', '3km_nw', '9km_run', '9km_nw'];
   const kidsRaces = ['kids_run'];
