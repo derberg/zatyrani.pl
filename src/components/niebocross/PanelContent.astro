@@ -1,6 +1,7 @@
 ---
 import NieboCrossHeader from './NieboCrossHeader.astro';
 import ClubAutocomplete from './ClubAutocomplete.astro';
+import TshirtSizeSelector from './TshirtSizeSelector.astro';
 
 interface Props {
   t: (key: string) => string;
@@ -164,19 +165,7 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
                 <label class="block text-sm font-semibold text-slate-700">
                   {t("niebocross.form.tshirt_size")} <span class="text-red-600">*</span>
                 </label>
-                <select
-                  id="editTshirtSize"
-                  required
-                  class="mt-1 block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
-                >
-                  <option value="" disabled>{t("niebocross.form.select_size")}</option>
-                  <option value="XS">XS</option>
-                  <option value="S">S</option>
-                  <option value="M">M</option>
-                  <option value="L">L</option>
-                  <option value="XL">XL</option>
-                  <option value="XXL">XXL</option>
-                </select>
+                <TshirtSizeSelector name="editTshirtSize" t={t} />
               </div>
             </div>
 
