@@ -54,8 +54,8 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
       </div>
 
       <!-- Edit Modal -->
-      <div id="editModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50">
-        <div class="mx-4 max-w-2xl w-full rounded-xl bg-white p-6 shadow-xl">
+      <div id="editModal" class="fixed inset-0 z-50 hidden overflow-y-auto bg-black/50 p-4">
+        <div class="mx-auto my-8 max-w-2xl w-full rounded-xl bg-white p-6 shadow-xl">
           <div class="mb-4 flex items-center justify-between">
             <h3 class="text-xl font-bold text-slate-900">{t("niebocross.dashboard.edit_participant")}</h3>
             <button id="closeModal" class="text-slate-400 hover:text-slate-600">
