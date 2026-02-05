@@ -728,8 +728,13 @@ const { t, locale = 'pl' } = Astro.props;
 
     addParticipantBtn.addEventListener('click', addParticipant);
 
-    // Add event listener for extra donation
-    document.getElementById('extraDonation').addEventListener('input', updateSummary);
+    // Add event listener for extra donation (with cleanup to prevent duplicates)
+    const extraDonationInput = document.getElementById('extraDonation');
+    if (extraDonationInput) {
+      // Remove any existing listener to prevent duplicates
+      extraDonationInput.removeEventListener('input', updateSummary);
+      extraDonationInput.addEventListener('input', updateSummary);
+    }
 
     // Update payment summary
     function updateSummary() {

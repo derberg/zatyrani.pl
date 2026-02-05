@@ -4,13 +4,15 @@ import { TSHIRT_SIZES } from "../../utils/niebocross/constants";
 interface Props {
   value?: string;
   name?: string;
+  id?: string;
   t: (key: string) => string;
 }
 
-const { value = "", name = "tshirtSize", t } = Astro.props;
+const { value = "", name = "tshirtSize", id = name, t } = Astro.props;
 ---
 
 <select
+  id={id}
   name={name}
   class="mt-1 block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2"
 >
