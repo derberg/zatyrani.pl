@@ -444,11 +444,12 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
       const template = document.getElementById('birthDateTemplate');
       container.innerHTML = template.innerHTML;
       
-      // Set the birth date value AFTER inserting the template
-      // Need to query the element again after innerHTML replacement
-      setTimeout(() => {
-        document.getElementById('editBirthDate').value = participant.birthDate;
-      }, 0);
+      // Set the birth date value immediately after inserting the template
+      // The input element is now available in the DOM
+      const birthDateInput = document.getElementById('editBirthDate');
+      if (birthDateInput && participant.birthDate) {
+        birthDateInput.value = participant.birthDate;
+      }
       
       document.getElementById('editCity').value = participant.city;
       document.getElementById('editNationality').value = participant.nationality;
