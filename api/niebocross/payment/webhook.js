@@ -1,6 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
-import sgMail from "@sendgrid/mail";
 import { verifyWebhookSignature, parseWebhookData } from "../utils/sibs.js";
+import { sendPaymentConfirmationEmail } from "../utils/email.js";
 
 function getSupabaseClient() {
   const url = process.env.SUPABASE_URL;
@@ -91,48 +91,20 @@ export default async function handler(req, res) {
     }
 
     // Send confirmation email on success
-    if (status === '000') {
-      const sendgridKey = process.env.SENDGRID_API_KEY;
-      if (sendgridKey && payment.niebocross_registrations) {
-        sgMail.setApiKey(sendgridKey);
+    if (status === '000' && payment.niebocross_registrations) {
+      const registration = payment.niebocross_registrations;
 
-        const registration = payment.niebocross_registrations;
-
-        const msg = {
-          to: registration.email,
-          from: process.env.SENDGRID_FROM_EMAIL || "zatyrani@zatyrani.pl",
-          subject: "Potwierdzenie płatności - NieboCross 2026",
-          text: `Witaj ${registration.contact_person},\n\nTwoja płatność została przyjęta!\n\nKwota: ${payment.total_amount} zł\nID transakcji: ${transactionId}\n\nMożesz pobrać potwierdzenie logując się na:\nhttps://zatyrani.pl/niebocross/panel\n\nDziękujemy za wpłatę! ${payment.charity_amount.toFixed(2)} zł zostanie przekazane na cel charytatywny.\n\nDo zobaczenia w Nieborowicach 12 kwietnia 2026!\n\n--\nStowarzyszenie ZATYRANI\nwww.zatyrani.pl`,
-          html: `
-            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-              <h2 style="color: #4CAF50;">✓ Płatność potwierdzona!</h2>
-              <p>Witaj ${registration.contact_person},</p>
-              <p>Twoja płatność została przyjęta!</p>
-              <div style="background-color: #f9f9f9; padding: 20px; margin: 20px 0; border-left: 4px solid #4CAF50;">
-                <p style="margin: 0;"><strong>Kwota: ${payment.total_amount} zł</strong></p>
-                <p style="margin: 5px 0 0 0; color: #666;">ID transakcji: ${transactionId}</p>
-              </div>
-              <p>Możesz pobrać potwierdzenie logując się na:<br>
-              <a href="https://zatyrani.pl/niebocross/panel">https://zatyrani.pl/niebocross/panel</a></p>
-              <div style="background-color: #fff3cd; padding: 15px; margin: 20px 0; border-left: 4px solid #ffc107;">
-                <p style="margin: 0;">💚 Dziękujemy za wpłatę! <strong>${payment.charity_amount.toFixed(2)} zł</strong> zostanie przekazane na cel charytatywny.</p>
-              </div>
-              <p>Do zobaczenia w Nieborowicach 12 kwietnia 2026!</p>
-              <hr style="border: none; border-top: 1px solid #ccc; margin: 30px 0;">
-              <p style="color: #666; font-size: 14px;">
-                Stowarzyszenie ZATYRANI<br>
-                <a href="https://zatyrani.pl">www.zatyrani.pl</a>
-              </p>
-            </div>
-          `,
-        };
-
-        try {
-          await sgMail.send(msg);
-        } catch (emailError) {
-          console.error("Error sending email:", emailError);
-          // Don't fail the webhook if email fails
-        }
+      try {
+        await sendPaymentConfirmationEmail({
+          email: registration.email,
+          contactPerson: registration.contact_person,
+          totalAmount: payment.total_amount,
+          charityAmount: payment.charity_amount,
+          transactionId
+        });
+      } catch (emailError) {
+        console.error("Error sending email:", emailError);
+        // Don't fail the webhook if email fails
       }
     }
 

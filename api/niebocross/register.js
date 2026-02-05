@@ -1,8 +1,8 @@
 import { createClient } from "@supabase/supabase-js";
-import sgMail from "@sendgrid/mail";
 import { verifyToken } from "./utils/auth.js";
 import { validateParticipant as validateParticipantBase, calculatePaymentForParticipants } from "./utils/participant-validation.js";
 import { createParticipantRecords, upsertClubs } from "./utils/database-operations.js";
+import { sendRegistrationConfirmationEmail } from "./utils/email.js";
 
 function getSupabaseClient() {
   const url = process.env.SUPABASE_URL;
@@ -123,55 +123,16 @@ export default async function handler(req, res) {
       .eq("id", registration_id)
       .single();
 
-    // Payment page URL - SIBS link will be created on demand when user visits this page
-    const paymentPageUrl = `https://zatyrani.pl/niebocross/payment?id=${registration_id}`;
-
     // Send confirmation email
-    const sendgridKey = process.env.SENDGRID_API_KEY;
-    if (sendgridKey && registration) {
-      sgMail.setApiKey(sendgridKey);
-
-      const participantsList = participants.map(p => 
-        `- ${p.fullName} - ${p.raceCategory.replace('_', ' ')}`
-      ).join('\n');
-
-      const msg = {
-        to: registration.email,
-        from: process.env.SENDGRID_FROM_EMAIL || "biuro@zatyrani.pl",
-        subject: "Potwierdzenie rejestracji - NieboCross 2026",
-        text: `Witaj ${registration.contact_person},\n\nDziękujemy za rejestrację na wydarzenie NieboCross 2026!\n\nZarejestrowani uczestnicy:\n${participantsList}\n\nDo zapłaty: ${payment.totalAmount} zł\n(w tym ${payment.charityAmount.toFixed(2)} zł na cel charytatywny)\n\nAby dokończyć rejestrację, opłać udział klikając poniższy link:\n${paymentPageUrl}\n\nMożesz sprawdzić status płatności i pobrać potwierdzenie logując się na:\nhttps://zatyrani.pl/niebocross/panel\n\nDo zobaczenia w Nieborowicach 12 kwietnia 2026!\n\n--\nStowarzyszenie ZATYRANI\nwww.zatyrani.pl`,
-        html: `
-          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-            <h2>Potwierdzenie rejestracji - NieboCross 2026</h2>
-            <p>Witaj ${registration.contact_person},</p>
-            <p>Dziękujemy za rejestrację na wydarzenie NieboCross 2026!</p>
-            <h3>Zarejestrowani uczestnicy:</h3>
-            <ul>
-              ${participants.map(p => `<li>${p.fullName} - ${p.raceCategory.replace('_', ' ')}</li>`).join('')}
-            </ul>
-            <div style="background-color: #f9f9f9; padding: 20px; margin: 20px 0; border-left: 4px solid #4CAF50;">
-              <p style="margin: 0;"><strong>Do zapłaty: ${payment.totalAmount} zł</strong></p>
-              <p style="margin: 5px 0 0 0; color: #666;">(w tym ${payment.charityAmount.toFixed(2)} zł na cel charytatywny)</p>
-            </div>
-            <p>Aby dokończyć rejestrację, opłać udział klikając poniższy link:</p>
-            <p style="text-align: center; margin: 30px 0;">
-              <a href="${paymentPageUrl}" style="background-color: #4CAF50; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; display: inline-block;">Opłać rejestrację</a>
-            </p>
-            <p style="color: #666; font-size: 14px;">Link jest ważny przez 48 godzin.</p>
-            <p>Możesz sprawdzić status płatności i pobrać potwierdzenie logując się na:<br>
-            <a href="https://zatyrani.pl/niebocross/panel">https://zatyrani.pl/niebocross/panel</a></p>
-            <p>Do zobaczenia w Nieborowicach 12 kwietnia 2026!</p>
-            <hr style="border: none; border-top: 1px solid #ccc; margin: 30px 0;">
-            <p style="color: #666; font-size: 14px;">
-              Stowarzyszenie ZATYRANI<br>
-              <a href="https://zatyrani.pl">www.zatyrani.pl</a>
-            </p>
-          </div>
-        `,
-      };
-
+    if (registration) {
       try {
-        await sgMail.send(msg);
+        await sendRegistrationConfirmationEmail({
+          email: registration.email,
+          contactPerson: registration.contact_person,
+          participants,
+          payment,
+          registrationId: registration_id
+        });
       } catch (emailError) {
         console.error("Error sending email:", emailError);
         // Don't fail the request if email fails
