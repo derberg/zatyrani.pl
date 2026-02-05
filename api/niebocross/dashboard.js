@@ -113,6 +113,7 @@ export default async function handler(req, res) {
         club: p.club,
         raceCategory: p.race_category,
         hideNamePublic: p.hide_name_public,
+        phoneNumber: p.phone_number,
         tshirtSize: p.tshirt_size,
         createdAt: p.created_at
       })),
