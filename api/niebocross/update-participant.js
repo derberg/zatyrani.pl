@@ -13,6 +13,18 @@ function getSupabaseClient() {
   return createClient(url, serviceKey);
 }
 
+function getExtraDonationAmount(payment) {
+  if (!payment) {
+    return 0;
+  }
+
+  const totalAmount = Number(payment.total_amount || 0);
+  const raceFees = Number(payment.race_fees || 0);
+  const tshirtFees = Number(payment.tshirt_fees || 0);
+
+  return Math.max(0, totalAmount - raceFees - tshirtFees);
+}
+
 export default async function handler(req, res) {
   // Enable CORS
   res.setHeader("Access-Control-Allow-Credentials", "true");
@@ -148,6 +160,18 @@ export default async function handler(req, res) {
     }
 
     const paymentCalc = calculatePaymentForParticipants(allParticipants);
+
+    // Preserve extra donation from existing pending payment
+    const { data: pendingPayment } = await supabase
+      .from("niebocross_payments")
+      .select("total_amount, race_fees, tshirt_fees")
+      .eq("registration_id", registration_id)
+      .eq("payment_status", "pending")
+      .single();
+
+    const extraDonationAmount = getExtraDonationAmount(pendingPayment);
+    paymentCalc.totalAmount += extraDonationAmount;
+    paymentCalc.charityAmount += extraDonationAmount;
 
     // Update pending payment record only
     const { error: paymentUpdateError } = await supabase

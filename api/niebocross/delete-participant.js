@@ -1,5 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import { verifyToken } from "./utils/auth.js";
+import { calculatePaymentForParticipants } from "./utils/participant-validation.js";
 
 function getSupabaseClient() {
   const url = process.env.SUPABASE_URL;
@@ -12,33 +13,16 @@ function getSupabaseClient() {
   return createClient(url, serviceKey);
 }
 
-function calculatePayment(participants) {
-  let raceFees = 0;
-  let tshirtFees = 0;
+function getExtraDonationAmount(payment) {
+  if (!payment) {
+    return 0;
+  }
 
-  participants.forEach(p => {
-    // Race fees
-    if (p.race_category === 'kids_run') {
-      raceFees += 20;
-    } else {
-      raceFees += 60;
-    }
+  const totalAmount = Number(payment.total_amount || 0);
+  const raceFees = Number(payment.race_fees || 0);
+  const tshirtFees = Number(payment.tshirt_fees || 0);
 
-    // T-shirt fees
-    if (p.tshirt_size) {
-      tshirtFees += 80;
-    }
-  });
-
-  // Charity amount: race_fees + (tshirt_fees * 10/80)
-  const charityAmount = raceFees + (tshirtFees * 10 / 80);
-
-  return {
-    raceFees,
-    tshirtFees,
-    totalAmount: raceFees + tshirtFees,
-    charityAmount
-  };
+  return Math.max(0, totalAmount - raceFees - tshirtFees);
 }
 
 export default async function handler(req, res) {
@@ -171,8 +155,20 @@ export default async function handler(req, res) {
       });
     }
 
+    // Get existing pending payment to preserve extra donation
+    const { data: pendingPayment } = await supabase
+      .from("niebocross_payments")
+      .select("total_amount, race_fees, tshirt_fees")
+      .eq("registration_id", registration_id)
+      .eq("payment_status", "pending")
+      .single();
+
+    const extraDonationAmount = getExtraDonationAmount(pendingPayment);
+
     // Update pending payment record only
-    const paymentCalc = calculatePayment(remainingParticipants);
+    const paymentCalc = calculatePaymentForParticipants(remainingParticipants);
+    paymentCalc.totalAmount += extraDonationAmount;
+    paymentCalc.charityAmount += extraDonationAmount;
 
     const { error: paymentUpdateError } = await supabase
       .from("niebocross_payments")
