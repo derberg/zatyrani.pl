@@ -40,7 +40,7 @@ export default async function handler(req, res) {
     }
 
     const { registration_id } = authResult;
-    const { participants } = req.body;
+    const { participants, extraDonation } = req.body;
 
     if (!participants || !Array.isArray(participants) || participants.length === 0) {
       return res.status(400).json({
@@ -114,7 +114,7 @@ export default async function handler(req, res) {
     // Update existing pending payment or create new one
     // If there's a pending payment, update it; otherwise create a new pending payment
     try {
-      await updateOrCreatePayment(supabase, registration_id, allParticipants, existingPendingPayment);
+      await updateOrCreatePayment(supabase, registration_id, allParticipants, existingPendingPayment, extraDonation);
     } catch (error) {
       console.error("Error updating/creating payment:", error);
       return res.status(500).json({

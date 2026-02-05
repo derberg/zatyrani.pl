@@ -55,7 +55,7 @@ export default async function handler(req, res) {
     }
 
     const { registration_id } = authResult;
-    const { participants } = req.body;
+    const { participants, extraDonation } = req.body;
 
     if (!participants || !Array.isArray(participants) || participants.length === 0) {
       return res.status(400).json({
@@ -93,8 +93,11 @@ export default async function handler(req, res) {
       });
     }
 
-    // Calculate payment
+    // Calculate payment and add extra donation
     const payment = calculatePayment(participants);
+    const extraDonationAmount = Math.max(0, parseInt(extraDonation || '0'));
+    payment.totalAmount += extraDonationAmount;
+    payment.charityAmount += extraDonationAmount;
 
     // Create payment record (payment_link will be created on demand when user clicks pay)
     const { error: paymentError } = await supabase

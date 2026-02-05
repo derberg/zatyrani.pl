@@ -49,11 +49,17 @@ export async function upsertClubs(supabase, participants) {
  * @param {string} registration_id - Registration UUID
  * @param {Array} allParticipants - All participants for this registration (from DB, snake_case)
  * @param {Object|null} existingPendingPayment - Existing pending payment record or null
+ * @param {number} extraDonation - Optional extra donation amount (default 0)
  * @returns {Object} Updated or created payment record
  */
-export async function updateOrCreatePayment(supabase, registration_id, allParticipants, existingPendingPayment) {
+export async function updateOrCreatePayment(supabase, registration_id, allParticipants, existingPendingPayment, extraDonation = 0) {
   // Calculate payment based on all participants
   const payment = calculatePaymentForParticipants(allParticipants);
+  
+  // Add extra donation to total and charity amount
+  const extraDonationAmount = Math.max(0, parseInt(extraDonation || '0'));
+  payment.totalAmount += extraDonationAmount;
+  payment.charityAmount += extraDonationAmount;
 
   if (existingPendingPayment) {
     // Update existing pending payment by its ID

@@ -387,12 +387,13 @@ const { t, locale = 'pl' } = Astro.props;
 
     try {
       const participants = collectParticipantData();
+      const extraDonation = parseInt(document.getElementById('extraDonation')?.value || '0');
 
       const response = await fetch(`${API_BASE}/add-participants`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify({ participants })
+        body: JSON.stringify({ participants, extraDonation })
       });
 
       const data = await response.json();
