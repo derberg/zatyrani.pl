@@ -71,7 +71,7 @@ export async function sendVerificationCodeEmail(email, code, context = 'registra
  * @param {string} params.registrationId - Registration ID for payment link (currently unused - payment disabled)
  * @returns {Promise<void>}
  */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+ 
 export async function sendRegistrationConfirmationEmail({ email, contactPerson, participants, payment, registrationId }) {
   // Intentionally unused parameter (payment functionality temporarily disabled)
   void registrationId;
