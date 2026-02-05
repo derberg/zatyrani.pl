@@ -245,9 +245,6 @@ const { t, locale = 'pl' } = Astro.props;
     if (window.setupClubAutocomplete) {
       window.setupClubAutocomplete();
     }
-    if (window.setupBirthDateSelectors) {
-      window.setupBirthDateSelectors();
-    }
     if (window.setupPhoneValidation) {
       window.setupPhoneValidation();
     }
@@ -311,13 +308,10 @@ const { t, locale = 'pl' } = Astro.props;
     const participants = [];
     document.querySelectorAll('[data-index]').forEach(div => {
       const index = div.getAttribute('data-index');
-      const birthDay = document.querySelector(`[name="birthDay_${index}"]`).value;
-      const birthMonth = document.querySelector(`[name="birthMonth_${index}"]`).value;
-      const birthYear = document.querySelector(`[name="birthYear_${index}"]`).value;
 
       participants.push({
         fullName: document.querySelector(`[name="fullName_${index}"]`).value,
-        birthDate: `${birthYear}-${birthMonth}-${birthDay}`,
+        birthDate: document.querySelector(`[name="birthDate_${index}"]`).value,
         city: document.querySelector(`[name="city_${index}"]`).value,
         nationality: document.querySelector(`[name="nationality_${index}"]`).value,
         club: document.querySelector(`[name="club_${index}"]`).value || null,

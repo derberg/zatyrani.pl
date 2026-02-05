@@ -1,143 +1,30 @@
 ---
 interface Props {
-  index: number;
+  index?: number;
+  id?: string;
+  name?: string;
   t: (key: string) => string;
-  value?: {
-    year?: string;
-    month?: string;
-    day?: string;
-  };
+  value?: string;
+  required?: boolean;
 }
 
-const { index, t, value } = Astro.props;
-const currentYear = new Date().getFullYear();
+const { index, id, name, t, value, required = true } = Astro.props;
+
+// Determine the field name/id based on what's provided
+const fieldId = id || (index ? `birthDate_${index}` : 'birthDate');
+const fieldName = name || (index ? `birthDate_${index}` : 'birthDate');
 ---
 
-<div class="sm:col-span-2">
-  <label class="block text-sm font-semibold text-slate-700">
-    {t("niebocross.form.birth_date")} <span class="text-red-600">*</span>
+<div>
+  <label for={fieldId} class="block text-sm font-semibold text-slate-700">
+    {t("niebocross.form.birth_date")} {required && <span class="text-red-600">*</span>}
   </label>
-  <div class="grid grid-cols-3 gap-2 mt-1">
-    <select
-      name={`birthYear_${index}`}
-      required
-      class="birth-year block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2 text-xs"
-      data-participant={index}
-    >
-      <option value="" disabled selected={!value?.year}>{t("niebocross.form.year")}</option>
-      {Array.from({ length: 100 }, (_, i) => currentYear - i).map((year) => (
-        <option value={year} selected={value?.year === String(year)}>
-          {year}
-        </option>
-      ))}
-    </select>
-
-    <select
-      name={`birthMonth_${index}`}
-      required
-      class="birth-month block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2 text-xs"
-      data-participant={index}
-    >
-      <option value="" disabled selected={!value?.month}>{t("niebocross.form.month")}</option>
-      <option value="01" selected={value?.month === "01"}>{t("niebocross.form.months.jan")}</option>
-      <option value="02" selected={value?.month === "02"}>{t("niebocross.form.months.feb")}</option>
-      <option value="03" selected={value?.month === "03"}>{t("niebocross.form.months.mar")}</option>
-      <option value="04" selected={value?.month === "04"}>{t("niebocross.form.months.apr")}</option>
-      <option value="05" selected={value?.month === "05"}>{t("niebocross.form.months.may")}</option>
-      <option value="06" selected={value?.month === "06"}>{t("niebocross.form.months.jun")}</option>
-      <option value="07" selected={value?.month === "07"}>{t("niebocross.form.months.jul")}</option>
-      <option value="08" selected={value?.month === "08"}>{t("niebocross.form.months.aug")}</option>
-      <option value="09" selected={value?.month === "09"}>{t("niebocross.form.months.sep")}</option>
-      <option value="10" selected={value?.month === "10"}>{t("niebocross.form.months.oct")}</option>
-      <option value="11" selected={value?.month === "11"}>{t("niebocross.form.months.nov")}</option>
-      <option value="12" selected={value?.month === "12"}>{t("niebocross.form.months.dec")}</option>
-    </select>
-
-    <select
-      name={`birthDay_${index}`}
-      required
-      class="birth-day block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2 text-xs"
-      data-participant={index}
-      disabled={!value?.year || !value?.month}
-    >
-      <option value="" disabled selected>{t("niebocross.form.day")}</option>
-      {value?.year && value?.month && (() => {
-        const daysInMonth = new Date(parseInt(value.year), parseInt(value.month), 0).getDate();
-        return Array.from({ length: daysInMonth }, (_, i) => i + 1).map((day) => {
-          const val = String(day).padStart(2, '0');
-          return (
-            <option value={val} selected={value?.day === val}>
-              {day}
-            </option>
-          );
-        });
-      })()}
-    </select>
-  </div>
+  <input
+    type="date"
+    id={fieldId}
+    name={fieldName}
+    value={value || ""}
+    required={required}
+    class="mt-1 block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2"
+  />
 </div>
-
-<script>
-  // Initialize dynamic day calculation for all birth date selectors
-  function setupBirthDateSelectors() {
-    document.querySelectorAll('[data-participant]').forEach((select) => {
-      const participantIndex = select.getAttribute('data-participant');
-
-      // Only set up once per participant
-      if (select.classList.contains('birth-year') && !select.hasAttribute('data-initialized')) {
-        select.setAttribute('data-initialized', 'true');
-
-        const yearSelect = select;
-        const monthSelect = document.querySelector(`.birth-month[data-participant="${participantIndex}"]`);
-        const daySelect = document.querySelector(`.birth-day[data-participant="${participantIndex}"]`);
-
-        if (!yearSelect || !monthSelect || !daySelect) return;
-
-        function updateDayOptions() {
-          const year = parseInt(yearSelect.value);
-          const month = parseInt(monthSelect.value);
-
-          if (!year || !month) {
-            daySelect.disabled = true;
-            daySelect.innerHTML = `<option value="" disabled selected>${daySelect.querySelector('option').textContent}</option>`;
-            return;
-          }
-
-          // Calculate days in month
-          const daysInMonth = new Date(year, month, 0).getDate();
-          const currentDay = daySelect.value;
-          const dayLabel = daySelect.querySelector('option')?.textContent || 'Day';
-
-          // Populate day options
-          daySelect.innerHTML = `<option value="" disabled>${dayLabel}</option>` +
-            Array.from({ length: daysInMonth }, (_, i) => i + 1)
-              .map(d => {
-                const val = String(d).padStart(2, '0');
-                const selected = val === currentDay ? 'selected' : '';
-                return `<option value="${val}" ${selected}>${d}</option>`;
-              }).join('');
-
-          daySelect.disabled = false;
-
-          // If previously selected day is now invalid, reset
-          if (currentDay && parseInt(currentDay) > daysInMonth) {
-            daySelect.value = '';
-          }
-
-          // Trigger validation if available
-          if (typeof window.validateParticipants === 'function') {
-            window.validateParticipants();
-          }
-        }
-
-        yearSelect.addEventListener('change', updateDayOptions);
-        monthSelect.addEventListener('change', updateDayOptions);
-      }
-    });
-  }
-
-  // Run on load
-  setupBirthDateSelectors();
-
-  // Export for use when adding participants dynamically
-  window.setupBirthDateSelectors = setupBirthDateSelectors;
-</script>

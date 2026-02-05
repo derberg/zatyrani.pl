@@ -20,13 +20,6 @@ interface Props {
 }
 
 const { index, t, showRemoveButton = false, participantData } = Astro.props;
-
-// Parse birth date if provided
-let birthDateValue;
-if (participantData?.birthDate) {
-  const [year, month, day] = participantData.birthDate.split('-');
-  birthDateValue = { year, month, day };
-}
 ---
 
 <div class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm mb-4" data-index={index}>
@@ -54,8 +47,8 @@ if (participantData?.birthDate) {
       />
     </div>
 
-    <!-- Birth Date using BirthDateSelector -->
-    <BirthDateSelector index={index} t={t} value={birthDateValue} />
+    <!-- Birth Date -->
+    <BirthDateSelector index={index} t={t} value={participantData?.birthDate} />
 
     <!-- City -->
     <div>
