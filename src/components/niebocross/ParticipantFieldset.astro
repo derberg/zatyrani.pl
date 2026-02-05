@@ -118,10 +118,10 @@ const { index, t, showRemoveButton = false, participantData } = Astro.props;
       <label class="block text-sm font-semibold text-slate-700">
         {t("niebocross.form.tshirt_size")} <span class="text-red-600">*</span>
       </label>
-      <p class="text-xs text-slate-500 mt-1">{t("niebocross.form.tshirt_info")}</p>
       <div class="tshirt-size">
         <TshirtSizeSelector name={`tshirtSize_${index}`} t={t} value={participantData?.tshirtSize} />
       </div>
+      <p class="text-xs text-slate-500 mt-1">{t("niebocross.form.tshirt_info")}</p>
     </div>
 
     <!-- Race Category - keep as radio buttons for dynamic limit checking -->

@@ -333,16 +333,14 @@ const { t, locale = 'pl' } = Astro.props;
     participantDivs.forEach(div => {
       const index = div.getAttribute('data-index');
       const fullName = document.querySelector(`[name="fullName_${index}"]`)?.value.trim();
-      const birthDay = document.querySelector(`[name="birthDay_${index}"]`)?.value;
-      const birthMonth = document.querySelector(`[name="birthMonth_${index}"]`)?.value;
-      const birthYear = document.querySelector(`[name="birthYear_${index}"]`)?.value;
+      const birthDate = document.querySelector(`[name="birthDate_${index}"]`)?.value;
       const city = document.querySelector(`[name="city_${index}"]`)?.value.trim();
       const nationality = document.querySelector(`[name="nationality_${index}"]`)?.value.trim();
       const phoneNumber = document.querySelector(`[name="phoneNumber_${index}"]`)?.value.trim();
       const raceCategory = document.querySelector(`input[name="raceCategory_${index}"]:checked`);
       const tshirtSize = document.querySelector(`[name="tshirtSize_${index}"]`)?.value;
 
-      if (!fullName || !birthDay || !birthMonth || !birthYear || !city || !nationality || !phoneNumber || !raceCategory || !tshirtSize) {
+      if (!fullName || !birthDate || !city || !nationality || !phoneNumber || !raceCategory || !tshirtSize) {
         allValid = false;
       }
     });
