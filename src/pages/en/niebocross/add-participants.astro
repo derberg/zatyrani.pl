@@ -1,0 +1,15 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import NieboCrossHeader from "../../../components/niebocross/NieboCrossHeader.astro";
+import AddParticipantsContent from "../../../components/niebocross/AddParticipantsContent.astro";
+import { t } from "../../../utils/i18n";
+---
+
+<Layout
+  title={`NieboCross - ${t("niebocross.add_participants.title")}`}
+  description={t("niebocross.add_participants.meta_description")}
+  t={t}
+>
+  <NieboCrossHeader t={t} />
+  <AddParticipantsContent t={t} locale="en" />
+</Layout>

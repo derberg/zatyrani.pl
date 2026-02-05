@@ -257,6 +257,14 @@
       "or_access_later": "Możesz też później wrócić przez",
       "your_panel": "Twój panel"
     },
+    "add_participants": {
+      "title": "Dodaj uczestników",
+      "meta_description": "Dodaj więcej uczestników do swojej rejestracji NieboCross",
+      "description": "Dodaj więcej uczestników do swojej rejestracji",
+      "checking_auth": "Sprawdzanie uwierzytelnienia...",
+      "submit": "Dodaj uczestników",
+      "back_to_panel": "Wróć do panelu"
+    },
     "login": {
       "title": "Zaloguj się",
       "meta_description": "Zaloguj się do panelu uczestnika NieboCross",

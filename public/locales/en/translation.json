@@ -257,6 +257,14 @@
       "or_access_later": "You can also return later via",
       "your_panel": "Your panel"
     },
+    "add_participants": {
+      "title": "Add Participants",
+      "meta_description": "Add more participants to your NieboCross registration",
+      "description": "Add more participants to your registration",
+      "checking_auth": "Checking authentication...",
+      "submit": "Add Participants",
+      "back_to_panel": "Back to Panel"
+    },
     "login": {
       "title": "Log in",
       "meta_description": "Log in to NieboCross participant panel",

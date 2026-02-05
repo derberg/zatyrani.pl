@@ -44,7 +44,7 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
           <h3 class="text-xl font-bold text-slate-900">{t("niebocross.dashboard.participants")}</h3>
           <a
             id="addParticipantBtn"
-            href={`${locale === 'en' ? '/en' : ''}/niebocross/rejestracja?action=add-participant`}
+            href={locale === 'en' ? '/en/niebocross/add-participants' : '/niebocross/dodaj-uczestnikow'}
             class="hidden rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-700"
           >
             + {t("niebocross.form.add_participant")}

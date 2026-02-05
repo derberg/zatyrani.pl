@@ -1,0 +1,234 @@
+---
+import BirthDateSelector from "./BirthDateSelector.astro";
+import TshirtSizeSelector from "./TshirtSizeSelector.astro";
+
+interface Props {
+  index: number;
+  t: (key: string) => string;
+  showRemoveButton?: boolean;
+  participantData?: {
+    fullName?: string;
+    birthDate?: string;
+    city?: string;
+    nationality?: string;
+    club?: string;
+    phoneNumber?: string;
+    raceCategory?: string;
+    tshirtSize?: string;
+    hideNamePublic?: boolean;
+  };
+}
+
+const { index, t, showRemoveButton = false, participantData } = Astro.props;
+
+// Parse birth date if provided
+let birthDateValue;
+if (participantData?.birthDate) {
+  const [year, month, day] = participantData.birthDate.split('-');
+  birthDateValue = { year, month, day };
+}
+---
+
+<div class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm mb-4" data-index={index}>
+  <div class="mb-4 flex items-center justify-between">
+    <h3 class="text-lg font-bold text-slate-900">{t("niebocross.form.participant")} {index}</h3>
+    {showRemoveButton && (
+      <button type="button" class="remove-participant text-sm text-red-600 hover:underline" data-index={index}>
+        {t("niebocross.form.remove")}
+      </button>
+    )}
+  </div>
+
+  <div class="grid gap-4 sm:grid-cols-2">
+    <!-- Full Name -->
+    <div class="sm:col-span-2">
+      <label class="block text-sm font-semibold text-slate-700">
+        {t("niebocross.form.full_name")} <span class="text-red-600">*</span>
+      </label>
+      <input
+        type="text"
+        name={`fullName_${index}`}
+        value={participantData?.fullName || ""}
+        required
+        class="mt-1 block w-full rounded-lg border-emerald-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2 border-2"
+      />
+    </div>
+
+    <!-- Birth Date using BirthDateSelector -->
+    <BirthDateSelector index={index} t={t} value={birthDateValue} />
+
+    <!-- City -->
+    <div>
+      <label class="block text-sm font-semibold text-slate-700">
+        {t("niebocross.form.city")} <span class="text-red-600">*</span>
+      </label>
+      <input
+        type="text"
+        name={`city_${index}`}
+        value={participantData?.city || ""}
+        required
+        class="mt-1 block w-full rounded-lg border-emerald-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2 border-2"
+      />
+    </div>
+
+    <!-- Nationality -->
+    <div>
+      <label class="block text-sm font-semibold text-slate-700">
+        {t("niebocross.form.nationality")} <span class="text-red-600">*</span>
+      </label>
+      <input
+        type="text"
+        name={`nationality_${index}`}
+        value={participantData?.nationality || "Polska"}
+        required
+        class="mt-1 block w-full rounded-lg border-emerald-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2 border-2"
+      />
+    </div>
+
+    <!-- Club with autocomplete -->
+    <div>
+      <label class="block text-sm font-semibold text-slate-700">
+        {t("niebocross.form.club")}
+      </label>
+      <div class="relative">
+        <input
+          type="text"
+          name={`club_${index}`}
+          value={participantData?.club || ""}
+          class="club-input mt-1 block w-full rounded-lg border-emerald-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2 border-2"
+          data-participant-index={index}
+          autocomplete="off"
+        />
+        <div class="club-suggestions absolute z-10 w-full bg-white border border-gray-300 rounded-lg shadow-lg mt-1 hidden max-h-48 overflow-y-auto"></div>
+      </div>
+    </div>
+
+    <!-- Phone Number -->
+    <div>
+      <label class="block text-sm font-semibold text-slate-700">
+        {t("niebocross.form.phone_number")} <span class="text-red-600">*</span>
+      </label>
+      <input
+        type="text"
+        name={`phoneNumber_${index}`}
+        value={participantData?.phoneNumber || ""}
+        required
+        class="phone-number mt-1 block w-full rounded-lg border-emerald-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2 border-2"
+        placeholder="123456789"
+        data-participant-index={index}
+      />
+      <p class="mt-1 text-xs text-slate-600">{t("niebocross.form.phone_help")}</p>
+    </div>
+
+    <!-- Race Category - keep as radio buttons for dynamic limit checking -->
+    <div class="sm:col-span-2">
+      <label class="block text-sm font-semibold text-slate-700 mb-3">
+        {t("niebocross.form.distance_activity")} <span class="text-red-600">*</span>
+      </label>
+      <div class="grid gap-3 sm:grid-cols-2">
+        <label class="flex items-center gap-2 p-3 rounded-lg border-2 border-emerald-300 cursor-pointer hover:bg-emerald-50 transition">
+          <input
+            type="radio"
+            name={`raceCategory_${index}`}
+            value="3km_run"
+            checked={participantData?.raceCategory === "3km_run"}
+            required
+            class="text-emerald-600 focus:ring-emerald-500"
+          />
+          <span class="text-sm font-medium">{t("niebocross.categories.3km_run")}</span>
+        </label>
+        <label class="flex items-center gap-2 p-3 rounded-lg border-2 border-emerald-300 cursor-pointer hover:bg-emerald-50 transition">
+          <input
+            type="radio"
+            name={`raceCategory_${index}`}
+            value="3km_nw"
+            checked={participantData?.raceCategory === "3km_nw"}
+            required
+            class="text-emerald-600 focus:ring-emerald-500"
+          />
+          <span class="text-sm font-medium">{t("niebocross.categories.3km_nw")}</span>
+        </label>
+        <label class="flex items-center gap-2 p-3 rounded-lg border-2 border-emerald-300 cursor-pointer hover:bg-emerald-50 transition">
+          <input
+            type="radio"
+            name={`raceCategory_${index}`}
+            value="9km_run"
+            checked={participantData?.raceCategory === "9km_run"}
+            required
+            class="text-emerald-600 focus:ring-emerald-500"
+          />
+          <span class="text-sm font-medium">{t("niebocross.categories.9km_run")}</span>
+        </label>
+        <label class="flex items-center gap-2 p-3 rounded-lg border-2 border-emerald-300 cursor-pointer hover:bg-emerald-50 transition">
+          <input
+            type="radio"
+            name={`raceCategory_${index}`}
+            value="9km_nw"
+            checked={participantData?.raceCategory === "9km_nw"}
+            required
+            class="text-emerald-600 focus:ring-emerald-500"
+          />
+          <span class="text-sm font-medium">{t("niebocross.categories.9km_nw")}</span>
+        </label>
+        <label class="flex items-center gap-2 p-3 rounded-lg border-2 border-emerald-300 cursor-pointer hover:bg-emerald-50 transition">
+          <input
+            type="radio"
+            name={`raceCategory_${index}`}
+            value="kids_run"
+            checked={participantData?.raceCategory === "kids_run"}
+            required
+            class="text-emerald-600 focus:ring-emerald-500"
+          />
+          <span class="text-sm font-medium">{t("niebocross.categories.kids_run")}</span>
+        </label>
+      </div>
+      <p class="mt-2 text-sm text-slate-600">ℹ️ {t("niebocross.form.kids_run_info")}</p>
+    </div>
+
+    <!-- T-shirt Size using TshirtSizeSelector -->
+    <div>
+      <label class="block text-sm font-semibold text-slate-700">
+        {t("niebocross.form.tshirt_size")} <span class="text-red-600">*</span>
+      </label>
+      <p class="text-xs text-slate-500 mt-1">{t("niebocross.form.tshirt_info")}</p>
+      <div class="tshirt-size">
+        <TshirtSizeSelector name={`tshirtSize_${index}`} t={t} value={participantData?.tshirtSize} />
+      </div>
+    </div>
+
+    <!-- Hide Name Public -->
+    <div class="sm:col-span-2">
+      <label class="flex items-start gap-2">
+        <input
+          type="checkbox"
+          name={`hideNamePublic_${index}`}
+          checked={participantData?.hideNamePublic}
+          class="mt-1 rounded border-emerald-300 border-2 text-emerald-600 focus:ring-emerald-500"
+        />
+        <span class="text-sm text-slate-700">{t("niebocross.form.hide_name_public")}</span>
+      </label>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Initialize phone number input validation
+  function setupPhoneValidation() {
+    document.querySelectorAll('.phone-number').forEach((phoneInput) => {
+      if (!phoneInput.hasAttribute('data-phone-initialized')) {
+        phoneInput.setAttribute('data-phone-initialized', 'true');
+
+        phoneInput.addEventListener('input', () => {
+          const digits = phoneInput.value.replace(/\D/g, '').slice(0, 9);
+          phoneInput.value = digits;
+        });
+      }
+    });
+  }
+
+  // Run on load
+  setupPhoneValidation();
+
+  // Export for use when adding participants dynamically
+  window.setupPhoneValidation = setupPhoneValidation;
+</script>

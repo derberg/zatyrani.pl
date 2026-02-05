@@ -1,6 +1,5 @@
 ---
-import RaceCategorySelector from "./RaceCategorySelector.astro";
-import TshirtSizeSelector from "./TshirtSizeSelector.astro";
+import ParticipantFieldset from "./ParticipantFieldset.astro";
 import RegistrationSummary from "./RegistrationSummary.astro";
 import ClubAutocomplete from "./ClubAutocomplete.astro";
 
@@ -174,7 +173,12 @@ const { t, locale = 'pl' } = Astro.props;
       <div class="grid gap-6 lg:grid-cols-[1fr_300px]">
         <div class="space-y-6">
           <form id="participantsForm" class="space-y-6">
-            <div id="participantsContainer"></div>
+            <div id="participantsContainer">
+              <!-- Hidden template for cloning -->
+              <template id="participantTemplate">
+                <ParticipantFieldset index={0} t={t} showRemoveButton={true} />
+              </template>
+            </div>
 
             <button
               type="button"
@@ -192,14 +196,6 @@ const { t, locale = 'pl' } = Astro.props;
               id="participantsSubmitBtn"
             >
               {t("niebocross.form.proceed_to_payment")}
-            </button>
-
-            <button
-              type="button"
-              class="w-full rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white transition hover:bg-blue-700 disabled:bg-slate-300 disabled:cursor-not-allowed"
-              id="finishAddingBtn"
-            >
-              {t("niebocross.registration.participants_step_end")}
             </button>
           </form>
         </div>
@@ -331,8 +327,6 @@ const { t, locale = 'pl' } = Astro.props;
     // State
     let currentEmail = '';
     let sessionToken = '';
-    let isAddingToExistingRegistration = false;
-    let skipPaymentStep = false;
 
     // DOM Elements
     const step1 = document.getElementById('step1');
@@ -475,30 +469,6 @@ const { t, locale = 'pl' } = Astro.props;
       const hasParticipants = participantDivs.length > 0;
       participantsSubmitBtn.disabled = !hasParticipants || !allValid;
       finishAddingBtn.disabled = !hasParticipants || !allValid;
-    }
-
-    // Check if already logged in
-    const cookies = document.cookie.split(';').map(c => c.trim());
-    const authStatusCookie = cookies.find(c => c.startsWith('niebocross_auth_status='));
-
-    // Dev mode: Check for localhost/development environment
-    const isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-    const urlParams = new URLSearchParams(window.location.search);
-    const hasAddParticipantAction = urlParams.get('action') === 'add-participant';
-
-    // Allow dev bypass for testing
-    const isAuthenticated = (authStatusCookie && authStatusCookie.split('=')[1] === 'true') || (isDev && hasAddParticipantAction);
-
-    if (isAuthenticated) {
-      // User is authenticated - check if they want to add participant
-      if (hasAddParticipantAction) {
-        // Skip to step 3 to add participants
-        isAddingToExistingRegistration = true;
-        step1.classList.add('hidden');
-        step3.classList.remove('hidden');
-        addParticipant(); // Add first participant form
-      }
-      // If authenticated but no specific action, allow normal registration flow
     }
 
     // Initial validation
@@ -676,218 +646,75 @@ const { t, locale = 'pl' } = Astro.props;
     // Add participant form
     function addParticipant() {
       participantCount++;
-      const participantDiv = document.createElement('div');
-      participantDiv.className = 'rounded-xl border border-slate-200 bg-white p-6 shadow-sm mb-4';
-      participantDiv.dataset.index = String(participantCount);
-      
-      participantDiv.innerHTML = `
-        <div class="mb-4 flex items-center justify-between">
-          <h3 class="text-lg font-bold text-slate-900">${formLabels.participant} ${participantCount}</h3>
-          ${participantCount > 1 ? `<button type="button" class="remove-participant text-sm text-red-600 hover:underline" data-index="${participantCount}">${formLabels.remove}</button>` : ''}
-        </div>
-        <div class="grid gap-4 sm:grid-cols-2">
-          <div class="sm:col-span-2">
-            <label class="block text-sm font-semibold text-slate-700">
-              ${formLabels.fullName} <span class="text-red-600">*</span>
-            </label>
-            <input type="text" name="fullName_${participantCount}" required class="mt-1 block w-full rounded-lg border-emerald-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2 border-2" />
-          </div>
-          <div class="sm:col-span-2">
-            <label class="block text-sm font-semibold text-slate-700">
-              ${formLabels.birthDate} <span class="text-red-600">*</span>
-            </label>
-            <div class="grid grid-cols-3 gap-2 mt-1">
-              <select name="birthYear_${participantCount}" required class="birth-year block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2 text-xs" data-participant="${participantCount}">
-                <option value="" disabled selected>${formLabels.year}</option>
-                ${Array.from({length: 100}, (_, i) => new Date().getFullYear() - i).map(y => `<option value="${y}">${y}</option>`).join('')}
-              </select>
-              <select name="birthMonth_${participantCount}" required class="birth-month block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2 text-xs" data-participant="${participantCount}">
-                <option value="" disabled selected>${formLabels.month}</option>
-                <option value="01">${formLabels.months.jan}</option>
-                <option value="02">${formLabels.months.feb}</option>
-                <option value="03">${formLabels.months.mar}</option>
-                <option value="04">${formLabels.months.apr}</option>
-                <option value="05">${formLabels.months.may}</option>
-                <option value="06">${formLabels.months.jun}</option>
-                <option value="07">${formLabels.months.jul}</option>
-                <option value="08">${formLabels.months.aug}</option>
-                <option value="09">${formLabels.months.sep}</option>
-                <option value="10">${formLabels.months.oct}</option>
-                <option value="11">${formLabels.months.nov}</option>
-                <option value="12">${formLabels.months.dec}</option>
-              </select>
-              <select name="birthDay_${participantCount}" required class="birth-day block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2 text-xs" data-participant="${participantCount}" disabled>
-                <option value="" disabled selected>${formLabels.day}</option>
-              </select>
-            </div>
-          </div>
-          <div>
-            <label class="block text-sm font-semibold text-slate-700">
-              ${formLabels.city} <span class="text-red-600">*</span>
-            </label>
-            <input type="text" name="city_${participantCount}" required class="mt-1 block w-full rounded-lg border-emerald-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2 border-2" />
-          </div>
-          <div>
-            <label class="block text-sm font-semibold text-slate-700">
-              ${formLabels.nationality} <span class="text-red-600">*</span>
-            </label>
-            <input type="text" name="nationality_${participantCount}" required value="Polska" class="mt-1 block w-full rounded-lg border-emerald-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2 border-2" />
-          </div>
-          <div>
-            <label class="block text-sm font-semibold text-slate-700">
-              ${formLabels.club}
-            </label>
-            <div class="relative">
-              <input type="text" name="club_${participantCount}" class="club-input mt-1 block w-full rounded-lg border-emerald-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2 border-2" data-participant-index="${participantCount}" autocomplete="off" />
-              <div class="club-suggestions absolute z-10 w-full bg-white border border-gray-300 rounded-lg shadow-lg mt-1 hidden max-h-48 overflow-y-auto"></div>
-            </div>
-          </div>
-          <div>
-            <label class="block text-sm font-semibold text-slate-700">
-              ${formLabels.phoneNumber} <span class="text-red-600">*</span>
-            </label>
-            <input type="text" name="phoneNumber_${participantCount}" required class="mt-1 block w-full rounded-lg border-emerald-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2 border-2" placeholder="123456789" />
-            <p class="mt-1 text-xs text-slate-600">${formLabels.phoneHelp}</p>
-          </div>
-          <div class="sm:col-span-2">
-            <label class="block text-sm font-semibold text-slate-700 mb-3">
-              ${formLabels.distanceActivity} <span class="text-red-600">*</span>
-            </label>
-            <div class="grid gap-3 sm:grid-cols-2">
-              <label class="flex items-center gap-2 p-3 rounded-lg border-2 border-emerald-300 cursor-pointer hover:bg-emerald-50 transition">
-                <input type="radio" name="raceCategory_${participantCount}" value="3km_run" required class="text-emerald-600 focus:ring-emerald-500" />
-                <span class="text-sm font-medium">${formLabels.categories["3km_run"]}</span>
-              </label>
-              <label class="flex items-center gap-2 p-3 rounded-lg border-2 border-emerald-300 cursor-pointer hover:bg-emerald-50 transition">
-                <input type="radio" name="raceCategory_${participantCount}" value="3km_nw" required class="text-emerald-600 focus:ring-emerald-500" />
-                <span class="text-sm font-medium">${formLabels.categories["3km_nw"]}</span>
-              </label>
-              <label class="flex items-center gap-2 p-3 rounded-lg border-2 border-emerald-300 cursor-pointer hover:bg-emerald-50 transition">
-                <input type="radio" name="raceCategory_${participantCount}" value="9km_run" required class="text-emerald-600 focus:ring-emerald-500" />
-                <span class="text-sm font-medium">${formLabels.categories["9km_run"]}</span>
-              </label>
-              <label class="flex items-center gap-2 p-3 rounded-lg border-2 border-emerald-300 cursor-pointer hover:bg-emerald-50 transition">
-                <input type="radio" name="raceCategory_${participantCount}" value="9km_nw" required class="text-emerald-600 focus:ring-emerald-500" />
-                <span class="text-sm font-medium">${formLabels.categories["9km_nw"]}</span>
-              </label>
-              <label class="flex items-center gap-2 p-3 rounded-lg border-2 border-emerald-300 cursor-pointer hover:bg-emerald-50 transition">
-                <input type="radio" name="raceCategory_${participantCount}" value="kids_run" required class="text-emerald-600 focus:ring-emerald-500" />
-                <span class="text-sm font-medium">${formLabels.categories["kids_run"]}</span>
-              </label>
-            </div>
-            <p class="mt-2 text-sm text-slate-600">ℹ️ ${formLabels.kidsRunInfo}</p>
-          </div>
-          <div>
-            <label class="block text-sm font-semibold text-slate-700">
-              ${formLabels.tshirtSize} <span class="text-red-600">*</span>
-            </label>
-            <p class="text-xs text-slate-500 mt-1">${formLabels.tshirtInfo}</p>
-            <select name="tshirtSize_${participantCount}" required class="mt-1 block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 tshirt-size">
-              <option value="" disabled selected>Wybierz rozmiar</option>
-              <option value="XS">XS</option>
-              <option value="S">S</option>
-              <option value="M">M</option>
-              <option value="L">L</option>
-              <option value="XL">XL</option>
-              <option value="XXL">XXL</option>
-            </select>
-          </div>
-          <div class="sm:col-span-2">
-            <label class="flex items-start gap-2">
-              <input type="checkbox" name="hideNamePublic_${participantCount}" class="mt-1 rounded border-emerald-300 border-2 text-emerald-600 focus:ring-emerald-500" />
-              <span class="text-sm text-slate-700">${formLabels.hideNamePublic}</span>
-            </label>
-          </div>
-        </div>
-      `;
 
-      participantsContainer.appendChild(participantDiv);
-      updateSummary();
+      // Clone the template
+      const template = document.getElementById('participantTemplate');
+      const clone = template.content.cloneNode(true);
+      const fieldset = clone.querySelector('[data-index]');
 
-      // Add event listeners for validation
-      const inputs = participantDiv.querySelectorAll('input[name], select[name]');
-      inputs.forEach(input => {
-        if (input.type === 'radio' || input.type === 'checkbox') {
-          input.addEventListener('change', validateParticipants);
-        } else {
-          input.addEventListener('input', validateParticipants);
-        }
+      // Update index
+      fieldset.setAttribute('data-index', participantCount);
+
+      // Update all field names
+      fieldset.querySelectorAll('[name]').forEach(input => {
+        const name = input.getAttribute('name');
+        input.setAttribute('name', name.replace(/_0$/, `_${participantCount}`));
       });
 
-      // Validate after adding
-      validateParticipants();
+      // Update title
+      fieldset.querySelector('h3').textContent = `${formLabels.participant} ${participantCount}`;
 
-      // Add phone input validation
-      const phoneInput = participantDiv.querySelector(`[name="phoneNumber_${participantCount}"]`);
-      if (phoneInput) {
-        phoneInput.addEventListener('input', () => {
-          const digits = phoneInput.value.replace(/\D/g, '').slice(0, 9);
-          phoneInput.value = digits;
-        });
-      }
-
-      // Setup dynamic day dropdown based on year and month selection
-      const yearSelect = participantDiv.querySelector('.birth-year');
-      const monthSelect = participantDiv.querySelector('.birth-month');
-      const daySelect = participantDiv.querySelector('.birth-day');
-
-      function updateDayOptions() {
-        const year = parseInt(yearSelect.value);
-        const month = parseInt(monthSelect.value);
-        
-        if (!year || !month) {
-          daySelect.disabled = true;
-          daySelect.innerHTML = `<option value="" disabled selected>${formLabels.day}</option>`;
-          return;
+      // Show/hide remove button
+      if (participantCount === 1) {
+        const removeBtn = fieldset.querySelector('.remove-participant');
+        if (removeBtn) removeBtn.remove();
+      } else {
+        const removeBtn = fieldset.querySelector('.remove-participant');
+        if (removeBtn) {
+          removeBtn.setAttribute('data-index', participantCount);
+          removeBtn.addEventListener('click', () => {
+            fieldset.remove();
+            participantCount--;
+            renumberTitles();
+            updateSummary();
+            validateParticipants();
+          });
         }
-
-        // Calculate days in month
-        const daysInMonth = new Date(year, month, 0).getDate();
-        const currentDay = daySelect.value;
-
-        // Populate day options
-        daySelect.innerHTML = `<option value="" disabled>${formLabels.day}</option>` +
-          Array.from({length: daysInMonth}, (_, i) => i + 1)
-            .map(d => {
-              const val = String(d).padStart(2, '0');
-              const selected = val === currentDay ? 'selected' : '';
-              return `<option value="${val}" ${selected}>${d}</option>`;
-            }).join('');
-
-        daySelect.disabled = false;
-
-        // If previously selected day is now invalid, reset
-        if (currentDay && parseInt(currentDay) > daysInMonth) {
-          daySelect.value = '';
-        }
-
-        validateParticipants();
       }
 
-      yearSelect.addEventListener('change', updateDayOptions);
-      monthSelect.addEventListener('change', updateDayOptions);
+      // Append
+      participantsContainer.appendChild(fieldset);
 
-      // Add event listeners for remove buttons
-      const removeBtn = participantDiv.querySelector('.remove-participant');
-      if (removeBtn) {
-        removeBtn.addEventListener('click', () => {
-          participantDiv.remove();
-          participantCount--;
-          renumberTitles();
-          updateSummary();
-          validateParticipants();
-        });
-      }
-
-      // Add event listeners for category and tshirt changes
-      participantDiv.querySelectorAll('input[type="radio"], .tshirt-size').forEach(el => {
-        el.addEventListener('change', updateSummary);
-      });
-
-      // Initialize club autocomplete for the new input
+      // Re-initialize
       if (window.setupClubAutocomplete) {
         window.setupClubAutocomplete();
       }
+      if (window.setupBirthDateSelectors) {
+        window.setupBirthDateSelectors();
+      }
+      if (window.setupPhoneValidation) {
+        window.setupPhoneValidation();
+      }
+
+      // Add event listeners for validation
+      const inputs = fieldset.querySelectorAll('input[name], select[name]');
+      inputs.forEach(input => {
+        if (input.type === 'radio' || input.type === 'checkbox') {
+          input.addEventListener('change', () => {
+            validateParticipants();
+            updateSummary();
+          });
+        } else {
+          input.addEventListener('input', () => {
+            validateParticipants();
+            updateSummary();
+          });
+        }
+      });
+
+      updateCategoryOptions();
+      updateSummary();
+      validateParticipants();
     }
 
     // Renumber participant titles after removal
@@ -902,13 +729,7 @@ const { t, locale = 'pl' } = Astro.props;
     }
 
     addParticipantBtn.addEventListener('click', addParticipant);
-    
-    // Add event listener for finish adding button (always enabled - user can pay later)
-    finishAddingBtn.addEventListener('click', () => {
-      skipPaymentStep = true;
-      participantsForm.requestSubmit();
-    });
-    
+
     // Add event listener for extra donation
     document.getElementById('extraDonation').addEventListener('input', updateSummary);
 
@@ -970,33 +791,21 @@ const { t, locale = 'pl' } = Astro.props;
       });
 
       try {
-        let response;
+        // Always submit to /register endpoint for new registrations
+        const extraDonation = parseInt(document.getElementById('extraDonation').value || '0');
+        const headers = { 'Content-Type': 'application/json' };
 
-        if (isAddingToExistingRegistration) {
-          // Adding participants to existing registration
-          response = await fetch(`${API_BASE}/add-participants`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            credentials: 'include',
-            body: JSON.stringify({ participants }),
-          });
-        } else {
-          // New registration with multiple participants
-          const extraDonation = parseInt(document.getElementById('extraDonation').value || '0');
-          const headers = { 'Content-Type': 'application/json' };
-          // Use Bearer token if available, otherwise rely on cookie auth
-          if (sessionToken) {
-            headers['Authorization'] = `Bearer ${sessionToken}`;
-          }
-          response = await fetch(`${API_BASE}/register`, {
-            method: 'POST',
-            headers,
-            credentials: 'include',
-            body: JSON.stringify({ participants, extraDonation }),
-          });
+        // Use Bearer token from code verification
+        if (sessionToken) {
+          headers['Authorization'] = `Bearer ${sessionToken}`;
         }
+
+        const response = await fetch(`${API_BASE}/register`, {
+          method: 'POST',
+          headers,
+          credentials: 'include',
+          body: JSON.stringify({ participants, extraDonation }),
+        });
 
         const data = await response.json();
 
@@ -1006,15 +815,10 @@ const { t, locale = 'pl' } = Astro.props;
           return;
         }
 
-        if (isAddingToExistingRegistration || skipPaymentStep) {
-          // Redirect to panel (user can pay later)
-          window.location.href = '/niebocross/panel';
-        } else {
-          // Move to step 4
-          paymentLink.href = `/niebocross/payment?id=${data.registrationId}`;
-          step3.classList.add('hidden');
-          step4.classList.remove('hidden');
-        }
+        // Always show payment step
+        paymentLink.href = `/niebocross/payment?id=${data.registrationId}`;
+        step3.classList.add('hidden');
+        step4.classList.remove('hidden');
       } catch {
         participantsError.textContent = errorMessages.connection;
         participantsError.classList.remove('hidden');
