@@ -424,7 +424,7 @@
       "loading": "Loading payment...",
       "error_title": "Payment error",
       "error_message": "Failed to load payment data",
-      "go_to_panel": "Go to panel",
+      "go_to_panel": "Go to panel with summary",
       "already_paid_title": "Payment completed",
       "already_paid_message": "This payment has already been completed",
       "subtitle": "Complete registration by paying for participation",

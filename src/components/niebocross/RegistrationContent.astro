@@ -195,7 +195,8 @@ const { t, locale = 'pl' } = Astro.props;
               class="w-full rounded-lg bg-emerald-600 px-6 py-3 font-semibold text-white transition hover:bg-emerald-700 disabled:bg-slate-300"
               id="participantsSubmitBtn"
             >
-              {t("niebocross.form.proceed_to_payment")}
+              {t("niebocross.payment.go_to_panel")}
+              <!-- {t("niebocross.form.proceed_to_payment")} -->
             </button>
           </form>
         </div>
@@ -206,8 +207,8 @@ const { t, locale = 'pl' } = Astro.props;
       </div>
     </div>
 
-    <!-- Step 4: Payment -->
-    <div id="step4" class="hidden space-y-6">
+    <!-- Step 4: Payment - TEMPORARILY DISABLED -->
+    <!-- <div id="step4" class="hidden space-y-6">
       <div class="text-center">
         <h2 class="text-3xl font-bold text-slate-900">{t("niebocross.registration.payment_step_title")}</h2>
         <p class="mt-2 text-slate-600">{t("niebocross.registration.payment_step_desc")}</p>
@@ -232,13 +233,13 @@ const { t, locale = 'pl' } = Astro.props;
         </a>
 
         <p class="mt-4 text-center text-sm text-slate-600">
-          {t("niebocross.registration.or_access_later")} 
+          {t("niebocross.registration.or_access_later")}
           <a href="/niebocross/panel" class="font-semibold text-emerald-600 hover:underline">
             {t("niebocross.registration.your_panel")}
           </a>
         </p>
       </div>
-    </div>
+    </div> -->
   </div>
 
   <ClubAutocomplete />
@@ -332,7 +333,7 @@ const { t, locale = 'pl' } = Astro.props;
     const step1 = document.getElementById('step1');
     const step2 = document.getElementById('step2');
     const step3 = document.getElementById('step3');
-    const step4 = document.getElementById('step4');
+    // const step4 = document.getElementById('step4'); // Disabled - payment step temporarily removed
     const emailForm = document.getElementById('emailForm');
     const codeForm = document.getElementById('codeForm');
     const participantsForm = document.getElementById('participantsForm');
@@ -344,7 +345,7 @@ const { t, locale = 'pl' } = Astro.props;
     const resendCodeBtn = document.getElementById('resendCodeBtn');
     const addParticipantBtn = document.getElementById('addParticipantBtn');
     const participantsContainer = document.getElementById('participantsContainer');
-    const paymentLink = document.getElementById('paymentLink');
+    // const paymentLink = document.getElementById('paymentLink'); // Disabled - payment step temporarily removed
     const emailSubmitBtn = document.getElementById('emailSubmitBtn');
     const emailInput = document.getElementById('email');
     const fullNameInput = document.getElementById('fullName');
@@ -658,6 +659,11 @@ const { t, locale = 'pl' } = Astro.props;
         input.setAttribute('name', name.replace(/_0$/, `_${participantCount}`));
       });
 
+      // Update data-participant attributes for birth date selectors
+      fieldset.querySelectorAll('[data-participant]').forEach(element => {
+        element.setAttribute('data-participant', participantCount);
+      });
+
       // Update title
       fieldset.querySelector('h3').textContent = `${formLabels.participant} ${participantCount}`;
 
@@ -812,10 +818,10 @@ const { t, locale = 'pl' } = Astro.props;
           return;
         }
 
-        // Always show payment step
-        paymentLink.href = `/niebocross/payment?id=${data.registrationId}`;
-        step3.classList.add('hidden');
-        step4.classList.remove('hidden');
+        // Redirect to panel instead of showing payment step
+        // Payment step temporarily disabled - redirect directly to panel
+        const panelUrl = locale === 'en' ? '/en/niebocross/panel' : '/niebocross/panel';
+        window.location.href = panelUrl;
       } catch {
         participantsError.textContent = errorMessages.connection;
         participantsError.classList.remove('hidden');

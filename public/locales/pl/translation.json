@@ -424,7 +424,7 @@
       "loading": "Ładowanie płatności...",
       "error_title": "Błąd płatności",
       "error_message": "Nie udało się załadować danych płatności",
-      "go_to_panel": "Przejdź do panelu",
+      "go_to_panel": "Przejdź do panelu podsumowującego",
       "already_paid_title": "Płatność zakończona",
       "already_paid_message": "Ta płatność została już zrealizowana",
       "subtitle": "Dokończ rejestrację opłacając udział",
