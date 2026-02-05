@@ -72,12 +72,12 @@ const { t, locale = 'pl' } = Astro.props;
 <script define:vars={{
   locale,
   errorMessages: {
-    connection: "Connection error",
-    generic: "An error occurred"
+    connection: t("niebocross.errors.connection_error"),
+    generic: t("niebocross.errors.generic_error")
   },
   formLabels: {
-    participant: "Participant",
-    remove: "Remove"
+    participant: t("niebocross.form.participant"),
+    remove: t("niebocross.form.remove")
   }
 }}>
   // API Base URL
@@ -252,6 +252,9 @@ const { t, locale = 'pl' } = Astro.props;
       window.setupPhoneValidation();
     }
 
+    // Setup validation listeners for the new participant
+    setupValidationListeners(clone);
+
     updateCategoryOptions();
     updateSummary();
     validateParticipants();
@@ -277,6 +280,28 @@ const { t, locale = 'pl' } = Astro.props;
       const title = div.querySelector('h3');
       if (title) {
         title.textContent = `${formLabels.participant} ${newIndex}`;
+      }
+    });
+  }
+
+  // Setup validation listeners for participant fields
+  function setupValidationListeners(participantDiv) {
+    const inputs = participantDiv.querySelectorAll('input[name], select[name]');
+    inputs.forEach(input => {
+      // Remove existing listeners by cloning and replacing (prevents duplicates)
+      const newInput = input.cloneNode(true);
+      input.parentNode.replaceChild(newInput, input);
+
+      if (newInput.type === 'radio' || newInput.type === 'checkbox') {
+        newInput.addEventListener('change', () => {
+          validateParticipants();
+          updateSummary();
+        });
+      } else {
+        newInput.addEventListener('input', () => {
+          validateParticipants();
+          updateSummary();
+        });
       }
     });
   }
@@ -394,22 +419,9 @@ const { t, locale = 'pl' } = Astro.props;
   document.getElementById('addParticipantBtn').addEventListener('click', addParticipant);
   document.getElementById('extraDonation')?.addEventListener('input', updateSummary);
 
-  // Add validation listeners to all form fields
+  // Add validation listeners to all existing participant fields
   document.querySelectorAll('[data-index]').forEach(div => {
-    const inputs = div.querySelectorAll('input[name], select[name]');
-    inputs.forEach(input => {
-      if (input.type === 'radio' || input.type === 'checkbox') {
-        input.addEventListener('change', () => {
-          validateParticipants();
-          updateSummary();
-        });
-      } else {
-        input.addEventListener('input', () => {
-          validateParticipants();
-          updateSummary();
-        });
-      }
-    });
+    setupValidationListeners(div);
   });
 
   // Initialize

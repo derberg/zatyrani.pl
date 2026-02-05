@@ -262,7 +262,7 @@
       "meta_description": "Add more participants to your NieboCross registration",
       "description": "Add more participants to your registration",
       "checking_auth": "Checking authentication...",
-      "submit": "Add Participants",
+      "submit": "Complete adding participants",
       "back_to_panel": "Back to Panel"
     },
     "login": {
