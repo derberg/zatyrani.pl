@@ -353,8 +353,6 @@ const { t, locale = 'pl' } = Astro.props;
     const codeInput = document.getElementById('code');
     const codeSubmitBtn = document.getElementById('codeSubmitBtn');
 
-    const finishAddingBtn = document.getElementById('finishAddingBtn');
-
     console.log('Elements found:', {
       emailSubmitBtn: !!emailSubmitBtn,
       emailInput: !!emailInput,
@@ -468,7 +466,6 @@ const { t, locale = 'pl' } = Astro.props;
       // Disable buttons if no participants or any invalid
       const hasParticipants = participantDivs.length > 0;
       participantsSubmitBtn.disabled = !hasParticipants || !allValid;
-      finishAddingBtn.disabled = !hasParticipants || !allValid;
     }
 
     // Initial validation
