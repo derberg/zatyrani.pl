@@ -56,10 +56,17 @@ export async function updateOrCreatePayment(supabase, registration_id, allPartic
   // Calculate payment based on all participants
   const payment = calculatePaymentForParticipants(allParticipants);
   
-  // Add extra donation to total and charity amount
-  const extraDonationAmount = Math.max(0, parseInt(extraDonation || '0'));
-  payment.totalAmount += extraDonationAmount;
-  payment.charityAmount += extraDonationAmount;
+  // Preserve existing extra donation (if any) and add new extra donation
+  const existingTotalAmount = Number(existingPendingPayment?.total_amount || 0);
+  const existingRaceFees = Number(existingPendingPayment?.race_fees || 0);
+  const existingTshirtFees = Number(existingPendingPayment?.tshirt_fees || 0);
+  const existingExtraDonation = Math.max(0, existingTotalAmount - existingRaceFees - existingTshirtFees);
+
+  const newExtraDonation = Math.max(0, parseInt(extraDonation || '0'));
+  const totalExtraDonation = existingExtraDonation + newExtraDonation;
+
+  payment.totalAmount += totalExtraDonation;
+  payment.charityAmount += totalExtraDonation;
 
   if (existingPendingPayment) {
     // Update existing pending payment by its ID
