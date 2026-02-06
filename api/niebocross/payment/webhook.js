@@ -2,6 +2,27 @@ import { createClient } from "@supabase/supabase-js";
 import { verifyWebhookSignature, parseWebhookData } from "../utils/sibs.js";
 import { sendPaymentConfirmationEmail } from "../utils/email.js";
 
+// Disable Vercel's automatic body parsing so we get the raw body string
+// This is critical for HMAC signature verification - JSON.stringify(parsedObj)
+// won't reproduce the exact bytes SIBS signed
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
+
+/**
+ * Read the raw body from the request stream
+ */
+function getRawBody(req) {
+  return new Promise((resolve, reject) => {
+    const chunks = [];
+    req.on('data', (chunk) => chunks.push(chunk));
+    req.on('end', () => resolve(Buffer.concat(chunks).toString('utf8')));
+    req.on('error', reject);
+  });
+}
+
 function getSupabaseClient() {
   const url = process.env.SUPABASE_URL;
   const serviceKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -29,15 +50,25 @@ export default async function handler(req, res) {
   }
 
   try {
+    // Read raw body as string (body parser is disabled)
+    const rawBody = await getRawBody(req);
+    console.log('[Webhook] Raw body (first 300 chars):', rawBody.substring(0, 300));
+
     // Verify SIBS webhook signature from Authorization header
     const authHeader = req.headers['authorization'] || req.headers['Authorization'] || '';
-    const isValidSignature = verifyWebhookSignature(req.body, authHeader);
+    console.log('[Webhook] Authorization header:', authHeader);
+    const isValidSignature = verifyWebhookSignature(rawBody, authHeader);
+    console.log('[Webhook] Signature valid:', isValidSignature);
     if (!isValidSignature) {
+      console.log('[Webhook] Returning 401 - invalid signature');
       return res.status(401).json({ error: "Invalid signature" });
     }
 
+    // Parse the raw body JSON manually (since body parser is disabled)
+    const body = JSON.parse(rawBody);
+
     // Parse webhook data
-    const webhookData = parseWebhookData(req.body);
+    const webhookData = parseWebhookData(body);
     const { merchantTransactionId: paymentId, transactionId, status } = webhookData;
 
     if (!paymentId) {
@@ -70,7 +101,7 @@ export default async function handler(req, res) {
     // Update payment status based on SIBS response
     // SIBS status codes: '000' = success, others = various failure states
     const updateData = {
-      transaction_id: transactionId || req.body.transactionId,
+      transaction_id: transactionId || body.transactionId,
       payment_status: status === '000' ? 'paid' : 'failed'
     };
 
