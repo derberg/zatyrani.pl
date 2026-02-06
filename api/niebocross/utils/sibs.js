@@ -17,7 +17,7 @@ const SIBS_WEBHOOK_ID = process.env.SIBS_WEBHOOK_ID;
 export async function createPaymentLink(paymentData) {
   const {
     paymentId,
-    amount, // in grosze (1 PLN = 100 groszy)
+    amount, // in PLN (main currency unit, e.g. 140.00 for 140 PLN)
     description
   } = paymentData;
 

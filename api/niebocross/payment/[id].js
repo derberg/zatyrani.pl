@@ -83,7 +83,7 @@ export default async function handler(req, res) {
 
     const paymentResult = await createPaymentLink({
       paymentId: payment.id,
-      amount: Math.round(payment.total_amount * 100), // Convert PLN to grosze (1 PLN = 100 groszy)
+      amount: payment.total_amount, // SIBS expects amount in PLN (main currency unit)
       description: registration.contact_person,
       email: registration.email,
       urlReturn: `https://zatyrani.pl/niebocross/panel?payment=success`,
