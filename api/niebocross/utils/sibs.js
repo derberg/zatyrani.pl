@@ -24,8 +24,14 @@ export async function createPaymentLink(paymentData) {
     urlStatus
   } = paymentData;
 
-  if (!SIBS_TOKEN) {
-    throw new Error('SIBS Bearer token is not configured');
+  // Validate environment variables
+  const missingVars = [];
+  if (!SIBS_TOKEN) missingVars.push('SIBS_TOKEN');
+  if (!SIBS_CRED_NAME) missingVars.push('SIBS_CRED_NAME');
+  if (!process.env.SIBS_TERMINAL) missingVars.push('SIBS_TERMINAL');
+
+  if (missingVars.length > 0) {
+    throw new Error(`Missing SIBS configuration: ${missingVars.join(', ')}`);
   }
 
   // Prepare transaction data for SIBS
@@ -64,6 +70,12 @@ export async function createPaymentLink(paymentData) {
   };
 
   try {
+    console.log('Creating SIBS payment with data:', JSON.stringify({
+      ...transactionData,
+      // Mask sensitive data in logs
+      urls: { ...transactionData.urls, notification: '[REDACTED]' }
+    }, null, 2));
+
     const response = await fetch(`${SIBS_API_URL}/api/v1/payments`, {
       method: 'POST',
       headers: {
@@ -76,8 +88,21 @@ export async function createPaymentLink(paymentData) {
 
     const result = await response.json();
 
+    console.log('SIBS API Response:', JSON.stringify({
+      status: response.status,
+      statusText: response.statusText,
+      result
+    }, null, 2));
+
     if (!response.ok || result.returnStatus?.statusCode !== '000') {
-      throw new Error(`SIBS API error: ${result.returnStatus?.statusMsg || 'Unknown error'}`);
+      const errorMsg = result.returnStatus?.statusMsg || result.message || JSON.stringify(result);
+      console.error('SIBS API error details:', {
+        status: response.status,
+        statusCode: result.returnStatus?.statusCode,
+        statusMsg: result.returnStatus?.statusMsg,
+        fullResponse: result
+      });
+      throw new Error(`SIBS API error (${response.status}): ${errorMsg}`);
     }
 
     // Extract transaction ID from response
@@ -96,7 +121,11 @@ export async function createPaymentLink(paymentData) {
     };
   } catch (error) {
     console.error('Error creating SIBS payment:', error);
-    throw new Error('Failed to create payment link');
+    // Re-throw with original message if available, otherwise use generic message
+    if (error.message.includes('SIBS API error') || error.message.includes('SIBS configuration')) {
+      throw error;
+    }
+    throw new Error(`Failed to create payment link: ${error.message}`);
   }
 }
 
