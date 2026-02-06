@@ -61,6 +61,7 @@ CREATE TABLE niebocross_participants (
   nationality VARCHAR(100) NOT NULL,
   club VARCHAR(255),
   race_category VARCHAR(50) NOT NULL CHECK (race_category IN ('3km_run', '3km_nw', '9km_run', '9km_nw', 'kids_run')),
+  food_preference VARCHAR(20) CHECK (food_preference IN ('meat', 'vegetarian')),
   tshirt_size VARCHAR(10) CHECK (tshirt_size IN ('116', '128', '134', '140', '146', '152', 'XS', 'S', 'M', 'L', 'XL', 'XXL')),
   hide_name_public BOOLEAN NOT NULL DEFAULT false,
   phone_number VARCHAR(20) NOT NULL,
@@ -78,6 +79,7 @@ CREATE TABLE niebocross_participants (
 - `nationality` - Participant's nationality
 - `club` - Optional club/team name
 - `race_category` - Race category: `3km_run`, `3km_nw`, `9km_run`, `9km_nw`, `kids_run` (for kids, specific distance will be assigned on event day based on age)
+- `food_preference` - Optional food preference: `meat`, `vegetarian` (for catering planning)
 - `tshirt_size` - Optional t-shirt size: `116`, `128`, `134`, `140`, `146`, `152`, `XS`, `S`, `M`, `L`, `XL`, `XXL`
 - `hide_name_public` - Whether to hide the name on public participant lists
 - `phone_number` - Participant's phone number (required for emergency contact and notifications)

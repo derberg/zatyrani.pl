@@ -14,6 +14,7 @@ interface Props {
     club?: string;
     phoneNumber?: string;
     raceCategory?: string;
+    foodPreference?: string;
     tshirtSize?: string;
     hideNamePublic?: boolean;
   };
@@ -113,17 +114,6 @@ const { index, t, showRemoveButton = false, participantData } = Astro.props;
       <p class="mt-1 text-xs text-slate-600">{t("niebocross.form.phone_help")}</p>
     </div>
 
-    <!-- T-shirt Size -->
-    <div>
-      <label class="block text-sm font-semibold text-slate-700">
-        {t("niebocross.form.tshirt_size")} <span class="text-red-600">*</span>
-      </label>
-      <div class="tshirt-size">
-        <TshirtSizeSelector name={`tshirtSize_${index}`} t={t} value={participantData?.tshirtSize} />
-      </div>
-      <p class="text-xs text-slate-500 mt-1">{t("niebocross.form.tshirt_info")}</p>
-    </div>
-
     <!-- Race Category - keep as radio buttons for dynamic limit checking -->
     <div class="sm:col-span-2">
       <label class="block text-sm font-semibold text-slate-700 mb-3">
@@ -187,6 +177,47 @@ const { index, t, showRemoveButton = false, participantData } = Astro.props;
         </label>
       </div>
       <p class="mt-2 text-sm text-slate-600">ℹ️ {t("niebocross.form.kids_run_info")}</p>
+    </div>
+
+    <!-- Food Preference -->
+    <div class="sm:col-span-2">
+      <label class="block text-sm font-semibold text-slate-700 mb-3">
+        {t("niebocross.form.food_preference")}
+      </label>
+      <div class="grid gap-3 sm:grid-cols-2">
+        <label class="flex items-center gap-2 p-3 rounded-lg border-2 border-emerald-300 cursor-pointer hover:bg-emerald-50 transition">
+          <input
+            type="radio"
+            name={`foodPreference_${index}`}
+            value="meat"
+            checked={participantData?.foodPreference === "meat"}
+            class="text-emerald-600 focus:ring-emerald-500"
+          />
+          <span class="text-sm font-medium">{t("niebocross.form.food_preference_meat")}</span>
+        </label>
+        <label class="flex items-center gap-2 p-3 rounded-lg border-2 border-emerald-300 cursor-pointer hover:bg-emerald-50 transition">
+          <input
+            type="radio"
+            name={`foodPreference_${index}`}
+            value="vegetarian"
+            checked={participantData?.foodPreference === "vegetarian"}
+            class="text-emerald-600 focus:ring-emerald-500"
+          />
+          <span class="text-sm font-medium">{t("niebocross.form.food_preference_vegetarian")}</span>
+        </label>
+      </div>
+      <p class="text-xs text-slate-500 mt-2">{t("niebocross.form.food_preference_info")}</p>
+    </div>
+
+    <!-- T-shirt Size -->
+    <div>
+      <label class="block text-sm font-semibold text-slate-700">
+        {t("niebocross.form.tshirt_size")} <span class="text-red-600">*</span>
+      </label>
+      <div class="tshirt-size">
+        <TshirtSizeSelector name={`tshirtSize_${index}`} t={t} value={participantData?.tshirtSize} />
+      </div>
+      <p class="text-xs text-slate-500 mt-1">{t("niebocross.form.tshirt_info")}</p>
     </div>
 
     <!-- Hide Name Public -->

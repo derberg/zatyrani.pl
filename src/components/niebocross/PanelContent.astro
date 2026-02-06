@@ -161,6 +161,37 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
                 </select>
                 <p class="mt-1 text-xs text-slate-600">{t("niebocross.form.kids_run_info")}</p>
               </div>
+            </div>
+
+            <div>
+              <label class="block text-sm font-semibold text-slate-700 mb-3">
+                {t("niebocross.form.food_preference")}
+              </label>
+              <div class="grid gap-3 sm:grid-cols-2">
+                <label class="flex items-center gap-2 p-3 rounded-lg border-2 border-emerald-300 cursor-pointer hover:bg-emerald-50 transition">
+                  <input
+                    type="radio"
+                    name="editFoodPreference"
+                    id="editFoodPreferenceMeat"
+                    value="meat"
+                    class="text-emerald-600 focus:ring-emerald-500"
+                  />
+                  <span class="text-sm font-medium">{t("niebocross.form.food_preference_meat")}</span>
+                </label>
+                <label class="flex items-center gap-2 p-3 rounded-lg border-2 border-emerald-300 cursor-pointer hover:bg-emerald-50 transition">
+                  <input
+                    type="radio"
+                    name="editFoodPreference"
+                    id="editFoodPreferenceVegetarian"
+                    value="vegetarian"
+                    class="text-emerald-600 focus:ring-emerald-500"
+                  />
+                  <span class="text-sm font-medium">{t("niebocross.form.food_preference_vegetarian")}</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="grid gap-4 sm:grid-cols-2">
               <div>
                 <label class="block text-sm font-semibold text-slate-700">
                   {t("niebocross.form.tshirt_size")} <span class="text-red-600">*</span>
@@ -364,6 +395,7 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
                   <p>📍 ${p.city}, ${p.nationality}</p>
                   ${p.club ? `<p>🏃 ${p.club}</p>` : ''}
                   <p>🏅 ${categoryLabel}</p>
+                  ${p.foodPreference ? `<p>🍽️ ${p.foodPreference === 'meat' ? 'Z mięsem' : 'Wegetariańskie'}</p>` : ''}
                   ${p.tshirtSize ? `<p>👕 Koszulka: ${p.tshirtSize}</p>` : ''}
                 </div>
               </div>
@@ -435,6 +467,16 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
       document.getElementById('editClub').value = participant.club || '';
       document.getElementById('editPhoneNumber').value = participant.phoneNumber || '';
       document.getElementById('editRaceCategory').value = participant.raceCategory;
+
+      // Set food preference radio button if value exists
+      if (participant.foodPreference) {
+        if (participant.foodPreference === 'meat') {
+          document.getElementById('editFoodPreferenceMeat').checked = true;
+        } else if (participant.foodPreference === 'vegetarian') {
+          document.getElementById('editFoodPreferenceVegetarian').checked = true;
+        }
+      }
+
       document.getElementById('editTshirtSize').value = participant.tshirtSize || '';
       document.getElementById('editHideNamePublic').checked = participant.hideNamePublic;
 
@@ -470,6 +512,7 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
         club: document.getElementById('editClub').value || null,
         phoneNumber: document.getElementById('editPhoneNumber').value,
         raceCategory: document.getElementById('editRaceCategory').value,
+        foodPreference: document.querySelector('input[name="editFoodPreference"]:checked')?.value || null,
         tshirtSize: document.getElementById('editTshirtSize').value,
         hideNamePublic: document.getElementById('editHideNamePublic').checked,
       };

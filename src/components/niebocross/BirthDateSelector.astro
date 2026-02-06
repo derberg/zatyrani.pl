@@ -11,8 +11,8 @@ interface Props {
 const { index, id, name, t, value, required = true } = Astro.props;
 
 // Determine the field name/id based on what's provided
-const fieldId = id || (index ? `birthDate_${index}` : 'birthDate');
-const fieldName = name || (index ? `birthDate_${index}` : 'birthDate');
+const fieldId = id || (index != null ? `birthDate_${index}` : 'birthDate');
+const fieldName = name || (index != null ? `birthDate_${index}` : 'birthDate');
 ---
 
 <div>

@@ -415,7 +415,7 @@ const { t, locale = 'pl' } = Astro.props;
       console.log('Disabled categories:', disabledCategories);
 
       // Update all existing participant forms
-      const participantDivs = participantsContainer.querySelectorAll('[data-index]');
+      const participantDivs = participantsContainer.querySelectorAll(':scope > [data-index]');
       participantDivs.forEach(div => {
         const index = div.getAttribute('data-index');
         const categoryInputs = div.querySelectorAll(`input[name="raceCategory_${index}"]`);
@@ -444,7 +444,7 @@ const { t, locale = 'pl' } = Astro.props;
 
     // Function to validate all participants
     function validateParticipants() {
-      const participantDivs = participantsContainer.querySelectorAll('[data-index]');
+      const participantDivs = participantsContainer.querySelectorAll(':scope > [data-index]');
       let allValid = true;
 
       participantDivs.forEach(div => {
@@ -741,7 +741,7 @@ const { t, locale = 'pl' } = Astro.props;
       let raceFees = 0;
       const tshirtFees = 0; // T-shirt fees temporarily disabled until partnership confirmed
 
-      document.querySelectorAll('[data-index]').forEach(div => {
+      participantsContainer.querySelectorAll(':scope > [data-index]').forEach(div => {
         const index = div.getAttribute('data-index');
         const category = document.querySelector(`input[name="raceCategory_${index}"]:checked`)?.value;
         // const tshirt = document.querySelector(`[name="tshirtSize_${index}"]`)?.value; // Disabled until partnership confirmed
@@ -775,7 +775,7 @@ const { t, locale = 'pl' } = Astro.props;
 
       const participants = [];
       
-      document.querySelectorAll('[data-index]').forEach(div => {
+      participantsContainer.querySelectorAll(':scope > [data-index]').forEach(div => {
         const index = div.getAttribute('data-index');
         participants.push({
           fullName: document.querySelector(`[name="fullName_${index}"]`).value,
@@ -785,6 +785,7 @@ const { t, locale = 'pl' } = Astro.props;
           club: document.querySelector(`[name="club_${index}"]`).value || null,
           phoneNumber: document.querySelector(`[name="phoneNumber_${index}"]`).value,
           raceCategory: document.querySelector(`input[name="raceCategory_${index}"]:checked`).value,
+          foodPreference: document.querySelector(`input[name="foodPreference_${index}"]:checked`)?.value || null,
           tshirtSize: document.querySelector(`[name="tshirtSize_${index}"]`).value,
           hideNamePublic: document.querySelector(`[name="hideNamePublic_${index}"]`).checked,
         });
