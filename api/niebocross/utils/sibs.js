@@ -7,7 +7,7 @@ import crypto from 'crypto';
 // Ensure SIBS_API_URL has https:// protocol
 const rawSibsUrl = process.env.SIBS_API_URL || 'https://api.sibsgateway.com';
 const SIBS_API_URL = rawSibsUrl.startsWith('http') ? rawSibsUrl : `https://${rawSibsUrl}`;
-const SIBS_CRED_NAME = process.env.SIBS_CRED_NAME;
+const SIBS_CLIENT_ID = process.env.SIBS_CLIENT_ID;
 const SIBS_TOKEN = process.env.SIBS_TOKEN;
 const SIBS_WEBHOOK_ID = process.env.SIBS_WEBHOOK_ID;
 
@@ -27,7 +27,7 @@ export async function createPaymentLink(paymentData) {
   // Validate environment variables
   const missingVars = [];
   if (!SIBS_TOKEN) missingVars.push('SIBS_TOKEN');
-  if (!SIBS_CRED_NAME) missingVars.push('SIBS_CRED_NAME');
+  if (!SIBS_CLIENT_ID) missingVars.push('SIBS_CLIENT_ID');
   if (!process.env.SIBS_TERMINAL) missingVars.push('SIBS_TERMINAL');
 
   if (missingVars.length > 0) {
@@ -76,12 +76,12 @@ export async function createPaymentLink(paymentData) {
       urls: { ...transactionData.urls, notification: '[REDACTED]' }
     }, null, 2));
 
-    const response = await fetch(`${SIBS_API_URL}/api/v1/payments`, {
+    const response = await fetch(`${SIBS_API_URL}/api/v2/payments`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${SIBS_TOKEN}`,
-        'X-IBM-Client-Id': SIBS_CRED_NAME
+        'X-IBM-Client-Id': SIBS_CLIENT_ID
       },
       body: JSON.stringify(transactionData)
     });
