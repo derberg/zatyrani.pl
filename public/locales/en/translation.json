@@ -28,7 +28,6 @@
   },
   "common": {
     "register": "Register",
-    "register_soon": "Register (soon)",
     "event": "Event",
     "contact": "Contact",
     "read_more": "Read more",
@@ -221,7 +220,6 @@
     "support_tshirts_desc": "10 PLN from each sold t-shirt goes to the cause, the rest covers production costs.",
     "support_partners": "Partners:",
     "support_partners_desc": "Support from partners is transferred to the goal after deducting necessary event organization costs, which we try to limit to the minimum necessary.",
-    "registration_info": "Registration and online payments will be available soon. The buttons above will take you to the form and starting list as soon as they are available.",
     "bierawka_valley": "Bierawka Valley",
     "bierawka_desc": "The event will take place in the picturesque Bierawka River valley. The 9+ km route runs along the river, offering participants beautiful views and technical challenges. Natural single-tracks, root sections, and World War II trenches create an ideal cross-country route for trail running enthusiasts.",
     "photo_author": "Author",

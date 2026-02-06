@@ -28,7 +28,6 @@
   },
   "common": {
     "register": "Zapisz się",
-    "register_soon": "Zapisz się (wkrótce)",
     "event": "Wydarzenie",
     "contact": "Kontakt",
     "read_more": "Czytaj więcej",
@@ -221,7 +220,6 @@
     "support_tshirts_desc": "10 zł z każdej sprzedanej koszulki zasila cel, reszta pokrywa koszt produkcji.",
     "support_partners": "Partnerzy:",
     "support_partners_desc": "Wsparcie od partnerów jest przekazywane na cel po odliczeniu niezbędnych kosztów organizacji wydarzenia które staramy się ograniczyć do niezbędnego minimum.",
-    "registration_info": "Rejestracja i płatności online zostaną uruchomione wkrótce. Przyciski powyżej zaprowadzą Cię do formularza oraz listy startowej, gdy tylko będą dostępne.",
     "bierawka_valley": "Dolina Bierawki",
     "bierawka_desc": "Wydarzenie odbędzie się w malowniczej dolinie rzeki Bierawki. Trasa 9+ km wiedzie wzdłuż rzeki, oferując uczestnikom piękne widoki i techniczne wyzwania. Naturalne single-tracki, fragmenty korzeni, okopy z czasów II wojny światowej tworzą idealną krosową trasę dla miłośników biegania w terenie.",
     "photo_author": "Autor",
