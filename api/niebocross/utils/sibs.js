@@ -36,8 +36,7 @@ export async function createPaymentLink(paymentData) {
     merchant: {
       terminalId: parseInt(process.env.SIBS_TERMINAL) || 1,
       channel: "web",
-      merchantTransactionId: paymentId,
-      shopURL: "https://zatyrani.pl/niebocross"
+      merchantTransactionId: paymentId
     },
     transaction: {
       transactionTimestamp: new Date().toISOString(),
@@ -55,7 +54,7 @@ export async function createPaymentLink(paymentData) {
   try {
     console.log('Creating SIBS payment with data:', JSON.stringify(transactionData, null, 2));
 
-    const response = await fetch(`${SIBS_API_URL}/api/v1/payments`, {
+    const response = await fetch(`${SIBS_API_URL}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
