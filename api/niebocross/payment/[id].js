@@ -83,7 +83,7 @@ export default async function handler(req, res) {
     const paymentResult = await createPaymentLink({
       paymentId: payment.id,
       amount: Math.round(payment.total_amount * 100), // Convert to cents (EUR)
-      description: `NieboCross 2026 - rejestracja ${registration.contact_person}`,
+      description: registration.contact_person,
       email: registration.email,
       urlReturn: `https://zatyrani.pl/niebocross/panel?payment=success`,
       urlStatus: `https://zatyrani.pl/api/niebocross/payment/webhook`

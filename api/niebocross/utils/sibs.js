@@ -19,9 +19,7 @@ export async function createPaymentLink(paymentData) {
     paymentId,
     amount, // in grosz (PLN * 100)
     description,
-    email,
-    urlReturn,
-    urlStatus
+    email
   } = paymentData;
 
   // Validate environment variables
@@ -34,12 +32,14 @@ export async function createPaymentLink(paymentData) {
     throw new Error(`Missing SIBS configuration: ${missingVars.join(', ')}`);
   }
 
-  // Prepare transaction data for SIBS
+  // Prepare transaction data for SIBS - matching Polish docs structure
   const transactionData = {
     merchant: {
       terminalId: parseInt(process.env.SIBS_TERMINAL) || 1,
       channel: "web",
-      merchantTransactionId: paymentId
+      merchantTransactionId: paymentId,
+      transactionDescription: description,
+      shopURL: "https://zatyrani.pl/niebocross"
     },
     transaction: {
       transactionTimestamp: new Date().toISOString(),
@@ -50,38 +50,24 @@ export async function createPaymentLink(paymentData) {
         value: amount,
         currency: "PLN"
       },
-      paymentMethod: ["CARD", "BLIK", "PBLKV", "GOOGLEPAY"],
-      paymentReference: {
-        type: "REFERENCE",
-        reference: paymentId
-      }
+      paymentMethod: ["CARD", "BLIK", "PBLKV", "GOOGLEPAY"]
     },
     customer: {
       customerInfo: {
-        email: email
+        customerEmail: email
       }
-    },
-    urls: {
-      success: urlReturn,
-      cancel: urlReturn,
-      failure: urlReturn,
-      notification: urlStatus
     }
   };
 
   try {
-    console.log('Creating SIBS payment with data:', JSON.stringify({
-      ...transactionData,
-      // Mask sensitive data in logs
-      urls: { ...transactionData.urls, notification: '[REDACTED]' }
-    }, null, 2));
+    console.log('Creating SIBS payment with data:', JSON.stringify(transactionData, null, 2));
 
-    const response = await fetch(`${SIBS_API_URL}/api/v2/payments`, {
+    const response = await fetch(`${SIBS_API_URL}/api/v1/payments`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${SIBS_TOKEN}`,
-        'X-IBM-Client-Id': SIBS_CLIENT_ID
+        'x-ibm-client-id': SIBS_CLIENT_ID
       },
       body: JSON.stringify(transactionData)
     });
