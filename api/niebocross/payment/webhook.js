@@ -29,8 +29,9 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Verify SIBS webhook signature
-    const isValidSignature = verifyWebhookSignature(req.body, req.body.signature);
+    // Verify SIBS webhook signature from Authorization header
+    const authHeader = req.headers['authorization'] || req.headers['Authorization'] || '';
+    const isValidSignature = verifyWebhookSignature(req.body, authHeader);
     if (!isValidSignature) {
       return res.status(401).json({ error: "Invalid signature" });
     }

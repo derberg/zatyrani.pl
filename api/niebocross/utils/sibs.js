@@ -7,8 +7,9 @@ import crypto from 'crypto';
 // Ensure SIBS_API_URL has https:// protocol
 const rawSibsUrl = process.env.SIBS_API_URL || 'https://api.sibsgateway.com';
 const SIBS_API_URL = rawSibsUrl.startsWith('http') ? rawSibsUrl : `https://${rawSibsUrl}`;
-const SIBS_CLIENT_ID = process.env.SIBS_CLIENT_ID;
-const SIBS_BEARER_TOKEN = process.env.SIBS_BEARER_TOKEN;
+const SIBS_CRED_NAME = process.env.SIBS_CRED_NAME;
+const SIBS_TOKEN = process.env.SIBS_TOKEN;
+const SIBS_WEBHOOK_ID = process.env.SIBS_WEBHOOK_ID;
 
 /**
  * Generate payment link for SIBS Gateway
@@ -23,14 +24,14 @@ export async function createPaymentLink(paymentData) {
     urlStatus
   } = paymentData;
 
-  if (!SIBS_BEARER_TOKEN) {
+  if (!SIBS_TOKEN) {
     throw new Error('SIBS Bearer token is not configured');
   }
 
   // Prepare transaction data for SIBS
   const transactionData = {
     merchant: {
-      terminalId: 1, // Default terminal
+      terminalId: parseInt(process.env.SIBS_TERMINAL) || 1,
       channel: "web",
       merchantTransactionId: paymentId
     },
@@ -67,8 +68,8 @@ export async function createPaymentLink(paymentData) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${SIBS_BEARER_TOKEN}`,
-        'x-ibm-client-id': SIBS_CLIENT_ID
+        'Authorization': `Bearer ${SIBS_TOKEN}`,
+        'x-ibm-client-id': SIBS_CRED_NAME
       },
       body: JSON.stringify(transactionData)
     });
@@ -101,27 +102,37 @@ export async function createPaymentLink(paymentData) {
 
 /**
  * Verify SIBS webhook signature
+ * SIBS signs the raw request body using HMAC-SHA256 with the Webhook ID (base64-decoded) as key.
+ * The resulting digest is base64-encoded and sent in the Authorization header.
  */
-export function verifyWebhookSignature(data, receivedSign) {
-  // SIBS typically uses HMAC-SHA256 for webhook signatures
-  // Using bearer token as the signing key (needs verification with SIBS docs)
-  if (!SIBS_BEARER_TOKEN) {
-    throw new Error('SIBS Bearer token is not configured');
+export function verifyWebhookSignature(rawBody, receivedSignature) {
+  if (!SIBS_WEBHOOK_ID) {
+    throw new Error('SIBS Webhook ID is not configured');
   }
 
-  // Create signature from webhook data
-  const sortedKeys = Object.keys(data).sort();
-  const signString = sortedKeys
-    .filter(key => key !== 'signature')
-    .map(key => `${key}=${JSON.stringify(data[key])}`)
-    .join('&');
+  if (!receivedSignature) {
+    return false;
+  }
 
-  const expectedSign = crypto
-    .createHmac('sha256', SIBS_BEARER_TOKEN)
-    .update(signString)
-    .digest('hex');
+  // Decode the base64-encoded webhook ID to get the HMAC key
+  const key = Buffer.from(SIBS_WEBHOOK_ID, 'base64');
 
-  return expectedSign === receivedSign;
+  // Compute HMAC-SHA256 of the raw request body
+  const bodyStr = typeof rawBody === 'string' ? rawBody : JSON.stringify(rawBody);
+  const expectedSignature = crypto
+    .createHmac('sha256', key)
+    .update(bodyStr)
+    .digest('base64');
+
+  // Constant-time comparison to prevent timing attacks
+  try {
+    return crypto.timingSafeEqual(
+      Buffer.from(expectedSignature),
+      Buffer.from(receivedSignature)
+    );
+  } catch {
+    return false;
+  }
 }
 
 /**

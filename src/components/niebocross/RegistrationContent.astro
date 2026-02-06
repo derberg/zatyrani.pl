@@ -207,7 +207,7 @@ const { t, locale = 'pl' } = Astro.props;
       </div>
     </div>
 
-    <!-- Step 4: Payment - TEMPORARILY DISABLED -->
+    <!-- Step 4: Payment - disabled; users pay from dashboard panel or email link -->
     <!-- <div id="step4" class="hidden space-y-6">
       <div class="text-center">
         <h2 class="text-3xl font-bold text-slate-900">{t("niebocross.registration.payment_step_title")}</h2>
@@ -333,7 +333,7 @@ const { t, locale = 'pl' } = Astro.props;
     const step1 = document.getElementById('step1');
     const step2 = document.getElementById('step2');
     const step3 = document.getElementById('step3');
-    // const step4 = document.getElementById('step4'); // Disabled - payment step temporarily removed
+    // const step4 = document.getElementById('step4'); // Payment happens via panel or email link
     const emailForm = document.getElementById('emailForm');
     const codeForm = document.getElementById('codeForm');
     const participantsForm = document.getElementById('participantsForm');
@@ -345,7 +345,7 @@ const { t, locale = 'pl' } = Astro.props;
     const resendCodeBtn = document.getElementById('resendCodeBtn');
     const addParticipantBtn = document.getElementById('addParticipantBtn');
     const participantsContainer = document.getElementById('participantsContainer');
-    // const paymentLink = document.getElementById('paymentLink'); // Disabled - payment step temporarily removed
+    // const paymentLink = document.getElementById('paymentLink'); // Payment happens via panel or email link
     const emailSubmitBtn = document.getElementById('emailSubmitBtn');
     const emailInput = document.getElementById('email');
     const fullNameInput = document.getElementById('fullName');
@@ -815,8 +815,7 @@ const { t, locale = 'pl' } = Astro.props;
           return;
         }
 
-        // Redirect to panel instead of showing payment step
-        // Payment step temporarily disabled - redirect directly to panel
+        // Redirect to panel where user can pay and manage participants
         const panelUrl = locale === 'en' ? '/en/niebocross/panel' : '/niebocross/panel';
         window.location.href = panelUrl;
       } catch {

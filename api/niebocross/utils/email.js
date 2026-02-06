@@ -68,14 +68,11 @@ export async function sendVerificationCodeEmail(email, code, context = 'registra
  * @param {string} params.contactPerson - Contact person name
  * @param {Array} params.participants - Array of participant objects with fullName and raceCategory
  * @param {Object} params.payment - Payment object with totalAmount and charityAmount
- * @param {string} params.registrationId - Registration ID for payment link (currently unused - payment disabled)
+ * @param {string} params.registrationId - Registration ID for payment link
  * @returns {Promise<void>}
  */
  
 export async function sendRegistrationConfirmationEmail({ email, contactPerson, participants, payment, registrationId }) {
-  // Intentionally unused parameter (payment functionality temporarily disabled)
-  void registrationId;
-
   const sendgridKey = process.env.SENDGRID_API_KEY;
   if (!sendgridKey) {
     throw new Error("SendGrid API key not configured");
@@ -83,8 +80,7 @@ export async function sendRegistrationConfirmationEmail({ email, contactPerson, 
 
   sgMail.setApiKey(sendgridKey);
 
-  // Payment link temporarily disabled - uncomment when ready:
-  // const paymentPageUrl = `https://zatyrani.pl/niebocross/payment?id=${registrationId}`;
+  const paymentPageUrl = `https://zatyrani.pl/niebocross/payment?id=${registrationId}`;
 
   // Only maintain HTML - text is auto-generated
   const html = `
@@ -100,8 +96,10 @@ export async function sendRegistrationConfirmationEmail({ email, contactPerson, 
         <p style="margin: 0;"><strong>Do zapłaty: ${payment.totalAmount} zł</strong></p>
         <p style="margin: 5px 0 0 0; color: #666;">(w tym ${payment.charityAmount.toFixed(2)} zł na cel charytatywny)</p>
       </div>
-      <p>Możliwość opłacenia udziału w wydarzeniu nie jest jeszcze włączona. Wszelkie informacje na ten temat zostaną wysłane meilowo.</p>
-      <p>Możesz sprawdzić status płatności oraz zarejestrować dodatkowych uczestników pod adresem:<br>
+      <div style="text-align: center; margin: 25px 0;">
+        <a href="${paymentPageUrl}" style="background-color: #4CAF50; color: white; padding: 14px 28px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px; display: inline-block;">Opłać udział</a>
+      </div>
+      <p>Możesz też sprawdzić status płatności oraz zarejestrować dodatkowych uczestników pod adresem:<br>
       <a href="https://zatyrani.pl/niebocross/panel">https://zatyrani.pl/niebocross/panel</a></p>
       <p>Do zobaczenia w Nieborowicach 12 kwietnia 2026!</p>
       <hr style="border: none; border-top: 1px solid #ccc; margin: 30px 0;">

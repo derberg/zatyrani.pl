@@ -318,15 +318,14 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
             <p class="mt-1 text-sm text-slate-600">${translations.amount_to_pay}: <strong>${payment.totalAmount} zł</strong></p>
             <p class="text-xs text-slate-500 mt-1">${translations.including_charity.replace('{{amount}}', payment.charityAmount.toFixed(2))}</p>
           </div>
-          ${/* Payment link temporarily disabled
-          !isPaid ? `
+          ${!isPaid ? `
             <a
               href="/niebocross/payment?id=${dashboardData.registration.id}"
               class="rounded-lg bg-emerald-600 px-6 py-3 font-semibold text-white transition hover:bg-emerald-700"
             >
               ${translations.pay_now}
             </a>
-          ` : '' */''}
+          ` : ''}
           ${isPaid ? `
             <svg class="h-12 w-12 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
