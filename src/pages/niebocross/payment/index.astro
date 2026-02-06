@@ -47,6 +47,14 @@
         border-radius: 8px;
         margin-top: 1rem;
       }
+      .error a {
+        color: #991b1b;
+        text-decoration: underline;
+        font-weight: 500;
+      }
+      .error a:hover {
+        color: #7f1d1d;
+      }
       .info {
         color: #059669;
         background: #ecfdf5;
@@ -152,8 +160,8 @@
           console.error('Payment error:', error);
           document.getElementById('title').textContent = 'Błąd płatności';
           document.getElementById('message').style.display = 'none';
-          document.getElementById('error-message').textContent =
-            'Wystąpił błąd podczas tworzenia płatności. Spróbuj ponownie lub skontaktuj się z organizatorem.';
+          document.getElementById('error-message').innerHTML =
+            'Wystąpił błąd podczas tworzenia płatności. Spróbuj ponownie lub skontaktuj się z organizatorem: <a href="mailto:biuro@zatyrani.pl">biuro@zatyrani.pl</a>';
           document.getElementById('error-message').style.display = 'block';
           document.getElementById('spinner').style.display = 'none';
           document.getElementById('panel-link').style.display = 'inline-block';
