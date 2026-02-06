@@ -100,9 +100,9 @@ export async function createPaymentLink(paymentData) {
     const paymentUrl = `https://www.pay.sibs.com/form?formContext=${encodeURIComponent(formContext)}`;
 
     return {
-      token: transactionId,
+      transactionID: transactionId,
       paymentUrl: paymentUrl,
-      formContext: formContext // Include formContext in case it's needed for other integration methods
+      formContext: formContext
     };
   } catch (error) {
     console.error('Error creating SIBS payment:', error);

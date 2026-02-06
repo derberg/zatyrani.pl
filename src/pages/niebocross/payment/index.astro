@@ -24,7 +24,7 @@
         border-radius: 12px;
         box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
         text-align: center;
-        max-width: 400px;
+        max-width: 600px;
         width: 90%;
       }
       .spinner {
@@ -75,13 +75,28 @@
       .btn:hover {
         background: #5a67d8;
       }
+      #payment-form-container {
+        margin-top: 1rem;
+        min-height: 400px;
+      }
+      .amount-info {
+        font-size: 1.25rem;
+        color: #374151;
+        margin-bottom: 1rem;
+      }
+      .amount-info strong {
+        color: #059669;
+      }
     </style>
   </head>
   <body>
     <div class="container">
       <h1 id="title">Przetwarzanie płatności...</h1>
       <div id="spinner" class="spinner"></div>
-      <p id="message">Proszę czekać, trwa przekierowanie do bramki płatniczej.</p>
+      <p id="message">Proszę czekać, trwa ładowanie formularza płatności.</p>
+      <div id="payment-form-container" style="display: none;">
+        <!-- SIBS SPG widget form will be injected here -->
+      </div>
       <div id="info-message" class="info" style="display: none;"></div>
       <div id="error-message" class="error" style="display: none;"></div>
       <a id="panel-link" href="/niebocross/panel" class="btn" style="display: none;">Przejdź do panelu</a>
@@ -99,25 +114,58 @@
           if (potentialId && potentialId !== 'index' && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(potentialId)) {
             const newUrl = `/niebocross/payment/?id=${potentialId}`;
             window.location.href = newUrl;
-            return true; // Indicate that we're redirecting
+            return true;
           }
         }
-        return false; // No redirect needed
+        return false;
+      }
+
+      function renderPaymentWidget(transactionID, formContext, totalAmount) {
+        // Load SIBS SPG widget script
+        const script = document.createElement('script');
+        script.src = `https://api.sibsgateway.com/assets/js/widget.js?id=${transactionID}`;
+        script.onload = function() {
+          // Show the payment form container
+          const container = document.getElementById('payment-form-container');
+          container.style.display = 'block';
+
+          // Create the SPG payment form
+          const form = document.createElement('form');
+          form.className = 'paymentSPG';
+          form.setAttribute('spg-context', formContext);
+          form.setAttribute('spg-config', JSON.stringify({
+            paymentMethodList: ['CARD', 'BLIK'],
+            amount: {
+              value: Math.round(totalAmount * 100),
+              currency: 'PLN'
+            },
+            language: 'pl',
+            redirectUrl: 'https://zatyrani.pl/niebocross/panel?payment=success'
+          }));
+
+          container.appendChild(form);
+        };
+        script.onerror = function() {
+          document.getElementById('title').textContent = 'Błąd ładowania';
+          document.getElementById('message').style.display = 'none';
+          document.getElementById('error-message').innerHTML =
+            'Nie udało się załadować formularza płatności. Spróbuj odświeżyć stronę lub skontaktuj się z organizatorem: <a href="mailto:biuro@zatyrani.pl">biuro@zatyrani.pl</a>';
+          document.getElementById('error-message').style.display = 'block';
+          document.getElementById('panel-link').style.display = 'inline-block';
+        };
+        document.head.appendChild(script);
       }
 
       async function handlePayment() {
-        // First check if we need to redirect from legacy URL format
         if (handleLegacyUrl()) {
-          return; // Exit early, redirect is happening
+          return;
         }
 
         const urlParams = new URLSearchParams(window.location.search);
         let paymentId = urlParams.get('id');
 
-        // If no ID in query params, check if it's in the URL path (legacy format)
         if (!paymentId) {
           const pathParts = window.location.pathname.split('/');
-          // Look for UUID in the path (should be the last segment if present)
           const lastPart = pathParts[pathParts.length - 1];
           if (lastPart && lastPart !== 'payment' && lastPart !== '') {
             paymentId = lastPart;
@@ -125,13 +173,11 @@
         }
 
         if (!paymentId) {
-          // If no payment ID is provided, redirect to panel
           window.location.href = '/niebocross/panel';
           return;
         }
 
         try {
-          // Fetch payment details (this will also create SIBS link if needed)
           const response = await fetch(`/api/niebocross/payment/${paymentId}`);
           const data = await response.json();
 
@@ -139,7 +185,6 @@
             throw new Error(data.error || 'Failed to load payment details');
           }
 
-          // No pending payments
           if (!data.has_pending_payment) {
             document.getElementById('title').textContent = 'Brak nieopłaconych płatności';
             document.getElementById('message').textContent = data.message || 'Wszystkie płatności zostały już zrealizowane.';
@@ -150,11 +195,16 @@
             return;
           }
 
-          // Has pending payment with link - redirect
-          if (data.payment && data.payment.payment_link) {
-            window.location.href = data.payment.payment_link;
+          if (data.payment && data.payment.formContext && data.payment.transactionID) {
+            // Hide loading state, show payment title
+            document.getElementById('spinner').style.display = 'none';
+            document.getElementById('message').style.display = 'none';
+            document.getElementById('title').textContent = 'Płatność NieboCross 2026';
+
+            // Render the SIBS payment widget
+            renderPaymentWidget(data.payment.transactionID, data.payment.formContext, data.payment.total_amount);
           } else {
-            throw new Error('Payment link not available');
+            throw new Error('Brak danych formularza płatności');
           }
         } catch (error) {
           console.error('Payment error:', error);
@@ -168,7 +218,6 @@
         }
       }
 
-      // Handle payment on page load
       handlePayment();
     </script>
   </body>

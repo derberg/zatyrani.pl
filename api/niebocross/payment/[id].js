@@ -63,8 +63,8 @@ export default async function handler(req, res) {
       });
     }
 
-    // If payment_link already exists and points to a valid external gateway, return it
-    if (payment.payment_link && !payment.payment_link.includes('zatyrani.pl')) {
+    // If formContext and transaction_id already exist, return them for widget embedding
+    if (payment.transaction_id && payment.payment_link) {
       return res.status(200).json({
         success: true,
         has_pending_payment: true,
@@ -72,7 +72,8 @@ export default async function handler(req, res) {
           id: payment.id,
           total_amount: payment.total_amount,
           payment_status: payment.payment_status,
-          payment_link: payment.payment_link
+          formContext: payment.payment_link,
+          transactionID: payment.transaction_id
         }
       });
     }
@@ -89,10 +90,13 @@ export default async function handler(req, res) {
       urlStatus: `https://zatyrani.pl/api/niebocross/payment/webhook`
     });
 
-    // Save payment link to database
+    // Save formContext and transactionID to database for re-use
     await supabase
       .from("niebocross_payments")
-      .update({ payment_link: paymentResult.paymentUrl })
+      .update({
+        payment_link: paymentResult.formContext,
+        transaction_id: paymentResult.transactionID
+      })
       .eq("id", payment.id);
 
     return res.status(200).json({
@@ -102,7 +106,8 @@ export default async function handler(req, res) {
         id: payment.id,
         total_amount: payment.total_amount,
         payment_status: payment.payment_status,
-        payment_link: paymentResult.paymentUrl
+        formContext: paymentResult.formContext,
+        transactionID: paymentResult.transactionID
       }
     });
 
