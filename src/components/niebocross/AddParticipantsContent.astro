@@ -322,6 +322,7 @@ const { t, locale = 'pl' } = Astro.props;
         club: document.querySelector(`[name="club_${index}"]`).value || null,
         phoneNumber: document.querySelector(`[name="phoneNumber_${index}"]`).value,
         raceCategory: document.querySelector(`input[name="raceCategory_${index}"]:checked`).value,
+        foodPreference: document.querySelector(`[name="foodPreference_${index}"]`).value || null,
         tshirtSize: document.querySelector(`[name="tshirtSize_${index}"]`).value,
         hideNamePublic: document.querySelector(`[name="hideNamePublic_${index}"]`).checked,
       });

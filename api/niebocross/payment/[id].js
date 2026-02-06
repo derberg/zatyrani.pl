@@ -63,8 +63,8 @@ export default async function handler(req, res) {
       });
     }
 
-    // If payment_link already exists, return it
-    if (payment.payment_link) {
+    // If payment_link already exists and points to a valid external gateway, return it
+    if (payment.payment_link && !payment.payment_link.includes('zatyrani.pl')) {
       return res.status(200).json({
         success: true,
         has_pending_payment: true,

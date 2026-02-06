@@ -71,6 +71,7 @@ export async function updateOrCreatePayment(supabase, registration_id, allPartic
 
   if (existingPendingPayment) {
     // Update existing pending payment by its ID
+    // Clear payment_link so a new SIBS link with the correct amount is generated on demand
     const { error: updateError } = await supabase
       .from("niebocross_payments")
       .update({
@@ -78,6 +79,7 @@ export async function updateOrCreatePayment(supabase, registration_id, allPartic
         race_fees: payment.raceFees,
         tshirt_fees: payment.tshirtFees,
         charity_amount: payment.charityAmount,
+        payment_link: null,
         updated_at: new Date().toISOString()
       })
       .eq("id", existingPendingPayment.id);
@@ -88,9 +90,7 @@ export async function updateOrCreatePayment(supabase, registration_id, allPartic
 
     return { ...existingPendingPayment, ...payment };
   } else {
-    // Create new pending payment record
-    const paymentLink = `https://zatyrani.pl/niebocross/payment?id=${registration_id}`;
-
+    // Create new pending payment record (payment_link is null - SIBS link created on demand)
     const { data: newPayment, error: createError } = await supabase
       .from("niebocross_payments")
       .insert({
@@ -99,8 +99,7 @@ export async function updateOrCreatePayment(supabase, registration_id, allPartic
         race_fees: payment.raceFees,
         tshirt_fees: payment.tshirtFees,
         charity_amount: payment.charityAmount,
-        payment_status: 'pending',
-        payment_link: paymentLink
+        payment_status: 'pending'
       })
       .select()
       .single();

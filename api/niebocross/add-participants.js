@@ -2,6 +2,7 @@ import { createClient } from "@supabase/supabase-js";
 import { verifyToken } from "./utils/auth.js";
 import { validateParticipant } from "./utils/participant-validation.js";
 import { createParticipantRecords, upsertClubs, updateOrCreatePayment } from "./utils/database-operations.js";
+import { sendRegistrationConfirmationEmail } from "./utils/email.js";
 
 function getSupabaseClient() {
   const url = process.env.SUPABASE_URL;
@@ -113,8 +114,9 @@ export default async function handler(req, res) {
 
     // Update existing pending payment or create new one
     // If there's a pending payment, update it; otherwise create a new pending payment
+    let updatedPayment;
     try {
-      await updateOrCreatePayment(supabase, registration_id, allParticipants, existingPendingPayment, extraDonation);
+      updatedPayment = await updateOrCreatePayment(supabase, registration_id, allParticipants, existingPendingPayment, extraDonation);
     } catch (error) {
       console.error("Error updating/creating payment:", error);
       return res.status(500).json({
@@ -125,6 +127,38 @@ export default async function handler(req, res) {
 
     // Add clubs to database if they don't exist
     await upsertClubs(supabase, participants);
+
+    // Get registration data for email
+    const { data: registration } = await supabase
+      .from("niebocross_registrations")
+      .select("email, contact_person")
+      .eq("id", registration_id)
+      .single();
+
+    // Send confirmation email
+    if (registration) {
+      try {
+        // Convert participants from snake_case to camelCase for email
+        const participantsForEmail = allParticipants.map(p => ({
+          fullName: p.full_name,
+          raceCategory: p.race_category
+        }));
+
+        await sendRegistrationConfirmationEmail({
+          email: registration.email,
+          contactPerson: registration.contact_person,
+          participants: participantsForEmail,
+          payment: {
+            totalAmount: updatedPayment.totalAmount || updatedPayment.total_amount,
+            charityAmount: updatedPayment.charityAmount || updatedPayment.charity_amount
+          },
+          registrationId: registration_id
+        });
+      } catch (emailError) {
+        console.error("Error sending email:", emailError);
+        // Don't fail the request if email fails
+      }
+    }
 
     return res.status(200).json({
       success: true,
