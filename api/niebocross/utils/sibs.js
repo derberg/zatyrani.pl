@@ -166,7 +166,8 @@ export function decryptWebhookNotification(base64Body, ivBase64, authTagBase64) 
  */
 export function parseWebhookData(data) {
   return {
-    merchantTransactionId: data.merchant?.merchantTransactionId,
+    // SIBS uses "transactonId" (missing 'i') in the merchant object
+    merchantTransactionId: data.merchant?.merchantTransactionId || data.merchant?.transactonId,
     transactionId: data.transactionID,
     notificationId: data.notificationID,
     amount: data.amount?.value,
