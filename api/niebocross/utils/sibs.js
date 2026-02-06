@@ -83,19 +83,26 @@ export async function createPaymentLink(paymentData) {
       throw new Error(`SIBS API error (${response.status}): ${errorMsg}`);
     }
 
-    // Extract transaction ID from response
+    // Extract transaction ID and formContext from response
     const transactionId = result.transactionID;
+    const formContext = result.formContext;
 
     if (!transactionId) {
       throw new Error('No transaction ID received from SIBS');
     }
 
-    // Construct hosted checkout payment URL
-    const paymentUrl = `https://pay.sibs.com/transaction/${transactionId}`;
+    if (!formContext) {
+      throw new Error('No formContext received from SIBS');
+    }
+
+    // Construct hosted checkout payment URL with formContext
+    // SIBS Gateway uses the formContext parameter for the hosted payment page
+    const paymentUrl = `https://www.pay.sibs.com/form?formContext=${encodeURIComponent(formContext)}`;
 
     return {
       token: transactionId,
-      paymentUrl: paymentUrl
+      paymentUrl: paymentUrl,
+      formContext: formContext // Include formContext in case it's needed for other integration methods
     };
   } catch (error) {
     console.error('Error creating SIBS payment:', error);
