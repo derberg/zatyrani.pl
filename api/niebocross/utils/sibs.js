@@ -81,7 +81,7 @@ export async function createPaymentLink(paymentData) {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${SIBS_TOKEN}`,
-        'x-ibm-client-id': SIBS_CRED_NAME
+        'X-IBM-Client-Id': SIBS_CRED_NAME
       },
       body: JSON.stringify(transactionData)
     });
