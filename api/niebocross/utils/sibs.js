@@ -17,9 +17,8 @@ const SIBS_WEBHOOK_ID = process.env.SIBS_WEBHOOK_ID;
 export async function createPaymentLink(paymentData) {
   const {
     paymentId,
-    amount, // in grosz (PLN * 100)
-    description,
-    email
+    amount, // in grosze (1 PLN = 100 groszy)
+    description
   } = paymentData;
 
   // Validate environment variables
@@ -38,7 +37,6 @@ export async function createPaymentLink(paymentData) {
       terminalId: parseInt(process.env.SIBS_TERMINAL) || 1,
       channel: "web",
       merchantTransactionId: paymentId,
-      transactionDescription: description,
       shopURL: "https://zatyrani.pl/niebocross"
     },
     transaction: {
@@ -50,12 +48,7 @@ export async function createPaymentLink(paymentData) {
         value: amount,
         currency: "PLN"
       },
-      paymentMethod: ["CARD", "BLIK", "PBLKV", "GOOGLEPAY"]
-    },
-    customer: {
-      customerInfo: {
-        customerEmail: email
-      }
+      paymentMethod: ["CARD", "BLIK", "PBLKV"]
     }
   };
 
