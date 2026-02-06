@@ -115,80 +115,66 @@ export async function createPaymentLink(paymentData) {
 }
 
 /**
- * Verify SIBS webhook signature
- * SIBS signs the raw request body using HMAC-SHA256 with the Webhook ID (base64-decoded) as key.
- * The resulting digest is base64-encoded and sent in the Authorization header.
+ * Decrypt SIBS webhook notification.
+ * 
+ * SIBS encrypts webhook payloads using AES-256-GCM:
+ * - Secret key: SIBS_WEBHOOK_ID (base64-encoded, from SIBS BackOffice)
+ * - IV/Nonce: X-Initialization-Vector header (base64)
+ * - Auth tag: X-Authentication-Tag header (base64)
+ * - Body: base64-encoded ciphertext
+ * 
+ * Returns the decrypted JSON object.
  */
-export function verifyWebhookSignature(rawBody, receivedSignature) {
-  console.log('[verifyWebhookSignature] SIBS_WEBHOOK_ID configured:', !!SIBS_WEBHOOK_ID);
-  console.log('[verifyWebhookSignature] SIBS_WEBHOOK_ID length:', SIBS_WEBHOOK_ID?.length);
+export function decryptWebhookNotification(base64Body, ivBase64, authTagBase64) {
   if (!SIBS_WEBHOOK_ID) {
-    throw new Error('SIBS Webhook ID is not configured');
+    throw new Error('SIBS_WEBHOOK_ID is not configured');
   }
 
-  if (!receivedSignature) {
-    console.log('[verifyWebhookSignature] No receivedSignature provided');
-    return false;
-  }
+  console.log('[decryptWebhook] SIBS_WEBHOOK_ID configured: true, length:', SIBS_WEBHOOK_ID.length);
+  console.log('[decryptWebhook] IV (base64):', ivBase64);
+  console.log('[decryptWebhook] Auth tag (base64):', authTagBase64);
+  console.log('[decryptWebhook] Body (first 100 chars):', base64Body.substring(0, 100));
 
-  // Strip common prefixes like "Bearer ", "Digest ", etc.
-  const cleanSignature = receivedSignature.replace(/^(Bearer|Digest|Basic)\s+/i, '').trim();
-  console.log('[verifyWebhookSignature] Received signature (raw):', receivedSignature);
-  console.log('[verifyWebhookSignature] Received signature (cleaned):', cleanSignature);
-
-  // Decode the base64-encoded webhook ID to get the HMAC key
+  // Decode all base64 inputs
   const key = Buffer.from(SIBS_WEBHOOK_ID, 'base64');
+  const iv = Buffer.from(ivBase64, 'base64');
+  const authTag = Buffer.from(authTagBase64, 'base64');
+  const ciphertext = Buffer.from(base64Body, 'base64');
 
-  // rawBody must be the exact string received from SIBS (not re-serialized)
-  console.log('[verifyWebhookSignature] Body type:', typeof rawBody);
-  console.log('[verifyWebhookSignature] Body string (first 200 chars):', rawBody.substring(0, 200));
-  const expectedSignature = crypto
-    .createHmac('sha256', key)
-    .update(rawBody)
-    .digest('base64');
-  console.log('[verifyWebhookSignature] Expected signature:', expectedSignature);
-  console.log('[verifyWebhookSignature] Signatures match (simple):', expectedSignature === cleanSignature);
+  console.log('[decryptWebhook] Key length:', key.length, 'bytes');
+  console.log('[decryptWebhook] IV length:', iv.length, 'bytes');
+  console.log('[decryptWebhook] Auth tag length:', authTag.length, 'bytes');
+  console.log('[decryptWebhook] Ciphertext length:', ciphertext.length, 'bytes');
 
-  // Constant-time comparison to prevent timing attacks
-  // Try both raw and cleaned signature
-  try {
-    const rawMatch = crypto.timingSafeEqual(
-      Buffer.from(expectedSignature),
-      Buffer.from(receivedSignature)
-    );
-    if (rawMatch) {
-      console.log('[verifyWebhookSignature] Raw signature matched');
-      return true;
-    }
-  } catch (e) {
-    console.log('[verifyWebhookSignature] Raw comparison failed (length mismatch):', e.message);
-  }
+  // Decrypt using AES-GCM (no padding)
+  const decipher = crypto.createDecipheriv('aes-256-gcm', key, iv);
+  decipher.setAuthTag(authTag);
 
-  try {
-    const cleanMatch = crypto.timingSafeEqual(
-      Buffer.from(expectedSignature),
-      Buffer.from(cleanSignature)
-    );
-    console.log('[verifyWebhookSignature] Clean signature matched:', cleanMatch);
-    return cleanMatch;
-  } catch (e) {
-    console.log('[verifyWebhookSignature] Clean comparison failed (length mismatch):', e.message);
-    return false;
-  }
+  const decrypted = Buffer.concat([
+    decipher.update(ciphertext),
+    decipher.final()
+  ]);
+
+  const jsonString = decrypted.toString('utf8');
+  console.log('[decryptWebhook] Decrypted payload:', jsonString);
+
+  return JSON.parse(jsonString);
 }
 
 /**
- * Parse SIBS webhook data
+ * Parse SIBS webhook data from the decrypted notification payload.
  */
 export function parseWebhookData(data) {
   return {
-    merchantTransactionId: data.merchantTransactionId, // This is our paymentId
-    transactionId: data.transactionId,
+    merchantTransactionId: data.merchant?.merchantTransactionId,
+    transactionId: data.transactionID,
+    notificationId: data.notificationID,
     amount: data.amount?.value,
     currency: data.amount?.currency,
     status: data.returnStatus?.statusCode,
     statusMessage: data.returnStatus?.statusMsg,
+    paymentStatus: data.paymentStatus,
     paymentMethod: data.paymentMethod,
-    signature: data.signature
+    paymentType: data.paymentType
   };
 }

@@ -1,10 +1,8 @@
 import { createClient } from "@supabase/supabase-js";
-import { verifyWebhookSignature, parseWebhookData } from "../utils/sibs.js";
+import { decryptWebhookNotification, parseWebhookData } from "../utils/sibs.js";
 import { sendPaymentConfirmationEmail } from "../utils/email.js";
 
-// Disable Vercel's automatic body parsing so we get the raw body string
-// This is critical for HMAC signature verification - JSON.stringify(parsedObj)
-// won't reproduce the exact bytes SIBS signed
+// Disable Vercel's automatic body parsing so we get the raw base64 ciphertext
 export const config = {
   api: {
     bodyParser: false,
@@ -39,7 +37,7 @@ export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Credentials", "true");
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS,PATCH,DELETE,POST,PUT");
-  res.setHeader("Access-Control-Allow-Headers", "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version");
+  res.setHeader("Access-Control-Allow-Headers", "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, X-Initialization-Vector, X-Authentication-Tag");
 
   if (req.method === "OPTIONS") {
     return res.status(200).end();
@@ -50,31 +48,38 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Read raw body as string (body parser is disabled)
+    // Read raw body (base64-encoded AES-GCM ciphertext)
     const rawBody = await getRawBody(req);
-    console.log('[Webhook] Raw body (first 300 chars):', rawBody.substring(0, 300));
 
-    // Verify SIBS webhook signature from Authorization header
-    const authHeader = req.headers['authorization'] || req.headers['Authorization'] || '';
-    console.log('[Webhook] Authorization header:', authHeader);
-    const isValidSignature = verifyWebhookSignature(rawBody, authHeader);
-    console.log('[Webhook] Signature valid:', isValidSignature);
-    if (!isValidSignature) {
-      console.log('[Webhook] Returning 401 - invalid signature');
-      return res.status(401).json({ error: "Invalid signature" });
+    // Get AES-GCM decryption parameters from headers
+    const iv = req.headers['x-initialization-vector'];
+    const authTag = req.headers['x-authentication-tag'];
+
+    console.log('[Webhook] Received notification');
+    console.log('[Webhook] X-Initialization-Vector:', iv);
+    console.log('[Webhook] X-Authentication-Tag:', authTag);
+    console.log('[Webhook] Body length:', rawBody.length);
+
+    if (!iv || !authTag) {
+      console.error('[Webhook] Missing decryption headers - IV:', !!iv, 'AuthTag:', !!authTag);
+      return res.status(400).json({ error: "Missing decryption headers" });
     }
 
-    // Parse the raw body JSON manually (since body parser is disabled)
-    const body = JSON.parse(rawBody);
+    // Decrypt the notification payload
+    const decryptedData = decryptWebhookNotification(rawBody.trim(), iv, authTag);
 
     // Parse webhook data
-    const webhookData = parseWebhookData(body);
-    const { merchantTransactionId: paymentId, transactionId, status } = webhookData;
+    const webhookData = parseWebhookData(decryptedData);
+    const { merchantTransactionId: paymentId, transactionId, status, notificationId } = webhookData;
+    console.log('[Webhook] Parsed data:', JSON.stringify(webhookData, null, 2));
 
     if (!paymentId) {
-      return res.status(400).json({
-        success: false,
-        error: "Missing payment ID"
+      console.error('[Webhook] Missing merchantTransactionId in decrypted payload');
+      // Still acknowledge to SIBS to prevent retries
+      return res.status(200).json({
+        statusCode: "200",
+        statusMsg: "Success",
+        notificationID: notificationId || "unknown"
       });
     }
 
@@ -92,16 +97,18 @@ export default async function handler(req, res) {
 
     if (paymentError || !payment) {
       console.error("Payment not found:", paymentError);
-      return res.status(404).json({
-        success: false,
-        error: "Payment not found"
+      // Still acknowledge to SIBS
+      return res.status(200).json({
+        statusCode: "200",
+        statusMsg: "Success",
+        notificationID: notificationId || "unknown"
       });
     }
 
     // Update payment status based on SIBS response
     // SIBS status codes: '000' = success, others = various failure states
     const updateData = {
-      transaction_id: transactionId || body.transactionId,
+      transaction_id: transactionId,
       payment_status: status === '000' ? 'paid' : 'failed'
     };
 
@@ -116,10 +123,6 @@ export default async function handler(req, res) {
 
     if (updateError) {
       console.error("Error updating payment:", updateError);
-      return res.status(500).json({
-        success: false,
-        error: "Failed to update payment"
-      });
     }
 
     // Send confirmation email on success
@@ -140,13 +143,15 @@ export default async function handler(req, res) {
       }
     }
 
+    // SIBS requires this exact response format
     return res.status(200).json({
-      success: true,
-      message: "Webhook processed successfully"
+      statusCode: "200",
+      statusMsg: "Success",
+      notificationID: notificationId || decryptedData.notificationID || "unknown"
     });
 
   } catch (error) {
-    console.error("Unexpected error:", error);
+    console.error("Webhook error:", error.message, error.stack);
     return res.status(500).json({
       success: false,
       error: "Internal server error"
