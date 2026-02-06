@@ -130,6 +130,7 @@ export default async function handler(req, res) {
         nationality: participant.nationality,
         club: participant.club || null,
         race_category: participant.raceCategory,
+        food_preference: participant.foodPreference || null,
         hide_name_public: participant.hideNamePublic || false,
         tshirt_size: participant.tshirtSize || null,
         phone_number: participant.phoneNumber

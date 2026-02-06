@@ -112,6 +112,7 @@ export default async function handler(req, res) {
         nationality: p.nationality,
         club: p.club,
         raceCategory: p.race_category,
+        foodPreference: p.food_preference,
         hideNamePublic: p.hide_name_public,
         phoneNumber: p.phone_number,
         tshirtSize: p.tshirt_size,

@@ -19,6 +19,7 @@ export function createParticipantRecords(participants, registration_id) {
     nationality: p.nationality,
     club: p.club || null,
     race_category: p.raceCategory,
+    food_preference: p.foodPreference || null,
     hide_name_public: p.hideNamePublic || false,
     tshirt_size: p.tshirtSize || null,
     phone_number: p.phoneNumber

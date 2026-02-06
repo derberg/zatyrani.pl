@@ -458,9 +458,13 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
       document.getElementById('editClub').value = participant.club || '';
       document.getElementById('editPhoneNumber').value = participant.phoneNumber || '';
       document.getElementById('editRaceCategory').value = participant.raceCategory;
-      document.getElementById('editFoodPreference').value = participant.foodPreference || '';
       document.getElementById('editTshirtSize').value = participant.tshirtSize || '';
       document.getElementById('editHideNamePublic').checked = participant.hideNamePublic;
+
+      // Set food preference
+      const foodPrefSelect = document.getElementById('editFoodPreference');
+      const foodPrefValue = participant.foodPreference || '';
+      foodPrefSelect.value = foodPrefValue;
 
       editModal.classList.remove('hidden');
       editModal.classList.add('flex');
