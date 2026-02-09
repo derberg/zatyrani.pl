@@ -199,59 +199,28 @@ const NieboCrossImage = ({ logoDataUri }: { logoDataUri: string }) => {
 }
 
 async function loadFont(weight: 400 | 600 | 700 | 900) {
-  // Define font paths based on weight with Polish character support
-  const fontMappings: Record<number, string[]> = {
-    400: [
-      // macOS
-      `/System/Library/Fonts/Supplemental/Arial.ttf`,
-      `/System/Library/Fonts/Helvetica.ttc`,
-      // Linux
-      `/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf`,
-      `/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf`,
-    ],
-    600: [
-      // macOS - use Bold for 600
-      `/System/Library/Fonts/Supplemental/Arial Bold.ttf`,
-      `/System/Library/Fonts/Helvetica.ttc`,
-      // Linux
-      `/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf`,
-      `/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf`,
-    ],
-    700: [
-      // macOS
-      `/System/Library/Fonts/Supplemental/Arial Bold.ttf`,
-      `/System/Library/Fonts/Helvetica.ttc`,
-      // Linux
-      `/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf`,
-      `/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf`,
-    ],
-    900: [
-      // macOS - use Black if available, fallback to Bold
-      `/System/Library/Fonts/Supplemental/Arial Black.ttf`,
-      `/System/Library/Fonts/Supplemental/Arial Bold.ttf`,
-      `/System/Library/Fonts/Helvetica.ttc`,
-      // Linux
-      `/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf`,
-      `/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf`,
-    ],
+  // Map weights to bundled Inter font files (supports Polish characters)
+  const fontMappings: Record<number, string> = {
+    400: 'Inter-Regular.ttf',
+    600: 'Inter-SemiBold.ttf',
+    700: 'Inter-Bold.ttf',
+    900: 'Inter-Black.ttf',
   }
 
-  const possiblePaths = fontMappings[weight]
+  const fontFileName = fontMappings[weight]
+  const fontPath = path.join(__dirname, '../fonts', fontFileName)
 
-  for (const fontPath of possiblePaths) {
-    if (fs.existsSync(fontPath)) {
-      const data = await fs.promises.readFile(fontPath)
-      return {
-        name: 'Arial',
-        data: data.buffer as ArrayBuffer,
-        weight,
-        style: 'normal' as const,
-      }
-    }
+  if (!fs.existsSync(fontPath)) {
+    throw new Error(`Font file not found: ${fontPath}`)
   }
 
-  // Fallback: throw error
-  throw new Error(`No suitable font found for weight ${weight} with Polish character support`)
+  const data = await fs.promises.readFile(fontPath)
+  return {
+    name: 'Inter',
+    data: data.buffer as ArrayBuffer,
+    weight,
+    style: 'normal' as const,
+  }
 }
 
 async function main() {
