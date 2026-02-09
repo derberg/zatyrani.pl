@@ -1,5 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import { PARTICIPANT_LIMITS, getGroupForCategory } from "../utils/limits.js";
+import { shouldFilterEmail } from "../utils/test-data-filter.js";
 
 
 function getSupabaseClient() {
@@ -45,6 +46,7 @@ export default async function handler(req, res) {
         race_category,
         hide_name_public,
         niebocross_registrations!inner(
+          email,
           niebocross_payments(payment_status)
         )
       `);
@@ -69,13 +71,19 @@ export default async function handler(req, res) {
       });
     }
 
+    // Filter out test data in production
+    const filteredParticipants = participants.filter(p => {
+      const email = p.niebocross_registrations?.email;
+      return !shouldFilterEmail(email);
+    });
+
     // Calculate counts for paid participants per group
     const paidCounts = {};
     for (const group in PARTICIPANT_LIMITS) {
       paidCounts[group] = 0;
     }
 
-    participants.forEach(p => {
+    filteredParticipants.forEach(p => {
       const paymentStatus = p.niebocross_registrations?.niebocross_payments?.[0]?.payment_status || 'pending';
       if (paymentStatus === 'paid') {
         const group = getGroupForCategory(p.race_category);
@@ -86,7 +94,7 @@ export default async function handler(req, res) {
     });
 
     // Format results (respect hide_name_public)
-    let results = participants.map(p => ({
+    let results = filteredParticipants.map(p => ({
       fullName: p.hide_name_public ? "***" : p.full_name,
       city: p.city,
       club: p.club,
