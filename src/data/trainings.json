@@ -548,5 +548,16 @@
     "phone": "791977150",
     "distance": 11,
     "pace": 7
+  },
+  {
+    "uid": "bieg-10-2-2026-19-0-nieborowice-ppk-10-8",
+    "type": "bieg",
+    "datetime": "10/02/2026 19:00",
+    "location": "Nieborowice – PPK",
+    "locationLink": "https://maps.app.goo.gl/cUnjGVWuHfnJDQTL8",
+    "comment": "Bieg i Nordic Walking. Jest to wydarzenie zorganizowane z myślą o Marku, 21-latku z Wilczy, który w wyniku nieszczęśliwego wypadku stracił prawą rękę. Nasz bieg ma na celu nie tylko zbiórkę środków na jego wsparcie, ale także formę wyrażenia solidarności z Markiem w tym trudnym dla niego czasie.",
+    "phone": "509715400",
+    "distance": 10,
+    "pace": 8
   }
 ]
