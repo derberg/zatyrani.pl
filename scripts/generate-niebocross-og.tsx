@@ -8,12 +8,21 @@ import sharp from 'sharp'
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url))
 
+// Load SVG logo and convert to data URI
+function getLogoDataUri() {
+  const logoPath = path.join(__dirname, '../public/niebocross_logo.svg')
+  const svgContent = fs.readFileSync(logoPath, 'utf-8')
+  // Encode SVG as data URI
+  const base64Svg = Buffer.from(svgContent).toString('base64')
+  return `data:image/svg+xml;base64,${base64Svg}`
+}
+
 const imageSize = {
   width: 1200,
   height: 630,
 }
 
-const NieboCrossImage = () => {
+const NieboCrossImage = ({ logoDataUri }: { logoDataUri: string }) => {
   return (
     <div
       style={{
@@ -49,97 +58,191 @@ const NieboCrossImage = () => {
           filter: 'blur(60px)',
         }}
       />
-      
-      {/* Content */}
+
+      {/* Content Container */}
       <div
         style={{
           display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
           width: '100%',
           height: '100%',
-          padding: '60px',
+          padding: '60px 80px',
           position: 'relative',
+          alignItems: 'center',
+          justifyContent: 'space-between',
         }}
       >
-        {/* Badge */}
+        {/* Left Side - Text Content */}
         <div
           style={{
             display: 'flex',
-            background: 'rgba(255, 255, 255, 0.1)',
-            border: '1px solid rgba(255, 255, 255, 0.2)',
-            padding: '12px 24px',
-            borderRadius: '24px',
-            color: '#6ee7b7',
-            fontSize: '14px',
-            fontWeight: 600,
-            textTransform: 'uppercase',
-            letterSpacing: '1.5px',
-            marginBottom: '20px',
+            flexDirection: 'column',
+            flex: 1,
+            paddingRight: '60px',
+            alignItems: 'center',
           }}
         >
-          WYDARZENIE CHARYTATYWNE
+          {/* Badge */}
+          <div
+            style={{
+              display: 'flex',
+              background: 'rgba(255, 255, 255, 0.1)',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              padding: '12px 24px',
+              borderRadius: '24px',
+              color: '#6ee7b7',
+              fontSize: '14px',
+              fontWeight: 600,
+              textTransform: 'uppercase',
+              letterSpacing: '1.5px',
+              marginBottom: '32px',
+              alignSelf: 'center',
+            }}
+          >
+            WYDARZENIE CHARYTATYWNE
+          </div>
+
+          {/* Title */}
+          <div
+            style={{
+              display: 'flex',
+              color: 'white',
+              fontSize: '80px',
+              fontWeight: 700,
+              marginBottom: '16px',
+              textShadow: '0 4px 20px rgba(0,0,0,0.4)',
+              lineHeight: 1,
+            }}
+          >
+            NieboCross
+          </div>
+
+          {/* Memorial Text */}
+          <div
+            style={{
+              display: 'flex',
+              color: 'rgba(255, 255, 255, 0.85)',
+              fontSize: '24px',
+              fontWeight: 400,
+              fontStyle: 'italic',
+              textShadow: '0 2px 10px rgba(0,0,0,0.3)',
+              marginBottom: '40px',
+            }}
+          >
+            Pamięci Marka Nowakowskiego
+          </div>
+
+          {/* Subtitle */}
+          <div
+            style={{
+              display: 'flex',
+              color: 'rgba(255, 255, 255, 0.95)',
+              fontSize: '26px',
+              fontWeight: 600,
+              textShadow: '0 2px 10px rgba(0,0,0,0.3)',
+              marginBottom: '20px',
+            }}
+          >
+            12.04.2026 · Nieborowice
+          </div>
+
+          {/* Categories */}
+          <div
+            style={{
+              display: 'flex',
+              color: 'rgba(255, 255, 255, 0.85)',
+              fontSize: '22px',
+              fontWeight: 400,
+              textShadow: '0 2px 10px rgba(0,0,0,0.3)',
+            }}
+          >
+            3 km & 9 km · Bieg · Nordic Walking
+          </div>
         </div>
 
-        {/* Title */}
+        {/* Right Side - Logo with Frame */}
         <div
           style={{
             display: 'flex',
-            color: 'white',
-            fontSize: '72px',
-            fontWeight: 900,
-            marginBottom: '20px',
-            textShadow: '0 4px 20px rgba(0,0,0,0.4)',
+            alignItems: 'center',
+            justifyContent: 'center',
+            position: 'relative',
           }}
         >
-          NieboCross
-        </div>
-
-        {/* Subtitle */}
-        <div
-          style={{
-            display: 'flex',
-            color: 'rgba(255, 255, 255, 0.9)',
-            fontSize: '24px',
-            fontWeight: 500,
-            textShadow: '0 2px 10px rgba(0,0,0,0.3)',
-            marginBottom: '16px',
-          }}
-        >
-          12.04.2026 · Nieborowice · 3 km & 9 km
-        </div>
-
-        {/* Categories */}
-        <div
-          style={{
-            display: 'flex',
-            color: 'rgba(255, 255, 255, 0.8)',
-            fontSize: '20px',
-            fontWeight: 400,
-            textShadow: '0 2px 10px rgba(0,0,0,0.3)',
-          }}
-        >
-          Bieg · Nordic Walking · Bieg dla dzieci
+          {/* Logo Container with Frame */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '380px',
+              height: '380px',
+              background: 'rgba(255, 255, 255, 0.95)',
+              borderRadius: '30px',
+              boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1)',
+              padding: '30px',
+            }}
+          >
+            <img
+              src={logoDataUri}
+              width={320}
+              height={320}
+              style={{
+                width: '320px',
+                height: '320px',
+              }}
+            />
+          </div>
         </div>
       </div>
     </div>
   )
 }
 
-async function loadFont(weight: 400 | 700) {
-  // Try common system font paths
-  const possiblePaths = [
-    `/System/Library/Fonts/Supplemental/Arial ${weight === 700 ? 'Bold' : ''}.ttf`,
-    `/usr/share/fonts/truetype/liberation/LiberationSans-${weight === 700 ? 'Bold' : 'Regular'}.ttf`,
-    path.join(__dirname, `../node_modules/@fontsource/inter/files/inter-latin-${weight}-normal.woff`),
-  ]
+async function loadFont(weight: 400 | 600 | 700 | 900) {
+  // Define font paths based on weight with Polish character support
+  const fontMappings: Record<number, string[]> = {
+    400: [
+      // macOS
+      `/System/Library/Fonts/Supplemental/Arial.ttf`,
+      `/System/Library/Fonts/Helvetica.ttc`,
+      // Linux
+      `/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf`,
+      `/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf`,
+    ],
+    600: [
+      // macOS - use Bold for 600
+      `/System/Library/Fonts/Supplemental/Arial Bold.ttf`,
+      `/System/Library/Fonts/Helvetica.ttc`,
+      // Linux
+      `/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf`,
+      `/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf`,
+    ],
+    700: [
+      // macOS
+      `/System/Library/Fonts/Supplemental/Arial Bold.ttf`,
+      `/System/Library/Fonts/Helvetica.ttc`,
+      // Linux
+      `/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf`,
+      `/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf`,
+    ],
+    900: [
+      // macOS - use Black if available, fallback to Bold
+      `/System/Library/Fonts/Supplemental/Arial Black.ttf`,
+      `/System/Library/Fonts/Supplemental/Arial Bold.ttf`,
+      `/System/Library/Fonts/Helvetica.ttc`,
+      // Linux
+      `/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf`,
+      `/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf`,
+    ],
+  }
+
+  const possiblePaths = fontMappings[weight]
 
   for (const fontPath of possiblePaths) {
     if (fs.existsSync(fontPath)) {
       const data = await fs.promises.readFile(fontPath)
       return {
-        name: 'Inter',
+        name: 'Arial',
         data: data.buffer as ArrayBuffer,
         weight,
         style: 'normal' as const,
@@ -147,20 +250,29 @@ async function loadFont(weight: 400 | 700) {
     }
   }
 
-  // Fallback: use a basic sans-serif
-  throw new Error('No suitable font found. Please install @fontsource/inter')
+  // Fallback: throw error
+  throw new Error(`No suitable font found for weight ${weight} with Polish character support`)
 }
 
 async function main() {
   console.log('🎨 Generating NieboCross OG image...\n')
 
   try {
-    // Load fonts
-    const fonts = await Promise.all([loadFont(400), loadFont(700)])
+    // Load logo as data URI
+    const logoDataUri = getLogoDataUri()
+    console.log('✅ Logo loaded\n')
+
+    // Load fonts with Polish character support
+    const fonts = await Promise.all([
+      loadFont(400),
+      loadFont(600),
+      loadFont(700),
+      loadFont(900),
+    ])
     console.log('✅ Fonts loaded\n')
 
     // Generate SVG
-    const svg = await satori(<NieboCrossImage />, {
+    const svg = await satori(<NieboCrossImage logoDataUri={logoDataUri} />, {
       width: imageSize.width,
       height: imageSize.height,
       fonts,
