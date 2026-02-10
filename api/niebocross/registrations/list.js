@@ -35,10 +35,11 @@ export default async function handler(req, res) {
 
     // Build query with proper join through registrations
     let query = supabase
-      .from("niebocross_participants")
+      .from("niebocross_participants_v2")
       .select(`
         id,
-        full_name,
+        first_name,
+        last_name,
         birth_date,
         city,
         nationality,
@@ -61,7 +62,9 @@ export default async function handler(req, res) {
       }
     }
 
-    const { data: participants, error } = await query.order("full_name", { ascending: true });
+    const { data: participants, error } = await query
+      .order("last_name", { ascending: true })
+      .order("first_name", { ascending: true });
 
     if (error) {
       console.error("Error fetching participants:", error);
@@ -95,7 +98,7 @@ export default async function handler(req, res) {
 
     // Format results (respect hide_name_public)
     let results = filteredParticipants.map(p => ({
-      fullName: p.hide_name_public ? "***" : p.full_name,
+      fullName: p.hide_name_public ? "***" : `${p.first_name} ${p.last_name}`.trim(),
       city: p.city,
       club: p.club,
       raceCategory: p.race_category,

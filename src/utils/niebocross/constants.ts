@@ -9,7 +9,7 @@
  * When updating TSHIRT_SIZES or other constants, update ALL three places!
  *
  * Database constraint:
- * ALTER TABLE niebocross_participants ADD CONSTRAINT niebocross_participants_tshirt_size_check
+ * ALTER TABLE niebocross_participants_v2 ADD CONSTRAINT niebocross_participants_v2_tshirt_size_check
  * CHECK (tshirt_size IN ('116', '128', '134', '140', '146', '152', 'XS', 'S', 'M', 'L', 'XL', 'XXL'));
  */
 

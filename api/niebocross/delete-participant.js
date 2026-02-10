@@ -98,7 +98,7 @@ export default async function handler(req, res) {
 
     // Verify participant belongs to this registration
     const { data: existingParticipant, error: participantError } = await supabase
-      .from("niebocross_participants")
+      .from("niebocross_participants_v2")
       .select("*")
       .eq("id", participantId)
       .eq("registration_id", registration_id)
@@ -113,7 +113,7 @@ export default async function handler(req, res) {
 
     // Delete participant
     const { error: deleteError } = await supabase
-      .from("niebocross_participants")
+      .from("niebocross_participants_v2")
       .delete()
       .eq("id", participantId)
       .eq("registration_id", registration_id);
@@ -128,7 +128,7 @@ export default async function handler(req, res) {
 
     // Recalculate payment
     const { data: remainingParticipants, error: participantsError } = await supabase
-      .from("niebocross_participants")
+      .from("niebocross_participants_v2")
       .select("*")
       .eq("registration_id", registration_id);
 

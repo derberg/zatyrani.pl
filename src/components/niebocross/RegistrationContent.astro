@@ -198,6 +198,11 @@ const { t, locale = 'pl' } = Astro.props;
               {t("niebocross.payment.go_to_panel")}
               <!-- {t("niebocross.form.proceed_to_payment")} -->
             </button>
+
+            <!-- Helper text when button is disabled -->
+            <div id="requiredFieldsInfo" class="text-center text-sm text-slate-600 mt-2 hidden">
+              ℹ️ {t("niebocross.payment.required_fields_info")}
+            </div>
           </form>
         </div>
 
@@ -268,7 +273,8 @@ const { t, locale = 'pl' } = Astro.props;
     formLabels: {
       participant: t("niebocross.form.participant"),
       remove: t("niebocross.form.remove"),
-      fullName: t("niebocross.form.full_name"),
+      firstName: t("niebocross.form.first_name"),
+      lastName: t("niebocross.form.last_name"),
       birthDate: t("niebocross.form.birth_date"),
       day: t("niebocross.form.day"),
       month: t("niebocross.form.month"),
@@ -449,7 +455,8 @@ const { t, locale = 'pl' } = Astro.props;
 
       participantDivs.forEach(div => {
         const index = div.getAttribute('data-index');
-        const fullName = document.querySelector(`[name="fullName_${index}"]`).value.trim();
+        const firstName = document.querySelector(`[name="firstName_${index}"]`).value.trim();
+        const lastName = document.querySelector(`[name="lastName_${index}"]`).value.trim();
         const birthDate = document.querySelector(`[name="birthDate_${index}"]`).value;
         const city = document.querySelector(`[name="city_${index}"]`).value.trim();
         const nationality = document.querySelector(`[name="nationality_${index}"]`).value.trim();
@@ -457,14 +464,25 @@ const { t, locale = 'pl' } = Astro.props;
         const raceCategory = document.querySelector(`input[name="raceCategory_${index}"]:checked`);
         const tshirtSize = document.querySelector(`[name="tshirtSize_${index}"]`).value;
 
-        if (!fullName || !birthDate || !city || !nationality || !phoneNumber || !raceCategory || !tshirtSize) {
+        if (!firstName || !lastName || !birthDate || !city || !nationality || !phoneNumber || !raceCategory || !tshirtSize) {
           allValid = false;
         }
       });
 
       // Disable buttons if no participants or any invalid
       const hasParticipants = participantDivs.length > 0;
-      participantsSubmitBtn.disabled = !hasParticipants || !allValid;
+      const isButtonDisabled = !hasParticipants || !allValid;
+      participantsSubmitBtn.disabled = isButtonDisabled;
+
+      // Show/hide helper text based on button state
+      const requiredFieldsInfo = document.getElementById('requiredFieldsInfo');
+      if (requiredFieldsInfo) {
+        if (isButtonDisabled) {
+          requiredFieldsInfo.classList.remove('hidden');
+        } else {
+          requiredFieldsInfo.classList.add('hidden');
+        }
+      }
     }
 
     // Initial validation
@@ -778,7 +796,8 @@ const { t, locale = 'pl' } = Astro.props;
       participantsContainer.querySelectorAll(':scope > [data-index]').forEach(div => {
         const index = div.getAttribute('data-index');
         participants.push({
-          fullName: document.querySelector(`[name="fullName_${index}"]`).value,
+          firstName: document.querySelector(`[name="firstName_${index}"]`).value,
+          lastName: document.querySelector(`[name="lastName_${index}"]`).value,
           birthDate: document.querySelector(`[name="birthDate_${index}"]`).value,
           city: document.querySelector(`[name="city_${index}"]`).value,
           nationality: document.querySelector(`[name="nationality_${index}"]`).value,

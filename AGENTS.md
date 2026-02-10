@@ -24,8 +24,8 @@ Keep this managed block so 'openspec update' can refresh the instructions.
 See [DATABASE_SCHEMA.md](DATABASE_SCHEMA.md) for the complete NieboCross database structure.
 
 **Key points:**
-- `niebocross_registrations` stores contact info with `contact_person` column (not `full_name`)
-- `niebocross_participants` stores individual participant data with `full_name` column
+- `niebocross_registrations` stores contact info with `contact_person` column
+- `niebocross_participants_v2` stores individual participant data with `first_name` and `last_name` columns
 - One registration can have multiple participants
 - One payment per registration (unique constraint)
 

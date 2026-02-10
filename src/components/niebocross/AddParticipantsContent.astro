@@ -51,6 +51,11 @@ const { t, locale = 'pl' } = Astro.props;
             {t("niebocross.add_participants.submit")}
           </button>
 
+          <!-- Helper text when button is disabled -->
+          <div id="requiredFieldsInfoAddParticipants" class="text-center text-sm text-slate-600 mt-2 hidden">
+            ℹ️ {t("niebocross.payment.required_fields_info")}
+          </div>
+
           <a
             href={locale === 'en' ? '/en/niebocross/panel' : '/niebocross/panel'}
             class="block w-full rounded-lg bg-white border-2 border-emerald-300 px-6 py-3 text-center font-semibold text-slate-700 transition hover:bg-slate-50"
@@ -315,7 +320,8 @@ const { t, locale = 'pl' } = Astro.props;
       const index = div.getAttribute('data-index');
 
       participants.push({
-        fullName: document.querySelector(`[name="fullName_${index}"]`).value,
+        firstName: document.querySelector(`[name="firstName_${index}"]`).value,
+        lastName: document.querySelector(`[name="lastName_${index}"]`).value,
         birthDate: document.querySelector(`[name="birthDate_${index}"]`).value,
         city: document.querySelector(`[name="city_${index}"]`).value,
         nationality: document.querySelector(`[name="nationality_${index}"]`).value,
@@ -338,7 +344,8 @@ const { t, locale = 'pl' } = Astro.props;
 
     participantDivs.forEach(div => {
       const index = div.getAttribute('data-index');
-      const fullName = document.querySelector(`[name="fullName_${index}"]`)?.value.trim();
+      const firstName = document.querySelector(`[name="firstName_${index}"]`)?.value.trim();
+      const lastName = document.querySelector(`[name="lastName_${index}"]`)?.value.trim();
       const birthDate = document.querySelector(`[name="birthDate_${index}"]`)?.value;
       const city = document.querySelector(`[name="city_${index}"]`)?.value.trim();
       const nationality = document.querySelector(`[name="nationality_${index}"]`)?.value.trim();
@@ -346,13 +353,24 @@ const { t, locale = 'pl' } = Astro.props;
       const raceCategory = document.querySelector(`input[name="raceCategory_${index}"]:checked`);
       const tshirtSize = document.querySelector(`[name="tshirtSize_${index}"]`)?.value;
 
-      if (!fullName || !birthDate || !city || !nationality || !phoneNumber || !raceCategory || !tshirtSize) {
+      if (!firstName || !lastName || !birthDate || !city || !nationality || !phoneNumber || !raceCategory || !tshirtSize) {
         allValid = false;
       }
     });
 
     const hasParticipants = participantDivs.length > 0;
-    document.getElementById('submitBtn').disabled = !hasParticipants || !allValid;
+    const isButtonDisabled = !hasParticipants || !allValid;
+    document.getElementById('submitBtn').disabled = isButtonDisabled;
+
+    // Show/hide helper text based on button state
+    const requiredFieldsInfo = document.getElementById('requiredFieldsInfoAddParticipants');
+    if (requiredFieldsInfo) {
+      if (isButtonDisabled) {
+        requiredFieldsInfo.classList.remove('hidden');
+      } else {
+        requiredFieldsInfo.classList.add('hidden');
+      }
+    }
   }
 
   // Update summary

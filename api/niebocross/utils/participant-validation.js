@@ -21,9 +21,9 @@ export function calculateAge(birthDate, eventDate) {
  * Validate a single participant's data
  */
 export function validateParticipant(participant) {
-  const { fullName, birthDate, city, nationality, raceCategory, phoneNumber, tshirtSize } = participant;
+  const { firstName, lastName, birthDate, city, nationality, raceCategory, phoneNumber, tshirtSize } = participant;
 
-  if (!fullName || !birthDate || !city || !nationality || !raceCategory || !phoneNumber || !tshirtSize) {
+  if (!firstName || !lastName || !birthDate || !city || !nationality || !raceCategory || !phoneNumber || !tshirtSize) {
     return { valid: false, error: "Wszystkie wymagane pola muszą być wypełnione" };
   }
 

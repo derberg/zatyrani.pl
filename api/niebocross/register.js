@@ -81,7 +81,7 @@ export default async function handler(req, res) {
     const participantRecords = createParticipantRecords(participants, registration_id);
 
     const { error: participantsError } = await supabase
-      .from("niebocross_participants")
+      .from("niebocross_participants_v2")
       .insert(participantRecords)
       .select();
 

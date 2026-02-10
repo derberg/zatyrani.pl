@@ -52,10 +52,11 @@ CREATE TABLE niebocross_auth_codes (
 Stores individual participant information for each registration.
 
 ```sql
-CREATE TABLE niebocross_participants (
+CREATE TABLE niebocross_participants_v2 (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   registration_id UUID NOT NULL REFERENCES niebocross_registrations(id) ON DELETE CASCADE,
-  full_name VARCHAR(255) NOT NULL,
+  first_name VARCHAR(255) NOT NULL,
+  last_name VARCHAR(255) NOT NULL,
   birth_date DATE NOT NULL,
   city VARCHAR(255) NOT NULL,
   nationality VARCHAR(100) NOT NULL,
@@ -73,7 +74,8 @@ CREATE TABLE niebocross_participants (
 **Columns:**
 - `id` - Unique identifier for the participant
 - `registration_id` - Foreign key to niebocross_registrations
-- `full_name` - Participant's full name
+- `first_name` - Participant's first name
+- `last_name` - Participant's last name
 - `birth_date` - Participant's date of birth
 - `city` - Participant's city
 - `nationality` - Participant's nationality
@@ -149,18 +151,18 @@ Row Level Security (RLS) is disabled for all tables to allow API access:
 ```sql
 ALTER TABLE niebocross_registrations DISABLE ROW LEVEL SECURITY;
 ALTER TABLE niebocross_auth_codes DISABLE ROW LEVEL SECURITY;
-ALTER TABLE niebocross_participants DISABLE ROW LEVEL SECURITY;
+ALTER TABLE niebocross_participants_v2 DISABLE ROW LEVEL SECURITY;
 ALTER TABLE niebocross_payments DISABLE ROW LEVEL SECURITY;
 ALTER TABLE niebocross_clubs DISABLE ROW LEVEL SECURITY;
 ```
 
 ## Relationships
 
-- `niebocross_participants.registration_id` → `niebocross_registrations.id` (CASCADE DELETE)
+- `niebocross_participants_v2.registration_id` → `niebocross_registrations.id` (CASCADE DELETE)
 - `niebocross_payments.registration_id` → `niebocross_registrations.id` (CASCADE DELETE)
 
 ## Important Notes
 
-- **contact_person vs full_name**: The `niebocross_registrations` table uses `contact_person` for the main contact name, while `niebocross_participants` uses `full_name` for individual participant names.
+- **contact_person vs first_name/last_name**: The `niebocross_registrations` table uses `contact_person` for the main contact name, while `niebocross_participants_v2` uses `first_name` and `last_name` for individual participant names.
 - **Multiple payments per registration**: A registration can have multiple payments (e.g., initial payment, then additional payment after adding more participants). Only one 'pending' payment per registration at a time - if pending exists, update it; if paid, create new pending.
 - **Cascade deletes**: Deleting a registration will automatically delete associated participants and payment records.

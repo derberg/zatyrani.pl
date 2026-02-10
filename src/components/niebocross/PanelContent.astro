@@ -73,15 +73,29 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
             <div class="grid gap-4 sm:grid-cols-2">
               <div>
                 <label class="block text-sm font-semibold text-slate-700">
-                  {t("niebocross.form.full_name")} <span class="text-red-600">*</span>
+                  {t("niebocross.form.first_name")} <span class="text-red-600">*</span>
                 </label>
                 <input
                   type="text"
-                  id="editFullName"
+                  id="editFirstName"
                   required
                   class="mt-1 block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2"
                 />
               </div>
+              <div>
+                <label class="block text-sm font-semibold text-slate-700">
+                  {t("niebocross.form.last_name")} <span class="text-red-600">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="editLastName"
+                  required
+                  class="mt-1 block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2"
+                />
+              </div>
+            </div>
+
+            <div class="grid gap-4 sm:grid-cols-2">
               <div>
                 <label for="editBirthDate" class="block text-sm font-semibold text-slate-700">
                   {t("niebocross.form.birth_date")} <span class="text-red-600">*</span>
@@ -378,7 +392,7 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
             <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between">
               <div class="flex-1">
                 <div class="flex items-center gap-2 mb-2">
-                  <h4 class="font-bold text-slate-900">${p.fullName}</h4>
+                  <h4 class="font-bold text-slate-900">${p.firstName} ${p.lastName}</h4>
                   <span class="inline-flex rounded-full px-2 py-1 text-xs font-medium ${paymentClass}">${paymentLabel}</span>
                 </div>
                 <div class="mt-2 grid gap-2 text-sm text-slate-600 sm:grid-cols-2">
@@ -451,7 +465,8 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
 
     function openEditModal(participant) {
       document.getElementById('editParticipantId').value = participant.id;
-      document.getElementById('editFullName').value = participant.fullName;
+      document.getElementById('editFirstName').value = participant.firstName;
+      document.getElementById('editLastName').value = participant.lastName;
       document.getElementById('editBirthDate').value = participant.birthDate || '';
       document.getElementById('editCity').value = participant.city;
       document.getElementById('editNationality').value = participant.nationality;
@@ -491,7 +506,8 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
 
       const participantId = document.getElementById('editParticipantId').value;
       const participant = {
-        fullName: document.getElementById('editFullName').value,
+        firstName: document.getElementById('editFirstName').value,
+        lastName: document.getElementById('editLastName').value,
         birthDate: document.getElementById('editBirthDate').value,
         city: document.getElementById('editCity').value,
         nationality: document.getElementById('editNationality').value,

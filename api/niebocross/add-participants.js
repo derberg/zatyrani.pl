@@ -86,7 +86,7 @@ export default async function handler(req, res) {
     const participantRecords = createParticipantRecords(participants, registration_id);
 
     const { error: participantsError } = await supabase
-      .from("niebocross_participants")
+      .from("niebocross_participants_v2")
       .insert(participantRecords)
       .select();
 
@@ -100,7 +100,7 @@ export default async function handler(req, res) {
 
     // Get all participants for this registration
     const { data: allParticipants, error: fetchError } = await supabase
-      .from("niebocross_participants")
+      .from("niebocross_participants_v2")
       .select("*")
       .eq("registration_id", registration_id);
 
@@ -140,7 +140,8 @@ export default async function handler(req, res) {
       try {
         // Convert participants from snake_case to camelCase for email
         const participantsForEmail = allParticipants.map(p => ({
-          fullName: p.full_name,
+          firstName: p.first_name,
+          lastName: p.last_name,
           raceCategory: p.race_category
         }));
 

@@ -13,7 +13,8 @@ import { calculatePaymentForParticipants } from "./participant-validation.js";
 export function createParticipantRecords(participants, registration_id) {
   return participants.map(p => ({
     registration_id: registration_id,
-    full_name: p.fullName,
+    first_name: p.firstName,
+    last_name: p.lastName,
     birth_date: p.birthDate,
     city: p.city,
     nationality: p.nationality,

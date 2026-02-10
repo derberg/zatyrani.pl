@@ -66,7 +66,7 @@ export async function sendVerificationCodeEmail(email, code, context = 'registra
  * @param {Object} params - Email parameters
  * @param {string} params.email - Recipient email address
  * @param {string} params.contactPerson - Contact person name
- * @param {Array} params.participants - Array of participant objects with fullName and raceCategory
+ * @param {Array} params.participants - Array of participant objects with firstName, lastName and raceCategory
  * @param {Object} params.payment - Payment object with totalAmount and charityAmount
  * @param {string} params.registrationId - Registration ID for payment link
  * @returns {Promise<void>}
@@ -90,7 +90,7 @@ export async function sendRegistrationConfirmationEmail({ email, contactPerson, 
       <p>Dziękujemy za rejestrację na wydarzenie NieboCross 2026!</p>
       <h3>Zarejestrowani uczestnicy:</h3>
       <ul>
-        ${participants.map(p => `<li>${p.fullName} - ${p.raceCategory.replace('_', ' ')}</li>`).join('')}
+        ${participants.map(p => `<li>${p.firstName} ${p.lastName} - ${p.raceCategory.replace('_', ' ')}</li>`).join('')}
       </ul>
       <div style="background-color: #f9f9f9; padding: 20px; margin: 20px 0; border-left: 4px solid #4CAF50;">
         <p style="margin: 0;"><strong>Do zapłaty: ${payment.totalAmount} zł</strong></p>

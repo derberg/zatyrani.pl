@@ -56,7 +56,7 @@ export default async function handler(req, res) {
 
     // Get participants
     const { data: participants, error: participantsError } = await supabase
-      .from("niebocross_participants")
+      .from("niebocross_participants_v2")
       .select("*")
       .eq("registration_id", registration_id)
       .order("created_at", { ascending: true });
@@ -106,7 +106,8 @@ export default async function handler(req, res) {
       },
       participants: participants.map(p => ({
         id: p.id,
-        fullName: p.full_name,
+        firstName: p.first_name,
+        lastName: p.last_name,
         birthDate: p.birth_date,
         city: p.city,
         nationality: p.nationality,

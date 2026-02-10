@@ -7,7 +7,8 @@ interface Props {
   t: (key: string) => string;
   showRemoveButton?: boolean;
   participantData?: {
-    fullName?: string;
+    firstName?: string;
+    lastName?: string;
     birthDate?: string;
     city?: string;
     nationality?: string;
@@ -34,15 +35,29 @@ const { index, t, showRemoveButton = false, participantData } = Astro.props;
   </div>
 
   <div class="grid gap-4 sm:grid-cols-2">
-    <!-- Full Name -->
+    <!-- First Name -->
     <div>
       <label class="block text-sm font-semibold text-slate-700">
-        {t("niebocross.form.full_name")} <span class="text-red-600">*</span>
+        {t("niebocross.form.first_name")} <span class="text-red-600">*</span>
       </label>
       <input
         type="text"
-        name={`fullName_${index}`}
-        value={participantData?.fullName || ""}
+        name={`firstName_${index}`}
+        value={participantData?.firstName || ""}
+        required
+        class="mt-1 block w-full rounded-lg border-emerald-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2 border-2"
+      />
+    </div>
+
+    <!-- Last Name -->
+    <div>
+      <label class="block text-sm font-semibold text-slate-700">
+        {t("niebocross.form.last_name")} <span class="text-red-600">*</span>
+      </label>
+      <input
+        type="text"
+        name={`lastName_${index}`}
+        value={participantData?.lastName || ""}
         required
         class="mt-1 block w-full rounded-lg border-emerald-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2 border-2"
       />
