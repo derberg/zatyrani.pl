@@ -31,6 +31,7 @@
     "event": "Wydarzenie",
     "contact": "Kontakt",
     "read_more": "Czytaj więcej",
+    "read_less": "Zwiń",
     "facebook": "Facebook",
     "email": "biuro@zatyrani.pl",
     "phone": "784 640 977"
@@ -208,6 +209,9 @@
     "gratisownia_desc": "Największy partner Stowarzyszenia Zatyrani",
     "kgigw_name": "Koło Gospodyń i Gospodarzy Wiejskich z Nieborowic",
     "kgigw_desc": "Aktywna społeczność lokalna",
+    "klinika_name": "Klinika Nieborowice",
+    "klinika_desc_short": "Klinika Nieborowice to wielospecjalistyczny ośrodek chirurgii i rehabilitacji, w którym łączymy doświadczenie zespołów zabiegowych z kompleksową opieką nad pacjentem.",
+    "klinika_desc_full": "Zapewniamy diagnostykę, leczenie operacyjne oraz prowadzenie rehabilitacji – od pierwszej konsultacji po powrót do pełnej sprawności. Stawiamy na bezpieczeństwo, precyzję i indywidualne podejście, oparte na współpracy specjalistów różnych dziedzin. Z dumą wspieramy NieboCross jako partner wydarzenia promującego zdrowie, ruch i aktywny styl życia.",
     "your_logo_here": "Twoje logo tutaj!",
     "your_logo_desc": "Wspólnie możemy zrobić więcej dla dobrej sprawy.",
     "become_partner": "Zostań partnerem",
