@@ -154,7 +154,8 @@
     "registration": "Rejestracja"
   },
   "niebocross": {
-    "title": "NieboCross - Pamięci Marka Nowakowskiego",
+    "title": "NieboCross",
+    "meta_title": "NieboCross - Pamięci Marka Nowakowskiego",
     "meta_description": "Charytatywny bieg i Nordic Walking nad Bierawką - 12.04.2026 w Nieborowicach. Trasy 3+ km i 9+ km, 100% opłat na cel charytatywny.",
     "charity_event": "Wydarzenie charytatywne",
     "hero_description": "Bieg i Nordic Walking, które łączą serce, adrenalinę i niesamowitą trasę nad Bierawką. Krótka pętla 3+ km dla debiutantów oraz krosowe 9+ km dla tych, którzy kochają wyzwania, a najważniejsze, że wszystko jest w szczytnym celu.",
@@ -201,6 +202,7 @@
     "patryk_link_text": "Jeśli kogoś zaciekawiła historia Patryka, zachęcamy do obejrzenia materiału",
     "patryk_link_program": "w programie „Uwaga! TVN",
     "patryk_link_end": "w którym udokumentowano tę sprawę.",
+    "main_partner": "Partner główny",
     "partners": "Partnerzy wydarzenia",
     "partners_thanks": "Dziękujemy za wsparcie organizacji NieboCross!",
     "solectwo_name": "Sołectwo Nieborowice",

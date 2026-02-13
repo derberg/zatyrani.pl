@@ -154,7 +154,8 @@
     "registration": "Registration"
   },
   "niebocross": {
-    "title": "NieboCross - In Memory of Marek Nowakowski",
+    "title": "NieboCross",
+    "meta_title": "NieboCross - In Memory of Marek Nowakowski",
     "meta_description": "Charity run and Nordic Walking at Bierawka - 12.04.2026 in Nieborowice. Routes 3+ km and 9+ km, 100% of fees for charity.",
     "charity_event": "Charity Event",
     "hero_description": "Run and Nordic Walking that combine heart, adrenaline, and an amazing route along the Bierawka River. A short 3+ km loop for beginners and a challenging 9+ km cross-country for those who love challenges, and most importantly, everything is for a noble cause.",
@@ -201,6 +202,7 @@
     "patryk_link_text": "If anyone is interested in Patryk's story, we encourage you to watch the report",
     "patryk_link_program": "on the program \"Uwaga! TVN\"",
     "patryk_link_end": "which documented this case.",
+    "main_partner": "Main partner",
     "partners": "Event partners",
     "partners_thanks": "Thank you for supporting NieboCross!",
     "solectwo_name": "Nieborowice Village",
