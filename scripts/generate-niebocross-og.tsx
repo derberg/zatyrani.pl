@@ -17,12 +17,36 @@ function getLogoDataUri() {
   return `data:image/svg+xml;base64,${base64Svg}`
 }
 
+// Load Klinika logo (convert WebP to PNG for Satori compatibility)
+async function getKlinikaLogoDataUri() {
+  const logoPath = path.join(__dirname, '../public/niebocross/klinika.webp')
+  const pngBuffer = await sharp(logoPath).png().toBuffer()
+  const base64Image = pngBuffer.toString('base64')
+  return `data:image/png;base64,${base64Image}`
+}
+
+// Load OTOZ Animals logo
+function getOtozLogoDataUri() {
+  const logoPath = path.join(__dirname, '../public/niebocross/otoz.svg')
+  const svgContent = fs.readFileSync(logoPath, 'utf-8')
+  const base64Svg = Buffer.from(svgContent).toString('base64')
+  return `data:image/svg+xml;base64,${base64Svg}`
+}
+
 const imageSize = {
   width: 1200,
   height: 630,
 }
 
-const NieboCrossImage = ({ logoDataUri }: { logoDataUri: string }) => {
+const NieboCrossImage = ({
+  logoDataUri,
+  klinikaLogoDataUri,
+  otozLogoDataUri
+}: {
+  logoDataUri: string
+  klinikaLogoDataUri: string
+  otozLogoDataUri: string
+}) => {
   return (
     <div
       style={{
@@ -71,16 +95,25 @@ const NieboCrossImage = ({ logoDataUri }: { logoDataUri: string }) => {
           justifyContent: 'space-between',
         }}
       >
-        {/* Left Side - Text Content */}
+        {/* Left Column - Text Content & Partners */}
         <div
           style={{
             display: 'flex',
             flexDirection: 'column',
             flex: 1,
             paddingRight: '60px',
-            alignItems: 'center',
+            justifyContent: 'space-between',
+            height: '100%',
           }}
         >
+          {/* Main Event Info */}
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
           {/* Badge */}
           <div
             style={{
@@ -149,17 +182,132 @@ const NieboCrossImage = ({ logoDataUri }: { logoDataUri: string }) => {
           <div
             style={{
               display: 'flex',
+              flexDirection: 'column',
               color: 'rgba(255, 255, 255, 0.85)',
               fontSize: '22px',
               fontWeight: 400,
               textShadow: '0 2px 10px rgba(0,0,0,0.3)',
+              alignItems: 'center',
+              gap: '8px',
             }}
           >
-            3 km & 9 km · Bieg · Nordic Walking
+            <div style={{ display: 'flex' }}>
+              3 km & 9 km · Bieg · Nordic Walking
+            </div>
+            <div style={{ display: 'flex', fontSize: '20px', color: 'rgba(255, 255, 255, 0.8)' }}>
+              Bieg dla Dzieci
+            </div>
+          </div>
+          </div>
+
+          {/* Partners Section - Left Column Only */}
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              gap: '16px',
+              paddingTop: '30px',
+              justifyContent: 'center',
+            }}
+          >
+            {/* Klinika Nieborowice */}
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                flex: 1,
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  background: 'rgba(255, 255, 255, 0.95)',
+                  borderRadius: '16px',
+                  padding: '16px 24px',
+                  marginBottom: '10px',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '240px',
+                }}
+              >
+                <img
+                  src={klinikaLogoDataUri}
+                  width={240}
+                  height={85}
+                  style={{
+                    width: '240px',
+                    height: '85px',
+                    objectFit: 'contain',
+                  }}
+                />
+              </div>
+              <div
+                style={{
+                  display: 'flex',
+                  color: 'rgba(255, 255, 255, 0.9)',
+                  fontSize: '13px',
+                  fontWeight: 600,
+                  letterSpacing: '0.5px',
+                  textAlign: 'center',
+                }}
+              >
+                Partner Główny Wydarzenia
+              </div>
+            </div>
+
+            {/* OTOZ Animals */}
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                flex: 1,
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  background: 'rgba(255, 255, 255, 0.95)',
+                  borderRadius: '16px',
+                  padding: '16px 24px',
+                  marginBottom: '10px',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '240px',
+                }}
+              >
+                <img
+                  src={otozLogoDataUri}
+                  width={200}
+                  height={85}
+                  style={{
+                    width: '200px',
+                    height: '85px',
+                    objectFit: 'contain',
+                  }}
+                />
+              </div>
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  color: 'rgba(255, 255, 255, 0.9)',
+                  fontSize: '13px',
+                  fontWeight: 600,
+                  textAlign: 'center',
+                  alignItems: 'center',
+                  gap: '4px',
+                }}
+              >
+                <div style={{ display: 'flex' }}>Dochód trafi do</div>
+                <div style={{ display: 'flex' }}>OTOZ Animals Inspektorat Gliwice</div>
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Right Side - Logo with Frame */}
+        {/* Right Column - Logo Only */}
         <div
           style={{
             display: 'flex',
@@ -227,9 +375,11 @@ async function main() {
   console.log('🎨 Generating NieboCross OG image...\n')
 
   try {
-    // Load logo as data URI
+    // Load logos as data URIs
     const logoDataUri = getLogoDataUri()
-    console.log('✅ Logo loaded\n')
+    const klinikaLogoDataUri = await getKlinikaLogoDataUri()
+    const otozLogoDataUri = getOtozLogoDataUri()
+    console.log('✅ Logos loaded\n')
 
     // Load fonts with Polish character support
     const fonts = await Promise.all([
@@ -241,11 +391,18 @@ async function main() {
     console.log('✅ Fonts loaded\n')
 
     // Generate SVG
-    const svg = await satori(<NieboCrossImage logoDataUri={logoDataUri} />, {
-      width: imageSize.width,
-      height: imageSize.height,
-      fonts,
-    })
+    const svg = await satori(
+      <NieboCrossImage
+        logoDataUri={logoDataUri}
+        klinikaLogoDataUri={klinikaLogoDataUri}
+        otozLogoDataUri={otozLogoDataUri}
+      />,
+      {
+        width: imageSize.width,
+        height: imageSize.height,
+        fonts,
+      }
+    )
 
     // Convert to PNG
     const resvg = new Resvg(svg, {
