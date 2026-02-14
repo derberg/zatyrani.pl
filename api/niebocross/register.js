@@ -1,7 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
 import { verifyToken } from "./utils/auth.js";
-import { validateParticipant as validateParticipantBase, calculatePaymentForParticipants } from "./utils/participant-validation.js";
-import { createParticipantRecords, upsertClubs } from "./utils/database-operations.js";
+import { validateParticipant as validateParticipantBase } from "./utils/participant-validation.js";
+import { createParticipantRecords, upsertClubs, updateOrCreatePayment } from "./utils/database-operations.js";
 import { sendRegistrationConfirmationEmail } from "./utils/email.js";
 
 function getSupabaseClient() {
@@ -18,15 +18,6 @@ function getSupabaseClient() {
 function validateParticipant(participant) {
   // Use shared validation
   return validateParticipantBase(participant);
-}
-
-function calculatePayment(participants) {
-  // Convert camelCase to snake_case for shared function
-  const participantsForCalc = participants.map(p => ({
-    race_category: p.raceCategory,
-    tshirt_size: p.tshirtSize
-  }));
-  return calculatePaymentForParticipants(participantsForCalc);
 }
 
 export default async function handler(req, res) {
@@ -77,6 +68,14 @@ export default async function handler(req, res) {
 
     const supabase = getSupabaseClient();
 
+    // Check for existing pending payment (in case of duplicate submission)
+    const { data: existingPendingPayment } = await supabase
+      .from("niebocross_payments")
+      .select("*")
+      .eq("registration_id", registration_id)
+      .eq("payment_status", "pending")
+      .single();
+
     // Create participant records
     const participantRecords = createParticipantRecords(participants, registration_id);
 
@@ -93,26 +92,26 @@ export default async function handler(req, res) {
       });
     }
 
-    // Calculate payment and add extra donation
-    const payment = calculatePayment(participants);
-    const extraDonationAmount = Math.max(0, parseInt(extraDonation || '0'));
-    payment.totalAmount += extraDonationAmount;
-    payment.charityAmount += extraDonationAmount;
+    // Get all participants for this registration
+    const { data: allParticipants, error: fetchError } = await supabase
+      .from("niebocross_participants_v2")
+      .select("*")
+      .eq("registration_id", registration_id);
 
-    // Create payment record (payment_link will be created on demand when user clicks pay)
-    const { error: paymentError } = await supabase
-      .from("niebocross_payments")
-      .insert({
-        registration_id: registration_id,
-        total_amount: payment.totalAmount,
-        race_fees: payment.raceFees,
-        tshirt_fees: payment.tshirtFees,
-        charity_amount: payment.charityAmount,
-        payment_status: 'pending'
+    if (fetchError) {
+      console.error("Error fetching participants:", fetchError);
+      return res.status(500).json({
+        success: false,
+        error: "Nie udało się pobrać uczestników"
       });
+    }
 
-    if (paymentError) {
-      console.error("Error creating payment:", paymentError);
+    // Update existing pending payment or create new one
+    let payment;
+    try {
+      payment = await updateOrCreatePayment(supabase, registration_id, allParticipants, existingPendingPayment, extraDonation);
+    } catch (error) {
+      console.error("Error updating/creating payment:", error);
       return res.status(500).json({
         success: false,
         error: "Nie udało się utworzyć płatności. Spróbuj ponownie."
@@ -129,11 +128,21 @@ export default async function handler(req, res) {
     // Send confirmation email
     if (registration) {
       try {
+        // Convert participants from snake_case to camelCase for email
+        const participantsForEmail = allParticipants.map(p => ({
+          firstName: p.first_name,
+          lastName: p.last_name,
+          raceCategory: p.race_category
+        }));
+
         await sendRegistrationConfirmationEmail({
           email: registration.email,
           contactPerson: registration.contact_person,
-          participants,
-          payment,
+          participants: participantsForEmail,
+          payment: {
+            totalAmount: payment.totalAmount || payment.total_amount,
+            charityAmount: payment.charityAmount || payment.charity_amount
+          },
           registrationId: registration_id
         });
       } catch (emailError) {
