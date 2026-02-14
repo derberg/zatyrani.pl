@@ -559,5 +559,16 @@
     "phone": "509715400",
     "distance": 10,
     "pace": 8
+  },
+  {
+    "uid": "bieg-15-2-2026-8-0-wilcza-cmentarz-20-6.00",
+    "type": "bieg",
+    "datetime": "15/02/2026 08:00",
+    "location": "Wilcza – Cmentarz",
+    "locationLink": "https://maps.app.goo.gl/NwiX62pvY3kmyV3M8",
+    "comment": "",
+    "phone": "513592253",
+    "distance": 20,
+    "pace": 6
   }
 ]
