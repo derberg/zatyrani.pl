@@ -446,7 +446,8 @@
       "total": "Total to pay",
       "charity_info": "Will go to charity:",
       "disclaimer": "After registration, you can pay via the participant panel or using the link in your confirmation email.",
-      "add_donation": "Add extra donation to charity",
+      "add_donation": "Extra donation to charity",
+      "donation_optional": "(optional - any amount)",
       "extra_donation": "Extra donation"
     },
     "payment": {
