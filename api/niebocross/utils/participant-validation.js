@@ -49,7 +49,7 @@ export function validateParticipant(participant) {
   const kidsRaces = ['kids_run'];
 
   if (adultRaces.includes(raceCategory) && age < 18) {
-    return { valid: false, error: "Minimalny wiek dla tras 3km i 9km to 16 lat" };
+    return { valid: false, error: "Minimalny wiek dla tras 3km i 9km to 18 lat" };
   }
 
   if (kidsRaces.includes(raceCategory) && age > 14) {
