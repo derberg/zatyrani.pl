@@ -570,5 +570,16 @@
     "phone": "513592253",
     "distance": 20,
     "pace": 6
+  },
+  {
+    "uid": "nordic-walking-21-2-2026-8-0-nieborowice-ppk-9-9",
+    "type": "nordic walking",
+    "datetime": "21/02/2026 08:00",
+    "location": "Nieborowice – PPK",
+    "locationLink": "https://maps.app.goo.gl/cUnjGVWuHfnJDQTL8",
+    "comment": "Pierwszy rekonesans trasy NieboCross. Przejście NW trasy 9km. Zapraszamy",
+    "phone": "784640977",
+    "distance": 9,
+    "pace": 9
   }
 ]
