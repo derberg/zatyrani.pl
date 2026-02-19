@@ -122,6 +122,58 @@ export async function sendRegistrationConfirmationEmail({ email, contactPerson, 
 }
 
 /**
+ * Sends a weekly payment reminder email to registrations with pending payments
+ * @param {Object} params - Email parameters
+ * @param {string} params.email - Recipient email address
+ * @param {string} params.contactPerson - Contact person name
+ * @param {number} params.totalAmount - Total amount due
+ * @param {string} params.registrationId - Registration ID used to build payment link
+ * @returns {Promise<void>}
+ */
+export async function sendPaymentReminderEmail({ email, contactPerson, totalAmount, registrationId }) {
+  const sendgridKey = process.env.SENDGRID_API_KEY;
+  if (!sendgridKey) {
+    throw new Error("SendGrid API key not configured");
+  }
+
+  sgMail.setApiKey(sendgridKey);
+
+  const paymentPageUrl = `https://zatyrani.pl/niebocross/payment?id=${registrationId}`;
+
+  const html = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+      <h2 style="color: #2c7be5;">⏳ Hej ${contactPerson}, start coraz bliżej!</h2>
+      <p>Zauważyliśmy, że Twój udział w <strong>NieboCross 2026</strong> wciąż nie jest opłacony.</p>
+      <p>Do startu w Nieborowicach (<strong>12 kwietnia 2026</strong>) zostało już naprawdę niewiele czasu. Miejsca wypełniają się szybko, a wpłata to ostatni krok, żeby mieć pewność, że jesteś na liście.</p>
+      <div style="background-color: #f9f9f9; padding: 20px; margin: 20px 0; border-left: 4px solid #2c7be5;">
+        <p style="margin: 0;"><strong>Do zapłaty: ${totalAmount} zł</strong></p>
+      </div>
+      <div style="text-align: center; margin: 30px 0;">
+        <a href="${paymentPageUrl}" style="background-color: #2c7be5; color: white; padding: 16px 32px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px; display: inline-block;">Opłać udział teraz →</a>
+      </div>
+      <p style="color: #555;">Możesz też zalogować się do panelu uczestnika i opłacić stamtąd:<br>
+      <a href="https://zatyrani.pl/niebocross/panel">https://zatyrani.pl/niebocross/panel</a></p>
+      <p>Do zobaczenia na trasie! 💪</p>
+      <hr style="border: none; border-top: 1px solid #ccc; margin: 30px 0;">
+      <p style="color: #666; font-size: 14px;">
+        Stowarzyszenie Zatyrani Gratisownia.pl<br>
+        <a href="https://zatyrani.pl">www.zatyrani.pl</a>
+      </p>
+    </div>
+  `;
+
+  const msg = {
+    to: email,
+    from: process.env.SENDGRID_FROM_EMAIL || "biuro@zatyrani.pl",
+    subject: `Hej ${contactPerson}, jeszcze nie opłaciłeś(aś) startu! ⏳ NieboCross 2026`,
+    text: convert(html, htmlToTextOptions),
+    html,
+  };
+
+  return sgMail.send(msg);
+}
+
+/**
  * Sends a payment confirmation email
  * @param {Object} params - Email parameters
  * @param {string} params.email - Recipient email address

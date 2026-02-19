@@ -2,6 +2,34 @@
  * Shared database operations for NieboCross participant management
  */
 
+/**
+ * Get all registrations that have a pending (unpaid) payment
+ * Used for weekly payment reminder emails
+ * @param {Object} supabase - Supabase client instance
+ * @returns {Promise<Array>} Registrations with id, email, contact_person, and their pending payment
+ */
+export async function getUnpaidRegistrations(supabase) {
+  const { data, error } = await supabase
+    .from('niebocross_registrations')
+    .select(`
+      id,
+      email,
+      contact_person,
+      niebocross_payments!inner(
+        id,
+        total_amount,
+        payment_status
+      )
+    `)
+    .eq('niebocross_payments.payment_status', 'pending');
+
+  if (error) {
+    throw new Error(`Failed to fetch unpaid registrations: ${error.message}`);
+  }
+
+  return data || [];
+}
+
 import { calculatePaymentForParticipants } from "./participant-validation.js";
 
 /**
