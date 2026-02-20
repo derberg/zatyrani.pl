@@ -1,7 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import { getUnpaidRegistrations } from "../utils/database-operations.js";
 import { sendPaymentReminderEmail } from "../utils/email.js";
-import { shouldFilterEmail } from "../utils/test-data-filter.js";
 
 function getSupabaseClient() {
   const url = process.env.SUPABASE_URL;
@@ -44,12 +43,6 @@ export default async function handler(req, res) {
     console.log(`[payment-reminder] Found ${unpaidRegistrations.length} registrations with pending payments`);
 
     for (const registration of unpaidRegistrations) {
-      if (shouldFilterEmail(registration.email)) {
-        console.log(`[payment-reminder] Skipping test email: ${registration.email}`);
-        results.skipped++;
-        continue;
-      }
-
       const pendingPayment = registration.niebocross_payments[0];
 
       if (!pendingPayment) {
