@@ -9,7 +9,7 @@
     "crons": [
       {
         "path": "/api/niebocross/reminders/send-payment-reminder",
-        "schedule": "0 8 * * 1"
+        "schedule": "10 15 * * 5"
       }
     ]
 }

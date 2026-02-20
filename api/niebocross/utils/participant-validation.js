@@ -52,8 +52,8 @@ export function validateParticipant(participant) {
     return { valid: false, error: "Minimalny wiek dla tras 3km i 9km to 18 lat" };
   }
 
-  if (kidsRaces.includes(raceCategory) && age > 14) {
-    return { valid: false, error: "Biegi dzieci dla uczestników do 14 lat" };
+  if (kidsRaces.includes(raceCategory) && age > 15) {
+    return { valid: false, error: "Biegi dzieci dla uczestników do 15 lat" };
   }
 
   return { valid: true };
