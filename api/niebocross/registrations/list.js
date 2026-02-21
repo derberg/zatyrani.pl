@@ -63,8 +63,7 @@ export default async function handler(req, res) {
     }
 
     const { data: participants, error } = await query
-      .order("last_name", { ascending: true })
-      .order("first_name", { ascending: true });
+      .order("updated_at", { ascending: true });
 
     if (error) {
       console.error("Error fetching participants:", error);
