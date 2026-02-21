@@ -114,7 +114,8 @@ const { t } = Astro.props;
       </p>
     </div>
 
-    <div class="overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
+    <!-- Desktop table -->
+    <div class="hidden md:block overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
       <table class="w-full">
         <thead class="bg-slate-50">
           <tr>
@@ -128,6 +129,10 @@ const { t } = Astro.props;
         <tbody id="participantsTableBody" class="divide-y divide-slate-200">
         </tbody>
       </table>
+    </div>
+
+    <!-- Mobile cards -->
+    <div id="participantsCards" class="md:hidden flex flex-col gap-3">
     </div>
 
     <div id="noResults" class="hidden rounded-xl border border-slate-200 bg-white p-12 text-center">
@@ -162,6 +167,7 @@ const { t } = Astro.props;
   const counters = document.getElementById('counters');
   const noResults = document.getElementById('noResults');
   const tableBody = document.getElementById('participantsTableBody');
+  const cardsContainer = document.getElementById('participantsCards');
   const totalCount = document.getElementById('totalCount');
   const kidsCount = document.getElementById('kidsCount');
   const kidsLimit = document.getElementById('kidsLimit');
@@ -242,23 +248,38 @@ const { t } = Astro.props;
     noResults.classList.add('hidden');
     results.classList.remove('hidden');
 
-    tableBody.innerHTML = participants.map(p => {
+    const rows = participants.map(p => {
       const categoryLabel = categoryLabels[p.raceCategory] || p.raceCategory;
       const isPaid = p.paymentStatus === 'paid';
       const paymentLabel = paymentStatusLabels[p.paymentStatus] || p.paymentStatus;
       const paymentClass = isPaid
         ? 'bg-emerald-100 text-emerald-800'
         : 'bg-amber-100 text-amber-800';
-      return `
-        <tr class="hover:bg-slate-50">
-          <td class="px-4 py-3 text-sm text-slate-900">${p.fullName}</td>
-          <td class="px-4 py-3 text-sm text-slate-600">${p.city}</td>
-          <td class="px-4 py-3 text-sm text-slate-600">${p.club || '-'}</td>
-          <td class="px-4 py-3 text-sm text-slate-600">${categoryLabel}</td>
-          <td class="px-4 py-3 text-sm"><span class="inline-flex rounded-full px-2 py-1 text-xs font-medium ${paymentClass}">${paymentLabel}</span></td>
-        </tr>
-      `;
-    }).join('');
+      return { p, categoryLabel, paymentLabel, paymentClass };
+    });
+
+    tableBody.innerHTML = rows.map(({ p, categoryLabel, paymentLabel, paymentClass }) => `
+      <tr class="hover:bg-slate-50">
+        <td class="px-4 py-3 text-sm text-slate-900">${p.fullName}</td>
+        <td class="px-4 py-3 text-sm text-slate-600">${p.city}</td>
+        <td class="px-4 py-3 text-sm text-slate-600">${p.club || '-'}</td>
+        <td class="px-4 py-3 text-sm text-slate-600">${categoryLabel}</td>
+        <td class="px-4 py-3 text-sm"><span class="inline-flex rounded-full px-2 py-1 text-xs font-medium ${paymentClass}">${paymentLabel}</span></td>
+      </tr>
+    `).join('');
+
+    cardsContainer.innerHTML = rows.map(({ p, categoryLabel, paymentLabel, paymentClass }) => `
+      <div class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+        <div class="flex items-start justify-between gap-3">
+          <div class="min-w-0">
+            <p class="font-semibold text-slate-900">${p.fullName}</p>
+            <p class="text-sm text-slate-500 mt-0.5">${p.city}${p.club ? ' · ' + p.club : ''}</p>
+          </div>
+          <span class="flex-shrink-0 inline-flex rounded-full px-2 py-1 text-xs font-medium ${paymentClass}">${paymentLabel}</span>
+        </div>
+        <p class="mt-2 text-sm text-slate-600">${categoryLabel}</p>
+      </div>
+    `).join('');
   }
 
   // Update filters and load participants
