@@ -48,7 +48,7 @@ export default async function handler(req, res) {
         hide_name_public,
         niebocross_registrations!inner(
           email,
-          niebocross_payments(payment_status)
+          niebocross_payments(payment_status, created_at)
         )
       `);
 
@@ -86,7 +86,9 @@ export default async function handler(req, res) {
     }
 
     filteredParticipants.forEach(p => {
-      const paymentStatus = p.niebocross_registrations?.niebocross_payments?.[0]?.payment_status || 'pending';
+      const payments = p.niebocross_registrations?.niebocross_payments || [];
+      const latestPayment = payments.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))[0];
+      const paymentStatus = latestPayment?.payment_status || 'pending';
       if (paymentStatus === 'paid') {
         const group = getGroupForCategory(p.race_category);
         if (group && Object.hasOwn(paidCounts, group)) {
@@ -101,7 +103,13 @@ export default async function handler(req, res) {
       city: p.city,
       club: p.club,
       raceCategory: p.race_category,
-      paymentStatus: p.niebocross_registrations?.niebocross_payments?.[0]?.payment_status || 'pending'
+      paymentStatus: (() => {
+        const payments = p.niebocross_registrations?.niebocross_payments || [];
+        const latest = payments.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))[0];
+        const raw = latest?.payment_status || 'pending';
+        // Map failed/cancelled to pending for public display
+        return (raw === 'failed' || raw === 'cancelled') ? 'pending' : raw;
+      })()
     }));
 
     // Apply payment status filter

@@ -1,6 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import { decryptWebhookNotification, parseWebhookData } from "../utils/sibs.js";
-import { sendPaymentConfirmationEmail } from "../utils/email.js";
+import { sendPaymentConfirmationEmail, sendPaymentFailedEmail } from "../utils/email.js";
 
 // Disable Vercel's automatic body parsing so we get the raw base64 ciphertext
 export const config = {
@@ -125,18 +125,27 @@ export default async function handler(req, res) {
       console.error("Error updating payment:", updateError);
     }
 
-    // Send confirmation email on success
-    if (status === '000' && payment.niebocross_registrations) {
+    // Send email notification based on payment result
+    if (payment.niebocross_registrations) {
       const registration = payment.niebocross_registrations;
 
       try {
-        await sendPaymentConfirmationEmail({
-          email: registration.email,
-          contactPerson: registration.contact_person,
-          totalAmount: payment.total_amount,
-          charityAmount: payment.charity_amount,
-          transactionId
-        });
+        if (status === '000') {
+          await sendPaymentConfirmationEmail({
+            email: registration.email,
+            contactPerson: registration.contact_person,
+            totalAmount: payment.total_amount,
+            charityAmount: payment.charity_amount,
+            transactionId
+          });
+        } else {
+          await sendPaymentFailedEmail({
+            email: registration.email,
+            contactPerson: registration.contact_person,
+            totalAmount: payment.total_amount,
+            registrationId: payment.registration_id
+          });
+        }
       } catch (emailError) {
         console.error("Error sending email:", emailError);
         // Don't fail the webhook if email fails

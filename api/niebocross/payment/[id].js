@@ -39,7 +39,7 @@ export default async function handler(req, res) {
 
     const supabase = getSupabaseClient();
 
-    // Get pending payment with registration info (needed for SIBS)
+    // Get the latest pending or failed payment (both are actionable — user can pay)
     const { data: payment, error: paymentError } = await supabase
       .from("niebocross_payments")
       .select(`
@@ -47,14 +47,15 @@ export default async function handler(req, res) {
         total_amount,
         payment_status,
         payment_link,
-        created_at,
+        transaction_id,
         niebocross_registrations!inner(email, contact_person)
       `)
       .eq("registration_id", registrationId)
-      .eq("payment_status", "pending")
+      .in("payment_status", ["pending", "failed"])
+      .order("created_at", { ascending: false })
+      .limit(1)
       .single();
 
-    // No pending payment found
     if (paymentError || !payment) {
       return res.status(200).json({
         success: true,
@@ -63,8 +64,11 @@ export default async function handler(req, res) {
       });
     }
 
-    // If formContext and transaction_id already exist, return them for widget embedding
-    if (payment.transaction_id && payment.payment_link) {
+    const registration = payment.niebocross_registrations;
+
+    // For a previously cached pending session, return it directly (skip SIBS call)
+    // For failed payments the cached session is stale — always create a new one
+    if (payment.payment_status === "pending" && payment.transaction_id && payment.payment_link) {
       return res.status(200).json({
         success: true,
         has_pending_payment: true,
@@ -79,7 +83,6 @@ export default async function handler(req, res) {
     }
 
     // Create new SIBS payment link
-    const registration = payment.niebocross_registrations;
 
     const paymentResult = await createPaymentLink({
       paymentId: payment.id,

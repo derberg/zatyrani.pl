@@ -174,6 +174,64 @@ export async function sendPaymentReminderEmail({ email, contactPerson, totalAmou
 }
 
 /**
+ * Sends a payment failed notification email with retry link and contact details
+ * @param {Object} params - Email parameters
+ * @param {string} params.email - Recipient email address
+ * @param {string} params.contactPerson - Contact person name
+ * @param {number} params.totalAmount - Total amount due
+ * @param {string} params.registrationId - Registration ID used to build payment link
+ * @returns {Promise<void>}
+ */
+export async function sendPaymentFailedEmail({ email, contactPerson, totalAmount, registrationId }) {
+  const sendgridKey = process.env.SENDGRID_API_KEY;
+  if (!sendgridKey) {
+    throw new Error("SendGrid API key not configured");
+  }
+
+  sgMail.setApiKey(sendgridKey);
+
+  const paymentPageUrl = `https://zatyrani.pl/niebocross/payment?id=${registrationId}`;
+
+  const html = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+      <h2 style="color: #dc2626;">⚠️ Płatność nie powiodła się - NieboCross 2026</h2>
+      <p>Witaj ${contactPerson},</p>
+      <p>Niestety Twoja płatność za udział w NieboCross 2026 nie została zrealizowana. Jesteśmy tego świadomi i chcemy pomóc Ci dokończyć rejestrację.</p>
+      <div style="background-color: #fef2f2; padding: 20px; margin: 20px 0; border-left: 4px solid #dc2626;">
+        <p style="margin: 0;"><strong>Kwota do zapłaty: ${totalAmount} zł</strong></p>
+      </div>
+      <p>Kliknij poniższy przycisk, aby spróbować ponownie:</p>
+      <div style="text-align: center; margin: 25px 0;">
+        <a href="${paymentPageUrl}" style="background-color: #059669; color: white; padding: 14px 28px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px; display: inline-block;">Spróbuj zapłacić ponownie</a>
+      </div>
+      <p>Możesz też zalogować się do panelu uczestnika:<br>
+      <a href="https://zatyrani.pl/niebocross/panel">https://zatyrani.pl/niebocross/panel</a></p>
+      <div style="background-color: #f8fafc; padding: 15px; margin: 20px 0; border-left: 4px solid #94a3b8;">
+        <p style="margin: 0 0 8px 0;"><strong>Masz pytania lub problemy z płatnością?</strong></p>
+        <p style="margin: 0;">Napisz do nas: <a href="mailto:biuro@zatyrani.pl">biuro@zatyrani.pl</a><br>
+        Zadzwoń: <a href="tel:784640977">784 640 977</a></p>
+      </div>
+      <p>Do zobaczenia w Nieborowicach 12 kwietnia 2026!</p>
+      <hr style="border: none; border-top: 1px solid #ccc; margin: 30px 0;">
+      <p style="color: #666; font-size: 14px;">
+        Stowarzyszenie Zatyrani Gratisownia.pl<br>
+        <a href="https://zatyrani.pl">www.zatyrani.pl</a>
+      </p>
+    </div>
+  `;
+
+  const msg = {
+    to: email,
+    from: process.env.SENDGRID_FROM_EMAIL || "biuro@zatyrani.pl",
+    subject: "Płatność nie powiodła się - NieboCross 2026",
+    text: convert(html, htmlToTextOptions),
+    html,
+  };
+
+  return sgMail.send(msg);
+}
+
+/**
  * Sends a payment confirmation email
  * @param {Object} params - Email parameters
  * @param {string} params.email - Recipient email address
