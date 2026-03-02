@@ -5,9 +5,10 @@ import PanelContent from "../../components/niebocross/PanelContent.astro";
 import { t } from "../../utils/i18n";
 ---
 
-<Layout 
+<Layout
   title={`NieboCross - ${t("niebocross.dashboard.title")}`}
   description={t("niebocross.dashboard.meta_description")}
+  ogImage="/niebocross_og.jpg"
   t={t}
 >
   <PanelContent t={t} locale="pl" />
