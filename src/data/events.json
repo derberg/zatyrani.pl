@@ -1407,5 +1407,15 @@
     "image": "",
     "location": "Książenice",
     "uid": "xx-bieg-po-glebokich-dolach-10-05-2026"
+  },
+  {
+    "date": "26/04/2026",
+    "title": "Knurowska Dycha",
+    "mainLink": "https://mosirknurow.pl/knurowska-dycha/",
+    "registrationLink": "https://chronotex.pl/opis-zawodow/?id_zawodow=1308",
+    "description": "10km na atestowanej trasie",
+    "image": "",
+    "location": "Knurów",
+    "uid": "knurowska-dycha-26-04-2026"
   }
 ]
