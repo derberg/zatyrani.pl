@@ -1417,5 +1417,15 @@
     "image": "",
     "location": "Knurów",
     "uid": "knurowska-dycha-26-04-2026"
+  },
+  {
+    "date": "12/04/2026",
+    "title": "NieboCross",
+    "mainLink": "https://www.zatyrani.pl/niebocross",
+    "registrationLink": "https://www.zatyrani.pl/niebocross",
+    "description": "Nasze wydarzenie bieg i kije",
+    "image": "",
+    "location": "Nieborowice",
+    "uid": "niebocross-12-04-2026"
   }
 ]
