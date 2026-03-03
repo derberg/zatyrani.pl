@@ -581,5 +581,16 @@
     "phone": "784640977",
     "distance": 9,
     "pace": 9
+  },
+  {
+    "uid": "bieg-3-3-2026-19-0-nieborowice-wierzbowa-4-5-8",
+    "type": "bieg",
+    "datetime": "03/03/2026 19:00",
+    "location": "Nieborowice – Wierzbowa 4",
+    "locationLink": "https://maps.app.goo.gl/1hiWUekjpgK7GpAN8",
+    "comment": "Wolne tempo w strefie 2 czyli tętno do 135",
+    "phone": "784640977",
+    "distance": 5,
+    "pace": 8
   }
 ]
