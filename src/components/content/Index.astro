@@ -93,9 +93,9 @@ const upcomingTrainings = trainings
       </div>
     </div>
     <script is:inline>
-      var deadline = new Date('2026-03-26T19:00:00Z').getTime();
+      const deadline = new Date('2026-03-26T19:00:00Z').getTime();
       if (Date.now() > deadline) {
-        var el = document.getElementById('niebocross-rekonesans-banner');
+        const el = document.getElementById('niebocross-rekonesans-banner');
         if (el) el.remove();
       }
     </script>

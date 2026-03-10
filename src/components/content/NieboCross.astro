@@ -232,9 +232,9 @@ const locationName = "Nieborowice";
     </div>
   </div>
   <script is:inline>
-    var deadline = new Date('2026-03-26T19:00:00Z').getTime();
+    const deadline = new Date('2026-03-26T19:00:00Z').getTime();
     if (Date.now() > deadline) {
-      var el = document.getElementById('treningi-rekonesansowe');
+      const el = document.getElementById('treningi-rekonesansowe');
       if (el) el.remove();
     }
   </script>

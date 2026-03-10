@@ -20,7 +20,8 @@
     "member:list": "node scripts/postgress/member-list.js",
     "member:add": "node scripts/postgress/member-add.js",
     "og:niebocross": "tsx scripts/generate-niebocross-og.tsx",
-    "member:remove": "node scripts/postgress/member-remove.js"
+    "member:remove": "node scripts/postgress/member-remove.js",
+    "campaign:send": "node --env-file=.env.local scripts/send-campaign.js"
   },
   "lint-staged": {
     "*.{js,ts,astro}": [
