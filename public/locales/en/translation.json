@@ -178,7 +178,7 @@
     "for_challengers_desc": "Technical cross-country route along the Bierawka River. Variable terrain, elevation changes, and beautiful views. Runners and Nordic walkers who like to feel the fire in their legs will be satisfied.",
     "for_challengers_point1": "Natural single-tracks, root sections.",
     "for_challengers_point2": "Views of Bierawka Valley and shaded forest sections.",
-    "kids_run": "Kids race",
+    "kids_run": "Kids race (under 16)",
     "kids_run_distances": "3 different distances",
     "kids_run_desc": "Short, safe races for youngest participants near the start/finish zone.",
     "kids_run_point1": "We have prepared 3 different distances tailored to the age of the children. Details will be clarified later and emailed to registrants.",
@@ -232,7 +232,7 @@
     "fees": "Entry fees",
     "adult_run": "Run / Nordic Walking (adults)",
     "adult_run_desc": "100% of entry fee revenue goes to the charity goal.",
-    "kids_run_fee": "Kids race",
+    "kids_run_fee": "Kids race (under 16)",
     "kids_run_fee_desc": "100% of entry fee revenue goes to the charity goal.",
     "how_we_support": "📊 How do we support the charity goal?",
     "support_registrations": "Registrations:",
@@ -436,7 +436,7 @@
       "3km_nw": "3km - Nordic Walking",
       "9km_run": "9km - Run",
       "9km_nw": "9km - Nordic Walking",
-      "kids_run": "Kids race (distance adjusted by age)"
+      "kids_run": "Kids race under 16 (distance adjusted by age)"
     },
     "panel": {
       "no_registered_participants": "No registered participants",

@@ -178,7 +178,7 @@
     "for_challengers_desc": "Techniczna, krosowa trasa wzdłuż rzeki Bierawki. Zmienne podłoże, różnice terenu i piękne widoki. Biegacze i kijkarze, którzy lubią poczuć ogień w nogach, będą zadowoleni.",
     "for_challengers_point1": "Naturalne single-tracki, fragmenty korzeni.",
     "for_challengers_point2": "Widok na dolinę Bierawki i odcinki w cieniu lasu.",
-    "kids_run": "Bieg dla dzieci",
+    "kids_run": "Bieg dla dzieci poniżej 16 roku życia",
     "kids_run_distances": "3 różne dystanse",
     "kids_run_desc": "Krótkie, bezpieczne biegi dla najmłodszych uczestników przy strefie startu/mety.",
     "kids_run_point1": "Przygotowaliśmy 3 różne dystanse dostosowane do wieku dzieci. Szczegóły zostaną podane później i wysłane mailowo do uczestników.",
@@ -232,7 +232,7 @@
     "fees": "Opłaty startowe",
     "adult_run": "Bieg / Nordic Walking (dorośli)",
     "adult_run_desc": "100% dochodu z zapisów trafia na cel charytatywny.",
-    "kids_run_fee": "Bieg dzieci",
+    "kids_run_fee": "Bieg dla dzieci poniżej 16 roku życia",
     "kids_run_fee_desc": "100% dochodu z zapisów trafia na cel charytatywny.",
     "how_we_support": "📊 Jak wspomagamy cel charytatywny?",
     "support_registrations": "Zapisy:",
@@ -436,7 +436,7 @@
       "3km_nw": "3km - Nordic Walking",
       "9km_run": "9km - Bieg",
       "9km_nw": "9km - Nordic Walking",
-      "kids_run": "Bieg dla dzieci (dystans dostosowany do wieku)"
+      "kids_run": "Bieg dla dzieci poniżej 16 roku życia (dystans dostosowany do wieku)"
     },
     "panel": {
       "no_registered_participants": "Brak zarejestrowanych uczestników",
