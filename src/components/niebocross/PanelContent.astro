@@ -575,7 +575,7 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
         const data = await response.json();
 
         if (!response.ok) {
-          errorDiv.textContent = errorMessages[data.error] || errorMessages.update;
+          errorDiv.textContent = data.error || errorMessages.update;
           errorDiv.classList.remove('hidden');
           return;
         }

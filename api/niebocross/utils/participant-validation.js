@@ -45,11 +45,16 @@ export function validateParticipant(participant) {
   // Validate age restrictions (event date: April 12, 2026)
   const age = calculateAge(birthDate, EVENT_DATE);
 
-  const adultRaces = ['3km_run', '3km_nw', '9km_run', '9km_nw'];
+  const races3km = ['3km_run', '3km_nw'];
+  const races9km = ['9km_run', '9km_nw'];
   const kidsRaces = ['kids_run'];
 
-  if (adultRaces.includes(raceCategory) && age < 18) {
-    return { valid: false, error: "Minimalny wiek dla tras 3km i 9km to 18 lat" };
+  if (races3km.includes(raceCategory) && age < 16) {
+    return { valid: false, error: "Minimalny wiek dla tras 3km to 16 lat" };
+  }
+
+  if (races9km.includes(raceCategory) && age < 18) {
+    return { valid: false, error: "Minimalny wiek dla tras 9km to 18 lat" };
   }
 
   if (kidsRaces.includes(raceCategory) && age > 15) {

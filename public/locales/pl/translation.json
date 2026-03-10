@@ -368,7 +368,7 @@
       "email": "Adres email",
       "contact_person": "Imię i nazwisko osoby kontaktowej",
       "contact_person_desc": "To będzie główna osoba kontaktowa dla tej rejestracji",
-      "rodo_consent": "Oświadczam, że wyrażam zgodę na przetwarzanie moich danych osobowych przez Organizatora imprezy (Stowarzyszenie Zatyrani) dla celów związanych z organizacją, przygotowaniem i przeprowadzeniem imprezy. Jednocześnie oświadczam, że wyrażam zgodę na przesyłanie przez Organizatora, na mój adres e-mail informacji dotyczących tej imprezy. Oświadczam również, że wszystkie podane przeze mnie dane i informacje, związane z moim udziałem w imprezie są zgodne z prawdą i stanem faktycznym. (w imieniu osób niepełnoletnich oświadczenie składa rodzic / pełnoletni opiekun).",
+      "rodo_consent": "Oświadczam, że wyrażam zgodę na przetwarzanie moich danych osobowych przez Organizatora wydarzenia (Stowarzyszenie Zatyrani) dla celów związanych z organizacją, przygotowaniem i przeprowadzeniem wydarzenia. Jednocześnie oświadczam, że wyrażam zgodę na przesyłanie przez Organizatora, na mój adres e-mail informacji dotyczących tego wydarzenia. Oświadczam również, że wszystkie podane przeze mnie dane i informacje, związane z moim udziałem w wydarzeniu są zgodne z prawdą i stanem faktycznym. (w imieniu osób niepełnoletnich oświadczenie składa rodzic / pełnoletni opiekun).",
       "terms_consent": "Akceptuję",
       "terms_link": "regulamin wydarzenia",
       "send_code": "Wyślij kod weryfikacyjny",
@@ -426,7 +426,10 @@
       "cancel": "Anuluj",
       "race_category": "Kategoria",
       "select_category": "Wybierz kategorię",
-      "kids_run_info": "Dla dzieci: konkretny dystans zostanie przypisany automatycznie w dniu wydarzenia na podstawie wieku dziecka. Szczegóły zostaną wysłane mailem."
+      "kids_run_info": "Dla dzieci: konkretny dystans zostanie przypisany automatycznie w dniu wydarzenia na podstawie wieku dziecka. Szczegóły zostaną wysłane mailem.",
+      "minor_consent_info": "Osoby w wieku 16–17 lat mogą startować na dystansie 3 km (bieg i NW). Wymagana jest pisemna zgoda opiekuna prawnego, który musi być obecny na imprezie — ",
+      "minor_consent_link_text": "pobierz formularz",
+      "minor_consent_info_suffix": "."
     },
     "categories": {
       "3km_run": "3km - Bieg",

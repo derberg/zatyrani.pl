@@ -426,7 +426,10 @@
       "cancel": "Cancel",
       "race_category": "Category",
       "select_category": "Select category",
-      "kids_run_info": "For kids: specific distance will be assigned automatically on event day based on child's age. Details will be emailed."
+      "kids_run_info": "For kids: specific distance will be assigned automatically on event day based on child's age. Details will be emailed.",
+      "minor_consent_info": "Participants aged 16–17 may enter the 3 km distance (run and NW). A written consent of a legal guardian who must be present at the event is required — ",
+      "minor_consent_link_text": "download form",
+      "minor_consent_info_suffix": "."
     },
     "categories": {
       "3km_run": "3km - Run",
