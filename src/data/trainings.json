@@ -592,5 +592,16 @@
     "phone": "784640977",
     "distance": 5,
     "pace": 8
+  },
+  {
+    "uid": "bieg-14-3-2026-7-0-nieborowice-wierzbowa-4-9-6",
+    "type": "bieg",
+    "datetime": "14/03/2026 07:00",
+    "location": "Nieborowice – Wierzbowa 4",
+    "locationLink": "https://maps.app.goo.gl/1hiWUekjpgK7GpAN8",
+    "comment": "Lecimy NieboCross 9 km - mamy 8 km i będziemy szukać w lesie brakującego kilometra.",
+    "phone": "784640977",
+    "distance": 9,
+    "pace": 6
   }
 ]
