@@ -83,12 +83,20 @@ const allNavItems: NavItem[] = [...otherCtaItems, ...mainNavItems];
     <meta name="twitter:image" content={finalOgImage} />
     
     <title>{title}</title>
-    <!-- Google Analytics -->
+    <!-- Google Tag Manager -->
     <script is:inline>
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
     </script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=GTM-K8J5JRX"></script>
+    <!-- Google Ads conversion tracking (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-16952879625"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(...args){dataLayer.push(...args);}
+      gtag('js', new Date());
+      gtag('config', 'AW-16952879625');
+    </script>
   </head>
   <body class="min-h-screen bg-white">
     <noscript>

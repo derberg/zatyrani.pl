@@ -346,6 +346,18 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
       }
 
       if (payment.paymentStatus === 'paid') {
+        // Track payment as Google Ads conversion (fire once per payment)
+        const paymentTrackedKey = `niebocross_payment_tracked_${payment.id || payment.totalAmount}`;
+        if (!sessionStorage.getItem(paymentTrackedKey) && typeof gtag === 'function') {
+          gtag('event', 'conversion', {
+            'send_to': 'AW-16952879625/ZLMZCOuR1YccEInU4ZM_',
+            'value': payment.totalAmount,
+            'currency': 'PLN',
+            'transaction_id': payment.id || ''
+          });
+          sessionStorage.setItem(paymentTrackedKey, 'true');
+        }
+
         statusDiv.className = 'rounded-xl border-2 border-emerald-200 bg-emerald-50 p-6';
         statusDiv.innerHTML = `
           <div class="flex items-center justify-between">

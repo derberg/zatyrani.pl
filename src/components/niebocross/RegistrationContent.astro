@@ -835,9 +835,21 @@ const { t, locale = 'pl' } = Astro.props;
           return;
         }
 
-        // Redirect to panel where user can pay and manage participants
+        // Track registration as Google Ads conversion
+        const totalAmount = parseInt(document.getElementById('totalAmount')?.textContent || '0');
         const panelUrl = locale === 'en' ? '/en/niebocross/panel' : '/niebocross/panel';
-        window.location.href = panelUrl;
+        if (typeof gtag === 'function') {
+          gtag('event', 'conversion', {
+            'send_to': 'AW-16952879625/c6pMCOiR1YccEInU4ZM_',
+            'value': totalAmount,
+            'currency': 'PLN',
+            'event_callback': function() { window.location.href = panelUrl; }
+          });
+          // Fallback redirect if gtag callback doesn't fire within 1s
+          setTimeout(function() { window.location.href = panelUrl; }, 1000);
+        } else {
+          window.location.href = panelUrl;
+        }
       } catch {
         participantsError.textContent = errorMessages.connection;
         participantsError.classList.remove('hidden');
