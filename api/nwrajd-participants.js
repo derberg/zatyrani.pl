@@ -23,7 +23,7 @@ export default async function handler(req, res) {
 
     const result = data.map(({ hide_name, firstname, lastname, ...rest }) => ({
       ...rest,
-      firstname: hide_name ? "–" : firstname,
+      firstname: hide_name ? "" : firstname,
       lastname: hide_name ? "Uczestnik anonimowy" : lastname,
     }));
 

@@ -125,6 +125,20 @@
       </label>
     </div>
 
+    <div class="flex items-start">
+      <input
+        type="checkbox"
+        id="liability"
+        name="liability"
+        required
+        class="mt-1 border-gray-300 rounded text-purple-600 focus:ring-purple-500"
+      />
+      <label for="liability" class="ml-2 text-sm text-gray-700">
+        Oświadczam, że biorę udział w rajdzie dobrowolnie i na własną odpowiedzialność oraz przyjmuję
+        do wiadomości, że organizator nie zapewnia opieki medycznej ani ubezpieczenia <span class="text-red-600">*</span>
+      </label>
+    </div>
+
     <button
       type="submit"
       class="w-full bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700"
@@ -207,7 +221,40 @@
     phoneError!.classList.toggle("hidden", valid || phoneInput.value === "");
     phoneInput.classList.toggle("border-red-600", !valid && phoneInput.value !== "");
     phoneInput.classList.toggle("border-purple-300", valid || phoneInput.value === "");
+    updateSubmitButton();
   });
+
+  const consentCheckbox = document.getElementById("consent") as HTMLInputElement;
+  const liabilityCheckbox = document.getElementById("liability") as HTMLInputElement;
+
+  function isFormReady(): boolean {
+    const nameVal = (form.elements.namedItem("name") as HTMLInputElement).value.trim();
+    const surnameVal = (form.elements.namedItem("surname") as HTMLInputElement).value.trim();
+    const locationVal = (form.elements.namedItem("location") as HTMLInputElement).value.trim();
+    return (
+      nameVal !== "" &&
+      surnameVal !== "" &&
+      locationVal !== "" &&
+      isValidYear(yearInput.value) &&
+      isValidPhone(phoneInput.value) &&
+      consentCheckbox.checked &&
+      liabilityCheckbox.checked
+    );
+  }
+
+  function updateSubmitButton() {
+    const ready = isFormReady();
+    submitButton.disabled = !ready;
+    submitButton.classList.toggle("opacity-50", !ready);
+    submitButton.classList.toggle("cursor-not-allowed", !ready);
+  }
+
+  // Initialize button state
+  updateSubmitButton();
+
+  // Listen on all relevant inputs
+  form.addEventListener("input", updateSubmitButton);
+  form.addEventListener("change", updateSubmitButton);
 
   function showLimitReached() {
     form.classList.add("hidden");
@@ -270,9 +317,19 @@
       return;
     }
 
+    const liabilityCheckbox = document.getElementById("liability") as HTMLInputElement;
+    if (!liabilityCheckbox.checked) {
+      alert("Musisz zaakceptować oświadczenie o dobrowolnym udziale.");
+      submitButton.disabled = false;
+      submitButton.classList.remove("opacity-50", "cursor-not-allowed");
+      return;
+    }
+
     const formData = new FormData(e.target as HTMLFormElement);
     const payload: Record<string, unknown> = Object.fromEntries(formData);
     payload.hide_name = (document.getElementById("hide_name") as HTMLInputElement).checked;
+    payload.consent = (document.getElementById("consent") as HTMLInputElement).checked;
+    payload.liability = (document.getElementById("liability") as HTMLInputElement).checked;
     payload.website = (document.getElementById("website") as HTMLInputElement).value;
 
     try {

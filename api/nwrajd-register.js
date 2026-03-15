@@ -13,7 +13,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { name, surname, club, location, year, phone, hide_name, website } = req.body;
+    const { name, surname, club, location, year, phone, hide_name, consent, liability, website } = req.body;
 
     // Honeypot check
     if (website) {
@@ -59,6 +59,8 @@ export default async function handler(req, res) {
       location,
       phone,
       hide_name: hide_name === true || hide_name === "true" || hide_name === "on",
+      consent: consent === true || consent === "true" || consent === "on",
+      liability: liability === true || liability === "true" || liability === "on",
     });
 
     if (error) throw error;
