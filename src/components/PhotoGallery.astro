@@ -3,6 +3,7 @@ interface Props {
   photos: {
     src: string;
     alt: string;
+    featured?: boolean;
   }[];
   author?: string;
   authorLink?: string;
@@ -32,14 +33,14 @@ const { photos, author, authorLink } = Astro.props;
     )
   }
 
-  <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+  <div class="max-w-[56%] mx-auto grid grid-cols-3 gap-4">
     {
       photos.map((photo) => (
-        <a href={photo.src} target="_blank" rel="noopener noreferrer">
+        <a href={photo.src} target="_blank" rel="noopener noreferrer" class={photo.featured ? "col-span-3" : ""}>
           <img
             src={photo.src}
             alt={photo.alt}
-            class="w-full aspect-[9/16] object-cover rounded-lg hover:shadow-md transition-shadow"
+            class={`w-full object-cover rounded-lg hover:shadow-md transition-shadow ${photo.featured ? "aspect-video" : "aspect-[9/16]"}`}
           />
         </a>
       ))

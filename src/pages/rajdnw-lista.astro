@@ -3,28 +3,29 @@ import Layout from "../layouts/Layout.astro";
 import { participants as rawParticipants } from "../data/rajdnw-participants";
 import { t } from "../utils/i18n";
 
-const eventDate = "26.04.2025";
-const eventNumber = "III";
+const eventDate = "23.05.2026";
+const eventNumber = "IV";
 const maxParticipants = 55;
 
 const participants = rawParticipants.sort((a, b) => a.lastname.localeCompare(b.lastname));
 const registeredCount = participants.length;
 ---
 
-<Layout t={t} title="Zatyrani - III Zatyrany Rajd Nordic Walking">
+<Layout t={t} title="Zatyrani - IV Rajd Nordic Walking">
   <!-- Hero Section -->
-  <div class="relative h-[60vh] flex items-center justify-center text-white">
+  <div class="relative h-[calc(85vh-40px)] flex items-center justify-center overflow-hidden">
     <div class="absolute inset-0">
-      <img src="rajdnw/2024/header.webp" alt="Tło rajdu" class="w-full h-full object-cover" />
-      <div class="absolute inset-0 bg-black/50"></div>
+      <img src="rajdnw/2025/header-brighter.webp" alt="Tło rajdu" class="w-full h-full object-cover" />
+      <div class="absolute inset-0 bg-black/20"></div>
     </div>
-    <div class="relative text-center space-y-4">
+    <div class="relative text-center space-y-4 -translate-y-5">
       <div class="px-8 rounded-lg mx-auto max-w-full">
-        <h1 class="text-5xl font-bold text-white">{eventNumber} Zatyrany Rajd Nordic Walking</h1>
+        <h1 class="text-5xl font-bold text-gray-600">{eventNumber} Rajd Nordic Walking</h1>
       </div>
 
-      <div class="px-8 py-4 rounded-lg mx-auto inline-block">
-        <h1 class="text-3xl font-bold text-white">{eventDate}</h1>
+      <div class="pt-1 lg:pt-0 rounded-lg mx-auto inline-block">
+        <h1 class="text-3xl font-bold text-gray-600">{eventDate}</h1>
+        <p class="text-xl text-gray-600 text-center mt-2">"Młynówka" ul. Smolnicka 4, Leboszowice</p>
       </div>
     </div>
   </div>
