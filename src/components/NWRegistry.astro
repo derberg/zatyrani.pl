@@ -1,5 +1,10 @@
 <form id="eventForm" class="max-w-2xl mx-auto p-4">
   <div class="space-y-4">
+    <!-- Honeypot field - hidden from humans, bots will fill it -->
+    <div class="absolute -left-full -top-full opacity-0 pointer-events-none overflow-hidden h-0 w-0" aria-hidden="true">
+      <label for="website">Website</label>
+      <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
+    </div>
     <div>
       <label class="block text-sm font-medium text-gray-700">
         <strong>Imię</strong>
@@ -47,10 +52,35 @@
       </label>
       <input
         type="text"
+        id="year"
         name="year"
         required
+        maxlength="4"
+        placeholder="np. 1990"
+        inputmode="numeric"
         class="mt-1 block w-full rounded-md border-purple-300 shadow-sm border-2 focus:border-purple-500 focus:ring-purple-500"
       />
+      <p id="yearError" class="hidden text-xs text-red-600 mt-1">Podaj prawidłowy rok urodzenia (np. 1990).</p>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700">
+        <strong>Numer telefonu</strong>
+        <span class="text-red-600">*</span>
+      </label>
+      <p class="text-xs text-gray-600">
+        Potrzebny w razie nagłej sytuacji podczas rajdu oraz do kontaktu w przypadku ważnych zmian w wydarzeniu.
+      </p>
+      <input
+        type="tel"
+        id="phone"
+        name="phone"
+        required
+        placeholder="np. 663 473 341"
+        autocomplete="tel"
+        class="mt-1 block w-full rounded-md border-purple-300 shadow-sm border-2 focus:border-purple-500 focus:ring-purple-500"
+      />
+      <p id="phoneError" class="hidden text-xs text-red-600 mt-1">Podaj prawidłowy numer telefonu (9 cyfr).</p>
     </div>
 
     <div>
@@ -65,6 +95,18 @@
         name="club"
         class="mt-1 block w-full rounded-md border-purple-300 shadow-sm border-2 focus:border-purple-500 focus:ring-purple-500"
       />
+    </div>
+
+    <div class="flex items-start">
+      <input
+        type="checkbox"
+        id="hide_name"
+        name="hide_name"
+        class="mt-1 border-gray-300 rounded text-purple-600 focus:ring-purple-500"
+      />
+      <label for="hide_name" class="ml-2 text-sm text-gray-700">
+        Nie wyświetlaj mojego imienia i nazwiska na liście startowej
+      </label>
     </div>
 
     <!-- Wymagany checkbox zgody -->
@@ -93,16 +135,23 @@
 </form>
 
 <div
+  id="limitMessage"
+  class="hidden text-center p-4 bg-yellow-50 border border-yellow-400 rounded-md text-yellow-800 mt-4"
+>
+  <p><strong>Lista uczestników jest już pełna.</strong></p>
+  <p class="mt-2">Skontaktuj się z organizatorami:</p>
+  <p class="mt-1">Ewa 663 473 341, Magda 608 394 936, Bożena 693 797 666</p>
+</div>
+
+<div
   id="successMessage"
   class="hidden text-center p-4 bg-green-100 border border-green-400 rounded-md text-green-700 mt-4"
 >
   <p><strong>Rejestracja zakończona sukcesem.</strong></p>
-  <p>
-    Za minutę pojawisz się na <a href="/rajdnw-lista" class="text-purple-600 underline"
-      >liście startowej</a
-    >
-  </p>.
-  <p>
+  <p class="mt-2">
+    <a href="/rajdnw-lista" class="text-purple-600 underline">Zobacz listę startową</a>
+  </p>
+  <p class="mt-1">
     Jeżeli chcesz jeszcze kogoś zarejestrować, <a
       href="#"
       onclick="location.reload();"
@@ -112,29 +161,81 @@
 </div>
 
 <script>
-  const form = document.getElementById("eventForm");
-  const submitButton = form.querySelector('button[type="submit"]');
+  const form = document.getElementById("eventForm") as HTMLFormElement;
+  const submitButton = form.querySelector('button[type="submit"]') as HTMLButtonElement;
   const successMessage = document.getElementById("successMessage");
+  const limitMessage = document.getElementById("limitMessage");
+  const phoneInput = document.getElementById("phone") as HTMLInputElement;
+  const phoneError = document.getElementById("phoneError");
+  const yearInput = document.getElementById("year") as HTMLInputElement;
+  const yearError = document.getElementById("yearError");
+
+  function isValidYear(value: string): boolean {
+    return /^\d{4}$/.test(value.trim()) && parseInt(value) >= 1900 && parseInt(value) <= new Date().getFullYear();
+  }
+
+  yearInput.addEventListener("input", () => {
+    // Strip non-digits
+    yearInput.value = yearInput.value.replace(/\D/g, "").slice(0, 4);
+    const valid = isValidYear(yearInput.value);
+    const empty = yearInput.value === "";
+    yearError!.classList.toggle("hidden", valid || empty);
+    yearInput.classList.toggle("border-red-600", !valid && !empty);
+    yearInput.classList.toggle("border-purple-300", valid || empty);
+  });
+
+  function normalizePhone(value: string): string {
+    // Strip everything except digits and leading +
+    const digits = value.replace(/\D/g, "");
+    // Handle +48 prefix
+    const local = digits.startsWith("48") && digits.length === 11 ? digits.slice(2) : digits;
+    if (local.length <= 3) return local;
+    if (local.length <= 6) return `${local.slice(0, 3)} ${local.slice(3)}`;
+    return `${local.slice(0, 3)} ${local.slice(3, 6)} ${local.slice(6, 9)}`;
+  }
+
+  function isValidPhone(value: string): boolean {
+    const digits = value.replace(/\D/g, "");
+    const local = digits.startsWith("48") && digits.length === 11 ? digits.slice(2) : digits;
+    return local.length === 9;
+  }
+
+  phoneInput.addEventListener("input", () => {
+    const formatted = normalizePhone(phoneInput.value);
+    phoneInput.value = formatted;
+    const valid = isValidPhone(formatted);
+    phoneError!.classList.toggle("hidden", valid || phoneInput.value === "");
+    phoneInput.classList.toggle("border-red-600", !valid && phoneInput.value !== "");
+    phoneInput.classList.toggle("border-purple-300", valid || phoneInput.value === "");
+  });
+
+  function showLimitReached() {
+    form.classList.add("hidden");
+    limitMessage!.classList.remove("hidden");
+  }
+
+  // Check on load if limit is already reached
+  fetch("/api/nwrajd-participants")
+    .then(r => r.json())
+    .then(data => { if (data.length >= 50) showLimitReached(); })
+    .catch(() => {});
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    // Disable the submit button to prevent multiple clicks
     submitButton.disabled = true;
     submitButton.classList.add("opacity-50", "cursor-not-allowed");
 
-    // Check for validity of required fields
-    const formElements = e.target.elements;
+    const formElements = (e.target as HTMLFormElement).elements;
     let valid = true;
 
     for (const element of formElements) {
-      if (element.required && !element.checked && !element.value) {
+      const input = element as HTMLInputElement;
+      if (input.required && !input.checked && !input.value) {
         valid = false;
-        element.classList.add("border-red-600");
-        element.classList.add("focus:ring-red-500");
+        input.classList.add("border-red-600", "focus:ring-red-500");
       } else {
-        element.classList.remove("border-red-600");
-        element.classList.remove("focus:ring-red-500");
+        input.classList.remove("border-red-600", "focus:ring-red-500");
       }
     }
 
@@ -145,8 +246,23 @@
       return;
     }
 
-    // Ensure checkbox is checked
-    const consentCheckbox = document.getElementById("consent");
+    if (!isValidPhone(phoneInput.value)) {
+      phoneError!.classList.remove("hidden");
+      phoneInput.classList.add("border-red-600");
+      submitButton.disabled = false;
+      submitButton.classList.remove("opacity-50", "cursor-not-allowed");
+      return;
+    }
+
+    if (!isValidYear(yearInput.value)) {
+      yearError!.classList.remove("hidden");
+      yearInput.classList.add("border-red-600");
+      submitButton.disabled = false;
+      submitButton.classList.remove("opacity-50", "cursor-not-allowed");
+      return;
+    }
+
+    const consentCheckbox = document.getElementById("consent") as HTMLInputElement;
     if (!consentCheckbox.checked) {
       alert("Musisz wyrazić zgodę na przetwarzanie danych osobowych.");
       submitButton.disabled = false;
@@ -154,27 +270,30 @@
       return;
     }
 
-    const formData = new FormData(e.target);
+    const formData = new FormData(e.target as HTMLFormElement);
+    const payload: Record<string, unknown> = Object.fromEntries(formData);
+    payload.hide_name = (document.getElementById("hide_name") as HTMLInputElement).checked;
+    payload.website = (document.getElementById("website") as HTMLInputElement).value;
+
     try {
       const response = await fetch("/api/nwrajd-register", {
         method: "POST",
-        body: JSON.stringify(Object.fromEntries(formData)),
-        headers: {
-          "Content-Type": "application/json",
-        },
+        body: JSON.stringify(payload),
+        headers: { "Content-Type": "application/json" },
       });
 
       if (response.ok) {
-        // Ukrycie formularza i pokazanie komunikatu sukcesu
         form.classList.add("hidden");
-        successMessage.classList.remove("hidden");
+        successMessage!.classList.remove("hidden");
+      } else if (response.status === 409) {
+        showLimitReached();
       } else {
         throw new Error(
           "Błąd podczas rejestracji. Spróbuj jeszcze raz i gdy problem się powtórzy, skontaktuj się z organizatorem.",
         );
       }
     } catch (error) {
-      alert("Wystąpił błąd: " + error.message);
+      alert("Wystąpił błąd: " + (error as Error).message);
       submitButton.disabled = false;
       submitButton.classList.remove("opacity-50", "cursor-not-allowed");
     }

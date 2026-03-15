@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import PhotoGallery from '../components/PhotoGallery.astro';
 import { rajdnwPhotos2024, rajdnwPhotos2025 } from '../data/rajdnw-photos';
+import NWRegistry from '../components/NWRegistry.astro';
 import { t } from "../utils/i18n";
 
 const eventDate = '23.05.2026 godz. 9:00';
@@ -29,22 +30,34 @@ const eventNumber = 'IV';
         <p class="text-xl text-gray-600 text-center mt-2">"Młynówka" ul. Smolnicka 4, Leboszowice</p>
       </div>
 
-      <div class="hidden lg:block">
+      <div class="hidden lg:flex gap-4">
         <a
           href="/rajdnw-lista"
           class="inline-block bg-green-200/70 hover:bg-green-200 text-green-900 px-8 py-3 rounded-full"
         >
           Lista startowa
         </a>
+        <a
+          href="#zapisy"
+          class="inline-block bg-green-200/70 hover:bg-green-200 text-green-900 px-8 py-3 rounded-full"
+        >
+          Zapisz się
+        </a>
       </div>
     </div>
 
-    <div class="absolute bottom-[60px] left-0 right-0 flex justify-center lg:hidden">
+    <div class="absolute bottom-[60px] left-0 right-0 flex justify-center gap-4 lg:hidden">
       <a
         href="/rajdnw-lista"
         class="inline-block bg-green-200/70 hover:bg-green-200 text-green-900 px-8 py-3 rounded-full"
       >
         Lista startowa
+      </a>
+      <a
+        href="#zapisy"
+        class="inline-block bg-green-200/70 hover:bg-green-200 text-green-900 px-8 py-3 rounded-full"
+      >
+        Zapisz się
       </a>
     </div>
   </div>
@@ -140,23 +153,18 @@ const eventNumber = 'IV';
     </section>
 
 
-    <!-- <section class="mt-16">
+    <section class="mt-16">
       <h2 id="zapisy" class="text-3xl font-bold text-center">Zapisz się</h2>
       <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <p>
-          Liczba miejsc jest ograniczona. Zapisz się już teraz!
+          Liczba miejsc jest ograniczona do 50. Zapisz się już teraz!
         </p>
-     </div>
-     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-0 mb-4">
-       <p>
-          Jeżeli masz jakieś pytania, skontaktuj się z nami pod numerem telefonu: 663 473 341
-       </p>
-   
-       <hr class="my-4 border-t border-gray-300" />
-     </div>
-     
-     <NWRegistry />
-    </section> -->
+      </div>
+      <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-0 mb-4">
+        <hr class="my-4 border-t border-gray-300" />
+      </div>
+      <NWRegistry />
+    </section>
   </div>
 </Layout>
 
