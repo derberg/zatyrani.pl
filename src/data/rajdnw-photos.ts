@@ -16,6 +16,10 @@ export const rajdnwPhotos2025 = [
     src: "/rajdnw/2025/3.webp",
     alt: "Rajd Nordic Walking 2025",
   },
+  {
+    src: "/rajdnw/2025/5.webp",
+    alt: "Rajd Nordic Walking 2025",
+  },
 ];
 
 export const rajdnwPhotos2024 = [
@@ -23,6 +27,14 @@ export const rajdnwPhotos2024 = [
     src: "/rajdnw/2024/4.webp",
     alt: "Radosny biegacz z psem",
     featured: true,
+  },
+  {
+    src: "/rajdnw/2024/1.webp",
+    alt: "Rajd Nordic Walking 2024",
+  },
+  {
+    src: "/rajdnw/2024/2.webp",
+    alt: "Rajd Nordic Walking 2024",
   },
   {
     src: "/rajdnw/2024/3.webp",
@@ -35,5 +47,17 @@ export const rajdnwPhotos2024 = [
   {
     src: "/rajdnw/2024/6.webp",
     alt: "Przyczajona Zatyrana z słuchawkami",
+  },
+  {
+    src: "/rajdnw/2024/7.webp",
+    alt: "Rajd Nordic Walking 2024",
+  },
+  {
+    src: "/rajdnw/2024/8.webp",
+    alt: "Rajd Nordic Walking 2024",
+  },
+  {
+    src: "/rajdnw/2024/9.webp",
+    alt: "Rajd Nordic Walking 2024",
   },
 ];
