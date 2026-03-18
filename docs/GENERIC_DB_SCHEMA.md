@@ -6,11 +6,11 @@ This schema supports any competition event organized by Zatyrani. All tables use
 
 ## Tables
 
-### registrations
+### event_registrations
 Stores the main registration records with contact information, scoped by event.
 
 ```sql
-CREATE TABLE registrations (
+CREATE TABLE event_registrations (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   event_id VARCHAR(100) NOT NULL,
   email VARCHAR(255) NOT NULL,
@@ -30,11 +30,11 @@ CREATE TABLE registrations (
 
 ---
 
-### auth_codes
+### event_auth_codes
 Temporary email verification codes, scoped by event.
 
 ```sql
-CREATE TABLE auth_codes (
+CREATE TABLE event_auth_codes (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   event_id VARCHAR(100) NOT NULL,
   email VARCHAR(255) NOT NULL,
@@ -54,13 +54,13 @@ CREATE TABLE auth_codes (
 
 ---
 
-### participants
+### event_participants
 Individual participant data linked to a registration.
 
 ```sql
-CREATE TABLE participants (
+CREATE TABLE event_participants (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  registration_id UUID NOT NULL REFERENCES registrations(id) ON DELETE CASCADE,
+  registration_id UUID NOT NULL REFERENCES event_registrations(id) ON DELETE CASCADE,
   first_name VARCHAR(255) NOT NULL,
   last_name VARCHAR(255) NOT NULL,
   birth_date DATE NOT NULL,
@@ -86,13 +86,13 @@ CREATE TABLE participants (
 
 ---
 
-### payments
+### event_payments
 Payment records linked to a registration.
 
 ```sql
-CREATE TABLE payments (
+CREATE TABLE event_payments (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  registration_id UUID NOT NULL REFERENCES registrations(id) ON DELETE CASCADE,
+  registration_id UUID NOT NULL REFERENCES event_registrations(id) ON DELETE CASCADE,
   race_fees DECIMAL(10, 2) NOT NULL DEFAULT 0,
   tshirt_fees DECIMAL(10, 2) NOT NULL DEFAULT 0,
   total_amount DECIMAL(10, 2) NOT NULL DEFAULT 0,
@@ -115,11 +115,11 @@ CREATE TABLE payments (
 
 ---
 
-### clubs
+### event_clubs
 Shared club/team name registry across all events.
 
 ```sql
-CREATE TABLE clubs (
+CREATE TABLE event_clubs (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   name VARCHAR(255) NOT NULL UNIQUE,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
@@ -133,17 +133,17 @@ CREATE TABLE clubs (
 RLS disabled for all tables (API access via service key):
 
 ```sql
-ALTER TABLE registrations DISABLE ROW LEVEL SECURITY;
-ALTER TABLE auth_codes DISABLE ROW LEVEL SECURITY;
-ALTER TABLE participants DISABLE ROW LEVEL SECURITY;
-ALTER TABLE payments DISABLE ROW LEVEL SECURITY;
-ALTER TABLE clubs DISABLE ROW LEVEL SECURITY;
+ALTER TABLE event_registrations DISABLE ROW LEVEL SECURITY;
+ALTER TABLE event_auth_codes DISABLE ROW LEVEL SECURITY;
+ALTER TABLE event_participants DISABLE ROW LEVEL SECURITY;
+ALTER TABLE event_payments DISABLE ROW LEVEL SECURITY;
+ALTER TABLE event_clubs DISABLE ROW LEVEL SECURITY;
 ```
 
 ## Relationships
 
-- `participants.registration_id` → `registrations.id` (CASCADE DELETE)
-- `payments.registration_id` → `registrations.id` (CASCADE DELETE)
+- `event_participants.registration_id` → `event_registrations.id` (CASCADE DELETE)
+- `event_payments.registration_id` → `event_registrations.id` (CASCADE DELETE)
 
 ## Notes
 
