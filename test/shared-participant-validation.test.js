@@ -3,6 +3,7 @@ import { calculateAge, validateParticipant, calculatePaymentForParticipants } fr
 import { EVENTS } from '../api/events/config.js';
 
 const eventConfig = EVENTS['wilczypolmaraton-2026'];
+const niebocrossConfig = EVENTS['niebocross-2026'];
 
 describe('calculateAge', () => {
   it('should calculate age correctly for standard case', () => {
@@ -15,6 +16,12 @@ describe('calculateAge', () => {
     // Event date: 2026-10-01, born 2000-11-15 → birthday hasn't passed yet → 25
     const age = calculateAge('2000-11-15', '2026-10-01');
     expect(age).toBe(25);
+  });
+
+  it('should count exact birthday on event date as having reached that age', () => {
+    // Born 2008-04-12, event 2026-04-12 → turns exactly 18 on event day → 18 (not 17)
+    const age = calculateAge('2008-04-12', '2026-04-12');
+    expect(age).toBe(18);
   });
 });
 
@@ -61,6 +68,23 @@ describe('validateParticipant', () => {
     const result = validateParticipant(participant, eventConfig);
     expect(result.valid).toBe(false);
     expect(result.error).toBe('Minimalny wiek dla tej kategorii to 18 lat');
+  });
+
+  it('should reject participant over maxAge for kids_run category with niebocross-2026 config', () => {
+    // maxAge is 15 for kids_run; born 2008-08-01 → 17 at event date 2026-04-12
+    const participant = {
+      firstName: 'Anna',
+      lastName: 'Nowak',
+      birthDate: '2008-08-01',
+      city: 'Gliwice',
+      nationality: 'PL',
+      raceCategory: 'kids_run',
+      phoneNumber: '500600700',
+      tshirtSize: 'S'
+    };
+    const result = validateParticipant(participant, niebocrossConfig);
+    expect(result.valid).toBe(false);
+    expect(result.error).toContain('Maksymalny wiek');
   });
 });
 
