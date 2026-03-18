@@ -1,4 +1,5 @@
 import { getSupabaseClient } from "../../../shared/supabase.js";
+import { getEventConfig } from "../../../config.js";
 
 export default async function handler(req, res) {
   // Enable CORS
@@ -13,6 +14,12 @@ export default async function handler(req, res) {
 
   if (req.method !== "GET") {
     return res.status(405).json({ error: "Method not allowed" });
+  }
+
+  try {
+    getEventConfig(req.query.eventId);
+  } catch {
+    return res.status(404).json({ error: "Event not found" });
   }
 
   try {
