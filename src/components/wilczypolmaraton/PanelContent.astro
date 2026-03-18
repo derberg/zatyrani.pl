@@ -1,0 +1,606 @@
+---
+import ClubAutocomplete from './ClubAutocomplete.astro';
+import TshirtSizeSelector from './TshirtSizeSelector.astro';
+
+interface Props {
+  t: (key: string) => string;
+  locale?: string;
+}
+const { t, locale = 'pl' } = Astro.props;
+
+const wilczypolmaratonLink = locale === 'en' ? '/en/wilczypolmaraton' : '/wilczypolmaraton';
+---
+  <ClubAutocomplete />
+
+  <div class="mx-auto max-w-4xl px-6 py-12">
+    <div id="loading" class="text-center py-12">
+      <div class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-emerald-600 border-r-transparent"></div>
+      <p id="loadingText" class="mt-4 text-slate-600">{t("wilczypolmaraton.dashboard.loading")}</p>
+    </div>
+
+    <div id="content" class="hidden space-y-6">
+      <!-- Header -->
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="text-3xl font-bold text-slate-900">{t("wilczypolmaraton.dashboard.title")}</h2>
+          <p class="mt-1 font-medium text-slate-700" id="nameDisplay"></p>
+          <p class="text-sm text-slate-600" id="emailDisplay"></p>
+        </div>
+        <button
+          id="logoutBtn"
+          class="rounded-lg border border-emerald-300 border-2 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+        >
+          {t("wilczypolmaraton.dashboard.logout")}
+        </button>
+      </div>
+
+      <!-- Payment Status -->
+      <div id="paymentStatus" class="rounded-xl border p-6"></div>
+
+      <!-- Participants List -->
+      <div class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+        <div class="mb-4 flex items-center justify-between">
+          <h3 class="text-xl font-bold text-slate-900">{t("wilczypolmaraton.dashboard.participants")}</h3>
+          <a
+            id="addParticipantBtn"
+            href={locale === 'en' ? '/en/wilczypolmaraton/dodaj-uczestnikow' : '/wilczypolmaraton/dodaj-uczestnikow'}
+            class="hidden rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-700"
+          >
+            + {t("wilczypolmaraton.form.add_participant")}
+          </a>
+        </div>
+        <div id="participantsList" class="space-y-4"></div>
+      </div>
+
+      <!-- Edit Modal -->
+      <div id="editModal" class="fixed inset-0 z-50 hidden bg-black/50">
+        <div class="h-full w-full overflow-y-auto p-4 flex items-start sm:items-center justify-center">
+          <div class="w-full max-w-2xl my-4 sm:my-8 rounded-xl bg-white p-4 sm:p-6 shadow-xl">
+            <div class="mb-4 flex items-center justify-between">
+              <h3 class="text-xl font-bold text-slate-900">{t("wilczypolmaraton.dashboard.edit_participant")}</h3>
+              <button id="closeModal" class="text-slate-400 hover:text-slate-600">
+                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+              </button>
+            </div>
+
+          <form id="editForm" class="space-y-4">
+            <input type="hidden" id="editParticipantId" />
+
+            <div class="grid gap-4 sm:grid-cols-2">
+              <div>
+                <label class="block text-sm font-semibold text-slate-700">
+                  {t("wilczypolmaraton.form.first_name")} <span class="text-red-600">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="editFirstName"
+                  required
+                  class="mt-1 block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-semibold text-slate-700">
+                  {t("wilczypolmaraton.form.last_name")} <span class="text-red-600">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="editLastName"
+                  required
+                  class="mt-1 block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2"
+                />
+              </div>
+            </div>
+
+            <div class="grid gap-4 sm:grid-cols-2">
+              <div>
+                <label for="editBirthDate" class="block text-sm font-semibold text-slate-700">
+                  {t("wilczypolmaraton.form.birth_date")} <span class="text-red-600">*</span>
+                </label>
+                <input
+                  type="date"
+                  id="editBirthDate"
+                  name="editBirthDate"
+                  required
+                  class="mt-1 block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2"
+                />
+              </div>
+            </div>
+
+            <div class="grid gap-4 sm:grid-cols-2">
+              <div>
+                <label class="block text-sm font-semibold text-slate-700">
+                  {t("wilczypolmaraton.form.city")} <span class="text-red-600">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="editCity"
+                  required
+                  class="mt-1 block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-semibold text-slate-700">
+                  {t("wilczypolmaraton.form.nationality")} <span class="text-red-600">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="editNationality"
+                  required
+                  class="mt-1 block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2"
+                />
+              </div>
+            </div>
+
+            <div class="grid gap-4 sm:grid-cols-2">
+              <div>
+                <label class="block text-sm font-semibold text-slate-700">
+                  {t("wilczypolmaraton.form.club")}
+                </label>
+                <div class="relative">
+                  <input
+                    type="text"
+                    id="editClub"
+                    class="club-input mt-1 block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2"
+                    autocomplete="off"
+                  />
+                  <div class="club-suggestions absolute z-10 w-full bg-white border border-gray-300 rounded-lg shadow-lg mt-1 hidden max-h-48 overflow-y-auto"></div>
+                </div>
+              </div>
+              <div>
+                <label class="block text-sm font-semibold text-slate-700">
+                  {t("wilczypolmaraton.form.phone_number")} <span class="text-red-600">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="editPhoneNumber"
+                  required
+                  class="mt-1 block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2"
+                />
+                <p class="mt-1 text-xs text-slate-600">{t("wilczypolmaraton.form.phone_help")}</p>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-sm font-semibold text-slate-700">
+                {t("wilczypolmaraton.form.race_category")} <span class="text-red-600">*</span>
+              </label>
+              <select
+                id="editRaceCategory"
+                required
+                class="mt-1 block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2"
+              >
+                <option value="">{t("wilczypolmaraton.form.select_category")}</option>
+                <option value="21km">Półmaraton 21km</option>
+                <option value="10km">Bieg 10km</option>
+              </select>
+            </div>
+
+            <div class="grid gap-4 sm:grid-cols-2">
+              <div>
+                <label class="block text-sm font-semibold text-slate-700">
+                  {t("wilczypolmaraton.form.tshirt_size")} <span class="text-red-600">*</span>
+                </label>
+                <TshirtSizeSelector name="editTshirtSize" id="editTshirtSize" t={t} />
+              </div>
+            </div>
+
+            <div>
+              <label class="flex items-start gap-2">
+                <input
+                  type="checkbox"
+                  id="editHideNamePublic"
+                  class="mt-1 rounded border-emerald-300 border-2 text-emerald-600 focus:ring-emerald-500"
+                />
+                <span class="text-sm text-slate-700">{t("wilczypolmaraton.form.hide_name_public")}</span>
+              </label>
+            </div>
+
+            <div id="editError" class="hidden rounded-lg bg-red-50 p-3 text-sm text-red-700"></div>
+
+            <div class="flex gap-3">
+              <button
+                type="submit"
+                class="flex-1 rounded-lg bg-emerald-600 px-6 py-3 font-semibold text-white transition hover:bg-emerald-700"
+              >
+                {t("wilczypolmaraton.form.save_changes")}
+              </button>
+              <button
+                type="button"
+                id="cancelEdit"
+                class="rounded-lg border border-emerald-300 border-2 bg-white px-6 py-3 font-semibold text-slate-700 transition hover:bg-slate-50"
+              >
+                {t("wilczypolmaraton.form.cancel")}
+              </button>
+            </div>
+          </form>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script define:vars={{
+    translations: {
+      no_registered_participants: t("wilczypolmaraton.panel.no_registered_participants"),
+      paid: t("wilczypolmaraton.panel.paid"),
+      awaiting_payment: t("wilczypolmaraton.panel.awaiting_payment"),
+      payment_failed: t("wilczypolmaraton.panel.payment_failed"),
+      payment_failed_desc: t("wilczypolmaraton.panel.payment_failed_desc"),
+      payment_failed_contact: t("wilczypolmaraton.panel.payment_failed_contact"),
+      retry_payment: t("wilczypolmaraton.panel.retry_payment"),
+      amount_to_pay: t("wilczypolmaraton.panel.amount_to_pay"),
+      including_charity: t("wilczypolmaraton.panel.including_charity"),
+      pay_now: t("wilczypolmaraton.panel.pay_now"),
+      no_participants: t("wilczypolmaraton.panel.no_participants"),
+      edit: t("wilczypolmaraton.panel.edit"),
+      delete: t("wilczypolmaraton.panel.delete"),
+      confirm_delete_participant: t("wilczypolmaraton.panel.confirm_delete_participant"),
+      status_paid: t("wilczypolmaraton.participants_list.status_paid"),
+      status_pending: t("wilczypolmaraton.participants_list.status_pending")
+    },
+    errorMessages: {
+      load: t("wilczypolmaraton.errors.load_error"),
+      update: t("wilczypolmaraton.errors.update_error"),
+      delete: t("wilczypolmaraton.errors.delete_error"),
+      connection: t("wilczypolmaraton.errors.connection_error"),
+      generic: t("wilczypolmaraton.errors.generic_error")
+    }
+  }}>
+    const API_BASE = '/api/events/wilczypolmaraton-2026';
+
+    let canEdit = false;
+    let dashboardData = null;
+
+    // Check authentication
+    const cookies = document.cookie.split(';').map(c => c.trim());
+    const authStatusCookie = cookies.find(c => c.startsWith('wilczypolmaraton_2026_auth_status='));
+
+    if (!authStatusCookie || authStatusCookie.split('=')[1] !== 'true') {
+      window.location.href = '/wilczypolmaraton/zaloguj';
+    }
+
+    // Load dashboard data
+    async function loadDashboard() {
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
+        const response = await fetch(`${API_BASE}/dashboard`, {
+          credentials: 'include',
+          signal: controller.signal
+        });
+
+        clearTimeout(timeoutId);
+
+        if (!response.ok) {
+          if (response.status === 401) {
+            window.location.href = '/wilczypolmaraton/zaloguj';
+            return;
+          }
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+
+        dashboardData = await response.json();
+        canEdit = dashboardData.canEdit;
+
+        renderDashboard();
+      } catch (error) {
+        console.error('Error loading dashboard:', error);
+        if (error.name === 'AbortError') {
+          document.getElementById('loadingText').textContent = 'Przekroczono czas oczekiwania. Spróbuj odświeżyć stronę.';
+        } else {
+          document.getElementById('loadingText').textContent = errorMessages.load;
+        }
+      }
+    }
+
+    function renderDashboard() {
+      document.getElementById('loading').classList.add('hidden');
+      document.getElementById('content').classList.remove('hidden');
+
+      // Display contact name and email
+      document.getElementById('nameDisplay').textContent = dashboardData.registration.fullName;
+      document.getElementById('emailDisplay').textContent = dashboardData.registration.email;
+
+      // Render payment status
+      renderPaymentStatus();
+
+      // Render participants
+      renderParticipants();
+
+      // Show add button if editing is allowed
+      if (canEdit) {
+        document.getElementById('addParticipantBtn').classList.remove('hidden');
+      }
+    }
+
+    function renderPaymentStatus() {
+      const statusDiv = document.getElementById('paymentStatus');
+      const payment = dashboardData.payment;
+
+      if (!payment) {
+        statusDiv.className = 'rounded-xl border-2 border-slate-200 bg-slate-50 p-6';
+        statusDiv.innerHTML = `<p class="text-slate-600">${translations.no_registered_participants}</p>`;
+        return;
+      }
+
+      if (payment.paymentStatus === 'paid') {
+        statusDiv.className = 'rounded-xl border-2 border-emerald-200 bg-emerald-50 p-6';
+        statusDiv.innerHTML = `
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="text-lg font-bold text-slate-900">${translations.paid}</h3>
+              <p class="mt-1 text-sm text-slate-600">${translations.amount_to_pay}: <strong>${payment.totalAmount} zł</strong></p>
+              <p class="text-xs text-slate-500 mt-1">${translations.including_charity.replace('{{amount}}', payment.charityAmount.toFixed(2))}</p>
+            </div>
+            <svg class="h-12 w-12 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          </div>
+        `;
+        return;
+      }
+
+      if (payment.paymentStatus === 'failed') {
+        statusDiv.className = 'rounded-xl border-2 border-red-200 bg-red-50 p-6';
+        statusDiv.innerHTML = `
+          <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+            <div class="flex-1">
+              <div class="flex items-center gap-2">
+                <svg class="h-5 w-5 text-red-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"></path>
+                </svg>
+                <h3 class="text-lg font-bold text-red-800">${translations.payment_failed}</h3>
+              </div>
+              <p class="mt-2 text-sm text-red-700">${translations.payment_failed_desc}</p>
+              <p class="mt-1 text-sm text-slate-600">${translations.amount_to_pay}: <strong>${payment.totalAmount} zł</strong></p>
+              <div class="mt-3 text-sm text-slate-600">
+                <p class="font-medium">${translations.payment_failed_contact}</p>
+                <p class="mt-1">
+                  <a href="mailto:biuro@zatyrani.pl" class="text-emerald-700 font-semibold hover:underline">biuro@zatyrani.pl</a>
+                  &nbsp;·&nbsp;
+                  <a href="tel:784640977" class="text-emerald-700 font-semibold hover:underline">784 640 977</a>
+                </p>
+              </div>
+            </div>
+            <div class="shrink-0">
+              <a
+                href="/wilczypolmaraton/payment?id=${dashboardData.registration.id}"
+                class="inline-block rounded-lg bg-emerald-600 px-6 py-3 font-semibold text-white transition hover:bg-emerald-700"
+              >
+                ${translations.retry_payment}
+              </a>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      // pending (default)
+      statusDiv.className = 'rounded-xl border-2 border-amber-200 bg-amber-50 p-6';
+      statusDiv.innerHTML = `
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="text-lg font-bold text-slate-900">${translations.awaiting_payment}</h3>
+            <p class="mt-1 text-sm text-slate-600">${translations.amount_to_pay}: <strong>${payment.totalAmount} zł</strong></p>
+            <p class="text-xs text-slate-500 mt-1">${translations.including_charity.replace('{{amount}}', payment.charityAmount.toFixed(2))}</p>
+          </div>
+          <a
+            href="/wilczypolmaraton/payment?id=${dashboardData.registration.id}"
+            class="rounded-lg bg-emerald-600 px-6 py-3 font-semibold text-white transition hover:bg-emerald-700"
+          >
+            ${translations.pay_now}
+          </a>
+        </div>
+      `;
+    }
+
+    function renderParticipants() {
+      const listDiv = document.getElementById('participantsList');
+      const participants = dashboardData.participants;
+
+      if (participants.length === 0) {
+        listDiv.innerHTML = `<p class="text-slate-600">${translations.no_participants}</p>`;
+        return;
+      }
+
+      listDiv.innerHTML = participants.map((p) => {
+        const categoryLabel = getCategoryLabel(p.raceCategory);
+        const paymentStatus = dashboardData.payment?.paymentStatus || 'pending';
+        const isPaid = paymentStatus === 'paid';
+        const paymentLabel = isPaid ? translations.status_paid : translations.awaiting_payment;
+        const paymentClass = isPaid ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800';
+
+        return `
+          <div class="rounded-lg border border-slate-200 bg-slate-50 p-4">
+            <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between">
+              <div class="flex-1">
+                <div class="flex items-center gap-2 mb-2">
+                  <h4 class="font-bold text-slate-900">${p.firstName} ${p.lastName}</h4>
+                  <span class="inline-flex rounded-full px-2 py-1 text-xs font-medium ${paymentClass}">${paymentLabel}</span>
+                </div>
+                <div class="mt-2 grid gap-2 text-sm text-slate-600 sm:grid-cols-2">
+                  <p>📅 ${p.birthDate}</p>
+                  <p>📍 ${p.city}, ${p.nationality}</p>
+                  ${p.club ? `<p>🏃 ${p.club}</p>` : ''}
+                  <p>🏅 ${categoryLabel}</p>
+                  ${p.tshirtSize ? `<p>👕 Koszulka: ${p.tshirtSize}</p>` : ''}
+                </div>
+              </div>
+              ${canEdit ? `
+                <div class="flex gap-2 mt-4 sm:mt-0 sm:ml-4">
+                  <button
+                    class="edit-btn rounded-lg border border-emerald-300 border-2 bg-white px-3 py-1.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+                    data-id="${p.id}"
+                    data-participant='${JSON.stringify(p)}'
+                  >
+                    ${translations.edit}
+                  </button>
+                  <button
+                    class="delete-btn rounded-lg border border-red-300 bg-white px-3 py-1.5 text-sm font-semibold text-red-700 transition hover:bg-red-50"
+                    data-id="${p.id}"
+                  >
+                    ${translations.delete}
+                  </button>
+                </div>
+              ` : ''}
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      // Attach event listeners
+      if (canEdit) {
+        document.querySelectorAll('.edit-btn').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            const participant = JSON.parse(e.target.getAttribute('data-participant'));
+            openEditModal(participant);
+          });
+        });
+
+        document.querySelectorAll('.delete-btn').forEach(btn => {
+          btn.addEventListener('click', async (e) => {
+            const id = e.target.getAttribute('data-id');
+            if (confirm(translations.confirm_delete_participant)) {
+              await deleteParticipant(id);
+            }
+          });
+        });
+      }
+    }
+
+    function getCategoryLabel(category) {
+      const labels = {
+        '21km': 'Półmaraton 21km',
+        '10km': 'Bieg 10km'
+      };
+      return labels[category] || category;
+    }
+
+    // Edit modal
+    const editModal = document.getElementById('editModal');
+    const editForm = document.getElementById('editForm');
+    const closeModalBtn = document.getElementById('closeModal');
+    const cancelEditBtn = document.getElementById('cancelEdit');
+
+    function openEditModal(participant) {
+      document.getElementById('editParticipantId').value = participant.id;
+      document.getElementById('editFirstName').value = participant.firstName;
+      document.getElementById('editLastName').value = participant.lastName;
+      document.getElementById('editBirthDate').value = participant.birthDate || '';
+      document.getElementById('editCity').value = participant.city;
+      document.getElementById('editNationality').value = participant.nationality;
+      document.getElementById('editClub').value = participant.club || '';
+      document.getElementById('editPhoneNumber').value = participant.phoneNumber || '';
+      document.getElementById('editRaceCategory').value = participant.raceCategory;
+      document.getElementById('editTshirtSize').value = participant.tshirtSize || '';
+      document.getElementById('editHideNamePublic').checked = participant.hideNamePublic;
+
+      editModal.classList.remove('hidden');
+      editModal.classList.add('flex');
+
+      // Setup club autocomplete for the edit modal
+      setTimeout(() => {
+        setupClubAutocomplete();
+      }, 100);
+    }
+
+    function closeEditModal() {
+      editModal.classList.add('hidden');
+      editModal.classList.remove('flex');
+      document.getElementById('editError').classList.add('hidden');
+    }
+
+    closeModalBtn.addEventListener('click', closeEditModal);
+    cancelEditBtn.addEventListener('click', closeEditModal);
+
+    editForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const errorDiv = document.getElementById('editError');
+      errorDiv.classList.add('hidden');
+
+      const participantId = document.getElementById('editParticipantId').value;
+      const participant = {
+        firstName: document.getElementById('editFirstName').value,
+        lastName: document.getElementById('editLastName').value,
+        birthDate: document.getElementById('editBirthDate').value,
+        city: document.getElementById('editCity').value,
+        nationality: document.getElementById('editNationality').value,
+        club: document.getElementById('editClub').value || null,
+        phoneNumber: document.getElementById('editPhoneNumber').value,
+        raceCategory: document.getElementById('editRaceCategory').value,
+        tshirtSize: document.getElementById('editTshirtSize').value,
+        hideNamePublic: document.getElementById('editHideNamePublic').checked,
+      };
+
+      try {
+        const response = await fetch(`${API_BASE}/update-participant`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ participantId, participant }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          errorDiv.textContent = data.error || errorMessages.update;
+          errorDiv.classList.remove('hidden');
+          return;
+        }
+
+        closeEditModal();
+        await loadDashboard();
+      } catch {
+        errorDiv.textContent = errorMessages.connection;
+        errorDiv.classList.remove('hidden');
+      }
+    });
+
+    // Add phone input validation for edit form
+    document.getElementById('editPhoneNumber').addEventListener('input', (e) => {
+      const digits = e.target.value.replace(/\D/g, '').slice(0, 9);
+      e.target.value = digits;
+    });
+
+    async function deleteParticipant(participantId) {
+      try {
+        const response = await fetch(`${API_BASE}/delete-participant`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ participantId }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          alert(errorMessages[data.error] || errorMessages.delete);
+          return;
+        }
+
+        await loadDashboard();
+      } catch {
+        alert(errorMessages.connection);
+      }
+    }
+
+    // Logout
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+      try {
+        await fetch(`${API_BASE}/auth/logout`, {
+          method: 'POST',
+          credentials: 'include'
+        });
+        window.location.href = '/wilczypolmaraton';
+      } catch (error) {
+        console.error('Logout error:', error);
+        window.location.href = '/wilczypolmaraton';
+      }
+    });
+
+    // Load dashboard on page load
+    loadDashboard();
+  </script>

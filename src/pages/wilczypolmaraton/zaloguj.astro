@@ -1,0 +1,16 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import WilczyPolmaratonHeader from "../../components/wilczypolmaraton/WilczyPolmaratonHeader.astro";
+import LoginContent from "../../components/wilczypolmaraton/LoginContent.astro";
+import { t } from "../../utils/i18n";
+---
+
+<Layout
+  title={`Wilczy Półmaraton 2026 - ${t("wilczypolmaraton.login.title")}`}
+  description="Zaloguj się do panelu uczestnika Wilczego Półmaratonu 2026"
+  ogImage="/wilczypolmaraton_og.jpg"
+  t={t}
+>
+  <WilczyPolmaratonHeader t={t} />
+  <LoginContent t={t} locale="pl" />
+</Layout>

@@ -1,0 +1,780 @@
+---
+import ParticipantFieldset from "./ParticipantFieldset.astro";
+import RegistrationSummary from "../niebocross/RegistrationSummary.astro";
+import ClubAutocomplete from "./ClubAutocomplete.astro";
+
+interface Props {
+  t: (key: string) => string;
+  locale?: string;
+}
+const { t, locale = 'pl' } = Astro.props;
+---
+
+  <div class="mx-auto max-w-4xl px-6 py-12">
+    <!-- Step 1: Email Verification -->
+    <div id="step1" class="space-y-6">
+      <div class="text-center">
+        <h2 class="text-3xl font-bold text-slate-900">{t("wilczypolmaraton.registration.email_step_title")}</h2>
+        <p class="mt-2 text-slate-600">{t("wilczypolmaraton.registration.email_step_desc")}</p>
+      </div>
+
+      <div class="mx-auto max-w-md rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+        <form id="emailForm" class="space-y-4">
+          <div>
+            <label for="email" class="block text-sm font-semibold text-slate-700">
+              {t("wilczypolmaraton.form.email")} <span class="text-red-600">*</span>
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              required
+              class="mt-1 block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2"
+              placeholder="twoj@email.pl"
+            />
+          </div>
+
+          <div>
+            <label for="fullName" class="block text-sm font-semibold text-slate-700">
+              {t("wilczypolmaraton.form.contact_person")} <span class="text-red-600">*</span>
+            </label>
+            <p class="text-xs text-slate-500">{t("wilczypolmaraton.form.contact_person_desc")}</p>
+            <input
+              type="text"
+              id="fullName"
+              name="fullName"
+              required
+              class="mt-1 block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2"
+              placeholder="Jan Kowalski"
+            />
+          </div>
+
+          <div class="flex items-start gap-2">
+            <input
+              type="checkbox"
+              id="rodoAccepted"
+              name="rodoAccepted"
+              required
+              class="mt-1 rounded border-emerald-300 border-2 text-emerald-600 focus:ring-emerald-500"
+            />
+            <label for="rodoAccepted" class="text-sm text-slate-700">
+              {t("wilczypolmaraton.form.rodo_consent")} <span class="text-red-600">*</span>
+            </label>
+          </div>
+
+          <div class="flex items-start gap-2">
+            <input
+              type="checkbox"
+              id="termsAccepted"
+              name="termsAccepted"
+              required
+              class="mt-1 rounded border-emerald-300 border-2 text-emerald-600 focus:ring-emerald-500"
+            />
+            <label for="termsAccepted" class="text-sm text-slate-700">
+              {t("wilczypolmaraton.form.terms_consent")} <a href="/wilczypolmaraton#regulamin" target="_blank" class="text-emerald-600 hover:underline">{t("wilczypolmaraton.form.terms_link")}</a> <span class="text-red-600">*</span>
+            </label>
+          </div>
+
+          <!-- Honeypot field - hidden from humans, bots will fill it -->
+          <div class="absolute -left-full -top-full opacity-0 pointer-events-none overflow-hidden h-0 w-0" aria-hidden="true">
+            <label for="website">Website</label>
+            <input
+              type="text"
+              id="website"
+              name="website"
+              tabindex="-1"
+              autocomplete="off"
+            />
+          </div>
+
+          <div id="emailError" class="hidden rounded-lg bg-red-50 p-3 text-sm text-red-700"></div>
+
+          <button
+            type="submit"
+            class="w-full rounded-lg bg-emerald-600 px-6 py-3 font-semibold text-white transition hover:bg-emerald-700 disabled:bg-slate-300 disabled:cursor-not-allowed"
+            id="emailSubmitBtn"
+            disabled
+          >
+            {t("wilczypolmaraton.form.send_code")}
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Step 2: Code Verification -->
+    <div id="step2" class="hidden space-y-6">
+      <div class="text-center">
+        <h2 class="text-3xl font-bold text-slate-900">{t("wilczypolmaraton.registration.code_step_title")}</h2>
+        <p class="mt-2 text-slate-600">{t("wilczypolmaraton.registration.code_step_desc")}</p>
+      </div>
+
+      <div class="mx-auto max-w-md rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+        <form id="codeForm" class="space-y-4">
+          <div>
+            <label for="code" class="block text-sm font-semibold text-slate-700">
+              {t("wilczypolmaraton.form.verification_code")} <span class="text-red-600">*</span>
+            </label>
+            <input
+              type="text"
+              id="code"
+              name="code"
+              required
+              maxlength="6"
+              pattern="[0-9]{6}"
+              class="mt-1 block w-full rounded-lg border-emerald-300 text-center text-2xl font-bold tracking-widest shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2 border-2"
+              placeholder="000000"
+            />
+          </div>
+
+          <!-- Spam check info -->
+          <div class="rounded-lg bg-blue-50 p-3 text-sm text-blue-700">
+            <p>{t("wilczypolmaraton.form.check_spam")}</p>
+          </div>
+
+          <div id="codeError" class="hidden rounded-lg bg-red-50 p-3 text-sm text-red-700"></div>
+
+          <div id="codeSuccess" class="hidden rounded-lg bg-green-50 p-3 text-sm text-green-700"></div>
+
+          <button
+            type="submit"
+            class="w-full rounded-lg bg-emerald-600 px-6 py-3 font-semibold text-white transition hover:bg-emerald-700 disabled:bg-slate-300 disabled:cursor-not-allowed"
+            id="codeSubmitBtn"
+            disabled
+          >
+            {t("wilczypolmaraton.form.verify_code")}
+          </button>
+
+          <button
+            type="button"
+            id="resendCodeBtn"
+            class="w-full rounded-lg border border-emerald-600 bg-white px-6 py-2 text-sm font-semibold text-emerald-600 transition hover:bg-emerald-50 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {t("wilczypolmaraton.form.resend_code")}
+          </button>
+
+          <button
+            type="button"
+            id="backToEmail"
+            class="w-full rounded-lg border border-emerald-300 border-2 bg-white px-6 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+          >
+            ← {t("wilczypolmaraton.form.back_to_email")}
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Step 3: Add Participants -->
+    <div id="step3" class="hidden space-y-6" data-birth-label={t("wilczypolmaraton.form.birth_date")}>
+      <div class="text-center">
+        <h2 class="text-3xl font-bold text-slate-900">{t("wilczypolmaraton.registration.participants_step_title")}</h2>
+        <p class="mt-2 text-slate-600">{t("wilczypolmaraton.registration.participants_step_desc")}</p>
+      </div>
+
+      <div class="grid gap-6 lg:grid-cols-[1fr_300px]">
+        <div class="space-y-6">
+          <form id="participantsForm" class="space-y-6">
+            <div id="participantsContainer">
+              <!-- Hidden template for cloning -->
+              <template id="participantTemplate">
+                <ParticipantFieldset index={0} t={t} showRemoveButton={true} />
+              </template>
+            </div>
+
+            <button
+              type="button"
+              id="addParticipantBtn"
+              class="rounded-lg border-2 border-dashed border-emerald-300 bg-emerald-50 px-6 py-3 font-semibold text-emerald-700 transition hover:border-emerald-400 hover:bg-emerald-100"
+            >
+              + {t("wilczypolmaraton.form.add_participant")}
+            </button>
+
+            <div id="participantsError" class="hidden rounded-lg bg-red-50 p-3 text-sm text-red-700"></div>
+
+            <button
+              type="submit"
+              class="w-full rounded-lg bg-emerald-600 px-6 py-3 font-semibold text-white transition hover:bg-emerald-700 disabled:bg-slate-300"
+              id="participantsSubmitBtn"
+            >
+              {t("wilczypolmaraton.payment.go_to_panel")}
+            </button>
+
+            <!-- Helper text when button is disabled -->
+            <div id="requiredFieldsInfo" class="text-center text-sm text-slate-600 mt-2 hidden">
+              ℹ️ {t("wilczypolmaraton.payment.required_fields_info")}
+            </div>
+          </form>
+        </div>
+
+        <div class="lg:sticky lg:top-6 lg:self-start">
+          <RegistrationSummary t={t} />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ClubAutocomplete />
+
+  <script define:vars={{
+    locale,
+    errorMessages: {
+      EMAIL_EXISTS: t("wilczypolmaraton.errors.email_exists"),
+      EMAIL_EXISTS_LOGIN: t("wilczypolmaraton.errors.email_exists_login"),
+      EMAIL_REQUIRED: t("wilczypolmaraton.errors.email_required"),
+      EMAIL_INVALID: t("wilczypolmaraton.errors.email_invalid"),
+      RODO_REQUIRED: t("wilczypolmaraton.errors.rodo_required"),
+      TERMS_REQUIRED: t("wilczypolmaraton.errors.terms_required"),
+      INVALID_CODE: t("wilczypolmaraton.errors.invalid_code"),
+      INVALID_CODE_CONTACT: t("wilczypolmaraton.errors.invalid_code_contact"),
+      INVALID_CODE_CONTACT_LINK: t("wilczypolmaraton.errors.invalid_code_contact_link"),
+      CODE_EXPIRED: t("wilczypolmaraton.errors.code_expired"),
+      connection: t("wilczypolmaraton.errors.connection_error"),
+      generic: t("wilczypolmaraton.errors.generic_error")
+    },
+    uiMessages: {
+      resending: t("wilczypolmaraton.form.resending"),
+      resendCode: t("wilczypolmaraton.form.resend_code"),
+      codeResent: t("wilczypolmaraton.form.code_resent")
+    },
+    feesMap: { '21km': 80, '10km': 60, default: 60 },
+    formLabels: {
+      participant: t("wilczypolmaraton.form.participant"),
+      remove: t("wilczypolmaraton.form.remove"),
+      firstName: t("wilczypolmaraton.form.first_name"),
+      lastName: t("wilczypolmaraton.form.last_name"),
+      birthDate: t("wilczypolmaraton.form.birth_date"),
+      day: t("wilczypolmaraton.form.day"),
+      month: t("wilczypolmaraton.form.month"),
+      year: t("wilczypolmaraton.form.year"),
+      months: {
+        jan: t("wilczypolmaraton.form.months.jan"),
+        feb: t("wilczypolmaraton.form.months.feb"),
+        mar: t("wilczypolmaraton.form.months.mar"),
+        apr: t("wilczypolmaraton.form.months.apr"),
+        may: t("wilczypolmaraton.form.months.may"),
+        jun: t("wilczypolmaraton.form.months.jun"),
+        jul: t("wilczypolmaraton.form.months.jul"),
+        aug: t("wilczypolmaraton.form.months.aug"),
+        sep: t("wilczypolmaraton.form.months.sep"),
+        oct: t("wilczypolmaraton.form.months.oct"),
+        nov: t("wilczypolmaraton.form.months.nov"),
+        dec: t("wilczypolmaraton.form.months.dec")
+      },
+      city: t("wilczypolmaraton.form.city"),
+      nationality: t("wilczypolmaraton.form.nationality"),
+      club: t("wilczypolmaraton.form.club"),
+      phoneNumber: t("wilczypolmaraton.form.phone_number"),
+      phoneHelp: t("wilczypolmaraton.form.phone_help"),
+      distanceActivity: t("wilczypolmaraton.form.distance_activity"),
+      tshirtSize: t("wilczypolmaraton.form.tshirt_size"),
+      tshirtInfo: t("wilczypolmaraton.form.tshirt_info"),
+      noTshirt: t("wilczypolmaraton.form.no_tshirt"),
+      hideNamePublic: t("wilczypolmaraton.form.hide_name_public"),
+      categories: {
+        "21km": "Półmaraton 21km",
+        "10km": "Bieg 10km"
+      }
+    }
+  }}>
+
+    // API Base URL
+    const API_BASE = '/api/events/wilczypolmaraton-2026';
+
+    // Helper function to get error message with special handling for certain errors
+    function getErrorMessage(errorCode) {
+      // Special handling for INVALID_CODE to include clickable link
+      if (errorCode === 'INVALID_CODE') {
+        return `${errorMessages.INVALID_CODE}. ${errorMessages.INVALID_CODE_CONTACT}, <a href="/wilczypolmaraton#kontakt" class="font-semibold text-emerald-600 hover:underline">${errorMessages.INVALID_CODE_CONTACT_LINK}</a>.`;
+      }
+      // Special handling for EMAIL_EXISTS to include login link
+      if (errorCode === 'EMAIL_EXISTS') {
+        const loginUrl = locale === 'en' ? '/en/wilczypolmaraton/zaloguj' : '/wilczypolmaraton/zaloguj';
+        return `${errorMessages.EMAIL_EXISTS} <a href="${loginUrl}" class="font-semibold text-emerald-600 hover:underline">${errorMessages.EMAIL_EXISTS_LOGIN}</a>`;
+      }
+      return errorMessages[errorCode] || errorMessages.generic;
+    }
+
+    // State
+    let currentEmail = '';
+    let sessionToken = '';
+
+    // DOM Elements
+    const step1 = document.getElementById('step1');
+    const step2 = document.getElementById('step2');
+    const step3 = document.getElementById('step3');
+    const emailForm = document.getElementById('emailForm');
+    const codeForm = document.getElementById('codeForm');
+    const participantsForm = document.getElementById('participantsForm');
+    const emailError = document.getElementById('emailError');
+    const codeError = document.getElementById('codeError');
+    const codeSuccess = document.getElementById('codeSuccess');
+    const participantsError = document.getElementById('participantsError');
+    const backToEmailBtn = document.getElementById('backToEmail');
+    const resendCodeBtn = document.getElementById('resendCodeBtn');
+    const addParticipantBtn = document.getElementById('addParticipantBtn');
+    const participantsContainer = document.getElementById('participantsContainer');
+    const emailSubmitBtn = document.getElementById('emailSubmitBtn');
+    const emailInput = document.getElementById('email');
+    const fullNameInput = document.getElementById('fullName');
+    const rodoCheckbox = document.getElementById('rodoAccepted');
+    const termsCheckbox = document.getElementById('termsAccepted');
+    const codeInput = document.getElementById('code');
+    const codeSubmitBtn = document.getElementById('codeSubmitBtn');
+
+    let participantCount = 0;
+
+    // Category to group mapping for limit checking — must match api/events/config.js limits[].group
+    const CATEGORY_TO_GROUP = {
+      '21km': 'runners',
+      '10km': 'runners'
+    };
+
+    // Store current limits and counts
+    let currentLimitsAndCounts = null;
+
+    // Function to fetch current participant limits and counts
+    async function fetchLimitsAndCounts() {
+      try {
+        const response = await fetch(`${API_BASE}/registrations/list`);
+        const data = await response.json();
+        if (data.success) {
+          currentLimitsAndCounts = data.limitsAndCounts;
+          return true;
+        }
+      } catch (error) {
+        console.error('Error fetching limits and counts:', error);
+      }
+      return false;
+    }
+
+    // Function to get disabled categories based on current counts
+    function getDisabledCategories() {
+      if (!currentLimitsAndCounts) return [];
+
+      const disabled = [];
+      for (const [category, group] of Object.entries(CATEGORY_TO_GROUP)) {
+        const groupData = currentLimitsAndCounts[group];
+        if (groupData && groupData.count >= groupData.limit) {
+          disabled.push(category);
+        }
+      }
+      return disabled;
+    }
+
+    // Function to update category options (disable/enable based on limits)
+    async function updateCategoryOptions() {
+      // First fetch the latest limits and counts
+      await fetchLimitsAndCounts();
+
+      const disabledCategories = getDisabledCategories();
+
+      // Update all existing participant forms
+      const participantDivs = participantsContainer.querySelectorAll(':scope > [data-index]');
+      participantDivs.forEach(div => {
+        const index = div.getAttribute('data-index');
+        const categoryInputs = div.querySelectorAll(`input[name="raceCategory_${index}"]`);
+
+        categoryInputs.forEach(input => {
+          const category = input.value;
+          const isDisabled = disabledCategories.includes(category);
+          input.disabled = isDisabled;
+
+          // Update visual styling
+          const label = input.closest('label');
+          if (label) {
+            if (isDisabled) {
+              label.classList.add('opacity-50', 'cursor-not-allowed');
+              label.classList.remove('cursor-pointer', 'hover:bg-emerald-50');
+              label.title = 'Kategoria jest już pełna';
+            } else {
+              label.classList.remove('opacity-50', 'cursor-not-allowed');
+              label.classList.add('cursor-pointer', 'hover:bg-emerald-50');
+              label.title = '';
+            }
+          }
+        });
+      });
+    }
+
+    // Function to validate all participants
+    function validateParticipants() {
+      const participantDivs = participantsContainer.querySelectorAll(':scope > [data-index]');
+      let allValid = true;
+
+      participantDivs.forEach(div => {
+        const index = div.getAttribute('data-index');
+        const firstName = document.querySelector(`[name="firstName_${index}"]`).value.trim();
+        const lastName = document.querySelector(`[name="lastName_${index}"]`).value.trim();
+        const birthDate = document.querySelector(`[name="birthDate_${index}"]`).value;
+        const city = document.querySelector(`[name="city_${index}"]`).value.trim();
+        const nationality = document.querySelector(`[name="nationality_${index}"]`).value.trim();
+        const phoneNumber = document.querySelector(`[name="phoneNumber_${index}"]`).value.trim();
+        const raceCategory = document.querySelector(`input[name="raceCategory_${index}"]:checked`);
+        const tshirtSize = document.querySelector(`[name="tshirtSize_${index}"]`).value;
+
+        if (!firstName || !lastName || !birthDate || !city || !nationality || !phoneNumber || !raceCategory || !tshirtSize) {
+          allValid = false;
+        }
+      });
+
+      // Disable buttons if no participants or any invalid
+      const hasParticipants = participantDivs.length > 0;
+      const isButtonDisabled = !hasParticipants || !allValid;
+      participantsSubmitBtn.disabled = isButtonDisabled;
+
+      // Show/hide helper text based on button state
+      const requiredFieldsInfo = document.getElementById('requiredFieldsInfo');
+      if (requiredFieldsInfo) {
+        if (isButtonDisabled) {
+          requiredFieldsInfo.classList.remove('hidden');
+        } else {
+          requiredFieldsInfo.classList.add('hidden');
+        }
+      }
+    }
+
+    // Initial validation
+    validateParticipants();
+
+    // Validate email form and enable/disable submit button
+    function validateEmailForm() {
+      const emailValid = emailInput.value.trim() !== '';
+      const nameValid = fullNameInput.value.trim() !== '';
+      const rodoValid = rodoCheckbox.checked;
+      const termsValid = termsCheckbox.checked;
+
+      const isValid = emailValid && nameValid && rodoValid && termsValid;
+      emailSubmitBtn.disabled = !isValid;
+    }
+
+    // Add event listeners to form fields
+    emailInput.addEventListener('input', validateEmailForm);
+    fullNameInput.addEventListener('input', validateEmailForm);
+    rodoCheckbox.addEventListener('change', validateEmailForm);
+    termsCheckbox.addEventListener('change', validateEmailForm);
+
+    // Run initial validation in case form is pre-filled
+    validateEmailForm();
+
+    // Validate code input and enable/disable verify button
+    function validateCodeForm() {
+      const code = codeInput.value.trim();
+      const isValidCode = code && /^[0-9]{6}$/.test(code);
+      codeSubmitBtn.disabled = !isValidCode;
+    }
+
+    // Add event listener to code input
+    codeInput.addEventListener('input', validateCodeForm);
+
+    // Step 1: Email submission
+    emailForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      emailError.classList.add('hidden');
+
+      const formData = new FormData(emailForm);
+      const email = formData.get('email');
+      const fullName = formData.get('fullName');
+      const rodoAccepted = formData.get('rodoAccepted') === 'on';
+      const termsAccepted = formData.get('termsAccepted') === 'on';
+      const website = formData.get('website') || '';
+
+      currentEmail = email;
+
+      try {
+        const response = await fetch(`${API_BASE}/auth/start-registration`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, fullName, rodoAccepted, termsAccepted, website }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          const errorMsg = getErrorMessage(data.error);
+          // Use innerHTML for EMAIL_EXISTS to render the login link
+          if (data.error === 'EMAIL_EXISTS') {
+            emailError.innerHTML = errorMsg;
+          } else {
+            emailError.textContent = errorMsg;
+          }
+          emailError.classList.remove('hidden');
+          return;
+        }
+
+        // Move to step 2
+        step1.classList.add('hidden');
+        step2.classList.remove('hidden');
+      } catch (error) {
+        console.error('Fetch error:', error);
+        emailError.textContent = errorMessages.connection;
+        emailError.classList.remove('hidden');
+      }
+    });
+
+    // Back to email
+    backToEmailBtn.addEventListener('click', () => {
+      step2.classList.add('hidden');
+      step1.classList.remove('hidden');
+      codeError.classList.add('hidden');
+      codeSuccess.classList.add('hidden');
+    });
+
+    // Resend code
+    resendCodeBtn.addEventListener('click', async () => {
+      if (!currentEmail) return;
+
+      resendCodeBtn.disabled = true;
+      resendCodeBtn.textContent = uiMessages.resending;
+      codeError.classList.add('hidden');
+      codeSuccess.classList.add('hidden');
+
+      try {
+        const response = await fetch(`${API_BASE}/auth/request-code`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: currentEmail }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          codeError.textContent = getErrorMessage(data.error);
+          codeError.classList.remove('hidden');
+        } else {
+          codeSuccess.textContent = uiMessages.codeResent;
+          codeSuccess.classList.remove('hidden');
+        }
+      } catch {
+        codeError.textContent = errorMessages.connection;
+        codeError.classList.remove('hidden');
+      } finally {
+        resendCodeBtn.disabled = false;
+        resendCodeBtn.textContent = uiMessages.resendCode;
+      }
+    });
+
+    // Step 2: Code verification
+    codeForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      codeError.classList.add('hidden');
+
+      const formData = new FormData(codeForm);
+      const code = formData.get('code');
+
+      try {
+        const response = await fetch(`${API_BASE}/auth/verify-code`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: currentEmail, code }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          const errorMsg = getErrorMessage(data.error);
+          // Use innerHTML for INVALID_CODE to render the link
+          if (data.error === 'INVALID_CODE') {
+            codeError.innerHTML = errorMsg;
+          } else {
+            codeError.textContent = errorMsg;
+          }
+          codeError.classList.remove('hidden');
+          return;
+        }
+
+        sessionToken = data.token;
+
+        // Move to step 3
+        step2.classList.add('hidden');
+        step3.classList.remove('hidden');
+        addParticipant(); // Add first participant
+      } catch {
+        codeError.textContent = errorMessages.connection;
+        codeError.classList.remove('hidden');
+      }
+    });
+
+    // Add participant form
+    function addParticipant() {
+      participantCount++;
+
+      // Clone the template
+      const template = document.getElementById('participantTemplate');
+      const clone = template.content.cloneNode(true);
+      const fieldset = clone.querySelector('[data-index]');
+
+      // Update index
+      fieldset.setAttribute('data-index', participantCount);
+
+      // Update all field names
+      fieldset.querySelectorAll('[name]').forEach(input => {
+        const name = input.getAttribute('name');
+        input.setAttribute('name', name.replace(/_0$/, `_${participantCount}`));
+      });
+
+      // Update data-participant attributes for birth date selectors
+      fieldset.querySelectorAll('[data-participant]').forEach(element => {
+        element.setAttribute('data-participant', participantCount);
+      });
+
+      // Update title
+      fieldset.querySelector('h3').textContent = `${formLabels.participant} ${participantCount}`;
+
+      // Show/hide remove button
+      if (participantCount === 1) {
+        const removeBtn = fieldset.querySelector('.remove-participant');
+        if (removeBtn) removeBtn.remove();
+      } else {
+        const removeBtn = fieldset.querySelector('.remove-participant');
+        if (removeBtn) {
+          removeBtn.setAttribute('data-index', participantCount);
+          removeBtn.addEventListener('click', () => {
+            fieldset.remove();
+            participantCount--;
+            renumberTitles();
+            updateSummary();
+            validateParticipants();
+          });
+        }
+      }
+
+      // Append
+      participantsContainer.appendChild(fieldset);
+
+      // Re-initialize
+      if (window.setupClubAutocomplete) {
+        window.setupClubAutocomplete();
+      }
+      if (window.setupPhoneValidation) {
+        window.setupPhoneValidation();
+      }
+
+      // Add event listeners for validation
+      const inputs = fieldset.querySelectorAll('input[name], select[name]');
+      inputs.forEach(input => {
+        if (input.type === 'radio' || input.type === 'checkbox') {
+          input.addEventListener('change', () => {
+            validateParticipants();
+            updateSummary();
+          });
+        } else {
+          input.addEventListener('input', () => {
+            validateParticipants();
+            updateSummary();
+          });
+        }
+      });
+
+      updateCategoryOptions();
+      updateSummary();
+      validateParticipants();
+    }
+
+    // Renumber participant titles after removal
+    function renumberTitles() {
+      const participantDivs = participantsContainer.querySelectorAll('[data-index]');
+      participantDivs.forEach((div, index) => {
+        const title = div.querySelector('h3');
+        if (title) {
+          title.textContent = `${formLabels.participant} ${index + 1}`;
+        }
+      });
+    }
+
+    addParticipantBtn.addEventListener('click', addParticipant);
+
+    // Add event listener for extra donation (with cleanup to prevent duplicates)
+    const extraDonationInput = document.getElementById('extraDonation');
+    if (extraDonationInput) {
+      extraDonationInput.removeEventListener('input', updateSummary);
+      extraDonationInput.addEventListener('input', updateSummary);
+    }
+
+    // Update payment summary
+    function updateSummary() {
+      let raceFees = 0;
+      const tshirtFees = 0;
+
+      participantsContainer.querySelectorAll(':scope > [data-index]').forEach(div => {
+        const index = div.getAttribute('data-index');
+        const category = document.querySelector(`input[name="raceCategory_${index}"]:checked`)?.value;
+
+        if (category) {
+          raceFees += feesMap[category] ?? feesMap.default ?? 0;
+        }
+      });
+
+      const extraDonation = parseInt(document.getElementById('extraDonation')?.value || '0');
+      const totalAmount = raceFees + tshirtFees + extraDonation;
+      const charityAmount = raceFees + extraDonation;
+
+      document.getElementById('raceFees').textContent = `${raceFees} zł`;
+      document.getElementById('totalAmount').textContent = `${totalAmount} zł`;
+      document.getElementById('charityAmount').textContent = `${charityAmount.toFixed(2)} zł`;
+    }
+
+    // Step 3: Submit participants
+    participantsForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      participantsError.classList.add('hidden');
+
+      const participants = [];
+
+      participantsContainer.querySelectorAll(':scope > [data-index]').forEach(div => {
+        const index = div.getAttribute('data-index');
+        participants.push({
+          firstName: document.querySelector(`[name="firstName_${index}"]`).value,
+          lastName: document.querySelector(`[name="lastName_${index}"]`).value,
+          birthDate: document.querySelector(`[name="birthDate_${index}"]`).value,
+          city: document.querySelector(`[name="city_${index}"]`).value,
+          nationality: document.querySelector(`[name="nationality_${index}"]`).value,
+          club: document.querySelector(`[name="club_${index}"]`).value || null,
+          phoneNumber: document.querySelector(`[name="phoneNumber_${index}"]`).value,
+          raceCategory: document.querySelector(`input[name="raceCategory_${index}"]:checked`).value,
+          tshirtSize: document.querySelector(`[name="tshirtSize_${index}"]`).value,
+          hideNamePublic: document.querySelector(`[name="hideNamePublic_${index}"]`).checked,
+        });
+      });
+
+      try {
+        const extraDonation = parseInt(document.getElementById('extraDonation').value || '0');
+        const headers = { 'Content-Type': 'application/json' };
+
+        // Use Bearer token from code verification
+        if (sessionToken) {
+          headers['Authorization'] = `Bearer ${sessionToken}`;
+        }
+
+        const response = await fetch(`${API_BASE}/register`, {
+          method: 'POST',
+          headers,
+          credentials: 'include',
+          body: JSON.stringify({ participants, extraDonation }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          participantsError.textContent = data.error || errorMessages.generic;
+          participantsError.classList.remove('hidden');
+          return;
+        }
+
+        const panelUrl = locale === 'en' ? '/en/wilczypolmaraton/panel' : '/wilczypolmaraton/panel';
+        window.location.href = panelUrl;
+      } catch {
+        participantsError.textContent = errorMessages.connection;
+        participantsError.classList.remove('hidden');
+      }
+    });
+
+    // Initialize club autocomplete and category limits
+    updateCategoryOptions();
+
+    // Re-initialize autocomplete when adding new participants
+    document.getElementById('addParticipantBtn').addEventListener('click', () => {
+      setTimeout(() => {
+        setupClubAutocomplete();
+        updateCategoryOptions();
+      }, 100);
+    });
+  </script>
