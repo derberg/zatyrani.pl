@@ -1,0 +1,16 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import WilczyPolmaratonHeader from "../../components/wilczypolmaraton/WilczyPolmaratonHeader.astro";
+import RegistrationContent from "../../components/wilczypolmaraton/RegistrationContent.astro";
+import { t } from "../../utils/i18n";
+---
+
+<Layout
+  title={`Wilczy Półmaraton 2026 - ${t("niebocross.registration.title")}`}
+  description="Zarejestruj się na Wilczy Półmaraton 2026"
+  ogImage="/wilczypolmaraton_og.jpg"
+  t={t}
+>
+  <WilczyPolmaratonHeader t={t} />
+  <RegistrationContent t={t} locale="pl" />
+</Layout>

@@ -1,0 +1,14 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import PanelContent from "../../components/wilczypolmaraton/PanelContent.astro";
+import { t } from "../../utils/i18n";
+---
+
+<Layout
+  title={`Wilczy Półmaraton 2026 - ${t("niebocross.dashboard.title")}`}
+  description="Panel uczestnika Wilczego Półmaratonu 2026"
+  ogImage="/wilczypolmaraton_og.jpg"
+  t={t}
+>
+  <PanelContent t={t} locale="pl" />
+</Layout>

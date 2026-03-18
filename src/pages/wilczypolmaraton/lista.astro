@@ -1,0 +1,16 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import WilczyPolmaratonHeader from "../../components/wilczypolmaraton/WilczyPolmaratonHeader.astro";
+import ParticipantsListContent from "../../components/wilczypolmaraton/ParticipantsListContent.astro";
+import { t } from "../../utils/i18n";
+---
+
+<Layout
+  title={`Wilczy Półmaraton 2026 - ${t("niebocross.participants_list.title")}`}
+  description="Pełna lista uczestników Wilczego Półmaratonu 2026"
+  ogImage="/wilczypolmaraton_og.jpg"
+  t={t}
+>
+  <WilczyPolmaratonHeader t={t} />
+  <ParticipantsListContent t={t} />
+</Layout>
