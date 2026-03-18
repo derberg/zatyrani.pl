@@ -76,6 +76,7 @@ const { t, locale = 'pl' } = Astro.props;
 
 <script define:vars={{
   locale,
+  feesMap: { '21km': 80, '10km': 60, default: 60 },
   errorMessages: {
     connection: t("wilczypolmaraton.errors.connection_error"),
     generic: t("wilczypolmaraton.errors.generic_error")
@@ -103,10 +104,10 @@ const { t, locale = 'pl' } = Astro.props;
   // State
   let participantCount = 1;
 
-  // Category to group mapping for limit checking
+  // Category to group mapping for limit checking — must match api/events/config.js limits[].group
   const CATEGORY_TO_GROUP = {
-    '21km': 'halfmarathon',
-    '10km': 'run_10km'
+    '21km': 'runners',
+    '10km': 'runners'
   };
 
   // Store current limits and counts
@@ -378,7 +379,7 @@ const { t, locale = 'pl' } = Astro.props;
       const category = document.querySelector(`input[name="raceCategory_${index}"]:checked`)?.value;
 
       if (category) {
-        raceFees += 60;
+        raceFees += feesMap[category] ?? feesMap.default ?? 0;
       }
     });
 

@@ -235,6 +235,7 @@ const { t, locale = 'pl' } = Astro.props;
       resendCode: t("wilczypolmaraton.form.resend_code"),
       codeResent: t("wilczypolmaraton.form.code_resent")
     },
+    feesMap: { '21km': 80, '10km': 60, default: 60 },
     formLabels: {
       participant: t("wilczypolmaraton.form.participant"),
       remove: t("wilczypolmaraton.form.remove"),
@@ -321,10 +322,10 @@ const { t, locale = 'pl' } = Astro.props;
 
     let participantCount = 0;
 
-    // Category to group mapping for limit checking
+    // Category to group mapping for limit checking — must match api/events/config.js limits[].group
     const CATEGORY_TO_GROUP = {
-      '21km': 'halfmarathon',
-      '10km': 'run_10km'
+      '21km': 'runners',
+      '10km': 'runners'
     };
 
     // Store current limits and counts
@@ -698,7 +699,7 @@ const { t, locale = 'pl' } = Astro.props;
         const category = document.querySelector(`input[name="raceCategory_${index}"]:checked`)?.value;
 
         if (category) {
-          raceFees += 60;
+          raceFees += feesMap[category] ?? feesMap.default ?? 0;
         }
       });
 

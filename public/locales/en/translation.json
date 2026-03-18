@@ -559,7 +559,8 @@
       "status_paid": "Paid",
       "status_pending": "Pending",
       "all_payment_statuses": "All statuses",
-      "registered_counts_title": "Number of registered participants (paid)"
+      "registered_counts_title": "Number of registered participants (paid)",
+      "all_runners": "All runners"
     },
     "form": {
       "email": "Email address",

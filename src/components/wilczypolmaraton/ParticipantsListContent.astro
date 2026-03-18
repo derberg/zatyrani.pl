@@ -57,14 +57,10 @@ const { t } = Astro.props;
   <!-- Participant Counters -->
   <div id="counters" class="hidden mb-6 rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
     <h3 class="mb-4 text-lg font-bold text-slate-900">{t("wilczypolmaraton.participants_list.registered_counts_title")}</h3>
-    <div class="grid gap-4 sm:grid-cols-2">
+    <div class="flex justify-center">
       <div class="text-center">
-        <div class="text-2xl font-bold text-emerald-600" id="halfmarathonCount">0</div>
-        <div class="text-sm text-slate-600">Półmaraton 21km / <span id="halfmarathonLimit">0</span></div>
-      </div>
-      <div class="text-center">
-        <div class="text-2xl font-bold text-emerald-600" id="run10kmCount">0</div>
-        <div class="text-sm text-slate-600">Bieg 10km / <span id="run10kmLimit">0</span></div>
+        <div class="text-2xl font-bold text-emerald-600" id="runnersCount">0</div>
+        <div class="text-sm text-slate-600">{t("wilczypolmaraton.participants_list.all_runners")} / <span id="runnersLimit">0</span></div>
       </div>
     </div>
   </div>
@@ -159,10 +155,8 @@ const { t } = Astro.props;
   const tableBody = document.getElementById('participantsTableBody');
   const cardsContainer = document.getElementById('participantsCards');
   const totalCount = document.getElementById('totalCount');
-  const halfmarathonCount = document.getElementById('halfmarathonCount');
-  const halfmarathonLimit = document.getElementById('halfmarathonLimit');
-  const run10kmCount = document.getElementById('run10kmCount');
-  const run10kmLimit = document.getElementById('run10kmLimit');
+  const runnersCount = document.getElementById('runnersCount');
+  const runnersLimit = document.getElementById('runnersLimit');
   const clearFiltersBtn = document.getElementById('clearFilters');
   const filterCategory = document.getElementById('filterCategory');
   const filterPayment = document.getElementById('filterPayment');
@@ -208,16 +202,10 @@ const { t } = Astro.props;
     totalCount.textContent = String(total);
 
     // Update counters
-    if (limitsAndCounts) {
+    if (limitsAndCounts && limitsAndCounts.runners) {
       counters.classList.remove('hidden');
-      if (limitsAndCounts.halfmarathon) {
-        halfmarathonCount.textContent = String(limitsAndCounts.halfmarathon.count);
-        halfmarathonLimit.textContent = String(limitsAndCounts.halfmarathon.limit);
-      }
-      if (limitsAndCounts.run_10km) {
-        run10kmCount.textContent = String(limitsAndCounts.run_10km.count);
-        run10kmLimit.textContent = String(limitsAndCounts.run_10km.limit);
-      }
+      runnersCount.textContent = String(limitsAndCounts.runners.count);
+      runnersLimit.textContent = String(limitsAndCounts.runners.limit);
     } else {
       counters.classList.add('hidden');
     }

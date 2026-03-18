@@ -51,7 +51,7 @@ export default async function handler(req, res) {
         payment_status,
         payment_link,
         transaction_id,
-        registrations!inner(email, contact_person)
+        registrations!inner(email, contact_person, event_id)
       `)
       .eq("registration_id", registrationId)
       .in("payment_status", ["pending", "failed"])
@@ -68,6 +68,14 @@ export default async function handler(req, res) {
     }
 
     const registration = payment.registrations;
+
+    // Verify this payment belongs to the requested event
+    if (registration.event_id !== eventConfig.id) {
+      return res.status(403).json({
+        success: false,
+        error: "Brak dostępu"
+      });
+    }
 
     // For a previously cached pending session, return it directly (skip SIBS call)
     // For failed payments the cached session is stale — always create a new one

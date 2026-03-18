@@ -559,7 +559,8 @@
       "status_paid": "Opłacone",
       "status_pending": "Oczekuje",
       "all_payment_statuses": "Wszystkie statusy",
-      "registered_counts_title": "Liczba zapisanych uczestników (opłacone)"
+      "registered_counts_title": "Liczba zapisanych uczestników (opłacone)",
+      "all_runners": "Wszyscy biegacze"
     },
     "form": {
       "email": "Adres email",
