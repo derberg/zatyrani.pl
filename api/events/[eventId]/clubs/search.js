@@ -35,7 +35,7 @@ export default async function handler(req, res) {
     const supabase = getSupabaseClient();
 
     const { data: clubs, error } = await supabase
-      .from("clubs")
+      .from("event_clubs")
       .select("name")
       .ilike("name", `%${q}%`)
       .order("name", { ascending: true })

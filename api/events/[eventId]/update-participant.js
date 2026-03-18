@@ -60,7 +60,7 @@ export default async function handler(req, res) {
 
     // Check if payment is paid (editing not allowed)
     const { data: payment, error: paymentCheckError } = await supabase
-      .from("payments")
+      .from("event_payments")
       .select("payment_status")
       .eq("registration_id", registration_id)
       .order("created_at", { ascending: false })
@@ -94,7 +94,7 @@ export default async function handler(req, res) {
 
     // Verify participant belongs to this registration
     const { data: existingParticipant, error: participantError } = await supabase
-      .from("participants")
+      .from("event_participants")
       .select("*")
       .eq("id", participantId)
       .eq("registration_id", registration_id)
@@ -109,7 +109,7 @@ export default async function handler(req, res) {
 
     // Update participant
     const { error: updateError } = await supabase
-      .from("participants")
+      .from("event_participants")
       .update({
         first_name: participant.firstName,
         last_name: participant.lastName,
@@ -136,7 +136,7 @@ export default async function handler(req, res) {
 
     // Recalculate payment
     const { data: allParticipants, error: participantsError } = await supabase
-      .from("participants")
+      .from("event_participants")
       .select("*")
       .eq("registration_id", registration_id);
 
@@ -150,7 +150,7 @@ export default async function handler(req, res) {
 
     // Preserve extra donation from existing pending payment
     const { data: existingPendingPayment } = await supabase
-      .from("payments")
+      .from("event_payments")
       .select("*")
       .eq("registration_id", registration_id)
       .eq("payment_status", "pending")
@@ -166,7 +166,7 @@ export default async function handler(req, res) {
     // Add club to database if it doesn't exist
     if (participant.club) {
       await supabase
-        .from("clubs")
+        .from("event_clubs")
         .upsert(
           { name: participant.club },
           { onConflict: 'name', ignoreDuplicates: true }

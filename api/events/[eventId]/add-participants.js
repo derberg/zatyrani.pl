@@ -74,7 +74,7 @@ export default async function handler(req, res) {
     // Get existing pending payment (if any)
     // Note: A registration can have multiple payments, but only one pending at a time
     const { data: existingPendingPayment } = await supabase
-      .from("payments")
+      .from("event_payments")
       .select("*")
       .eq("registration_id", registration_id)
       .eq("payment_status", "pending")
@@ -84,7 +84,7 @@ export default async function handler(req, res) {
     const participantRecords = createParticipantRecords(participants, registration_id);
 
     const { error: participantsError } = await supabase
-      .from("participants")
+      .from("event_participants")
       .insert(participantRecords)
       .select();
 
@@ -98,7 +98,7 @@ export default async function handler(req, res) {
 
     // Get all participants for this registration
     const { data: allParticipants, error: fetchError } = await supabase
-      .from("participants")
+      .from("event_participants")
       .select("*")
       .eq("registration_id", registration_id);
 
@@ -128,7 +128,7 @@ export default async function handler(req, res) {
 
     // Get registration data for email
     const { data: registration } = await supabase
-      .from("registrations")
+      .from("event_registrations")
       .select("email, contact_person")
       .eq("id", registration_id)
       .single();

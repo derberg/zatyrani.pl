@@ -38,7 +38,7 @@ export default async function handler(req, res) {
 
     // Find valid code
     const { data: authCode, error: codeError } = await supabase
-      .from("auth_codes")
+      .from("event_auth_codes")
       .select("*")
       .eq("event_id", eventConfig.id)
       .eq("email", email.toLowerCase())
@@ -58,13 +58,13 @@ export default async function handler(req, res) {
 
     // Mark code as used
     await supabase
-      .from("auth_codes")
+      .from("event_auth_codes")
       .update({ used: true })
       .eq("id", authCode.id);
 
     // Get registration record (filter by event_id to prevent cross-event JWT)
     const { data: registration, error: regError } = await supabase
-      .from("registrations")
+      .from("event_registrations")
       .select("*")
       .eq("event_id", eventConfig.id)
       .eq("email", email.toLowerCase())

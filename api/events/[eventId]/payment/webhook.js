@@ -77,10 +77,10 @@ export default async function handler(req, res) {
 
     // Get payment record
     const { data: payment, error: paymentError } = await supabase
-      .from("payments")
+      .from("event_payments")
       .select(`
         *,
-        registrations!inner(email, contact_person, event_id)
+        event_registrations!inner(email, contact_person, event_id)
       `)
       .eq("id", paymentId)
       .single();
@@ -107,7 +107,7 @@ export default async function handler(req, res) {
     }
 
     const { error: updateError } = await supabase
-      .from("payments")
+      .from("event_payments")
       .update(updateData)
       .eq("id", paymentId);
 

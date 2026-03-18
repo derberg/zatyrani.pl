@@ -32,7 +32,7 @@ export default async function handler(req, res) {
 
     // Build query with proper join through registrations
     let query = supabase
-      .from("participants")
+      .from("event_participants")
       .select(`
         id,
         first_name,
@@ -43,7 +43,7 @@ export default async function handler(req, res) {
         club,
         race_category,
         hide_name_public,
-        registrations!inner(
+        event_registrations!inner(
           email,
           event_id,
           payments(payment_status, created_at)

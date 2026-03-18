@@ -40,7 +40,7 @@ export default async function handler(req, res) {
 
     // Get registration
     const { data: registration, error: regError } = await supabase
-      .from("registrations")
+      .from("event_registrations")
       .select("*")
       .eq("id", registration_id)
       .single();
@@ -54,7 +54,7 @@ export default async function handler(req, res) {
 
     // Get participants
     const { data: participants, error: participantsError } = await supabase
-      .from("participants")
+      .from("event_participants")
       .select("*")
       .eq("registration_id", registration_id)
       .order("created_at", { ascending: true });
@@ -69,7 +69,7 @@ export default async function handler(req, res) {
 
     // Get payment
     const { data: payment, error: paymentError } = await supabase
-      .from("payments")
+      .from("event_payments")
       .select("*")
       .eq("registration_id", registration_id)
       .order("created_at", { ascending: false })

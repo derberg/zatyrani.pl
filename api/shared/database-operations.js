@@ -32,7 +32,7 @@ export async function upsertClubs(supabase, participants) {
   for (const participant of participants) {
     if (participant.club) {
       await supabase
-        .from("clubs")
+        .from("event_clubs")
         .upsert(
           { name: participant.club },
           { onConflict: 'name', ignoreDuplicates: true }
@@ -70,7 +70,7 @@ export async function updateOrCreatePayment(supabase, registration_id, allPartic
   if (existingPendingPayment) {
     // Update existing payment; clear payment_link so new SIBS link is generated on demand
     const { error } = await supabase
-      .from("payments")
+      .from("event_payments")
       .update({
         total_amount: payment.totalAmount,
         race_fees: payment.raceFees,
@@ -85,7 +85,7 @@ export async function updateOrCreatePayment(supabase, registration_id, allPartic
     return { ...existingPendingPayment, ...payment };
   } else {
     const { data: newPayment, error } = await supabase
-      .from("payments")
+      .from("event_payments")
       .insert({
         registration_id,
         total_amount: payment.totalAmount,
@@ -116,7 +116,7 @@ export async function getUnpaidRegistrations(supabase, eventId) {
       id,
       email,
       contact_person,
-      payments!inner(id, total_amount, payment_status)
+      event_payments!inner(id, total_amount, payment_status)
     `)
     .eq('event_id', eventId)
     .eq('payments.payment_status', 'pending');

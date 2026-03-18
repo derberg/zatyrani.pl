@@ -44,14 +44,14 @@ export default async function handler(req, res) {
 
     // Get the latest pending or failed payment (both are actionable — user can pay)
     const { data: payment, error: paymentError } = await supabase
-      .from("payments")
+      .from("event_payments")
       .select(`
         id,
         total_amount,
         payment_status,
         payment_link,
         transaction_id,
-        registrations!inner(email, contact_person, event_id)
+        event_registrations!inner(email, contact_person, event_id)
       `)
       .eq("registration_id", registrationId)
       .in("payment_status", ["pending", "failed"])
@@ -107,7 +107,7 @@ export default async function handler(req, res) {
 
     // Save formContext and transactionID to database for re-use
     await supabase
-      .from("payments")
+      .from("event_payments")
       .update({
         payment_link: paymentResult.formContext,
         transaction_id: paymentResult.transactionID

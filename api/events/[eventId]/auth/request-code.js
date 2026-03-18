@@ -43,7 +43,7 @@ export default async function handler(req, res) {
 
     // Silently check if email exists in registrations (for security - don't reveal if email is registered)
     const { data: registration } = await supabase
-      .from("registrations")
+      .from("event_registrations")
       .select("email")
       .eq("event_id", eventConfig.id)
       .eq("email", email.toLowerCase())
@@ -64,7 +64,7 @@ export default async function handler(req, res) {
     oneHourAgo.setHours(oneHourAgo.getHours() - 1);
 
     const { data: recentCodes } = await supabase
-      .from("auth_codes")
+      .from("event_auth_codes")
       .select("id")
       .eq("event_id", eventConfig.id)
       .eq("email", email.toLowerCase())
@@ -84,7 +84,7 @@ export default async function handler(req, res) {
 
     // Store verification code
     const { error: codeError } = await supabase
-      .from("auth_codes")
+      .from("event_auth_codes")
       .insert({
         event_id: eventConfig.id,
         email: email.toLowerCase(),

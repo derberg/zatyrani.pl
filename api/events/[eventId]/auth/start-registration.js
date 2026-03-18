@@ -48,7 +48,7 @@ export default async function handler(req, res) {
 
     // Check if email already exists for this event
     const { data: existingReg } = await supabase
-      .from("registrations")
+      .from("event_registrations")
       .select("email")
       .eq("event_id", eventConfig.id)
       .eq("email", email.toLowerCase())
@@ -60,7 +60,7 @@ export default async function handler(req, res) {
 
     // Create registration
     const { error: regError } = await supabase
-      .from("registrations")
+      .from("event_registrations")
       .insert({ event_id: eventConfig.id, email: email.toLowerCase(), contact_person: fullName })
       .select()
       .single();
@@ -79,7 +79,7 @@ export default async function handler(req, res) {
     oneHourAgo.setHours(oneHourAgo.getHours() - 1);
 
     const { data: recentCodes } = await supabase
-      .from("auth_codes")
+      .from("event_auth_codes")
       .select("id")
       .eq("event_id", eventConfig.id)
       .eq("email", email.toLowerCase())
@@ -95,7 +95,7 @@ export default async function handler(req, res) {
     expiresAt.setMinutes(expiresAt.getMinutes() + 10);
 
     const { error: codeError } = await supabase
-      .from("auth_codes")
+      .from("event_auth_codes")
       .insert({ event_id: eventConfig.id, email: email.toLowerCase(), code, expires_at: expiresAt.toISOString(), used: false });
 
     if (codeError) {

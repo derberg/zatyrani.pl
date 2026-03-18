@@ -73,7 +73,7 @@ async function fetchNiebocross(supabase, paymentId) {
 
 async function fetchGeneric(supabase, eventId, paymentId) {
   let query = supabase
-    .from("payments")
+    .from("event_payments")
     .select(`
       id,
       total_amount,
@@ -82,7 +82,7 @@ async function fetchGeneric(supabase, eventId, paymentId) {
       transaction_id,
       paid_at,
       created_at,
-      registrations!inner(email, contact_person, event_id)
+      event_registrations!inner(email, contact_person, event_id)
     `)
     .order("created_at", { ascending: false });
 

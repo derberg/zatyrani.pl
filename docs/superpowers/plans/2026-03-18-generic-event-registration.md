@@ -601,7 +601,7 @@ export async function upsertClubs(supabase, participants) {
   for (const participant of participants) {
     if (participant.club) {
       await supabase
-        .from("clubs")
+        .from("event_clubs")
         .upsert(
           { name: participant.club },
           { onConflict: 'name', ignoreDuplicates: true }
@@ -636,7 +636,7 @@ export async function updateOrCreatePayment(supabase, registration_id, allPartic
 
   if (existingPendingPayment) {
     const { error } = await supabase
-      .from("payments")
+      .from("event_payments")
       .update({
         total_amount: payment.totalAmount,
         race_fees: payment.raceFees,
@@ -651,7 +651,7 @@ export async function updateOrCreatePayment(supabase, registration_id, allPartic
     return { ...existingPendingPayment, ...payment };
   } else {
     const { data: newPayment, error } = await supabase
-      .from("payments")
+      .from("event_payments")
       .insert({
         registration_id,
         total_amount: payment.totalAmount,
@@ -679,7 +679,7 @@ export async function getUnpaidRegistrations(supabase, eventId) {
       id,
       email,
       contact_person,
-      payments!inner(id, total_amount, payment_status)
+      event_payments!inner(id, total_amount, payment_status)
     `)
     .eq('event_id', eventId)
     .eq('payments.payment_status', 'pending');
@@ -1000,7 +1000,7 @@ export default async function handler(req, res) {
     const supabase = getSupabaseClient();
 
     const { data: existingReg } = await supabase
-      .from("registrations")
+      .from("event_registrations")
       .select("email")
       .eq("event_id", eventConfig.id)
       .eq("email", email.toLowerCase())
@@ -1011,7 +1011,7 @@ export default async function handler(req, res) {
     }
 
     const { error: regError } = await supabase
-      .from("registrations")
+      .from("event_registrations")
       .insert({ event_id: eventConfig.id, email: email.toLowerCase(), contact_person: fullName })
       .select()
       .single();
@@ -1033,7 +1033,7 @@ export default async function handler(req, res) {
     oneHourAgo.setHours(oneHourAgo.getHours() - 1);
 
     const { data: recentCodes } = await supabase
-      .from("auth_codes")
+      .from("event_auth_codes")
       .select("id")
       .eq("event_id", eventConfig.id)
       .eq("email", email.toLowerCase())
@@ -1044,7 +1044,7 @@ export default async function handler(req, res) {
     }
 
     const { error: codeError } = await supabase
-      .from("auth_codes")
+      .from("event_auth_codes")
       .insert({ event_id: eventConfig.id, email: email.toLowerCase(), code, expires_at: expiresAt.toISOString(), used: false });
 
     if (codeError) {
@@ -1076,7 +1076,7 @@ Base on `api/niebocross/auth/verify-code.js`. Key differences:
 The registration fetch must look like:
 ```javascript
 const { data: registration } = await supabase
-  .from("registrations")
+  .from("event_registrations")
   .select("id, email")
   .eq("event_id", eventConfig.id)   // REQUIRED — scopes to this event
   .eq("email", email.toLowerCase())
@@ -1153,7 +1153,7 @@ Base on `api/niebocross/registrations/list.js`. The niebocross version imports f
 
 Key query changes:
 - Table: `participants` (not `niebocross_participants_v2`)
-- Join: `registrations!inner(email, event_id, payments(payment_status, created_at))`
+- Join: `event_registrations!inner(email, event_id, payments(payment_status, created_at))`
 - Add filter: `.eq("registrations.event_id", eventConfig.id)` so each event's list is isolated
 - Replace `p.niebocross_registrations?.niebocross_payments` → `p.registrations?.payments`
 - Replace `p.niebocross_registrations?.email` → `p.registrations?.email`
@@ -1218,10 +1218,10 @@ Full key section of webhook handler (the rest is identical to niebocross):
 ```javascript
 // Get payment with registration and event_id
 const { data: payment, error: paymentError } = await supabase
-  .from("payments")
+  .from("event_payments")
   .select(`
     *,
-    registrations!inner(email, contact_person, event_id)
+    event_registrations!inner(email, contact_person, event_id)
   `)
   .eq("id", paymentId)
   .single();
@@ -1375,7 +1375,7 @@ Expected: 200 + Set-Cookie: wilczypolmaraton_2026_session=...
 ```
 POST /api/events/wilczypolmaraton-2026/register
 Headers: Cookie: wilczypolmaraton_2026_session=<token>
-Body: { "participants": [{ "firstName": "Jan", "lastName": "Kowalski", "birthDate": "1990-01-01", "city": "Warszawa", "nationality": "PL", "raceCategory": "21km", "phoneNumber": "123456789", "tshirtSize": "M" }] }
+Body: { "event_participants": [{ "firstName": "Jan", "lastName": "Kowalski", "birthDate": "1990-01-01", "city": "Warszawa", "nationality": "PL", "raceCategory": "21km", "phoneNumber": "123456789", "tshirtSize": "M" }] }
 Expected: 200 { success: true }
 ```
 
