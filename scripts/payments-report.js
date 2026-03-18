@@ -90,7 +90,12 @@ async function fetchGeneric(supabase, eventId, paymentId) {
   if (paymentId) query = query.eq("id", paymentId);
 
   const { data, error } = await query;
-  if (error) throw new Error(`payments: ${error.message}`);
+  if (error) {
+    if (error.message.includes("schema cache") || error.message.includes("does not exist")) {
+      return []; // table not yet created in Supabase
+    }
+    throw new Error(`payments: ${error.message}`);
+  }
   return (data || []).map(p => ({
     event: p.registrations?.event_id ?? "unknown",
     id: p.id,
