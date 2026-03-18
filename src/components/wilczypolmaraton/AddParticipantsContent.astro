@@ -14,14 +14,14 @@ const { t, locale = 'pl' } = Astro.props;
 <div class="mx-auto max-w-4xl px-6 py-12">
   <!-- Auth check message -->
   <div id="authCheck" class="text-center py-12">
-    <p class="text-lg text-slate-600">{t("niebocross.add_participants.checking_auth")}</p>
+    <p class="text-lg text-slate-600">{t("wilczypolmaraton.add_participants.checking_auth")}</p>
   </div>
 
   <!-- Main content (hidden until auth verified) -->
   <div id="content" class="hidden space-y-6">
     <div class="text-center">
-      <h2 class="text-3xl font-bold text-slate-900">{t("niebocross.add_participants.title")}</h2>
-      <p class="mt-2 text-slate-600">{t("niebocross.add_participants.description")}</p>
+      <h2 class="text-3xl font-bold text-slate-900">{t("wilczypolmaraton.add_participants.title")}</h2>
+      <p class="mt-2 text-slate-600">{t("wilczypolmaraton.add_participants.description")}</p>
     </div>
 
     <div class="grid gap-6 lg:grid-cols-[1fr_300px]">
@@ -37,7 +37,7 @@ const { t, locale = 'pl' } = Astro.props;
             id="addParticipantBtn"
             class="rounded-lg border-2 border-dashed border-emerald-300 bg-emerald-50 px-6 py-3 font-semibold text-emerald-700 transition hover:border-emerald-400 hover:bg-emerald-100"
           >
-            + {t("niebocross.form.add_participant")}
+            + {t("wilczypolmaraton.form.add_participant")}
           </button>
 
           <div id="error" class="hidden rounded-lg bg-red-50 p-3 text-sm text-red-700"></div>
@@ -48,19 +48,19 @@ const { t, locale = 'pl' } = Astro.props;
             class="w-full rounded-lg bg-emerald-600 px-6 py-3 font-semibold text-white transition hover:bg-emerald-700 disabled:bg-slate-300 disabled:cursor-not-allowed"
             disabled
           >
-            {t("niebocross.add_participants.submit")}
+            {t("wilczypolmaraton.add_participants.submit")}
           </button>
 
           <!-- Helper text when button is disabled -->
           <div id="requiredFieldsInfoAddParticipants" class="text-center text-sm text-slate-600 mt-2 hidden">
-            ℹ️ {t("niebocross.payment.required_fields_info")}
+            ℹ️ {t("wilczypolmaraton.payment.required_fields_info")}
           </div>
 
           <a
             href={locale === 'en' ? '/en/wilczypolmaraton/panel' : '/wilczypolmaraton/panel'}
             class="block w-full rounded-lg bg-white border-2 border-emerald-300 px-6 py-3 text-center font-semibold text-slate-700 transition hover:bg-slate-50"
           >
-            ← {t("niebocross.add_participants.back_to_panel")}
+            ← {t("wilczypolmaraton.add_participants.back_to_panel")}
           </a>
         </form>
       </div>
@@ -77,12 +77,12 @@ const { t, locale = 'pl' } = Astro.props;
 <script define:vars={{
   locale,
   errorMessages: {
-    connection: t("niebocross.errors.connection_error"),
-    generic: t("niebocross.errors.generic_error")
+    connection: t("wilczypolmaraton.errors.connection_error"),
+    generic: t("wilczypolmaraton.errors.generic_error")
   },
   formLabels: {
-    participant: t("niebocross.form.participant"),
-    remove: t("niebocross.form.remove")
+    participant: t("wilczypolmaraton.form.participant"),
+    remove: t("wilczypolmaraton.form.remove")
   }
 }}>
   // API Base URL

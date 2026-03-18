@@ -15,14 +15,14 @@ const wilczypolmaratonLink = locale === 'en' ? '/en/wilczypolmaraton' : '/wilczy
   <div class="mx-auto max-w-4xl px-6 py-12">
     <div id="loading" class="text-center py-12">
       <div class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-emerald-600 border-r-transparent"></div>
-      <p id="loadingText" class="mt-4 text-slate-600">{t("niebocross.dashboard.loading")}</p>
+      <p id="loadingText" class="mt-4 text-slate-600">{t("wilczypolmaraton.dashboard.loading")}</p>
     </div>
 
     <div id="content" class="hidden space-y-6">
       <!-- Header -->
       <div class="flex items-center justify-between">
         <div>
-          <h2 class="text-3xl font-bold text-slate-900">{t("niebocross.dashboard.title")}</h2>
+          <h2 class="text-3xl font-bold text-slate-900">{t("wilczypolmaraton.dashboard.title")}</h2>
           <p class="mt-1 font-medium text-slate-700" id="nameDisplay"></p>
           <p class="text-sm text-slate-600" id="emailDisplay"></p>
         </div>
@@ -30,7 +30,7 @@ const wilczypolmaratonLink = locale === 'en' ? '/en/wilczypolmaraton' : '/wilczy
           id="logoutBtn"
           class="rounded-lg border border-emerald-300 border-2 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
         >
-          {t("niebocross.dashboard.logout")}
+          {t("wilczypolmaraton.dashboard.logout")}
         </button>
       </div>
 
@@ -40,13 +40,13 @@ const wilczypolmaratonLink = locale === 'en' ? '/en/wilczypolmaraton' : '/wilczy
       <!-- Participants List -->
       <div class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
         <div class="mb-4 flex items-center justify-between">
-          <h3 class="text-xl font-bold text-slate-900">{t("niebocross.dashboard.participants")}</h3>
+          <h3 class="text-xl font-bold text-slate-900">{t("wilczypolmaraton.dashboard.participants")}</h3>
           <a
             id="addParticipantBtn"
             href={locale === 'en' ? '/en/wilczypolmaraton/dodaj-uczestnikow' : '/wilczypolmaraton/dodaj-uczestnikow'}
             class="hidden rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-700"
           >
-            + {t("niebocross.form.add_participant")}
+            + {t("wilczypolmaraton.form.add_participant")}
           </a>
         </div>
         <div id="participantsList" class="space-y-4"></div>
@@ -57,7 +57,7 @@ const wilczypolmaratonLink = locale === 'en' ? '/en/wilczypolmaraton' : '/wilczy
         <div class="h-full w-full overflow-y-auto p-4 flex items-start sm:items-center justify-center">
           <div class="w-full max-w-2xl my-4 sm:my-8 rounded-xl bg-white p-4 sm:p-6 shadow-xl">
             <div class="mb-4 flex items-center justify-between">
-              <h3 class="text-xl font-bold text-slate-900">{t("niebocross.dashboard.edit_participant")}</h3>
+              <h3 class="text-xl font-bold text-slate-900">{t("wilczypolmaraton.dashboard.edit_participant")}</h3>
               <button id="closeModal" class="text-slate-400 hover:text-slate-600">
                 <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -71,7 +71,7 @@ const wilczypolmaratonLink = locale === 'en' ? '/en/wilczypolmaraton' : '/wilczy
             <div class="grid gap-4 sm:grid-cols-2">
               <div>
                 <label class="block text-sm font-semibold text-slate-700">
-                  {t("niebocross.form.first_name")} <span class="text-red-600">*</span>
+                  {t("wilczypolmaraton.form.first_name")} <span class="text-red-600">*</span>
                 </label>
                 <input
                   type="text"
@@ -82,7 +82,7 @@ const wilczypolmaratonLink = locale === 'en' ? '/en/wilczypolmaraton' : '/wilczy
               </div>
               <div>
                 <label class="block text-sm font-semibold text-slate-700">
-                  {t("niebocross.form.last_name")} <span class="text-red-600">*</span>
+                  {t("wilczypolmaraton.form.last_name")} <span class="text-red-600">*</span>
                 </label>
                 <input
                   type="text"
@@ -96,7 +96,7 @@ const wilczypolmaratonLink = locale === 'en' ? '/en/wilczypolmaraton' : '/wilczy
             <div class="grid gap-4 sm:grid-cols-2">
               <div>
                 <label for="editBirthDate" class="block text-sm font-semibold text-slate-700">
-                  {t("niebocross.form.birth_date")} <span class="text-red-600">*</span>
+                  {t("wilczypolmaraton.form.birth_date")} <span class="text-red-600">*</span>
                 </label>
                 <input
                   type="date"
@@ -111,7 +111,7 @@ const wilczypolmaratonLink = locale === 'en' ? '/en/wilczypolmaraton' : '/wilczy
             <div class="grid gap-4 sm:grid-cols-2">
               <div>
                 <label class="block text-sm font-semibold text-slate-700">
-                  {t("niebocross.form.city")} <span class="text-red-600">*</span>
+                  {t("wilczypolmaraton.form.city")} <span class="text-red-600">*</span>
                 </label>
                 <input
                   type="text"
@@ -122,7 +122,7 @@ const wilczypolmaratonLink = locale === 'en' ? '/en/wilczypolmaraton' : '/wilczy
               </div>
               <div>
                 <label class="block text-sm font-semibold text-slate-700">
-                  {t("niebocross.form.nationality")} <span class="text-red-600">*</span>
+                  {t("wilczypolmaraton.form.nationality")} <span class="text-red-600">*</span>
                 </label>
                 <input
                   type="text"
@@ -136,7 +136,7 @@ const wilczypolmaratonLink = locale === 'en' ? '/en/wilczypolmaraton' : '/wilczy
             <div class="grid gap-4 sm:grid-cols-2">
               <div>
                 <label class="block text-sm font-semibold text-slate-700">
-                  {t("niebocross.form.club")}
+                  {t("wilczypolmaraton.form.club")}
                 </label>
                 <div class="relative">
                   <input
@@ -150,7 +150,7 @@ const wilczypolmaratonLink = locale === 'en' ? '/en/wilczypolmaraton' : '/wilczy
               </div>
               <div>
                 <label class="block text-sm font-semibold text-slate-700">
-                  {t("niebocross.form.phone_number")} <span class="text-red-600">*</span>
+                  {t("wilczypolmaraton.form.phone_number")} <span class="text-red-600">*</span>
                 </label>
                 <input
                   type="text"
@@ -158,20 +158,20 @@ const wilczypolmaratonLink = locale === 'en' ? '/en/wilczypolmaraton' : '/wilczy
                   required
                   class="mt-1 block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2"
                 />
-                <p class="mt-1 text-xs text-slate-600">{t("niebocross.form.phone_help")}</p>
+                <p class="mt-1 text-xs text-slate-600">{t("wilczypolmaraton.form.phone_help")}</p>
               </div>
             </div>
 
             <div>
               <label class="block text-sm font-semibold text-slate-700">
-                {t("niebocross.form.race_category")} <span class="text-red-600">*</span>
+                {t("wilczypolmaraton.form.race_category")} <span class="text-red-600">*</span>
               </label>
               <select
                 id="editRaceCategory"
                 required
                 class="mt-1 block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2"
               >
-                <option value="">{t("niebocross.form.select_category")}</option>
+                <option value="">{t("wilczypolmaraton.form.select_category")}</option>
                 <option value="21km">Półmaraton 21km</option>
                 <option value="10km">Bieg 10km</option>
               </select>
@@ -180,7 +180,7 @@ const wilczypolmaratonLink = locale === 'en' ? '/en/wilczypolmaraton' : '/wilczy
             <div class="grid gap-4 sm:grid-cols-2">
               <div>
                 <label class="block text-sm font-semibold text-slate-700">
-                  {t("niebocross.form.tshirt_size")} <span class="text-red-600">*</span>
+                  {t("wilczypolmaraton.form.tshirt_size")} <span class="text-red-600">*</span>
                 </label>
                 <TshirtSizeSelector name="editTshirtSize" id="editTshirtSize" t={t} />
               </div>
@@ -193,7 +193,7 @@ const wilczypolmaratonLink = locale === 'en' ? '/en/wilczypolmaraton' : '/wilczy
                   id="editHideNamePublic"
                   class="mt-1 rounded border-emerald-300 border-2 text-emerald-600 focus:ring-emerald-500"
                 />
-                <span class="text-sm text-slate-700">{t("niebocross.form.hide_name_public")}</span>
+                <span class="text-sm text-slate-700">{t("wilczypolmaraton.form.hide_name_public")}</span>
               </label>
             </div>
 
@@ -204,14 +204,14 @@ const wilczypolmaratonLink = locale === 'en' ? '/en/wilczypolmaraton' : '/wilczy
                 type="submit"
                 class="flex-1 rounded-lg bg-emerald-600 px-6 py-3 font-semibold text-white transition hover:bg-emerald-700"
               >
-                {t("niebocross.form.save_changes")}
+                {t("wilczypolmaraton.form.save_changes")}
               </button>
               <button
                 type="button"
                 id="cancelEdit"
                 class="rounded-lg border border-emerald-300 border-2 bg-white px-6 py-3 font-semibold text-slate-700 transition hover:bg-slate-50"
               >
-                {t("niebocross.form.cancel")}
+                {t("wilczypolmaraton.form.cancel")}
               </button>
             </div>
           </form>
@@ -223,29 +223,29 @@ const wilczypolmaratonLink = locale === 'en' ? '/en/wilczypolmaraton' : '/wilczy
 
   <script define:vars={{
     translations: {
-      no_registered_participants: t("niebocross.panel.no_registered_participants"),
-      paid: t("niebocross.panel.paid"),
-      awaiting_payment: t("niebocross.panel.awaiting_payment"),
-      payment_failed: t("niebocross.panel.payment_failed"),
-      payment_failed_desc: t("niebocross.panel.payment_failed_desc"),
-      payment_failed_contact: t("niebocross.panel.payment_failed_contact"),
-      retry_payment: t("niebocross.panel.retry_payment"),
-      amount_to_pay: t("niebocross.panel.amount_to_pay"),
-      including_charity: t("niebocross.panel.including_charity"),
-      pay_now: t("niebocross.panel.pay_now"),
-      no_participants: t("niebocross.panel.no_participants"),
-      edit: t("niebocross.panel.edit"),
-      delete: t("niebocross.panel.delete"),
-      confirm_delete_participant: t("niebocross.panel.confirm_delete_participant"),
-      status_paid: t("niebocross.participants_list.status_paid"),
-      status_pending: t("niebocross.participants_list.status_pending")
+      no_registered_participants: t("wilczypolmaraton.panel.no_registered_participants"),
+      paid: t("wilczypolmaraton.panel.paid"),
+      awaiting_payment: t("wilczypolmaraton.panel.awaiting_payment"),
+      payment_failed: t("wilczypolmaraton.panel.payment_failed"),
+      payment_failed_desc: t("wilczypolmaraton.panel.payment_failed_desc"),
+      payment_failed_contact: t("wilczypolmaraton.panel.payment_failed_contact"),
+      retry_payment: t("wilczypolmaraton.panel.retry_payment"),
+      amount_to_pay: t("wilczypolmaraton.panel.amount_to_pay"),
+      including_charity: t("wilczypolmaraton.panel.including_charity"),
+      pay_now: t("wilczypolmaraton.panel.pay_now"),
+      no_participants: t("wilczypolmaraton.panel.no_participants"),
+      edit: t("wilczypolmaraton.panel.edit"),
+      delete: t("wilczypolmaraton.panel.delete"),
+      confirm_delete_participant: t("wilczypolmaraton.panel.confirm_delete_participant"),
+      status_paid: t("wilczypolmaraton.participants_list.status_paid"),
+      status_pending: t("wilczypolmaraton.participants_list.status_pending")
     },
     errorMessages: {
-      load: t("niebocross.errors.load_error"),
-      update: t("niebocross.errors.update_error"),
-      delete: t("niebocross.errors.delete_error"),
-      connection: t("niebocross.errors.connection_error"),
-      generic: t("niebocross.errors.generic_error")
+      load: t("wilczypolmaraton.errors.load_error"),
+      update: t("wilczypolmaraton.errors.update_error"),
+      delete: t("wilczypolmaraton.errors.delete_error"),
+      connection: t("wilczypolmaraton.errors.connection_error"),
+      generic: t("wilczypolmaraton.errors.generic_error")
     }
   }}>
     const API_BASE = '/api/events/wilczypolmaraton-2026';

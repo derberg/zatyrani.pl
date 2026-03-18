@@ -14,15 +14,15 @@ const { t, locale = 'pl' } = Astro.props;
     <!-- Step 1: Email Verification -->
     <div id="step1" class="space-y-6">
       <div class="text-center">
-        <h2 class="text-3xl font-bold text-slate-900">{t("niebocross.registration.email_step_title")}</h2>
-        <p class="mt-2 text-slate-600">{t("niebocross.registration.email_step_desc")}</p>
+        <h2 class="text-3xl font-bold text-slate-900">{t("wilczypolmaraton.registration.email_step_title")}</h2>
+        <p class="mt-2 text-slate-600">{t("wilczypolmaraton.registration.email_step_desc")}</p>
       </div>
 
       <div class="mx-auto max-w-md rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
         <form id="emailForm" class="space-y-4">
           <div>
             <label for="email" class="block text-sm font-semibold text-slate-700">
-              {t("niebocross.form.email")} <span class="text-red-600">*</span>
+              {t("wilczypolmaraton.form.email")} <span class="text-red-600">*</span>
             </label>
             <input
               type="email"
@@ -36,9 +36,9 @@ const { t, locale = 'pl' } = Astro.props;
 
           <div>
             <label for="fullName" class="block text-sm font-semibold text-slate-700">
-              {t("niebocross.form.contact_person")} <span class="text-red-600">*</span>
+              {t("wilczypolmaraton.form.contact_person")} <span class="text-red-600">*</span>
             </label>
-            <p class="text-xs text-slate-500">{t("niebocross.form.contact_person_desc")}</p>
+            <p class="text-xs text-slate-500">{t("wilczypolmaraton.form.contact_person_desc")}</p>
             <input
               type="text"
               id="fullName"
@@ -58,7 +58,7 @@ const { t, locale = 'pl' } = Astro.props;
               class="mt-1 rounded border-emerald-300 border-2 text-emerald-600 focus:ring-emerald-500"
             />
             <label for="rodoAccepted" class="text-sm text-slate-700">
-              {t("niebocross.form.rodo_consent")} <span class="text-red-600">*</span>
+              {t("wilczypolmaraton.form.rodo_consent")} <span class="text-red-600">*</span>
             </label>
           </div>
 
@@ -71,7 +71,7 @@ const { t, locale = 'pl' } = Astro.props;
               class="mt-1 rounded border-emerald-300 border-2 text-emerald-600 focus:ring-emerald-500"
             />
             <label for="termsAccepted" class="text-sm text-slate-700">
-              {t("niebocross.form.terms_consent")} <a href="/wilczypolmaraton#regulamin" target="_blank" class="text-emerald-600 hover:underline">{t("niebocross.form.terms_link")}</a> <span class="text-red-600">*</span>
+              {t("wilczypolmaraton.form.terms_consent")} <a href="/wilczypolmaraton#regulamin" target="_blank" class="text-emerald-600 hover:underline">{t("wilczypolmaraton.form.terms_link")}</a> <span class="text-red-600">*</span>
             </label>
           </div>
 
@@ -95,7 +95,7 @@ const { t, locale = 'pl' } = Astro.props;
             id="emailSubmitBtn"
             disabled
           >
-            {t("niebocross.form.send_code")}
+            {t("wilczypolmaraton.form.send_code")}
           </button>
         </form>
       </div>
@@ -104,15 +104,15 @@ const { t, locale = 'pl' } = Astro.props;
     <!-- Step 2: Code Verification -->
     <div id="step2" class="hidden space-y-6">
       <div class="text-center">
-        <h2 class="text-3xl font-bold text-slate-900">{t("niebocross.registration.code_step_title")}</h2>
-        <p class="mt-2 text-slate-600">{t("niebocross.registration.code_step_desc")}</p>
+        <h2 class="text-3xl font-bold text-slate-900">{t("wilczypolmaraton.registration.code_step_title")}</h2>
+        <p class="mt-2 text-slate-600">{t("wilczypolmaraton.registration.code_step_desc")}</p>
       </div>
 
       <div class="mx-auto max-w-md rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
         <form id="codeForm" class="space-y-4">
           <div>
             <label for="code" class="block text-sm font-semibold text-slate-700">
-              {t("niebocross.form.verification_code")} <span class="text-red-600">*</span>
+              {t("wilczypolmaraton.form.verification_code")} <span class="text-red-600">*</span>
             </label>
             <input
               type="text"
@@ -128,7 +128,7 @@ const { t, locale = 'pl' } = Astro.props;
 
           <!-- Spam check info -->
           <div class="rounded-lg bg-blue-50 p-3 text-sm text-blue-700">
-            <p>{t("niebocross.form.check_spam")}</p>
+            <p>{t("wilczypolmaraton.form.check_spam")}</p>
           </div>
 
           <div id="codeError" class="hidden rounded-lg bg-red-50 p-3 text-sm text-red-700"></div>
@@ -141,7 +141,7 @@ const { t, locale = 'pl' } = Astro.props;
             id="codeSubmitBtn"
             disabled
           >
-            {t("niebocross.form.verify_code")}
+            {t("wilczypolmaraton.form.verify_code")}
           </button>
 
           <button
@@ -149,7 +149,7 @@ const { t, locale = 'pl' } = Astro.props;
             id="resendCodeBtn"
             class="w-full rounded-lg border border-emerald-600 bg-white px-6 py-2 text-sm font-semibold text-emerald-600 transition hover:bg-emerald-50 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {t("niebocross.form.resend_code")}
+            {t("wilczypolmaraton.form.resend_code")}
           </button>
 
           <button
@@ -157,17 +157,17 @@ const { t, locale = 'pl' } = Astro.props;
             id="backToEmail"
             class="w-full rounded-lg border border-emerald-300 border-2 bg-white px-6 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
           >
-            ← {t("niebocross.form.back_to_email")}
+            ← {t("wilczypolmaraton.form.back_to_email")}
           </button>
         </form>
       </div>
     </div>
 
     <!-- Step 3: Add Participants -->
-    <div id="step3" class="hidden space-y-6" data-birth-label={t("niebocross.form.birth_date")}>
+    <div id="step3" class="hidden space-y-6" data-birth-label={t("wilczypolmaraton.form.birth_date")}>
       <div class="text-center">
-        <h2 class="text-3xl font-bold text-slate-900">{t("niebocross.registration.participants_step_title")}</h2>
-        <p class="mt-2 text-slate-600">{t("niebocross.registration.participants_step_desc")}</p>
+        <h2 class="text-3xl font-bold text-slate-900">{t("wilczypolmaraton.registration.participants_step_title")}</h2>
+        <p class="mt-2 text-slate-600">{t("wilczypolmaraton.registration.participants_step_desc")}</p>
       </div>
 
       <div class="grid gap-6 lg:grid-cols-[1fr_300px]">
@@ -185,7 +185,7 @@ const { t, locale = 'pl' } = Astro.props;
               id="addParticipantBtn"
               class="rounded-lg border-2 border-dashed border-emerald-300 bg-emerald-50 px-6 py-3 font-semibold text-emerald-700 transition hover:border-emerald-400 hover:bg-emerald-100"
             >
-              + {t("niebocross.form.add_participant")}
+              + {t("wilczypolmaraton.form.add_participant")}
             </button>
 
             <div id="participantsError" class="hidden rounded-lg bg-red-50 p-3 text-sm text-red-700"></div>
@@ -195,12 +195,12 @@ const { t, locale = 'pl' } = Astro.props;
               class="w-full rounded-lg bg-emerald-600 px-6 py-3 font-semibold text-white transition hover:bg-emerald-700 disabled:bg-slate-300"
               id="participantsSubmitBtn"
             >
-              {t("niebocross.payment.go_to_panel")}
+              {t("wilczypolmaraton.payment.go_to_panel")}
             </button>
 
             <!-- Helper text when button is disabled -->
             <div id="requiredFieldsInfo" class="text-center text-sm text-slate-600 mt-2 hidden">
-              ℹ️ {t("niebocross.payment.required_fields_info")}
+              ℹ️ {t("wilczypolmaraton.payment.required_fields_info")}
             </div>
           </form>
         </div>
@@ -217,57 +217,57 @@ const { t, locale = 'pl' } = Astro.props;
   <script define:vars={{
     locale,
     errorMessages: {
-      EMAIL_EXISTS: t("niebocross.errors.email_exists"),
-      EMAIL_EXISTS_LOGIN: t("niebocross.errors.email_exists_login"),
-      EMAIL_REQUIRED: t("niebocross.errors.email_required"),
-      EMAIL_INVALID: t("niebocross.errors.email_invalid"),
-      RODO_REQUIRED: t("niebocross.errors.rodo_required"),
-      TERMS_REQUIRED: t("niebocross.errors.terms_required"),
-      INVALID_CODE: t("niebocross.errors.invalid_code"),
-      INVALID_CODE_CONTACT: t("niebocross.errors.invalid_code_contact"),
-      INVALID_CODE_CONTACT_LINK: t("niebocross.errors.invalid_code_contact_link"),
-      CODE_EXPIRED: t("niebocross.errors.code_expired"),
-      connection: t("niebocross.errors.connection_error"),
-      generic: t("niebocross.errors.generic_error")
+      EMAIL_EXISTS: t("wilczypolmaraton.errors.email_exists"),
+      EMAIL_EXISTS_LOGIN: t("wilczypolmaraton.errors.email_exists_login"),
+      EMAIL_REQUIRED: t("wilczypolmaraton.errors.email_required"),
+      EMAIL_INVALID: t("wilczypolmaraton.errors.email_invalid"),
+      RODO_REQUIRED: t("wilczypolmaraton.errors.rodo_required"),
+      TERMS_REQUIRED: t("wilczypolmaraton.errors.terms_required"),
+      INVALID_CODE: t("wilczypolmaraton.errors.invalid_code"),
+      INVALID_CODE_CONTACT: t("wilczypolmaraton.errors.invalid_code_contact"),
+      INVALID_CODE_CONTACT_LINK: t("wilczypolmaraton.errors.invalid_code_contact_link"),
+      CODE_EXPIRED: t("wilczypolmaraton.errors.code_expired"),
+      connection: t("wilczypolmaraton.errors.connection_error"),
+      generic: t("wilczypolmaraton.errors.generic_error")
     },
     uiMessages: {
-      resending: t("niebocross.form.resending"),
-      resendCode: t("niebocross.form.resend_code"),
-      codeResent: t("niebocross.form.code_resent")
+      resending: t("wilczypolmaraton.form.resending"),
+      resendCode: t("wilczypolmaraton.form.resend_code"),
+      codeResent: t("wilczypolmaraton.form.code_resent")
     },
     formLabels: {
-      participant: t("niebocross.form.participant"),
-      remove: t("niebocross.form.remove"),
-      firstName: t("niebocross.form.first_name"),
-      lastName: t("niebocross.form.last_name"),
-      birthDate: t("niebocross.form.birth_date"),
-      day: t("niebocross.form.day"),
-      month: t("niebocross.form.month"),
-      year: t("niebocross.form.year"),
+      participant: t("wilczypolmaraton.form.participant"),
+      remove: t("wilczypolmaraton.form.remove"),
+      firstName: t("wilczypolmaraton.form.first_name"),
+      lastName: t("wilczypolmaraton.form.last_name"),
+      birthDate: t("wilczypolmaraton.form.birth_date"),
+      day: t("wilczypolmaraton.form.day"),
+      month: t("wilczypolmaraton.form.month"),
+      year: t("wilczypolmaraton.form.year"),
       months: {
-        jan: t("niebocross.form.months.jan"),
-        feb: t("niebocross.form.months.feb"),
-        mar: t("niebocross.form.months.mar"),
-        apr: t("niebocross.form.months.apr"),
-        may: t("niebocross.form.months.may"),
-        jun: t("niebocross.form.months.jun"),
-        jul: t("niebocross.form.months.jul"),
-        aug: t("niebocross.form.months.aug"),
-        sep: t("niebocross.form.months.sep"),
-        oct: t("niebocross.form.months.oct"),
-        nov: t("niebocross.form.months.nov"),
-        dec: t("niebocross.form.months.dec")
+        jan: t("wilczypolmaraton.form.months.jan"),
+        feb: t("wilczypolmaraton.form.months.feb"),
+        mar: t("wilczypolmaraton.form.months.mar"),
+        apr: t("wilczypolmaraton.form.months.apr"),
+        may: t("wilczypolmaraton.form.months.may"),
+        jun: t("wilczypolmaraton.form.months.jun"),
+        jul: t("wilczypolmaraton.form.months.jul"),
+        aug: t("wilczypolmaraton.form.months.aug"),
+        sep: t("wilczypolmaraton.form.months.sep"),
+        oct: t("wilczypolmaraton.form.months.oct"),
+        nov: t("wilczypolmaraton.form.months.nov"),
+        dec: t("wilczypolmaraton.form.months.dec")
       },
-      city: t("niebocross.form.city"),
-      nationality: t("niebocross.form.nationality"),
-      club: t("niebocross.form.club"),
-      phoneNumber: t("niebocross.form.phone_number"),
-      phoneHelp: t("niebocross.form.phone_help"),
-      distanceActivity: t("niebocross.form.distance_activity"),
-      tshirtSize: t("niebocross.form.tshirt_size"),
-      tshirtInfo: t("niebocross.form.tshirt_info"),
-      noTshirt: t("niebocross.form.no_tshirt"),
-      hideNamePublic: t("niebocross.form.hide_name_public"),
+      city: t("wilczypolmaraton.form.city"),
+      nationality: t("wilczypolmaraton.form.nationality"),
+      club: t("wilczypolmaraton.form.club"),
+      phoneNumber: t("wilczypolmaraton.form.phone_number"),
+      phoneHelp: t("wilczypolmaraton.form.phone_help"),
+      distanceActivity: t("wilczypolmaraton.form.distance_activity"),
+      tshirtSize: t("wilczypolmaraton.form.tshirt_size"),
+      tshirtInfo: t("wilczypolmaraton.form.tshirt_info"),
+      noTshirt: t("wilczypolmaraton.form.no_tshirt"),
+      hideNamePublic: t("wilczypolmaraton.form.hide_name_public"),
       categories: {
         "21km": "Półmaraton 21km",
         "10km": "Bieg 10km"
