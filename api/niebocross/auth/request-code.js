@@ -74,7 +74,7 @@ export default async function handler(req, res) {
     if (recentCodes && recentCodes.length >= 3) {
       return res.status(429).json({
         success: false,
-        error: "Zbyt wiele prób. Spróbuj ponownie za godzinę."
+        error: "RATE_LIMIT"
       });
     }
 
