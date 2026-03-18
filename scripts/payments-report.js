@@ -156,8 +156,10 @@ function printSinglePayment(payment) {
 // ── Main ──────────────────────────────────────────────────────────────────────
 
 const args = process.argv.slice(2);
-const eventArg = args[args.indexOf("--event") + 1] ?? null;
-const idArg = args[args.indexOf("--id") + 1] ?? null;
+const eventIdx = args.indexOf("--event");
+const idIdx = args.indexOf("--id");
+const eventArg = eventIdx !== -1 ? (args[eventIdx + 1] ?? null) : null;
+const idArg = idIdx !== -1 ? (args[idIdx + 1] ?? null) : null;
 
 const supabase = getSupabase();
 
