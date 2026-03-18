@@ -45,18 +45,26 @@ const ytPreviewLink = "https://www.youtube.com/embed/sY6au0yZyp4";
       >
         {t("halfmarathon.event_button")}
       </a>
-      <a
-        href="/wilczypolmaraton/rejestracja"
-        class="inline-block bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-full"
-      >
-        {t("halfmarathon.register_button")}
-      </a>
-      <a
-        href="/wilczypolmaraton/lista"
-        class="inline-block bg-white/20 hover:bg-white/30 text-white px-8 py-3 rounded-full backdrop-blur-sm"
-      >
-        {t("halfmarathon.participants_list_button")}
-      </a>
+      <div id="registration-buttons" class="contents">
+        <a
+          href="/wilczypolmaraton/rejestracja"
+          class="inline-block bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-full"
+        >
+          {t("halfmarathon.register_button")}
+        </a>
+        <a
+          href="/wilczypolmaraton/zaloguj"
+          class="inline-block bg-white/20 hover:bg-white/30 text-white px-8 py-3 rounded-full backdrop-blur-sm border border-white/40"
+        >
+          {t("halfmarathon.login_button")}
+        </a>
+        <a
+          href="/wilczypolmaraton/lista"
+          class="inline-block bg-white/20 hover:bg-white/30 text-white px-8 py-3 rounded-full backdrop-blur-sm"
+        >
+          {t("halfmarathon.participants_list_button")}
+        </a>
+      </div>
     </div>
   </div>
 </div>
@@ -217,3 +225,26 @@ const ytPreviewLink = "https://www.youtube.com/embed/sY6au0yZyp4";
     </p>
   </div>
 </section>
+
+<script is:inline define:vars={{
+  panelLabel: t("halfmarathon.panel_button"),
+  listLabel: t("halfmarathon.participants_list_button")
+}}>
+  const cookies = document.cookie.split(';').map(c => c.trim());
+  const authCookie = cookies.find(c => c.startsWith('wilczypolmaraton_2026_auth_status='));
+  const isAuthenticated = authCookie && authCookie.split('=')[1] === 'true';
+
+  if (isAuthenticated) {
+    const registrationButtons = document.getElementById('registration-buttons');
+    if (registrationButtons) {
+      registrationButtons.innerHTML = `
+        <a href="/wilczypolmaraton/panel" class="inline-block bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-full">
+          ${panelLabel}
+        </a>
+        <a href="/wilczypolmaraton/lista" class="inline-block bg-white/20 hover:bg-white/30 text-white px-8 py-3 rounded-full backdrop-blur-sm">
+          ${listLabel}
+        </a>
+      `;
+    }
+  }
+</script>
