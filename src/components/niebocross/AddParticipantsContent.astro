@@ -149,7 +149,7 @@ const { t, locale = 'pl' } = Astro.props;
     await fetchLimitsAndCounts();
     const disabledCategories = getDisabledCategories();
 
-    const participantDivs = document.querySelectorAll('[data-index]');
+    const participantDivs = document.querySelectorAll('#participantsContainer > [data-index]');
     participantDivs.forEach(div => {
       const index = div.getAttribute('data-index');
       const categoryInputs = div.querySelectorAll(`input[name="raceCategory_${index}"]`);
@@ -278,7 +278,7 @@ const { t, locale = 'pl' } = Astro.props;
 
   // Renumber participants after removal
   function renumberParticipants() {
-    const participantDivs = Array.from(document.querySelectorAll('[data-index]'));
+    const participantDivs = Array.from(document.querySelectorAll('#participantsContainer > [data-index]'));
     participantDivs.forEach((div, index) => {
       const newIndex = index + 1;
       const title = div.querySelector('h3');
@@ -316,7 +316,7 @@ const { t, locale = 'pl' } = Astro.props;
   // Collect participant data
   function collectParticipantData() {
     const participants = [];
-    document.querySelectorAll('[data-index]').forEach(div => {
+    document.querySelectorAll('#participantsContainer > [data-index]').forEach(div => {
       const index = div.getAttribute('data-index');
 
       participants.push({
@@ -339,7 +339,7 @@ const { t, locale = 'pl' } = Astro.props;
 
   // Validate participants
   function validateParticipants() {
-    const participantDivs = document.querySelectorAll('[data-index]');
+    const participantDivs = document.querySelectorAll('#participantsContainer > [data-index]');
     let allValid = true;
 
     participantDivs.forEach(div => {
@@ -377,7 +377,7 @@ const { t, locale = 'pl' } = Astro.props;
   function updateSummary() {
     let raceFees = 0;
 
-    document.querySelectorAll('[data-index]').forEach(div => {
+    document.querySelectorAll('#participantsContainer > [data-index]').forEach(div => {
       const index = div.getAttribute('data-index');
       const category = document.querySelector(`input[name="raceCategory_${index}"]:checked`)?.value;
 
@@ -437,7 +437,7 @@ const { t, locale = 'pl' } = Astro.props;
   document.getElementById('extraDonation')?.addEventListener('input', updateSummary);
 
   // Add validation listeners to all existing participant fields
-  document.querySelectorAll('[data-index]').forEach(div => {
+  document.querySelectorAll('#participantsContainer > [data-index]').forEach(div => {
     setupValidationListeners(div);
   });
 
