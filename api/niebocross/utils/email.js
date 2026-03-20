@@ -142,9 +142,12 @@ export async function sendPaymentReminderEmail({ email, contactPerson, totalAmou
 
   const html = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-      <h2 style="color: #2c7be5;">⏳ Hej ${contactPerson}, start coraz bliżej!</h2>
+      <h2 style="color: #2c7be5;">⏳ Hej ${contactPerson}, zostało tylko 7 dni na dokończenie zapisu!</h2>
       <p>Zauważyliśmy, że Twój udział w <strong>NieboCross 2026</strong> wciąż nie jest opłacony.</p>
-      <p>Do startu w Nieborowicach (<strong>12 kwietnia 2026</strong>) zostało już naprawdę niewiele czasu. Miejsca wypełniają się szybko, a wpłata to ostatni krok, żeby mieć pewność, że jesteś na liście.</p>
+      <div style="background-color: #fff7ed; padding: 16px 20px; margin: 20px 0; border-left: 4px solid #f97316; border-radius: 4px;">
+        <p style="margin: 0 0 8px 0;"><strong>🗓️ Masz tydzień na dokończenie zapisu</strong> — ale może być krócej.</p>
+        <p style="margin: 0;">Ponad <strong>170 osób już opłaciło</strong> swój start. Gdy limity miejsc się wyczerpią, zapisy zamkniemy niezależnie od terminu. Sama rejestracja bez wpłaty nie gwarantuje miejsca na liście startowej.</p>
+      </div>
       <div style="background-color: #f9f9f9; padding: 20px; margin: 20px 0; border-left: 4px solid #2c7be5;">
         <p style="margin: 0;"><strong>Do zapłaty: ${totalAmount} zł</strong></p>
       </div>
@@ -165,7 +168,7 @@ export async function sendPaymentReminderEmail({ email, contactPerson, totalAmou
   const msg = {
     to: email,
     from: process.env.SENDGRID_FROM_EMAIL || "biuro@zatyrani.pl",
-    subject: `Hej ${contactPerson}, jeszcze nie opłaciłeś(aś) startu! ⏳ NieboCross 2026`,
+    subject: `Hej ${contactPerson}, zostało 7 dni na dokończenie zapisu — ponad 170 osób już opłaciło start! ⏳`,
     text: convert(html, htmlToTextOptions),
     html,
   };
