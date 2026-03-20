@@ -126,10 +126,15 @@ export default async function handler(req, res) {
       };
     }
 
+    const totalRegistered = filteredParticipants.length;
+    const totalPaid = Object.values(paidCounts).reduce((sum, n) => sum + n, 0);
+
     return res.status(200).json({
       success: true,
       participants: results,
       total: results.length,
+      totalRegistered,
+      totalPaid,
       limitsAndCounts
     });
 
