@@ -4,11 +4,11 @@
 export const PARTICIPANT_LIMITS = {
   kids: {
     categories: ['kids_run'],
-    limit: 30
+    limit: 50
   },
   adults_runners: {
     categories: ['3km_run', '9km_run'],
-    limit: 150
+    limit: 130
   },
   nw: {
     categories: ['3km_nw', '9km_nw'],
