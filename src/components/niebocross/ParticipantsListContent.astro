@@ -115,6 +115,12 @@ const { t } = Astro.props;
       <p class="text-sm text-slate-600">
         {t("niebocross.participants_list.total_paid")}: <span id="totalPaidCount" class="font-semibold">0</span>
       </p>
+      <p class="text-sm text-slate-600">
+        {t("niebocross.participants_list.youngest_age")}: <span id="youngestAge" class="font-semibold">-</span>
+      </p>
+      <p class="text-sm text-slate-600">
+        {t("niebocross.participants_list.oldest_age")}: <span id="oldestAge" class="font-semibold">-</span>
+      </p>
     </div>
 
     <!-- Desktop table -->
@@ -155,7 +161,9 @@ const { t } = Astro.props;
   paymentStatusLabels: {
     'paid': t('niebocross.participants_list.status_paid'),
     'pending': t('niebocross.participants_list.status_pending')
-  }
+  },
+  ageYearsLabel: t('niebocross.participants_list.years_old'),
+  ageMonthsLabel: t('niebocross.participants_list.months_old')
 }}>
   const API_BASE = '/api/niebocross';
 
@@ -173,6 +181,8 @@ const { t } = Astro.props;
   const cardsContainer = document.getElementById('participantsCards');
   const totalCount = document.getElementById('totalCount');
   const totalPaidCount = document.getElementById('totalPaidCount');
+  const youngestAgeEl = document.getElementById('youngestAge');
+  const oldestAgeEl = document.getElementById('oldestAge');
   const kidsCount = document.getElementById('kidsCount');
   const kidsLimit = document.getElementById('kidsLimit');
   const adultsRunnersCount = document.getElementById('adultsRunnersCount');
@@ -208,7 +218,9 @@ const { t } = Astro.props;
         throw new Error(data.error || 'Failed to load participants');
       }
 
-      renderParticipants(data.participants, data.total, data.limitsAndCounts, data.totalRegistered, data.totalPaid);
+      console.log('Youngest participant birth_date:', data.youngestAge?.birthDate);
+      console.log('Oldest participant birth_date:', data.oldestAge?.birthDate);
+      renderParticipants(data.participants, data.total, data.limitsAndCounts, data.totalRegistered, data.totalPaid, data.youngestAge, data.oldestAge);
     } catch (error) {
       console.error('Error loading participants:', error);
       loading.classList.add('hidden');
@@ -220,9 +232,15 @@ const { t } = Astro.props;
     }
   }
 
-  function renderParticipants(participants, total, limitsAndCounts, totalRegistered, totalPaid) {
+  function renderParticipants(participants, total, limitsAndCounts, totalRegistered, totalPaid, youngestAge, oldestAge) {
     totalCount.textContent = String(totalRegistered ?? total);
     totalPaidCount.textContent = String(totalPaid ?? 0);
+    function formatAge(ageObj) {
+      if (!ageObj) return '-';
+      return `${ageObj.years} ${ageYearsLabel} ${ageObj.months} ${ageMonthsLabel}`;
+    }
+    youngestAgeEl.textContent = formatAge(youngestAge);
+    oldestAgeEl.textContent = formatAge(oldestAge);
 
     // Update counters
     if (limitsAndCounts) {

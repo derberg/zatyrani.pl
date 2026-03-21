@@ -129,12 +129,40 @@ export default async function handler(req, res) {
     const totalRegistered = filteredParticipants.length;
     const totalPaid = Object.values(paidCounts).reduce((sum, n) => sum + n, 0);
 
+    // Calculate youngest and oldest participant ages (paid only, age as of event day 2026-04-12)
+    const eventDate = new Date('2026-04-12');
+    let youngestAge = null;
+    let oldestAge = null;
+    filteredParticipants.forEach(p => {
+      const payments = p.niebocross_registrations?.niebocross_payments || [];
+      const latestPayment = payments.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))[0];
+      if (latestPayment?.payment_status !== 'paid') return;
+      if (p.birth_date) {
+        const birth = new Date(p.birth_date);
+        let age = eventDate.getFullYear() - birth.getFullYear();
+        const monthDiff = eventDate.getMonth() - birth.getMonth();
+        if (monthDiff < 0 || (monthDiff === 0 && eventDate.getDate() < birth.getDate())) {
+          age--;
+        }
+        // Calculate months for precision
+        let months = eventDate.getMonth() - birth.getMonth();
+        if (eventDate.getDate() < birth.getDate()) months--;
+        if (months < 0) months += 12;
+
+        const ageWithMonths = { years: age, months, birthDate: p.birth_date };
+        if (youngestAge === null || age < youngestAge.years || (age === youngestAge.years && months < youngestAge.months)) youngestAge = ageWithMonths;
+        if (oldestAge === null || age > oldestAge.years || (age === oldestAge.years && months > oldestAge.months)) oldestAge = ageWithMonths;
+      }
+    });
+
     return res.status(200).json({
       success: true,
       participants: results,
       total: results.length,
       totalRegistered,
       totalPaid,
+      youngestAge,
+      oldestAge,
       limitsAndCounts
     });
 
