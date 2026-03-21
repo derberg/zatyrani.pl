@@ -614,5 +614,16 @@
     "phone": "784640977",
     "distance": 9,
     "pace": 6
+  },
+  {
+    "uid": "nordic-walking-22-3-2026-8-0-nieborowice-wierzbowa-4-9-9",
+    "type": "nordic walking",
+    "datetime": "22/03/2026 08:00",
+    "location": "Nieborowice – Wierzbowa 4",
+    "locationLink": "https://maps.app.goo.gl/1hiWUekjpgK7GpAN8",
+    "comment": "Przejdziemy 9km trasę NieboCross. Poznacie też 50% trasy 3km.",
+    "phone": "784640977",
+    "distance": 9,
+    "pace": 9
   }
 ]
