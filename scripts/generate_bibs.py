@@ -284,17 +284,11 @@ def make_bib(number, category, event_name, event_date):
     TEXT_W  = W - PAD * 4
     event_upper = event_name.upper()
     event_date  = event_date.upper()
-    if " DLA " in event_upper:
-        ev_line1, ev_line2 = event_upper.split(" DLA ", 1)
-        ev_line2 = "DLA " + ev_line2
-    else:
-        ev_line1, ev_line2 = event_upper, ""
-
     LINE_GAP = 10
-    all_lines = [ev_line1] + ([ev_line2] if ev_line2 else []) + [event_date]
-    min_size = 72
+    all_lines = [event_upper, event_date]
+    min_size = 120
     for line in all_lines:
-        _, sz = fit_font(draw, line, F_BOLD, TEXT_W, 70, start=72)
+        _, sz = fit_font(draw, line, F_BOLD, TEXT_W, 110, start=120)
         min_size = min(min_size, sz)
     hdr_fnt = fnt(F_BOLD, min_size)
 
@@ -307,14 +301,16 @@ def make_bib(number, category, event_name, event_date):
     EV_ROW_TOP = LOGO_ROW_BOT + 4
     total_h = LINE_H * len(all_lines) + LINE_GAP * (len(all_lines) - 1)
     EV_ROW_BOT = EV_ROW_TOP + total_h + 50
-    draw.rectangle([0, EV_ROW_TOP, W, EV_ROW_BOT], fill=NC_WHITE)
-    draw.rectangle([0, EV_ROW_TOP, W, EV_ROW_BOT], outline=accent, width=4)
+    draw.rectangle([0, EV_ROW_TOP, W, EV_ROW_BOT], fill=accent)
 
     cy = EV_ROW_TOP + (EV_ROW_BOT - EV_ROW_TOP - total_h) // 2
     for line in all_lines:
-        draw_centred(draw, line, hdr_fnt, NC_NAVY, 0, cy, W, cy + LINE_H)
+        draw_centred(draw, line, hdr_fnt, NC_WHITE, 0, cy, W, cy + LINE_H)
         cy += LINE_H + LINE_GAP
-    HEADER_BOT = EV_ROW_BOT
+    # White separator between title/date and number area
+    SEP_H = 6
+    draw.rectangle([0, EV_ROW_BOT, W, EV_ROW_BOT + SEP_H], fill=NC_WHITE)
+    HEADER_BOT = EV_ROW_BOT + SEP_H
 
     # ── 3. Footer: partner logos ────────────────────────────────────────
     PARTNER_H   = 120
