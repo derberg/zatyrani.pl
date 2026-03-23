@@ -31,6 +31,7 @@ PARTNER_LOGOS = [
     os.path.join(ROOT, "public", "niebocross", "kgigw.jpg"),
     os.path.join(ROOT, "public", "niebocross", "gok.png"),
     os.path.join(ROOT, "public", "niebocross", "autocentrum.jpg"),
+    os.path.join(ROOT, "public", "niebocross", "ppk.jpg"),
 ]
 
 F_BLACK   = os.path.join(FONTS, "Inter-Black.ttf")
@@ -57,6 +58,7 @@ CATEGORY_ACCENT = {
     "NW 3km":      (218, 180,  30),   # darker yellow
     "NW 9km":      (255, 120,  30),   # bright orange
     "Bieg dzieci": (40,  200,  80),   # bright green
+    "Bieg Testowy": (138,   3,   3),  # blood red
 }
 
 NC_NAVY  = (50,  66,  96)
@@ -313,22 +315,42 @@ def make_bib(number, category, event_name, event_date):
     HEADER_BOT = EV_ROW_BOT + SEP_H
 
     # ── 3. Footer: partner logos ────────────────────────────────────────
-    PARTNER_H   = 120
-    FOOTER_H    = PARTNER_H + 30 + 4
+    FOOTER_H    = LOGO_ROW_H           # match header height
     FOOTER_TOP  = H - FOOTER_H
+    PARTNER_H   = FOOTER_H - 80       # padding above/below logos
     draw.rectangle([0, FOOTER_TOP, W, H], fill=NC_WHITE)
     # Accent separator line above footer (matching the one above number)
     draw.rectangle([0, FOOTER_TOP, W, FOOTER_TOP + 4], fill=accent)
 
-    # Partner logos — evenly spaced
-    PART_Y = FOOTER_TOP + 10
+    # Partner logos — evenly spaced, no overlap
+    PART_Y = FOOTER_TOP + (FOOTER_H - PARTNER_H) // 2
     partners = [p for p in PARTNER_LOGOS if os.path.exists(p)]
     if partners:
-        n = len(partners)
+        # Pre-calculate scaled widths
+        logo_widths = []
+        for p in partners:
+            limg = Image.open(p).convert("RGBA")
+            ratio = PARTNER_H / limg.height
+            logo_widths.append(int(limg.width * ratio))
+        total_logos_w = sum(logo_widths)
+        margin = PAD
+        avail = W - 2 * margin
+        # If logos are too wide, scale them down to fit
+        if total_logos_w > avail:
+            scale = avail / total_logos_w
+            PARTNER_H_ADJ = int(PARTNER_H * scale)
+            logo_widths = [int(lw * scale) for lw in logo_widths]
+            total_logos_w = sum(logo_widths)
+            PART_Y = FOOTER_TOP + (FOOTER_H - PARTNER_H_ADJ) // 2
+        else:
+            PARTNER_H_ADJ = PARTNER_H
+        gap = (avail - total_logos_w) // max(len(partners) - 1, 1)
+        x = margin
         for i, p in enumerate(partners):
-            cx = W * (i + 1) // (n + 1)
-            img  = paste_logo(img, p, PARTNER_H, cx, PART_Y, align="center")
+            cx = x + logo_widths[i] // 2
+            img  = paste_logo(img, p, PARTNER_H_ADJ, cx, PART_Y, align="center")
             draw = ImageDraw.Draw(img)
+            x += logo_widths[i] + gap
 
     # ── 5. Number (fills remaining space) ────────────────────────────────────
     NUM_TOP    = HEADER_BOT
@@ -340,7 +362,7 @@ def make_bib(number, category, event_name, event_date):
     if os.path.exists(BG_COLORS):
         bg = Image.open(BG_COLORS).convert("RGBA")
         bg = bg.resize((W, NUM_H), Image.LANCZOS)
-        bg.putalpha(int(255 * 0.80))
+        bg.putalpha(255)
         base = img.convert("RGBA")
         base.paste(bg, (0, NUM_TOP), bg)
         img = base.convert("RGB")
@@ -412,13 +434,14 @@ def build_pdf(jobs, event_name, event_date, out_path):
 # ── CLI ───────────────────────────────────────────────────────────────────────
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument("--event",   default="NieboCross Charytatywnie")
-    p.add_argument("--date",    default="05.04.2025")
+    p.add_argument("--event",   default="NieboCross - Pamięci Marka Nowakowskiego")
+    p.add_argument("--date",    default="12 kwietnia 2026")
     p.add_argument("--bieg9km", type=int, default=0)
     p.add_argument("--bieg3km", type=int, default=0)
     p.add_argument("--nw3km",   type=int, default=0)
     p.add_argument("--nw9km",   type=int, default=0)
     p.add_argument("--dzieci",  type=int, default=0)
+    p.add_argument("--testowy", type=int, default=0)
     p.add_argument("--out",     default=None)
     a = p.parse_args()
 
@@ -428,6 +451,7 @@ def main():
         ("NW 3km",      a.nw3km),
         ("NW 9km",      a.nw9km),
         ("Bieg dzieci", a.dzieci),
+        ("Bieg Testowy", a.testowy),
     ]
     if sum(n for _, n in jobs) == 0:
         print("Pass at least one count (--bieg9km etc.)"); return

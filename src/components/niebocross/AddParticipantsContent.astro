@@ -17,6 +17,29 @@ const { t, locale = 'pl' } = Astro.props;
     <p class="text-lg text-slate-600">{t("niebocross.add_participants.checking_auth")}</p>
   </div>
 
+  <!-- Adding participants closed message -->
+  <div id="addParticipantsClosed" class="hidden mx-auto max-w-2xl rounded-xl border-2 border-amber-200 bg-amber-50 p-8 text-center shadow-sm">
+    <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-amber-100">
+      <svg class="h-8 w-8 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+      </svg>
+    </div>
+    <h2 class="text-2xl font-bold text-slate-900 mb-2">Limit uczestników został osiągnięty</h2>
+    <p class="text-slate-700 mb-4">
+      Osiągnęliśmy maksymalną liczbę uczestników dla NieboCross 2026. Nie jest już możliwe dodawanie nowych uczestników do rejestracji. Dziękujemy za zrozumienie!
+    </p>
+    <p class="text-sm text-slate-600">
+      W razie pytań lub wątpliwości, skontaktuj się z nami: 
+      <a href="mailto:biuro@zatyrani.pl" class="text-emerald-600 hover:underline font-semibold">biuro@zatyrani.pl</a>
+    </p>
+    <a
+      href={locale === 'en' ? '/en/niebocross/panel' : '/niebocross/panel'}
+      class="mt-4 inline-block rounded-lg bg-emerald-600 px-6 py-3 font-semibold text-white transition hover:bg-emerald-700"
+    >
+      ← Wróć do panelu
+    </a>
+  </div>
+
   <!-- Main content (hidden until auth verified) -->
   <div id="content" class="hidden space-y-6">
     <div class="text-center">
@@ -88,14 +111,23 @@ const { t, locale = 'pl' } = Astro.props;
   // API Base URL
   const API_BASE = '/api/niebocross';
 
+  // Check for ?allow=true flag to enable adding participants
+  const urlParams = new URLSearchParams(window.location.search);
+  const allowAddingParticipants = urlParams.get('allow') === 'true';
+
   // Check authentication
   const cookies = document.cookie.split(';').map(c => c.trim());
   const authCookie = cookies.find(c => c.startsWith('niebocross_auth_status='));
 
   if (!authCookie || authCookie.split('=')[1] !== 'true') {
     window.location.href = locale === 'en' ? '/en/niebocross/zaloguj' : '/niebocross/zaloguj';
+  } else if (!allowAddingParticipants) {
+    // Hide auth check and content, show the "adding participants closed" message
+    document.getElementById('authCheck').classList.add('hidden');
+    document.getElementById('content').classList.add('hidden');
+    document.getElementById('addParticipantsClosed').classList.remove('hidden');
   } else {
-    // Show content
+    // Show content normally
     document.getElementById('authCheck').classList.add('hidden');
     document.getElementById('content').classList.remove('hidden');
   }
@@ -412,7 +444,7 @@ const { t, locale = 'pl' } = Astro.props;
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify({ participants, extraDonation })
+        body: JSON.stringify({ participants, extraDonation, allowAddingParticipants })
       });
 
       const data = await response.json();

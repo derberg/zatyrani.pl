@@ -11,6 +11,23 @@ const { t, locale = 'pl' } = Astro.props;
 ---
 
   <div class="mx-auto max-w-4xl px-6 py-12">
+    <!-- Registration Closed Message -->
+    <div id="registrationClosed" class="hidden mx-auto max-w-2xl rounded-xl border-2 border-amber-200 bg-amber-50 p-8 text-center shadow-sm">
+      <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-amber-100">
+        <svg class="h-8 w-8 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+        </svg>
+      </div>
+      <h2 class="text-2xl font-bold text-slate-900 mb-2">Limit uczestników został osiągnięty</h2>
+      <p class="text-slate-700 mb-4">
+        Osiągnęliśmy maksymalną liczbę uczestników dla NieboCross 2026. Zapisy zostały zamknięte. Dziękujemy za ogromne zainteresowanie!
+      </p>
+      <p class="text-sm text-slate-600">
+        W razie pytań lub wątpliwości, skontaktuj się z nami: 
+        <a href="mailto:biuro@zatyrani.pl" class="text-emerald-600 hover:underline font-semibold">biuro@zatyrani.pl</a>
+      </p>
+    </div>
+
     <!-- Step 1: Email Verification -->
     <div id="step1" class="space-y-6">
       <div class="text-center">
@@ -317,6 +334,18 @@ const { t, locale = 'pl' } = Astro.props;
     // API Base URL
     const API_BASE = '/api/niebocross';
   
+    // Check for ?allow=true flag to enable registration
+    const urlParams = new URLSearchParams(window.location.search);
+    const allowRegistration = urlParams.get('allow') === 'true';
+    
+    if (!allowRegistration) {
+      // Hide all steps and show the "registration closed" message
+      document.getElementById('step1').style.display = 'none';
+      document.getElementById('step2').style.display = 'none';
+      document.getElementById('step3').style.display = 'none';
+      document.getElementById('registrationClosed').classList.remove('hidden');
+    }
+
     // Helper function to get error message with special handling for certain errors
     function getErrorMessage(errorCode) {
       // Special handling for INVALID_CODE to include clickable link
@@ -824,7 +853,7 @@ const { t, locale = 'pl' } = Astro.props;
           method: 'POST',
           headers,
           credentials: 'include',
-          body: JSON.stringify({ participants, extraDonation }),
+          body: JSON.stringify({ participants, extraDonation, allowRegistration }),
         });
 
         const data = await response.json();

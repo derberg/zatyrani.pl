@@ -46,7 +46,15 @@ export default async function handler(req, res) {
     }
 
     const { registration_id } = authResult;
-    const { participants, extraDonation } = req.body;
+    const { participants, extraDonation, allowRegistration } = req.body;
+
+    // Check if registration is allowed via the allow flag
+    if (!allowRegistration || allowRegistration !== true) {
+      return res.status(403).json({
+        success: false,
+        error: "Osiągnęliśmy maksymalną liczbę uczestników dla NieboCross 2026. Rejestracja została zamknięta. W razie pytań lub wątpliwości, skontaktuj się z nami: biuro@zatyrani.pl"
+      });
+    }
 
     if (!participants || !Array.isArray(participants) || participants.length === 0) {
       return res.status(400).json({

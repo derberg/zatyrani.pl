@@ -164,6 +164,22 @@
         }
 
         const urlParams = new URLSearchParams(window.location.search);
+        
+        // Check for ?allow=true flag to enable payment
+        const allowPayment = urlParams.get('allow') === 'true';
+        
+        if (!allowPayment) {
+          document.getElementById('title').textContent = 'Limit uczestników został osiągnięty';
+          document.getElementById('message').style.display = 'none';
+          document.getElementById('spinner').style.display = 'none';
+          document.getElementById('info-message').innerHTML = 
+            'Osiągnęliśmy maksymalną liczbę uczestników dla NieboCross 2026. Płatności są obecnie niedostępne. W razie pytań lub wątpliwości, skontaktuj się z nami: ' +
+            '<a href="mailto:biuro@zatyrani.pl" style="color: #059669; font-weight: 600; text-decoration: underline;">biuro@zatyrani.pl</a>';
+          document.getElementById('info-message').style.display = 'block';
+          document.getElementById('panel-link').style.display = 'inline-block';
+          return;
+        }
+        
         let paymentId = urlParams.get('id');
 
         if (!paymentId) {
@@ -180,7 +196,11 @@
         }
 
         try {
-          const response = await fetch(`/api/niebocross/payment/${paymentId}`);
+          // Add allow parameter to API request if present in URL
+          const apiUrl = allowPayment 
+            ? `/api/niebocross/payment/${paymentId}?allow=true`
+            : `/api/niebocross/payment/${paymentId}`;
+          const response = await fetch(apiUrl);
           const data = await response.json();
 
           if (!response.ok) {

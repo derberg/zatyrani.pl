@@ -29,11 +29,21 @@ export default async function handler(req, res) {
 
   try {
     const registrationId = req.query.id;
+    const allowPayment = req.query.allow === 'true';
 
     if (!registrationId) {
       return res.status(400).json({
         success: false,
         error: "Registration ID is required"
+      });
+    }
+
+    // Check if payment is allowed via the allow flag
+    if (!allowPayment) {
+      return res.status(403).json({
+        success: false,
+        error: "Osiągnęliśmy maksymalną liczbę uczestników dla NieboCross 2026. Płatności zostały zamknięte. W razie pytań lub wątpliwości, skontaktuj się z nami: biuro@zatyrani.pl",
+        has_pending_payment: false
       });
     }
 
