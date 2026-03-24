@@ -6,10 +6,5 @@
         "permanent": true
       }
     ],
-    "crons": [
-      {
-        "path": "/api/niebocross/reminders/send-payment-reminder",
-        "schedule": "10 15 * * 5"
-      }
-    ]
+    "crons": []
 }
