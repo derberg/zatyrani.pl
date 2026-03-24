@@ -625,5 +625,16 @@
     "phone": "784640977",
     "distance": 9,
     "pace": 9
+  },
+  {
+    "uid": "bieg-24-3-2026-17-0-wierzbowa-2-8-7",
+    "type": "bieg",
+    "datetime": "24/03/2026 17:00",
+    "location": "Wierzbowa 2",
+    "locationLink": "",
+    "comment": "Małe rozbieganie po Ultra Zadku ",
+    "phone": "512637906",
+    "distance": 8,
+    "pace": 7
   }
 ]
