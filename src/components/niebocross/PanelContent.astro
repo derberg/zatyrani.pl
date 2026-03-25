@@ -460,6 +460,14 @@ const niebocrossLink = locale === 'en' ? '/en/niebocross' : '/niebocross';
                   ${p.foodPreference ? `<p>🍽️ ${p.foodPreference === 'meat' ? 'Z mięsem' : 'Wegetariańskie'}</p>` : ''}
                   ${p.tshirtSize ? `<p>👕 Koszulka: ${p.tshirtSize}</p>` : ''}
                 </div>
+                <div class="mt-3">
+                  <a
+                    href="/niebocross/koszulka?id=${p.id}"
+                    class="inline-flex items-center gap-1.5 rounded-lg bg-emerald-50 px-3 py-1.5 text-sm font-semibold text-emerald-700 ring-1 ring-emerald-200 transition hover:bg-emerald-100"
+                  >
+                    👕 Zamów koszulkę pamiątkową
+                  </a>
+                </div>
               </div>
               ${canEdit ? `
                 <div class="flex gap-2 mt-4 sm:mt-0 sm:ml-4">

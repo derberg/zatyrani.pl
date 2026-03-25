@@ -32,6 +32,46 @@ function getSupabaseClient() {
   return createClient(url, serviceKey);
 }
 
+/**
+ * Handle webhook for tshirt payment (separate table).
+ * On success: update status to paid. On failure: delete the record (no stale pending rows).
+ */
+async function handleTshirtPaymentWebhook(supabase, paymentId, transactionId, status) {
+  const { data: tshirtPayment, error } = await supabase
+    .from("niebocross_tshirt_payments")
+    .select("*")
+    .eq("id", paymentId)
+    .single();
+
+  if (error || !tshirtPayment) {
+    return false;
+  }
+
+  console.log('[Webhook] Found tshirt payment:', paymentId);
+
+  if (status === '000') {
+    // Success — mark as paid, store transaction ID
+    await supabase
+      .from("niebocross_tshirt_payments")
+      .update({
+        payment_status: 'paid',
+        transaction_id: transactionId,
+        paid_at: new Date().toISOString(),
+      })
+      .eq("id", paymentId);
+    console.log('[Webhook] Tshirt payment marked as paid:', paymentId);
+  } else {
+    // Failed — delete the record so no stale pending payment link remains
+    await supabase
+      .from("niebocross_tshirt_payments")
+      .delete()
+      .eq("id", paymentId);
+    console.log('[Webhook] Tshirt payment failed, record deleted:', paymentId);
+  }
+
+  return true;
+}
+
 export default async function handler(req, res) {
   // Enable CORS
   res.setHeader("Access-Control-Allow-Credentials", "true");
@@ -85,7 +125,7 @@ export default async function handler(req, res) {
 
     const supabase = getSupabaseClient();
 
-    // Get payment record
+    // Try main payments table first
     const { data: payment, error: paymentError } = await supabase
       .from("niebocross_payments")
       .select(`
@@ -95,9 +135,12 @@ export default async function handler(req, res) {
       .eq("id", paymentId)
       .single();
 
+    // If not found in main table, check tshirt payments table
     if (paymentError || !payment) {
-      console.error("Payment not found:", paymentError);
-      // Still acknowledge to SIBS
+      const handled = await handleTshirtPaymentWebhook(supabase, paymentId, transactionId, status);
+      if (!handled) {
+        console.error("Payment not found in any table:", paymentId);
+      }
       return res.status(200).json({
         statusCode: "200",
         statusMsg: "Success",

@@ -144,6 +144,44 @@ CREATE TABLE niebocross_clubs (
 
 ---
 
+### niebocross_tshirt_payments
+Stores standalone t-shirt purchase payments, separate from event registration payments.
+
+```sql
+CREATE TABLE niebocross_tshirt_payments (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  participant_id UUID REFERENCES niebocross_participants_v2(id) ON DELETE SET NULL,
+  first_name VARCHAR(255) NOT NULL,
+  last_name VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  phone_number VARCHAR(20) NOT NULL,
+  tshirt_size VARCHAR(10) NOT NULL CHECK (tshirt_size IN ('116', '128', '134', '140', '146', '152', 'XS', 'S', 'M', 'L', 'XL', 'XXL')),
+  amount DECIMAL(10, 2) NOT NULL DEFAULT 60.00,
+  payment_status VARCHAR(20) NOT NULL DEFAULT 'pending' CHECK (payment_status IN ('pending', 'paid', 'failed')),
+  transaction_id VARCHAR(255),
+  paid_at TIMESTAMP WITH TIME ZONE,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+```
+
+**Columns:**
+- `id` - Unique identifier for the tshirt payment (also used as SIBS merchantTransactionId)
+- `participant_id` - Optional foreign key to niebocross_participants_v2 (NULL for non-participant purchases)
+- `first_name` - Buyer's first name
+- `last_name` - Buyer's last name
+- `email` - Buyer's email
+- `phone_number` - Buyer's phone number
+- `tshirt_size` - Selected t-shirt size
+- `amount` - Payment amount (60.00 PLN)
+- `payment_status` - Status: `pending`, `paid`, `failed`
+- `transaction_id` - SIBS transaction ID (stored only on successful payment by webhook)
+- `paid_at` - Payment completion timestamp
+- `created_at` - Record creation timestamp
+- `updated_at` - Last update timestamp
+
+---
+
 ## Security
 
 Row Level Security (RLS) is disabled for all tables to allow API access:
@@ -154,12 +192,14 @@ ALTER TABLE niebocross_auth_codes DISABLE ROW LEVEL SECURITY;
 ALTER TABLE niebocross_participants_v2 DISABLE ROW LEVEL SECURITY;
 ALTER TABLE niebocross_payments DISABLE ROW LEVEL SECURITY;
 ALTER TABLE niebocross_clubs DISABLE ROW LEVEL SECURITY;
+ALTER TABLE niebocross_tshirt_payments DISABLE ROW LEVEL SECURITY;
 ```
 
 ## Relationships
 
 - `niebocross_participants_v2.registration_id` → `niebocross_registrations.id` (CASCADE DELETE)
 - `niebocross_payments.registration_id` → `niebocross_registrations.id` (CASCADE DELETE)
+- `niebocross_tshirt_payments.participant_id` → `niebocross_participants_v2.id` (SET NULL on DELETE)
 
 ## Important Notes
 
