@@ -34,7 +34,7 @@ function normalizePolishPhone(raw) {
 
 function buildSmsBody(firstName, participantId) {
   return (
-    `Czesc ${firstName}! Tu leszy.run, ktory pomaga w organizacji NieboCross. Mozesz zamowic sportowa koszulke pamiatkowa za 60zl. ` +
+    `Czesc ${firstName}! Tu leszy.run, ktory pomaga w organizacji NieboCross. Mozesz zamowic sportowa koszulke pamiatkowa za 60zl. Zamowienia przyjmujemy do 31.03! ` +
     `Mozliwosc zamowienia pod linkiem: ${TSHIRT_PAGE_BASE_URL}?id=${participantId}`
   );
 }
