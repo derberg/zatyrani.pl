@@ -34,8 +34,8 @@ function normalizePolishPhone(raw) {
 
 function buildSmsBody(firstName, participantId) {
   return (
-    `Czesc ${firstName}! Tu leszy.run, ktory pomaga Zatyranym w organizacji NieboCross. Mamy dla Ciebie pamiatke z NieboCross 2026 - koszulke sportowa za 60zl (koszt produkcji). ` +
-    `Zamow tutaj: ${TSHIRT_PAGE_BASE_URL}?id=${participantId}`
+    `Czesc ${firstName}! Tu leszy.run, ktory pomaga w organizacji NieboCross. Mozesz zamowic sportowa koszulke pamiatkowa za 60zl. ` +
+    `Mozliwosc zamowienia pod linkiem: ${TSHIRT_PAGE_BASE_URL}?id=${participantId}`
   );
 }
 
