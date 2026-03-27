@@ -165,8 +165,8 @@
 
         const urlParams = new URLSearchParams(window.location.search);
         
-        // Check for ?allow=true flag to enable payment
-        const allowPayment = urlParams.get('allow') === 'true';
+        // Check for ?allow=true flag (URL param or localStorage) to enable payment
+        const allowPayment = urlParams.get('allow') === 'true' || localStorage.getItem('niebocross_allow') === 'true';
         
         if (!allowPayment) {
           document.getElementById('title').textContent = 'Limit uczestników został osiągnięty';

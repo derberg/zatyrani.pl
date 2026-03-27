@@ -334,9 +334,9 @@ const { t, locale = 'pl' } = Astro.props;
     // API Base URL
     const API_BASE = '/api/niebocross';
   
-    // Check for ?allow=true flag to enable registration
+    // Check for ?allow=true flag (URL param or localStorage) to enable registration
     const urlParams = new URLSearchParams(window.location.search);
-    const allowRegistration = urlParams.get('allow') === 'true';
+    const allowRegistration = urlParams.get('allow') === 'true' || localStorage.getItem('niebocross_allow') === 'true';
     
     if (!allowRegistration) {
       // Hide all steps and show the "registration closed" message

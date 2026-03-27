@@ -111,9 +111,9 @@ const { t, locale = 'pl' } = Astro.props;
   // API Base URL
   const API_BASE = '/api/niebocross';
 
-  // Check for ?allow=true flag to enable adding participants
+  // Check for ?allow=true flag (URL param or localStorage) to enable adding participants
   const urlParams = new URLSearchParams(window.location.search);
-  const allowAddingParticipants = urlParams.get('allow') === 'true';
+  const allowAddingParticipants = urlParams.get('allow') === 'true' || localStorage.getItem('niebocross_allow') === 'true';
 
   // Check authentication
   const cookies = document.cookie.split(';').map(c => c.trim());
