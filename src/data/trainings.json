@@ -636,5 +636,16 @@
     "phone": "512637906",
     "distance": 8,
     "pace": 7
+  },
+  {
+    "uid": "bieg-29-3-2026-8-0-nieborowice-wierzbowa-4-9-7",
+    "type": "bieg",
+    "datetime": "29/03/2026 08:00",
+    "location": "Nieborowice – Wierzbowa 4",
+    "locationLink": "https://maps.app.goo.gl/1hiWUekjpgK7GpAN8",
+    "comment": "Trasa NieboCross. Testujemy sprzęt do mierzenia czasu. Im więcej nas będzie, tym lepiej. Jeżeli chcesz zrobić trasę 3 km albo NW, też się znajdzie ktoś, żeby poprowadzić. Kontakt poniżej.",
+    "phone": "784640977",
+    "distance": 9,
+    "pace": 7
   }
 ]
