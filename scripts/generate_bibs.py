@@ -32,6 +32,16 @@ PARTNER_LOGOS = [
     os.path.join(ROOT, "public", "niebocross", "gok.png"),
     os.path.join(ROOT, "public", "niebocross", "autocentrum.jpg"),
     os.path.join(ROOT, "public", "niebocross", "ppk.jpg"),
+    os.path.join(ROOT, "public", "niebocross", "gobe.png"),
+    os.path.join(ROOT, "public", "niebocross", "dobrenasiona.png"),
+    os.path.join(ROOT, "public", "niebocross", "bemar.png"),
+    os.path.join(ROOT, "public", "niebocross", "ergocomplex.jpeg"),
+    os.path.join(ROOT, "public", "niebocross", "przedszkole.png"),
+]
+
+# Partners without logos – rendered as text PNGs
+PARTNER_TEXT = [
+    'Sklep Zoologiczno-Wędkarski\n"Karaś" z Olkusza',
 ]
 
 F_BLACK   = os.path.join(FONTS, "Inter-Black.ttf")
@@ -146,7 +156,7 @@ def make_sos_badge(w=500, h=300):
     d = ImageDraw.Draw(badge)
     # red oval
     d.rounded_rectangle([4, 4, w - 5, h - 5], radius=h // 2,
-                        fill=(160, 50, 50), outline=(255, 255, 255, 255), width=6)
+                        fill=(220, 30, 30), outline=(255, 255, 255, 255), width=6)
     # SOS title
     title_fnt, _ = fit_font(d, "SOS", F_BLACK, int(w * 0.5), h // 4, start=72)
     lines = [
@@ -221,6 +231,26 @@ def ensure_otoz():
         except Exception:
             pass
     return False
+
+def make_text_logo(text, target_h=200):
+    """Generate a PNG image with the partner name rendered as text.
+    The image is padded vertically so that when scaled to target_h the text
+    appears at roughly half the row height."""
+    tmp = Image.new("RGBA", (1, 1))
+    d = ImageDraw.Draw(tmp)
+    f = fnt(F_BOLD, 40)
+    bb = d.multiline_textbbox((0, 0), text, font=f, align="center")
+    text_w, text_h = int(bb[2] - bb[0]), int(bb[3] - bb[1])
+    # Add vertical padding so text occupies ~half the height
+    pad = 20
+    canvas_h = text_h * 2 + pad
+    canvas_w = text_w + pad * 2
+    img = Image.new("RGBA", (canvas_w, canvas_h), (255, 255, 255, 0))
+    d = ImageDraw.Draw(img)
+    tx = (canvas_w - text_w) // 2 - bb[0]
+    ty = (canvas_h - text_h) // 2 - bb[1]
+    d.multiline_text((tx, ty), text, font=f, fill=NC_NAVY, align="center")
+    return img
 
 # ── BIB ───────────────────────────────────────────────────────────────────────
 def make_bib(number, category, event_name, event_date):
@@ -314,43 +344,62 @@ def make_bib(number, category, event_name, event_date):
     draw.rectangle([0, EV_ROW_BOT, W, EV_ROW_BOT + SEP_H], fill=NC_WHITE)
     HEADER_BOT = EV_ROW_BOT + SEP_H
 
-    # ── 3. Footer: partner logos ────────────────────────────────────────
-    FOOTER_H    = LOGO_ROW_H           # match header height
+    # ── 3. Footer: partner logos (2 rows) ────────────────────────────────
+    FOOTER_H    = int(LOGO_ROW_H * 1.4)  # ~40% taller than original single row
     FOOTER_TOP  = H - FOOTER_H
-    PARTNER_H   = FOOTER_H - 80       # padding above/below logos
+    ROW_GAP     = 4
+    ROW_H       = (FOOTER_H - ROW_GAP) // 2  # 194px each
+    PARTNER_H   = ROW_H - 30
     draw.rectangle([0, FOOTER_TOP, W, H], fill=NC_WHITE)
-    # Accent separator line above footer (matching the one above number)
+    # Accent separator line above footer
     draw.rectangle([0, FOOTER_TOP, W, FOOTER_TOP + 4], fill=accent)
 
-    # Partner logos — evenly spaced, no overlap
-    PART_Y = FOOTER_TOP + (FOOTER_H - PARTNER_H) // 2
-    partners = [p for p in PARTNER_LOGOS if os.path.exists(p)]
-    if partners:
-        # Pre-calculate scaled widths
-        logo_widths = []
-        for p in partners:
-            limg = Image.open(p).convert("RGBA")
-            ratio = PARTNER_H / limg.height
-            logo_widths.append(int(limg.width * ratio))
-        total_logos_w = sum(logo_widths)
+    # Build list of partner images (from logo files and text)
+    partner_imgs = []
+    for p in PARTNER_LOGOS:
+        if os.path.exists(p):
+            partner_imgs.append(Image.open(p).convert("RGBA"))
+    for txt in PARTNER_TEXT:
+        partner_imgs.append(make_text_logo(txt, target_h=PARTNER_H))
+
+    if partner_imgs:
+        # Split into 2 rows
+        mid = (len(partner_imgs) + 1) // 2
+        rows = [partner_imgs[:mid], partner_imgs[mid:]]
         margin = PAD
-        avail = W - 2 * margin
-        # If logos are too wide, scale them down to fit
-        if total_logos_w > avail:
-            scale = avail / total_logos_w
-            PARTNER_H_ADJ = int(PARTNER_H * scale)
-            logo_widths = [int(lw * scale) for lw in logo_widths]
+
+        for row_idx, row_imgs in enumerate(rows):
+            if not row_imgs:
+                continue
+            row_top = FOOTER_TOP + 4 + row_idx * (ROW_H + ROW_GAP)
+            row_h = PARTNER_H
+            # Pre-calculate scaled widths
+            logo_widths = []
+            for pimg in row_imgs:
+                ratio = row_h / pimg.height
+                logo_widths.append(int(pimg.width * ratio))
             total_logos_w = sum(logo_widths)
-            PART_Y = FOOTER_TOP + (FOOTER_H - PARTNER_H_ADJ) // 2
-        else:
-            PARTNER_H_ADJ = PARTNER_H
-        gap = (avail - total_logos_w) // max(len(partners) - 1, 1)
-        x = margin
-        for i, p in enumerate(partners):
-            cx = x + logo_widths[i] // 2
-            img  = paste_logo(img, p, PARTNER_H_ADJ, cx, PART_Y, align="center")
-            draw = ImageDraw.Draw(img)
-            x += logo_widths[i] + gap
+            avail = W - 2 * margin
+            # Scale down if too wide
+            if total_logos_w > avail:
+                scale = avail / total_logos_w
+                row_h_adj = int(row_h * scale)
+                logo_widths = [int(lw * scale) for lw in logo_widths]
+                total_logos_w = sum(logo_widths)
+            else:
+                row_h_adj = row_h
+            part_y = row_top + (ROW_H - row_h_adj) // 2
+            gap = (avail - total_logos_w) // max(len(row_imgs) - 1, 1)
+            x = margin
+            for i, pimg in enumerate(row_imgs):
+                pimg = strip_white_bg(pimg)
+                scaled = pimg.resize((logo_widths[i], row_h_adj), Image.LANCZOS)
+                px = x
+                base = img.convert("RGBA")
+                base.paste(scaled, (px, part_y), scaled)
+                img = base.convert("RGB")
+                draw = ImageDraw.Draw(img)
+                x += logo_widths[i] + gap
 
     # ── 5. Number (fills remaining space) ────────────────────────────────────
     NUM_TOP    = HEADER_BOT
