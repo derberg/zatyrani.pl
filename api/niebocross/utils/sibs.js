@@ -18,7 +18,7 @@ export async function createPaymentLink(paymentData) {
   const {
     paymentId,
     amount, // in PLN (main currency unit, e.g. 140.00 for 140 PLN)
-    description
+    description,
   } = paymentData;
 
   // Validate environment variables
@@ -95,13 +95,8 @@ export async function createPaymentLink(paymentData) {
       throw new Error('No formContext received from SIBS');
     }
 
-    // Construct hosted checkout payment URL with formContext
-    // SIBS Gateway uses the formContext parameter for the hosted payment page
-    const paymentUrl = `https://www.pay.sibs.com/form?formContext=${encodeURIComponent(formContext)}`;
-
     return {
       transactionID: transactionId,
-      paymentUrl: paymentUrl,
       formContext: formContext
     };
   } catch (error) {

@@ -193,6 +193,39 @@ const locationName = "Nieborowice";
   </div>
 </section>
 
+<section id="mapy-tras" class="mx-auto max-w-6xl px-6 py-12">
+  <div class="space-y-6">
+    <h2 class="text-3xl font-bold text-slate-900 text-center">{t("niebocross.trail_maps_title")}</h2>
+    <p class="text-lg text-slate-700 text-center">
+      {t("niebocross.trail_maps_desc")}
+    </p>
+    <div class="grid gap-6 sm:grid-cols-2">
+      <div class="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+        <div class="p-4">
+          <p class="text-sm font-semibold uppercase tracking-widest text-emerald-700">{t("niebocross.trail_map_3km")}</p>
+        </div>
+        <iframe
+          src="https://www.google.com/maps/d/embed?mid=1aHPl-vwy1RmXo250TKnXCzJAHnZNwjY&ll=50.228923935999006%2C18.595678999999983&z=15"
+          class="w-full h-80 border-t border-slate-200"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+      </div>
+      <div class="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+        <div class="p-4">
+          <p class="text-sm font-semibold uppercase tracking-widest text-cyan-700">{t("niebocross.trail_map_9km")}</p>
+        </div>
+        <iframe
+          src="https://www.google.com/maps/d/embed?mid=1Lc5ydgjBZWukRoNqYpKLTxECv_B3neY&ll=50.22948368491693%2C18.583337999999987&z=13"
+          class="w-full h-80 border-t border-slate-200"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="treningi-rekonesansowe" class="bg-gradient-to-br from-emerald-50 to-sky-50 border-y border-emerald-100">
   <div class="mx-auto max-w-6xl px-6 py-16">
     <div class="mb-10 text-center">
