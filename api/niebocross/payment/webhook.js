@@ -36,7 +36,7 @@ function getSupabaseClient() {
  * Handle webhook for tshirt payment (separate table).
  * On success: update status to paid. On failure: delete the record (no stale pending rows).
  */
-async function handleTshirtPaymentWebhook(supabase, paymentId, transactionId, status) {
+async function handleTshirtPaymentWebhook(supabase, paymentId, transactionId, isPaymentSuccess) {
   const { data: tshirtPayment, error } = await supabase
     .from("niebocross_tshirt_payments")
     .select("*")
@@ -49,7 +49,7 @@ async function handleTshirtPaymentWebhook(supabase, paymentId, transactionId, st
 
   console.log('[Webhook] Found tshirt payment:', paymentId);
 
-  if (status === '000') {
+  if (isPaymentSuccess) {
     // Success — mark as paid, store transaction ID
     await supabase
       .from("niebocross_tshirt_payments")
@@ -110,8 +110,13 @@ export default async function handler(req, res) {
 
     // Parse webhook data
     const webhookData = parseWebhookData(decryptedData);
-    const { merchantTransactionId: paymentId, transactionId, status, notificationId } = webhookData;
+    const { merchantTransactionId: paymentId, transactionId, paymentStatus, notificationId } = webhookData;
     console.log('[Webhook] Parsed data:', JSON.stringify(webhookData, null, 2));
+
+    // Determine if payment was actually successful
+    // returnStatus.statusCode '000' only means the API call succeeded, NOT that the payment succeeded
+    // paymentStatus contains the actual payment outcome: 'Success', 'Declined', 'Failed', etc.
+    const isPaymentSuccess = paymentStatus === 'Success';
 
     if (!paymentId) {
       console.error('[Webhook] Missing merchantTransactionId in decrypted payload');
@@ -137,7 +142,7 @@ export default async function handler(req, res) {
 
     // If not found in main table, check tshirt payments table
     if (paymentError || !payment) {
-      const handled = await handleTshirtPaymentWebhook(supabase, paymentId, transactionId, status);
+      const handled = await handleTshirtPaymentWebhook(supabase, paymentId, transactionId, isPaymentSuccess);
       if (!handled) {
         console.error("Payment not found in any table:", paymentId);
       }
@@ -148,14 +153,13 @@ export default async function handler(req, res) {
       });
     }
 
-    // Update payment status based on SIBS response
-    // SIBS status codes: '000' = success, others = various failure states
+    // Update payment status based on actual payment outcome
     const updateData = {
       transaction_id: transactionId,
-      payment_status: status === '000' ? 'paid' : 'failed'
+      payment_status: isPaymentSuccess ? 'paid' : 'failed'
     };
 
-    if (status === '000') {
+    if (isPaymentSuccess) {
       updateData.paid_at = new Date().toISOString();
     }
 
@@ -173,7 +177,7 @@ export default async function handler(req, res) {
       const registration = payment.niebocross_registrations;
 
       try {
-        if (status === '000') {
+        if (isPaymentSuccess) {
           await sendPaymentConfirmationEmail({
             email: registration.email,
             contactPerson: registration.contact_person,
