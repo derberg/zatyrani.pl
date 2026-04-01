@@ -658,5 +658,16 @@
     "phone": "784640977",
     "distance": 6,
     "pace": 8
+  },
+  {
+    "uid": "bieg-4-4-2026-8-0-nieborowice-wierzbowa-4-11-7",
+    "type": "bieg",
+    "datetime": "04/04/2026 08:00",
+    "location": "Nieborowice – Wierzbowa 4",
+    "locationLink": "https://maps.app.goo.gl/1hiWUekjpgK7GpAN8",
+    "comment": "11km w tempie 7:30",
+    "phone": "663473341",
+    "distance": 11,
+    "pace": 7
   }
 ]
