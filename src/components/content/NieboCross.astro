@@ -122,77 +122,6 @@ const locationName = "Nieborowice";
   </div>
 </section>
 
-<section class="mx-auto max-w-6xl px-6 py-16">
-  <div class="grid gap-10">
-    <div class="space-y-6">
-      <h2 class="text-3xl font-bold text-slate-900 text-center">{t("niebocross.two_routes_one_goal")}</h2>
-      <p class="text-lg text-slate-700  text-center">
-        {t("niebocross.two_routes_desc")}
-      </p>
-
-      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-          <p class="text-sm font-semibold uppercase tracking-widest text-emerald-700">{t("niebocross.route_short")}</p>
-          <h3 class="mt-2 text-2xl font-bold text-slate-900">{t("niebocross.for_beginners")}</h3>
-          <p class="mt-3 text-slate-700">
-            {t("niebocross.for_beginners_desc")}
-          </p>
-          <ul class="mt-4 space-y-2 text-sm text-slate-700">
-            <li class="flex items-start gap-2">
-              <span class="mt-2 h-2 w-2 flex-none rounded-full bg-emerald-500"></span>
-              {t("niebocross.for_beginners_point1")}
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="mt-2 h-2 w-2 flex-none rounded-full bg-emerald-500"></span>
-              {t("niebocross.for_beginners_point2")}
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="mt-2 h-2 w-2 flex-none rounded-full bg-amber-500"></span>
-              {t("niebocross.for_beginners_point3")}
-            </li>
-          </ul>
-        </div>
-
-        <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-          <p class="text-sm font-semibold uppercase tracking-widest text-cyan-700">{t("niebocross.route_long")}</p>
-          <h3 class="mt-2 text-2xl font-bold text-slate-900">{t("niebocross.for_challengers")}</h3>
-          <p class="mt-3 text-slate-700">
-            {t("niebocross.for_challengers_desc")}
-          </p>
-          <ul class="mt-4 space-y-2 text-sm text-slate-700">
-            <li class="flex items-start gap-2">
-              <span class="mt-2 h-2 w-2 flex-none rounded-full bg-cyan-500"></span>
-              {t("niebocross.for_challengers_point1")}
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="mt-2 h-2 w-2 flex-none rounded-full bg-cyan-500"></span>
-              {t("niebocross.for_challengers_point2")}
-            </li>
-          </ul>
-        </div>
-
-        <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-          <p class="text-sm font-semibold uppercase tracking-widest text-amber-700">{t("niebocross.kids_run")}</p>
-          <h3 class="mt-2 text-2xl font-bold text-slate-900">{t("niebocross.kids_run_distances")}</h3>
-          <p class="mt-3 text-slate-700">
-            {t("niebocross.kids_run_desc")}
-          </p>
-          <ul class="mt-4 space-y-2 text-sm text-slate-700">
-            <li class="flex items-start gap-2">
-              <span class="mt-2 h-2 w-2 flex-none rounded-full bg-amber-500"></span>
-              {t("niebocross.kids_run_point1")}
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="mt-2 h-2 w-2 flex-none rounded-full bg-amber-500"></span>
-              {t("niebocross.kids_run_point2")}
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <section id="mapy-tras" class="mx-auto max-w-6xl px-6 py-12">
   <div class="space-y-6">
     <h2 class="text-3xl font-bold text-slate-900 text-center">{t("niebocross.trail_maps_title")}</h2>
@@ -242,6 +171,62 @@ const locationName = "Nieborowice";
           referrerpolicy="no-referrer-when-downgrade"
         ></iframe>
       </div>
+    </div>
+  </div>
+</section>
+
+<section id="biuro-zawodow" class="mx-auto max-w-6xl px-6 py-12">
+  <div class="space-y-6">
+    <h2 class="text-3xl font-bold text-slate-900 text-center">{t("niebocross.race_office_title")}</h2>
+    <p class="text-lg text-slate-700 text-center max-w-3xl mx-auto">
+      {t("niebocross.race_office_desc")}
+    </p>
+
+    <div class="rounded-2xl border border-amber-200 bg-amber-50 p-4 flex items-start gap-3 max-w-3xl mx-auto">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-amber-600 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+      </svg>
+      <p class="text-amber-800 font-medium">{t("niebocross.race_office_parking_warning")}</p>
+    </div>
+
+    <div class="flex items-center justify-center gap-6 text-sm text-slate-600">
+      <span class="inline-flex items-center gap-1.5">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600" viewBox="0 0 24 24" fill="currentColor">
+          <path fill-rule="evenodd" d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 00-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 002.682 2.282 16.975 16.975 0 001.145.742z" clip-rule="evenodd" />
+        </svg>
+        {t("niebocross.race_office_map_legend_parking")}
+      </span>
+      <span class="inline-flex items-center gap-1.5">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-600" viewBox="0 0 24 24" fill="currentColor">
+          <path fill-rule="evenodd" d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 00-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 002.682 2.282 16.975 16.975 0 001.145.742z" clip-rule="evenodd" />
+        </svg>
+        {t("niebocross.race_office_map_legend_no_entry")}
+      </span>
+    </div>
+
+    <div class="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+      <iframe
+        src="https://www.google.com/maps/d/embed?mid=1FrOAvaq6aMtwVdp9-aGg0UDRRpy_Zto&ll=50.231793743534574%2C18.604665154383866&z=18"
+        class="w-full h-96 border-0"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+      ></iframe>
+    </div>
+
+    <div class="text-center space-y-2">
+      <p class="text-slate-600">{t("niebocross.race_office_google_maps_hint")}</p>
+      <a
+        href="https://www.google.com/maps/d/viewer?mid=1FrOAvaq6aMtwVdp9-aGg0UDRRpy_Zto"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-5 py-2.5 font-semibold text-white transition hover:bg-emerald-700"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>
+        {t("niebocross.race_office_open_in_google_maps")}
+      </a>
     </div>
   </div>
 </section>
@@ -698,6 +683,77 @@ const locationName = "Nieborowice";
           {t("niebocross.partner_contact")} <a class="font-semibold text-emerald-700 hover:text-emerald-800" href="mailto:biuro@zatyrani.pl">{t("common.email")}</a><br/>
           {t("niebocross.or_call")} <a class="font-semibold text-emerald-700 hover:text-emerald-800" href="tel:+48784640977">{t("common.phone")}</a>
         </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="mx-auto max-w-6xl px-6 py-16">
+  <div class="grid gap-10">
+    <div class="space-y-6">
+      <h2 class="text-3xl font-bold text-slate-900 text-center">{t("niebocross.two_routes_one_goal")}</h2>
+      <p class="text-lg text-slate-700  text-center">
+        {t("niebocross.two_routes_desc")}
+      </p>
+
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+          <p class="text-sm font-semibold uppercase tracking-widest text-emerald-700">{t("niebocross.route_short")}</p>
+          <h3 class="mt-2 text-2xl font-bold text-slate-900">{t("niebocross.for_beginners")}</h3>
+          <p class="mt-3 text-slate-700">
+            {t("niebocross.for_beginners_desc")}
+          </p>
+          <ul class="mt-4 space-y-2 text-sm text-slate-700">
+            <li class="flex items-start gap-2">
+              <span class="mt-2 h-2 w-2 flex-none rounded-full bg-emerald-500"></span>
+              {t("niebocross.for_beginners_point1")}
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="mt-2 h-2 w-2 flex-none rounded-full bg-emerald-500"></span>
+              {t("niebocross.for_beginners_point2")}
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="mt-2 h-2 w-2 flex-none rounded-full bg-amber-500"></span>
+              {t("niebocross.for_beginners_point3")}
+            </li>
+          </ul>
+        </div>
+
+        <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+          <p class="text-sm font-semibold uppercase tracking-widest text-cyan-700">{t("niebocross.route_long")}</p>
+          <h3 class="mt-2 text-2xl font-bold text-slate-900">{t("niebocross.for_challengers")}</h3>
+          <p class="mt-3 text-slate-700">
+            {t("niebocross.for_challengers_desc")}
+          </p>
+          <ul class="mt-4 space-y-2 text-sm text-slate-700">
+            <li class="flex items-start gap-2">
+              <span class="mt-2 h-2 w-2 flex-none rounded-full bg-cyan-500"></span>
+              {t("niebocross.for_challengers_point1")}
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="mt-2 h-2 w-2 flex-none rounded-full bg-cyan-500"></span>
+              {t("niebocross.for_challengers_point2")}
+            </li>
+          </ul>
+        </div>
+
+        <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+          <p class="text-sm font-semibold uppercase tracking-widest text-amber-700">{t("niebocross.kids_run")}</p>
+          <h3 class="mt-2 text-2xl font-bold text-slate-900">{t("niebocross.kids_run_distances")}</h3>
+          <p class="mt-3 text-slate-700">
+            {t("niebocross.kids_run_desc")}
+          </p>
+          <ul class="mt-4 space-y-2 text-sm text-slate-700">
+            <li class="flex items-start gap-2">
+              <span class="mt-2 h-2 w-2 flex-none rounded-full bg-amber-500"></span>
+              {t("niebocross.kids_run_point1")}
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="mt-2 h-2 w-2 flex-none rounded-full bg-amber-500"></span>
+              {t("niebocross.kids_run_point2")}
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
