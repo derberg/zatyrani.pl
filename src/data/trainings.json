@@ -680,5 +680,16 @@
     "phone": "513592253",
     "distance": 15,
     "pace": 6
+  },
+  {
+    "uid": "bieg-7-4-2026-18-0-nieborowice-wierzbowa-4-9-9",
+    "type": "bieg",
+    "datetime": "07/04/2026 18:00",
+    "location": "Nieborowice – Wierzbowa 4",
+    "locationLink": "https://maps.app.goo.gl/1hiWUekjpgK7GpAN8",
+    "comment": "Kolejny trening Galloway-em. Spodobało wam się ostatnio, to robimy jeszcze raz. Idealny spokojny trening zaraz przed NieboCross.",
+    "phone": "784640977",
+    "distance": 9,
+    "pace": 9
   }
 ]
