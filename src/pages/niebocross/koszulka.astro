@@ -29,22 +29,21 @@ import { t } from "../../utils/i18n";
 
       <!-- Explanation (only shown for registered participants) -->
       <div id="registration-explanation" class="hidden rounded-2xl bg-slate-50 ring-1 ring-slate-200 p-5 mb-6 text-sm leading-relaxed text-slate-700">
-        Podczas rejestracji zbieraliśmy informację o rozmiarze koszulki, jednak nie udało nam się pozyskać odpowiednich środków od partnerów, aby rozdać koszulki za darmo.
-        Dlatego oferujemy możliwość zakupu koszulki pamiątkowej po kosztach produkcji.
+        Podczas rejestracji zbieraliśmy informację o rozmiarze koszulki, jednak niestety zamówienia zostały już zamknięte.
       </div>
 
-      <!-- Cost info -->
-      <div class="rounded-2xl bg-amber-50 ring-1 ring-amber-200 p-5 mb-6 text-sm leading-relaxed text-amber-900">
-        <p class="font-semibold mb-1">60 zł — koszt produkcji koszulki</p>
-        Cała kwota pokrywa wyłącznie koszt wyprodukowania koszulki.
-        Żadne pieniądze nie trafiają do organizatora ani na cele charytatywne — to czysta cena produkcji.
+      <!-- Order unavailable notice -->
+      <div class="rounded-2xl bg-slate-100 ring-1 ring-slate-300 p-8 text-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-16 w-16 text-slate-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <h3 class="text-2xl font-bold text-slate-900 mb-3">Zamówienia zamknięte</h3>
+        <p class="text-lg text-slate-600 mb-2">Niestety, aktualnie nie jest możliwe zamówienie koszulki pamiątkowej.</p>
+        <p class="text-sm text-slate-500">Dziękujemy za zainteresowanie!</p>
       </div>
 
-      <!-- Price -->
-      <p class="text-center text-4xl font-black text-emerald-600 mb-8">60 zł</p>
-
-      <!-- Card with form -->
-      <div class="rounded-2xl bg-white ring-1 ring-slate-200 shadow-xl p-6 sm:p-8">
+      <!-- Card with form (hidden) -->
+      <div class="hidden rounded-2xl bg-white ring-1 ring-slate-200 shadow-xl p-6 sm:p-8">
 
         <!-- Loading state -->
         <div id="loading-state" class="text-center py-8">
