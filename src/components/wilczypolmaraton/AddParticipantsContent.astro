@@ -120,6 +120,13 @@ const { t, locale = 'pl' } = Astro.props;
         <div class="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
           <button
             type="button"
+            id="step3cBackBtn"
+            class="rounded-lg border border-emerald-600 bg-white px-6 py-2 text-sm font-semibold text-emerald-600 transition hover:bg-emerald-50"
+          >
+            &larr; {t("wilczypolmaraton.form.back")}
+          </button>
+          <button
+            type="button"
             id="addAnotherBtn"
             class="rounded-lg border border-emerald-600 bg-white px-6 py-2 text-sm font-semibold text-emerald-600 transition hover:bg-emerald-50"
           >
@@ -311,6 +318,7 @@ const { t, locale = 'pl' } = Astro.props;
   const step3bNextBtn = document.getElementById('step3bNextBtn');
 
   const participantSummaryCard = document.getElementById('participantSummaryCard');
+  const step3cBackBtn = document.getElementById('step3cBackBtn');
   const addAnotherBtn = document.getElementById('addAnotherBtn');
   const finishBtn = document.getElementById('finishBtn');
 
@@ -566,6 +574,23 @@ const { t, locale = 'pl' } = Astro.props;
     // Show per-participant summary (step 3c)
     renderParticipantSummary(currentParticipant);
     showStep(step3c);
+  });
+
+  // ─── Step 3c: Back to t-shirt step ──────────────────────
+  step3cBackBtn.addEventListener('click', () => {
+    // Restore t-shirt checkbox/size from currentParticipant
+    const sizeSelect = document.querySelector('[name="tshirtSize_current"]');
+    if (currentParticipant.tshirtSize) {
+      tshirtBuyCheckbox.checked = true;
+      tshirtSizeContainer.classList.remove('hidden');
+      if (sizeSelect) sizeSelect.value = currentParticipant.tshirtSize;
+    } else {
+      tshirtBuyCheckbox.checked = false;
+      tshirtSizeContainer.classList.add('hidden');
+      if (sizeSelect) sizeSelect.value = '';
+    }
+    step3bError.classList.add('hidden');
+    showStep(step3b);
   });
 
   // ─── Step 3c: Per-participant summary ────────────────────
