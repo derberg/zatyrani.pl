@@ -164,6 +164,22 @@ const wilczypolmaratonLink = locale === 'en' ? '/en/wilczypolmaraton' : '/wilczy
 
             <div>
               <label class="block text-sm font-semibold text-slate-700">
+                {t("wilczypolmaraton.form.gender_label")} <span class="text-red-600">*</span>
+              </label>
+              <div class="mt-1 flex gap-4">
+                <label class="flex items-center gap-2 p-2 rounded-lg border-2 border-emerald-300 cursor-pointer hover:bg-emerald-50 transition flex-1 justify-center">
+                  <input type="radio" name="editGender" value="male" class="text-emerald-600 focus:ring-emerald-500" />
+                  <span class="text-sm font-medium">{t("wilczypolmaraton.form.gender_male")}</span>
+                </label>
+                <label class="flex items-center gap-2 p-2 rounded-lg border-2 border-emerald-300 cursor-pointer hover:bg-emerald-50 transition flex-1 justify-center">
+                  <input type="radio" name="editGender" value="female" class="text-emerald-600 focus:ring-emerald-500" />
+                  <span class="text-sm font-medium">{t("wilczypolmaraton.form.gender_female")}</span>
+                </label>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-sm font-semibold text-slate-700">
                 {t("wilczypolmaraton.form.race_category")} <span class="text-red-600">*</span>
               </label>
               <select
@@ -172,15 +188,16 @@ const wilczypolmaratonLink = locale === 'en' ? '/en/wilczypolmaraton' : '/wilczy
                 class="mt-1 block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2"
               >
                 <option value="">{t("wilczypolmaraton.form.select_category")}</option>
-                <option value="21km">Półmaraton 21km</option>
-                <option value="10km">Bieg 10km</option>
+                <option value="21km">{t("wilczypolmaraton.form.categories.21km")}</option>
+                <option value="11km_nw">{t("wilczypolmaraton.form.categories.11km_nw")}</option>
+                <option value="21km_canicross">{t("wilczypolmaraton.form.categories.21km_canicross")}</option>
               </select>
             </div>
 
             <div class="grid gap-4 sm:grid-cols-2">
               <div>
                 <label class="block text-sm font-semibold text-slate-700">
-                  {t("wilczypolmaraton.form.tshirt_size")} <span class="text-red-600">*</span>
+                  {t("wilczypolmaraton.form.tshirt_size")}
                 </label>
                 <TshirtSizeSelector name="editTshirtSize" id="editTshirtSize" t={t} />
               </div>
@@ -500,6 +517,9 @@ const wilczypolmaratonLink = locale === 'en' ? '/en/wilczypolmaraton' : '/wilczy
       document.getElementById('editPhoneNumber').value = participant.phoneNumber || '';
       document.getElementById('editRaceCategory').value = participant.raceCategory;
       document.getElementById('editTshirtSize').value = participant.tshirtSize || '';
+      // Set gender radio
+      const genderRadio = document.querySelector(`input[name="editGender"][value="${participant.gender}"]`);
+      if (genderRadio) genderRadio.checked = true;
       document.getElementById('editHideNamePublic').checked = participant.hideNamePublic;
 
       editModal.classList.remove('hidden');
@@ -536,6 +556,7 @@ const wilczypolmaratonLink = locale === 'en' ? '/en/wilczypolmaraton' : '/wilczy
         phoneNumber: document.getElementById('editPhoneNumber').value,
         raceCategory: document.getElementById('editRaceCategory').value,
         tshirtSize: document.getElementById('editTshirtSize').value,
+        gender: document.querySelector('input[name="editGender"]:checked')?.value || null,
         hideNamePublic: document.getElementById('editHideNamePublic').checked,
       };
 
