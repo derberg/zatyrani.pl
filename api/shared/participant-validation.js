@@ -26,11 +26,8 @@ export function calculateAge(birthDate, eventDate) {
 export function validateParticipant(participant, eventConfig) {
   const { firstName, lastName, birthDate, city, nationality, raceCategory, phoneNumber, tshirtSize } = participant;
 
-  // Required fields (tshirtSize only required if tshirtEnabled)
+  // Required fields (tshirtSize is always optional — empty means no purchase)
   const requiredFields = { firstName, lastName, birthDate, city, nationality, raceCategory, phoneNumber };
-  if (eventConfig.tshirtEnabled) {
-    requiredFields.tshirtSize = tshirtSize;
-  }
 
   if (Object.values(requiredFields).some(v => !v)) {
     return { valid: false, error: "Wszystkie wymagane pola muszą być wypełnione" };
@@ -81,7 +78,9 @@ export function getCurrentFees(eventConfig) {
 
   const now = new Date();
   for (const entry of eventConfig.feeSchedule) {
-    if (now <= new Date(entry.until)) {
+    const untilEnd = new Date(entry.until);
+    untilEnd.setUTCHours(23, 59, 59, 999);
+    if (now <= untilEnd) {
       return entry.fees;
     }
   }

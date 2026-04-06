@@ -2,8 +2,8 @@
  * Competition event configuration registry.
  * Add new events here — all generic API routes read from this config.
  *
- * Fee structure: fees object maps race_category to PLN amount.
- * Use key 'default' as fallback for unlisted categories.
+ * Fee structure: use feeSchedule array for date-based pricing (new events),
+ * or fees object for flat pricing (legacy). Use key 'default' as fallback.
  */
 
 export const EVENTS = {

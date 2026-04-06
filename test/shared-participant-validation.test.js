@@ -102,6 +102,15 @@ describe('getCurrentFees', () => {
     expect(fees).toEqual({ default: 100 });
   });
 
+  it('should return first entry when date is on the deadline day (end-of-day inclusive)', () => {
+    vi.useFakeTimers();
+    // Noon on Aug 31 in Poland (UTC+2) — should still get 100 PLN
+    vi.setSystemTime(new Date('2026-08-31T14:00:00Z'));
+
+    const fees = getCurrentFees(eventConfig);
+    expect(fees).toEqual({ default: 100 });
+  });
+
   it('should return second schedule entry when first deadline has passed', () => {
     vi.useFakeTimers();
     vi.setSystemTime(new Date('2026-09-15'));
