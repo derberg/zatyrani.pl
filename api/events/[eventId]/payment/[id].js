@@ -1,0 +1,133 @@
+import { getSupabaseClient } from "../../../shared/supabase.js";
+import { verifyToken } from "../../../shared/auth.js";
+import { createPaymentLink } from "../../../niebocross/utils/sibs.js";
+import { getEventConfig } from "../../config.js";
+import { setCorsHeaders } from "../../../shared/cors.js";
+
+export default async function handler(req, res) {
+  setCorsHeaders(res);
+
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
+
+  if (req.method !== "GET") {
+    return res.status(405).json({ error: "Method not allowed" });
+  }
+
+  let eventConfig;
+  try {
+    eventConfig = getEventConfig(req.query.eventId);
+  } catch {
+    return res.status(404).json({ error: "Event not found" });
+  }
+
+  const authResult = verifyToken(req, eventConfig);
+  if (authResult.error) {
+    return res.status(authResult.status).json({ error: authResult.error });
+  }
+
+  try {
+    const registrationId = req.query.id;
+
+    if (!registrationId) {
+      return res.status(400).json({
+        success: false,
+        error: "Registration ID is required"
+      });
+    }
+
+    const supabase = getSupabaseClient();
+
+    // Get the latest pending or failed payment (both are actionable — user can pay)
+    const { data: payment, error: paymentError } = await supabase
+      .from("event_payments")
+      .select(`
+        id,
+        total_amount,
+        payment_status,
+        payment_link,
+        transaction_id,
+        event_registrations!inner(email, contact_person, event_id)
+      `)
+      .eq("registration_id", registrationId)
+      .in("payment_status", ["pending", "failed"])
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .single();
+
+    if (paymentError || !payment) {
+      return res.status(200).json({
+        success: true,
+        has_pending_payment: false,
+        message: "Brak nieopłaconych płatności"
+      });
+    }
+
+    const registration = payment.registrations;
+
+    // Verify this payment belongs to the requested event
+    if (registration.event_id !== eventConfig.id) {
+      return res.status(403).json({
+        success: false,
+        error: "Brak dostępu"
+      });
+    }
+
+    // For a previously cached pending session, return it directly (skip SIBS call)
+    // For failed payments the cached session is stale — always create a new one
+    if (payment.payment_status === "pending" && payment.transaction_id && payment.payment_link) {
+      return res.status(200).json({
+        success: true,
+        has_pending_payment: true,
+        payment: {
+          id: payment.id,
+          total_amount: payment.total_amount,
+          payment_status: payment.payment_status,
+          formContext: payment.payment_link,
+          transactionID: payment.transaction_id
+        }
+      });
+    }
+
+    // Create new SIBS payment link
+    const webhookUrl = `https://zatyrani.pl/api/events/${eventConfig.id}/payment/webhook`;
+
+    const paymentResult = await createPaymentLink({
+      paymentId: payment.id,
+      amount: payment.total_amount, // SIBS expects amount in PLN (main currency unit)
+      description: `${eventConfig.name} - ${registration.contact_person}`,
+      email: registration.email,
+      urlReturn: `${eventConfig.panelUrl}?payment=success`,
+      urlStatus: webhookUrl
+    });
+
+    // Save formContext and transactionID to database for re-use
+    await supabase
+      .from("event_payments")
+      .update({
+        payment_link: paymentResult.formContext,
+        transaction_id: paymentResult.transactionID
+      })
+      .eq("id", payment.id);
+
+    return res.status(200).json({
+      success: true,
+      has_pending_payment: true,
+      payment: {
+        id: payment.id,
+        total_amount: payment.total_amount,
+        payment_status: payment.payment_status,
+        formContext: paymentResult.formContext,
+        transactionID: paymentResult.transactionID
+      }
+    });
+
+  } catch (error) {
+    console.error("Unexpected error:", error);
+    return res.status(500).json({
+      success: false,
+      error: "Wystąpił nieoczekiwany błąd podczas tworzenia płatności"
+    });
+  }
+}

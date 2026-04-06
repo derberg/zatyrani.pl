@@ -1,0 +1,238 @@
+---
+import BirthDateSelector from "../niebocross/BirthDateSelector.astro";
+
+interface Props {
+  index: number;
+  t: (key: string) => string;
+  showRemoveButton?: boolean;
+  participantData?: {
+    firstName?: string;
+    lastName?: string;
+    birthDate?: string;
+    city?: string;
+    nationality?: string;
+    club?: string;
+    phoneNumber?: string;
+    raceCategory?: string;
+    gender?: string;
+    hideNamePublic?: boolean;
+  };
+}
+
+const { index, t, showRemoveButton = false, participantData } = Astro.props;
+---
+
+<div class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm mb-4" data-index={index}>
+  <div class="mb-4 flex items-center justify-between">
+    <h3 class="text-lg font-bold text-slate-900">{t("wilczypolmaraton.form.participant")} {index}</h3>
+    {showRemoveButton && (
+      <button type="button" class="remove-participant text-sm text-red-600 hover:underline" data-index={index}>
+        {t("wilczypolmaraton.form.remove")}
+      </button>
+    )}
+  </div>
+
+  <div class="grid gap-4 sm:grid-cols-2">
+    <!-- First Name -->
+    <div>
+      <label class="block text-sm font-semibold text-slate-700">
+        {t("wilczypolmaraton.form.first_name")} <span class="text-red-600">*</span>
+      </label>
+      <input
+        type="text"
+        name={`firstName_${index}`}
+        value={participantData?.firstName || ""}
+        required
+        class="mt-1 block w-full rounded-lg border-emerald-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2 border-2"
+      />
+    </div>
+
+    <!-- Last Name -->
+    <div>
+      <label class="block text-sm font-semibold text-slate-700">
+        {t("wilczypolmaraton.form.last_name")} <span class="text-red-600">*</span>
+      </label>
+      <input
+        type="text"
+        name={`lastName_${index}`}
+        value={participantData?.lastName || ""}
+        required
+        class="mt-1 block w-full rounded-lg border-emerald-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2 border-2"
+      />
+    </div>
+
+    <!-- Birth Date -->
+    <BirthDateSelector index={index} t={t} value={participantData?.birthDate} />
+
+    <!-- City -->
+    <div>
+      <label class="block text-sm font-semibold text-slate-700">
+        {t("wilczypolmaraton.form.city")} <span class="text-red-600">*</span>
+      </label>
+      <input
+        type="text"
+        name={`city_${index}`}
+        value={participantData?.city || ""}
+        required
+        class="mt-1 block w-full rounded-lg border-emerald-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2 border-2"
+      />
+    </div>
+
+    <!-- Nationality -->
+    <div>
+      <label class="block text-sm font-semibold text-slate-700">
+        {t("wilczypolmaraton.form.nationality")} <span class="text-red-600">*</span>
+      </label>
+      <input
+        type="text"
+        name={`nationality_${index}`}
+        value={participantData?.nationality || "Polska"}
+        required
+        class="mt-1 block w-full rounded-lg border-emerald-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2 border-2"
+      />
+    </div>
+
+    <!-- Gender -->
+    <div>
+      <label class="block text-sm font-semibold text-slate-700">
+        {t("wilczypolmaraton.form.gender_label")} <span class="text-red-600">*</span>
+      </label>
+      <div class="mt-1 flex gap-4">
+        <label class="flex items-center gap-2 p-2 rounded-lg border-2 border-emerald-300 cursor-pointer hover:bg-emerald-50 transition flex-1 justify-center">
+          <input
+            type="radio"
+            name={`gender_${index}`}
+            value="male"
+            checked={participantData?.gender === "male"}
+            required
+            class="text-emerald-600 focus:ring-emerald-500"
+          />
+          <span class="text-sm font-medium">{t("wilczypolmaraton.form.gender_male")}</span>
+        </label>
+        <label class="flex items-center gap-2 p-2 rounded-lg border-2 border-emerald-300 cursor-pointer hover:bg-emerald-50 transition flex-1 justify-center">
+          <input
+            type="radio"
+            name={`gender_${index}`}
+            value="female"
+            checked={participantData?.gender === "female"}
+            required
+            class="text-emerald-600 focus:ring-emerald-500"
+          />
+          <span class="text-sm font-medium">{t("wilczypolmaraton.form.gender_female")}</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Club with autocomplete -->
+    <div>
+      <label class="block text-sm font-semibold text-slate-700">
+        {t("wilczypolmaraton.form.club")}
+      </label>
+      <div class="relative">
+        <input
+          type="text"
+          name={`club_${index}`}
+          value={participantData?.club || ""}
+          class="club-input mt-1 block w-full rounded-lg border-emerald-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2 border-2"
+          data-participant-index={index}
+          autocomplete="off"
+        />
+        <div class="club-suggestions absolute z-10 w-full bg-white border border-gray-300 rounded-lg shadow-lg mt-1 hidden max-h-48 overflow-y-auto"></div>
+      </div>
+    </div>
+
+    <!-- Phone Number -->
+    <div>
+      <label class="block text-sm font-semibold text-slate-700">
+        {t("wilczypolmaraton.form.phone_number")} <span class="text-red-600">*</span>
+      </label>
+      <input
+        type="text"
+        name={`phoneNumber_${index}`}
+        value={participantData?.phoneNumber || ""}
+        required
+        class="phone-number mt-1 block w-full rounded-lg border-emerald-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2 border-2"
+        placeholder="123456789"
+        data-participant-index={index}
+      />
+      <p class="mt-1 text-xs text-slate-600">{t("wilczypolmaraton.form.phone_help")}</p>
+    </div>
+
+    <!-- Race Category - radio buttons for dynamic limit checking -->
+    <div class="sm:col-span-2">
+      <label class="block text-sm font-semibold text-slate-700 mb-3">
+        {t("wilczypolmaraton.form.distance_activity")} <span class="text-red-600">*</span>
+      </label>
+      <div class="grid gap-3 sm:grid-cols-3">
+        <label class="flex items-center gap-2 p-3 rounded-lg border-2 border-emerald-300 cursor-pointer hover:bg-emerald-50 transition">
+          <input
+            type="radio"
+            name={`raceCategory_${index}`}
+            value="21km"
+            checked={participantData?.raceCategory === "21km"}
+            required
+            class="text-emerald-600 focus:ring-emerald-500"
+          />
+          <span class="text-sm font-medium">{t("wilczypolmaraton.form.categories.21km")}</span>
+        </label>
+        <label class="flex items-center gap-2 p-3 rounded-lg border-2 border-emerald-300 cursor-pointer hover:bg-emerald-50 transition">
+          <input
+            type="radio"
+            name={`raceCategory_${index}`}
+            value="11km_nw"
+            checked={participantData?.raceCategory === "11km_nw"}
+            required
+            class="text-emerald-600 focus:ring-emerald-500"
+          />
+          <span class="text-sm font-medium">{t("wilczypolmaraton.form.categories.11km_nw")}</span>
+        </label>
+        <label class="flex items-center gap-2 p-3 rounded-lg border-2 border-emerald-300 cursor-pointer hover:bg-emerald-50 transition">
+          <input
+            type="radio"
+            name={`raceCategory_${index}`}
+            value="21km_canicross"
+            checked={participantData?.raceCategory === "21km_canicross"}
+            required
+            class="text-emerald-600 focus:ring-emerald-500"
+          />
+          <span class="text-sm font-medium">{t("wilczypolmaraton.form.categories.21km_canicross")}</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Hide Name Public -->
+    <div class="sm:col-span-2">
+      <label class="flex items-start gap-2">
+        <input
+          type="checkbox"
+          name={`hideNamePublic_${index}`}
+          checked={participantData?.hideNamePublic}
+          class="mt-1 rounded border-emerald-300 border-2 text-emerald-600 focus:ring-emerald-500"
+        />
+        <span class="text-sm text-slate-700">{t("wilczypolmaraton.form.hide_name_public")}</span>
+      </label>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Initialize phone number input validation
+  function setupPhoneValidation() {
+    document.querySelectorAll('.phone-number').forEach((phoneInput) => {
+      if (!phoneInput.hasAttribute('data-phone-initialized')) {
+        phoneInput.setAttribute('data-phone-initialized', 'true');
+
+        phoneInput.addEventListener('input', () => {
+          const digits = phoneInput.value.replace(/\D/g, '').slice(0, 9);
+          phoneInput.value = digits;
+        });
+      }
+    });
+  }
+
+  // Run on load
+  setupPhoneValidation();
+
+  // Export for use when adding participants dynamically
+  window.setupPhoneValidation = setupPhoneValidation;
+</script>

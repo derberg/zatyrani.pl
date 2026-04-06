@@ -25,3 +25,4 @@ pnpm-debug.log*
 .vercel
 .env*.local
 scripts/.campaign-state.json
+.worktrees/

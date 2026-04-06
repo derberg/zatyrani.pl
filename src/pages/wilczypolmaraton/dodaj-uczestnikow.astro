@@ -1,0 +1,16 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import WilczyPolmaratonHeader from "../../components/wilczypolmaraton/WilczyPolmaratonHeader.astro";
+import AddParticipantsContent from "../../components/wilczypolmaraton/AddParticipantsContent.astro";
+import { t } from "../../utils/i18n";
+---
+
+<Layout
+  title={`Wilczy Półmaraton 2026 - ${t("wilczypolmaraton.add_participants.title")}`}
+  description="Dodaj więcej uczestników do swojej rejestracji na Wilczy Półmaraton 2026"
+  ogImage="/wilczypolmaraton_og.jpg"
+  t={t}
+>
+  <WilczyPolmaratonHeader t={t} />
+  <AddParticipantsContent t={t} locale="pl" />
+</Layout>

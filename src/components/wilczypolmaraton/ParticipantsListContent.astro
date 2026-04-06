@@ -1,0 +1,372 @@
+---
+interface Props {
+  t: (key: string) => string;
+}
+const { t } = Astro.props;
+---
+
+<div class="mx-auto max-w-6xl px-6 py-12">
+  <div class="mb-8 text-center">
+    <h2 class="text-3xl font-bold text-slate-900">{t("wilczypolmaraton.participants_list.title")}</h2>
+    <p class="mt-2 text-slate-600">{t("wilczypolmaraton.participants_list.description")}</p>
+  </div>
+
+  <!-- Filters -->
+  <div class="mb-6 rounded-xl border border-slate-200 bg-white shadow-sm">
+    <button
+      id="toggleFilters"
+      class="w-full flex items-center justify-between p-6 sm:cursor-default"
+      type="button"
+    >
+      <h3 class="text-lg font-bold text-slate-900">{t("wilczypolmaraton.participants_list.filters")}</h3>
+      <svg id="filtersChevron" class="h-5 w-5 text-slate-500 transition-transform sm:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
+    </button>
+    <div id="filtersBody" class="hidden sm:block px-6 pb-6">
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div>
+        <label for="filterCategory" class="block text-sm font-semibold text-slate-700">
+          {t("wilczypolmaraton.form.race_category")}
+        </label>
+        <select
+          id="filterCategory"
+          class="mt-1 block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2"
+        >
+          <option value="">{t("wilczypolmaraton.participants_list.all_categories")}</option>
+          <option value="21km">{t("wilczypolmaraton.participants_list.category_21km")}</option>
+          <option value="11km_nw">{t("wilczypolmaraton.participants_list.category_11km_nw")}</option>
+          <option value="21km_canicross">{t("wilczypolmaraton.participants_list.category_21km_canicross")}</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="filterPayment" class="block text-sm font-semibold text-slate-700">
+          {t("wilczypolmaraton.participants_list.payment_status")}
+        </label>
+        <select
+          id="filterPayment"
+          class="mt-1 block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2"
+        >
+          <option value="">{t("wilczypolmaraton.participants_list.all_payment_statuses")}</option>
+          <option value="paid">{t("wilczypolmaraton.participants_list.status_paid")}</option>
+          <option value="pending">{t("wilczypolmaraton.participants_list.status_pending")}</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="filterClub" class="block text-sm font-semibold text-slate-700">
+          {t("wilczypolmaraton.form.club")}
+        </label>
+        <select
+          id="filterClub"
+          class="mt-1 block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2"
+        >
+          <option value="">{t("wilczypolmaraton.participants_list.all_clubs")}</option>
+          <option value="__none__">{t("wilczypolmaraton.participants_list.no_club")}</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="filterGender" class="block text-sm font-semibold text-slate-700">
+          {t("wilczypolmaraton.participants_list.gender")}
+        </label>
+        <select
+          id="filterGender"
+          class="mt-1 block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2"
+        >
+          <option value="">{t("wilczypolmaraton.participants_list.all_genders")}</option>
+          <option value="male">{t("wilczypolmaraton.participants_list.gender_male")}</option>
+          <option value="female">{t("wilczypolmaraton.participants_list.gender_female")}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="mt-4">
+      <button
+        id="clearFilters"
+        class="rounded-lg border border-emerald-300 border-2 bg-white px-6 py-2 font-semibold text-slate-700 transition hover:bg-slate-50"
+      >
+        {t("wilczypolmaraton.participants_list.clear_filters")}
+      </button>
+    </div>
+    </div>
+  </div>
+
+  <!-- Participant Counters -->
+  <div id="counters" class="hidden mb-6 rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+    <h3 class="mb-4 text-lg font-bold text-slate-900">{t("wilczypolmaraton.participants_list.registered_counts_title")}</h3>
+    <div id="countersGrid" class="flex flex-wrap justify-center gap-8">
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div id="loading" class="text-center py-12">
+    <div class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-emerald-600 border-r-transparent"></div>
+    <p class="mt-4 text-slate-600">{t("wilczypolmaraton.dashboard.loading")}</p>
+  </div>
+
+  <!-- Error Message -->
+  <div id="errorMessage" class="hidden rounded-xl border border-red-200 bg-red-50 p-6">
+    <div class="flex items-start gap-3">
+      <svg class="h-6 w-6 flex-shrink-0 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+      </svg>
+      <div>
+        <h3 class="text-lg font-semibold text-red-900">{t("wilczypolmaraton.panel.loading_error_title")}</h3>
+        <p class="mt-2 text-red-800">{t("wilczypolmaraton.panel.loading_error_message")}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div id="results" class="hidden">
+    <div class="mb-4 flex items-center justify-between">
+      <p class="text-sm text-slate-600">
+        {t("wilczypolmaraton.participants_list.total")}: <span id="totalCount" class="font-semibold">0</span>
+      </p>
+    </div>
+
+    <!-- Desktop table -->
+    <div class="hidden md:block overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
+      <table class="w-full">
+        <thead class="bg-slate-50">
+          <tr>
+            <th class="px-4 py-3 text-left text-sm font-semibold text-slate-700">{t("wilczypolmaraton.form.full_name")}</th>
+            <th class="px-4 py-3 text-left text-sm font-semibold text-slate-700">{t("wilczypolmaraton.form.city")}</th>
+            <th class="px-4 py-3 text-left text-sm font-semibold text-slate-700">{t("wilczypolmaraton.form.club")}</th>
+            <th class="px-4 py-3 text-left text-sm font-semibold text-slate-700">{t("wilczypolmaraton.form.race_category")}</th>
+            <th class="px-4 py-3 text-left text-sm font-semibold text-slate-700">{t("wilczypolmaraton.participants_list.gender")}</th>
+            <th class="px-4 py-3 text-left text-sm font-semibold text-slate-700">{t("wilczypolmaraton.participants_list.payment_status")}</th>
+          </tr>
+        </thead>
+        <tbody id="participantsTableBody" class="divide-y divide-slate-200">
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Mobile cards -->
+    <div id="participantsCards" class="md:hidden flex flex-col gap-3">
+    </div>
+
+    <div id="noResults" class="hidden rounded-xl border border-slate-200 bg-white p-12 text-center">
+      <p class="text-slate-600">{t("wilczypolmaraton.participants_list.no_results")}</p>
+    </div>
+  </div>
+</div>
+
+<script define:vars={{
+  categoryLabels: {
+    '21km': t('wilczypolmaraton.participants_list.category_21km'),
+    '11km_nw': t('wilczypolmaraton.participants_list.category_11km_nw'),
+    '21km_canicross': t('wilczypolmaraton.participants_list.category_21km_canicross')
+  },
+  genderLabels: {
+    'male': t('wilczypolmaraton.participants_list.gender_male'),
+    'female': t('wilczypolmaraton.participants_list.gender_female')
+  },
+  paymentStatusLabels: {
+    'paid': t('wilczypolmaraton.participants_list.status_paid'),
+    'pending': t('wilczypolmaraton.participants_list.status_pending')
+  },
+  groupLabels: {
+    'run': t('wilczypolmaraton.participants_list.category_21km'),
+    'canicross': t('wilczypolmaraton.participants_list.category_21km_canicross'),
+    'nw': t('wilczypolmaraton.participants_list.category_11km_nw')
+  }
+}}>
+  const API_BASE = '/api/events/wilczypolmaraton-2026';
+
+  // All fetched data (for client-side filtering)
+  let allParticipants = [];
+  let limitsAndCountsData = null;
+
+  // DOM Elements
+  const loading = document.getElementById('loading');
+  const results = document.getElementById('results');
+  const counters = document.getElementById('counters');
+  const noResults = document.getElementById('noResults');
+  const tableBody = document.getElementById('participantsTableBody');
+  const cardsContainer = document.getElementById('participantsCards');
+  const totalCount = document.getElementById('totalCount');
+  const countersGrid = document.getElementById('countersGrid');
+  const clearFiltersBtn = document.getElementById('clearFilters');
+  const filterCategory = document.getElementById('filterCategory');
+  const filterPayment = document.getElementById('filterPayment');
+  const filterClub = document.getElementById('filterClub');
+  const filterGender = document.getElementById('filterGender');
+  const toggleFilters = document.getElementById('toggleFilters');
+  const filtersBody = document.getElementById('filtersBody');
+  const filtersChevron = document.getElementById('filtersChevron');
+
+  // Toggle filters on mobile
+  toggleFilters.addEventListener('click', () => {
+    if (window.innerWidth >= 640) return; // sm breakpoint — always visible on desktop
+    filtersBody.classList.toggle('hidden');
+    filtersChevron.classList.toggle('rotate-180');
+  });
+  const errorMessage = document.getElementById('errorMessage');
+
+  async function loadParticipants() {
+    loading.classList.remove('hidden');
+    results.classList.add('hidden');
+    errorMessage.classList.add('hidden');
+
+    try {
+      const response = await fetch(`${API_BASE}/registrations/list`);
+
+      const contentType = response.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        throw new Error('Server returned non-JSON response');
+      }
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to load participants');
+      }
+
+      allParticipants = data.participants;
+      limitsAndCountsData = data.limitsAndCounts;
+
+      // Populate club filter dropdown from fetched data
+      populateClubFilter(allParticipants);
+
+      applyFiltersAndRender();
+    } catch (error) {
+      console.error('Error loading participants:', error);
+      loading.classList.add('hidden');
+      counters.classList.add('hidden');
+      errorMessage.classList.remove('hidden');
+    } finally {
+      loading.classList.add('hidden');
+    }
+  }
+
+  function populateClubFilter(participants) {
+    const clubs = new Set();
+    participants.forEach(p => {
+      if (p.club) clubs.add(p.club);
+    });
+
+    const sorted = [...clubs].sort((a, b) => a.localeCompare(b, 'pl'));
+
+    // Keep the first two options (all clubs + no club), remove old dynamic ones
+    while (filterClub.options.length > 2) {
+      filterClub.remove(2);
+    }
+
+    sorted.forEach(club => {
+      const option = document.createElement('option');
+      option.value = club;
+      option.textContent = club;
+      filterClub.appendChild(option);
+    });
+  }
+
+  function applyFiltersAndRender() {
+    const categoryFilter = filterCategory.value;
+    const paymentFilter = filterPayment.value;
+    const clubFilter = filterClub.value;
+    const genderFilter = filterGender.value;
+
+    let filtered = allParticipants;
+
+    if (categoryFilter) {
+      filtered = filtered.filter(p => p.raceCategory === categoryFilter);
+    }
+    if (paymentFilter) {
+      filtered = filtered.filter(p => p.paymentStatus === paymentFilter);
+    }
+    if (clubFilter === '__none__') {
+      filtered = filtered.filter(p => !p.club);
+    } else if (clubFilter) {
+      filtered = filtered.filter(p => p.club === clubFilter);
+    }
+    if (genderFilter) {
+      filtered = filtered.filter(p => p.gender === genderFilter);
+    }
+
+    renderParticipants(filtered, filtered.length, limitsAndCountsData);
+  }
+
+  function renderParticipants(participants, total, limitsAndCounts) {
+    totalCount.textContent = String(total);
+
+    // Update counters — render all limit groups dynamically
+    if (limitsAndCounts && Object.keys(limitsAndCounts).length > 0) {
+      counters.classList.remove('hidden');
+      countersGrid.innerHTML = Object.entries(limitsAndCounts).map(([group, data]) => `
+        <div class="text-center">
+          <div class="text-2xl font-bold text-emerald-600">${data.count}</div>
+          <div class="text-sm text-slate-600">${groupLabels[group] || group} / ${data.limit}</div>
+        </div>
+      `).join('');
+    } else {
+      counters.classList.add('hidden');
+    }
+
+    if (participants.length === 0) {
+      tableBody.innerHTML = '';
+      cardsContainer.innerHTML = '';
+      noResults.classList.remove('hidden');
+      results.classList.remove('hidden');
+      return;
+    }
+
+    noResults.classList.add('hidden');
+    results.classList.remove('hidden');
+
+    const rows = participants.map(p => {
+      const categoryLabel = categoryLabels[p.raceCategory] || p.raceCategory;
+      const genderLabel = genderLabels[p.gender] || '';
+      const isPaid = p.paymentStatus === 'paid';
+      const paymentLabel = paymentStatusLabels[p.paymentStatus] || p.paymentStatus;
+      const paymentClass = isPaid
+        ? 'bg-emerald-100 text-emerald-800'
+        : 'bg-amber-100 text-amber-800';
+      return { p, categoryLabel, genderLabel, paymentLabel, paymentClass };
+    });
+
+    tableBody.innerHTML = rows.map(({ p, categoryLabel, genderLabel, paymentLabel, paymentClass }) => `
+      <tr class="hover:bg-slate-50">
+        <td class="px-4 py-3 text-sm text-slate-900">${p.fullName}</td>
+        <td class="px-4 py-3 text-sm text-slate-600">${p.city}</td>
+        <td class="px-4 py-3 text-sm text-slate-600">${p.club || '-'}</td>
+        <td class="px-4 py-3 text-sm text-slate-600">${categoryLabel}</td>
+        <td class="px-4 py-3 text-sm text-slate-600">${genderLabel}</td>
+        <td class="px-4 py-3 text-sm"><span class="inline-flex rounded-full px-2 py-1 text-xs font-medium ${paymentClass}">${paymentLabel}</span></td>
+      </tr>
+    `).join('');
+
+    cardsContainer.innerHTML = rows.map(({ p, categoryLabel, genderLabel, paymentLabel, paymentClass }) => `
+      <div class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+        <div class="flex items-start justify-between gap-3">
+          <div class="min-w-0">
+            <p class="font-semibold text-slate-900">${p.fullName}</p>
+            <p class="text-sm text-slate-500 mt-0.5">${p.city}${p.club ? ' · ' + p.club : ''}</p>
+          </div>
+          <span class="flex-shrink-0 inline-flex rounded-full px-2 py-1 text-xs font-medium ${paymentClass}">${paymentLabel}</span>
+        </div>
+        <p class="mt-2 text-sm text-slate-600">${categoryLabel}${genderLabel ? ' · ' + genderLabel : ''}</p>
+      </div>
+    `).join('');
+  }
+
+  // Filter listeners — all client-side
+  filterCategory.addEventListener('change', applyFiltersAndRender);
+  filterPayment.addEventListener('change', applyFiltersAndRender);
+  filterClub.addEventListener('change', applyFiltersAndRender);
+  filterGender.addEventListener('change', applyFiltersAndRender);
+
+  clearFiltersBtn.addEventListener('click', () => {
+    filterCategory.value = '';
+    filterPayment.value = '';
+    filterClub.value = '';
+    filterGender.value = '';
+    applyFiltersAndRender();
+  });
+
+  // Load on page load
+  loadParticipants();
+</script>

@@ -1,0 +1,1057 @@
+---
+import ParticipantFieldset from "./ParticipantFieldset.astro";
+import TshirtSizeSelector from "./TshirtSizeSelector.astro";
+import ClubAutocomplete from "./ClubAutocomplete.astro";
+
+interface Props {
+  t: (key: string) => string;
+  locale?: string;
+}
+const { t, locale = 'pl' } = Astro.props;
+---
+
+  <div class="mx-auto max-w-4xl px-6 py-12">
+    <!-- Step 1: Email Verification -->
+    <div id="step1" class="space-y-6">
+      <div class="text-center">
+        <h2 class="text-3xl font-bold text-slate-900">{t("wilczypolmaraton.registration.email_step_title")}</h2>
+        <p class="mt-2 text-slate-600">{t("wilczypolmaraton.registration.email_step_desc")}</p>
+      </div>
+
+      <div class="mx-auto max-w-md rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+        <form id="emailForm" class="space-y-4">
+          <div>
+            <label for="email" class="block text-sm font-semibold text-slate-700">
+              {t("wilczypolmaraton.form.email")} <span class="text-red-600">*</span>
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              required
+              class="mt-1 block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2"
+              placeholder="twoj@email.pl"
+            />
+          </div>
+
+          <div>
+            <label for="fullName" class="block text-sm font-semibold text-slate-700">
+              {t("wilczypolmaraton.form.contact_person")} <span class="text-red-600">*</span>
+            </label>
+            <p class="text-xs text-slate-500">{t("wilczypolmaraton.form.contact_person_desc")}</p>
+            <input
+              type="text"
+              id="fullName"
+              name="fullName"
+              required
+              class="mt-1 block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2"
+              placeholder="Jan Kowalski"
+            />
+          </div>
+
+          <div class="flex items-start gap-2">
+            <input
+              type="checkbox"
+              id="rodoAccepted"
+              name="rodoAccepted"
+              required
+              class="mt-1 rounded border-emerald-300 border-2 text-emerald-600 focus:ring-emerald-500"
+            />
+            <label for="rodoAccepted" class="text-sm text-slate-700">
+              {t("wilczypolmaraton.form.rodo_consent")} <span class="text-red-600">*</span>
+            </label>
+          </div>
+
+          <div class="flex items-start gap-2">
+            <input
+              type="checkbox"
+              id="termsAccepted"
+              name="termsAccepted"
+              required
+              class="mt-1 rounded border-emerald-300 border-2 text-emerald-600 focus:ring-emerald-500"
+            />
+            <label for="termsAccepted" class="text-sm text-slate-700">
+              {t("wilczypolmaraton.form.terms_consent")} <a href="https://docs.google.com/document/d/1WtKIgGkY9CwkGpiz048nbxFYlqSwO4RqWK8UcyHAMRc/edit?usp=sharing" target="_blank" class="text-emerald-600 hover:underline">{t("wilczypolmaraton.form.terms_link")}</a> <span class="text-red-600">*</span>
+            </label>
+          </div>
+
+          <!-- Honeypot field - hidden from humans, bots will fill it -->
+          <div class="absolute -left-full -top-full opacity-0 pointer-events-none overflow-hidden h-0 w-0" aria-hidden="true">
+            <label for="website">Website</label>
+            <input
+              type="text"
+              id="website"
+              name="website"
+              tabindex="-1"
+              autocomplete="off"
+            />
+          </div>
+
+          <div id="emailError" class="hidden rounded-lg bg-red-50 p-3 text-sm text-red-700"></div>
+
+          <button
+            type="submit"
+            class="w-full rounded-lg bg-emerald-600 px-6 py-3 font-semibold text-white transition hover:bg-emerald-700 disabled:bg-slate-300 disabled:cursor-not-allowed"
+            id="emailSubmitBtn"
+            disabled
+          >
+            {t("wilczypolmaraton.form.send_code")}
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Step 2: Code Verification -->
+    <div id="step2" class="hidden space-y-6">
+      <div class="text-center">
+        <h2 class="text-3xl font-bold text-slate-900">{t("wilczypolmaraton.registration.code_step_title")}</h2>
+        <p class="mt-2 text-slate-600">{t("wilczypolmaraton.registration.code_step_desc")}</p>
+      </div>
+
+      <div class="mx-auto max-w-md rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+        <form id="codeForm" class="space-y-4">
+          <div>
+            <label for="code" class="block text-sm font-semibold text-slate-700">
+              {t("wilczypolmaraton.form.verification_code")} <span class="text-red-600">*</span>
+            </label>
+            <input
+              type="text"
+              id="code"
+              name="code"
+              required
+              maxlength="6"
+              pattern="[0-9]{6}"
+              class="mt-1 block w-full rounded-lg border-emerald-300 text-center text-2xl font-bold tracking-widest shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2 border-2"
+              placeholder="000000"
+            />
+          </div>
+
+          <!-- Spam check info -->
+          <div class="rounded-lg bg-blue-50 p-3 text-sm text-blue-700">
+            <p>{t("wilczypolmaraton.form.check_spam")}</p>
+          </div>
+
+          <div id="codeError" class="hidden rounded-lg bg-red-50 p-3 text-sm text-red-700"></div>
+
+          <div id="codeSuccess" class="hidden rounded-lg bg-green-50 p-3 text-sm text-green-700"></div>
+
+          <button
+            type="submit"
+            class="w-full rounded-lg bg-emerald-600 px-6 py-3 font-semibold text-white transition hover:bg-emerald-700 disabled:bg-slate-300 disabled:cursor-not-allowed"
+            id="codeSubmitBtn"
+            disabled
+          >
+            {t("wilczypolmaraton.form.verify_code")}
+          </button>
+
+          <button
+            type="button"
+            id="resendCodeBtn"
+            class="w-full rounded-lg border border-emerald-600 bg-white px-6 py-2 text-sm font-semibold text-emerald-600 transition hover:bg-emerald-50 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {t("wilczypolmaraton.form.resend_code")}
+          </button>
+
+          <button
+            type="button"
+            id="backToEmail"
+            class="w-full rounded-lg border border-emerald-300 border-2 bg-white px-6 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+          >
+            &larr; {t("wilczypolmaraton.form.back_to_email")}
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Step 3a: Basic Info for ONE participant -->
+    <div id="step3a" class="hidden space-y-6">
+      <div class="text-center">
+        <h2 class="text-3xl font-bold text-slate-900">{t("wilczypolmaraton.registration.participants_step_title")}</h2>
+        <p class="mt-2 text-slate-600">{t("wilczypolmaraton.registration.participants_step_desc")}</p>
+      </div>
+
+      <div class="mx-auto max-w-2xl">
+        <div id="participantFormContainer">
+          <!-- Hidden template for cloning -->
+          <template id="participantTemplate">
+            <ParticipantFieldset index={0} t={t} />
+          </template>
+        </div>
+
+        <div id="step3aError" class="hidden rounded-lg bg-red-50 p-3 text-sm text-red-700 mt-4"></div>
+
+        <div class="mt-6 flex justify-end">
+          <button
+            type="button"
+            id="step3aNextBtn"
+            class="rounded-lg bg-emerald-600 px-6 py-3 font-semibold text-white transition hover:bg-emerald-700"
+          >
+            {t("wilczypolmaraton.form.next")} &rarr;
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 3b: T-shirt Purchase -->
+    <div id="step3b" class="hidden space-y-6">
+      <div class="text-center">
+        <h2 class="text-3xl font-bold text-slate-900">{t("wilczypolmaraton.registration.tshirt_step_title")}</h2>
+        <p class="mt-2 text-slate-600">{t("wilczypolmaraton.registration.tshirt_step_desc")}</p>
+      </div>
+
+      <div class="mx-auto max-w-md rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+        <img src="/halfmarathon/2026/koszulka.jpeg" alt="Koszulka" class="max-w-xs mx-auto rounded-lg shadow-md mb-6" />
+
+        <div class="space-y-4">
+          <label class="flex items-center gap-3 cursor-pointer">
+            <input
+              type="checkbox"
+              id="tshirtBuyCheckbox"
+              class="rounded border-emerald-300 border-2 text-emerald-600 focus:ring-emerald-500"
+            />
+            <span class="text-sm font-semibold text-slate-700">{t("wilczypolmaraton.registration.tshirt_buy_checkbox")}</span>
+          </label>
+
+          <div id="tshirtSizeContainer" class="hidden">
+            <label class="block text-sm font-semibold text-slate-700 mb-1">
+              {t("wilczypolmaraton.registration.tshirt_select_size")} <span class="text-red-600">*</span>
+            </label>
+            <TshirtSizeSelector name="tshirtSize_current" t={t} />
+          </div>
+
+          <p id="tshirtPriceText" class="text-sm text-slate-600"></p>
+        </div>
+
+        <div id="step3bError" class="hidden rounded-lg bg-red-50 p-3 text-sm text-red-700 mt-4"></div>
+
+        <div class="mt-6 flex justify-between">
+          <button
+            type="button"
+            id="step3bBackBtn"
+            class="rounded-lg border border-emerald-600 bg-white px-6 py-2 text-sm font-semibold text-emerald-600 transition hover:bg-emerald-50"
+          >
+            &larr; {t("wilczypolmaraton.form.back")}
+          </button>
+          <button
+            type="button"
+            id="step3bNextBtn"
+            class="rounded-lg bg-emerald-600 px-6 py-3 font-semibold text-white transition hover:bg-emerald-700"
+          >
+            {t("wilczypolmaraton.form.next")} &rarr;
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 3c: Per-Participant Summary -->
+    <div id="step3c" class="hidden space-y-6">
+      <div class="text-center">
+        <h2 class="text-3xl font-bold text-slate-900">{t("wilczypolmaraton.registration.participant_summary_title")}</h2>
+      </div>
+
+      <div class="mx-auto max-w-2xl">
+        <div id="participantSummaryCard" class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+          <!-- Filled dynamically -->
+        </div>
+
+        <div class="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
+          <button
+            type="button"
+            id="addAnotherBtn"
+            class="rounded-lg border border-emerald-600 bg-white px-6 py-2 text-sm font-semibold text-emerald-600 transition hover:bg-emerald-50"
+          >
+            + {t("wilczypolmaraton.registration.add_another_runner")}
+          </button>
+          <button
+            type="button"
+            id="finishBtn"
+            class="rounded-lg bg-emerald-600 px-6 py-3 font-semibold text-white transition hover:bg-emerald-700"
+          >
+            {t("wilczypolmaraton.registration.finish_and_pay")}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 4: Final Summary -->
+    <div id="step4" class="hidden space-y-6">
+      <div class="text-center">
+        <h2 class="text-3xl font-bold text-slate-900">{t("wilczypolmaraton.registration.final_summary_title")}</h2>
+        <p class="mt-2 text-slate-600">{t("wilczypolmaraton.registration.final_summary_desc")}</p>
+      </div>
+
+      <div class="mx-auto max-w-2xl space-y-4">
+        <div id="finalParticipantsList" class="space-y-4">
+          <!-- Filled dynamically -->
+        </div>
+
+        <!-- Fee breakdown -->
+        <div class="rounded-xl border-2 border-emerald-200 bg-emerald-50 p-6">
+          <div class="space-y-2 text-sm">
+            <div class="flex justify-between">
+              <span class="text-slate-700">{t("wilczypolmaraton.registration.race_fees_label")}</span>
+              <span class="font-semibold text-slate-900" id="finalRaceFees">0 zł</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-slate-700">{t("wilczypolmaraton.registration.tshirt_fees_label")}</span>
+              <span class="font-semibold text-slate-900" id="finalTshirtFees">0 zł</span>
+            </div>
+            <div class="h-px bg-emerald-200"></div>
+            <div class="flex justify-between text-base">
+              <span class="font-semibold text-slate-900">{t("wilczypolmaraton.registration.total_label")}</span>
+              <span class="font-bold text-emerald-700" id="finalTotal">0 zł</span>
+            </div>
+            <p id="feeScheduleInfoText" class="mt-2 text-xs text-slate-500"></p>
+          </div>
+        </div>
+
+        <div id="step4Error" class="hidden rounded-lg bg-red-50 p-3 text-sm text-red-700"></div>
+
+        <button
+          type="button"
+          id="submitRegistrationBtn"
+          class="w-full rounded-lg bg-emerald-600 px-6 py-3 font-semibold text-white transition hover:bg-emerald-700"
+        >
+          {t("wilczypolmaraton.registration.submit_registration")}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <ClubAutocomplete />
+
+  <script define:vars={{
+    locale,
+    errorMessages: {
+      EMAIL_EXISTS: t("wilczypolmaraton.errors.email_exists"),
+      EMAIL_EXISTS_LOGIN: t("wilczypolmaraton.errors.email_exists_login"),
+      EMAIL_REQUIRED: t("wilczypolmaraton.errors.email_required"),
+      EMAIL_INVALID: t("wilczypolmaraton.errors.email_invalid"),
+      RODO_REQUIRED: t("wilczypolmaraton.errors.rodo_required"),
+      TERMS_REQUIRED: t("wilczypolmaraton.errors.terms_required"),
+      INVALID_CODE: t("wilczypolmaraton.errors.invalid_code"),
+      INVALID_CODE_CONTACT: t("wilczypolmaraton.errors.invalid_code_contact"),
+      INVALID_CODE_CONTACT_LINK: t("wilczypolmaraton.errors.invalid_code_contact_link"),
+      CODE_EXPIRED: t("wilczypolmaraton.errors.code_expired"),
+      connection: t("wilczypolmaraton.errors.connection_error"),
+      generic: t("wilczypolmaraton.errors.generic_error")
+    },
+    uiMessages: {
+      resending: t("wilczypolmaraton.form.resending"),
+      resendCode: t("wilczypolmaraton.form.resend_code"),
+      codeResent: t("wilczypolmaraton.form.code_resent")
+    },
+    formLabels: {
+      participant: t("wilczypolmaraton.form.participant"),
+      remove: t("wilczypolmaraton.form.remove"),
+      firstName: t("wilczypolmaraton.form.first_name"),
+      lastName: t("wilczypolmaraton.form.last_name"),
+      birthDate: t("wilczypolmaraton.form.birth_date"),
+      day: t("wilczypolmaraton.form.day"),
+      month: t("wilczypolmaraton.form.month"),
+      year: t("wilczypolmaraton.form.year"),
+      months: {
+        jan: t("wilczypolmaraton.form.months.jan"),
+        feb: t("wilczypolmaraton.form.months.feb"),
+        mar: t("wilczypolmaraton.form.months.mar"),
+        apr: t("wilczypolmaraton.form.months.apr"),
+        may: t("wilczypolmaraton.form.months.may"),
+        jun: t("wilczypolmaraton.form.months.jun"),
+        jul: t("wilczypolmaraton.form.months.jul"),
+        aug: t("wilczypolmaraton.form.months.aug"),
+        sep: t("wilczypolmaraton.form.months.sep"),
+        oct: t("wilczypolmaraton.form.months.oct"),
+        nov: t("wilczypolmaraton.form.months.nov"),
+        dec: t("wilczypolmaraton.form.months.dec")
+      },
+      city: t("wilczypolmaraton.form.city"),
+      nationality: t("wilczypolmaraton.form.nationality"),
+      club: t("wilczypolmaraton.form.club"),
+      phoneNumber: t("wilczypolmaraton.form.phone_number"),
+      phoneHelp: t("wilczypolmaraton.form.phone_help"),
+      distanceActivity: t("wilczypolmaraton.form.distance_activity"),
+      tshirtSize: t("wilczypolmaraton.form.tshirt_size"),
+      tshirtInfo: t("wilczypolmaraton.form.tshirt_info"),
+      noTshirt: t("wilczypolmaraton.form.no_tshirt"),
+      hideNamePublic: t("wilczypolmaraton.form.hide_name_public"),
+      categories: {
+        "21km": t("wilczypolmaraton.form.categories.21km"),
+        "11km_nw": t("wilczypolmaraton.form.categories.11km_nw"),
+        "21km_canicross": t("wilczypolmaraton.form.categories.21km_canicross")
+      },
+      tshirtStepTitle: t("wilczypolmaraton.registration.tshirt_step_title"),
+      tshirtStepDesc: t("wilczypolmaraton.registration.tshirt_step_desc"),
+      tshirtBuyCheckbox: t("wilczypolmaraton.registration.tshirt_buy_checkbox"),
+      tshirtPriceInfo: t("wilczypolmaraton.registration.tshirt_price_info"),
+      tshirtSelectSize: t("wilczypolmaraton.registration.tshirt_select_size"),
+      participantSummaryTitle: t("wilczypolmaraton.registration.participant_summary_title"),
+      addAnotherRunner: t("wilczypolmaraton.registration.add_another_runner"),
+      finishAndPay: t("wilczypolmaraton.registration.finish_and_pay"),
+      finalSummaryTitle: t("wilczypolmaraton.registration.final_summary_title"),
+      finalSummaryDesc: t("wilczypolmaraton.registration.final_summary_desc"),
+      raceFeesLabel: t("wilczypolmaraton.registration.race_fees_label"),
+      tshirtFeesLabel: t("wilczypolmaraton.registration.tshirt_fees_label"),
+      totalLabel: t("wilczypolmaraton.registration.total_label"),
+      feeScheduleInfo: t("wilczypolmaraton.registration.fee_schedule_info"),
+      submitRegistration: t("wilczypolmaraton.registration.submit_registration"),
+      editParticipantLabel: t("wilczypolmaraton.registration.edit_participant"),
+      removeParticipantLabel: t("wilczypolmaraton.registration.remove_participant"),
+      tshirtYes: t("wilczypolmaraton.form.yes"),
+      tshirtNo: t("wilczypolmaraton.form.no"),
+      genderLabel: t("wilczypolmaraton.form.gender_label"),
+      genderMale: t("wilczypolmaraton.form.gender_male"),
+      genderFemale: t("wilczypolmaraton.form.gender_female")
+    }
+  }}>
+
+    // API Base URL
+    const API_BASE = '/api/events/wilczypolmaraton-2026';
+
+    // Helper function to get error message with special handling for certain errors
+    function getErrorMessage(errorCode) {
+      // Special handling for INVALID_CODE to include clickable link
+      if (errorCode === 'INVALID_CODE') {
+        return `${errorMessages.INVALID_CODE}. ${errorMessages.INVALID_CODE_CONTACT}, <a href="/wilczypolmaraton#kontakt" class="font-semibold text-emerald-600 hover:underline">${errorMessages.INVALID_CODE_CONTACT_LINK}</a>.`;
+      }
+      // Special handling for EMAIL_EXISTS to include login link
+      if (errorCode === 'EMAIL_EXISTS') {
+        const loginUrl = locale === 'en' ? '/en/wilczypolmaraton/zaloguj' : '/wilczypolmaraton/zaloguj';
+        return `${errorMessages.EMAIL_EXISTS} <a href="${loginUrl}" class="font-semibold text-emerald-600 hover:underline">${errorMessages.EMAIL_EXISTS_LOGIN}</a>`;
+      }
+      return errorMessages[errorCode] || errorMessages.generic;
+    }
+
+    // ─── State ───────────────────────────────────────────────
+    let currentEmail = '';
+    let sessionToken = '';
+    const participants = [];      // Array of finished participant objects
+    let editingIndex = -1;      // -1 = adding new, >= 0 = editing existing
+    let currentFees = null;     // Fetched from /api/events/.../fees
+    let tshirtPrice = 0;
+    let feeSchedule = [];
+    let currentParticipant = {}; // Being built across 3a/3b
+
+    // Category to group mapping for limit checking
+    const CATEGORY_TO_GROUP = {
+      '21km': 'run',
+      '11km_nw': 'nw',
+      '21km_canicross': 'canicross'
+    };
+
+    let currentLimitsAndCounts = null;
+
+    // ─── DOM Elements ────────────────────────────────────────
+    const step1 = document.getElementById('step1');
+    const step2 = document.getElementById('step2');
+    const step3a = document.getElementById('step3a');
+    const step3b = document.getElementById('step3b');
+    const step3c = document.getElementById('step3c');
+    const step4 = document.getElementById('step4');
+
+    const emailForm = document.getElementById('emailForm');
+    const codeForm = document.getElementById('codeForm');
+    const emailError = document.getElementById('emailError');
+    const codeError = document.getElementById('codeError');
+    const codeSuccess = document.getElementById('codeSuccess');
+    const backToEmailBtn = document.getElementById('backToEmail');
+    const resendCodeBtn = document.getElementById('resendCodeBtn');
+    const emailSubmitBtn = document.getElementById('emailSubmitBtn');
+    const emailInput = document.getElementById('email');
+    const fullNameInput = document.getElementById('fullName');
+    const rodoCheckbox = document.getElementById('rodoAccepted');
+    const termsCheckbox = document.getElementById('termsAccepted');
+    const codeInput = document.getElementById('code');
+    const codeSubmitBtn = document.getElementById('codeSubmitBtn');
+
+    const participantFormContainer = document.getElementById('participantFormContainer');
+    const step3aError = document.getElementById('step3aError');
+    const step3aNextBtn = document.getElementById('step3aNextBtn');
+
+    const tshirtBuyCheckbox = document.getElementById('tshirtBuyCheckbox');
+    const tshirtSizeContainer = document.getElementById('tshirtSizeContainer');
+    const tshirtPriceText = document.getElementById('tshirtPriceText');
+    const step3bError = document.getElementById('step3bError');
+    const step3bBackBtn = document.getElementById('step3bBackBtn');
+    const step3bNextBtn = document.getElementById('step3bNextBtn');
+
+    const participantSummaryCard = document.getElementById('participantSummaryCard');
+    const addAnotherBtn = document.getElementById('addAnotherBtn');
+    const finishBtn = document.getElementById('finishBtn');
+
+    const finalParticipantsList = document.getElementById('finalParticipantsList');
+    const step4Error = document.getElementById('step4Error');
+    const submitRegistrationBtn = document.getElementById('submitRegistrationBtn');
+
+    // ─── Helper: show one step, hide all others ──────────────
+    function showStep(stepEl) {
+      [step1, step2, step3a, step3b, step3c, step4].forEach(s => s.classList.add('hidden'));
+      stepEl.classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ─── Email form validation ───────────────────────────────
+    function validateEmailForm() {
+      const emailValid = emailInput.value.trim() !== '';
+      const nameValid = fullNameInput.value.trim() !== '';
+      const rodoValid = rodoCheckbox.checked;
+      const termsValid = termsCheckbox.checked;
+      emailSubmitBtn.disabled = !(emailValid && nameValid && rodoValid && termsValid);
+    }
+
+    emailInput.addEventListener('input', validateEmailForm);
+    fullNameInput.addEventListener('input', validateEmailForm);
+    rodoCheckbox.addEventListener('change', validateEmailForm);
+    termsCheckbox.addEventListener('change', validateEmailForm);
+    validateEmailForm();
+
+    // ─── Code form validation ────────────────────────────────
+    function validateCodeForm() {
+      const code = codeInput.value.trim();
+      codeSubmitBtn.disabled = !(code && /^[0-9]{6}$/.test(code));
+    }
+    codeInput.addEventListener('input', validateCodeForm);
+
+    // ─── Step 1: Email submission ────────────────────────────
+    emailForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      emailError.classList.add('hidden');
+
+      const formData = new FormData(emailForm);
+      const email = formData.get('email');
+      const fullName = formData.get('fullName');
+      const rodoAccepted = formData.get('rodoAccepted') === 'on';
+      const termsAccepted = formData.get('termsAccepted') === 'on';
+      const website = formData.get('website') || '';
+
+      currentEmail = email;
+
+      try {
+        const response = await fetch(`${API_BASE}/auth/start-registration`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, fullName, rodoAccepted, termsAccepted, website }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          const errorMsg = getErrorMessage(data.error);
+          // Use innerHTML for EMAIL_EXISTS to render the login link
+          if (data.error === 'EMAIL_EXISTS') {
+            emailError.innerHTML = errorMsg;
+          } else {
+            emailError.textContent = errorMsg;
+          }
+          emailError.classList.remove('hidden');
+          return;
+        }
+
+        // Move to step 2
+        showStep(step2);
+      } catch (error) {
+        console.error('Fetch error:', error);
+        emailError.textContent = errorMessages.connection;
+        emailError.classList.remove('hidden');
+      }
+    });
+
+    // ─── Back to email ───────────────────────────────────────
+    backToEmailBtn.addEventListener('click', () => {
+      showStep(step1);
+      codeError.classList.add('hidden');
+      codeSuccess.classList.add('hidden');
+    });
+
+    // ─── Resend code ─────────────────────────────────────────
+    resendCodeBtn.addEventListener('click', async () => {
+      if (!currentEmail) return;
+
+      resendCodeBtn.disabled = true;
+      resendCodeBtn.textContent = uiMessages.resending;
+      codeError.classList.add('hidden');
+      codeSuccess.classList.add('hidden');
+
+      try {
+        const response = await fetch(`${API_BASE}/auth/request-code`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: currentEmail }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          codeError.textContent = getErrorMessage(data.error);
+          codeError.classList.remove('hidden');
+        } else {
+          codeSuccess.textContent = uiMessages.codeResent;
+          codeSuccess.classList.remove('hidden');
+        }
+      } catch {
+        codeError.textContent = errorMessages.connection;
+        codeError.classList.remove('hidden');
+      } finally {
+        resendCodeBtn.disabled = false;
+        resendCodeBtn.textContent = uiMessages.resendCode;
+      }
+    });
+
+    // ─── Step 2: Code verification ───────────────────────────
+    codeForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      codeError.classList.add('hidden');
+
+      const formData = new FormData(codeForm);
+      const code = formData.get('code');
+
+      try {
+        const response = await fetch(`${API_BASE}/auth/verify-code`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: currentEmail, code }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          const errorMsg = getErrorMessage(data.error);
+          // Use innerHTML for INVALID_CODE to render the link
+          if (data.error === 'INVALID_CODE') {
+            codeError.innerHTML = errorMsg;
+          } else {
+            codeError.textContent = errorMsg;
+          }
+          codeError.classList.remove('hidden');
+          return;
+        }
+
+        sessionToken = data.token;
+
+        // Move to step 3a — start adding first participant
+        enterStep3a();
+      } catch {
+        codeError.textContent = errorMessages.connection;
+        codeError.classList.remove('hidden');
+      }
+    });
+
+    // ─── Fees fetching ───────────────────────────────────────
+    let feesFetched = false;
+
+    async function fetchFees() {
+      if (feesFetched) return;
+      try {
+        const response = await fetch(`${API_BASE}/fees`);
+        const data = await response.json();
+        if (data.success) {
+          currentFees = data.fees;
+          tshirtPrice = data.tshirtPrice || 0;
+          feeSchedule = data.feeSchedule || [];
+          feesFetched = true;
+
+          // Update t-shirt price text
+          tshirtPriceText.textContent = formLabels.tshirtPriceInfo.replace('{{price}}', tshirtPrice);
+        }
+      } catch (error) {
+        console.error('Error fetching fees:', error);
+      }
+    }
+
+    // ─── Limits fetching ─────────────────────────────────────
+    async function fetchLimitsAndCounts() {
+      try {
+        const response = await fetch(`${API_BASE}/registrations/list`);
+        const data = await response.json();
+        if (data.success) {
+          currentLimitsAndCounts = data.limitsAndCounts;
+          return true;
+        }
+      } catch (error) {
+        console.error('Error fetching limits and counts:', error);
+      }
+      return false;
+    }
+
+    function getDisabledCategories() {
+      if (!currentLimitsAndCounts) return [];
+      const disabled = [];
+      for (const [category, group] of Object.entries(CATEGORY_TO_GROUP)) {
+        const groupData = currentLimitsAndCounts[group];
+        if (groupData && groupData.count >= groupData.limit) {
+          disabled.push(category);
+        }
+      }
+      return disabled;
+    }
+
+    function updateCategoryOptions() {
+      const disabledCategories = getDisabledCategories();
+      const fieldset = participantFormContainer.querySelector('[data-index]');
+      if (!fieldset) return;
+
+      const categoryInputs = fieldset.querySelectorAll('input[name^="raceCategory_"]');
+      categoryInputs.forEach(input => {
+        const category = input.value;
+        const isDisabled = disabledCategories.includes(category);
+        input.disabled = isDisabled;
+
+        const label = input.closest('label');
+        if (label) {
+          if (isDisabled) {
+            label.classList.add('opacity-50', 'cursor-not-allowed');
+            label.classList.remove('cursor-pointer', 'hover:bg-emerald-50');
+          } else {
+            label.classList.remove('opacity-50', 'cursor-not-allowed');
+            label.classList.add('cursor-pointer', 'hover:bg-emerald-50');
+          }
+        }
+      });
+    }
+
+    // ─── Step 3a: Enter / setup ──────────────────────────────
+    function enterStep3a(prefillData) {
+      // Fetch fees on first entry
+      fetchFees();
+      fetchLimitsAndCounts().then(() => updateCategoryOptions());
+
+      // Clear previous fieldset
+      const existing = participantFormContainer.querySelector('[data-index]');
+      if (existing) existing.remove();
+
+      // Clone template
+      const template = document.getElementById('participantTemplate');
+      const clone = template.content.cloneNode(true);
+      const fieldset = clone.querySelector('[data-index]');
+      fieldset.setAttribute('data-index', '0');
+
+      // Remove the remove button (not needed in wizard)
+      const removeBtn = fieldset.querySelector('.remove-participant');
+      if (removeBtn) removeBtn.remove();
+
+      // Set title
+      const participantNum = editingIndex >= 0 ? editingIndex + 1 : participants.length + 1;
+      fieldset.querySelector('h3').textContent = `${formLabels.participant} ${participantNum}`;
+
+      participantFormContainer.appendChild(fieldset);
+
+      // Pre-fill if editing
+      if (prefillData) {
+        const f = fieldset;
+        const setVal = (name, val) => {
+          const el = f.querySelector(`[name="${name}"]`);
+          if (el) el.value = val || '';
+        };
+        setVal('firstName_0', prefillData.firstName);
+        setVal('lastName_0', prefillData.lastName);
+        setVal('birthDate_0', prefillData.birthDate);
+        setVal('city_0', prefillData.city);
+        setVal('nationality_0', prefillData.nationality);
+        setVal('club_0', prefillData.club);
+        setVal('phoneNumber_0', prefillData.phoneNumber);
+
+        // Set race category radio
+        if (prefillData.raceCategory) {
+          const radio = f.querySelector(`input[name="raceCategory_0"][value="${prefillData.raceCategory}"]`);
+          if (radio) radio.checked = true;
+        }
+
+        // Set hide name
+        if (prefillData.hideNamePublic) {
+          const cb = f.querySelector('[name="hideNamePublic_0"]');
+          if (cb) cb.checked = true;
+        }
+      }
+
+      // Re-initialize autocomplete and phone validation
+      if (window.setupClubAutocomplete) window.setupClubAutocomplete();
+      if (window.setupPhoneValidation) window.setupPhoneValidation();
+
+      step3aError.classList.add('hidden');
+      showStep(step3a);
+    }
+
+    // ─── Step 3a: Validate and advance ───────────────────────
+    step3aNextBtn.addEventListener('click', () => {
+      step3aError.classList.add('hidden');
+
+      const fieldset = participantFormContainer.querySelector('[data-index]');
+      if (!fieldset) return;
+
+      const firstName = fieldset.querySelector('[name="firstName_0"]')?.value.trim();
+      const lastName = fieldset.querySelector('[name="lastName_0"]')?.value.trim();
+      const birthDate = fieldset.querySelector('[name="birthDate_0"]')?.value;
+      const city = fieldset.querySelector('[name="city_0"]')?.value.trim();
+      const nationality = fieldset.querySelector('[name="nationality_0"]')?.value.trim();
+      const phoneNumber = fieldset.querySelector('[name="phoneNumber_0"]')?.value.trim();
+      const raceCategory = fieldset.querySelector('input[name="raceCategory_0"]:checked')?.value;
+      const gender = fieldset.querySelector('input[name="gender_0"]:checked')?.value;
+      const club = fieldset.querySelector('[name="club_0"]')?.value.trim() || null;
+      const hideNamePublic = fieldset.querySelector('[name="hideNamePublic_0"]')?.checked || false;
+
+      if (!firstName || !lastName || !birthDate || !city || !nationality || !phoneNumber || !raceCategory || !gender) {
+        step3aError.textContent = errorMessages.generic || 'Wypełnij wszystkie wymagane pola';
+        step3aError.classList.remove('hidden');
+        return;
+      }
+
+      // Store current participant data (partial — no tshirt yet)
+      currentParticipant = {
+        firstName,
+        lastName,
+        birthDate,
+        city,
+        nationality,
+        club,
+        phoneNumber,
+        raceCategory,
+        gender,
+        hideNamePublic,
+        tshirtSize: ''
+      };
+
+      // Reset t-shirt step state
+      tshirtBuyCheckbox.checked = false;
+      tshirtSizeContainer.classList.add('hidden');
+      const sizeSelect = document.querySelector('[name="tshirtSize_current"]');
+      if (sizeSelect) sizeSelect.value = '';
+      step3bError.classList.add('hidden');
+
+      // Restore tshirt selection from currentParticipant (back-navigation) or editing data
+      const tshirtToRestore = currentParticipant.tshirtSize ||
+        (editingIndex >= 0 && participants[editingIndex]?.tshirtSize);
+      if (tshirtToRestore) {
+        tshirtBuyCheckbox.checked = true;
+        tshirtSizeContainer.classList.remove('hidden');
+        if (sizeSelect) sizeSelect.value = tshirtToRestore;
+      }
+
+      showStep(step3b);
+    });
+
+    // ─── Step 3b: T-shirt ────────────────────────────────────
+    tshirtBuyCheckbox.addEventListener('change', () => {
+      if (tshirtBuyCheckbox.checked) {
+        tshirtSizeContainer.classList.remove('hidden');
+      } else {
+        tshirtSizeContainer.classList.add('hidden');
+        const sizeSelect = document.querySelector('[name="tshirtSize_current"]');
+        if (sizeSelect) sizeSelect.value = '';
+      }
+    });
+
+    step3bBackBtn.addEventListener('click', () => {
+      // Go back to 3a with data preserved
+      enterStep3a(currentParticipant);
+    });
+
+    step3bNextBtn.addEventListener('click', () => {
+      step3bError.classList.add('hidden');
+
+      if (tshirtBuyCheckbox.checked) {
+        const sizeSelect = document.querySelector('[name="tshirtSize_current"]');
+        if (!sizeSelect || !sizeSelect.value) {
+          step3bError.textContent = formLabels.tshirtSelectSize;
+          step3bError.classList.remove('hidden');
+          return;
+        }
+        currentParticipant.tshirtSize = sizeSelect.value;
+      } else {
+        currentParticipant.tshirtSize = '';
+      }
+
+      // Show per-participant summary (step 3c)
+      renderParticipantSummary(currentParticipant);
+      showStep(step3c);
+    });
+
+    // ─── Step 3c: Per-participant summary ────────────────────
+    function renderParticipantSummary(p) {
+      const categoryLabel = formLabels.categories[p.raceCategory] || p.raceCategory;
+      const tshirtDisplay = p.tshirtSize ? `${formLabels.tshirtYes} (${p.tshirtSize})` : formLabels.tshirtNo;
+
+      participantSummaryCard.innerHTML = `
+        <div class="space-y-3">
+          <div class="grid grid-cols-2 gap-2 text-sm">
+            <div><span class="text-slate-500">${formLabels.firstName}:</span> <span class="font-medium">${escapeHtml(p.firstName)}</span></div>
+            <div><span class="text-slate-500">${formLabels.lastName}:</span> <span class="font-medium">${escapeHtml(p.lastName)}</span></div>
+            <div><span class="text-slate-500">${formLabels.birthDate}:</span> <span class="font-medium">${escapeHtml(p.birthDate)}</span></div>
+            <div><span class="text-slate-500">${formLabels.city}:</span> <span class="font-medium">${escapeHtml(p.city)}</span></div>
+            <div><span class="text-slate-500">${formLabels.nationality}:</span> <span class="font-medium">${escapeHtml(p.nationality)}</span></div>
+            <div><span class="text-slate-500">${formLabels.genderLabel}:</span> <span class="font-medium">${p.gender === 'male' ? formLabels.genderMale : formLabels.genderFemale}</span></div>
+            <div><span class="text-slate-500">${formLabels.club}:</span> <span class="font-medium">${p.club ? escapeHtml(p.club) : '—'}</span></div>
+            <div><span class="text-slate-500">${formLabels.phoneNumber}:</span> <span class="font-medium">${escapeHtml(p.phoneNumber)}</span></div>
+            <div><span class="text-slate-500">${formLabels.distanceActivity}:</span> <span class="font-medium">${escapeHtml(categoryLabel)}</span></div>
+            <div><span class="text-slate-500">${formLabels.tshirtSize}:</span> <span class="font-medium">${escapeHtml(tshirtDisplay)}</span></div>
+          </div>
+        </div>
+      `;
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    addAnotherBtn.addEventListener('click', () => {
+      // Store current participant
+      if (editingIndex >= 0) {
+        participants[editingIndex] = { ...currentParticipant };
+        editingIndex = -1;
+      } else {
+        participants.push({ ...currentParticipant });
+      }
+      currentParticipant = {};
+
+      // Go back to 3a for a new participant
+      enterStep3a();
+    });
+
+    finishBtn.addEventListener('click', () => {
+      // Store current participant
+      if (editingIndex >= 0) {
+        participants[editingIndex] = { ...currentParticipant };
+        editingIndex = -1;
+      } else {
+        participants.push({ ...currentParticipant });
+      }
+      currentParticipant = {};
+
+      // Advance to step 4
+      renderStep4();
+      showStep(step4);
+    });
+
+    // ─── Step 4: Final summary ───────────────────────────────
+    function getRaceFee(category) {
+      if (!currentFees) return 0;
+      return currentFees[category] ?? currentFees.default ?? 0;
+    }
+
+    function renderStep4() {
+      // Render participant cards
+      finalParticipantsList.innerHTML = '';
+
+      participants.forEach((p, idx) => {
+        const categoryLabel = formLabels.categories[p.raceCategory] || p.raceCategory;
+        const tshirtDisplay = p.tshirtSize ? `${formLabels.tshirtYes} (${p.tshirtSize})` : formLabels.tshirtNo;
+
+        const card = document.createElement('div');
+        card.className = 'rounded-xl border border-slate-200 bg-white p-6 shadow-sm';
+        card.innerHTML = `
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="text-lg font-bold text-slate-900">${formLabels.participant} ${idx + 1}</h3>
+            <div class="flex gap-2">
+              <button type="button" class="edit-participant text-sm text-emerald-600 hover:underline" data-idx="${idx}">
+                ${formLabels.editParticipantLabel}
+              </button>
+              <button type="button" class="remove-participant text-sm text-red-600 hover:underline" data-idx="${idx}">
+                ${formLabels.removeParticipantLabel}
+              </button>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-sm">
+            <div><span class="text-slate-500">${formLabels.firstName}:</span> <span class="font-medium">${escapeHtml(p.firstName)}</span></div>
+            <div><span class="text-slate-500">${formLabels.lastName}:</span> <span class="font-medium">${escapeHtml(p.lastName)}</span></div>
+            <div><span class="text-slate-500">${formLabels.birthDate}:</span> <span class="font-medium">${escapeHtml(p.birthDate)}</span></div>
+            <div><span class="text-slate-500">${formLabels.city}:</span> <span class="font-medium">${escapeHtml(p.city)}</span></div>
+            <div><span class="text-slate-500">${formLabels.nationality}:</span> <span class="font-medium">${escapeHtml(p.nationality)}</span></div>
+            <div><span class="text-slate-500">${formLabels.genderLabel}:</span> <span class="font-medium">${p.gender === 'male' ? formLabels.genderMale : formLabels.genderFemale}</span></div>
+            <div><span class="text-slate-500">${formLabels.club}:</span> <span class="font-medium">${p.club ? escapeHtml(p.club) : '—'}</span></div>
+            <div><span class="text-slate-500">${formLabels.phoneNumber}:</span> <span class="font-medium">${escapeHtml(p.phoneNumber)}</span></div>
+            <div><span class="text-slate-500">${formLabels.distanceActivity}:</span> <span class="font-medium">${escapeHtml(categoryLabel)}</span></div>
+            <div><span class="text-slate-500">${formLabels.tshirtSize}:</span> <span class="font-medium">${escapeHtml(tshirtDisplay)}</span></div>
+          </div>
+        `;
+
+        // Edit button
+        card.querySelector('.edit-participant').addEventListener('click', () => {
+          editingIndex = idx;
+          enterStep3a({ ...participants[idx] });
+        });
+
+        // Remove button
+        card.querySelector('.remove-participant').addEventListener('click', () => {
+          participants.splice(idx, 1);
+          if (participants.length === 0) {
+            enterStep3a();
+          } else {
+            renderStep4();
+          }
+        });
+
+        finalParticipantsList.appendChild(card);
+      });
+
+      // Calculate fees
+      let raceFees = 0;
+      let tshirtCount = 0;
+      participants.forEach(p => {
+        raceFees += getRaceFee(p.raceCategory);
+        if (p.tshirtSize) tshirtCount++;
+      });
+      const tshirtFees = tshirtCount * tshirtPrice;
+      const total = raceFees + tshirtFees;
+
+      document.getElementById('finalRaceFees').textContent = `${raceFees} zł`;
+      document.getElementById('finalTshirtFees').textContent = `${tshirtFees} zł`;
+      document.getElementById('finalTotal').textContent = `${total} zł`;
+
+      // Fee schedule info
+      const feeScheduleInfoText = document.getElementById('feeScheduleInfoText');
+      if (feeSchedule && feeSchedule.length > 1) {
+        // Show the next tier info
+        const now = new Date();
+        for (let i = 0; i < feeSchedule.length - 1; i++) {
+          const untilEnd = new Date(feeSchedule[i].until);
+          untilEnd.setUTCHours(23, 59, 59, 999);
+          if (now <= untilEnd && feeSchedule[i + 1]) {
+            const nextFee = feeSchedule[i + 1].fees.default || 0;
+            const dateStr = feeSchedule[i].until;
+            feeScheduleInfoText.textContent = formLabels.feeScheduleInfo
+              .replace('{{date}}', dateStr)
+              .replace('{{price}}', nextFee);
+            break;
+          }
+        }
+      }
+    }
+
+    // ─── Step 4: Submit registration ─────────────────────────
+    submitRegistrationBtn.addEventListener('click', async () => {
+      step4Error.classList.add('hidden');
+      submitRegistrationBtn.disabled = true;
+
+      try {
+        const headers = { 'Content-Type': 'application/json' };
+        if (sessionToken) {
+          headers['Authorization'] = `Bearer ${sessionToken}`;
+        }
+
+        const response = await fetch(`${API_BASE}/register`, {
+          method: 'POST',
+          headers,
+          credentials: 'include',
+          body: JSON.stringify({ participants, extraDonation: 0 }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          step4Error.textContent = data.error || errorMessages.generic;
+          step4Error.classList.remove('hidden');
+          submitRegistrationBtn.disabled = false;
+          return;
+        }
+
+        const panelUrl = locale === 'en' ? '/en/wilczypolmaraton/panel' : '/wilczypolmaraton/panel';
+        window.location.href = panelUrl;
+      } catch {
+        step4Error.textContent = errorMessages.connection;
+        step4Error.classList.remove('hidden');
+        submitRegistrationBtn.disabled = false;
+      }
+    });
+
+  </script>
