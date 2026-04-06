@@ -39,7 +39,7 @@ const { t, locale = 'pl' } = Astro.props;
 
         <div class="mt-6 flex justify-between">
           <a
-            href={locale === 'en' ? '/en/wilczypolmaraton/panel' : '/wilczypolmaraton/panel'}
+            href={locale === 'en' ? '/en/wilczy-polmaraton/panel' : '/wilczy-polmaraton/panel'}
             class="rounded-lg border border-emerald-600 bg-white px-6 py-2 text-sm font-semibold text-emerald-600 transition hover:bg-emerald-50 inline-flex items-center"
           >
             &larr; {t("wilczypolmaraton.add_participants.back_to_panel")}
@@ -186,7 +186,7 @@ const { t, locale = 'pl' } = Astro.props;
         </button>
 
         <a
-          href={locale === 'en' ? '/en/wilczypolmaraton/panel' : '/wilczypolmaraton/panel'}
+          href={locale === 'en' ? '/en/wilczy-polmaraton/panel' : '/wilczy-polmaraton/panel'}
           class="block w-full rounded-lg bg-white border-2 border-emerald-300 px-6 py-3 text-center font-semibold text-slate-700 transition hover:bg-slate-50"
         >
           &larr; {t("wilczypolmaraton.add_participants.back_to_panel")}
@@ -748,7 +748,7 @@ const { t, locale = 'pl' } = Astro.props;
         return;
       }
 
-      const panelUrl = locale === 'en' ? '/en/wilczypolmaraton/panel' : '/wilczypolmaraton/panel';
+      const panelUrl = locale === 'en' ? '/en/wilczy-polmaraton/panel' : '/wilczy-polmaraton/panel';
       window.location.href = panelUrl;
     } catch {
       step4Error.textContent = errorMessages.connection;
@@ -762,7 +762,7 @@ const { t, locale = 'pl' } = Astro.props;
   const authCookie = cookies.find(c => c.startsWith('wilczypolmaraton_2026_auth_status='));
 
   if (!authCookie || authCookie.split('=')[1] !== 'true') {
-    window.location.href = locale === 'en' ? '/en/wilczypolmaraton/zaloguj' : '/wilczypolmaraton/zaloguj';
+    window.location.href = locale === 'en' ? '/en/wilczy-polmaraton/zaloguj' : '/wilczy-polmaraton/zaloguj';
   } else {
     document.getElementById('authCheck').classList.add('hidden');
     document.getElementById('content').classList.remove('hidden');

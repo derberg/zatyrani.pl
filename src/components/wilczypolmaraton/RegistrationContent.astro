@@ -192,7 +192,7 @@ const { t, locale = 'pl' } = Astro.props;
         return `${errorMessages.INVALID_CODE}. ${errorMessages.INVALID_CODE_CONTACT}, <a href="/wilczypolmaraton#kontakt" class="font-semibold text-emerald-600 hover:underline">${errorMessages.INVALID_CODE_CONTACT_LINK}</a>.`;
       }
       if (errorCode === 'EMAIL_EXISTS') {
-        const loginUrl = locale === 'en' ? '/en/wilczypolmaraton/zaloguj' : '/wilczypolmaraton/zaloguj';
+        const loginUrl = locale === 'en' ? '/en/wilczy-polmaraton/zaloguj' : '/wilczy-polmaraton/zaloguj';
         return `${errorMessages.EMAIL_EXISTS} <a href="${loginUrl}" class="font-semibold text-emerald-600 hover:underline">${errorMessages.EMAIL_EXISTS_LOGIN}</a>`;
       }
       return errorMessages[errorCode] || errorMessages.generic;
@@ -362,7 +362,7 @@ const { t, locale = 'pl' } = Astro.props;
         }
 
         // After successful verification, redirect to panel
-        const panelUrl = locale === 'en' ? '/en/wilczypolmaraton/panel' : '/wilczypolmaraton/panel';
+        const panelUrl = locale === 'en' ? '/en/wilczy-polmaraton/panel' : '/wilczy-polmaraton/panel';
         window.location.href = panelUrl;
       } catch {
         codeError.textContent = errorMessages.connection;

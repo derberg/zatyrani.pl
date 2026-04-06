@@ -564,7 +564,7 @@
       "terms_required": "You must accept the event terms and conditions",
       "email_exists": "This email is already registered.",
       "email_exists_login": "Log in here",
-      "db_error": "A technical problem occurred. Contact the organizer: https://zatyrani.pl/wilczypolmaraton#kontakt",
+      "db_error": "A technical problem occurred. Contact the organizer: https://zatyrani.pl/wilczy-polmaraton#kontakt",
       "rate_limit": "Too many attempts. Try again in an hour.",
       "code_store_error": "Failed to generate code. Try again.",
       "email_not_sent": "Email was not sent. Contact the organizer.",

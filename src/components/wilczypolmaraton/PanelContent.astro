@@ -43,7 +43,7 @@ const wilczypolmaratonLink = locale === 'en' ? '/en/wilczypolmaraton' : '/wilczy
           <h3 class="text-xl font-bold text-slate-900">{t("wilczypolmaraton.dashboard.participants")}</h3>
           <a
             id="addParticipantBtn"
-            href={locale === 'en' ? '/en/wilczypolmaraton/dodaj-uczestnikow' : '/wilczypolmaraton/dodaj-uczestnikow'}
+            href={locale === 'en' ? '/en/wilczy-polmaraton/dodaj-uczestnikow' : '/wilczy-polmaraton/dodaj-uczestnikow'}
             class="hidden rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-700"
           >
             + {t("wilczypolmaraton.form.add_participant")}
@@ -275,7 +275,7 @@ const wilczypolmaratonLink = locale === 'en' ? '/en/wilczypolmaraton' : '/wilczy
     const authStatusCookie = cookies.find(c => c.startsWith('wilczypolmaraton_2026_auth_status='));
 
     if (!authStatusCookie || authStatusCookie.split('=')[1] !== 'true') {
-      window.location.href = '/wilczypolmaraton/zaloguj';
+      window.location.href = '/wilczy-polmaraton/zaloguj';
     }
 
     // Load dashboard data
@@ -293,7 +293,7 @@ const wilczypolmaratonLink = locale === 'en' ? '/en/wilczypolmaraton' : '/wilczy
 
         if (!response.ok) {
           if (response.status === 401) {
-            window.location.href = '/wilczypolmaraton/zaloguj';
+            window.location.href = '/wilczy-polmaraton/zaloguj';
             return;
           }
           throw new Error(`HTTP ${response.status}: ${response.statusText}`);
@@ -308,7 +308,7 @@ const wilczypolmaratonLink = locale === 'en' ? '/en/wilczypolmaraton' : '/wilczy
         // Clear auth cookies and redirect to login
         document.cookie = 'wilczypolmaraton_2026_auth_status=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
         document.cookie = 'wilczypolmaraton_2026_session=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
-        window.location.href = '/wilczypolmaraton/zaloguj';
+        window.location.href = '/wilczy-polmaraton/zaloguj';
       }
     }
 
@@ -389,7 +389,7 @@ const wilczypolmaratonLink = locale === 'en' ? '/en/wilczypolmaraton' : '/wilczy
             </div>
             <div class="shrink-0">
               <a
-                href="/wilczypolmaraton/payment?id=${dashboardData.registration.id}"
+                href="/wilczy-polmaraton/payment?id=${dashboardData.registration.id}"
                 class="inline-block rounded-lg bg-emerald-600 px-6 py-3 font-semibold text-white transition hover:bg-emerald-700"
               >
                 ${translations.retry_payment}
@@ -409,7 +409,7 @@ const wilczypolmaratonLink = locale === 'en' ? '/en/wilczypolmaraton' : '/wilczy
             <p class="mt-1 text-sm text-slate-600">${translations.amount_to_pay}: <strong>${payment.totalAmount} zł</strong></p>
           </div>
           <a
-            href="/wilczypolmaraton/payment?id=${dashboardData.registration.id}"
+            href="/wilczy-polmaraton/payment?id=${dashboardData.registration.id}"
             class="rounded-lg bg-emerald-600 px-6 py-3 font-semibold text-white transition hover:bg-emerald-700"
           >
             ${translations.pay_now}

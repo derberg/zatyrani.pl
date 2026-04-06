@@ -118,7 +118,7 @@
       </div>
       <div id="info-message" class="info" style="display: none;"></div>
       <div id="error-message" class="error" style="display: none;"></div>
-      <a id="panel-link" href="/wilczypolmaraton/panel" class="btn" style="display: none;">Przejdź do panelu</a>
+      <a id="panel-link" href="/wilczy-polmaraton/panel" class="btn" style="display: none;">Przejdź do panelu</a>
     </div>
 
     <script>
@@ -131,7 +131,7 @@
           const potentialId = pathParts[paymentIndex + 1];
           // Check if it looks like a UUID
           if (potentialId && potentialId !== 'index' && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(potentialId)) {
-            const newUrl = `/wilczypolmaraton/payment/?id=${potentialId}`;
+            const newUrl = `/wilczy-polmaraton/payment/?id=${potentialId}`;
             window.location.href = newUrl;
             return true;
           }
@@ -159,7 +159,7 @@
               currency: 'PLN'
             },
             language: 'pl',
-            redirectUrl: 'https://zatyrani.pl/wilczypolmaraton/panel?payment=success'
+            redirectUrl: 'https://zatyrani.pl/wilczy-polmaraton/panel?payment=success'
           }));
 
           container.appendChild(form);
@@ -192,7 +192,7 @@
         }
 
         if (!paymentId) {
-          window.location.href = '/wilczypolmaraton/panel';
+          window.location.href = '/wilczy-polmaraton/panel';
           return;
         }
 

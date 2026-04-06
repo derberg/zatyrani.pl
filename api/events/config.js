@@ -47,8 +47,8 @@ export const EVENTS = {
     locationFull: '17 października 2026 w Wilczy',
     slug: 'wilczypolmaraton',
     cookiePrefix: 'wilczypolmaraton_2026',
-    panelUrl: 'https://zatyrani.pl/wilczypolmaraton/panel',
-    paymentUrl: 'https://zatyrani.pl/wilczypolmaraton/payment',
+    panelUrl: 'https://zatyrani.pl/wilczy-polmaraton/panel',
+    paymentUrl: 'https://zatyrani.pl/wilczy-polmaraton/payment',
     distances: ['21km', '11km_nw', '21km_canicross'],
     ageRules: [
       { categories: ['21km', '11km_nw', '21km_canicross'], minAge: 18 }

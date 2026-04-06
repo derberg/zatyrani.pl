@@ -37,19 +37,19 @@ const ytPreviewLink = "https://www.youtube.com/embed/sY6au0yZyp4";
     <div id="registration-buttons-wrapper" class="hidden flex flex-wrap justify-center gap-3">
       <div id="registration-buttons" class="contents">
         <a
-          href="/wilczypolmaraton/rejestracja"
+          href="/wilczy-polmaraton/rejestracja"
           class="inline-block bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-full"
         >
           {t("halfmarathon.register_button")}
         </a>
         <a
-          href="/wilczypolmaraton/zaloguj"
+          href="/wilczy-polmaraton/zaloguj"
           class="inline-block bg-white/20 hover:bg-white/30 text-white px-8 py-3 rounded-full backdrop-blur-sm border border-white/40"
         >
           {t("halfmarathon.login_button")}
         </a>
         <a
-          href="/wilczypolmaraton/lista"
+          href="/wilczy-polmaraton/lista"
           class="inline-block bg-white/20 hover:bg-white/30 text-white px-8 py-3 rounded-full backdrop-blur-sm"
         >
           {t("halfmarathon.participants_list_button")}
@@ -255,10 +255,10 @@ const ytPreviewLink = "https://www.youtube.com/embed/sY6au0yZyp4";
       const registrationButtons = document.getElementById('registration-buttons');
       if (registrationButtons) {
         registrationButtons.innerHTML = `
-          <a href="/wilczypolmaraton/panel" class="inline-block bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-full">
+          <a href="/wilczy-polmaraton/panel" class="inline-block bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-full">
             ${panelLabel}
           </a>
-          <a href="/wilczypolmaraton/lista" class="inline-block bg-white/20 hover:bg-white/30 text-white px-8 py-3 rounded-full backdrop-blur-sm">
+          <a href="/wilczy-polmaraton/lista" class="inline-block bg-white/20 hover:bg-white/30 text-white px-8 py-3 rounded-full backdrop-blur-sm">
             ${listLabel}
           </a>
         `;

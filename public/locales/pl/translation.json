@@ -564,7 +564,7 @@
       "terms_required": "Musisz zaakceptować regulamin wydarzenia",
       "email_exists": "Ten email jest już zarejestrowany.",
       "email_exists_login": "Zaloguj się tutaj",
-      "db_error": "Wystąpił problem techniczny. Skontaktuj się z organizatorem: https://zatyrani.pl/wilczypolmaraton#kontakt",
+      "db_error": "Wystąpił problem techniczny. Skontaktuj się z organizatorem: https://zatyrani.pl/wilczy-polmaraton#kontakt",
       "rate_limit": "Zbyt wiele prób. Spróbuj ponownie za godzinę.",
       "code_store_error": "Nie udało się wygenerować kodu. Spróbuj ponownie.",
       "email_not_sent": "Email nie został wysłany. Skontaktuj się z organizatorem.",
