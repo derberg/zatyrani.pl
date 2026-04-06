@@ -89,6 +89,20 @@
       .amount-info strong {
         color: #059669;
       }
+      .blik-notice {
+        background: #fef3c7;
+        border: 1px solid #fbbf24;
+        border-radius: 8px;
+        padding: 0.75rem 1rem;
+        margin-bottom: 1rem;
+        text-align: left;
+        font-size: 0.875rem;
+        color: #92400e;
+        line-height: 1.4;
+      }
+      .blik-notice strong {
+        color: #78350f;
+      }
     </style>
   </head>
   <body>
@@ -96,6 +110,9 @@
       <h1 id="title">Przetwarzanie płatności...</h1>
       <div id="spinner" class="spinner"></div>
       <p id="message">Proszę czekać, trwa ładowanie formularza płatności.</p>
+      <div id="blik-notice" class="blik-notice" style="display: none;">
+        <strong>BLIK:</strong> Po wpisaniu kodu BLIK i potwierdzeniu, otwórz aplikację swojego banku i zatwierdź płatność. Bez potwierdzenia w aplikacji płatność nie zostanie zrealizowana.
+      </div>
       <div id="payment-form-container" style="display: none;">
         <!-- SIBS SPG widget form will be injected here -->
       </div>
@@ -203,7 +220,8 @@
             document.getElementById('message').style.display = 'none';
             document.getElementById('title').textContent = 'Płatność - Wilczy Półmaraton 2026';
 
-            // Render the SIBS payment widget
+            // Show BLIK notice and render the SIBS payment widget
+            document.getElementById('blik-notice').style.display = 'block';
             renderPaymentWidget(data.payment.transactionID, data.payment.formContext, data.payment.total_amount);
           } else {
             throw new Error('Brak danych formularza płatności');

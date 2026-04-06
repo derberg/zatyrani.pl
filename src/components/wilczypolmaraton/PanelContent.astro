@@ -307,6 +307,13 @@ const wilczypolmaratonLink = locale === 'en' ? '/en/wilczypolmaraton' : '/wilczy
       // Render payment status
       renderPaymentStatus();
 
+      // Pre-generate SIBS payment session in background so it's cached when user clicks "pay now"
+      if (dashboardData.payment && dashboardData.payment.paymentStatus !== 'paid') {
+        fetch(`${API_BASE}/payment/${dashboardData.registration.id}`, {
+          credentials: 'include'
+        }).catch(() => {}); // fire-and-forget
+      }
+
       // Render participants
       renderParticipants();
 
