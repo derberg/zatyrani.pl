@@ -68,6 +68,29 @@ export function validateParticipant(participant, eventConfig) {
 }
 
 /**
+ * Get current fees from event config, supporting both feeSchedule (date-based)
+ * and legacy fees object.
+ *
+ * @param {Object} eventConfig - Event config from api/events/config.js
+ * @returns {Object} fees object mapping category to PLN amount
+ */
+export function getCurrentFees(eventConfig) {
+  if (!eventConfig.feeSchedule) {
+    return eventConfig.fees;
+  }
+
+  const now = new Date();
+  for (const entry of eventConfig.feeSchedule) {
+    if (now <= new Date(entry.until)) {
+      return entry.fees;
+    }
+  }
+
+  // All dates passed — return last entry as fallback
+  return eventConfig.feeSchedule[eventConfig.feeSchedule.length - 1].fees;
+}
+
+/**
  * Calculate payment amounts based on participants and event fee config.
  *
  * @param {Array} participants - Array with race_category (snake_case, from DB)
@@ -75,14 +98,21 @@ export function validateParticipant(participant, eventConfig) {
  * @returns {{ raceFees, tshirtFees, totalAmount, charityAmount }}
  */
 export function calculatePaymentForParticipants(participants, eventConfig) {
+  const fees = getCurrentFees(eventConfig);
   let raceFees = 0;
-  const tshirtFees = 0; // T-shirt fees disabled until confirmed
 
   participants.forEach(p => {
     const category = p.race_category || p.raceCategory;
-    const fee = eventConfig.fees[category] ?? eventConfig.fees.default ?? 0;
+    const fee = fees[category] ?? fees.default ?? 0;
     raceFees += fee;
   });
+
+  const tshirtPrice = eventConfig.tshirtPrice || 0;
+  const tshirtCount = participants.filter(p => {
+    const size = p.tshirt_size || p.tshirtSize;
+    return size && size !== '';
+  }).length;
+  const tshirtFees = tshirtCount * tshirtPrice;
 
   const charityAmount = raceFees;
 

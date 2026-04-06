@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest';
-import { calculateAge, validateParticipant, calculatePaymentForParticipants } from '../api/shared/participant-validation.js';
+import { describe, it, expect, vi, afterEach } from 'vitest';
+import { calculateAge, validateParticipant, calculatePaymentForParticipants, getCurrentFees } from '../api/shared/participant-validation.js';
 import { EVENTS } from '../api/events/config.js';
 
 const eventConfig = EVENTS['wilczypolmaraton-2026'];
@@ -33,7 +33,8 @@ describe('validateParticipant', () => {
     city: 'Gliwice',
     nationality: 'PL',
     raceCategory: '21km',
-    phoneNumber: '500600700'
+    phoneNumber: '500600700',
+    tshirtSize: 'M'
   };
 
   it('should pass for a valid participant with wilczypolmaraton-2026 config', () => {
@@ -88,21 +89,112 @@ describe('validateParticipant', () => {
   });
 });
 
-describe('calculatePaymentForParticipants', () => {
-  it('should calculate correct fee for 21km category', () => {
-    const participants = [{ race_category: '21km' }];
-    const result = calculatePaymentForParticipants(participants, eventConfig);
-    expect(result.raceFees).toBe(80);
-    expect(result.totalAmount).toBe(80);
-    expect(result.charityAmount).toBe(80);
+describe('getCurrentFees', () => {
+  afterEach(() => {
+    vi.useRealTimers();
   });
 
-  it('should use default fee for unlisted category', () => {
-    // 10km is not explicitly listed in fees, falls back to default: 60
-    const participants = [{ race_category: '10km' }];
+  it('should return first matching schedule entry when date is before first deadline', () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2026-07-15'));
+
+    const fees = getCurrentFees(eventConfig);
+    expect(fees).toEqual({ default: 100 });
+  });
+
+  it('should return second schedule entry when first deadline has passed', () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2026-09-15'));
+
+    const fees = getCurrentFees(eventConfig);
+    expect(fees).toEqual({ default: 120 });
+  });
+
+  it('should return last schedule entry as fallback when all deadlines passed', () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2026-11-01'));
+
+    const fees = getCurrentFees(eventConfig);
+    expect(fees).toEqual({ default: 120 });
+  });
+
+  it('should fall back to eventConfig.fees when feeSchedule is not defined', () => {
+    const fees = getCurrentFees(niebocrossConfig);
+    expect(fees).toEqual({ kids_run: 20, default: 60 });
+  });
+});
+
+describe('calculatePaymentForParticipants', () => {
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it('should calculate correct fee using feeSchedule for wilczypolmaraton', () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2026-07-15'));
+
+    const participants = [{ race_category: '21km' }];
     const result = calculatePaymentForParticipants(participants, eventConfig);
+    expect(result.raceFees).toBe(100);
+    expect(result.totalAmount).toBe(100);
+    expect(result.charityAmount).toBe(100);
+  });
+
+  it('should calculate correct fee using legacy fees for niebocross', () => {
+    const participants = [{ race_category: 'kids_run' }];
+    const result = calculatePaymentForParticipants(participants, niebocrossConfig);
+    expect(result.raceFees).toBe(20);
+    expect(result.totalAmount).toBe(20);
+    expect(result.charityAmount).toBe(20);
+  });
+
+  it('should use default fee for unlisted category with niebocross', () => {
+    const participants = [{ race_category: '3km_run' }];
+    const result = calculatePaymentForParticipants(participants, niebocrossConfig);
     expect(result.raceFees).toBe(60);
     expect(result.totalAmount).toBe(60);
     expect(result.charityAmount).toBe(60);
+  });
+
+  it('should include tshirt fees when participants have tshirt_size', () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2026-07-15'));
+
+    const participants = [
+      { race_category: '21km', tshirt_size: 'M' },
+      { race_category: '21km', tshirt_size: 'L' }
+    ];
+    const result = calculatePaymentForParticipants(participants, eventConfig);
+    expect(result.raceFees).toBe(200);
+    expect(result.tshirtFees).toBe(140); // 2 × 70
+    expect(result.totalAmount).toBe(340);
+    expect(result.charityAmount).toBe(200); // charity = raceFees only
+  });
+
+  it('should not include tshirt fees for participants without tshirt_size', () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2026-07-15'));
+
+    const participants = [
+      { race_category: '21km', tshirt_size: 'M' },
+      { race_category: '21km', tshirt_size: '' },
+      { race_category: '21km' }
+    ];
+    const result = calculatePaymentForParticipants(participants, eventConfig);
+    expect(result.raceFees).toBe(300);
+    expect(result.tshirtFees).toBe(70); // only 1 with tshirt
+    expect(result.totalAmount).toBe(370);
+  });
+
+  it('should handle tshirtSize (camelCase) property', () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2026-07-15'));
+
+    const participants = [
+      { raceCategory: '21km', tshirtSize: 'XL' }
+    ];
+    const result = calculatePaymentForParticipants(participants, eventConfig);
+    expect(result.tshirtFees).toBe(70);
+    expect(result.totalAmount).toBe(170);
   });
 });

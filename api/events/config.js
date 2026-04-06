@@ -43,26 +43,26 @@ export const EVENTS = {
     id: 'wilczypolmaraton-2026',
     name: 'Wilczy Półmaraton 2026',
     date: '2026-10-01', // TODO: update when confirmed
-    location: 'TBD',   // TODO: update when confirmed
+    location: 'TBD',
     locationFull: 'TBD',
     slug: 'wilczypolmaraton',
     cookiePrefix: 'wilczypolmaraton_2026',
     panelUrl: 'https://zatyrani.pl/wilczypolmaraton/panel',
     paymentUrl: 'https://zatyrani.pl/wilczypolmaraton/payment',
-    distances: ['21km', '10km'],
+    distances: ['21km', '11km_nw', '21km_canicross'],
     ageRules: [
-      { categories: ['21km', '10km'], minAge: 18 }
+      { categories: ['21km', '11km_nw', '21km_canicross'], minAge: 18 }
     ],
-    fees: {
-      '21km': 80,
-      default: 60
-    },
+    feeSchedule: [
+      { until: '2026-08-31', fees: { default: 100 } },
+      { until: '2026-10-16', fees: { default: 120 } },
+    ],
     limits: [
-      { group: 'runners', categories: ['21km', '10km'], limit: 500 }
+      { group: 'runners', categories: ['21km', '11km_nw', '21km_canicross'], limit: 250 }
     ],
-    tshirtEnabled: false,
-    foodEnabled: false,
-    // tshirtSizes defined for future use — not displayed when tshirtEnabled is false
+    tshirtEnabled: true,
+    tshirtPrice: 70,
+    tshirtImage: '/halfmarathon/tshirt.webp',
     tshirtSizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL']
   }
 };
