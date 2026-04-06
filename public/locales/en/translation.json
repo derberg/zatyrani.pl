@@ -626,7 +626,9 @@
         "21km": "Half Marathon 21km",
         "11km_nw": "Nordic Walking 11km",
         "21km_canicross": "Canicross 21km"
-      }
+      },
+      "yes": "Yes",
+      "no": "No"
     },
     "add_participants": {
       "title": "Add Participants",

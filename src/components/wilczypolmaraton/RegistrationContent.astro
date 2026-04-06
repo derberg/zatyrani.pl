@@ -396,8 +396,8 @@ const { t, locale = 'pl' } = Astro.props;
       submitRegistration: t("wilczypolmaraton.registration.submit_registration"),
       editParticipantLabel: t("wilczypolmaraton.registration.edit_participant"),
       removeParticipantLabel: t("wilczypolmaraton.registration.remove_participant"),
-      tshirtYes: "Tak",
-      tshirtNo: "Nie"
+      tshirtYes: t("wilczypolmaraton.form.yes"),
+      tshirtNo: t("wilczypolmaraton.form.no")
     }
   }}>
 
@@ -811,14 +811,13 @@ const { t, locale = 'pl' } = Astro.props;
       if (sizeSelect) sizeSelect.value = '';
       step3bError.classList.add('hidden');
 
-      // If editing and participant had tshirt, pre-fill
-      if (editingIndex >= 0) {
-        const prev = participants[editingIndex];
-        if (prev && prev.tshirtSize) {
-          tshirtBuyCheckbox.checked = true;
-          tshirtSizeContainer.classList.remove('hidden');
-          if (sizeSelect) sizeSelect.value = prev.tshirtSize;
-        }
+      // Restore tshirt selection from currentParticipant (back-navigation) or editing data
+      const tshirtToRestore = currentParticipant.tshirtSize ||
+        (editingIndex >= 0 && participants[editingIndex]?.tshirtSize);
+      if (tshirtToRestore) {
+        tshirtBuyCheckbox.checked = true;
+        tshirtSizeContainer.classList.remove('hidden');
+        if (sizeSelect) sizeSelect.value = tshirtToRestore;
       }
 
       showStep(step3b);
@@ -962,8 +961,7 @@ const { t, locale = 'pl' } = Astro.props;
         // Edit button
         card.querySelector('.edit-participant').addEventListener('click', () => {
           editingIndex = idx;
-          const pData = participants.splice(idx, 1)[0];
-          enterStep3a(pData);
+          enterStep3a({ ...participants[idx] });
         });
 
         // Remove button
