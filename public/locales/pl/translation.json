@@ -547,7 +547,7 @@
     "back_to_main": "Powrót do strony głównej",
     "login": {
       "title": "Zaloguj się",
-      "meta_description": "Zaloguj się do panelu uczestnika Wilczego Półmaratonu",
+      "meta_description": "Zaloguj się do panelu rejestracji Wilczego Półmaratonu",
       "description": "Wpisz swój email, aby otrzymać kod dostępu",
       "no_account": "Nie masz jeszcze konta?",
       "register_here": "Zarejestruj się tutaj",
@@ -586,8 +586,8 @@
       "server_config_error": "Błąd konfiguracji serwera"
     },
     "dashboard": {
-      "title": "Panel uczestnika",
-      "meta_description": "Panel uczestnika Wilczego Półmaratonu 2026",
+      "title": "Panel rejestracji",
+      "meta_description": "Panel rejestracji Wilczego Półmaratonu 2026",
       "loading": "Ładowanie...",
       "logout": "Wyloguj",
       "participants": "Uczestnicy zarejestrowani przez ciebie",
