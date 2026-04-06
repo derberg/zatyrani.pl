@@ -1,6 +1,6 @@
 ---
 import ParticipantFieldset from "./ParticipantFieldset.astro";
-import RegistrationSummary from "../niebocross/RegistrationSummary.astro";
+import TshirtSizeSelector from "./TshirtSizeSelector.astro";
 import ClubAutocomplete from "./ClubAutocomplete.astro";
 
 interface Props {
@@ -157,57 +157,163 @@ const { t, locale = 'pl' } = Astro.props;
             id="backToEmail"
             class="w-full rounded-lg border border-emerald-300 border-2 bg-white px-6 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
           >
-            ← {t("wilczypolmaraton.form.back_to_email")}
+            &larr; {t("wilczypolmaraton.form.back_to_email")}
           </button>
         </form>
       </div>
     </div>
 
-    <!-- Step 3: Add Participants -->
-    <div id="step3" class="hidden space-y-6" data-birth-label={t("wilczypolmaraton.form.birth_date")}>
+    <!-- Step 3a: Basic Info for ONE participant -->
+    <div id="step3a" class="hidden space-y-6">
       <div class="text-center">
         <h2 class="text-3xl font-bold text-slate-900">{t("wilczypolmaraton.registration.participants_step_title")}</h2>
         <p class="mt-2 text-slate-600">{t("wilczypolmaraton.registration.participants_step_desc")}</p>
       </div>
 
-      <div class="grid gap-6 lg:grid-cols-[1fr_300px]">
-        <div class="space-y-6">
-          <form id="participantsForm" class="space-y-6">
-            <div id="participantsContainer">
-              <!-- Hidden template for cloning -->
-              <template id="participantTemplate">
-                <ParticipantFieldset index={0} t={t} showRemoveButton={true} />
-              </template>
-            </div>
-
-            <button
-              type="button"
-              id="addParticipantBtn"
-              class="rounded-lg border-2 border-dashed border-emerald-300 bg-emerald-50 px-6 py-3 font-semibold text-emerald-700 transition hover:border-emerald-400 hover:bg-emerald-100"
-            >
-              + {t("wilczypolmaraton.form.add_participant")}
-            </button>
-
-            <div id="participantsError" class="hidden rounded-lg bg-red-50 p-3 text-sm text-red-700"></div>
-
-            <button
-              type="submit"
-              class="w-full rounded-lg bg-emerald-600 px-6 py-3 font-semibold text-white transition hover:bg-emerald-700 disabled:bg-slate-300"
-              id="participantsSubmitBtn"
-            >
-              {t("wilczypolmaraton.payment.go_to_panel")}
-            </button>
-
-            <!-- Helper text when button is disabled -->
-            <div id="requiredFieldsInfo" class="text-center text-sm text-slate-600 mt-2 hidden">
-              ℹ️ {t("wilczypolmaraton.payment.required_fields_info")}
-            </div>
-          </form>
+      <div class="mx-auto max-w-2xl">
+        <div id="participantFormContainer">
+          <!-- Hidden template for cloning -->
+          <template id="participantTemplate">
+            <ParticipantFieldset index={0} t={t} />
+          </template>
         </div>
 
-        <div class="lg:sticky lg:top-6 lg:self-start">
-          <RegistrationSummary t={t} />
+        <div id="step3aError" class="hidden rounded-lg bg-red-50 p-3 text-sm text-red-700 mt-4"></div>
+
+        <div class="mt-6 flex justify-end">
+          <button
+            type="button"
+            id="step3aNextBtn"
+            class="rounded-lg bg-emerald-600 px-6 py-3 font-semibold text-white transition hover:bg-emerald-700"
+          >
+            {t("wilczypolmaraton.form.proceed_to_payment")} &rarr;
+          </button>
         </div>
+      </div>
+    </div>
+
+    <!-- Step 3b: T-shirt Purchase -->
+    <div id="step3b" class="hidden space-y-6">
+      <div class="text-center">
+        <h2 class="text-3xl font-bold text-slate-900">{t("wilczypolmaraton.registration.tshirt_step_title")}</h2>
+        <p class="mt-2 text-slate-600">{t("wilczypolmaraton.registration.tshirt_step_desc")}</p>
+      </div>
+
+      <div class="mx-auto max-w-md rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+        <img src="/halfmarathon/tshirt.webp" alt="Koszulka" class="max-w-xs mx-auto rounded-lg shadow-md mb-6" />
+
+        <div class="space-y-4">
+          <label class="flex items-center gap-3 cursor-pointer">
+            <input
+              type="checkbox"
+              id="tshirtBuyCheckbox"
+              class="rounded border-emerald-300 border-2 text-emerald-600 focus:ring-emerald-500"
+            />
+            <span class="text-sm font-semibold text-slate-700">{t("wilczypolmaraton.registration.tshirt_buy_checkbox")}</span>
+          </label>
+
+          <div id="tshirtSizeContainer" class="hidden">
+            <label class="block text-sm font-semibold text-slate-700 mb-1">
+              {t("wilczypolmaraton.registration.tshirt_select_size")} <span class="text-red-600">*</span>
+            </label>
+            <TshirtSizeSelector name="tshirtSize_current" t={t} />
+          </div>
+
+          <p id="tshirtPriceText" class="text-sm text-slate-600"></p>
+        </div>
+
+        <div id="step3bError" class="hidden rounded-lg bg-red-50 p-3 text-sm text-red-700 mt-4"></div>
+
+        <div class="mt-6 flex justify-between">
+          <button
+            type="button"
+            id="step3bBackBtn"
+            class="rounded-lg border border-emerald-600 bg-white px-6 py-2 text-sm font-semibold text-emerald-600 transition hover:bg-emerald-50"
+          >
+            &larr; {t("wilczypolmaraton.form.back_to_email")}
+          </button>
+          <button
+            type="button"
+            id="step3bNextBtn"
+            class="rounded-lg bg-emerald-600 px-6 py-3 font-semibold text-white transition hover:bg-emerald-700"
+          >
+            {t("wilczypolmaraton.form.proceed_to_payment")} &rarr;
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 3c: Per-Participant Summary -->
+    <div id="step3c" class="hidden space-y-6">
+      <div class="text-center">
+        <h2 class="text-3xl font-bold text-slate-900">{t("wilczypolmaraton.registration.participant_summary_title")}</h2>
+      </div>
+
+      <div class="mx-auto max-w-2xl">
+        <div id="participantSummaryCard" class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+          <!-- Filled dynamically -->
+        </div>
+
+        <div class="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
+          <button
+            type="button"
+            id="addAnotherBtn"
+            class="rounded-lg border border-emerald-600 bg-white px-6 py-2 text-sm font-semibold text-emerald-600 transition hover:bg-emerald-50"
+          >
+            + {t("wilczypolmaraton.registration.add_another_runner")}
+          </button>
+          <button
+            type="button"
+            id="finishBtn"
+            class="rounded-lg bg-emerald-600 px-6 py-3 font-semibold text-white transition hover:bg-emerald-700"
+          >
+            {t("wilczypolmaraton.registration.finish_and_pay")}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 4: Final Summary -->
+    <div id="step4" class="hidden space-y-6">
+      <div class="text-center">
+        <h2 class="text-3xl font-bold text-slate-900">{t("wilczypolmaraton.registration.final_summary_title")}</h2>
+        <p class="mt-2 text-slate-600">{t("wilczypolmaraton.registration.final_summary_desc")}</p>
+      </div>
+
+      <div class="mx-auto max-w-2xl space-y-4">
+        <div id="finalParticipantsList" class="space-y-4">
+          <!-- Filled dynamically -->
+        </div>
+
+        <!-- Fee breakdown -->
+        <div class="rounded-xl border-2 border-emerald-200 bg-emerald-50 p-6">
+          <div class="space-y-2 text-sm">
+            <div class="flex justify-between">
+              <span class="text-slate-700">{t("wilczypolmaraton.registration.race_fees_label")}</span>
+              <span class="font-semibold text-slate-900" id="finalRaceFees">0 zł</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-slate-700">{t("wilczypolmaraton.registration.tshirt_fees_label")}</span>
+              <span class="font-semibold text-slate-900" id="finalTshirtFees">0 zł</span>
+            </div>
+            <div class="h-px bg-emerald-200"></div>
+            <div class="flex justify-between text-base">
+              <span class="font-semibold text-slate-900">{t("wilczypolmaraton.registration.total_label")}</span>
+              <span class="font-bold text-emerald-700" id="finalTotal">0 zł</span>
+            </div>
+            <p id="feeScheduleInfoText" class="mt-2 text-xs text-slate-500"></p>
+          </div>
+        </div>
+
+        <div id="step4Error" class="hidden rounded-lg bg-red-50 p-3 text-sm text-red-700"></div>
+
+        <button
+          type="button"
+          id="submitRegistrationBtn"
+          class="w-full rounded-lg bg-emerald-600 px-6 py-3 font-semibold text-white transition hover:bg-emerald-700"
+        >
+          {t("wilczypolmaraton.registration.submit_registration")}
+        </button>
       </div>
     </div>
   </div>
@@ -235,7 +341,6 @@ const { t, locale = 'pl' } = Astro.props;
       resendCode: t("wilczypolmaraton.form.resend_code"),
       codeResent: t("wilczypolmaraton.form.code_resent")
     },
-    feesMap: { '21km': 80, '10km': 60, default: 60 },
     formLabels: {
       participant: t("wilczypolmaraton.form.participant"),
       remove: t("wilczypolmaraton.form.remove"),
@@ -270,9 +375,29 @@ const { t, locale = 'pl' } = Astro.props;
       noTshirt: t("wilczypolmaraton.form.no_tshirt"),
       hideNamePublic: t("wilczypolmaraton.form.hide_name_public"),
       categories: {
-        "21km": "Półmaraton 21km",
-        "10km": "Bieg 10km"
-      }
+        "21km": t("wilczypolmaraton.form.categories.21km"),
+        "11km_nw": t("wilczypolmaraton.form.categories.11km_nw"),
+        "21km_canicross": t("wilczypolmaraton.form.categories.21km_canicross")
+      },
+      tshirtStepTitle: t("wilczypolmaraton.registration.tshirt_step_title"),
+      tshirtStepDesc: t("wilczypolmaraton.registration.tshirt_step_desc"),
+      tshirtBuyCheckbox: t("wilczypolmaraton.registration.tshirt_buy_checkbox"),
+      tshirtPriceInfo: t("wilczypolmaraton.registration.tshirt_price_info"),
+      tshirtSelectSize: t("wilczypolmaraton.registration.tshirt_select_size"),
+      participantSummaryTitle: t("wilczypolmaraton.registration.participant_summary_title"),
+      addAnotherRunner: t("wilczypolmaraton.registration.add_another_runner"),
+      finishAndPay: t("wilczypolmaraton.registration.finish_and_pay"),
+      finalSummaryTitle: t("wilczypolmaraton.registration.final_summary_title"),
+      finalSummaryDesc: t("wilczypolmaraton.registration.final_summary_desc"),
+      raceFeesLabel: t("wilczypolmaraton.registration.race_fees_label"),
+      tshirtFeesLabel: t("wilczypolmaraton.registration.tshirt_fees_label"),
+      totalLabel: t("wilczypolmaraton.registration.total_label"),
+      feeScheduleInfo: t("wilczypolmaraton.registration.fee_schedule_info"),
+      submitRegistration: t("wilczypolmaraton.registration.submit_registration"),
+      editParticipantLabel: t("wilczypolmaraton.registration.edit_participant"),
+      removeParticipantLabel: t("wilczypolmaraton.registration.remove_participant"),
+      tshirtYes: "Tak",
+      tshirtNo: "Nie"
     }
   }}>
 
@@ -293,25 +418,40 @@ const { t, locale = 'pl' } = Astro.props;
       return errorMessages[errorCode] || errorMessages.generic;
     }
 
-    // State
+    // ─── State ───────────────────────────────────────────────
     let currentEmail = '';
     let sessionToken = '';
+    let participants = [];      // Array of finished participant objects
+    let editingIndex = -1;      // -1 = adding new, >= 0 = editing existing
+    let currentFees = null;     // Fetched from /api/events/.../fees
+    let tshirtPrice = 0;
+    let feeSchedule = [];
+    let currentParticipant = {}; // Being built across 3a/3b
 
-    // DOM Elements
+    // Category to group mapping for limit checking
+    const CATEGORY_TO_GROUP = {
+      '21km': 'runners',
+      '11km_nw': 'runners',
+      '21km_canicross': 'runners'
+    };
+
+    let currentLimitsAndCounts = null;
+
+    // ─── DOM Elements ────────────────────────────────────────
     const step1 = document.getElementById('step1');
     const step2 = document.getElementById('step2');
-    const step3 = document.getElementById('step3');
+    const step3a = document.getElementById('step3a');
+    const step3b = document.getElementById('step3b');
+    const step3c = document.getElementById('step3c');
+    const step4 = document.getElementById('step4');
+
     const emailForm = document.getElementById('emailForm');
     const codeForm = document.getElementById('codeForm');
-    const participantsForm = document.getElementById('participantsForm');
     const emailError = document.getElementById('emailError');
     const codeError = document.getElementById('codeError');
     const codeSuccess = document.getElementById('codeSuccess');
-    const participantsError = document.getElementById('participantsError');
     const backToEmailBtn = document.getElementById('backToEmail');
     const resendCodeBtn = document.getElementById('resendCodeBtn');
-    const addParticipantBtn = document.getElementById('addParticipantBtn');
-    const participantsContainer = document.getElementById('participantsContainer');
     const emailSubmitBtn = document.getElementById('emailSubmitBtn');
     const emailInput = document.getElementById('email');
     const fullNameInput = document.getElementById('fullName');
@@ -320,152 +460,55 @@ const { t, locale = 'pl' } = Astro.props;
     const codeInput = document.getElementById('code');
     const codeSubmitBtn = document.getElementById('codeSubmitBtn');
 
-    let participantCount = 0;
+    const participantFormContainer = document.getElementById('participantFormContainer');
+    const step3aError = document.getElementById('step3aError');
+    const step3aNextBtn = document.getElementById('step3aNextBtn');
 
-    // Category to group mapping for limit checking — must match api/events/config.js limits[].group
-    const CATEGORY_TO_GROUP = {
-      '21km': 'runners',
-      '10km': 'runners'
-    };
+    const tshirtBuyCheckbox = document.getElementById('tshirtBuyCheckbox');
+    const tshirtSizeContainer = document.getElementById('tshirtSizeContainer');
+    const tshirtPriceText = document.getElementById('tshirtPriceText');
+    const step3bError = document.getElementById('step3bError');
+    const step3bBackBtn = document.getElementById('step3bBackBtn');
+    const step3bNextBtn = document.getElementById('step3bNextBtn');
 
-    // Store current limits and counts
-    let currentLimitsAndCounts = null;
+    const participantSummaryCard = document.getElementById('participantSummaryCard');
+    const addAnotherBtn = document.getElementById('addAnotherBtn');
+    const finishBtn = document.getElementById('finishBtn');
 
-    // Function to fetch current participant limits and counts
-    async function fetchLimitsAndCounts() {
-      try {
-        const response = await fetch(`${API_BASE}/registrations/list`);
-        const data = await response.json();
-        if (data.success) {
-          currentLimitsAndCounts = data.limitsAndCounts;
-          return true;
-        }
-      } catch (error) {
-        console.error('Error fetching limits and counts:', error);
-      }
-      return false;
+    const finalParticipantsList = document.getElementById('finalParticipantsList');
+    const step4Error = document.getElementById('step4Error');
+    const submitRegistrationBtn = document.getElementById('submitRegistrationBtn');
+
+    // ─── Helper: show one step, hide all others ──────────────
+    function showStep(stepEl) {
+      [step1, step2, step3a, step3b, step3c, step4].forEach(s => s.classList.add('hidden'));
+      stepEl.classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // Function to get disabled categories based on current counts
-    function getDisabledCategories() {
-      if (!currentLimitsAndCounts) return [];
-
-      const disabled = [];
-      for (const [category, group] of Object.entries(CATEGORY_TO_GROUP)) {
-        const groupData = currentLimitsAndCounts[group];
-        if (groupData && groupData.count >= groupData.limit) {
-          disabled.push(category);
-        }
-      }
-      return disabled;
-    }
-
-    // Function to update category options (disable/enable based on limits)
-    async function updateCategoryOptions() {
-      // First fetch the latest limits and counts
-      await fetchLimitsAndCounts();
-
-      const disabledCategories = getDisabledCategories();
-
-      // Update all existing participant forms
-      const participantDivs = participantsContainer.querySelectorAll(':scope > [data-index]');
-      participantDivs.forEach(div => {
-        const index = div.getAttribute('data-index');
-        const categoryInputs = div.querySelectorAll(`input[name="raceCategory_${index}"]`);
-
-        categoryInputs.forEach(input => {
-          const category = input.value;
-          const isDisabled = disabledCategories.includes(category);
-          input.disabled = isDisabled;
-
-          // Update visual styling
-          const label = input.closest('label');
-          if (label) {
-            if (isDisabled) {
-              label.classList.add('opacity-50', 'cursor-not-allowed');
-              label.classList.remove('cursor-pointer', 'hover:bg-emerald-50');
-              label.title = 'Kategoria jest już pełna';
-            } else {
-              label.classList.remove('opacity-50', 'cursor-not-allowed');
-              label.classList.add('cursor-pointer', 'hover:bg-emerald-50');
-              label.title = '';
-            }
-          }
-        });
-      });
-    }
-
-    // Function to validate all participants
-    function validateParticipants() {
-      const participantDivs = participantsContainer.querySelectorAll(':scope > [data-index]');
-      let allValid = true;
-
-      participantDivs.forEach(div => {
-        const index = div.getAttribute('data-index');
-        const firstName = document.querySelector(`[name="firstName_${index}"]`).value.trim();
-        const lastName = document.querySelector(`[name="lastName_${index}"]`).value.trim();
-        const birthDate = document.querySelector(`[name="birthDate_${index}"]`).value;
-        const city = document.querySelector(`[name="city_${index}"]`).value.trim();
-        const nationality = document.querySelector(`[name="nationality_${index}"]`).value.trim();
-        const phoneNumber = document.querySelector(`[name="phoneNumber_${index}"]`).value.trim();
-        const raceCategory = document.querySelector(`input[name="raceCategory_${index}"]:checked`);
-        const tshirtSize = document.querySelector(`[name="tshirtSize_${index}"]`).value;
-
-        if (!firstName || !lastName || !birthDate || !city || !nationality || !phoneNumber || !raceCategory || !tshirtSize) {
-          allValid = false;
-        }
-      });
-
-      // Disable buttons if no participants or any invalid
-      const hasParticipants = participantDivs.length > 0;
-      const isButtonDisabled = !hasParticipants || !allValid;
-      participantsSubmitBtn.disabled = isButtonDisabled;
-
-      // Show/hide helper text based on button state
-      const requiredFieldsInfo = document.getElementById('requiredFieldsInfo');
-      if (requiredFieldsInfo) {
-        if (isButtonDisabled) {
-          requiredFieldsInfo.classList.remove('hidden');
-        } else {
-          requiredFieldsInfo.classList.add('hidden');
-        }
-      }
-    }
-
-    // Initial validation
-    validateParticipants();
-
-    // Validate email form and enable/disable submit button
+    // ─── Email form validation ───────────────────────────────
     function validateEmailForm() {
       const emailValid = emailInput.value.trim() !== '';
       const nameValid = fullNameInput.value.trim() !== '';
       const rodoValid = rodoCheckbox.checked;
       const termsValid = termsCheckbox.checked;
-
-      const isValid = emailValid && nameValid && rodoValid && termsValid;
-      emailSubmitBtn.disabled = !isValid;
+      emailSubmitBtn.disabled = !(emailValid && nameValid && rodoValid && termsValid);
     }
 
-    // Add event listeners to form fields
     emailInput.addEventListener('input', validateEmailForm);
     fullNameInput.addEventListener('input', validateEmailForm);
     rodoCheckbox.addEventListener('change', validateEmailForm);
     termsCheckbox.addEventListener('change', validateEmailForm);
-
-    // Run initial validation in case form is pre-filled
     validateEmailForm();
 
-    // Validate code input and enable/disable verify button
+    // ─── Code form validation ────────────────────────────────
     function validateCodeForm() {
       const code = codeInput.value.trim();
-      const isValidCode = code && /^[0-9]{6}$/.test(code);
-      codeSubmitBtn.disabled = !isValidCode;
+      codeSubmitBtn.disabled = !(code && /^[0-9]{6}$/.test(code));
     }
-
-    // Add event listener to code input
     codeInput.addEventListener('input', validateCodeForm);
 
-    // Step 1: Email submission
+    // ─── Step 1: Email submission ────────────────────────────
     emailForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       emailError.classList.add('hidden');
@@ -501,8 +544,7 @@ const { t, locale = 'pl' } = Astro.props;
         }
 
         // Move to step 2
-        step1.classList.add('hidden');
-        step2.classList.remove('hidden');
+        showStep(step2);
       } catch (error) {
         console.error('Fetch error:', error);
         emailError.textContent = errorMessages.connection;
@@ -510,15 +552,14 @@ const { t, locale = 'pl' } = Astro.props;
       }
     });
 
-    // Back to email
+    // ─── Back to email ───────────────────────────────────────
     backToEmailBtn.addEventListener('click', () => {
-      step2.classList.add('hidden');
-      step1.classList.remove('hidden');
+      showStep(step1);
       codeError.classList.add('hidden');
       codeSuccess.classList.add('hidden');
     });
 
-    // Resend code
+    // ─── Resend code ─────────────────────────────────────────
     resendCodeBtn.addEventListener('click', async () => {
       if (!currentEmail) return;
 
@@ -552,7 +593,7 @@ const { t, locale = 'pl' } = Astro.props;
       }
     });
 
-    // Step 2: Code verification
+    // ─── Step 2: Code verification ───────────────────────────
     codeForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       codeError.classList.add('hidden');
@@ -583,163 +624,402 @@ const { t, locale = 'pl' } = Astro.props;
 
         sessionToken = data.token;
 
-        // Move to step 3
-        step2.classList.add('hidden');
-        step3.classList.remove('hidden');
-        addParticipant(); // Add first participant
+        // Move to step 3a — start adding first participant
+        enterStep3a();
       } catch {
         codeError.textContent = errorMessages.connection;
         codeError.classList.remove('hidden');
       }
     });
 
-    // Add participant form
-    function addParticipant() {
-      participantCount++;
+    // ─── Fees fetching ───────────────────────────────────────
+    let feesFetched = false;
 
-      // Clone the template
+    async function fetchFees() {
+      if (feesFetched) return;
+      try {
+        const response = await fetch(`${API_BASE}/fees`);
+        const data = await response.json();
+        if (data.success) {
+          currentFees = data.fees;
+          tshirtPrice = data.tshirtPrice || 0;
+          feeSchedule = data.feeSchedule || [];
+          feesFetched = true;
+
+          // Update t-shirt price text
+          tshirtPriceText.textContent = formLabels.tshirtPriceInfo.replace('{{price}}', tshirtPrice);
+        }
+      } catch (error) {
+        console.error('Error fetching fees:', error);
+      }
+    }
+
+    // ─── Limits fetching ─────────────────────────────────────
+    async function fetchLimitsAndCounts() {
+      try {
+        const response = await fetch(`${API_BASE}/registrations/list`);
+        const data = await response.json();
+        if (data.success) {
+          currentLimitsAndCounts = data.limitsAndCounts;
+          return true;
+        }
+      } catch (error) {
+        console.error('Error fetching limits and counts:', error);
+      }
+      return false;
+    }
+
+    function getDisabledCategories() {
+      if (!currentLimitsAndCounts) return [];
+      const disabled = [];
+      for (const [category, group] of Object.entries(CATEGORY_TO_GROUP)) {
+        const groupData = currentLimitsAndCounts[group];
+        if (groupData && groupData.count >= groupData.limit) {
+          disabled.push(category);
+        }
+      }
+      return disabled;
+    }
+
+    function updateCategoryOptions() {
+      const disabledCategories = getDisabledCategories();
+      const fieldset = participantFormContainer.querySelector('[data-index]');
+      if (!fieldset) return;
+
+      const categoryInputs = fieldset.querySelectorAll('input[name^="raceCategory_"]');
+      categoryInputs.forEach(input => {
+        const category = input.value;
+        const isDisabled = disabledCategories.includes(category);
+        input.disabled = isDisabled;
+
+        const label = input.closest('label');
+        if (label) {
+          if (isDisabled) {
+            label.classList.add('opacity-50', 'cursor-not-allowed');
+            label.classList.remove('cursor-pointer', 'hover:bg-emerald-50');
+          } else {
+            label.classList.remove('opacity-50', 'cursor-not-allowed');
+            label.classList.add('cursor-pointer', 'hover:bg-emerald-50');
+          }
+        }
+      });
+    }
+
+    // ─── Step 3a: Enter / setup ──────────────────────────────
+    function enterStep3a(prefillData) {
+      // Fetch fees on first entry
+      fetchFees();
+      fetchLimitsAndCounts().then(() => updateCategoryOptions());
+
+      // Clear previous fieldset
+      const existing = participantFormContainer.querySelector('[data-index]');
+      if (existing) existing.remove();
+
+      // Clone template
       const template = document.getElementById('participantTemplate');
       const clone = template.content.cloneNode(true);
       const fieldset = clone.querySelector('[data-index]');
+      fieldset.setAttribute('data-index', '0');
 
-      // Update index
-      fieldset.setAttribute('data-index', participantCount);
+      // Remove the remove button (not needed in wizard)
+      const removeBtn = fieldset.querySelector('.remove-participant');
+      if (removeBtn) removeBtn.remove();
 
-      // Update all field names
-      fieldset.querySelectorAll('[name]').forEach(input => {
-        const name = input.getAttribute('name');
-        input.setAttribute('name', name.replace(/_0$/, `_${participantCount}`));
-      });
+      // Set title
+      const participantNum = editingIndex >= 0 ? editingIndex + 1 : participants.length + 1;
+      fieldset.querySelector('h3').textContent = `${formLabels.participant} ${participantNum}`;
 
-      // Update data-participant attributes for birth date selectors
-      fieldset.querySelectorAll('[data-participant]').forEach(element => {
-        element.setAttribute('data-participant', participantCount);
-      });
+      participantFormContainer.appendChild(fieldset);
 
-      // Update title
-      fieldset.querySelector('h3').textContent = `${formLabels.participant} ${participantCount}`;
+      // Pre-fill if editing
+      if (prefillData) {
+        const f = fieldset;
+        const setVal = (name, val) => {
+          const el = f.querySelector(`[name="${name}"]`);
+          if (el) el.value = val || '';
+        };
+        setVal('firstName_0', prefillData.firstName);
+        setVal('lastName_0', prefillData.lastName);
+        setVal('birthDate_0', prefillData.birthDate);
+        setVal('city_0', prefillData.city);
+        setVal('nationality_0', prefillData.nationality);
+        setVal('club_0', prefillData.club);
+        setVal('phoneNumber_0', prefillData.phoneNumber);
 
-      // Show/hide remove button
-      if (participantCount === 1) {
-        const removeBtn = fieldset.querySelector('.remove-participant');
-        if (removeBtn) removeBtn.remove();
+        // Set race category radio
+        if (prefillData.raceCategory) {
+          const radio = f.querySelector(`input[name="raceCategory_0"][value="${prefillData.raceCategory}"]`);
+          if (radio) radio.checked = true;
+        }
+
+        // Set hide name
+        if (prefillData.hideNamePublic) {
+          const cb = f.querySelector('[name="hideNamePublic_0"]');
+          if (cb) cb.checked = true;
+        }
+      }
+
+      // Re-initialize autocomplete and phone validation
+      if (window.setupClubAutocomplete) window.setupClubAutocomplete();
+      if (window.setupPhoneValidation) window.setupPhoneValidation();
+
+      step3aError.classList.add('hidden');
+      showStep(step3a);
+    }
+
+    // ─── Step 3a: Validate and advance ───────────────────────
+    step3aNextBtn.addEventListener('click', () => {
+      step3aError.classList.add('hidden');
+
+      const fieldset = participantFormContainer.querySelector('[data-index]');
+      if (!fieldset) return;
+
+      const firstName = fieldset.querySelector('[name="firstName_0"]')?.value.trim();
+      const lastName = fieldset.querySelector('[name="lastName_0"]')?.value.trim();
+      const birthDate = fieldset.querySelector('[name="birthDate_0"]')?.value;
+      const city = fieldset.querySelector('[name="city_0"]')?.value.trim();
+      const nationality = fieldset.querySelector('[name="nationality_0"]')?.value.trim();
+      const phoneNumber = fieldset.querySelector('[name="phoneNumber_0"]')?.value.trim();
+      const raceCategory = fieldset.querySelector('input[name="raceCategory_0"]:checked')?.value;
+      const club = fieldset.querySelector('[name="club_0"]')?.value.trim() || null;
+      const hideNamePublic = fieldset.querySelector('[name="hideNamePublic_0"]')?.checked || false;
+
+      if (!firstName || !lastName || !birthDate || !city || !nationality || !phoneNumber || !raceCategory) {
+        step3aError.textContent = errorMessages.generic || 'Wypełnij wszystkie wymagane pola';
+        step3aError.classList.remove('hidden');
+        return;
+      }
+
+      // Store current participant data (partial — no tshirt yet)
+      currentParticipant = {
+        firstName,
+        lastName,
+        birthDate,
+        city,
+        nationality,
+        club,
+        phoneNumber,
+        raceCategory,
+        hideNamePublic,
+        tshirtSize: ''
+      };
+
+      // Reset t-shirt step state
+      tshirtBuyCheckbox.checked = false;
+      tshirtSizeContainer.classList.add('hidden');
+      const sizeSelect = document.querySelector('[name="tshirtSize_current"]');
+      if (sizeSelect) sizeSelect.value = '';
+      step3bError.classList.add('hidden');
+
+      // If editing and participant had tshirt, pre-fill
+      if (editingIndex >= 0) {
+        const prev = participants[editingIndex];
+        if (prev && prev.tshirtSize) {
+          tshirtBuyCheckbox.checked = true;
+          tshirtSizeContainer.classList.remove('hidden');
+          if (sizeSelect) sizeSelect.value = prev.tshirtSize;
+        }
+      }
+
+      showStep(step3b);
+    });
+
+    // ─── Step 3b: T-shirt ────────────────────────────────────
+    tshirtBuyCheckbox.addEventListener('change', () => {
+      if (tshirtBuyCheckbox.checked) {
+        tshirtSizeContainer.classList.remove('hidden');
       } else {
-        const removeBtn = fieldset.querySelector('.remove-participant');
-        if (removeBtn) {
-          removeBtn.setAttribute('data-index', participantCount);
-          removeBtn.addEventListener('click', () => {
-            fieldset.remove();
-            participantCount--;
-            renumberTitles();
-            updateSummary();
-            validateParticipants();
-          });
+        tshirtSizeContainer.classList.add('hidden');
+        const sizeSelect = document.querySelector('[name="tshirtSize_current"]');
+        if (sizeSelect) sizeSelect.value = '';
+      }
+    });
+
+    step3bBackBtn.addEventListener('click', () => {
+      // Go back to 3a with data preserved
+      enterStep3a(currentParticipant);
+    });
+
+    step3bNextBtn.addEventListener('click', () => {
+      step3bError.classList.add('hidden');
+
+      if (tshirtBuyCheckbox.checked) {
+        const sizeSelect = document.querySelector('[name="tshirtSize_current"]');
+        if (!sizeSelect || !sizeSelect.value) {
+          step3bError.textContent = formLabels.tshirtSelectSize;
+          step3bError.classList.remove('hidden');
+          return;
         }
+        currentParticipant.tshirtSize = sizeSelect.value;
+      } else {
+        currentParticipant.tshirtSize = '';
       }
 
-      // Append
-      participantsContainer.appendChild(fieldset);
+      // Show per-participant summary (step 3c)
+      renderParticipantSummary(currentParticipant);
+      showStep(step3c);
+    });
 
-      // Re-initialize
-      if (window.setupClubAutocomplete) {
-        window.setupClubAutocomplete();
+    // ─── Step 3c: Per-participant summary ────────────────────
+    function renderParticipantSummary(p) {
+      const categoryLabel = formLabels.categories[p.raceCategory] || p.raceCategory;
+      const tshirtDisplay = p.tshirtSize ? `${formLabels.tshirtYes} (${p.tshirtSize})` : formLabels.tshirtNo;
+
+      participantSummaryCard.innerHTML = `
+        <div class="space-y-3">
+          <div class="grid grid-cols-2 gap-2 text-sm">
+            <div><span class="text-slate-500">${formLabels.firstName}:</span> <span class="font-medium">${escapeHtml(p.firstName)}</span></div>
+            <div><span class="text-slate-500">${formLabels.lastName}:</span> <span class="font-medium">${escapeHtml(p.lastName)}</span></div>
+            <div><span class="text-slate-500">${formLabels.birthDate}:</span> <span class="font-medium">${escapeHtml(p.birthDate)}</span></div>
+            <div><span class="text-slate-500">${formLabels.city}:</span> <span class="font-medium">${escapeHtml(p.city)}</span></div>
+            <div><span class="text-slate-500">${formLabels.nationality}:</span> <span class="font-medium">${escapeHtml(p.nationality)}</span></div>
+            <div><span class="text-slate-500">${formLabels.club}:</span> <span class="font-medium">${p.club ? escapeHtml(p.club) : '—'}</span></div>
+            <div><span class="text-slate-500">${formLabels.phoneNumber}:</span> <span class="font-medium">${escapeHtml(p.phoneNumber)}</span></div>
+            <div><span class="text-slate-500">${formLabels.distanceActivity}:</span> <span class="font-medium">${escapeHtml(categoryLabel)}</span></div>
+            <div><span class="text-slate-500">${formLabels.tshirtSize}:</span> <span class="font-medium">${escapeHtml(tshirtDisplay)}</span></div>
+          </div>
+        </div>
+      `;
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    addAnotherBtn.addEventListener('click', () => {
+      // Store current participant
+      if (editingIndex >= 0) {
+        participants[editingIndex] = { ...currentParticipant };
+        editingIndex = -1;
+      } else {
+        participants.push({ ...currentParticipant });
       }
-      if (window.setupPhoneValidation) {
-        window.setupPhoneValidation();
+      currentParticipant = {};
+
+      // Go back to 3a for a new participant
+      enterStep3a();
+    });
+
+    finishBtn.addEventListener('click', () => {
+      // Store current participant
+      if (editingIndex >= 0) {
+        participants[editingIndex] = { ...currentParticipant };
+        editingIndex = -1;
+      } else {
+        participants.push({ ...currentParticipant });
       }
+      currentParticipant = {};
 
-      // Add event listeners for validation
-      const inputs = fieldset.querySelectorAll('input[name], select[name]');
-      inputs.forEach(input => {
-        if (input.type === 'radio' || input.type === 'checkbox') {
-          input.addEventListener('change', () => {
-            validateParticipants();
-            updateSummary();
-          });
-        } else {
-          input.addEventListener('input', () => {
-            validateParticipants();
-            updateSummary();
-          });
-        }
-      });
+      // Advance to step 4
+      renderStep4();
+      showStep(step4);
+    });
 
-      updateCategoryOptions();
-      updateSummary();
-      validateParticipants();
+    // ─── Step 4: Final summary ───────────────────────────────
+    function getRaceFee(category) {
+      if (!currentFees) return 0;
+      return currentFees[category] ?? currentFees.default ?? 0;
     }
 
-    // Renumber participant titles after removal
-    function renumberTitles() {
-      const participantDivs = participantsContainer.querySelectorAll('[data-index]');
-      participantDivs.forEach((div, index) => {
-        const title = div.querySelector('h3');
-        if (title) {
-          title.textContent = `${formLabels.participant} ${index + 1}`;
-        }
-      });
-    }
+    function renderStep4() {
+      // Render participant cards
+      finalParticipantsList.innerHTML = '';
 
-    addParticipantBtn.addEventListener('click', addParticipant);
+      participants.forEach((p, idx) => {
+        const categoryLabel = formLabels.categories[p.raceCategory] || p.raceCategory;
+        const tshirtDisplay = p.tshirtSize ? `${formLabels.tshirtYes} (${p.tshirtSize})` : formLabels.tshirtNo;
 
-    // Add event listener for extra donation (with cleanup to prevent duplicates)
-    const extraDonationInput = document.getElementById('extraDonation');
-    if (extraDonationInput) {
-      extraDonationInput.removeEventListener('input', updateSummary);
-      extraDonationInput.addEventListener('input', updateSummary);
-    }
+        const card = document.createElement('div');
+        card.className = 'rounded-xl border border-slate-200 bg-white p-6 shadow-sm';
+        card.innerHTML = `
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="text-lg font-bold text-slate-900">${formLabels.participant} ${idx + 1}</h3>
+            <div class="flex gap-2">
+              <button type="button" class="edit-participant text-sm text-emerald-600 hover:underline" data-idx="${idx}">
+                ${formLabels.editParticipantLabel}
+              </button>
+              <button type="button" class="remove-participant text-sm text-red-600 hover:underline" data-idx="${idx}">
+                ${formLabels.removeParticipantLabel}
+              </button>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-sm">
+            <div><span class="text-slate-500">${formLabels.firstName}:</span> <span class="font-medium">${escapeHtml(p.firstName)}</span></div>
+            <div><span class="text-slate-500">${formLabels.lastName}:</span> <span class="font-medium">${escapeHtml(p.lastName)}</span></div>
+            <div><span class="text-slate-500">${formLabels.birthDate}:</span> <span class="font-medium">${escapeHtml(p.birthDate)}</span></div>
+            <div><span class="text-slate-500">${formLabels.city}:</span> <span class="font-medium">${escapeHtml(p.city)}</span></div>
+            <div><span class="text-slate-500">${formLabels.nationality}:</span> <span class="font-medium">${escapeHtml(p.nationality)}</span></div>
+            <div><span class="text-slate-500">${formLabels.club}:</span> <span class="font-medium">${p.club ? escapeHtml(p.club) : '—'}</span></div>
+            <div><span class="text-slate-500">${formLabels.phoneNumber}:</span> <span class="font-medium">${escapeHtml(p.phoneNumber)}</span></div>
+            <div><span class="text-slate-500">${formLabels.distanceActivity}:</span> <span class="font-medium">${escapeHtml(categoryLabel)}</span></div>
+            <div><span class="text-slate-500">${formLabels.tshirtSize}:</span> <span class="font-medium">${escapeHtml(tshirtDisplay)}</span></div>
+          </div>
+        `;
 
-    // Update payment summary
-    function updateSummary() {
-      let raceFees = 0;
-      const tshirtFees = 0;
-
-      participantsContainer.querySelectorAll(':scope > [data-index]').forEach(div => {
-        const index = div.getAttribute('data-index');
-        const category = document.querySelector(`input[name="raceCategory_${index}"]:checked`)?.value;
-
-        if (category) {
-          raceFees += feesMap[category] ?? feesMap.default ?? 0;
-        }
-      });
-
-      const extraDonation = parseInt(document.getElementById('extraDonation')?.value || '0');
-      const totalAmount = raceFees + tshirtFees + extraDonation;
-      const charityAmount = raceFees + extraDonation;
-
-      document.getElementById('raceFees').textContent = `${raceFees} zł`;
-      document.getElementById('totalAmount').textContent = `${totalAmount} zł`;
-      document.getElementById('charityAmount').textContent = `${charityAmount.toFixed(2)} zł`;
-    }
-
-    // Step 3: Submit participants
-    participantsForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      participantsError.classList.add('hidden');
-
-      const participants = [];
-
-      participantsContainer.querySelectorAll(':scope > [data-index]').forEach(div => {
-        const index = div.getAttribute('data-index');
-        participants.push({
-          firstName: document.querySelector(`[name="firstName_${index}"]`).value,
-          lastName: document.querySelector(`[name="lastName_${index}"]`).value,
-          birthDate: document.querySelector(`[name="birthDate_${index}"]`).value,
-          city: document.querySelector(`[name="city_${index}"]`).value,
-          nationality: document.querySelector(`[name="nationality_${index}"]`).value,
-          club: document.querySelector(`[name="club_${index}"]`).value || null,
-          phoneNumber: document.querySelector(`[name="phoneNumber_${index}"]`).value,
-          raceCategory: document.querySelector(`input[name="raceCategory_${index}"]:checked`).value,
-          tshirtSize: document.querySelector(`[name="tshirtSize_${index}"]`).value,
-          hideNamePublic: document.querySelector(`[name="hideNamePublic_${index}"]`).checked,
+        // Edit button
+        card.querySelector('.edit-participant').addEventListener('click', () => {
+          editingIndex = idx;
+          const pData = participants.splice(idx, 1)[0];
+          enterStep3a(pData);
         });
+
+        // Remove button
+        card.querySelector('.remove-participant').addEventListener('click', () => {
+          participants.splice(idx, 1);
+          if (participants.length === 0) {
+            enterStep3a();
+          } else {
+            renderStep4();
+          }
+        });
+
+        finalParticipantsList.appendChild(card);
       });
+
+      // Calculate fees
+      let raceFees = 0;
+      let tshirtCount = 0;
+      participants.forEach(p => {
+        raceFees += getRaceFee(p.raceCategory);
+        if (p.tshirtSize) tshirtCount++;
+      });
+      const tshirtFees = tshirtCount * tshirtPrice;
+      const total = raceFees + tshirtFees;
+
+      document.getElementById('finalRaceFees').textContent = `${raceFees} zł`;
+      document.getElementById('finalTshirtFees').textContent = `${tshirtFees} zł`;
+      document.getElementById('finalTotal').textContent = `${total} zł`;
+
+      // Fee schedule info
+      const feeScheduleInfoText = document.getElementById('feeScheduleInfoText');
+      if (feeSchedule && feeSchedule.length > 1) {
+        // Show the next tier info
+        const now = new Date();
+        for (let i = 0; i < feeSchedule.length - 1; i++) {
+          const untilEnd = new Date(feeSchedule[i].until);
+          untilEnd.setUTCHours(23, 59, 59, 999);
+          if (now <= untilEnd && feeSchedule[i + 1]) {
+            const nextFee = feeSchedule[i + 1].fees.default || 0;
+            const dateStr = feeSchedule[i].until;
+            feeScheduleInfoText.textContent = formLabels.feeScheduleInfo
+              .replace('{{date}}', dateStr)
+              .replace('{{price}}', nextFee);
+            break;
+          }
+        }
+      }
+    }
+
+    // ─── Step 4: Submit registration ─────────────────────────
+    submitRegistrationBtn.addEventListener('click', async () => {
+      step4Error.classList.add('hidden');
+      submitRegistrationBtn.disabled = true;
 
       try {
-        const extraDonation = parseInt(document.getElementById('extraDonation').value || '0');
         const headers = { 'Content-Type': 'application/json' };
-
-        // Use Bearer token from code verification
         if (sessionToken) {
           headers['Authorization'] = `Bearer ${sessionToken}`;
         }
@@ -748,33 +1028,25 @@ const { t, locale = 'pl' } = Astro.props;
           method: 'POST',
           headers,
           credentials: 'include',
-          body: JSON.stringify({ participants, extraDonation }),
+          body: JSON.stringify({ participants, extraDonation: 0 }),
         });
 
         const data = await response.json();
 
         if (!response.ok) {
-          participantsError.textContent = data.error || errorMessages.generic;
-          participantsError.classList.remove('hidden');
+          step4Error.textContent = data.error || errorMessages.generic;
+          step4Error.classList.remove('hidden');
+          submitRegistrationBtn.disabled = false;
           return;
         }
 
         const panelUrl = locale === 'en' ? '/en/wilczypolmaraton/panel' : '/wilczypolmaraton/panel';
         window.location.href = panelUrl;
       } catch {
-        participantsError.textContent = errorMessages.connection;
-        participantsError.classList.remove('hidden');
+        step4Error.textContent = errorMessages.connection;
+        step4Error.classList.remove('hidden');
+        submitRegistrationBtn.disabled = false;
       }
     });
 
-    // Initialize club autocomplete and category limits
-    updateCategoryOptions();
-
-    // Re-initialize autocomplete when adding new participants
-    document.getElementById('addParticipantBtn').addEventListener('click', () => {
-      setTimeout(() => {
-        setupClubAutocomplete();
-        updateCategoryOptions();
-      }, 100);
-    });
   </script>
