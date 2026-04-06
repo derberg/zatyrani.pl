@@ -1,6 +1,6 @@
 export const EVENT_ID = 'wilczypolmaraton-2026';
 export const EVENT_NAME = 'Wilczy Półmaraton 2026';
-export const EVENT_DATE = '2026-10-01'; // TODO: update when confirmed
+export const EVENT_DATE = '2026-10-17';
 export const COOKIE_PREFIX = 'wilczypolmaraton_2026';
 export const API_BASE = `/api/events/${EVENT_ID}`;
 

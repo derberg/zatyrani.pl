@@ -42,9 +42,9 @@ export const EVENTS = {
   'wilczypolmaraton-2026': {
     id: 'wilczypolmaraton-2026',
     name: 'Wilczy Półmaraton 2026',
-    date: '2026-10-01', // TODO: update when confirmed
-    location: 'TBD',
-    locationFull: 'TBD',
+    date: '2026-10-17',
+    location: 'Wilcza',
+    locationFull: '17 października 2026 w Wilczy',
     slug: 'wilczypolmaraton',
     cookiePrefix: 'wilczypolmaraton_2026',
     panelUrl: 'https://zatyrani.pl/wilczypolmaraton/panel',
@@ -62,7 +62,7 @@ export const EVENTS = {
     ],
     tshirtEnabled: true,
     tshirtPrice: 70,
-    tshirtImage: '/halfmarathon/tshirt.webp',
+    tshirtImage: '/halfmarathon/2026/koszulka.jpeg',
     tshirtSizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL']
   }
 };
