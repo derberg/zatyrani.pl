@@ -25,6 +25,9 @@ function getRawBody(req) {
 
 export default async function handler(req, res) {
   setCorsHeaders(res);
+  // SIBS webhook sends encrypted payload with these custom headers
+  res.setHeader("Access-Control-Allow-Headers",
+    res.getHeader("Access-Control-Allow-Headers") + ", X-Initialization-Vector, X-Authentication-Tag");
 
   if (req.method === "OPTIONS") {
     return res.status(200).end();
