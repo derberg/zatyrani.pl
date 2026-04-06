@@ -54,8 +54,8 @@ export const EVENTS = {
       { categories: ['21km', '11km_nw', '21km_canicross'], minAge: 18 }
     ],
     feeSchedule: [
-      { until: '2026-08-31', fees: { default: 100 } },
-      { until: '2026-10-16', fees: { default: 120 } },
+      { until: '2026-05-31', fees: { default: 100 } },
+      { until: '2026-10-16', fees: { default: 130 } },
     ],
     limits: [
       { group: 'run', categories: ['21km'], limit: 220 },

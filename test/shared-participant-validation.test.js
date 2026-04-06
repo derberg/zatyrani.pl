@@ -98,7 +98,7 @@ describe('getCurrentFees', () => {
 
   it('should return first matching schedule entry when date is before first deadline', () => {
     vi.useFakeTimers();
-    vi.setSystemTime(new Date('2026-07-15'));
+    vi.setSystemTime(new Date('2026-04-15'));
 
     const fees = getCurrentFees(eventConfig);
     expect(fees).toEqual({ default: 100 });
@@ -106,8 +106,8 @@ describe('getCurrentFees', () => {
 
   it('should return first entry when date is on the deadline day (end-of-day inclusive)', () => {
     vi.useFakeTimers();
-    // Noon on Aug 31 in Poland (UTC+2) — should still get 100 PLN
-    vi.setSystemTime(new Date('2026-08-31T14:00:00Z'));
+    // Noon on May 31 in Poland (UTC+2) — should still get 100 PLN
+    vi.setSystemTime(new Date('2026-05-31T14:00:00Z'));
 
     const fees = getCurrentFees(eventConfig);
     expect(fees).toEqual({ default: 100 });
@@ -115,10 +115,10 @@ describe('getCurrentFees', () => {
 
   it('should return second schedule entry when first deadline has passed', () => {
     vi.useFakeTimers();
-    vi.setSystemTime(new Date('2026-09-15'));
+    vi.setSystemTime(new Date('2026-07-15'));
 
     const fees = getCurrentFees(eventConfig);
-    expect(fees).toEqual({ default: 120 });
+    expect(fees).toEqual({ default: 130 });
   });
 
   it('should return last schedule entry as fallback when all deadlines passed', () => {
@@ -126,7 +126,7 @@ describe('getCurrentFees', () => {
     vi.setSystemTime(new Date('2026-11-01'));
 
     const fees = getCurrentFees(eventConfig);
-    expect(fees).toEqual({ default: 120 });
+    expect(fees).toEqual({ default: 130 });
   });
 
   it('should fall back to eventConfig.fees when feeSchedule is not defined', () => {
@@ -142,7 +142,7 @@ describe('calculatePaymentForParticipants', () => {
 
   it('should calculate correct fee using feeSchedule for wilczypolmaraton', () => {
     vi.useFakeTimers();
-    vi.setSystemTime(new Date('2026-07-15'));
+    vi.setSystemTime(new Date('2026-04-15'));
 
     const participants = [{ race_category: '21km' }];
     const result = calculatePaymentForParticipants(participants, eventConfig);
@@ -169,7 +169,7 @@ describe('calculatePaymentForParticipants', () => {
 
   it('should include tshirt fees when participants have tshirt_size', () => {
     vi.useFakeTimers();
-    vi.setSystemTime(new Date('2026-07-15'));
+    vi.setSystemTime(new Date('2026-04-15'));
 
     const participants = [
       { race_category: '21km', tshirt_size: 'M' },
@@ -184,7 +184,7 @@ describe('calculatePaymentForParticipants', () => {
 
   it('should not include tshirt fees for participants without tshirt_size', () => {
     vi.useFakeTimers();
-    vi.setSystemTime(new Date('2026-07-15'));
+    vi.setSystemTime(new Date('2026-04-15'));
 
     const participants = [
       { race_category: '21km', tshirt_size: 'M' },
@@ -199,7 +199,7 @@ describe('calculatePaymentForParticipants', () => {
 
   it('should handle tshirtSize (camelCase) property', () => {
     vi.useFakeTimers();
-    vi.setSystemTime(new Date('2026-07-15'));
+    vi.setSystemTime(new Date('2026-04-15'));
 
     const participants = [
       { raceCategory: '21km', tshirtSize: 'XL' }
