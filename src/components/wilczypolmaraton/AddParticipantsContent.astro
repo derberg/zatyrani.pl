@@ -270,19 +270,6 @@ const { t, locale = 'pl' } = Astro.props;
   // API Base URL
   const API_BASE = '/api/events/wilczypolmaraton-2026';
 
-  // ─── Auth check ──────────────────────────────────────────
-  const cookies = document.cookie.split(';').map(c => c.trim());
-  const authCookie = cookies.find(c => c.startsWith('wilczypolmaraton_2026_auth_status='));
-
-  if (!authCookie || authCookie.split('=')[1] !== 'true') {
-    window.location.href = locale === 'en' ? '/en/wilczypolmaraton/zaloguj' : '/wilczypolmaraton/zaloguj';
-  } else {
-    // Show content and start wizard
-    document.getElementById('authCheck').classList.add('hidden');
-    document.getElementById('content').classList.remove('hidden');
-    enterStep3a();
-  }
-
   // ─── State ───────────────────────────────────────────────
   const participants = [];      // Array of finished participant objects
   let editingIndex = -1;        // -1 = adding new, >= 0 = editing existing
@@ -769,5 +756,17 @@ const { t, locale = 'pl' } = Astro.props;
       submitRegistrationBtn.disabled = false;
     }
   });
+
+  // ─── Auth check (must be after all declarations) ─────────
+  const cookies = document.cookie.split(';').map(c => c.trim());
+  const authCookie = cookies.find(c => c.startsWith('wilczypolmaraton_2026_auth_status='));
+
+  if (!authCookie || authCookie.split('=')[1] !== 'true') {
+    window.location.href = locale === 'en' ? '/en/wilczypolmaraton/zaloguj' : '/wilczypolmaraton/zaloguj';
+  } else {
+    document.getElementById('authCheck').classList.add('hidden');
+    document.getElementById('content').classList.remove('hidden');
+    enterStep3a();
+  }
 
 </script>
