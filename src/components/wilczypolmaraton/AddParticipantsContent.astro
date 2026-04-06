@@ -1,6 +1,5 @@
 ---
 import ParticipantFieldset from "./ParticipantFieldset.astro";
-import RegistrationSummary from "../niebocross/RegistrationSummary.astro";
 import ClubAutocomplete from "./ClubAutocomplete.astro";
 
 interface Props {
@@ -66,7 +65,20 @@ const { t, locale = 'pl' } = Astro.props;
       </div>
 
       <div class="lg:sticky lg:top-6 lg:self-start">
-        <RegistrationSummary t={t} />
+        <div class="rounded-xl border-2 border-emerald-200 bg-emerald-50 p-6">
+          <h3 class="text-lg font-bold text-slate-900">{t("wilczypolmaraton.registration.final_summary_title")}</h3>
+          <div class="mt-4 space-y-2 text-sm">
+            <div class="flex justify-between">
+              <span class="text-slate-700">{t("wilczypolmaraton.registration.race_fees_label")}</span>
+              <span class="font-semibold text-slate-900" id="raceFees">0 zł</span>
+            </div>
+            <div class="h-px bg-emerald-200"></div>
+            <div class="flex justify-between text-base">
+              <span class="font-semibold text-slate-900">{t("wilczypolmaraton.registration.total_label")}</span>
+              <span class="font-bold text-emerald-700" id="totalAmount">0 zł</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -76,7 +88,7 @@ const { t, locale = 'pl' } = Astro.props;
 
 <script define:vars={{
   locale,
-  feesMap: { '21km': 80, '10km': 60, default: 60 },
+  feesMap: { default: 100 },
   errorMessages: {
     connection: t("wilczypolmaraton.errors.connection_error"),
     generic: t("wilczypolmaraton.errors.generic_error")
@@ -383,13 +395,8 @@ const { t, locale = 'pl' } = Astro.props;
       }
     });
 
-    const extraDonation = parseInt(document.getElementById('extraDonation')?.value || '0');
-    const totalAmount = raceFees + extraDonation;
-    const charityAmount = raceFees + extraDonation;
-
     document.getElementById('raceFees').textContent = `${raceFees} zł`;
-    document.getElementById('totalAmount').textContent = `${totalAmount} zł`;
-    document.getElementById('charityAmount').textContent = `${charityAmount.toFixed(2)} zł`;
+    document.getElementById('totalAmount').textContent = `${raceFees} zł`;
   }
 
   // Form submission
@@ -401,13 +408,11 @@ const { t, locale = 'pl' } = Astro.props;
 
     try {
       const participants = collectParticipantData();
-      const extraDonation = parseInt(document.getElementById('extraDonation')?.value || '0');
-
       const response = await fetch(`${API_BASE}/add-participants`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify({ participants, extraDonation })
+        body: JSON.stringify({ participants, extraDonation: 0 })
       });
 
       const data = await response.json();
@@ -429,7 +434,6 @@ const { t, locale = 'pl' } = Astro.props;
 
   // Event listeners
   document.getElementById('addParticipantBtn').addEventListener('click', addParticipant);
-  document.getElementById('extraDonation')?.addEventListener('input', updateSummary);
 
   // Add validation listeners to all existing participant fields
   document.querySelectorAll('[data-index]').forEach(div => {
