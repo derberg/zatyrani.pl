@@ -64,7 +64,7 @@ export default async function handler(req, res) {
       });
     }
 
-    const registration = payment.registrations;
+    const registration = payment.event_registrations;
 
     // Verify this payment belongs to the requested event
     if (registration.event_id !== eventConfig.id) {

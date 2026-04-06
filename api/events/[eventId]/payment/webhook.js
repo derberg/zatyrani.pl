@@ -116,8 +116,8 @@ export default async function handler(req, res) {
     }
 
     // Send email notification based on payment result
-    if (payment.registrations) {
-      const registration = payment.registrations;
+    if (payment.event_registrations) {
+      const registration = payment.event_registrations;
 
       try {
         const eventConfig = getEventConfig(registration.event_id);
