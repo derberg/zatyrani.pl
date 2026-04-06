@@ -288,15 +288,10 @@ const wilczypolmaratonLink = locale === 'en' ? '/en/wilczypolmaraton' : '/wilczy
         renderDashboard();
       } catch (error) {
         console.error('Error loading dashboard:', error);
-        // Hide spinner, show error message
-        const spinner = document.querySelector('#loading .animate-spin');
-        if (spinner) spinner.style.display = 'none';
-        const loadingText = document.getElementById('loadingText');
-        if (loadingText) {
-          loadingText.textContent = error.name === 'AbortError'
-            ? 'Przekroczono czas oczekiwania. Spróbuj odświeżyć stronę.'
-            : (errorMessages.load || 'Wystąpił błąd podczas ładowania danych. Spróbuj odświeżyć stronę.');
-        }
+        // Clear auth cookies and redirect to login
+        document.cookie = 'wilczypolmaraton_2026_auth_status=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+        document.cookie = 'wilczypolmaraton_2026_session=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+        window.location.href = '/wilczypolmaraton/zaloguj';
       }
     }
 
