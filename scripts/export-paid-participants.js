@@ -1,4 +1,11 @@
 import { createClient } from "@supabase/supabase-js";
+import { readFileSync, writeFileSync } from "fs";
+
+// Load .env.local
+for (const line of readFileSync(".env.local", "utf8").split("\n")) {
+  const match = line.match(/^([^#=]+)=(.*)$/);
+  if (match) process.env[match[1].trim()] = match[2].trim().replace(/^["']|["']$/g, "");
+}
 
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -28,10 +35,23 @@ if (paidRegIds.length === 0) {
   process.exit(0);
 }
 
+// Get registrations with emails
+const { data: registrations, error: regErr } = await supabase
+  .from("niebocross_registrations")
+  .select("id, email")
+  .in("id", paidRegIds);
+
+if (regErr) {
+  console.error("Error fetching registrations:", regErr.message);
+  process.exit(1);
+}
+
+const emailByRegId = Object.fromEntries(registrations.map((r) => [r.id, r.email]));
+
 // Get participants for paid registrations
 const { data: participants, error: partErr } = await supabase
   .from("niebocross_participants_v2")
-  .select("first_name, last_name, birth_date, city, nationality, club, race_category, food_preference, tshirt_size, phone_number")
+  .select("registration_id, first_name, last_name, birth_date, club, race_category, phone_number, tshirt_size")
   .in("registration_id", paidRegIds);
 
 if (partErr) {
@@ -40,19 +60,6 @@ if (partErr) {
 }
 
 // Output CSV
-const headers = [
-  "first_name",
-  "last_name",
-  "birth_date",
-  "city",
-  "nationality",
-  "club",
-  "race_category",
-  "food_preference",
-  "tshirt_size",
-  "phone_number",
-];
-
 const escapeCSV = (val) => {
   if (val == null) return "";
   const str = String(val);
@@ -62,7 +69,36 @@ const escapeCSV = (val) => {
   return str;
 };
 
-console.log(headers.join(","));
+// --- Participants CSV ---
+let participantsCsv = "first_name,last_name,email,gender,birth_date,club,category_id,phone,tshirt_size\n";
 for (const p of participants) {
-  console.log(headers.map((h) => escapeCSV(p[h])).join(","));
+  const row = [
+    p.first_name,
+    p.last_name,
+    emailByRegId[p.registration_id],
+    "", // gender - not stored in DB
+    p.birth_date,
+    p.club,
+    p.race_category,
+    p.phone_number,
+    p.tshirt_size,
+  ];
+  participantsCsv += row.map(escapeCSV).join(",") + "\n";
 }
+writeFileSync("participants.csv", participantsCsv);
+console.log(`Written ${participants.length} participants to participants.csv`);
+
+// --- Race Categories CSV ---
+const categories = [
+  { id: "3km_run", name: "Bieg 3 km", distance_meters: 3000 },
+  { id: "3km_nw", name: "Nordic Walking 3 km", distance_meters: 3000 },
+  { id: "9km_run", name: "Bieg 9 km", distance_meters: 9000 },
+  { id: "9km_nw", name: "Nordic Walking 9 km", distance_meters: 9000 },
+  { id: "kids_run", name: "Bieg dziecięcy", distance_meters: 0 },
+];
+let categoriesCsv = "id,name,distance_meters\n";
+for (const c of categories) {
+  categoriesCsv += `${c.id},${c.name},${c.distance_meters}\n`;
+}
+writeFileSync("race_categories.csv", categoriesCsv);
+console.log(`Written ${categories.length} categories to race_categories.csv`);
