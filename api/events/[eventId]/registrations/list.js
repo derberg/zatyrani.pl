@@ -6,7 +6,7 @@ import { getEventConfig } from "../../../config.js";
 export default async function handler(req, res) {
   // Enable CORS
   res.setHeader("Access-Control-Allow-Credentials", "true");
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Origin", "https://zatyrani.pl");
   res.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS,PATCH,DELETE,POST,PUT");
   res.setHeader("Access-Control-Allow-Headers", "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version");
 
@@ -34,24 +34,21 @@ export default async function handler(req, res) {
     let query = supabase
       .from("event_participants")
       .select(`
-        id,
         first_name,
         last_name,
-        birth_date,
         city,
-        nationality,
         club,
         race_category,
         hide_name_public,
         event_registrations!inner(
           email,
           event_id,
-          payments(payment_status, created_at)
+          event_payments(payment_status, created_at)
         )
       `);
 
     // Filter by event_id
-    query = query.eq("registrations.event_id", eventConfig.id);
+    query = query.eq("event_registrations.event_id", eventConfig.id);
 
     // Apply race category filter if specified
     if (raceCategory) {
@@ -76,7 +73,7 @@ export default async function handler(req, res) {
 
     // Filter out test data in production
     const filteredParticipants = participants.filter(p => {
-      const email = p.registrations?.email;
+      const email = p.event_registrations?.email;
       return !shouldFilterEmail(email);
     });
 
@@ -84,7 +81,7 @@ export default async function handler(req, res) {
     const paidCounts = buildPaidCounts(eventConfig);
 
     filteredParticipants.forEach(p => {
-      const payments = p.registrations?.payments || [];
+      const payments = p.event_registrations?.event_payments || [];
       const latestPayment = payments.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))[0];
       const paymentStatus = latestPayment?.payment_status || 'pending';
       if (paymentStatus === 'paid') {
@@ -102,7 +99,7 @@ export default async function handler(req, res) {
       club: p.club,
       raceCategory: p.race_category,
       paymentStatus: (() => {
-        const payments = p.registrations?.payments || [];
+        const payments = p.event_registrations?.event_payments || [];
         const latest = payments.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))[0];
         const raw = latest?.payment_status || 'pending';
         // Map failed/cancelled to pending for public display
