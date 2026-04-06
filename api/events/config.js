@@ -58,7 +58,9 @@ export const EVENTS = {
       { until: '2026-10-16', fees: { default: 120 } },
     ],
     limits: [
-      { group: 'runners', categories: ['21km', '11km_nw', '21km_canicross'], limit: 250 }
+      { group: 'run', categories: ['21km'], limit: 220 },
+      { group: 'canicross', categories: ['21km_canicross'], limit: 30 },
+      { group: 'nw', categories: ['11km_nw'], limit: 30 }
     ],
     tshirtEnabled: true,
     tshirtPrice: 70,

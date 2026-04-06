@@ -85,11 +85,7 @@ const { t } = Astro.props;
   <!-- Participant Counters -->
   <div id="counters" class="hidden mb-6 rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
     <h3 class="mb-4 text-lg font-bold text-slate-900">{t("wilczypolmaraton.participants_list.registered_counts_title")}</h3>
-    <div class="flex justify-center">
-      <div class="text-center">
-        <div class="text-2xl font-bold text-emerald-600" id="runnersCount">0</div>
-        <div class="text-sm text-slate-600">{t("wilczypolmaraton.participants_list.all_runners")} / <span id="runnersLimit">0</span></div>
-      </div>
+    <div id="countersGrid" class="flex flex-wrap justify-center gap-8">
     </div>
   </div>
 
@@ -161,6 +157,11 @@ const { t } = Astro.props;
   paymentStatusLabels: {
     'paid': t('wilczypolmaraton.participants_list.status_paid'),
     'pending': t('wilczypolmaraton.participants_list.status_pending')
+  },
+  groupLabels: {
+    'run': t('wilczypolmaraton.participants_list.category_21km'),
+    'canicross': t('wilczypolmaraton.participants_list.category_21km_canicross'),
+    'nw': t('wilczypolmaraton.participants_list.category_11km_nw')
   }
 }}>
   const API_BASE = '/api/events/wilczypolmaraton-2026';
@@ -177,8 +178,7 @@ const { t } = Astro.props;
   const tableBody = document.getElementById('participantsTableBody');
   const cardsContainer = document.getElementById('participantsCards');
   const totalCount = document.getElementById('totalCount');
-  const runnersCount = document.getElementById('runnersCount');
-  const runnersLimit = document.getElementById('runnersLimit');
+  const countersGrid = document.getElementById('countersGrid');
   const clearFiltersBtn = document.getElementById('clearFilters');
   const filterCategory = document.getElementById('filterCategory');
   const filterPayment = document.getElementById('filterPayment');
@@ -272,11 +272,15 @@ const { t } = Astro.props;
   function renderParticipants(participants, total, limitsAndCounts) {
     totalCount.textContent = String(total);
 
-    // Update counters
-    if (limitsAndCounts && limitsAndCounts.runners) {
+    // Update counters — render all limit groups dynamically
+    if (limitsAndCounts && Object.keys(limitsAndCounts).length > 0) {
       counters.classList.remove('hidden');
-      runnersCount.textContent = String(limitsAndCounts.runners.count);
-      runnersLimit.textContent = String(limitsAndCounts.runners.limit);
+      countersGrid.innerHTML = Object.entries(limitsAndCounts).map(([group, data]) => `
+        <div class="text-center">
+          <div class="text-2xl font-bold text-emerald-600">${data.count}</div>
+          <div class="text-sm text-slate-600">${groupLabels[group] || group} / ${data.limit}</div>
+        </div>
+      `).join('');
     } else {
       counters.classList.add('hidden');
     }
