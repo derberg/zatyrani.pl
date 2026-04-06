@@ -288,11 +288,8 @@ const wilczypolmaratonLink = locale === 'en' ? '/en/wilczypolmaraton' : '/wilczy
         renderDashboard();
       } catch (error) {
         console.error('Error loading dashboard:', error);
-        if (error.name === 'AbortError') {
-          document.getElementById('loadingText').textContent = 'Przekroczono czas oczekiwania. Spróbuj odświeżyć stronę.';
-        } else {
-          document.getElementById('loadingText').textContent = errorMessages.load;
-        }
+        // Redirect to login — most likely the session expired or is invalid
+        window.location.href = '/wilczypolmaraton/zaloguj';
       }
     }
 
