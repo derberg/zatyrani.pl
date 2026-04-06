@@ -1,6 +1,6 @@
-import { getEventConfig } from "../../config.js";
-import { getCurrentFees } from "../../../shared/participant-validation.js";
-import { setCorsHeaders } from "../../../shared/cors.js";
+import { getEventConfig } from "../config.js";
+import { getCurrentFees } from "../../shared/participant-validation.js";
+import { setCorsHeaders } from "../../shared/cors.js";
 
 export default async function handler(req, res) {
   setCorsHeaders(res);

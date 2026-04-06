@@ -1,8 +1,8 @@
-import { getSupabaseClient } from "../../../../shared/supabase.js";
-import { getGroupForCategory, buildPaidCounts, buildLimitsAndCounts } from "../../../../shared/limits.js";
-import { shouldFilterEmail } from "../../../../shared/test-data-filter.js";
-import { getEventConfig } from "../../../config.js";
-import { setCorsHeaders } from "../../../../shared/cors.js";
+import { getSupabaseClient } from "../../../shared/supabase.js";
+import { getGroupForCategory, buildPaidCounts, buildLimitsAndCounts } from "../../../shared/limits.js";
+import { shouldFilterEmail } from "../../../shared/test-data-filter.js";
+import { getEventConfig } from "../../config.js";
+import { setCorsHeaders } from "../../../shared/cors.js";
 
 export default async function handler(req, res) {
   setCorsHeaders(res);

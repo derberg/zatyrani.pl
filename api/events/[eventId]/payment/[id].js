@@ -1,8 +1,8 @@
-import { getSupabaseClient } from "../../../../shared/supabase.js";
-import { verifyToken } from "../../../../shared/auth.js";
-import { createPaymentLink } from "../../../../niebocross/utils/sibs.js";
-import { getEventConfig } from "../../../config.js";
-import { setCorsHeaders } from "../../../../shared/cors.js";
+import { getSupabaseClient } from "../../../shared/supabase.js";
+import { verifyToken } from "../../../shared/auth.js";
+import { createPaymentLink } from "../../../niebocross/utils/sibs.js";
+import { getEventConfig } from "../../config.js";
+import { setCorsHeaders } from "../../../shared/cors.js";
 
 export default async function handler(req, res) {
   setCorsHeaders(res);

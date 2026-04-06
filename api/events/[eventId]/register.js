@@ -1,10 +1,10 @@
-import { verifyToken } from "../../../shared/auth.js";
-import { validateParticipant } from "../../../shared/participant-validation.js";
-import { createParticipantRecords, upsertClubs, updateOrCreatePayment } from "../../../shared/database-operations.js";
-import { sendRegistrationConfirmationEmail } from "../../../shared/email.js";
-import { getSupabaseClient } from "../../../shared/supabase.js";
-import { getEventConfig } from "../../config.js";
-import { setCorsHeaders } from "../../../shared/cors.js";
+import { verifyToken } from "../../shared/auth.js";
+import { validateParticipant } from "../../shared/participant-validation.js";
+import { createParticipantRecords, upsertClubs, updateOrCreatePayment } from "../../shared/database-operations.js";
+import { sendRegistrationConfirmationEmail } from "../../shared/email.js";
+import { getSupabaseClient } from "../../shared/supabase.js";
+import { getEventConfig } from "../config.js";
+import { setCorsHeaders } from "../../shared/cors.js";
 
 export default async function handler(req, res) {
   setCorsHeaders(res);

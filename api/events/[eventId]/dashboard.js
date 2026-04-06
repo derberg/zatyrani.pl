@@ -1,7 +1,7 @@
-import { verifyToken } from "../../../shared/auth.js";
-import { getSupabaseClient } from "../../../shared/supabase.js";
-import { getEventConfig } from "../../config.js";
-import { setCorsHeaders } from "../../../shared/cors.js";
+import { verifyToken } from "../../shared/auth.js";
+import { getSupabaseClient } from "../../shared/supabase.js";
+import { getEventConfig } from "../config.js";
+import { setCorsHeaders } from "../../shared/cors.js";
 
 export default async function handler(req, res) {
   setCorsHeaders(res);

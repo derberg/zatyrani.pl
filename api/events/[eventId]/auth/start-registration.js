@@ -1,8 +1,8 @@
 import crypto from "node:crypto";
-import { getSupabaseClient } from '../../../../shared/supabase.js';
-import { sendVerificationCodeEmail } from '../../../../shared/email.js';
-import { getEventConfig } from '../../../config.js';
-import { setCorsHeaders } from '../../../../shared/cors.js';
+import { getSupabaseClient } from '../../../shared/supabase.js';
+import { sendVerificationCodeEmail } from '../../../shared/email.js';
+import { getEventConfig } from '../../config.js';
+import { setCorsHeaders } from '../../../shared/cors.js';
 
 function validateEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);

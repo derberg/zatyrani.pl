@@ -1,8 +1,8 @@
-import { getSupabaseClient } from "../../../../shared/supabase.js";
-import { sendPaymentConfirmationEmail, sendPaymentFailedEmail } from "../../../../shared/email.js";
-import { decryptWebhookNotification, parseWebhookData } from "../../../../niebocross/utils/sibs.js";
-import { getEventConfig } from "../../../config.js";
-import { setCorsHeaders } from "../../../../shared/cors.js";
+import { getSupabaseClient } from "../../../shared/supabase.js";
+import { sendPaymentConfirmationEmail, sendPaymentFailedEmail } from "../../../shared/email.js";
+import { decryptWebhookNotification, parseWebhookData } from "../../../niebocross/utils/sibs.js";
+import { getEventConfig } from "../../config.js";
+import { setCorsHeaders } from "../../../shared/cors.js";
 
 // Disable Vercel's automatic body parsing so we get the raw base64 ciphertext
 export const config = {
