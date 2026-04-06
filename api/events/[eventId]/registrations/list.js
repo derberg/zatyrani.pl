@@ -39,6 +39,7 @@ export default async function handler(req, res) {
         city,
         club,
         race_category,
+        gender,
         hide_name_public,
         event_registrations!inner(
           email,
@@ -97,6 +98,7 @@ export default async function handler(req, res) {
       fullName: p.hide_name_public ? "***" : `${p.first_name} ${p.last_name}`.trim(),
       city: p.city,
       club: p.club,
+      gender: p.gender,
       raceCategory: p.race_category,
       paymentStatus: (() => {
         const payments = p.event_registrations?.event_payments || [];

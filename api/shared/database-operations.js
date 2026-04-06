@@ -19,7 +19,8 @@ export function createParticipantRecords(participants, registration_id) {
     food_preference: p.foodPreference || null,
     hide_name_public: p.hideNamePublic || false,
     tshirt_size: p.tshirtSize || null,
-    phone_number: p.phoneNumber
+    phone_number: p.phoneNumber,
+    gender: p.gender || null
   }));
 }
 

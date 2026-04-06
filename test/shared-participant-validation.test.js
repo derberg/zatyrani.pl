@@ -34,7 +34,8 @@ describe('validateParticipant', () => {
     nationality: 'PL',
     raceCategory: '21km',
     phoneNumber: '500600700',
-    tshirtSize: 'M'
+    tshirtSize: 'M',
+    gender: 'male'
   };
 
   it('should pass for a valid participant with wilczypolmaraton-2026 config', () => {
@@ -81,7 +82,8 @@ describe('validateParticipant', () => {
       nationality: 'PL',
       raceCategory: 'kids_run',
       phoneNumber: '500600700',
-      tshirtSize: 'S'
+      tshirtSize: 'S',
+      gender: 'female'
     };
     const result = validateParticipant(participant, niebocrossConfig);
     expect(result.valid).toBe(false);

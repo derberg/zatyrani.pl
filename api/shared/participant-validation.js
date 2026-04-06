@@ -24,10 +24,15 @@ export function calculateAge(birthDate, eventDate) {
  * @returns {{ valid: boolean, error?: string }}
  */
 export function validateParticipant(participant, eventConfig) {
-  const { firstName, lastName, birthDate, city, nationality, raceCategory, phoneNumber, tshirtSize } = participant;
+  const { firstName, lastName, birthDate, city, nationality, raceCategory, phoneNumber, tshirtSize, gender } = participant;
 
   // Required fields (tshirtSize is always optional — empty means no purchase)
-  const requiredFields = { firstName, lastName, birthDate, city, nationality, raceCategory, phoneNumber };
+  const requiredFields = { firstName, lastName, birthDate, city, nationality, raceCategory, phoneNumber, gender };
+
+  // Gender validation
+  if (gender && !['male', 'female'].includes(gender)) {
+    return { valid: false, error: "Nieprawidłowa płeć" };
+  }
 
   if (Object.values(requiredFields).some(v => !v)) {
     return { valid: false, error: "Wszystkie wymagane pola muszą być wypełnione" };

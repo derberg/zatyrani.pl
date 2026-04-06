@@ -397,7 +397,10 @@ const { t, locale = 'pl' } = Astro.props;
       editParticipantLabel: t("wilczypolmaraton.registration.edit_participant"),
       removeParticipantLabel: t("wilczypolmaraton.registration.remove_participant"),
       tshirtYes: t("wilczypolmaraton.form.yes"),
-      tshirtNo: t("wilczypolmaraton.form.no")
+      tshirtNo: t("wilczypolmaraton.form.no"),
+      genderLabel: t("wilczypolmaraton.form.gender_label"),
+      genderMale: t("wilczypolmaraton.form.gender_male"),
+      genderFemale: t("wilczypolmaraton.form.gender_female")
     }
   }}>
 
@@ -781,10 +784,11 @@ const { t, locale = 'pl' } = Astro.props;
       const nationality = fieldset.querySelector('[name="nationality_0"]')?.value.trim();
       const phoneNumber = fieldset.querySelector('[name="phoneNumber_0"]')?.value.trim();
       const raceCategory = fieldset.querySelector('input[name="raceCategory_0"]:checked')?.value;
+      const gender = fieldset.querySelector('input[name="gender_0"]:checked')?.value;
       const club = fieldset.querySelector('[name="club_0"]')?.value.trim() || null;
       const hideNamePublic = fieldset.querySelector('[name="hideNamePublic_0"]')?.checked || false;
 
-      if (!firstName || !lastName || !birthDate || !city || !nationality || !phoneNumber || !raceCategory) {
+      if (!firstName || !lastName || !birthDate || !city || !nationality || !phoneNumber || !raceCategory || !gender) {
         step3aError.textContent = errorMessages.generic || 'Wypełnij wszystkie wymagane pola';
         step3aError.classList.remove('hidden');
         return;
@@ -800,6 +804,7 @@ const { t, locale = 'pl' } = Astro.props;
         club,
         phoneNumber,
         raceCategory,
+        gender,
         hideNamePublic,
         tshirtSize: ''
       };
@@ -872,6 +877,7 @@ const { t, locale = 'pl' } = Astro.props;
             <div><span class="text-slate-500">${formLabels.birthDate}:</span> <span class="font-medium">${escapeHtml(p.birthDate)}</span></div>
             <div><span class="text-slate-500">${formLabels.city}:</span> <span class="font-medium">${escapeHtml(p.city)}</span></div>
             <div><span class="text-slate-500">${formLabels.nationality}:</span> <span class="font-medium">${escapeHtml(p.nationality)}</span></div>
+            <div><span class="text-slate-500">${formLabels.genderLabel}:</span> <span class="font-medium">${p.gender === 'male' ? formLabels.genderMale : formLabels.genderFemale}</span></div>
             <div><span class="text-slate-500">${formLabels.club}:</span> <span class="font-medium">${p.club ? escapeHtml(p.club) : '—'}</span></div>
             <div><span class="text-slate-500">${formLabels.phoneNumber}:</span> <span class="font-medium">${escapeHtml(p.phoneNumber)}</span></div>
             <div><span class="text-slate-500">${formLabels.distanceActivity}:</span> <span class="font-medium">${escapeHtml(categoryLabel)}</span></div>
@@ -951,6 +957,7 @@ const { t, locale = 'pl' } = Astro.props;
             <div><span class="text-slate-500">${formLabels.birthDate}:</span> <span class="font-medium">${escapeHtml(p.birthDate)}</span></div>
             <div><span class="text-slate-500">${formLabels.city}:</span> <span class="font-medium">${escapeHtml(p.city)}</span></div>
             <div><span class="text-slate-500">${formLabels.nationality}:</span> <span class="font-medium">${escapeHtml(p.nationality)}</span></div>
+            <div><span class="text-slate-500">${formLabels.genderLabel}:</span> <span class="font-medium">${p.gender === 'male' ? formLabels.genderMale : formLabels.genderFemale}</span></div>
             <div><span class="text-slate-500">${formLabels.club}:</span> <span class="font-medium">${p.club ? escapeHtml(p.club) : '—'}</span></div>
             <div><span class="text-slate-500">${formLabels.phoneNumber}:</span> <span class="font-medium">${escapeHtml(p.phoneNumber)}</span></div>
             <div><span class="text-slate-500">${formLabels.distanceActivity}:</span> <span class="font-medium">${escapeHtml(categoryLabel)}</span></div>

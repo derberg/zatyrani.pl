@@ -14,6 +14,7 @@ interface Props {
     club?: string;
     phoneNumber?: string;
     raceCategory?: string;
+    gender?: string;
     hideNamePublic?: boolean;
   };
 }
@@ -89,6 +90,37 @@ const { index, t, showRemoveButton = false, participantData } = Astro.props;
         required
         class="mt-1 block w-full rounded-lg border-emerald-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2 border-2"
       />
+    </div>
+
+    <!-- Gender -->
+    <div>
+      <label class="block text-sm font-semibold text-slate-700">
+        {t("wilczypolmaraton.form.gender_label")} <span class="text-red-600">*</span>
+      </label>
+      <div class="mt-1 flex gap-4">
+        <label class="flex items-center gap-2 p-2 rounded-lg border-2 border-emerald-300 cursor-pointer hover:bg-emerald-50 transition flex-1 justify-center">
+          <input
+            type="radio"
+            name={`gender_${index}`}
+            value="male"
+            checked={participantData?.gender === "male"}
+            required
+            class="text-emerald-600 focus:ring-emerald-500"
+          />
+          <span class="text-sm font-medium">{t("wilczypolmaraton.form.gender_male")}</span>
+        </label>
+        <label class="flex items-center gap-2 p-2 rounded-lg border-2 border-emerald-300 cursor-pointer hover:bg-emerald-50 transition flex-1 justify-center">
+          <input
+            type="radio"
+            name={`gender_${index}`}
+            value="female"
+            checked={participantData?.gender === "female"}
+            required
+            class="text-emerald-600 focus:ring-emerald-500"
+          />
+          <span class="text-sm font-medium">{t("wilczypolmaraton.form.gender_female")}</span>
+        </label>
+      </div>
     </div>
 
     <!-- Club with autocomplete -->

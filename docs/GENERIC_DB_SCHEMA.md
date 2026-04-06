@@ -67,6 +67,7 @@ CREATE TABLE event_participants (
   city VARCHAR(255) NOT NULL,
   nationality VARCHAR(100) NOT NULL,
   club VARCHAR(255),
+  gender VARCHAR(10) CHECK (gender IN ('male', 'female')),
   race_category VARCHAR(50) NOT NULL,
   food_preference VARCHAR(20),
   tshirt_size VARCHAR(10),

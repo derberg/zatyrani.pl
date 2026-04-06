@@ -111,6 +111,7 @@ export default async function handler(req, res) {
         nationality: p.nationality,
         club: p.club,
         raceCategory: p.race_category,
+        gender: p.gender,
         foodPreference: p.food_preference,
         hideNamePublic: p.hide_name_public,
         phoneNumber: p.phone_number,
