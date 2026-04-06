@@ -560,7 +560,10 @@
       "status_pending": "Pending",
       "all_payment_statuses": "All statuses",
       "registered_counts_title": "Number of registered participants (paid)",
-      "all_runners": "All runners"
+      "all_runners": "All runners",
+      "category_21km": "Half Marathon 21km",
+      "category_11km_nw": "Nordic Walking 11km",
+      "category_21km_canicross": "Canicross 21km"
     },
     "form": {
       "email": "Email address",
@@ -618,7 +621,12 @@
       "save_changes": "Save changes",
       "cancel": "Cancel",
       "race_category": "Category",
-      "select_category": "Select category"
+      "select_category": "Select category",
+      "categories": {
+        "21km": "Half Marathon 21km",
+        "11km_nw": "Nordic Walking 11km",
+        "21km_canicross": "Canicross 21km"
+      }
     },
     "add_participants": {
       "title": "Add Participants",
@@ -660,7 +668,24 @@
       "payment_step_desc": "Complete registration by paying for event participation",
       "payment_link_sent": "Payment link has been sent to your email",
       "or_access_later": "You can also return later via",
-      "your_panel": "Your panel"
+      "your_panel": "Your panel",
+      "tshirt_step_title": "Commemorative T-shirt",
+      "tshirt_step_desc": "You can purchase a commemorative t-shirt from Wilczy Półmaraton",
+      "tshirt_buy_checkbox": "I want to buy a commemorative t-shirt",
+      "tshirt_price_info": "T-shirt price: {{price}} PLN",
+      "tshirt_select_size": "Select size",
+      "participant_summary_title": "Participant summary",
+      "add_another_runner": "Add another participant",
+      "finish_and_pay": "Finish and go to summary",
+      "final_summary_title": "Registration summary",
+      "final_summary_desc": "Review all participant details before saving",
+      "race_fees_label": "Entry fee",
+      "tshirt_fees_label": "T-shirts",
+      "total_label": "Total to pay",
+      "fee_schedule_info": "After {{date}} the entry fee increases to {{price}} PLN",
+      "submit_registration": "Save and go to panel",
+      "edit_participant": "Edit",
+      "remove_participant": "Remove"
     },
     "payment": {
       "title": "Payment",

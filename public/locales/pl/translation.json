@@ -560,7 +560,10 @@
       "status_pending": "Oczekuje",
       "all_payment_statuses": "Wszystkie statusy",
       "registered_counts_title": "Liczba zapisanych uczestników (opłacone)",
-      "all_runners": "Wszyscy biegacze"
+      "all_runners": "Wszyscy biegacze",
+      "category_21km": "Półmaraton 21km",
+      "category_11km_nw": "Nordic Walking 11km",
+      "category_21km_canicross": "Canicross 21km"
     },
     "form": {
       "email": "Adres email",
@@ -618,7 +621,12 @@
       "save_changes": "Zapisz zmiany",
       "cancel": "Anuluj",
       "race_category": "Kategoria",
-      "select_category": "Wybierz kategorię"
+      "select_category": "Wybierz kategorię",
+      "categories": {
+        "21km": "Półmaraton 21km",
+        "11km_nw": "Nordic Walking 11km",
+        "21km_canicross": "Canicross 21km"
+      }
     },
     "add_participants": {
       "title": "Dodaj uczestników",
@@ -660,7 +668,24 @@
       "payment_step_desc": "Dokończ rejestrację, opłacając udział w wydarzeniu",
       "payment_link_sent": "Link do płatności został wysłany na twój email",
       "or_access_later": "Możesz też później wrócić przez",
-      "your_panel": "Twój panel"
+      "your_panel": "Twój panel",
+      "tshirt_step_title": "Koszulka pamiątkowa",
+      "tshirt_step_desc": "Możesz dokupić koszulkę pamiątkową z Wilczego Półmaratonu",
+      "tshirt_buy_checkbox": "Chcę kupić koszulkę pamiątkową",
+      "tshirt_price_info": "Cena koszulki: {{price}} zł",
+      "tshirt_select_size": "Wybierz rozmiar",
+      "participant_summary_title": "Podsumowanie uczestnika",
+      "add_another_runner": "Dodaj kolejnego uczestnika",
+      "finish_and_pay": "Zakończ i przejdź do podsumowania",
+      "final_summary_title": "Podsumowanie rejestracji",
+      "final_summary_desc": "Sprawdź dane wszystkich uczestników przed zapisaniem",
+      "race_fees_label": "Opłata startowa",
+      "tshirt_fees_label": "Koszulki",
+      "total_label": "Razem do zapłaty",
+      "fee_schedule_info": "Po {{date}} opłata startowa wzrasta do {{price}} zł",
+      "submit_registration": "Zapisz i przejdź do panelu",
+      "edit_participant": "Edytuj",
+      "remove_participant": "Usuń"
     },
     "payment": {
       "title": "Płatność",
