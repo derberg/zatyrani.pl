@@ -186,7 +186,7 @@ const { t, locale = 'pl' } = Astro.props;
             id="step3aNextBtn"
             class="rounded-lg bg-emerald-600 px-6 py-3 font-semibold text-white transition hover:bg-emerald-700"
           >
-            {t("wilczypolmaraton.form.proceed_to_payment")} &rarr;
+            {t("wilczypolmaraton.form.next")} &rarr;
           </button>
         </div>
       </div>
@@ -230,14 +230,14 @@ const { t, locale = 'pl' } = Astro.props;
             id="step3bBackBtn"
             class="rounded-lg border border-emerald-600 bg-white px-6 py-2 text-sm font-semibold text-emerald-600 transition hover:bg-emerald-50"
           >
-            &larr; {t("wilczypolmaraton.form.back_to_email")}
+            &larr; {t("wilczypolmaraton.form.back")}
           </button>
           <button
             type="button"
             id="step3bNextBtn"
             class="rounded-lg bg-emerald-600 px-6 py-3 font-semibold text-white transition hover:bg-emerald-700"
           >
-            {t("wilczypolmaraton.form.proceed_to_payment")} &rarr;
+            {t("wilczypolmaraton.form.next")} &rarr;
           </button>
         </div>
       </div>
@@ -421,7 +421,7 @@ const { t, locale = 'pl' } = Astro.props;
     // ─── State ───────────────────────────────────────────────
     let currentEmail = '';
     let sessionToken = '';
-    let participants = [];      // Array of finished participant objects
+    const participants = [];      // Array of finished participant objects
     let editingIndex = -1;      // -1 = adding new, >= 0 = editing existing
     let currentFees = null;     // Fetched from /api/events/.../fees
     let tshirtPrice = 0;
