@@ -153,7 +153,7 @@
           form.className = 'paymentSPG';
           form.setAttribute('spg-context', formContext);
           form.setAttribute('spg-config', JSON.stringify({
-            paymentMethodList: ['CARD', 'BLIK'],
+            paymentMethodList: ['CARD', 'BLIK', 'PAYBYLINK'],
             amount: {
               value: Math.round(totalAmount * 100),
               currency: 'PLN'
