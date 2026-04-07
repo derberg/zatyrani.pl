@@ -63,7 +63,7 @@ export const EVENTS = {
       { group: 'nw', categories: ['11km_nw'], limit: 30 }
     ],
     tshirtEnabled: true,
-    tshirtPrice: 70,
+    tshirtPrice: 80,
     tshirtImage: '/halfmarathon/2026/koszulka.jpeg',
     tshirtSizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL']
   }

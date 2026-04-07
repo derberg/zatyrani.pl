@@ -177,8 +177,8 @@ describe('calculatePaymentForParticipants', () => {
     ];
     const result = calculatePaymentForParticipants(participants, eventConfig);
     expect(result.raceFees).toBe(200);
-    expect(result.tshirtFees).toBe(140); // 2 × 70
-    expect(result.totalAmount).toBe(340);
+    expect(result.tshirtFees).toBe(160); // 2 × 80
+    expect(result.totalAmount).toBe(360);
     expect(result.charityAmount).toBe(200); // charity = raceFees only
   });
 
@@ -193,8 +193,8 @@ describe('calculatePaymentForParticipants', () => {
     ];
     const result = calculatePaymentForParticipants(participants, eventConfig);
     expect(result.raceFees).toBe(300);
-    expect(result.tshirtFees).toBe(70); // only 1 with tshirt
-    expect(result.totalAmount).toBe(370);
+    expect(result.tshirtFees).toBe(80); // only 1 with tshirt @ 80
+    expect(result.totalAmount).toBe(380);
   });
 
   it('should handle tshirtSize (camelCase) property', () => {
@@ -205,7 +205,7 @@ describe('calculatePaymentForParticipants', () => {
       { raceCategory: '21km', tshirtSize: 'XL' }
     ];
     const result = calculatePaymentForParticipants(participants, eventConfig);
-    expect(result.tshirtFees).toBe(70);
-    expect(result.totalAmount).toBe(170);
+    expect(result.tshirtFees).toBe(80);
+    expect(result.totalAmount).toBe(180);
   });
 });
