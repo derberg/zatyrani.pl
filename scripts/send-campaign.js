@@ -90,6 +90,12 @@ function buildHtml(name) {
 
       <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 40px 0;">
 
+      <h3 style="color: #065f46; margin-top: 30px; margin-bottom: 16px;">🐺 Wilczy Półmaraton — rejestracja otwarta!</h3>
+      <p style="color: #374151;">Jeśli lubisz aktywne spędzanie czasu i nie chcesz kończyć na NieboCrossie — zapraszamy na nasz <strong>Wilczy Półmaraton 2026</strong>! Do wyboru 22km bieg, 22km canicross i 11km nordic walking. Właśnie otworzyliśmy zapisy:</p>
+      <p style="color: #374151; margin-top: 12px;">👉 <a href="https://www.zatyrani.pl/wilczy-polmaraton" style="color: #10b981; font-weight: bold;">zatyrani.pl/wilczy-polmaraton</a></p>
+
+      <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 40px 0;">
+
       <p style="color: #374151; font-size: 16px;">Teraz już tylko trzymajcie kciuki za słoneczną pogodę — bo o całą resztę zadbaliśmy! ☀️</p>
       <p style="font-size: 16px;">Do zobaczenia w niedzielę w Nieborowicach! 💚🏃‍♂️</p>
 
