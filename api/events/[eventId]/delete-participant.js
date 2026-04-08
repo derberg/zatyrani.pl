@@ -45,27 +45,18 @@ export default async function handler(req, res) {
 
     const supabase = getSupabaseClient();
 
-    // Check if payment is paid (deletion not allowed)
-    const { data: payment, error: paymentCheckError } = await supabase
+    // Get all payments to determine participant's payment status
+    const { data: allPayments, error: paymentCheckError } = await supabase
       .from("event_payments")
-      .select("payment_status")
+      .select("id, payment_status, paid_at, updated_at, created_at")
       .eq("registration_id", registration_id)
-      .order("created_at", { ascending: false })
-      .limit(1)
-      .single();
+      .order("created_at", { ascending: false });
 
     if (paymentCheckError && paymentCheckError.code !== 'PGRST116') {
       console.error("Error checking payment:", paymentCheckError);
       return res.status(500).json({
         success: false,
         error: "Nie udało się sprawdzić statusu płatności"
-      });
-    }
-
-    if (payment && payment.payment_status === 'paid') {
-      return res.status(403).json({
-        success: false,
-        error: "Nie można usunąć uczestnika po opłaceniu rejestracji. Skontaktuj się z organizatorem."
       });
     }
 
@@ -92,6 +83,19 @@ export default async function handler(req, res) {
         success: false,
         error: "Uczestnik nie znaleziony"
       });
+    }
+
+    // Check if this specific participant is covered by a paid payment
+    const payments = allPayments || [];
+    const paidPayment = payments.find(p => p.payment_status === 'paid');
+    if (paidPayment) {
+      const paidAt = paidPayment.paid_at || paidPayment.updated_at || paidPayment.created_at;
+      if (new Date(existingParticipant.created_at) <= new Date(paidAt)) {
+        return res.status(403).json({
+          success: false,
+          error: "Nie można usunąć uczestnika po opłaceniu rejestracji. Skontaktuj się z organizatorem."
+        });
+      }
     }
 
     // Delete participant
@@ -138,7 +142,7 @@ export default async function handler(req, res) {
       });
     }
 
-    // Get existing pending payment to preserve extra donation
+    // Recalculate the pending payment
     const { data: existingPendingPayment } = await supabase
       .from("event_payments")
       .select("*")
@@ -146,11 +150,29 @@ export default async function handler(req, res) {
       .eq("payment_status", "pending")
       .single();
 
-    try {
-      await updateOrCreatePayment(supabase, registration_id, remainingParticipants, existingPendingPayment, eventConfig);
-    } catch (paymentError) {
-      console.error("Error updating payment:", paymentError);
-      // Don't fail the request, participant is deleted
+    if (existingPendingPayment) {
+      // Determine which remaining participants are unpaid (added after the last paid payment)
+      const unpaidParticipants = paidPayment
+        ? remainingParticipants.filter(p => {
+            const paidAt = paidPayment.paid_at || paidPayment.updated_at || paidPayment.created_at;
+            return new Date(p.created_at) > new Date(paidAt);
+          })
+        : remainingParticipants;
+
+      if (unpaidParticipants.length === 0) {
+        // No unpaid participants left — delete the pending payment
+        await supabase
+          .from("event_payments")
+          .delete()
+          .eq("id", existingPendingPayment.id);
+      } else {
+        // Recalculate for remaining unpaid participants only
+        try {
+          await updateOrCreatePayment(supabase, registration_id, unpaidParticipants, existingPendingPayment, eventConfig);
+        } catch (paymentError) {
+          console.error("Error updating payment:", paymentError);
+        }
+      }
     }
 
     return res.status(200).json({
