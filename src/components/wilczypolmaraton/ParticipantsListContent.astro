@@ -24,7 +24,7 @@ const { t } = Astro.props;
       </svg>
     </button>
     <div id="filtersBody" class="hidden sm:block px-6 pb-6">
-    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       <div>
         <label for="filterCategory" class="block text-sm font-semibold text-slate-700">
           {t("wilczypolmaraton.form.race_category")}
@@ -42,8 +42,12 @@ const { t } = Astro.props;
 
       <div>
         <label for="filterAgeCategory" class="block text-sm font-semibold text-slate-700">
-          Kategoria wiekowa <span class="font-normal text-xs text-slate-500">(tylko półmaraton, min. 6 osób)</span>
+          Kategoria wiekowa
+          <button type="button" id="ageCategoryInfoBtn" class="inline-flex items-center justify-center w-4 h-4 ml-1 text-xs font-bold text-slate-500 bg-slate-200 rounded-full hover:bg-slate-300 transition align-middle" aria-label="Informacja o kategorii wiekowej">?</button>
         </label>
+        <div id="ageCategoryTooltip" class="hidden mt-1 mb-1 text-xs text-slate-600 bg-slate-50 border border-slate-200 rounded-lg p-2">
+          Kategorie wiekowe dotyczą tylko półmaratonu (21km). Aby kategoria była oficjalnie klasyfikowana, musi się w niej znaleźć minimum 6 zawodników.
+        </div>
         <select
           id="filterAgeCategory"
           class="mt-1 block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2"
@@ -243,6 +247,11 @@ const { t } = Astro.props;
   const toggleFilters = document.getElementById('toggleFilters');
   const filtersBody = document.getElementById('filtersBody');
   const filtersChevron = document.getElementById('filtersChevron');
+
+  // Toggle age category tooltip
+  document.getElementById('ageCategoryInfoBtn').addEventListener('click', () => {
+    document.getElementById('ageCategoryTooltip').classList.toggle('hidden');
+  });
 
   // Toggle filters on mobile
   toggleFilters.addEventListener('click', () => {
