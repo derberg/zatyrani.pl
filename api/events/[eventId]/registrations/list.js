@@ -33,6 +33,7 @@ export default async function handler(req, res) {
       .select(`
         first_name,
         last_name,
+        birth_date,
         city,
         club,
         race_category,
@@ -93,6 +94,7 @@ export default async function handler(req, res) {
     // Format results (respect hide_name_public)
     let results = filteredParticipants.map(p => ({
       fullName: p.hide_name_public ? "***" : `${p.first_name} ${p.last_name}`.trim(),
+      birthDate: p.birth_date,
       city: p.city,
       club: p.club,
       gender: p.gender,
