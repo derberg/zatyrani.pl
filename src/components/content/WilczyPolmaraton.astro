@@ -34,7 +34,13 @@ const ytPreviewLink = "https://www.youtube.com/embed/sY6au0yZyp4";
       <h1 class="text-3xl font-bold text-white">{eventDate}</h1>
     </div>
 
-    <div id="registration-buttons-wrapper" class="hidden flex flex-wrap justify-center gap-3">
+    <div class="flex flex-wrap justify-center gap-3 text-lg">
+      <span class="bg-white/20 px-4 py-2 rounded-full backdrop-blur-sm">🏃 22km bieg</span>
+      <span class="bg-white/20 px-4 py-2 rounded-full backdrop-blur-sm">🐕 22km canicross</span>
+      <span class="bg-white/20 px-4 py-2 rounded-full backdrop-blur-sm">🥾 11km nordic walking</span>
+    </div>
+
+    <div id="registration-buttons-wrapper" class="flex flex-wrap justify-center gap-3">
       <div id="registration-buttons" class="contents">
         <a
           href="/wilczy-polmaraton/rejestracja"
@@ -235,18 +241,9 @@ const ytPreviewLink = "https://www.youtube.com/embed/sY6au0yZyp4";
   panelLabel: t("halfmarathon.panel_button"),
   listLabel: t("halfmarathon.participants_list_button")
 }}>
-  // Show registration buttons only if ?new=true or previously cached
-  const params = new URLSearchParams(window.location.search);
-  if (params.get('new') === 'true') {
-    localStorage.setItem('wilczypolmaraton_zapisy', 'true');
-  }
-
-  const zapisyEnabled = localStorage.getItem('wilczypolmaraton_zapisy') === 'true';
   const wrapper = document.getElementById('registration-buttons-wrapper');
 
-  if (zapisyEnabled && wrapper) {
-    wrapper.classList.remove('hidden');
-
+  if (wrapper) {
     const cookies = document.cookie.split(';').map(c => c.trim());
     const authCookie = cookies.find(c => c.startsWith('wilczypolmaraton_2026_auth_status='));
     const isAuthenticated = authCookie && authCookie.split('=')[1] === 'true';

@@ -28,7 +28,7 @@ const DELAY_BETWEEN_EMAILS_MS = 1000; // 1 second delay between emails
 
 // Set to an email address to do a test run: sends only to that recipient,
 // does NOT update campaign state, and the email must exist in registrations.
-const TEST_EMAIL = "lpgornicki@gmail.com";
+const TEST_EMAIL = "derberg@wp.pl";
 
 /**
  * HTML body of the email.
@@ -51,6 +51,7 @@ function buildHtml(name) {
       <div style="background-color: #fef2f2; border-left: 4px solid #ef4444; padding: 16px 20px; margin: 20px 0; border-radius: 4px;">
         <p style="margin: 0; color: #7f1d1d;"><strong>⚠️ Ważne:</strong> Mamy bardzo dużo osób na liście rezerwowej. Jeśli nie odbierzesz pakietu przed zamknięciem odprawy, Twój pakiet zostanie sprzedany osobom chętnym na miejscu.</p>
       </div>
+      <p style="color: #374151; margin-top: 12px;">💡 Możesz też umówić się na indywidualny odbiór pakietu <strong>w sobotę w Nieborowicach</strong> — zadzwoń: <a href="tel:+48784640977" style="color: #10b981; font-weight: bold;">784 640 977</a></p>
 
       <h3 style="color: #065f46; margin-top: 30px; margin-bottom: 16px;">🔄 Nie możesz przyjść? Jutro ostatni dzień na rezygnację!</h3>
       <p style="color: #374151;">Jeśli wiesz, że nie dasz rady być w niedzielę — <strong>jutro (czwartek) to ostatni moment</strong>, żeby zadzwonić i zamienić się z kimś z listy rezerwowej. W ten sposób możesz odzyskać swoje pieniądze.</p>
@@ -181,16 +182,13 @@ async function run() {
 
   if (TEST_EMAIL) {
     const reg = registrations.find((r) => r.email === TEST_EMAIL);
-    if (!reg) {
-      console.error(`[campaign] TEST_EMAIL "${TEST_EMAIL}" not found in registrations.`);
-      process.exit(1);
-    }
-    console.log(`[campaign] TEST MODE — sending only to ${TEST_EMAIL}, state will not be updated.`);
+    const name = reg ? reg.contact_person : "Testowy Uczestnik";
+    console.log(`[campaign] TEST MODE — sending only to ${TEST_EMAIL}${reg ? '' : ' (not in DB, using placeholder name)'}, state will not be updated.`);
     try {
-      await sendEmail(reg.email, reg.contact_person);
-      console.log(`  ✓ ${reg.email} (${reg.contact_person})`);
+      await sendEmail(TEST_EMAIL, name);
+      console.log(`  ✓ ${TEST_EMAIL} (${name})`);
     } catch (err) {
-      console.error(`  ✗ ${reg.email}: ${err.message}`);
+      console.error(`  ✗ ${TEST_EMAIL}: ${err.message}`);
     }
     return;
   }
