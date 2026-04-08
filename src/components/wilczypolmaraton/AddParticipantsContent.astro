@@ -488,8 +488,17 @@ const { t, locale = 'pl' } = Astro.props;
     const club = fieldset.querySelector('[name="club_0"]')?.value.trim() || null;
     const hideNamePublic = fieldset.querySelector('[name="hideNamePublic_0"]')?.checked || false;
 
-    if (!firstName || !lastName || !birthDate || !city || !nationality || !phoneNumber || !raceCategory || !gender) {
-      step3aError.textContent = errorMessages.generic || 'Wypełnij wszystkie wymagane pola';
+    const missingFields = [];
+    if (!firstName) missingFields.push('Imię');
+    if (!lastName) missingFields.push('Nazwisko');
+    if (!birthDate) missingFields.push('Data urodzenia');
+    if (!city) missingFields.push('Miasto');
+    if (!nationality) missingFields.push('Narodowość');
+    if (!phoneNumber) missingFields.push('Numer telefonu');
+    if (!raceCategory) missingFields.push('Dystans i aktywność');
+    if (!gender) missingFields.push('Płeć');
+    if (missingFields.length > 0) {
+      step3aError.textContent = `Wypełnij wymagane pola: ${missingFields.join(', ')}`;
       step3aError.classList.remove('hidden');
       return;
     }

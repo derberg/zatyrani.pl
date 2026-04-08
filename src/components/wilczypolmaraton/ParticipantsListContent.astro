@@ -322,7 +322,7 @@ const { t } = Astro.props;
       filtered = filtered.filter(p => p.raceCategory === categoryFilter);
     }
     if (ageCategoryFilter) {
-      filtered = filtered.filter(p => getAgeCategory(p) === ageCategoryFilter);
+      filtered = filtered.filter(p => p.raceCategory === '21km' && getAgeCategory(p) === ageCategoryFilter);
     }
     if (paymentFilter) {
       filtered = filtered.filter(p => p.paymentStatus === paymentFilter);
