@@ -38,10 +38,11 @@ export default async function handler(req, res) {
         race_category,
         gender,
         hide_name_public,
+        created_at,
         event_registrations!inner(
           email,
           event_id,
-          event_payments(payment_status, created_at)
+          event_payments(payment_status, paid_at, updated_at, created_at)
         )
       `);
 
@@ -80,9 +81,8 @@ export default async function handler(req, res) {
 
     filteredParticipants.forEach(p => {
       const payments = p.event_registrations?.event_payments || [];
-      const latestPayment = payments.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))[0];
-      const paymentStatus = latestPayment?.payment_status || 'pending';
-      if (paymentStatus === 'paid') {
+      const hasPaidPayment = payments.some(pay => pay.payment_status === 'paid');
+      if (hasPaidPayment) {
         const group = getGroupForCategory(p.race_category, eventConfig);
         if (group && Object.hasOwn(paidCounts, group)) {
           paidCounts[group]++;
@@ -99,10 +99,17 @@ export default async function handler(req, res) {
       raceCategory: p.race_category,
       paymentStatus: (() => {
         const payments = p.event_registrations?.event_payments || [];
-        const latest = payments.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))[0];
-        const raw = latest?.payment_status || 'pending';
-        // Map failed/cancelled to pending for public display
-        return (raw === 'failed' || raw === 'cancelled') ? 'pending' : raw;
+        const hasPaidPayment = payments.some(pay => pay.payment_status === 'paid');
+        const hasPendingPayment = payments.some(pay => pay.payment_status === 'pending' || pay.payment_status === 'failed');
+        // If there's a paid payment, mark as paid unless there's also a pending one (top-up for new participants)
+        // In that case, check if participant was created before the paid payment
+        if (hasPaidPayment && hasPendingPayment) {
+          const paidPayment = payments.find(pay => pay.payment_status === 'paid');
+          const paidAt = paidPayment.paid_at || paidPayment.updated_at || paidPayment.created_at;
+          return new Date(p.created_at) <= new Date(paidAt) ? 'paid' : 'pending';
+        }
+        if (hasPaidPayment) return 'paid';
+        return 'pending';
       })()
     }));
 
