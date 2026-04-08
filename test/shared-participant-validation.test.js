@@ -148,7 +148,7 @@ describe('calculatePaymentForParticipants', () => {
     const result = calculatePaymentForParticipants(participants, eventConfig);
     expect(result.raceFees).toBe(100);
     expect(result.totalAmount).toBe(100);
-    expect(result.charityAmount).toBe(100);
+    expect(result.charityAmount).toBe(0); // wilczy is not a charity event
   });
 
   it('should calculate correct fee using legacy fees for niebocross', () => {
@@ -179,7 +179,7 @@ describe('calculatePaymentForParticipants', () => {
     expect(result.raceFees).toBe(200);
     expect(result.tshirtFees).toBe(160); // 2 × 80
     expect(result.totalAmount).toBe(360);
-    expect(result.charityAmount).toBe(200); // charity = raceFees only
+    expect(result.charityAmount).toBe(0); // wilczy is not a charity event
   });
 
   it('should not include tshirt fees for participants without tshirt_size', () => {

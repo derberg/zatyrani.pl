@@ -105,6 +105,7 @@ const wilczypolmaratonLink = locale === 'en' ? '/en/wilczypolmaraton' : '/wilczy
                   required
                   class="mt-1 block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2"
                 />
+                <p id="editAgeError" class="mt-1 text-xs text-red-600 hidden"></p>
               </div>
             </div>
 
@@ -152,12 +153,16 @@ const wilczypolmaratonLink = locale === 'en' ? '/en/wilczypolmaraton' : '/wilczy
                 <label class="block text-sm font-semibold text-slate-700">
                   {t("wilczypolmaraton.form.phone_number")} <span class="text-red-600">*</span>
                 </label>
-                <input
-                  type="text"
-                  id="editPhoneNumber"
-                  required
-                  class="mt-1 block w-full rounded-lg border-emerald-300 border-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2"
-                />
+                <div class="mt-1 flex rounded-lg border-2 border-emerald-300 shadow-sm focus-within:border-emerald-500 focus-within:ring-1 focus-within:ring-emerald-500">
+                  <span class="inline-flex items-center px-3 text-sm font-medium text-slate-500 bg-slate-100 rounded-l-md border-r border-emerald-300">+48</span>
+                  <input
+                    type="text"
+                    id="editPhoneNumber"
+                    required
+                    class="block w-full rounded-r-md border-0 px-3 py-2 focus:ring-0"
+                  />
+                </div>
+                <p id="editPhoneError" class="mt-1 text-xs text-red-600 hidden"></p>
                 <p class="mt-1 text-xs text-slate-600">{t("wilczypolmaraton.form.phone_help")}</p>
               </div>
             </div>
@@ -439,9 +444,14 @@ const wilczypolmaratonLink = locale === 'en' ? '/en/wilczypolmaraton' : '/wilczy
 
       listDiv.innerHTML = participants.map((p) => {
         const categoryLabel = getCategoryLabel(p.raceCategory);
-        // Participant is paid if they were created before the last successful payment
+        // Participant is paid if created before the last successful payment,
+        // or if all payments are paid (no pending) and there's a paid amount
         const lastPaidAt = dashboardData.lastPaidAt;
-        const isPaid = lastPaidAt && new Date(p.createdAt) <= new Date(lastPaidAt);
+        const paidAmount = dashboardData.paidAmount || 0;
+        const hasPendingPayment = dashboardData.payment && dashboardData.payment.paymentStatus !== 'paid';
+        const isPaid = paidAmount > 0 && (
+          lastPaidAt ? new Date(p.createdAt) <= new Date(lastPaidAt) : !hasPendingPayment
+        );
         const paymentLabel = isPaid ? translations.status_paid : translations.awaiting_payment;
         const paymentClass = isPaid ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800';
 
@@ -461,7 +471,7 @@ const wilczypolmaratonLink = locale === 'en' ? '/en/wilczypolmaraton' : '/wilczy
                   ${p.tshirtSize ? `<p>👕 Koszulka: ${p.tshirtSize}</p>` : ''}
                 </div>
               </div>
-              ${canEdit ? `
+              ${!isPaid && canAddParticipants ? `
                 <div class="flex gap-2 mt-4 sm:mt-0 sm:ml-4">
                   <button
                     class="edit-btn rounded-lg border border-emerald-300 border-2 bg-white px-3 py-1.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
@@ -571,6 +581,27 @@ const wilczypolmaratonLink = locale === 'en' ? '/en/wilczypolmaraton' : '/wilczy
         hideNamePublic: document.getElementById('editHideNamePublic').checked,
       };
 
+      // Validate phone
+      if (!/^\d{9}$/.test(participant.phoneNumber)) {
+        errorDiv.textContent = 'Numer telefonu musi mieć 9 cyfr';
+        errorDiv.classList.remove('hidden');
+        return;
+      }
+
+      // Validate age
+      if (participant.birthDate) {
+        const birth = new Date(participant.birthDate);
+        const event = new Date('2026-10-17');
+        let age = event.getFullYear() - birth.getFullYear();
+        const md = event.getMonth() - birth.getMonth();
+        if (md < 0 || (md === 0 && event.getDate() < birth.getDate())) age--;
+        if (age < 18) {
+          errorDiv.textContent = 'Uczestnik musi mieć ukończone 18 lat w dniu zawodów';
+          errorDiv.classList.remove('hidden');
+          return;
+        }
+      }
+
       try {
         const response = await fetch(`${API_BASE}/update-participant`, {
           method: 'POST',
@@ -596,9 +627,40 @@ const wilczypolmaratonLink = locale === 'en' ? '/en/wilczypolmaraton' : '/wilczy
     });
 
     // Add phone input validation for edit form
-    document.getElementById('editPhoneNumber').addEventListener('input', (e) => {
+    const editPhoneInput = document.getElementById('editPhoneNumber');
+    const editPhoneWrapper = editPhoneInput.closest('.flex');
+    editPhoneInput.addEventListener('input', (e) => {
       const digits = e.target.value.replace(/\D/g, '').slice(0, 9);
       e.target.value = digits;
+      const editPhoneErr = document.getElementById('editPhoneError');
+      if (digits.length > 0 && digits.length < 9) {
+        editPhoneErr.textContent = 'Numer telefonu musi mieć 9 cyfr';
+        editPhoneErr.classList.remove('hidden');
+        if (editPhoneWrapper) { editPhoneWrapper.classList.add('border-red-400'); editPhoneWrapper.classList.remove('border-emerald-300'); }
+      } else {
+        editPhoneErr.classList.add('hidden');
+        if (editPhoneWrapper) { editPhoneWrapper.classList.remove('border-red-400'); editPhoneWrapper.classList.add('border-emerald-300'); }
+      }
+    });
+
+    // Add age validation for edit form
+    const editBirthInput = document.getElementById('editBirthDate');
+    editBirthInput.addEventListener('change', () => {
+      const editAgeErr = document.getElementById('editAgeError');
+      if (!editBirthInput.value) { editAgeErr.classList.add('hidden'); return; }
+      const birth = new Date(editBirthInput.value);
+      const event = new Date('2026-10-17');
+      let age = event.getFullYear() - birth.getFullYear();
+      const md = event.getMonth() - birth.getMonth();
+      if (md < 0 || (md === 0 && event.getDate() < birth.getDate())) age--;
+      if (age < 18) {
+        editAgeErr.textContent = 'Uczestnik musi mieć ukończone 18 lat w dniu zawodów';
+        editAgeErr.classList.remove('hidden');
+        editBirthInput.classList.add('border-red-400'); editBirthInput.classList.remove('border-emerald-300');
+      } else {
+        editAgeErr.classList.add('hidden');
+        editBirthInput.classList.remove('border-red-400'); editBirthInput.classList.add('border-emerald-300');
+      }
     });
 
     async function deleteParticipant(participantId) {

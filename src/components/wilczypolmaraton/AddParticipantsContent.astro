@@ -464,6 +464,7 @@ const { t, locale = 'pl' } = Astro.props;
     // Re-initialize autocomplete and phone validation
     if (window.setupClubAutocomplete) window.setupClubAutocomplete();
     if (window.setupPhoneValidation) window.setupPhoneValidation();
+    if (window.setupAgeValidation) window.setupAgeValidation();
 
     step3aError.classList.add('hidden');
     showStep(step3a);
@@ -489,6 +490,26 @@ const { t, locale = 'pl' } = Astro.props;
 
     if (!firstName || !lastName || !birthDate || !city || !nationality || !phoneNumber || !raceCategory || !gender) {
       step3aError.textContent = errorMessages.generic || 'Wypełnij wszystkie wymagane pola';
+      step3aError.classList.remove('hidden');
+      return;
+    }
+
+    // Validate phone number is exactly 9 digits
+    if (!/^\d{9}$/.test(phoneNumber)) {
+      step3aError.textContent = 'Numer telefonu musi mieć 9 cyfr';
+      step3aError.classList.remove('hidden');
+      return;
+    }
+
+    // Validate age (must be 18+ on event date)
+    const EVENT_DATE = '2026-10-17';
+    const birth = new Date(birthDate);
+    const event = new Date(EVENT_DATE);
+    let age = event.getFullYear() - birth.getFullYear();
+    const md = event.getMonth() - birth.getMonth();
+    if (md < 0 || (md === 0 && event.getDate() < birth.getDate())) age--;
+    if (age < 18) {
+      step3aError.textContent = 'Uczestnik musi mieć ukończone 18 lat w dniu zawodów';
       step3aError.classList.remove('hidden');
       return;
     }

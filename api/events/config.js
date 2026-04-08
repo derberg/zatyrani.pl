@@ -35,6 +35,7 @@ export const EVENTS = {
       { group: 'adults_runners', categories: ['3km_run', '9km_run'], limit: 150 },
       { group: 'nw', categories: ['3km_nw', '9km_nw'], limit: 70 }
     ],
+    charityEvent: true,
     tshirtEnabled: true,
     foodEnabled: true,
     tshirtSizes: ['116', '128', '134', '140', '146', '152', 'XS', 'S', 'M', 'L', 'XL', 'XXL']

@@ -62,7 +62,10 @@ const { index, t, showRemoveButton = false, participantData } = Astro.props;
     </div>
 
     <!-- Birth Date -->
-    <BirthDateSelector index={index} t={t} value={participantData?.birthDate} />
+    <div>
+      <BirthDateSelector index={index} t={t} value={participantData?.birthDate} />
+      <p class="age-error mt-1 text-xs text-red-600 hidden" data-participant-index={index}></p>
+    </div>
 
     <!-- City -->
     <div>
@@ -146,15 +149,19 @@ const { index, t, showRemoveButton = false, participantData } = Astro.props;
       <label class="block text-sm font-semibold text-slate-700">
         {t("wilczypolmaraton.form.phone_number")} <span class="text-red-600">*</span>
       </label>
-      <input
-        type="text"
-        name={`phoneNumber_${index}`}
-        value={participantData?.phoneNumber || ""}
-        required
-        class="phone-number mt-1 block w-full rounded-lg border-emerald-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2 border-2"
-        placeholder="123456789"
-        data-participant-index={index}
-      />
+      <div class="mt-1 flex rounded-lg border-2 border-emerald-300 shadow-sm focus-within:border-emerald-500 focus-within:ring-1 focus-within:ring-emerald-500">
+        <span class="inline-flex items-center px-3 text-sm font-medium text-slate-500 bg-slate-100 rounded-l-md border-r border-emerald-300">+48</span>
+        <input
+          type="text"
+          name={`phoneNumber_${index}`}
+          value={participantData?.phoneNumber || ""}
+          required
+          class="phone-number block w-full rounded-r-md border-0 px-3 py-2 focus:ring-0"
+          placeholder="123456789"
+          data-participant-index={index}
+        />
+      </div>
+      <p class="phone-error mt-1 text-xs text-red-600 hidden" data-participant-index={index}></p>
       <p class="mt-1 text-xs text-slate-600">{t("wilczypolmaraton.form.phone_help")}</p>
     </div>
 
@@ -216,23 +223,80 @@ const { index, t, showRemoveButton = false, participantData } = Astro.props;
 </div>
 
 <script>
-  // Initialize phone number input validation
+  const EVENT_DATE = '2026-10-17';
+  const MIN_AGE = 18;
+
+  function calculateAge(birthDate, eventDate) {
+    const birth = new Date(birthDate);
+    const event = new Date(eventDate);
+    let age = event.getFullYear() - birth.getFullYear();
+    const monthDiff = event.getMonth() - birth.getMonth();
+    if (monthDiff < 0 || (monthDiff === 0 && event.getDate() < birth.getDate())) {
+      age--;
+    }
+    return age;
+  }
+
   function setupPhoneValidation() {
     document.querySelectorAll('.phone-number').forEach((phoneInput) => {
-      if (!phoneInput.hasAttribute('data-phone-initialized')) {
-        phoneInput.setAttribute('data-phone-initialized', 'true');
+      if (phoneInput.hasAttribute('data-phone-initialized')) return;
+      phoneInput.setAttribute('data-phone-initialized', 'true');
+      const idx = phoneInput.getAttribute('data-participant-index');
+      const errorEl = document.querySelector(`.phone-error[data-participant-index="${idx}"]`);
+      const wrapper = phoneInput.closest('.flex');
 
-        phoneInput.addEventListener('input', () => {
-          const digits = phoneInput.value.replace(/\D/g, '').slice(0, 9);
-          phoneInput.value = digits;
-        });
-      }
+      phoneInput.addEventListener('input', () => {
+        const digits = phoneInput.value.replace(/\D/g, '').slice(0, 9);
+        phoneInput.value = digits;
+
+        if (digits.length > 0 && digits.length < 9) {
+          errorEl?.classList.remove('hidden');
+          if (errorEl) errorEl.textContent = 'Numer telefonu musi mieć 9 cyfr';
+          if (wrapper) wrapper.classList.add('border-red-400');
+          if (wrapper) wrapper.classList.remove('border-emerald-300');
+        } else {
+          errorEl?.classList.add('hidden');
+          if (wrapper) wrapper.classList.remove('border-red-400');
+          if (wrapper) wrapper.classList.add('border-emerald-300');
+        }
+      });
+    });
+  }
+
+  function setupAgeValidation() {
+    document.querySelectorAll('input[type="date"][name^="birthDate_"]').forEach((dateInput) => {
+      if (dateInput.hasAttribute('data-age-initialized')) return;
+      dateInput.setAttribute('data-age-initialized', 'true');
+      const idx = dateInput.name.replace('birthDate_', '');
+      const errorEl = document.querySelector(`.age-error[data-participant-index="${idx}"]`);
+
+      dateInput.addEventListener('change', () => {
+        if (!dateInput.value) {
+          errorEl?.classList.add('hidden');
+          dateInput.classList.remove('border-red-400');
+          dateInput.classList.add('border-emerald-300');
+          return;
+        }
+        const age = calculateAge(dateInput.value, EVENT_DATE);
+        if (age < MIN_AGE) {
+          errorEl?.classList.remove('hidden');
+          if (errorEl) errorEl.textContent = `Uczestnik musi mieć ukończone ${MIN_AGE} lat w dniu zawodów`;
+          dateInput.classList.add('border-red-400');
+          dateInput.classList.remove('border-emerald-300');
+        } else {
+          errorEl?.classList.add('hidden');
+          dateInput.classList.remove('border-red-400');
+          dateInput.classList.add('border-emerald-300');
+        }
+      });
     });
   }
 
   // Run on load
   setupPhoneValidation();
+  setupAgeValidation();
 
   // Export for use when adding participants dynamically
   window.setupPhoneValidation = setupPhoneValidation;
+  window.setupAgeValidation = setupAgeValidation;
 </script>

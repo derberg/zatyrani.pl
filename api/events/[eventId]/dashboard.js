@@ -129,7 +129,7 @@ export default async function handler(req, res) {
         createdAt: paymentData.created_at
       } : null,
       paidAmount: paidPayments.reduce((sum, p) => sum + Number(p.total_amount), 0),
-      lastPaidAt: paidPayments.length > 0 ? paidPayments[0].paid_at : null,
+      lastPaidAt: paidPayments.length > 0 ? (paidPayments[0].paid_at || paidPayments[0].updated_at || paidPayments[0].created_at) : null,
       canEdit,
       canAddParticipants
     });

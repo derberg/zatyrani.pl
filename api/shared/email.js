@@ -96,7 +96,7 @@ export async function sendRegistrationConfirmationEmail({ email, contactPerson, 
       </ul>
       <div style="background-color: #f9f9f9; padding: 20px; margin: 20px 0; border-left: 4px solid #4CAF50;">
         <p style="margin: 0;"><strong>Do zapłaty: ${payment.totalAmount} zł</strong></p>
-        <p style="margin: 5px 0 0 0; color: #666;">(w tym ${payment.charityAmount.toFixed(2)} zł na cel charytatywny)</p>
+        ${payment.charityAmount > 0 ? `<p style="margin: 5px 0 0 0; color: #666;">(w tym ${payment.charityAmount.toFixed(2)} zł na cel charytatywny)</p>` : ''}
       </div>
       <div style="text-align: center; margin: 25px 0;">
         <a href="${paymentPageUrl}" style="background-color: #4CAF50; color: white; padding: 14px 28px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px; display: inline-block;">Opłać udział</a>
@@ -269,9 +269,9 @@ export async function sendPaymentConfirmationEmail({ email, contactPerson, total
         </div>
         <p>Więcej informacji oraz możliwość zarejestrowania dodatkowych osób pod adresem:<br>
         <a href="${panelUrl}">${panelUrl}</a></p>
-        <div style="background-color: #fff3cd; padding: 15px; margin: 20px 0; border-left: 4px solid #ffc107;">
+        ${charityAmount > 0 ? `<div style="background-color: #fff3cd; padding: 15px; margin: 20px 0; border-left: 4px solid #ffc107;">
           <p style="margin: 0;">💚 Dziękujemy za wpłatę! <strong>${charityAmount.toFixed(2)} zł</strong> zostanie przekazane na cel charytatywny.</p>
-        </div>
+        </div>` : ''}
         <p>Do zobaczenia ${eventConfig.locationFull}!</p>
         <hr style="border: none; border-top: 1px solid #ccc; margin: 30px 0;">
         <p style="color: #666; font-size: 14px;">

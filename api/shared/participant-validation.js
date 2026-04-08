@@ -118,7 +118,7 @@ export function calculatePaymentForParticipants(participants, eventConfig) {
   }).length;
   const tshirtFees = tshirtCount * tshirtPrice;
 
-  const charityAmount = raceFees;
+  const charityAmount = eventConfig.charityEvent ? raceFees : 0;
 
   return {
     raceFees,
