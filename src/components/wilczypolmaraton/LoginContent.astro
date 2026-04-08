@@ -63,7 +63,7 @@ const emailPlaceholder = locale === 'en' ? 'your@email.com' : 'twoj@email.pl';
           </label>
           <div class="text-xs text-slate-600 mb-2 p-3 bg-slate-50 rounded-lg border border-slate-200">
             <p class="mb-2">{t("wilczypolmaraton.login.code_info")} <a href={registerLink} class="font-semibold text-emerald-600 hover:underline">{t("wilczypolmaraton.login.code_info_register")}</a>.</p>
-            <p>{t("wilczypolmaraton.login.code_info_contact")} <a href="/wilczypolmaraton#kontakt" class="font-semibold text-emerald-600 hover:underline">{t("wilczypolmaraton.login.code_info_contact_link")}</a>.</p>
+            <p>{t("wilczypolmaraton.login.code_info_contact")} <a href="/wilczy-polmaraton#kontakt" class="font-semibold text-emerald-600 hover:underline">{t("wilczypolmaraton.login.code_info_contact_link")}</a>.</p>
           </div>
           <input
             type="text"
@@ -120,7 +120,7 @@ const emailPlaceholder = locale === 'en' ? 'your@email.com' : 'twoj@email.pl';
   function getErrorMessage(errorCode) {
     // Special handling for INVALID_CODE to include clickable link
     if (errorCode === 'INVALID_CODE') {
-      return `${errorMessages.INVALID_CODE}. ${errorMessages.INVALID_CODE_CONTACT}, <a href="/wilczypolmaraton#kontakt" class="font-semibold text-emerald-600 hover:underline">${errorMessages.INVALID_CODE_CONTACT_LINK}</a>.`;
+      return `${errorMessages.INVALID_CODE}. ${errorMessages.INVALID_CODE_CONTACT}, <a href="/wilczy-polmaraton#kontakt" class="font-semibold text-emerald-600 hover:underline">${errorMessages.INVALID_CODE_CONTACT_LINK}</a>.`;
     }
     return errorMessages[errorCode] || errorMessages.GENERIC;
   }
