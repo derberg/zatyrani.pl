@@ -268,6 +268,7 @@ const wilczypolmaratonLink = locale === 'en' ? '/en/wilczypolmaraton' : '/wilczy
     const API_BASE = '/api/events/wilczypolmaraton-2026';
 
     let canEdit = false;
+    let canAddParticipants = false;
     let dashboardData = null;
 
     // Check authentication
@@ -301,6 +302,7 @@ const wilczypolmaratonLink = locale === 'en' ? '/en/wilczypolmaraton' : '/wilczy
 
         dashboardData = await response.json();
         canEdit = dashboardData.canEdit;
+        canAddParticipants = dashboardData.canAddParticipants;
 
         renderDashboard();
       } catch (error) {
@@ -333,8 +335,8 @@ const wilczypolmaratonLink = locale === 'en' ? '/en/wilczypolmaraton' : '/wilczy
       // Render participants
       renderParticipants();
 
-      // Show add button if editing is allowed
-      if (canEdit) {
+      // Show add button if adding participants is allowed (even after payment)
+      if (canAddParticipants) {
         document.getElementById('addParticipantBtn').classList.remove('hidden');
       }
     }
