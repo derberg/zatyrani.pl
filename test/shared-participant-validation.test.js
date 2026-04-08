@@ -96,20 +96,40 @@ describe('getCurrentFees', () => {
     vi.useRealTimers();
   });
 
+  it('should return flat fees when no feeSchedule is defined', () => {
+    const fees = getCurrentFees(eventConfig);
+    expect(fees).toEqual({ default: 100 });
+  });
+
   it('should return first matching schedule entry when date is before first deadline', () => {
     vi.useFakeTimers();
     vi.setSystemTime(new Date('2026-04-15'));
 
-    const fees = getCurrentFees(eventConfig);
+    const scheduledConfig = {
+      ...eventConfig,
+      feeSchedule: [
+        { until: '2026-05-31', fees: { default: 100 } },
+        { until: '2026-10-16', fees: { default: 130 } },
+      ]
+    };
+    delete scheduledConfig.fees;
+    const fees = getCurrentFees(scheduledConfig);
     expect(fees).toEqual({ default: 100 });
   });
 
   it('should return first entry when date is on the deadline day (end-of-day inclusive)', () => {
     vi.useFakeTimers();
-    // Noon on May 31 in Poland (UTC+2) — should still get 100 PLN
     vi.setSystemTime(new Date('2026-05-31T14:00:00Z'));
 
-    const fees = getCurrentFees(eventConfig);
+    const scheduledConfig = {
+      ...eventConfig,
+      feeSchedule: [
+        { until: '2026-05-31', fees: { default: 100 } },
+        { until: '2026-10-16', fees: { default: 130 } },
+      ]
+    };
+    delete scheduledConfig.fees;
+    const fees = getCurrentFees(scheduledConfig);
     expect(fees).toEqual({ default: 100 });
   });
 
@@ -117,7 +137,15 @@ describe('getCurrentFees', () => {
     vi.useFakeTimers();
     vi.setSystemTime(new Date('2026-07-15'));
 
-    const fees = getCurrentFees(eventConfig);
+    const scheduledConfig = {
+      ...eventConfig,
+      feeSchedule: [
+        { until: '2026-05-31', fees: { default: 100 } },
+        { until: '2026-10-16', fees: { default: 130 } },
+      ]
+    };
+    delete scheduledConfig.fees;
+    const fees = getCurrentFees(scheduledConfig);
     expect(fees).toEqual({ default: 130 });
   });
 
@@ -125,7 +153,15 @@ describe('getCurrentFees', () => {
     vi.useFakeTimers();
     vi.setSystemTime(new Date('2026-11-01'));
 
-    const fees = getCurrentFees(eventConfig);
+    const scheduledConfig = {
+      ...eventConfig,
+      feeSchedule: [
+        { until: '2026-05-31', fees: { default: 100 } },
+        { until: '2026-10-16', fees: { default: 130 } },
+      ]
+    };
+    delete scheduledConfig.fees;
+    const fees = getCurrentFees(scheduledConfig);
     expect(fees).toEqual({ default: 130 });
   });
 
