@@ -272,7 +272,6 @@ const wilczypolmaratonLink = locale === 'en' ? '/en/wilczypolmaraton' : '/wilczy
   }}>
     const API_BASE = '/api/events/wilczypolmaraton-2026';
 
-    let canEdit = false;
     let canAddParticipants = false;
     let dashboardData = null;
 
@@ -306,7 +305,6 @@ const wilczypolmaratonLink = locale === 'en' ? '/en/wilczypolmaraton' : '/wilczy
         }
 
         dashboardData = await response.json();
-        canEdit = dashboardData.canEdit;
         canAddParticipants = dashboardData.canAddParticipants;
 
         renderDashboard();
@@ -493,24 +491,22 @@ const wilczypolmaratonLink = locale === 'en' ? '/en/wilczypolmaraton' : '/wilczy
         `;
       }).join('');
 
-      // Attach event listeners
-      if (canEdit) {
-        document.querySelectorAll('.edit-btn').forEach(btn => {
-          btn.addEventListener('click', (e) => {
-            const participant = JSON.parse(e.target.getAttribute('data-participant'));
-            openEditModal(participant);
-          });
+      // Attach event listeners to edit/delete buttons (rendered per-participant)
+      document.querySelectorAll('.edit-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const participant = JSON.parse(e.target.getAttribute('data-participant'));
+          openEditModal(participant);
         });
+      });
 
-        document.querySelectorAll('.delete-btn').forEach(btn => {
-          btn.addEventListener('click', async (e) => {
-            const id = e.target.getAttribute('data-id');
-            if (confirm(translations.confirm_delete_participant)) {
-              await deleteParticipant(id);
-            }
-          });
+      document.querySelectorAll('.delete-btn').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+          const id = e.target.getAttribute('data-id');
+          if (confirm(translations.confirm_delete_participant)) {
+            await deleteParticipant(id);
+          }
         });
-      }
+      });
     }
 
     function getCategoryLabel(category) {
