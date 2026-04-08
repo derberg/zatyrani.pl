@@ -108,10 +108,12 @@ export default async function handler(req, res) {
     }
 
     // Update existing pending payment or create new one
-    // If there's a pending payment, update it; otherwise create a new pending payment
+    // If there's a pending payment, recalculate for ALL participants (payment not yet made)
+    // If no pending payment (previous was paid), calculate only for NEW participants (top-up)
+    const participantsForPayment = existingPendingPayment ? allParticipants : participantRecords;
     let updatedPayment;
     try {
-      updatedPayment = await updateOrCreatePayment(supabase, registration_id, allParticipants, existingPendingPayment, eventConfig, extraDonation);
+      updatedPayment = await updateOrCreatePayment(supabase, registration_id, participantsForPayment, existingPendingPayment, eventConfig, extraDonation);
     } catch (error) {
       console.error("Error updating/creating payment:", error);
       return res.status(500).json({

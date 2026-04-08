@@ -344,6 +344,7 @@ const wilczypolmaratonLink = locale === 'en' ? '/en/wilczypolmaraton' : '/wilczy
     function renderPaymentStatus() {
       const statusDiv = document.getElementById('paymentStatus');
       const payment = dashboardData.payment;
+      const paidAmount = dashboardData.paidAmount || 0;
 
       if (!payment) {
         statusDiv.className = 'rounded-xl border-2 border-slate-200 bg-slate-50 p-6';
@@ -351,13 +352,13 @@ const wilczypolmaratonLink = locale === 'en' ? '/en/wilczypolmaraton' : '/wilczy
         return;
       }
 
-      if (payment.paymentStatus === 'paid') {
+      if (payment.paymentStatus === 'paid' && paidAmount > 0) {
         statusDiv.className = 'rounded-xl border-2 border-emerald-200 bg-emerald-50 p-6';
         statusDiv.innerHTML = `
           <div class="flex items-center justify-between">
             <div>
               <h3 class="text-lg font-bold text-slate-900">${translations.paid}</h3>
-              <p class="mt-1 text-sm text-slate-600">${translations.amount_to_pay}: <strong>${payment.totalAmount} zł</strong></p>
+              <p class="mt-1 text-sm text-slate-600">${translations.amount_to_pay}: <strong>${paidAmount} zł</strong></p>
             </div>
             <svg class="h-12 w-12 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -366,6 +367,11 @@ const wilczypolmaratonLink = locale === 'en' ? '/en/wilczypolmaraton' : '/wilczy
         `;
         return;
       }
+
+      // Pending or failed top-up (there's already a paid amount)
+      const paidLine = paidAmount > 0
+        ? `<p class="mt-1 text-sm text-emerald-700">${translations.paid}: <strong>${paidAmount} zł</strong></p>`
+        : '';
 
       if (payment.paymentStatus === 'failed') {
         statusDiv.className = 'rounded-xl border-2 border-red-200 bg-red-50 p-6';
@@ -379,6 +385,7 @@ const wilczypolmaratonLink = locale === 'en' ? '/en/wilczypolmaraton' : '/wilczy
                 <h3 class="text-lg font-bold text-red-800">${translations.payment_failed}</h3>
               </div>
               <p class="mt-2 text-sm text-red-700">${translations.payment_failed_desc}</p>
+              ${paidLine}
               <p class="mt-1 text-sm text-slate-600">${translations.amount_to_pay}: <strong>${payment.totalAmount} zł</strong></p>
               <div class="mt-3 text-sm text-slate-600">
                 <p class="font-medium">${translations.payment_failed_contact}</p>
@@ -408,6 +415,7 @@ const wilczypolmaratonLink = locale === 'en' ? '/en/wilczypolmaraton' : '/wilczy
         <div class="flex items-center justify-between">
           <div>
             <h3 class="text-lg font-bold text-slate-900">${translations.awaiting_payment}</h3>
+            ${paidLine}
             <p class="mt-1 text-sm text-slate-600">${translations.amount_to_pay}: <strong>${payment.totalAmount} zł</strong></p>
           </div>
           <a
@@ -431,8 +439,9 @@ const wilczypolmaratonLink = locale === 'en' ? '/en/wilczypolmaraton' : '/wilczy
 
       listDiv.innerHTML = participants.map((p) => {
         const categoryLabel = getCategoryLabel(p.raceCategory);
-        const paymentStatus = dashboardData.payment?.paymentStatus || 'pending';
-        const isPaid = paymentStatus === 'paid';
+        // Participant is paid if they were created before the last successful payment
+        const lastPaidAt = dashboardData.lastPaidAt;
+        const isPaid = lastPaidAt && new Date(p.createdAt) <= new Date(lastPaidAt);
         const paymentLabel = isPaid ? translations.status_paid : translations.awaiting_payment;
         const paymentClass = isPaid ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800';
 

@@ -64,29 +64,30 @@ export default async function handler(req, res) {
       });
     }
 
-    // Get payment
-    const { data: payment, error: paymentError } = await supabase
+    // Get all payments for this registration
+    const { data: payments, error: paymentsError } = await supabase
       .from("event_payments")
       .select("*")
       .eq("registration_id", registration_id)
-      .order("created_at", { ascending: false })
-      .limit(1)
-      .single();
+      .order("created_at", { ascending: false });
 
-    // Payment might not exist yet (if no participants added)
-    let paymentData = null;
-    if (!paymentError && payment) {
-      paymentData = payment;
-    }
+    // Separate paid and pending/failed payments
+    const allPayments = (!paymentsError && payments) ? payments : [];
+    const paidPayments = allPayments.filter(p => p.payment_status === 'paid');
+    const pendingPayment = allPayments.find(p => p.payment_status === 'pending' || p.payment_status === 'failed');
+
+    // For backward compatibility, paymentData is the pending payment if exists, otherwise latest paid
+    const paymentData = pendingPayment || paidPayments[0] || null;
 
     // Determine editing permissions
     const eventDate = new Date(eventConfig.date);
     const currentDate = new Date();
+    const hasPaidPayment = paidPayments.length > 0;
     const isPaid = paymentData && paymentData.payment_status === 'paid';
     const isAfterEventDate = currentDate >= eventDate;
 
-    // canEdit: can edit/delete existing participants (only when payment is pending and before event)
-    const canEdit = !isPaid && !isAfterEventDate;
+    // canEdit: can edit/delete existing participants (only when no payments are paid and before event)
+    const canEdit = !hasPaidPayment && !isPaid && !isAfterEventDate;
 
     // canAddParticipants: can add new participants (allowed even after payment, creates new pending payment)
     const canAddParticipants = !isAfterEventDate;
@@ -127,6 +128,8 @@ export default async function handler(req, res) {
         paidAt: paymentData.paid_at,
         createdAt: paymentData.created_at
       } : null,
+      paidAmount: paidPayments.reduce((sum, p) => sum + Number(p.total_amount), 0),
+      lastPaidAt: paidPayments.length > 0 ? paidPayments[0].paid_at : null,
       canEdit,
       canAddParticipants
     });
