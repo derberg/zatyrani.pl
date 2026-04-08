@@ -28,7 +28,7 @@ const DELAY_BETWEEN_EMAILS_MS = 1000; // 1 second delay between emails
 
 // Set to an email address to do a test run: sends only to that recipient,
 // does NOT update campaign state, and the email must exist in registrations.
-const TEST_EMAIL = "derberg@wp.pl";
+const TEST_EMAIL = "lpgornicki@gmail.com";
 
 /**
  * HTML body of the email.
@@ -89,6 +89,10 @@ function buildHtml(name) {
       </div>
 
       <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 40px 0;">
+
+      <h3 style="color: #065f46; margin-top: 30px; margin-bottom: 16px;">📊 Wyniki na żywo!</h3>
+      <p style="color: #374151;">Wyniki będą dostępne na żywo w trakcie wydarzenia. Podziel się linkiem z rodziną i znajomymi, żeby mogli kibicować!</p>
+      <p style="color: #374151; margin-top: 12px;">👉 <a href="https://www.leszy.run/events/niebocross-pamieci-marka-nowakowskiego/results/live" style="color: #10b981; font-weight: bold;">Wyniki na żywo — leszy.run</a></p>
 
       <h3 style="color: #065f46; margin-top: 30px; margin-bottom: 16px;">🐺 Wilczy Półmaraton — rejestracja otwarta!</h3>
       <p style="color: #374151;">Jeśli lubisz aktywne spędzanie czasu i nie chcesz kończyć na NieboCrossie — zapraszamy na nasz <strong>Wilczy Półmaraton 2026</strong>! Do wyboru 22km bieg, 22km canicross i 11km nordic walking. Właśnie otworzyliśmy zapisy:</p>
