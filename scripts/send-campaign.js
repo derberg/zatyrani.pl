@@ -19,16 +19,16 @@ import path from "path";
 
 // ─── CAMPAIGN CONFIG — edit before each campaign ─────────────────────────────
 
-const CAMPAIGN_ID = "organizational-info-march-29";
+const CAMPAIGN_ID = "final-info-april-10";
 
-const SUBJECT = "NieboCross 2026 — ważne informacje organizacyjne 📋";
+const SUBJECT = "NieboCross 2026 — ostatnie informacje przed niedzielą! 🏃";
 
 const DAILY_LIMIT = null; // No limit - send to all paid participants
 const DELAY_BETWEEN_EMAILS_MS = 1000; // 1 second delay between emails
 
 // Set to an email address to do a test run: sends only to that recipient,
 // does NOT update campaign state, and the email must exist in registrations.
-const TEST_EMAIL = null;
+const TEST_EMAIL = "lpgornicki@gmail.com";
 
 /**
  * HTML body of the email.
@@ -38,51 +38,59 @@ function buildHtml(name) {
   return `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
       <h2 style="color: #065f46;">Cześć ${name}!</h2>
-      <p>NieboCross zbliża się wielkimi krokami! 🏃‍♀️ Mamy dla Ciebie kilka <strong>ważnych informacji organizacyjnych</strong>, które ułatwią Ci przygotowania i udział w wydarzeniu.</p>
+      <p>Już w niedzielę widzimy się w Nieborowicach! Poniżej najważniejsze informacje na ostatnią chwilę.</p>
 
-      <h3 style="color: #065f46; margin-top: 30px; margin-bottom: 16px;">👕 Zamówienie koszulki — ostatni dzwonek!</h3>
-      <p style="color: #374151;"><strong>Do końca wtorku (31 marca)</strong> możesz jeszcze zamówić koszulkę pamiątkową za pomocą linku w SMS-ie sprzed kilku dni od <strong>LeszyRun</strong>.</p>
-      <p style="color: #374151; margin-top: 12px;">Nie możesz znaleźć SMS-a? Zamów manualnie: <a href="https://www.zatyrani.pl/niebocross/koszulka" style="color: #10b981; font-weight: bold;">zatyrani.pl/niebocross/koszulka</a></p>
-      <p style="color: #374151; margin-top: 16px;">💳 <strong>Ważne:</strong> Dostawca płatności (PayU) czasami potrzebuje więcej czasu na załadowanie formularza — prosimy o cierpliwość. Po podaniu kodu BLIK pamiętaj o potwierdzeniu płatności w aplikacji banku!</p>
-
-      <h3 style="color: #065f46; margin-top: 30px; margin-bottom: 16px;">📱 SMS-y z leszy.run — możesz im zaufać!</h3>
-      <p style="color: #374151;">Pomiar czasu obsługuje system <strong>leszy.run</strong>.</p>
-      <p style="color: #374151; margin-top: 12px;"><strong>2 dni przed wydarzeniem</strong> (10 kwietnia) otrzymasz od tego nadawcy SMS-a z linkiem do wygenerowania <strong>kodu QR</strong>. Będzie on niezbędny do identyfikacji w biurze zawodów.</p>
-
-      <h3 style="color: #065f46; margin-top: 30px; margin-bottom: 16px;">👶 Uczestnicy nieletni — obowiązkowe oświadczenie</h3>
-      <p style="color: #374151;">Jeśli w Twojej grupie są osoby <strong>poniżej 18. roku życia</strong>, <strong>obowiązkowo</strong> musisz mieć ze sobą <strong>wypełnione oświadczenie rodzica/opiekuna prawnego</strong>.</p>
-      <p style="color: #374151; margin-top: 12px;">
-        📄 <a href="https://drive.google.com/file/d/1hcW-umCJ_AIe9n8KfFRAxOYzI2WQFYDp/view?usp=sharing" style="color: #10b981; font-weight: bold;">Pobierz wzór oświadczenia</a>
-      </p>
+      <h3 style="color: #065f46; margin-top: 30px; margin-bottom: 16px;">⏰ Bądź na czas — odprawa zamykana punktualnie!</h3>
+      <p style="color: #374151;">Biuro zawodów otwieramy o <strong>9:30</strong>. Odprawa zamykana jest punktualnie:</p>
+      <ul style="color: #374151; margin-top: 8px;">
+        <li><strong>11:00</strong> — zamknięcie odprawy na biegi dziecięce</li>
+        <li><strong>11:20</strong> — start biegów dziecięcych</li>
+        <li><strong>11:40</strong> — zamknięcie odprawy na bieg główny i Nordic Walking</li>
+        <li><strong>12:00</strong> — start biegu głównego i NW</li>
+      </ul>
       <div style="background-color: #fef2f2; border-left: 4px solid #ef4444; padding: 16px 20px; margin: 20px 0; border-radius: 4px;">
-        <p style="margin: 0; color: #7f1d1d; font-weight: bold;">⚠️ Bez oświadczenia nieletni nie będą mogli wziąć udziału w biegu!</p>
+        <p style="margin: 0; color: #7f1d1d;"><strong>⚠️ Ważne:</strong> Mamy bardzo dużo osób na liście rezerwowej. Jeśli nie odbierzesz pakietu przed zamknięciem odprawy, Twój pakiet zostanie sprzedany osobom chętnym na miejscu.</p>
       </div>
 
-      <h3 style="color: #065f46; margin-top: 30px; margin-bottom: 16px;">🗺️ Trasy są już dostępne!</h3>
-      <p style="color: #374151;">Możesz już zapoznać się z przebiegiem tras 3+ km i 9+ km, a także pobrać pliki GPX:</p>
-      <p style="color: #374151; margin-top: 12px;">
-        👉 <a href="https://www.zatyrani.pl/niebocross#mapy-tras" style="color: #10b981; font-weight: bold;">Zobacz mapy tras i pobierz GPX</a>
-      </p>
-      <p style="color: #374151; margin-top: 16px;"><strong>Biuro zawodów</strong> będzie czynne w miejscu startu/mety <strong>od godziny 10:00</strong> (12 kwietnia).</p>
+      <h3 style="color: #065f46; margin-top: 30px; margin-bottom: 16px;">🔄 Nie możesz przyjść? Jutro ostatni dzień na rezygnację!</h3>
+      <p style="color: #374151;">Jeśli wiesz, że nie dasz rady być w niedzielę — <strong>jutro (czwartek) to ostatni moment</strong>, żeby zadzwonić i zamienić się z kimś z listy rezerwowej. W ten sposób możesz odzyskać swoje pieniądze.</p>
+      <p style="color: #374151; margin-top: 12px;">Nawet jeśli nie potrzebujesz zwrotu — daj nam znać! Dzięki temu już teraz możemy wpuścić kogoś z listy rezerwowej. Dla nas to mniej zamieszania w niedzielę, a więcej pieniędzy trafi na cel charytatywny.</p>
+      <p style="color: #374151; margin-top: 16px;">📞 <strong>Zadzwoń:</strong> <a href="tel:+48784640977" style="color: #10b981; font-weight: bold; font-size: 18px;">784 640 977</a></p>
 
-      <h3 style="color: #065f46; margin-top: 30px; margin-bottom: 16px;">🧒 Bieg dla dzieci — nie czekaj do ostatniej chwili!</h3>
-      <p style="color: #374151;"><strong>Bieg dla dzieci</strong> (poniżej 16 lat) startuje o <strong>11:30</strong>.</p>
-      <p style="color: #374151; margin-top: 12px;">⏰ <strong>Nie zostawiajcie rejestracji w biurze zawodów na ostatnią chwilę!</strong> Przyjdźcie wcześniej, żeby wszystko załatwić na spokojnie.</p>
+      <h3 style="color: #065f46; margin-top: 30px; margin-bottom: 16px;">📱 SMS z kodem QR — w piątek wieczorem</h3>
+      <p style="color: #374151;">W piątek wieczorem wyślemy Ci SMS-a z linkiem do wygenerowania <strong>kodu QR</strong>, który przyspieszy odprawę w biurze zawodów. SMS przyjdzie z platformy <strong>leszy.run</strong> — to nasz system pomiaru czasu, możesz mu zaufać.</p>
 
-      <h3 style="color: #065f46; margin-top: 30px; margin-bottom: 16px;">🏃 Trening we wtorek — metoda Galloway</h3>
-      <p style="color: #374151;">Ostatni trening przed startem odbędzie się <strong>we wtorek, 31 marca o 19:00</strong>.</p>
-      <p style="color: #374151; margin-top: 12px;">Tym razem przetestujemy <strong>metodę Galloway</strong> — idealną technikę dla tych, którzy dopiero zaczynają przygodę z bieganiem lub chcą przebiec dłuższy dystans bez dużego zmęczenia. To połączenie biegania i chodzenia w przemyślanych interwałach.</p>
-      <p style="color: #374151; margin-top: 12px;">📍 <a href="https://maps.app.goo.gl/1hiWUekjpgK7GpAN8" style="color: #10b981; font-weight: bold;">Nieborowice – Wierzbowa 4</a></p>
+      <h3 style="color: #065f46; margin-top: 30px; margin-bottom: 16px;">📋 Wszystkie szczegóły na stronie</h3>
+      <p style="color: #374151;">Harmonogram, mapy tras, lokalizacja biura zawodów i parkingów — wszystko znajdziesz na:</p>
+      <p style="color: #374151; margin-top: 12px;">👉 <a href="https://www.zatyrani.pl/niebocross" style="color: #10b981; font-weight: bold;">zatyrani.pl/niebocross</a></p>
 
-      <h3 style="color: #065f46; margin-top: 30px; margin-bottom: 16px;">🔄 Lista rezerwowa — pomóż innym!</h3>
-      <p style="color: #374151;">Jeśli z jakichś przyczyn (choroba, kontuzja, inne nieprzewidziane okoliczności) <strong>nie będziesz mógł/mogła wziąć udziału</strong>, koniecznie daj nam znać jak najszybciej!</p>
-      <p style="color: #374151; margin-top: 12px;">Prowadzimy <strong>listę rezerwową</strong> — skontaktujemy Cię z osobą, która przejmie Twój pakiet startowy.</p>
-      <p style="color: #374151; margin-top: 16px;">📞 <strong>Kontakt w sprawie rezygnacji:</strong> <a href="tel:+48784640977" style="color: #10b981; font-weight: bold; font-size: 18px;">784 640 977</a></p>
+      <h3 style="color: #065f46; margin-top: 30px; margin-bottom: 16px;">🚗 Parking — jedź na Wierzbową 4!</h3>
+      <p style="color: #374151;">Przygotowaliśmy wystarczająco dużo miejsc parkingowych blisko wydarzenia. <strong>Nie parkujcie byle gdzie i nie blokujcie prywatnych bram!</strong></p>
+      <p style="color: #374151; margin-top: 12px;">Wpisz w nawigację: <strong>Wierzbowa 4 Nieborowice</strong> — nasi wolontariusze pokierują Cię na miejsce parkingowe.</p>
+
+      <h3 style="color: #065f46; margin-top: 30px; margin-bottom: 16px;">🐾 OTOZ Animals — adoptuj, nie kupuj!</h3>
+      <p style="color: #374151;">Na wydarzeniu będą obecne inspektorki z <strong>OTOZ Animals Inspektorat Gliwice</strong> wraz z kilkoma swoimi podopiecznymi — psami, które szukają kochającego domu. Przyjdźcie się przywitać!</p>
+
+      <h3 style="color: #065f46; margin-top: 30px; margin-bottom: 16px;">🕯️ Pomnik pamięci pomordowanych</h3>
+      <p style="color: #374151;">Na trasie biegu, w odległości 400m od startu, znajduje się <strong>„Pomnik pamięci pomordowanych w obozie przejściowym w Nieborowicach"</strong>. Zachęcamy do przyjścia ze zniczem i zapalenia go. My regularnie doglądamy tego miejsca, więc proszę się nie martwić — posprzątamy wypalone znicze. Biuro otwieramy o 9:30, a bieg główny startuje o 12:00, więc będzie sporo czasu, żeby tam podejść.</p>
+
+      <h3 style="color: #065f46; margin-top: 30px; margin-bottom: 16px;">🎒 Co zabrać ze sobą?</h3>
+      <ul style="color: #374151;">
+        <li>☕ <strong>Własny kubek</strong> — ograniczmy produkcję śmieci!</li>
+        <li>💰 <strong>Trochę gotówki</strong> — na miejscu będzie można kupić ciasta, kiełbaski, kukurydzę, popcorn i watę cukrową. Będą też atrakcje dla dzieci — plecenie warkoczyków i malowanie twarzy. Cały dochód ze sprzedaży trafi bezpośrednio do OTOZ Animals Inspektorat Gliwice.</li>
+      </ul>
+
+      <h3 style="color: #065f46; margin-top: 30px; margin-bottom: 16px;">👶 Nieletni — oświadczenie obowiązkowe!</h3>
+      <p style="color: #374151;">Wszyscy uczestnicy <strong>w wieku 16 lat i młodsi</strong> muszą mieć ze sobą <strong>wydrukowane i podpisane oświadczenie</strong> rodzica/opiekuna prawnego.</p>
+      <p style="color: #374151; margin-top: 12px;">📄 <a href="https://www.zatyrani.pl/niebocross/o%C5%9Bwiadczenie_nieletnich.pdf" style="color: #10b981; font-weight: bold;">Pobierz oświadczenie</a></p>
+      <div style="background-color: #fef2f2; border-left: 4px solid #ef4444; padding: 16px 20px; margin: 20px 0; border-radius: 4px;">
+        <p style="margin: 0; color: #7f1d1d; font-weight: bold;">⚠️ Bez oświadczenia nieletni nie będą mogli wziąć udziału!</p>
+      </div>
 
       <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 40px 0;">
 
-      <p style="color: #374151; font-size: 16px;">Masz pytania? Zadzwoń: <a href="tel:+48784640977" style="color: #10b981; font-weight: bold;">784 640 977</a></p>
-      <p style="font-size: 16px;">Do zobaczenia 12 kwietnia w Nieborowicach! 💚🏃‍♂️</p>
+      <p style="color: #374151; font-size: 16px;">Teraz już tylko trzymajcie kciuki za słoneczną pogodę — bo o całą resztę zadbaliśmy! ☀️</p>
+      <p style="font-size: 16px;">Do zobaczenia w niedzielę w Nieborowicach! 💚🏃‍♂️</p>
 
       <hr style="border: none; border-top: 1px solid #ccc; margin: 30px 0;">
       <p style="color: #666; font-size: 14px;">
