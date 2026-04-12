@@ -27,6 +27,7 @@ BG_COLORS    = os.path.join(ROOT, "public", "niebocross", "colors.png")
 PARTNER_LOGOS = [
     os.path.join(ROOT, "public", "niebocross", "klinika.webp"),
     os.path.join(ROOT, "public", "gratisownia.png"),
+    os.path.join(ROOT, "public", "niebocross", "dom100eu.png"),
     os.path.join(ROOT, "public", "niebocross", "nieborowice.webp"),
     os.path.join(ROOT, "public", "niebocross", "kgigw.jpg"),
     os.path.join(ROOT, "public", "niebocross", "gok.png"),
@@ -39,9 +40,14 @@ PARTNER_LOGOS = [
     os.path.join(ROOT, "public", "niebocross", "przedszkole.png"),
 ]
 
+# Per-logo height scale overrides (default 1.0)
+PARTNER_SCALE = {
+    "dom100eu.png": 0.5,
+}
+
 # Partners without logos – rendered as text PNGs
 PARTNER_TEXT = [
-    'Sklep Zoologiczno-Wędkarski\n"Karaś" z Olkusza',
+    'Sklep Zoologiczno-\nWędkarski "Karaś"\nz Olkusza',
 ]
 
 F_BLACK   = os.path.join(FONTS, "Inter-Black.ttf")
@@ -66,8 +72,12 @@ CATEGORY_ACCENT = {
     "Bieg 9km":    (219,  38, 122),   # pink
     "Bieg 3km":    (63,  159, 216),   # blue
     "NW 3km":      (218, 180,  30),   # darker yellow
-    "NW 9km":      (255, 120,  30),   # bright orange
-    "Bieg dzieci": (40,  200,  80),   # bright green
+    "NW 9km":      (0,  100,   0),   # dark green
+    "Dzieci 100m": (255, 120,  30),   # orange
+    "Dzieci 200m": (99,  191, 125),   # green
+    "Dzieci 400m": (0,   206, 209),   # turquoise
+    "Dzieci 800m": (125,  92, 155),   # purple
+    "Brak":         (180, 180, 180),   # grey
     "Bieg Testowy": (138,   3,   3),  # blood red
 }
 
@@ -114,6 +124,11 @@ def make_category_badge(category, size=300):
     accent = CATEGORY_ACCENT.get(category, RAINBOW[0])
     badge = Image.new("RGBA", (size, size), (0, 0, 0, 0))
     d = ImageDraw.Draw(badge)
+    # Empty grey circle for "Brak" category
+    if category == "Brak":
+        d.ellipse([4, 4, size - 5, size - 5], fill=None, outline=(180, 180, 180, 255), width=6)
+        _badge_cache[category] = badge
+        return badge
     # filled circle
     d.ellipse([4, 4, size - 5, size - 5], fill=accent, outline=(255,255,255,255), width=6)
     # text
@@ -355,12 +370,14 @@ def make_bib(number, category, event_name, event_date):
     draw.rectangle([0, FOOTER_TOP, W, FOOTER_TOP + 4], fill=accent)
 
     # Build list of partner images (from logo files and text)
+    # Each entry is (image, height_scale)
     partner_imgs = []
     for p in PARTNER_LOGOS:
         if os.path.exists(p):
-            partner_imgs.append(Image.open(p).convert("RGBA"))
+            scale = PARTNER_SCALE.get(os.path.basename(p), 1.0)
+            partner_imgs.append((Image.open(p).convert("RGBA"), scale))
     for txt in PARTNER_TEXT:
-        partner_imgs.append(make_text_logo(txt, target_h=PARTNER_H))
+        partner_imgs.append((make_text_logo(txt, target_h=PARTNER_H), 1.0))
 
     if partner_imgs:
         # Split into 2 rows
@@ -373,33 +390,35 @@ def make_bib(number, category, event_name, event_date):
                 continue
             row_top = FOOTER_TOP + 4 + row_idx * (ROW_H + ROW_GAP)
             row_h = PARTNER_H
-            # Pre-calculate scaled widths
+            # Pre-calculate scaled widths, applying per-logo height scale
             logo_widths = []
-            for pimg in row_imgs:
-                ratio = row_h / pimg.height
+            logo_heights = []
+            for pimg, h_scale in row_imgs:
+                h = int(row_h * h_scale)
+                ratio = h / pimg.height
                 logo_widths.append(int(pimg.width * ratio))
+                logo_heights.append(h)
             total_logos_w = sum(logo_widths)
             avail = W - 2 * margin
             # Scale down if too wide
             if total_logos_w > avail:
-                scale = avail / total_logos_w
-                row_h_adj = int(row_h * scale)
-                logo_widths = [int(lw * scale) for lw in logo_widths]
+                shrink = avail / total_logos_w
+                logo_widths = [int(lw * shrink) for lw in logo_widths]
+                logo_heights = [int(lh * shrink) for lh in logo_heights]
                 total_logos_w = sum(logo_widths)
-            else:
-                row_h_adj = row_h
-            part_y = row_top + (ROW_H - row_h_adj) // 2
             gap = (avail - total_logos_w) // max(len(row_imgs) - 1, 1)
             x = margin
-            for i, pimg in enumerate(row_imgs):
+            for i, (pimg, _) in enumerate(row_imgs):
                 pimg = strip_white_bg(pimg)
-                scaled = pimg.resize((logo_widths[i], row_h_adj), Image.LANCZOS)
-                px = x
+                lw, lh = logo_widths[i], logo_heights[i]
+                scaled = pimg.resize((lw, lh), Image.LANCZOS)
+                # Vertically centre each logo in the row
+                py = row_top + (ROW_H - lh) // 2
                 base = img.convert("RGBA")
-                base.paste(scaled, (px, part_y), scaled)
+                base.paste(scaled, (x, py), scaled)
                 img = base.convert("RGB")
                 draw = ImageDraw.Draw(img)
-                x += logo_widths[i] + gap
+                x += lw + gap
 
     # ── 5. Number (fills remaining space) ────────────────────────────────────
     NUM_TOP    = HEADER_BOT
@@ -489,7 +508,11 @@ def main():
     p.add_argument("--bieg3km", type=int, default=0)
     p.add_argument("--nw3km",   type=int, default=0)
     p.add_argument("--nw9km",   type=int, default=0)
-    p.add_argument("--dzieci",  type=int, default=0)
+    p.add_argument("--dzieci100", type=int, default=0)
+    p.add_argument("--dzieci200", type=int, default=0)
+    p.add_argument("--dzieci400", type=int, default=0)
+    p.add_argument("--dzieci800", type=int, default=0)
+    p.add_argument("--brak",      type=int, default=0)
     p.add_argument("--testowy", type=int, default=0)
     p.add_argument("--out",     default=None)
     a = p.parse_args()
@@ -497,9 +520,13 @@ def main():
     jobs = [
         ("Bieg 9km",    a.bieg9km),
         ("Bieg 3km",    a.bieg3km),
-        ("NW 3km",      a.nw3km),
         ("NW 9km",      a.nw9km),
-        ("Bieg dzieci", a.dzieci),
+        ("NW 3km",      a.nw3km),
+        ("Dzieci 100m", a.dzieci100),
+        ("Dzieci 200m", a.dzieci200),
+        ("Dzieci 400m", a.dzieci400),
+        ("Dzieci 800m", a.dzieci800),
+        ("Brak",        a.brak),
         ("Bieg Testowy", a.testowy),
     ]
     if sum(n for _, n in jobs) == 0:
