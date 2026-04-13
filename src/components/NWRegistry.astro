@@ -264,7 +264,7 @@
   // Check on load if limit is already reached
   fetch("/api/nwrajd-participants")
     .then(r => r.json())
-    .then(data => { if (data.length >= 50) showLimitReached(); })
+    .then(data => { if (data.length >= 55) showLimitReached(); })
     .catch(() => {});
 
   form.addEventListener("submit", async (e) => {
