@@ -691,5 +691,16 @@
     "phone": "784640977",
     "distance": 9,
     "pace": 9
+  },
+  {
+    "uid": "bieg-14-4-2026-18-0-wierzbowa-4-nieborowice-obok-domu-gornickich-9-7",
+    "type": "bieg",
+    "datetime": "14/04/2026 18:00",
+    "location": "Wierzbowa 4 Nieborowice, obok domu Górnickich",
+    "locationLink": "",
+    "comment": "Latarkę w kieszeni może warto mieć",
+    "phone": "512637906",
+    "distance": 9,
+    "pace": 7
   }
 ]
