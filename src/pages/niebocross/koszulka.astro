@@ -27,105 +27,152 @@ import { t } from "../../utils/i18n";
         <img src="/niebocross/tshirt-back.png" alt="Koszulka NieboCross - tył" class="w-full max-w-xs rounded-2xl border border-slate-200 shadow-lg" />
       </div>
 
-      <!-- Explanation (only shown for registered participants) -->
-      <div id="registration-explanation" class="hidden rounded-2xl bg-slate-50 ring-1 ring-slate-200 p-5 mb-6 text-sm leading-relaxed text-slate-700">
-        Podczas rejestracji zbieraliśmy informację o rozmiarze koszulki, jednak niestety zamówienia zostały już zamknięte.
+      <!-- Success state (shown when ?status=success) -->
+      <div id="success-state" class="hidden rounded-2xl bg-emerald-50 ring-1 ring-emerald-200 p-8 text-center text-emerald-800">
+        <p class="text-xl font-bold mb-2">Dziękujemy za zamówienie!</p>
+        <p>Płatność została przyjęta. Skontaktujemy się z Tobą w sprawie odbioru koszulki.</p>
       </div>
 
-      <!-- Order unavailable notice -->
-      <div class="rounded-2xl bg-slate-100 ring-1 ring-slate-300 p-8 text-center">
-        <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-16 w-16 text-slate-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-        <h3 class="text-2xl font-bold text-slate-900 mb-3">Zamówienia zamknięte</h3>
-        <p class="text-lg text-slate-600 mb-2">Niestety, aktualnie nie jest możliwe zamówienie koszulki pamiątkowej.</p>
-        <p class="text-sm text-slate-500">Dziękujemy za zainteresowanie!</p>
-      </div>
+      <!-- Wizard container -->
+      <div id="wizard" class="rounded-2xl bg-white ring-1 ring-slate-200 shadow-xl p-6 sm:p-8">
 
-      <!-- Card with form (hidden) -->
-      <div class="hidden rounded-2xl bg-white ring-1 ring-slate-200 shadow-xl p-6 sm:p-8">
+        <!-- ========== STEP 1: Koszulki ========== -->
+        <div id="step1" class="space-y-5">
+          <h3 class="text-xl font-bold text-slate-900">Wybierz koszulki</h3>
+          <p class="text-sm text-slate-600">Każda koszulka kosztuje 60 zł. Możesz zamówić do 10 sztuk.</p>
 
-        <!-- Loading state -->
-        <div id="loading-state" class="text-center py-8">
-          <div class="inline-block h-10 w-10 animate-spin rounded-full border-4 border-slate-200 border-t-emerald-500"></div>
-          <p class="mt-4 text-slate-600">Ładowanie danych...</p>
+          <div id="items-list" class="space-y-3">
+            <!-- Item rows injected here -->
+          </div>
+
+          <template id="item-row-template">
+            <div class="item-row rounded-xl ring-1 ring-slate-200 p-4 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="item-label text-sm font-semibold text-slate-700">Koszulka #1</span>
+                <button type="button" class="remove-item-btn hidden text-sm text-red-600 hover:underline">Usuń</button>
+              </div>
+              <select class="item-size block w-full rounded-lg border-2 border-emerald-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2">
+                <option value="">— wybierz rozmiar —</option>
+                <optgroup label="Dziecięce">
+                  <option value="116">116</option>
+                  <option value="128">128</option>
+                  <option value="134">134</option>
+                  <option value="140">140</option>
+                  <option value="146">146</option>
+                  <option value="152">152</option>
+                </optgroup>
+                <optgroup label="Dorosłe">
+                  <option value="XS">XS</option>
+                  <option value="S">S</option>
+                  <option value="M">M</option>
+                  <option value="L">L</option>
+                  <option value="XL">XL</option>
+                  <option value="XXL">XXL</option>
+                </optgroup>
+              </select>
+            </div>
+          </template>
+
+          <button type="button" id="add-item-btn"
+            class="w-full rounded-lg border-2 border-dashed border-emerald-300 px-4 py-3 text-sm font-semibold text-emerald-700 hover:bg-emerald-50 disabled:opacity-40 disabled:cursor-not-allowed">
+            + Dodaj kolejną koszulkę
+          </button>
+
+          <div class="flex items-center justify-between border-t border-slate-200 pt-4">
+            <span class="text-sm text-slate-600">Razem:</span>
+            <span id="step1-total" class="text-lg font-bold text-slate-900">0 zł (0 szt.)</span>
+          </div>
+
+          <button type="button" id="step1-next-btn"
+            class="w-full rounded-full bg-emerald-500 px-6 py-3 text-base font-semibold text-slate-900 shadow-lg shadow-emerald-500/30 transition hover:-translate-y-0.5 hover:bg-emerald-400 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
+            disabled>
+            Dalej →
+          </button>
         </div>
 
-        <!-- Participant greeting (shown when accessed via SMS link) -->
-        <div id="participant-greeting" class="hidden mb-5 rounded-xl bg-sky-50 ring-1 ring-sky-200 p-4 text-sm text-sky-800 leading-relaxed"></div>
-
-        <!-- Order form -->
-        <form id="order-form" class="hidden space-y-5">
-          <input type="hidden" id="participantId" name="participantId" value="" />
+        <!-- ========== STEP 2: Dane zamawiającego ========== -->
+        <div id="step2" class="hidden space-y-5">
+          <h3 class="text-xl font-bold text-slate-900">Twoje dane</h3>
 
           <div>
             <label for="firstName" class="block text-sm font-semibold text-slate-700 mb-1">Imię <span class="text-red-500">*</span></label>
-            <input type="text" id="firstName" name="firstName" required
+            <input type="text" id="firstName" required
               class="block w-full rounded-lg border-2 border-emerald-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2" />
           </div>
 
           <div>
             <label for="lastName" class="block text-sm font-semibold text-slate-700 mb-1">Nazwisko <span class="text-red-500">*</span></label>
-            <input type="text" id="lastName" name="lastName" required
+            <input type="text" id="lastName" required
               class="block w-full rounded-lg border-2 border-emerald-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2" />
           </div>
 
           <div>
             <label for="email" class="block text-sm font-semibold text-slate-700 mb-1">Email <span class="text-red-500">*</span></label>
-            <input type="email" id="email" name="email" required
+            <input type="email" id="email" required
               class="block w-full rounded-lg border-2 border-emerald-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2" />
           </div>
 
           <div>
             <label for="phoneNumber" class="block text-sm font-semibold text-slate-700 mb-1">Numer telefonu <span class="text-red-500">*</span></label>
-            <input type="tel" id="phoneNumber" name="phoneNumber" required
+            <input type="tel" id="phoneNumber" required
               class="block w-full rounded-lg border-2 border-emerald-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2" />
           </div>
 
           <div>
-            <label for="tshirtSize" class="block text-sm font-semibold text-slate-700 mb-1">Podaj prawidłowy rozmiar koszulki <span class="text-red-500">*</span></label>
-            <select id="tshirtSize" name="tshirtSize" required
-              class="block w-full rounded-lg border-2 border-emerald-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-3 py-2">
-              <option value="">— wybierz rozmiar —</option>
-              <optgroup label="Dziecięce">
-                <option value="116">116</option>
-                <option value="128">128</option>
-                <option value="134">134</option>
-                <option value="140">140</option>
-                <option value="146">146</option>
-                <option value="152">152</option>
-              </optgroup>
-              <optgroup label="Dorosłe">
-                <option value="XS">XS</option>
-                <option value="S">S</option>
-                <option value="M">M</option>
-                <option value="L">L</option>
-                <option value="XL">XL</option>
-                <option value="XXL">XXL</option>
-              </optgroup>
-            </select>
-          </div>
-
-          <div>
             <label class="flex items-start gap-2 cursor-pointer">
-              <input type="checkbox" id="pickupConsent" required
+              <input type="checkbox" id="rodoAccepted" required
                 class="mt-1 rounded border-emerald-300 border-2 text-emerald-600 focus:ring-emerald-500" />
-              <span class="text-sm text-slate-700">Oświadczam, że wiem, iż koszulkę będzie można odebrać wyłącznie w biurze zawodów w dniu wydarzenia, 12 kwietnia. <span class="text-red-500">*</span></span>
+              <span class="text-sm text-slate-700">Wyrażam zgodę na przetwarzanie moich danych osobowych w celu realizacji zamówienia koszulki. <span class="text-red-500">*</span></span>
             </label>
           </div>
 
-          <button type="submit" id="buy-btn"
-            class="w-full rounded-full bg-emerald-500 px-6 py-3 text-base font-semibold text-slate-900 shadow-lg shadow-emerald-500/30 transition hover:-translate-y-0.5 hover:bg-emerald-400 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0">
-            Zamów koszulkę
-          </button>
-        </form>
+          <div id="step2-error" class="hidden rounded-xl bg-red-50 ring-1 ring-red-200 p-3 text-sm text-red-700"></div>
 
-        <!-- Payment widget container -->
-        <div id="payment-form-container" class="hidden mt-4 min-h-[400px]"></div>
+          <div class="flex gap-3">
+            <button type="button" id="step2-back-btn"
+              class="flex-1 rounded-lg border-2 border-emerald-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">
+              ← Wstecz
+            </button>
+            <button type="button" id="step2-next-btn"
+              class="flex-1 rounded-full bg-emerald-500 px-6 py-3 text-base font-semibold text-slate-900 shadow-lg shadow-emerald-500/30 hover:bg-emerald-400 disabled:opacity-50 disabled:cursor-not-allowed">
+              Dalej →
+            </button>
+          </div>
+        </div>
 
-        <!-- Messages -->
-        <div id="error-message" class="hidden mt-4 rounded-xl bg-red-50 ring-1 ring-red-200 p-4 text-sm text-red-700"></div>
-        <div id="success-message" class="hidden mt-4 rounded-xl bg-emerald-50 ring-1 ring-emerald-200 p-6 text-center text-emerald-800"></div>
+        <!-- ========== STEP 3: Podsumowanie + płatność ========== -->
+        <div id="step3" class="hidden space-y-5">
+          <h3 class="text-xl font-bold text-slate-900">Podsumowanie i płatność</h3>
+
+          <div class="rounded-xl bg-slate-50 ring-1 ring-slate-200 p-4 space-y-3 text-sm">
+            <div>
+              <div class="font-semibold text-slate-700">Zamawiający:</div>
+              <div id="summary-buyer" class="text-slate-600"></div>
+            </div>
+            <div>
+              <div class="font-semibold text-slate-700">Koszulki:</div>
+              <ul id="summary-items" class="list-disc list-inside text-slate-600"></ul>
+            </div>
+            <div class="flex justify-between border-t border-slate-200 pt-2">
+              <span class="font-semibold text-slate-700">Razem:</span>
+              <span id="summary-total" class="font-bold text-slate-900"></span>
+            </div>
+          </div>
+
+          <div class="rounded-xl bg-amber-50 ring-1 ring-amber-200 p-4">
+            <label class="flex items-start gap-2 cursor-pointer">
+              <input type="checkbox" id="deliveryConsent" required
+                class="mt-1 rounded border-amber-400 border-2 text-emerald-600 focus:ring-emerald-500" />
+              <span class="text-sm text-slate-700 leading-relaxed">
+                Przyjmuję do wiadomości, że koszulka nie jest wysyłana kurierem / pocztą i że cena nie zawiera kosztów wysyłki. Odbiór koszulki: osobiście po kontakcie z <a href="mailto:lukasz@zatyrani.pl" class="underline font-semibold">lukasz@zatyrani.pl</a>, lub podczas jednego z najbliższych biegów, w których uczestniczymy — <a href="https://dostartu.pl/permalink-v15465" target="_blank" rel="noopener" class="underline font-semibold">Bieg Lisa</a> oraz <a href="https://competitions.timekeeper.pl/15-bieg-im-ks-konstantego-damrota" target="_blank" rel="noopener" class="underline font-semibold">15. Bieg im. ks. Konstantego Damrota</a>. <span class="text-red-500">*</span>
+              </span>
+            </label>
+          </div>
+
+          <div id="payment-form-container" class="min-h-[400px]"></div>
+
+          <div id="step3-error" class="hidden rounded-xl bg-red-50 ring-1 ring-red-200 p-3 text-sm text-red-700"></div>
+        </div>
       </div>
 
       <!-- Contact info -->
@@ -137,131 +184,178 @@ import { t } from "../../utils/i18n";
           <a href="mailto:biuro@zatyrani.pl" class="hover:text-emerald-600">biuro@zatyrani.pl</a>
         </p>
       </div>
-
     </div>
   </section>
 </Layout>
 
 <script>
   const API_BASE = '/api/niebocross/tshirt/purchase';
+  const MAX_ITEMS = 10;
+  const PRICE_PER_ITEM = 60;
 
-  function showError(msg) {
-    const el = document.getElementById('error-message');
+  // ─── State ────────────────────────────────────────────────
+  const state = {
+    items: [{ size: '' }],
+    buyer: null,
+    payment: null,
+  };
+
+  // ─── Helpers ──────────────────────────────────────────────
+  function show(stepId) {
+    document.getElementById('step1').classList.add('hidden');
+    document.getElementById('step2').classList.add('hidden');
+    document.getElementById('step3').classList.add('hidden');
+    document.getElementById(stepId).classList.remove('hidden');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function renderItems() {
+    const listEl = document.getElementById('items-list');
+    const template = document.getElementById('item-row-template');
+    listEl.innerHTML = '';
+
+    state.items.forEach((item, i) => {
+      const clone = template.content.firstElementChild.cloneNode(true);
+      clone.querySelector('.item-label').textContent = `Koszulka #${i + 1}`;
+      const select = clone.querySelector('.item-size');
+      select.value = item.size || '';
+      select.addEventListener('change', (e) => {
+        state.items[i].size = e.target.value;
+        updateStep1UI();
+      });
+      const removeBtn = clone.querySelector('.remove-item-btn');
+      if (state.items.length > 1) {
+        removeBtn.classList.remove('hidden');
+        removeBtn.addEventListener('click', () => {
+          state.items.splice(i, 1);
+          renderItems();
+          updateStep1UI();
+        });
+      }
+      listEl.appendChild(clone);
+    });
+  }
+
+  function updateStep1UI() {
+    const count = state.items.length;
+    const allPicked = state.items.every((it) => it.size);
+    document.getElementById('step1-total').textContent = `${count * PRICE_PER_ITEM} zł (${count} szt.)`;
+    document.getElementById('step1-next-btn').disabled = !allPicked || count < 1;
+    document.getElementById('add-item-btn').disabled = count >= MAX_ITEMS;
+  }
+
+  function validateStep2() {
+    const fn = document.getElementById('firstName').value.trim();
+    const ln = document.getElementById('lastName').value.trim();
+    const em = document.getElementById('email').value.trim();
+    const ph = document.getElementById('phoneNumber').value.trim();
+    const rodo = document.getElementById('rodoAccepted').checked;
+    document.getElementById('step2-next-btn').disabled = !(fn && ln && em && ph && rodo);
+  }
+
+  function showStep2Error(msg) {
+    const el = document.getElementById('step2-error');
     el.innerHTML = msg;
     el.classList.remove('hidden');
   }
-
-  function hideError() {
-    document.getElementById('error-message').classList.add('hidden');
+  function hideStep2Error() {
+    document.getElementById('step2-error').classList.add('hidden');
   }
 
-  function renderPaymentWidget(transactionID, formContext) {
-    document.getElementById('order-form').classList.add('hidden');
-    const container = document.getElementById('payment-form-container');
-    container.classList.remove('hidden');
+  function renderSummary() {
+    document.getElementById('summary-buyer').textContent =
+      `${state.buyer.firstName} ${state.buyer.lastName} · ${state.buyer.email} · ${state.buyer.phoneNumber}`;
 
+    const counts = {};
+    state.items.forEach((it) => {
+      counts[it.size] = (counts[it.size] || 0) + 1;
+    });
+    const ul = document.getElementById('summary-items');
+    ul.innerHTML = '';
+    Object.entries(counts).forEach(([size, n]) => {
+      const li = document.createElement('li');
+      li.textContent = `${n}× Koszulka ${size}`;
+      ul.appendChild(li);
+    });
+
+    document.getElementById('summary-total').textContent = `${state.payment.amount} zł`;
+  }
+
+  function renderPaymentWidget() {
+    const container = document.getElementById('payment-form-container');
+    container.innerHTML = '';
     const script = document.createElement('script');
-    script.src = `https://api.sibsgateway.com/assets/js/widget.js?id=${transactionID}`;
+    script.src = `https://api.sibsgateway.com/assets/js/widget.js?id=${state.payment.transactionID}`;
     script.onload = function () {
       const form = document.createElement('form');
       form.className = 'paymentSPG';
-      form.setAttribute('spg-context', formContext);
+      form.setAttribute('spg-context', state.payment.formContext);
       form.setAttribute('spg-config', JSON.stringify({
         paymentMethodList: ['CARD', 'BLIK'],
-        amount: { value: 6000, currency: 'PLN' },
+        amount: { value: state.payment.amount * 100, currency: 'PLN' },
         language: 'pl',
         redirectUrl: 'https://zatyrani.pl/niebocross/koszulka?status=success'
       }));
       container.appendChild(form);
     };
     script.onerror = function () {
-      showError('Nie udało się załadować formularza płatności. Spróbuj odświeżyć stronę lub napisz: <a href="mailto:biuro@zatyrani.pl" class="underline font-semibold">biuro@zatyrani.pl</a>');
+      const el = document.getElementById('step3-error');
+      el.innerHTML = 'Nie udało się załadować formularza płatności. Odśwież stronę lub napisz: <a href="mailto:biuro@zatyrani.pl" class="underline font-semibold">biuro@zatyrani.pl</a>';
+      el.classList.remove('hidden');
     };
     document.head.appendChild(script);
   }
 
-  async function init() {
-    const params = new URLSearchParams(window.location.search);
-
-    // If returning from successful payment
-    if (params.get('status') === 'success') {
-      document.getElementById('loading-state').classList.add('hidden');
-      const el = document.getElementById('success-message');
-      el.innerHTML = '<p class="text-lg font-bold mb-1">Dziękujemy za zamówienie!</p><p>Płatność została przyjęta. Koszulkę otrzymasz w dniu wydarzenia.</p>';
-      el.classList.remove('hidden');
-      return;
-    }
-
-    const participantId = params.get('id');
-
-    if (participantId) {
-      try {
-        const resp = await fetch(`${API_BASE}?participantId=${participantId}`);
-        const data = await resp.json();
-
-        if (data.success && data.participant) {
-          const p = data.participant;
-
-          // Already ordered — show message, hide form
-          if (data.alreadyOrdered) {
-            document.getElementById('loading-state').classList.add('hidden');
-            const el = document.getElementById('success-message');
-            el.innerHTML =
-              `<p class="text-lg font-bold mb-1">Cześć ${p.firstName}!</p>` +
-              `<p>Koszulka w rozmiarze <strong>${data.orderedSize}</strong> została już zamówiona i opłacona. Otrzymasz ją w dniu wydarzenia.</p>`;
-            el.classList.remove('hidden');
-            return;
-          }
-
-          document.getElementById('participantId').value = p.id;
-          document.getElementById('firstName').value = p.firstName || '';
-          document.getElementById('lastName').value = p.lastName || '';
-          document.getElementById('email').value = p.email || '';
-          document.getElementById('phoneNumber').value = p.phoneNumber || '';
-          if (p.tshirtSize) {
-            document.getElementById('tshirtSize').value = p.tshirtSize;
-          }
-
-          // Show registration explanation
-          document.getElementById('registration-explanation').classList.remove('hidden');
-
-          // Lock name fields for known participants
-          document.getElementById('firstName').readOnly = true;
-          document.getElementById('lastName').readOnly = true;
-          document.getElementById('firstName').classList.add('bg-slate-100', 'text-slate-500', 'cursor-not-allowed');
-          document.getElementById('lastName').classList.add('bg-slate-100', 'text-slate-500', 'cursor-not-allowed');
-
-          // Show greeting
-          const greeting = document.getElementById('participant-greeting');
-          greeting.innerHTML =
-            `<p class="font-semibold mb-1">Cześć ${p.firstName}! Zamawiasz koszulkę dla siebie.</p>` +
-            `<p>Jeśli zarejestrowałeś/aś więcej osób na ten sam numer telefonu, dostaniesz kilka SMS-a z osobnym linkiem do zamówienia koszulki dla każdego z osobna.</p>`;
-          greeting.classList.remove('hidden');
-        }
-      } catch (err) {
-        console.error('Error fetching participant:', err);
-      }
-    }
-
-    document.getElementById('loading-state').classList.add('hidden');
-    document.getElementById('order-form').classList.remove('hidden');
+  // ─── Init ─────────────────────────────────────────────────
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('status') === 'success') {
+    document.getElementById('wizard').classList.add('hidden');
+    document.getElementById('success-state').classList.remove('hidden');
+  } else {
+    renderItems();
+    updateStep1UI();
   }
 
-  document.getElementById('order-form').addEventListener('submit', async function (e) {
-    e.preventDefault();
-    hideError();
+  // ─── Step 1 handlers ──────────────────────────────────────
+  document.getElementById('add-item-btn').addEventListener('click', () => {
+    if (state.items.length >= MAX_ITEMS) return;
+    state.items.push({ size: '' });
+    renderItems();
+    updateStep1UI();
+  });
 
-    const btn = document.getElementById('buy-btn');
+  document.getElementById('step1-next-btn').addEventListener('click', () => {
+    show('step2');
+    validateStep2();
+  });
+
+  // ─── Step 2 handlers ──────────────────────────────────────
+  ['firstName', 'lastName', 'email', 'phoneNumber'].forEach((id) => {
+    document.getElementById(id).addEventListener('input', validateStep2);
+  });
+  document.getElementById('rodoAccepted').addEventListener('change', validateStep2);
+
+  document.getElementById('step2-back-btn').addEventListener('click', () => {
+    hideStep2Error();
+    show('step1');
+  });
+
+  document.getElementById('step2-next-btn').addEventListener('click', async () => {
+    hideStep2Error();
+    const btn = document.getElementById('step2-next-btn');
     btn.disabled = true;
     btn.textContent = 'Przetwarzanie...';
 
-    const body = {
-      participantId: document.getElementById('participantId').value || null,
+    state.buyer = {
       firstName: document.getElementById('firstName').value.trim(),
       lastName: document.getElementById('lastName').value.trim(),
       email: document.getElementById('email').value.trim(),
       phoneNumber: document.getElementById('phoneNumber').value.trim(),
-      tshirtSize: document.getElementById('tshirtSize').value,
+    };
+
+    const body = {
+      ...state.buyer,
+      items: state.items.map((it) => ({ tshirtSize: it.size })),
     };
 
     try {
@@ -270,21 +364,28 @@ import { t } from "../../utils/i18n";
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
       });
-
       const data = await resp.json();
-
       if (!resp.ok || !data.success) {
         throw new Error(data.error || 'Błąd podczas tworzenia zamówienia');
       }
-
-      renderPaymentWidget(data.payment.transactionID, data.payment.formContext);
+      state.payment = data.payment;
+      renderSummary();
+      show('step3');
     } catch (err) {
       console.error('Purchase error:', err);
-      showError(err.message || 'Wystąpił błąd. Spróbuj ponownie lub napisz: <a href="mailto:biuro@zatyrani.pl" class="underline font-semibold">biuro@zatyrani.pl</a>');
+      showStep2Error(err.message || 'Wystąpił błąd. Spróbuj ponownie lub napisz: <a href="mailto:biuro@zatyrani.pl" class="underline font-semibold">biuro@zatyrani.pl</a>');
       btn.disabled = false;
-      btn.textContent = 'Zamów koszulkę';
+      btn.textContent = 'Dalej →';
+      validateStep2();
     }
   });
 
-  init();
+  // ─── Step 3 handler: consent gates widget injection ───────
+  let widgetRendered = false;
+  document.getElementById('deliveryConsent').addEventListener('change', (e) => {
+    if (e.target.checked && !widgetRendered) {
+      widgetRendered = true;
+      renderPaymentWidget();
+    }
+  });
 </script>
