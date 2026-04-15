@@ -34,39 +34,50 @@ function getSupabaseClient() {
 
 /**
  * Handle webhook for tshirt payment (separate table).
- * On success: update status to paid. On failure: delete the record (no stale pending rows).
+ * On success: update all rows in the order group to paid.
+ * On failure: delete all rows in the order group (no stale pending rows).
+ * Legacy single-row records (order_group_id IS NULL) are handled via the OR clause.
  */
 async function handleTshirtPaymentWebhook(supabase, paymentId, transactionId, isPaymentSuccess) {
-  const { data: tshirtPayment, error } = await supabase
+  // Primary row lookup — the webhook's merchantTransactionId is the primary row's id
+  const { data: primaryRow, error: lookupError } = await supabase
     .from("niebocross_tshirt_payments")
-    .select("*")
+    .select("id")
     .eq("id", paymentId)
     .single();
 
-  if (error || !tshirtPayment) {
+  if (lookupError || !primaryRow) {
     return false;
   }
 
-  console.log('[Webhook] Found tshirt payment:', paymentId);
+  console.log('[Webhook] Found tshirt payment primary:', paymentId);
 
   if (isPaymentSuccess) {
-    // Success — mark as paid, store transaction ID
-    await supabase
+    const { error: updateError } = await supabase
       .from("niebocross_tshirt_payments")
       .update({
         payment_status: 'paid',
         transaction_id: transactionId,
         paid_at: new Date().toISOString(),
       })
-      .eq("id", paymentId);
-    console.log('[Webhook] Tshirt payment marked as paid:', paymentId);
+      .or(`id.eq.${paymentId},order_group_id.eq.${paymentId}`);
+
+    if (updateError) {
+      console.error('[Webhook] Error marking tshirt group paid:', updateError);
+    } else {
+      console.log('[Webhook] Tshirt order group marked paid:', paymentId);
+    }
   } else {
-    // Failed — delete the record so no stale pending payment link remains
-    await supabase
+    const { error: deleteError } = await supabase
       .from("niebocross_tshirt_payments")
       .delete()
-      .eq("id", paymentId);
-    console.log('[Webhook] Tshirt payment failed, record deleted:', paymentId);
+      .or(`id.eq.${paymentId},order_group_id.eq.${paymentId}`);
+
+    if (deleteError) {
+      console.error('[Webhook] Error deleting failed tshirt group:', deleteError);
+    } else {
+      console.log('[Webhook] Tshirt order group deleted (failed):', paymentId);
+    }
   }
 
   return true;
