@@ -169,7 +169,17 @@ import { t } from "../../utils/i18n";
             </label>
           </div>
 
-          <div id="payment-form-container" class="min-h-[400px]"></div>
+          <button type="button" id="proceed-to-payment-btn"
+            class="hidden w-full rounded-full bg-emerald-500 px-6 py-3 text-base font-semibold text-slate-900 shadow-lg shadow-emerald-500/30 transition hover:-translate-y-0.5 hover:bg-emerald-400">
+            Przejdź do płatności →
+          </button>
+
+          <div id="payment-loading" class="hidden text-center py-8">
+            <div class="inline-block h-10 w-10 animate-spin rounded-full border-4 border-slate-200 border-t-emerald-500"></div>
+            <p class="mt-4 text-slate-600">Ładowanie formularza płatności... To może potrwać do 30 sekund.</p>
+          </div>
+
+          <div id="payment-form-container" class="min-h-[100px]"></div>
 
           <div id="step3-error" class="hidden rounded-xl bg-red-50 ring-1 ring-red-200 p-3 text-sm text-red-700"></div>
         </div>
@@ -281,9 +291,29 @@ import { t } from "../../utils/i18n";
     document.getElementById('summary-total').textContent = `${state.payment.amount} zł`;
   }
 
+  function hidePaymentLoader() {
+    document.getElementById('payment-loading').classList.add('hidden');
+  }
+
   function renderPaymentWidget() {
     const container = document.getElementById('payment-form-container');
     container.innerHTML = '';
+
+    // Hide spinner as soon as SIBS widget injects actual content into the container
+    const observer = new MutationObserver(() => {
+      if (container.children.length > 0) {
+        // Give the widget a beat to render visibly, then hide spinner
+        const firstChild = container.firstElementChild;
+        if (firstChild && firstChild.offsetHeight > 50) {
+          hidePaymentLoader();
+          observer.disconnect();
+        }
+      }
+    });
+    observer.observe(container, { childList: true, subtree: true, attributes: true });
+    // Fallback: hide spinner after 45 seconds no matter what
+    setTimeout(hidePaymentLoader, 45000);
+
     const script = document.createElement('script');
     script.src = `https://api.sibsgateway.com/assets/js/widget.js?id=${state.payment.transactionID}`;
     script.onload = function () {
@@ -299,6 +329,7 @@ import { t } from "../../utils/i18n";
       container.appendChild(form);
     };
     script.onerror = function () {
+      hidePaymentLoader();
       const el = document.getElementById('step3-error');
       el.innerHTML = 'Nie udało się załadować formularza płatności. Odśwież stronę lub napisz: <a href="mailto:biuro@zatyrani.pl" class="underline font-semibold">biuro@zatyrani.pl</a>';
       el.classList.remove('hidden');
@@ -380,12 +411,22 @@ import { t } from "../../utils/i18n";
     }
   });
 
-  // ─── Step 3 handler: consent gates widget injection ───────
-  let widgetRendered = false;
-  document.getElementById('deliveryConsent').addEventListener('change', (e) => {
-    if (e.target.checked && !widgetRendered) {
-      widgetRendered = true;
-      renderPaymentWidget();
+  // ─── Step 3 handlers: consent reveals button, button triggers widget ──
+  document.getElementById('deliveryConsent')!.addEventListener('change', (e) => {
+    const btn = document.getElementById('proceed-to-payment-btn')!;
+    if ((e.target as HTMLInputElement).checked) {
+      btn.classList.remove('hidden');
+    } else {
+      btn.classList.add('hidden');
     }
+  });
+
+  let widgetRendered = false;
+  document.getElementById('proceed-to-payment-btn')!.addEventListener('click', () => {
+    if (widgetRendered) return;
+    widgetRendered = true;
+    document.getElementById('proceed-to-payment-btn')!.classList.add('hidden');
+    document.getElementById('payment-loading')!.classList.remove('hidden');
+    renderPaymentWidget();
   });
 </script>
