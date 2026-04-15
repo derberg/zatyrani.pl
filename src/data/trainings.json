@@ -702,5 +702,16 @@
     "phone": "512637906",
     "distance": 9,
     "pace": 7
+  },
+  {
+    "uid": "bieg-16-4-2026-19-45-wilcza-cmentarz-12-7",
+    "type": "bieg",
+    "datetime": "16/04/2026 19:45",
+    "location": "Wilcza – Cmentarz",
+    "locationLink": "https://maps.app.goo.gl/NwiX62pvY3kmyV3M8",
+    "comment": "Rozbieganie z czołówkami ",
+    "phone": "513592253",
+    "distance": 12,
+    "pace": 7
   }
 ]
