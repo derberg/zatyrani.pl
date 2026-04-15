@@ -1,0 +1,244 @@
+---
+// Static payment page that handles payment IDs dynamically (English version)
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Payment - Wilczy Półmaraton 2026</title>
+    <meta property="og:image" content="https://zatyrani.pl/wilczypolmaraton_og.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <style>
+      body {
+        font-family: system-ui, -apple-system, sans-serif;
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+      .container {
+        background: white;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        max-width: 600px;
+        width: 90%;
+      }
+      .spinner {
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #667eea;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin: 20px auto;
+      }
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      .error {
+        color: #dc2626;
+        background: #fef2f2;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-top: 1rem;
+      }
+      .error a {
+        color: #991b1b;
+        text-decoration: underline;
+        font-weight: 500;
+      }
+      .error a:hover {
+        color: #7f1d1d;
+      }
+      .info {
+        color: #059669;
+        background: #ecfdf5;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-top: 1rem;
+      }
+      .btn {
+        display: inline-block;
+        margin-top: 1rem;
+        padding: 0.75rem 1.5rem;
+        background: #667eea;
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: 500;
+      }
+      .btn:hover {
+        background: #5a67d8;
+      }
+      #payment-form-container {
+        margin-top: 1rem;
+        min-height: 400px;
+      }
+      .amount-info {
+        font-size: 1.25rem;
+        color: #374151;
+        margin-bottom: 1rem;
+      }
+      .amount-info strong {
+        color: #059669;
+      }
+      .blik-notice {
+        background: #fef3c7;
+        border: 1px solid #fbbf24;
+        border-radius: 8px;
+        padding: 0.75rem 1rem;
+        margin-bottom: 1rem;
+        text-align: left;
+        font-size: 0.875rem;
+        color: #92400e;
+        line-height: 1.4;
+      }
+      .blik-notice strong {
+        color: #78350f;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1 id="title">Processing payment...</h1>
+      <div id="spinner" class="spinner"></div>
+      <p id="message">Please wait, the payment form is loading.</p>
+      <div id="blik-notice" class="blik-notice" style="display: none;">
+        <strong>BLIK:</strong> After entering your BLIK code and confirming, open your bank's app and approve the payment. Without confirming in the app, the payment will not be completed.
+      </div>
+      <div id="payment-form-container" style="display: none;">
+        <!-- SIBS SPG widget form will be injected here -->
+      </div>
+      <div id="info-message" class="info" style="display: none;"></div>
+      <div id="error-message" class="error" style="display: none;"></div>
+      <a id="panel-link" href="/en/wilczy-polmaraton/panel" class="btn" style="display: none;">Go to panel</a>
+    </div>
+
+    <script>
+      // Handle legacy URLs with ID in path - redirect to query parameter format
+      function handleLegacyUrl() {
+        const pathParts = window.location.pathname.split('/');
+        const paymentIndex = pathParts.indexOf('payment');
+
+        if (paymentIndex !== -1 && paymentIndex < pathParts.length - 1) {
+          const potentialId = pathParts[paymentIndex + 1];
+          // Check if it looks like a UUID
+          if (potentialId && potentialId !== 'index' && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(potentialId)) {
+            const newUrl = `/en/wilczy-polmaraton/payment/?id=${potentialId}`;
+            window.location.href = newUrl;
+            return true;
+          }
+        }
+        return false;
+      }
+
+      function renderPaymentWidget(transactionID, formContext, totalAmount) {
+        // Load SIBS SPG widget script
+        const script = document.createElement('script');
+        script.src = `https://api.sibsgateway.com/assets/js/widget.js?id=${transactionID}`;
+        script.onload = function() {
+          // Show the payment form container
+          const container = document.getElementById('payment-form-container');
+          container.style.display = 'block';
+
+          // Create the SPG payment form
+          const form = document.createElement('form');
+          form.className = 'paymentSPG';
+          form.setAttribute('spg-context', formContext);
+          form.setAttribute('spg-config', JSON.stringify({
+            paymentMethodList: ['CARD', 'BLIK', 'PAYBYLINK'],
+            amount: {
+              value: Math.round(totalAmount * 100),
+              currency: 'PLN'
+            },
+            language: 'en',
+            redirectUrl: 'https://zatyrani.pl/en/wilczy-polmaraton/panel?payment=success'
+          }));
+
+          container.appendChild(form);
+        };
+        script.onerror = function() {
+          document.getElementById('title').textContent = 'Loading error';
+          document.getElementById('message').style.display = 'none';
+          document.getElementById('error-message').innerHTML =
+            'Failed to load the payment form. Try refreshing the page or contact the organizer: <a href="mailto:biuro@zatyrani.pl">biuro@zatyrani.pl</a>';
+          document.getElementById('error-message').style.display = 'block';
+          document.getElementById('panel-link').style.display = 'inline-block';
+        };
+        document.head.appendChild(script);
+      }
+
+      async function handlePayment() {
+        if (handleLegacyUrl()) {
+          return;
+        }
+
+        const urlParams = new URLSearchParams(window.location.search);
+        let paymentId = urlParams.get('id');
+
+        if (!paymentId) {
+          const pathParts = window.location.pathname.split('/');
+          const lastPart = pathParts[pathParts.length - 1];
+          if (lastPart && lastPart !== 'payment' && lastPart !== '') {
+            paymentId = lastPart;
+          }
+        }
+
+        if (!paymentId) {
+          window.location.href = '/en/wilczy-polmaraton/panel';
+          return;
+        }
+
+        try {
+          const response = await fetch(`/api/events/wilczypolmaraton-2026/payment/${paymentId}`);
+          const data = await response.json();
+
+          if (!response.ok) {
+            throw new Error(data.error || 'Failed to load payment details');
+          }
+
+          if (!data.has_pending_payment) {
+            document.getElementById('title').textContent = 'No outstanding payments';
+            document.getElementById('message').textContent = data.message || 'All payments have already been completed.';
+            document.getElementById('spinner').style.display = 'none';
+            document.getElementById('info-message').textContent = 'You can go to the panel to see registration details.';
+            document.getElementById('info-message').style.display = 'block';
+            document.getElementById('panel-link').style.display = 'inline-block';
+            return;
+          }
+
+          if (data.payment && data.payment.formContext && data.payment.transactionID) {
+            // Hide loading state, show payment title
+            document.getElementById('spinner').style.display = 'none';
+            document.getElementById('message').style.display = 'none';
+            document.getElementById('title').textContent = 'Payment - Wilczy Półmaraton 2026';
+
+            // Show BLIK notice and render the SIBS payment widget
+            document.getElementById('blik-notice').style.display = 'block';
+            renderPaymentWidget(data.payment.transactionID, data.payment.formContext, data.payment.total_amount);
+          } else {
+            throw new Error('Missing payment form data');
+          }
+        } catch (error) {
+          console.error('Payment error:', error);
+          document.getElementById('title').textContent = 'Payment error';
+          document.getElementById('message').style.display = 'none';
+          document.getElementById('error-message').innerHTML =
+            'An error occurred while creating the payment. Try again or contact the organizer: <a href="mailto:biuro@zatyrani.pl">biuro@zatyrani.pl</a>';
+          document.getElementById('error-message').style.display = 'block';
+          document.getElementById('spinner').style.display = 'none';
+          document.getElementById('panel-link').style.display = 'inline-block';
+        }
+      }
+
+      handlePayment();
+    </script>
+  </body>
+</html>

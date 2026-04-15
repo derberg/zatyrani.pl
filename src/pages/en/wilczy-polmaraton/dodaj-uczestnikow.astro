@@ -1,0 +1,18 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import WilczyPolmaratonHeader from "../../../components/wilczypolmaraton/WilczyPolmaratonHeader.astro";
+import AddParticipantsContent from "../../../components/wilczypolmaraton/AddParticipantsContent.astro";
+import { t as tBase } from "../../../utils/i18n";
+
+const t = (key: string) => tBase(key, 'en');
+---
+
+<Layout
+  title={`Wilczy Półmaraton 2026 - ${t("wilczypolmaraton.add_participants.title")}`}
+  description={t("wilczypolmaraton.add_participants.meta_description")}
+  ogImage="/wilczypolmaraton_og.jpg"
+  t={t}
+>
+  <WilczyPolmaratonHeader t={t} />
+  <AddParticipantsContent t={t} locale="en" />
+</Layout>
