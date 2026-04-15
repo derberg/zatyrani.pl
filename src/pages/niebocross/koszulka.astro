@@ -202,6 +202,7 @@ import { t } from "../../utils/i18n";
   const API_BASE = '/api/niebocross/tshirt/purchase';
   const MAX_ITEMS = 10;
   const PRICE_PER_ITEM = 60;
+  const DRAFT_KEY = 'niebocross_tshirt_draft';
 
   // ─── State ────────────────────────────────────────────────
   const state = {
@@ -209,6 +210,24 @@ import { t } from "../../utils/i18n";
     buyer: null,
     payment: null,
   };
+
+  // ─── Draft persistence (localStorage) ─────────────────────
+  function saveDraft() {
+    try {
+      const draft = { items: state.items, buyer: state.buyer };
+      localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+    } catch { /* localStorage unavailable — silently skip */ }
+  }
+  function loadDraft() {
+    try {
+      const raw = localStorage.getItem(DRAFT_KEY);
+      if (!raw) return null;
+      return JSON.parse(raw);
+    } catch { return null; }
+  }
+  function clearDraft() {
+    try { localStorage.removeItem(DRAFT_KEY); } catch { /* noop */ }
+  }
 
   // ─── Helpers ──────────────────────────────────────────────
   function show(stepId) {
@@ -232,6 +251,7 @@ import { t } from "../../utils/i18n";
       select.addEventListener('change', (e) => {
         state.items[i].size = e.target.value;
         updateStep1UI();
+        saveDraft();
       });
       const removeBtn = clone.querySelector('.remove-item-btn');
       if (state.items.length > 1) {
@@ -240,6 +260,7 @@ import { t } from "../../utils/i18n";
           state.items.splice(i, 1);
           renderItems();
           updateStep1UI();
+          saveDraft();
         });
       }
       listEl.appendChild(clone);
@@ -342,9 +363,30 @@ import { t } from "../../utils/i18n";
   if (params.get('status') === 'success') {
     document.getElementById('wizard').classList.add('hidden');
     document.getElementById('success-state').classList.remove('hidden');
+    clearDraft();
   } else {
+    // Restore draft if present (abandoned session, failed payment, etc.)
+    const draft = loadDraft();
+    if (draft) {
+      if (Array.isArray(draft.items) && draft.items.length > 0) {
+        state.items = draft.items.slice(0, MAX_ITEMS).map((it: { size?: string } | null) => ({ size: (it && it.size) || '' }));
+        if (state.items.length === 0) state.items = [{ size: '' }];
+      }
+      if (draft.buyer) {
+        state.buyer = draft.buyer;
+        const set = (id: string, val: string) => {
+          const el = document.getElementById(id) as HTMLInputElement | null;
+          if (el && val) el.value = val;
+        };
+        set('firstName', draft.buyer.firstName);
+        set('lastName', draft.buyer.lastName);
+        set('email', draft.buyer.email);
+        set('phoneNumber', draft.buyer.phoneNumber);
+      }
+    }
     renderItems();
     updateStep1UI();
+    validateStep2();
   }
 
   // ─── Step 1 handlers ──────────────────────────────────────
@@ -353,6 +395,7 @@ import { t } from "../../utils/i18n";
     state.items.push({ size: '' });
     renderItems();
     updateStep1UI();
+    saveDraft();
   });
 
   document.getElementById('step1-next-btn').addEventListener('click', () => {
@@ -361,8 +404,20 @@ import { t } from "../../utils/i18n";
   });
 
   // ─── Step 2 handlers ──────────────────────────────────────
+  function captureBuyerDraft() {
+    state.buyer = {
+      firstName: (document.getElementById('firstName') as HTMLInputElement).value.trim(),
+      lastName: (document.getElementById('lastName') as HTMLInputElement).value.trim(),
+      email: (document.getElementById('email') as HTMLInputElement).value.trim(),
+      phoneNumber: (document.getElementById('phoneNumber') as HTMLInputElement).value.trim(),
+    };
+    saveDraft();
+  }
   ['firstName', 'lastName', 'email', 'phoneNumber'].forEach((id) => {
-    document.getElementById(id).addEventListener('input', validateStep2);
+    document.getElementById(id).addEventListener('input', () => {
+      validateStep2();
+      captureBuyerDraft();
+    });
   });
   document.getElementById('rodoAccepted').addEventListener('change', validateStep2);
 
