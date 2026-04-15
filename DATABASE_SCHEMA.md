@@ -151,6 +151,7 @@ Stores standalone t-shirt purchase payments, separate from event registration pa
 CREATE TABLE niebocross_tshirt_payments (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   participant_id UUID REFERENCES niebocross_participants_v2(id) ON DELETE SET NULL,
+  order_group_id UUID,
   first_name VARCHAR(255) NOT NULL,
   last_name VARCHAR(255) NOT NULL,
   email VARCHAR(255) NOT NULL,
@@ -158,24 +159,30 @@ CREATE TABLE niebocross_tshirt_payments (
   tshirt_size VARCHAR(10) NOT NULL CHECK (tshirt_size IN ('116', '128', '134', '140', '146', '152', 'XS', 'S', 'M', 'L', 'XL', 'XXL')),
   amount DECIMAL(10, 2) NOT NULL DEFAULT 60.00,
   payment_status VARCHAR(20) NOT NULL DEFAULT 'pending' CHECK (payment_status IN ('pending', 'paid', 'failed')),
+  payment_link TEXT,
   transaction_id VARCHAR(255),
   paid_at TIMESTAMP WITH TIME ZONE,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
+
+CREATE INDEX idx_tshirt_payments_order_group
+  ON niebocross_tshirt_payments(order_group_id);
 ```
 
 **Columns:**
-- `id` - Unique identifier for the tshirt payment (also used as SIBS merchantTransactionId)
-- `participant_id` - Optional foreign key to niebocross_participants_v2 (NULL for non-participant purchases)
+- `id` - Unique identifier for the tshirt payment (also used as SIBS merchantTransactionId for the primary row of an order)
+- `participant_id` - Optional foreign key to niebocross_participants_v2 (NULL for non-participant purchases; legacy SMS-campaign rows may use this)
+- `order_group_id` - Groups multiple rows belonging to a single multi-item order. The primary row's `id` is the group id; all rows in the group (including the primary) share `order_group_id = primary.id`. Legacy single-row records have `order_group_id = NULL` and are handled in the webhook via an `id OR order_group_id` match.
 - `first_name` - Buyer's first name
 - `last_name` - Buyer's last name
 - `email` - Buyer's email
 - `phone_number` - Buyer's phone number
-- `tshirt_size` - Selected t-shirt size
-- `amount` - Payment amount (60.00 PLN)
+- `tshirt_size` - Selected t-shirt size (one size per row)
+- `amount` - Per-row payment amount (60.00 PLN); total for an order = `count(rows in group) * 60`
 - `payment_status` - Status: `pending`, `paid`, `failed`
-- `transaction_id` - SIBS transaction ID (stored only on successful payment by webhook)
+- `payment_link` - Cached SIBS `formContext` token, populated on the primary row when the SIBS session is created. Returning visitors hit `/api/niebocross/tshirt/purchase/[id]` which reuses this cached value, skipping a new SIBS API call
+- `transaction_id` - SIBS transaction ID (stored on the primary row when the SIBS session is created; webhook stamps it on all rows on success)
 - `paid_at` - Payment completion timestamp
 - `created_at` - Record creation timestamp
 - `updated_at` - Last update timestamp
