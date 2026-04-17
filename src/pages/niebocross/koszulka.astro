@@ -340,7 +340,7 @@ import { t } from "../../utils/i18n";
       form.setAttribute('spg-context', state.payment.formContext);
       form.setAttribute('spg-config', JSON.stringify({
         paymentMethodList: ['CARD', 'BLIK'],
-        amount: { value: state.payment.amount * 100, currency: 'PLN' },
+        amount: { value: state.payment.amount, currency: 'PLN' },
         language: 'pl',
         redirectUrl: 'https://zatyrani.pl/niebocross/koszulka?status=success'
       }));

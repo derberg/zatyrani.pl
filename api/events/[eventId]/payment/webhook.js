@@ -60,8 +60,13 @@ export default async function handler(req, res) {
 
     // Parse webhook data
     const webhookData = parseWebhookData(decryptedData);
-    const { merchantTransactionId: paymentId, transactionId, status, notificationId } = webhookData;
+    const { merchantTransactionId: paymentId, transactionId, paymentStatus, notificationId } = webhookData;
     console.log('[Webhook] Parsed data:', JSON.stringify(webhookData, null, 2));
+
+    // Determine if payment was actually successful
+    // returnStatus.statusCode '000' only means the API call succeeded, NOT that the payment succeeded
+    // paymentStatus contains the actual payment outcome: 'Success', 'Declined', 'Failed', etc.
+    const isPaymentSuccess = paymentStatus === 'Success';
 
     if (!paymentId) {
       console.error('[Webhook] Missing merchantTransactionId in decrypted payload');
@@ -95,14 +100,13 @@ export default async function handler(req, res) {
       });
     }
 
-    // Update payment status based on SIBS response
-    // SIBS status codes: '000' = success, others = various failure states
+    // Update payment status based on actual payment outcome
     const updateData = {
       transaction_id: transactionId,
-      payment_status: status === '000' ? 'paid' : 'failed'
+      payment_status: isPaymentSuccess ? 'paid' : 'failed'
     };
 
-    if (status === '000') {
+    if (isPaymentSuccess) {
       updateData.paid_at = new Date().toISOString();
     }
 
@@ -122,7 +126,7 @@ export default async function handler(req, res) {
       try {
         const eventConfig = getEventConfig(registration.event_id);
 
-        if (status === '000') {
+        if (isPaymentSuccess) {
           await sendPaymentConfirmationEmail({
             email: registration.email,
             contactPerson: registration.contact_person,
