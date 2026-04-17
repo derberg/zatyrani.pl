@@ -32,11 +32,40 @@ import { t } from "../../utils/i18n";
         <p>Płatność została przyjęta. Skontaktujemy się z Tobą w sprawie odbioru koszulki.</p>
       </div>
 
+      <!-- Deadline passed state -->
+      <div id="closed-state" class="hidden rounded-2xl bg-amber-50 ring-1 ring-amber-200 p-8 text-center text-amber-800">
+        <p class="text-xl font-bold mb-2">Zamówienia zakończone</p>
+        <p>Termin składania zamówień na koszulki minął. W razie pytań skontaktuj się z nami: <a href="mailto:biuro@zatyrani.pl" class="underline font-semibold">biuro@zatyrani.pl</a></p>
+      </div>
+
       <!-- Wizard container -->
       <div id="wizard" class="rounded-2xl bg-white ring-1 ring-slate-200 shadow-xl p-6 sm:p-8">
 
+        <!-- ========== STEP 0: Informacja o odbiorze ========== -->
+        <div id="step0" class="space-y-5">
+          <h3 class="text-xl font-bold text-slate-900">Zanim zamówisz</h3>
+
+          <div class="rounded-xl bg-amber-50 ring-1 ring-amber-200 p-4">
+            <p class="text-sm text-slate-700 leading-relaxed">
+              Koszulka nie jest wysyłana kurierem / pocztą i cena nie zawiera kosztów wysyłki. Odbiór koszulki: osobiście po kontakcie z <a href="mailto:lukasz@zatyrani.pl" class="underline font-semibold">lukasz@zatyrani.pl</a>, lub podczas jednego z najbliższych biegów, w których uczestniczymy — <a href="https://dostartu.pl/permalink-v15465" target="_blank" rel="noopener" class="underline font-semibold">XX Bieg po Głębokich Dołach</a> oraz <a href="https://competitions.timekeeper.pl/15-bieg-im-ks-konstantego-damrota" target="_blank" rel="noopener" class="underline font-semibold">15. Bieg im. ks. Konstantego Damrota</a>.
+            </p>
+          </div>
+
+          <label class="flex items-start gap-2 cursor-pointer">
+            <input type="checkbox" id="pickupConsent"
+              class="mt-1 rounded border-emerald-300 border-2 text-emerald-600 focus:ring-emerald-500" />
+            <span class="text-sm text-slate-700">Rozumiem i akceptuję powyższe warunki odbioru. <span class="text-red-500">*</span></span>
+          </label>
+
+          <button type="button" id="step0-next-btn"
+            class="w-full rounded-full bg-emerald-500 px-6 py-3 text-base font-semibold text-slate-900 shadow-lg shadow-emerald-500/30 transition hover:-translate-y-0.5 hover:bg-emerald-400 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
+            disabled>
+            Przejdź do zamówienia →
+          </button>
+        </div>
+
         <!-- ========== STEP 1: Koszulki ========== -->
-        <div id="step1" class="space-y-5">
+        <div id="step1" class="hidden space-y-5">
           <h3 class="text-xl font-bold text-slate-900">Wybierz koszulki</h3>
           <p class="text-sm text-slate-600">Każda koszulka kosztuje 60 zł.</p>
           <p class="text-xs text-slate-500">Kwota 60 zł to cena produkcji — Stowarzyszenie Zatyrani na sprzedaży koszulek nie zarabia. Naszym celem jest dać każdemu szansę zakupu pamiątki z wydarzenia.</p>
@@ -156,18 +185,8 @@ import { t } from "../../utils/i18n";
             </div>
           </div>
 
-          <div class="rounded-xl bg-amber-50 ring-1 ring-amber-200 p-4">
-            <label class="flex items-start gap-2 cursor-pointer">
-              <input type="checkbox" id="deliveryConsent" required
-                class="mt-1 rounded border-amber-400 border-2 text-emerald-600 focus:ring-emerald-500" />
-              <span class="text-sm text-slate-700 leading-relaxed">
-                Przyjmuję do wiadomości, że koszulka nie jest wysyłana kurierem / pocztą i że cena nie zawiera kosztów wysyłki. Odbiór koszulki: osobiście po kontakcie z <a href="mailto:lukasz@zatyrani.pl" class="underline font-semibold">lukasz@zatyrani.pl</a>, lub podczas jednego z najbliższych biegów, w których uczestniczymy — <a href="https://dostartu.pl/permalink-v15465" target="_blank" rel="noopener" class="underline font-semibold">XX Bieg po Głębokich Dołach</a> oraz <a href="https://competitions.timekeeper.pl/15-bieg-im-ks-konstantego-damrota" target="_blank" rel="noopener" class="underline font-semibold">15. Bieg im. ks. Konstantego Damrota</a>. <span class="text-red-500">*</span>
-              </span>
-            </label>
-          </div>
-
           <button type="button" id="proceed-to-payment-btn"
-            class="hidden w-full rounded-full bg-emerald-500 px-6 py-3 text-base font-semibold text-slate-900 shadow-lg shadow-emerald-500/30 transition hover:-translate-y-0.5 hover:bg-emerald-400">
+            class="w-full rounded-full bg-emerald-500 px-6 py-3 text-base font-semibold text-slate-900 shadow-lg shadow-emerald-500/30 transition hover:-translate-y-0.5 hover:bg-emerald-400">
             Przejdź do płatności →
           </button>
 
@@ -227,7 +246,11 @@ import { t } from "../../utils/i18n";
   }
 
   // ─── Helpers ──────────────────────────────────────────────
+  // Order deadline: Friday 2026-04-24 end of day (Polish time, UTC+2)
+  const ORDER_DEADLINE = new Date('2026-04-24T23:59:59+02:00');
+
   function show(stepId) {
+    document.getElementById('step0').classList.add('hidden');
     document.getElementById('step1').classList.add('hidden');
     document.getElementById('step2').classList.add('hidden');
     document.getElementById('step3').classList.add('hidden');
@@ -362,6 +385,9 @@ import { t } from "../../utils/i18n";
     document.getElementById('wizard').classList.add('hidden');
     document.getElementById('success-state').classList.remove('hidden');
     clearDraft();
+  } else if (new Date() > ORDER_DEADLINE) {
+    document.getElementById('wizard').classList.add('hidden');
+    document.getElementById('closed-state').classList.remove('hidden');
   } else {
     // Restore draft if present (abandoned session, failed payment, etc.)
     const draft = loadDraft();
@@ -386,6 +412,12 @@ import { t } from "../../utils/i18n";
     updateStep1UI();
     validateStep2();
   }
+
+  // ─── Step 0 handlers ──────────────────────────────────────
+  document.getElementById('pickupConsent').addEventListener('change', (e) => {
+    document.getElementById('step0-next-btn').disabled = !(e.target as HTMLInputElement).checked;
+  });
+  document.getElementById('step0-next-btn').addEventListener('click', () => show('step1'));
 
   // ─── Step 1 handlers ──────────────────────────────────────
   document.getElementById('add-item-btn').addEventListener('click', () => {
@@ -464,16 +496,7 @@ import { t } from "../../utils/i18n";
     }
   });
 
-  // ─── Step 3 handlers: consent reveals button, button triggers widget ──
-  document.getElementById('deliveryConsent')!.addEventListener('change', (e) => {
-    const btn = document.getElementById('proceed-to-payment-btn')!;
-    if ((e.target as HTMLInputElement).checked) {
-      btn.classList.remove('hidden');
-    } else {
-      btn.classList.add('hidden');
-    }
-  });
-
+  // ─── Step 3 handlers: button triggers widget ──────────────
   let widgetRendered = false;
   document.getElementById('proceed-to-payment-btn')!.addEventListener('click', () => {
     if (widgetRendered) return;
