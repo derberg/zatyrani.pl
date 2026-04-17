@@ -19,6 +19,7 @@ export async function createPaymentLink(paymentData) {
     paymentId,
     amount, // in PLN (main currency unit, e.g. 140.00 for 140 PLN)
     description,
+    email,
   } = paymentData;
 
   // Validate environment variables
@@ -50,6 +51,18 @@ export async function createPaymentLink(paymentData) {
       paymentMethod: ["CARD", "BLIK", "PBLKV"]
     }
   };
+
+  // Customer info is required by SIBS for card payments (3DS/SCA)
+  if (email) {
+    transactionData.customer = {
+      customerInfo: {
+        customerEmail: email,
+        billingAddress: {
+          country: "PL"
+        }
+      }
+    };
+  }
 
   try {
     console.log('Creating SIBS payment with data:', JSON.stringify(transactionData, null, 2));

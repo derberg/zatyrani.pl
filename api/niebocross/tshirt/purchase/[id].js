@@ -40,7 +40,7 @@ export default async function handler(req, res) {
     // Fetch the primary row
     const { data: primary, error: primaryError } = await supabase
       .from("niebocross_tshirt_payments")
-      .select("id, first_name, last_name, payment_status, payment_link, transaction_id")
+      .select("id, first_name, last_name, email, payment_status, payment_link, transaction_id")
       .eq("id", primaryId)
       .single();
 
@@ -89,6 +89,7 @@ export default async function handler(req, res) {
       paymentId: primary.id,
       amount,
       description,
+      email: primary.email,
     });
 
     await supabase
