@@ -74,9 +74,26 @@ export default async function handler(req, res) {
       });
     }
 
-    // Always create a fresh SIBS session.
-    // Cached sessions go stale (card declines don't trigger webhooks, so status stays
-    // "pending" with a dead formContext). Safest to always get a new one.
+    // Reuse cached SIBS session if it's less than 15 minutes old.
+    // Older sessions go stale (card declines don't trigger webhooks, so status stays
+    // "pending" with a dead formContext). After 15 min we create a fresh one.
+    const SESSION_MAX_AGE_MS = 15 * 60 * 1000;
+    if (payment.transaction_id && payment.payment_link) {
+      const age = Date.now() - new Date(payment.updated_at || payment.created_at).getTime();
+      if (age < SESSION_MAX_AGE_MS) {
+        return res.status(200).json({
+          success: true,
+          has_pending_payment: true,
+          payment: {
+            id: payment.id,
+            total_amount: payment.total_amount,
+            payment_status: payment.payment_status,
+            formContext: payment.payment_link,
+            transactionID: payment.transaction_id
+          }
+        });
+      }
+    }
 
     // Create new SIBS payment link
     const webhookUrl = `https://zatyrani.pl/api/events/${eventConfig.id}/payment/webhook`;
@@ -90,12 +107,13 @@ export default async function handler(req, res) {
       urlStatus: webhookUrl
     });
 
-    // Save formContext and transactionID to database for re-use
+    // Save formContext and transactionID to database (updated_at used for session TTL)
     await supabase
       .from("event_payments")
       .update({
         payment_link: paymentResult.formContext,
-        transaction_id: paymentResult.transactionID
+        transaction_id: paymentResult.transactionID,
+        updated_at: new Date().toISOString()
       })
       .eq("id", payment.id);
 
