@@ -74,21 +74,9 @@ export default async function handler(req, res) {
       });
     }
 
-    // For a previously cached pending session, return it directly (skip SIBS call)
-    // For failed payments the cached session is stale — always create a new one
-    if (payment.payment_status === "pending" && payment.transaction_id && payment.payment_link) {
-      return res.status(200).json({
-        success: true,
-        has_pending_payment: true,
-        payment: {
-          id: payment.id,
-          total_amount: payment.total_amount,
-          payment_status: payment.payment_status,
-          formContext: payment.payment_link,
-          transactionID: payment.transaction_id
-        }
-      });
-    }
+    // Always create a fresh SIBS session.
+    // Cached sessions go stale (card declines don't trigger webhooks, so status stays
+    // "pending" with a dead formContext). Safest to always get a new one.
 
     // Create new SIBS payment link
     const webhookUrl = `https://zatyrani.pl/api/events/${eventConfig.id}/payment/webhook`;

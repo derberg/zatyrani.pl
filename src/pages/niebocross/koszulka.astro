@@ -338,6 +338,7 @@ import { t } from "../../utils/i18n";
       const form = document.createElement('form');
       form.className = 'paymentSPG';
       form.setAttribute('spg-context', state.payment.formContext);
+      // SIBS SPG expects amount in major currency units (e.g. 100 for 100 PLN, NOT 10000 groszy)
       form.setAttribute('spg-config', JSON.stringify({
         paymentMethodList: ['CARD', 'BLIK'],
         amount: { value: state.payment.amount, currency: 'PLN' },
