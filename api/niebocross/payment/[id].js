@@ -103,6 +103,7 @@ export default async function handler(req, res) {
       amount: payment.total_amount, // SIBS expects amount in PLN (main currency unit)
       description: registration.contact_person,
       email: registration.email,
+      customerName: registration.contact_person,
       urlReturn: `https://zatyrani.pl/niebocross/panel?payment=success`,
       urlStatus: `https://zatyrani.pl/api/niebocross/payment/webhook`
     });

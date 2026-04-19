@@ -20,6 +20,7 @@ export async function createPaymentLink(paymentData) {
     amount, // in PLN (main currency unit, e.g. 140.00 for 140 PLN)
     description,
     email,
+    customerName,
   } = paymentData;
 
   // Validate environment variables
@@ -56,11 +57,12 @@ export async function createPaymentLink(paymentData) {
     }
   };
 
-  // Customer info is required by SIBS for card payments (3DS/SCA)
-  if (email) {
+  // Customer info — customerName and customerEmail are mandatory per Polish SIBS docs
+  if (email || customerName) {
     transactionData.customer = {
       customerInfo: {
-        customerEmail: email,
+        ...(customerName && { customerName }),
+        ...(email && { customerEmail: email }),
         billingAddress: {
           country: "PL"
         }

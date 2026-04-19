@@ -90,6 +90,7 @@ export default async function handler(req, res) {
       amount,
       description,
       email: primary.email,
+      customerName: `${primary.first_name} ${primary.last_name}`,
     });
 
     await supabase
