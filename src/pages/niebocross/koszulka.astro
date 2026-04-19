@@ -26,10 +26,22 @@ import { t } from "../../utils/i18n";
         <img src="/niebocross/koszulka.webp" alt="Koszulka NieboCross 2026" class="w-full max-w-md rounded-2xl border border-slate-200 shadow-lg" />
       </div>
 
-      <!-- Success state (shown when ?status=success) -->
+      <!-- Success state -->
       <div id="success-state" class="hidden rounded-2xl bg-emerald-50 ring-1 ring-emerald-200 p-8 text-center text-emerald-800">
         <p class="text-xl font-bold mb-2">Dziękujemy za zamówienie!</p>
         <p>Płatność została przyjęta. Skontaktujemy się z Tobą w sprawie odbioru koszulki.</p>
+      </div>
+
+      <!-- Payment checking state (shown after SIBS redirect while verifying) -->
+      <div id="checking-state" class="hidden rounded-2xl bg-slate-50 ring-1 ring-slate-200 p-8 text-center text-slate-700">
+        <p class="text-xl font-bold mb-2">Sprawdzamy płatność...</p>
+        <p>Proszę czekać, weryfikujemy status Twojej płatności.</p>
+      </div>
+
+      <!-- Payment failed state -->
+      <div id="failed-state" class="hidden rounded-2xl bg-red-50 ring-1 ring-red-200 p-8 text-center text-red-800">
+        <p class="text-xl font-bold mb-2">Płatność nie powiodła się</p>
+        <p>Niestety, płatność została odrzucona. Spróbuj ponownie lub skontaktuj się z nami: <a href="mailto:biuro@zatyrani.pl" class="underline font-semibold">biuro@zatyrani.pl</a></p>
       </div>
 
       <!-- Deadline passed state -->
@@ -246,8 +258,8 @@ import { t } from "../../utils/i18n";
   }
 
   // ─── Helpers ──────────────────────────────────────────────
-  // Order deadline: Friday 2026-04-24 end of day (Polish time, UTC+2)
-  const ORDER_DEADLINE = new Date('2026-04-24T23:59:59+02:00');
+  // Order deadline: Sunday 2026-04-26 end of day (Polish time, UTC+2)
+  const ORDER_DEADLINE = new Date('2026-04-26T23:59:59+02:00');
 
   function show(stepId) {
     document.getElementById('step0').classList.add('hidden');
@@ -363,10 +375,10 @@ import { t } from "../../utils/i18n";
       form.setAttribute('spg-context', state.payment.formContext);
       // SIBS SPG expects amount in major currency units (e.g. 100 for 100 PLN, NOT 10000 groszy)
       form.setAttribute('spg-config', JSON.stringify({
-        paymentMethodList: ['CARD', 'BLIK'],
+        paymentMethodList: ['CARD', 'BLIK', 'PAYBYLINK'],
         amount: { value: state.payment.amount, currency: 'PLN' },
         language: 'pl',
-        redirectUrl: 'https://zatyrani.pl/niebocross/koszulka?status=success'
+        redirectUrl: 'https://zatyrani.pl/niebocross/koszulka?payment=complete'
       }));
       container.appendChild(form);
     };
@@ -379,12 +391,52 @@ import { t } from "../../utils/i18n";
     document.head.appendChild(script);
   }
 
+  // ─── Payment verification after SIBS redirect ─────────────
+  async function verifyPaymentStatus() {
+    const paymentId = localStorage.getItem('niebocross_tshirt_payment_id');
+    if (!paymentId) {
+      // No payment ID — can't verify, show failure
+      document.getElementById('wizard').classList.add('hidden');
+      document.getElementById('failed-state').classList.remove('hidden');
+      return;
+    }
+
+    document.getElementById('wizard').classList.add('hidden');
+    document.getElementById('checking-state').classList.remove('hidden');
+
+    // Poll API up to 5 times (webhook may need a moment to update status)
+    for (let attempt = 0; attempt < 5; attempt++) {
+      if (attempt > 0) await new Promise(r => setTimeout(r, 3000));
+      try {
+        const resp = await fetch(`${API_BASE}/${paymentId}`);
+        if (resp.ok) {
+          const data = await resp.json();
+          if (data.paid === true) {
+            document.getElementById('checking-state').classList.add('hidden');
+            document.getElementById('success-state').classList.remove('hidden');
+            clearDraft();
+            try { localStorage.removeItem('niebocross_tshirt_payment_id'); } catch { /* ignore */ }
+            return;
+          }
+        }
+        if (resp.status === 410) {
+          // Payment explicitly failed
+          document.getElementById('checking-state').classList.add('hidden');
+          document.getElementById('failed-state').classList.remove('hidden');
+          try { localStorage.removeItem('niebocross_tshirt_payment_id'); } catch { /* ignore */ }
+          return;
+        }
+      } catch { /* retry */ }
+    }
+    // Still pending after retries — payment likely failed but webhook didn't fire
+    document.getElementById('checking-state').classList.add('hidden');
+    document.getElementById('failed-state').classList.remove('hidden');
+  }
+
   // ─── Init ─────────────────────────────────────────────────
   const params = new URLSearchParams(window.location.search);
-  if (params.get('status') === 'success') {
-    document.getElementById('wizard').classList.add('hidden');
-    document.getElementById('success-state').classList.remove('hidden');
-    clearDraft();
+  if (params.get('payment') === 'complete' || params.get('status') === 'success') {
+    verifyPaymentStatus();
   } else if (new Date() > ORDER_DEADLINE) {
     document.getElementById('wizard').classList.add('hidden');
     document.getElementById('closed-state').classList.remove('hidden');
@@ -485,6 +537,7 @@ import { t } from "../../utils/i18n";
         throw new Error(data.error || 'Błąd podczas tworzenia zamówienia');
       }
       state.payment = data.payment;
+      try { localStorage.setItem('niebocross_tshirt_payment_id', data.payment.id); } catch { /* ignore */ }
       renderSummary();
       show('step3');
     } catch (err) {

@@ -137,7 +137,7 @@
           form.setAttribute('spg-context', formContext);
           // SIBS SPG expects amount in major currency units (e.g. 100 for 100 PLN, NOT 10000 groszy)
           form.setAttribute('spg-config', JSON.stringify({
-            paymentMethodList: ['CARD', 'BLIK'],
+            paymentMethodList: ['CARD', 'BLIK', 'PAYBYLINK'],
             amount: {
               value: totalAmount,
               currency: 'PLN'
