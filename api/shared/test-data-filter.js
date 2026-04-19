@@ -3,7 +3,7 @@
  */
 
 // Test emails that should only be visible in development
-const TEST_EMAILS = ['derberg@wp.pl'];
+const TEST_EMAILS = ['derberg@wp.pl', 'lpgornicki@gmail.com'];
 
 /**
  * Check if we're running in a production environment
