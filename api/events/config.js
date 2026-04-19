@@ -42,7 +42,7 @@ export const EVENTS = {
   },
   'wilczypolmaraton-2026': {
     id: 'wilczypolmaraton-2026',
-    name: 'Wilczy Półmaraton 2026',
+    name: 'Wilczy Polmaraton 2026',
     date: '2026-10-17',
     location: 'Wilcza',
     locationFull: '17 października 2026 w Wilczy',
