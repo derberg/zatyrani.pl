@@ -19,8 +19,7 @@ export async function createPaymentLink(paymentData) {
     paymentId,
     amount, // in PLN (main currency unit, e.g. 140.00 for 140 PLN)
     description,
-    email,
-    customerName,
+    // email and customerName accepted but not sent to SIBS for now — see comment below
   } = paymentData;
 
   // Validate environment variables
@@ -54,18 +53,9 @@ export async function createPaymentLink(paymentData) {
     }
   };
 
-  // Customer info — customerName and customerEmail are mandatory per Polish SIBS docs
-  if (email || customerName) {
-    transactionData.customer = {
-      customerInfo: {
-        ...(customerName && { customerName }),
-        ...(email && { customerEmail: email }),
-        billingAddress: {
-          country: "PL"
-        }
-      }
-    };
-  }
+  // Customer info disabled — BLIK works without it, and sending it causes
+  // instant declines on some payment methods (SIBS Internal Error E9999).
+  // Re-enable when SIBS resolves card/PBL issues on terminal 507962.
 
   try {
     console.log('Creating SIBS payment with data:', JSON.stringify(transactionData, null, 2));
