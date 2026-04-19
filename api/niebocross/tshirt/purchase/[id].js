@@ -40,7 +40,7 @@ export default async function handler(req, res) {
     // Fetch the primary row
     const { data: primary, error: primaryError } = await supabase
       .from("niebocross_tshirt_payments")
-      .select("id, first_name, last_name, email, payment_status, payment_link, transaction_id")
+      .select("id, first_name, last_name, email, payment_status, payment_link, transaction_id, updated_at, created_at")
       .eq("id", primaryId)
       .single();
 
@@ -69,18 +69,22 @@ export default async function handler(req, res) {
 
     const amount = itemCount * TSHIRT_PRICE;
 
-    // Cached session — return it directly
+    // Reuse cached SIBS session if it's less than 15 minutes old
+    const SESSION_MAX_AGE_MS = 15 * 60 * 1000;
     if (primary.payment_link && primary.transaction_id) {
-      return res.status(200).json({
-        success: true,
-        payment: {
-          id: primary.id,
-          amount,
-          itemCount,
-          formContext: primary.payment_link,
-          transactionID: primary.transaction_id,
-        },
-      });
+      const age = Date.now() - new Date(primary.updated_at || primary.created_at).getTime();
+      if (age < SESSION_MAX_AGE_MS) {
+        return res.status(200).json({
+          success: true,
+          payment: {
+            id: primary.id,
+            amount,
+            itemCount,
+            formContext: primary.payment_link,
+            transactionID: primary.transaction_id,
+          },
+        });
+      }
     }
 
     // Pending but cache missing — regenerate a SIBS session
@@ -98,6 +102,7 @@ export default async function handler(req, res) {
       .update({
         payment_link: paymentResult.formContext,
         transaction_id: paymentResult.transactionID,
+        updated_at: new Date().toISOString(),
       })
       .eq("id", primary.id);
 
