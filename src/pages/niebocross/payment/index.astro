@@ -96,6 +96,7 @@
       <h1 id="title">Przetwarzanie płatności...</h1>
       <div id="spinner" class="spinner"></div>
       <p id="message">Proszę czekać, trwa ładowanie formularza płatności.</p>
+      <!-- NieboCross registrations are closed, no transfer notice needed -->
       <div id="payment-form-container" style="display: none;">
         <!-- SIBS SPG widget form will be injected here -->
       </div>
@@ -137,7 +138,7 @@
           form.setAttribute('spg-context', formContext);
           // SIBS SPG expects amount in major currency units (e.g. 100 for 100 PLN, NOT 10000 groszy)
           form.setAttribute('spg-config', JSON.stringify({
-            paymentMethodList: ['CARD', 'BLIK', 'PAY_BY_LINK'],
+            paymentMethodList: ['BLIK'],
             amount: {
               value: totalAmount,
               currency: 'PLN'

@@ -50,11 +50,7 @@ export async function createPaymentLink(paymentData) {
         value: amount,
         currency: "PLN"
       },
-      paymentMethod: ["CARD", "BLIK", "PAY_BY_LINK"],
-      payByLink: {
-        expirationDateTime: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
-        linkExpirationDateTime: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()
-      }
+      paymentMethod: ["BLIK"]
     }
   };
 

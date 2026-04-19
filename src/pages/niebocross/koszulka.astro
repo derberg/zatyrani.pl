@@ -207,6 +207,13 @@ import { t } from "../../utils/i18n";
             <p class="mt-4 text-slate-600">Ładowanie formularza płatności... To może potrwać do 30 sekund.</p>
           </div>
 
+          <div id="transfer-notice" class="hidden rounded-xl bg-amber-50 ring-1 ring-amber-200 p-4 text-sm text-amber-900 leading-relaxed">
+            <strong>Przelew tradycyjny:</strong> Jeśli nie możesz zapłacić BLIKIEM, wykonaj przelew na konto:<br>
+            <strong>42 1870 1045 2078 1084 8949 0004</strong><br>
+            W tytule wpisz: <strong id="transfer-title"></strong><br>
+            Po zaksięgowaniu wpłaty oznaczymy zamówienie ręcznie.
+          </div>
+
           <div id="payment-form-container" class="min-h-[100px]"></div>
 
           <div id="step3-error" class="hidden rounded-xl bg-red-50 ring-1 ring-red-200 p-3 text-sm text-red-700"></div>
@@ -375,7 +382,7 @@ import { t } from "../../utils/i18n";
       form.setAttribute('spg-context', state.payment.formContext);
       // SIBS SPG expects amount in major currency units (e.g. 100 for 100 PLN, NOT 10000 groszy)
       form.setAttribute('spg-config', JSON.stringify({
-        paymentMethodList: ['CARD', 'BLIK', 'PAY_BY_LINK'],
+        paymentMethodList: ['BLIK'],
         amount: { value: state.payment.amount, currency: 'PLN' },
         language: 'pl',
         redirectUrl: 'https://www.zatyrani.pl/niebocross/koszulka?payment=complete'
@@ -419,8 +426,8 @@ import { t } from "../../utils/i18n";
             return;
           }
         }
-        if (resp.status === 410) {
-          // Payment explicitly failed
+        if (resp.status === 410 || resp.status === 404) {
+          // 410 = payment explicitly failed, 404 = row deleted by webhook (also failed)
           document.getElementById('checking-state').classList.add('hidden');
           document.getElementById('failed-state').classList.remove('hidden');
           try { localStorage.removeItem('niebocross_tshirt_payment_id'); } catch { /* ignore */ }
@@ -556,6 +563,9 @@ import { t } from "../../utils/i18n";
     widgetRendered = true;
     document.getElementById('proceed-to-payment-btn')!.classList.add('hidden');
     document.getElementById('payment-loading')!.classList.remove('hidden');
+    const sizes = state.items.map(it => it.size).join(', ');
+    document.getElementById('transfer-title')!.textContent = state.buyer.firstName + ' ' + state.buyer.lastName + ' koszulka ' + sizes;
+    document.getElementById('transfer-notice')!.classList.remove('hidden');
     renderPaymentWidget();
   });
 </script>

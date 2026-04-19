@@ -113,6 +113,12 @@
       <div id="blik-notice" class="blik-notice" style="display: none;">
         <strong>BLIK:</strong> After entering your BLIK code and confirming, open your bank's app and approve the payment. Without confirming in the app, the payment will not be completed.
       </div>
+      <div id="transfer-notice" class="blik-notice" style="display: none;">
+        <strong>Bank transfer:</strong> If you can't pay with BLIK, transfer to:<br>
+        <strong>42 1870 1045 2078 1084 8949 0004</strong><br>
+        In the title enter: <strong id="transfer-title"></strong><br>
+        We will mark the payment manually after receiving the transfer.
+      </div>
       <div id="payment-form-container" style="display: none;">
         <!-- SIBS SPG widget form will be injected here -->
       </div>
@@ -154,7 +160,7 @@
           form.setAttribute('spg-context', formContext);
           // SIBS SPG expects amount in major currency units (e.g. 100 for 100 PLN, NOT 10000 groszy)
           form.setAttribute('spg-config', JSON.stringify({
-            paymentMethodList: ['CARD', 'BLIK', 'PAY_BY_LINK'],
+            paymentMethodList: ['BLIK'],
             amount: {
               value: totalAmount,
               currency: 'PLN'
@@ -223,6 +229,8 @@
 
             // Show BLIK notice and render the SIBS payment widget
             document.getElementById('blik-notice').style.display = 'block';
+            document.getElementById('transfer-title').textContent = (data.payment.contact_person || '') + ' Wilczy Polmaraton';
+            document.getElementById('transfer-notice').style.display = 'block';
             renderPaymentWidget(data.payment.transactionID, data.payment.formContext, data.payment.total_amount);
           } else {
             throw new Error('Missing payment form data');

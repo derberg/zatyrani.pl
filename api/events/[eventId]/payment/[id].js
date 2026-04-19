@@ -88,6 +88,7 @@ export default async function handler(req, res) {
             id: payment.id,
             total_amount: payment.total_amount,
             payment_status: payment.payment_status,
+            contact_person: registration.contact_person,
             formContext: payment.payment_link,
             transactionID: payment.transaction_id
           }
@@ -125,6 +126,7 @@ export default async function handler(req, res) {
         id: payment.id,
         total_amount: payment.total_amount,
         payment_status: payment.payment_status,
+        contact_person: registration.contact_person,
         formContext: paymentResult.formContext,
         transactionID: paymentResult.transactionID
       }
