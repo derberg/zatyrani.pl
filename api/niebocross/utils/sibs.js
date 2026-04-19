@@ -39,7 +39,7 @@ export async function createPaymentLink(paymentData) {
       terminalId: parseInt(process.env.SIBS_TERMINAL) || 1,
       channel: "web",
       merchantTransactionId: paymentId,
-      shopURL: "https://zatyrani.pl"
+      shopURL: "https://www.zatyrani.pl"
     },
     transaction: {
       transactionTimestamp: new Date().toISOString(),
