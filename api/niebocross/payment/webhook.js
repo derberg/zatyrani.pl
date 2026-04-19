@@ -1,3 +1,7 @@
+// DEPRECATED: replaced by universal webhook at /api/payment/webhook.js
+// SIBS BackOffice allows only one webhook URL per Merchant, so all
+// notifications now go to the universal endpoint. Kept for rollback safety.
+
 import { createClient } from "@supabase/supabase-js";
 import { decryptWebhookNotification, parseWebhookData } from "../utils/sibs.js";
 import { sendPaymentConfirmationEmail, sendPaymentFailedEmail } from "../utils/email.js";
