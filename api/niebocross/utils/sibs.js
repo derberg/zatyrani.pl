@@ -48,7 +48,7 @@ export async function createPaymentLink(paymentData) {
         value: amount,
         currency: "PLN"
       },
-      paymentMethod: ["CARD", "BLIK", "PBLKV"]
+      paymentMethod: ["CARD", "BLIK", "PAY_BY_LINK"]
     }
   };
 
