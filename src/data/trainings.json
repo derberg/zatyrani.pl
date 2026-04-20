@@ -713,5 +713,16 @@
     "phone": "513592253",
     "distance": 12,
     "pace": 7
+  },
+  {
+    "uid": "bieg-21-4-2026-18-15-gliwice-wydzial-mechaniczy-politechniki-8-9",
+    "type": "bieg",
+    "datetime": "21/04/2026 18:15",
+    "location": "Gliwice - Wydział Mechaniczy Politechniki",
+    "locationLink": "",
+    "comment": "Bieg z historią Gliwic metodą Gallowaya. Na trasie: zabytkowy cmentarz chemiczny, żydowski, dworzec, plac po synagodze, były kanał kłodnicki, rynek, ruiny spalonego teatru. Będą historie od przewodnika Pielgrzyma.\n\nJak ktoś ma koszulkę Zatyranych to proszę zabrać.\n\nZbieramy się do kilku samochodów i o 18 wyjazd do Gliwic. Jak coś, to piszcie na WhatsAppie.\n\nhttps://maps.app.goo.gl/VgYjqf5nnEhVyfge9",
+    "phone": "784640977",
+    "distance": 8,
+    "pace": 9
   }
 ]
