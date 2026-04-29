@@ -735,5 +735,16 @@
     "phone": "512637906",
     "distance": 10,
     "pace": 7
+  },
+  {
+    "uid": "bieg-30-4-2026-19-0-leboszowice-szwedownik-7-7",
+    "type": "bieg",
+    "datetime": "30/04/2026 19:00",
+    "location": "Leboszowice – Szwedownik",
+    "locationLink": "https://maps.app.goo.gl/UA4atBHW9mkCv9A1A",
+    "comment": "Biegniemy na hałdy w Leboszowicach, ćwiczymy podbiegi",
+    "phone": "512637906",
+    "distance": 7,
+    "pace": 7
   }
 ]
