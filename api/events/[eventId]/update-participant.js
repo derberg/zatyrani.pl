@@ -55,27 +55,21 @@ export default async function handler(req, res) {
 
     const supabase = getSupabaseClient();
 
-    // Check if payment is paid (editing not allowed)
-    const { data: payment, error: paymentCheckError } = await supabase
+    // Get all payments to determine this specific participant's payment status.
+    // A registration can have paid + pending (top-up) payments coexisting; we must
+    // check whether this particular participant was covered by a paid payment, not
+    // just whether the most recent payment is paid.
+    const { data: allPayments, error: paymentCheckError } = await supabase
       .from("event_payments")
-      .select("payment_status")
+      .select("id, payment_status, paid_at, updated_at, created_at")
       .eq("registration_id", registration_id)
-      .order("created_at", { ascending: false })
-      .limit(1)
-      .single();
+      .order("created_at", { ascending: false });
 
     if (paymentCheckError && paymentCheckError.code !== 'PGRST116') {
       console.error("Error checking payment:", paymentCheckError);
       return res.status(500).json({
         success: false,
         error: "Nie udało się sprawdzić statusu płatności"
-      });
-    }
-
-    if (payment && payment.payment_status === 'paid') {
-      return res.status(403).json({
-        success: false,
-        error: "Nie można edytować uczestnika po opłaceniu rejestracji. Skontaktuj się z organizatorem."
       });
     }
 
@@ -102,6 +96,19 @@ export default async function handler(req, res) {
         success: false,
         error: "Uczestnik nie znaleziony"
       });
+    }
+
+    // Per-participant paid check: block edits for participants created on/before the
+    // latest paid_at. Mirrors delete-participant.js:88-99.
+    const paidPayment = (allPayments || []).find(p => p.payment_status === 'paid');
+    if (paidPayment) {
+      const paidAt = paidPayment.paid_at || paidPayment.updated_at || paidPayment.created_at;
+      if (new Date(existingParticipant.created_at) <= new Date(paidAt)) {
+        return res.status(403).json({
+          success: false,
+          error: "Nie można edytować uczestnika po opłaceniu rejestracji. Skontaktuj się z organizatorem."
+        });
+      }
     }
 
     // Update participant
@@ -154,8 +161,18 @@ export default async function handler(req, res) {
       .eq("payment_status", "pending")
       .single();
 
+    // Reuse the allPayments fetched at the top for the top-up filter: when a prior
+    // payment has been paid, the pending covers only participants added after paid_at.
+    // Matches delete-participant.js:155-160.
+    const participantsForPayment = paidPayment
+      ? allParticipants.filter(p => {
+          const paidAt = paidPayment.paid_at || paidPayment.updated_at || paidPayment.created_at;
+          return new Date(p.created_at) > new Date(paidAt);
+        })
+      : allParticipants;
+
     try {
-      await updateOrCreatePayment(supabase, registration_id, allParticipants, existingPendingPayment, eventConfig);
+      await updateOrCreatePayment(supabase, registration_id, participantsForPayment, existingPendingPayment, eventConfig);
     } catch (paymentError) {
       console.error("Error updating payment:", paymentError);
       // Don't fail the request, participant is updated

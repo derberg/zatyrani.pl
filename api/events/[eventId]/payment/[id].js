@@ -1,6 +1,7 @@
 import { getSupabaseClient } from "../../../shared/supabase.js";
 import { verifyToken } from "../../../shared/auth.js";
 import { createPaymentLink } from "../../../niebocross/utils/sibs.js";
+import { repricePendingPayment } from "../../../shared/database-operations.js";
 import { getEventConfig } from "../../config.js";
 import { setCorsHeaders } from "../../../shared/cors.js";
 
@@ -38,6 +39,12 @@ export default async function handler(req, res) {
     }
 
     const supabase = getSupabaseClient();
+
+    // Reprice against current fee schedule before creating SIBS link. Ensures users
+    // who registered before a price bump pay the new (correct) amount. When prices
+    // have advanced, the helper clears payment_link so the block below creates a
+    // fresh SIBS session for the updated amount.
+    await repricePendingPayment(supabase, registrationId, eventConfig);
 
     // Get the latest pending or failed payment (both are actionable — user can pay)
     const { data: payment, error: paymentError } = await supabase

@@ -256,6 +256,9 @@ const loginLink = locale === 'en' ? '/en/wilczy-polmaraton/zaloguj' : '/wilczy-p
       amount_to_pay: t("wilczypolmaraton.panel.amount_to_pay"),
       including_charity: t("wilczypolmaraton.panel.including_charity"),
       pay_now: t("wilczypolmaraton.panel.pay_now"),
+      price_increase_title: t("wilczypolmaraton.panel.price_increase_title"),
+      price_increase_body: t("wilczypolmaraton.panel.price_increase_body"),
+      price_increase_body_persistent: t("wilczypolmaraton.panel.price_increase_body_persistent"),
       no_participants: t("wilczypolmaraton.panel.no_participants"),
       edit: t("wilczypolmaraton.panel.edit"),
       delete: t("wilczypolmaraton.panel.delete"),
@@ -348,6 +351,31 @@ const loginLink = locale === 'en' ? '/en/wilczy-polmaraton/zaloguj' : '/wilczy-p
       }
     }
 
+    function renderPriceIncreaseNotice() {
+      const pi = dashboardData.priceIncrease;
+      if (!pi || !pi.currentTotal) return '';
+      const bodyTemplate = (pi.previousTotal && pi.currentTotal > pi.previousTotal)
+        ? translations.price_increase_body
+        : translations.price_increase_body_persistent;
+      const body = bodyTemplate
+        .replace('{{previous}}', pi.previousTotal != null ? pi.previousTotal : '')
+        .replace('{{current}}', pi.currentTotal)
+        .replace('{{diff}}', pi.previousTotal != null ? (pi.currentTotal - pi.previousTotal) : '');
+      return `
+        <div class="mb-4 rounded-lg border-2 border-amber-300 bg-amber-100 p-4">
+          <div class="flex items-start gap-3">
+            <svg class="h-5 w-5 text-amber-700 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z"></path>
+            </svg>
+            <div class="flex-1 text-sm">
+              <p class="font-bold text-amber-900">${translations.price_increase_title}</p>
+              <p class="mt-1 text-amber-900">${body}</p>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
     function renderPaymentStatus() {
       const statusDiv = document.getElementById('paymentStatus');
       const payment = dashboardData.payment;
@@ -380,9 +408,12 @@ const loginLink = locale === 'en' ? '/en/wilczy-polmaraton/zaloguj' : '/wilczy-p
         ? `<p class="mt-1 text-sm text-emerald-700">${translations.paid}: <strong>${paidAmount} zł</strong></p>`
         : '';
 
+      const priceNotice = renderPriceIncreaseNotice();
+
       if (payment.paymentStatus === 'failed') {
         statusDiv.className = 'rounded-xl border-2 border-red-200 bg-red-50 p-6';
         statusDiv.innerHTML = `
+          ${priceNotice}
           <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
             <div class="flex-1">
               <div class="flex items-center gap-2">
@@ -419,6 +450,7 @@ const loginLink = locale === 'en' ? '/en/wilczy-polmaraton/zaloguj' : '/wilczy-p
       // pending (default)
       statusDiv.className = 'rounded-xl border-2 border-amber-200 bg-amber-50 p-6';
       statusDiv.innerHTML = `
+        ${priceNotice}
         <div class="flex items-center justify-between">
           <div>
             <h3 class="text-lg font-bold text-slate-900">${translations.awaiting_payment}</h3>

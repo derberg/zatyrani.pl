@@ -1,7 +1,42 @@
 import { verifyToken } from "../../shared/auth.js";
 import { getSupabaseClient } from "../../shared/supabase.js";
+import { repricePendingPayment } from "../../shared/database-operations.js";
 import { getEventConfig } from "../config.js";
 import { setCorsHeaders } from "../../shared/cors.js";
+
+/**
+ * Returns the feeSchedule entry index that applies to a given date, or -1 if none.
+ */
+function feeScheduleIndexAt(date, feeSchedule) {
+  if (!feeSchedule || feeSchedule.length === 0) return -1;
+  const d = new Date(date);
+  for (let i = 0; i < feeSchedule.length; i++) {
+    const untilEnd = new Date(feeSchedule[i].until);
+    untilEnd.setUTCHours(23, 59, 59, 999);
+    if (d <= untilEnd) return i;
+  }
+  return feeSchedule.length - 1;
+}
+
+/**
+ * Build the priceIncrease payload for the panel. Persistent signal: true whenever the
+ * pending payment was created in an earlier fee-schedule window than "now". Includes
+ * exact amounts from the most recent reprice when available.
+ */
+function buildPriceIncreasePayload(pendingPayment, eventConfig, repriceResult) {
+  if (!pendingPayment || !eventConfig.feeSchedule) return null;
+
+  const createdIdx = feeScheduleIndexAt(pendingPayment.created_at, eventConfig.feeSchedule);
+  const nowIdx = feeScheduleIndexAt(new Date(), eventConfig.feeSchedule);
+  if (createdIdx < 0 || nowIdx <= createdIdx) return null;
+
+  return {
+    previousTotal: repriceResult.priceIncreased ? repriceResult.previousTotal : null,
+    previousRaceFees: repriceResult.priceIncreased ? repriceResult.previousRaceFees : null,
+    currentTotal: Number(pendingPayment.total_amount),
+    currentRaceFees: Number(pendingPayment.race_fees)
+  };
+}
 
 export default async function handler(req, res) {
   setCorsHeaders(res);
@@ -63,6 +98,11 @@ export default async function handler(req, res) {
         error: "Nie udało się pobrać uczestników"
       });
     }
+
+    // Reprice any pending/failed payment against current fee schedule before reading it.
+    // If prices went up since registration, this bumps total_amount so the user sees the
+    // correct current amount in the panel and pays the correct amount in SIBS.
+    const repriceResult = await repricePendingPayment(supabase, registration_id, eventConfig);
 
     // Get all payments for this registration
     const { data: payments, error: paymentsError } = await supabase
@@ -131,7 +171,8 @@ export default async function handler(req, res) {
       paidAmount: paidPayments.reduce((sum, p) => sum + Number(p.total_amount), 0),
       lastPaidAt: paidPayments.length > 0 ? (paidPayments[0].paid_at || paidPayments[0].updated_at || paidPayments[0].created_at) : null,
       canEdit,
-      canAddParticipants
+      canAddParticipants,
+      priceIncrease: buildPriceIncreasePayload(pendingPayment, eventConfig, repriceResult)
     });
 
   } catch (error) {

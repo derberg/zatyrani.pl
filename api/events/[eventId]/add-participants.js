@@ -77,6 +77,17 @@ export default async function handler(req, res) {
       .eq("payment_status", "pending")
       .single();
 
+    // Get latest paid payment (if any). Used to identify which participants are
+    // already covered so the pending top-up covers only participants added after that.
+    const { data: latestPaidPayment } = await supabase
+      .from("event_payments")
+      .select("*")
+      .eq("registration_id", registration_id)
+      .eq("payment_status", "paid")
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .single();
+
     // Create participant records
     const participantRecords = createParticipantRecords(participants, registration_id);
 
@@ -107,10 +118,22 @@ export default async function handler(req, res) {
       });
     }
 
-    // Update existing pending payment or create new one
-    // If there's a pending payment, recalculate for ALL participants (payment not yet made)
-    // If no pending payment (previous was paid), calculate only for NEW participants (top-up)
-    const participantsForPayment = existingPendingPayment ? allParticipants : participantRecords;
+    // Update existing pending payment or create new one.
+    // - If pending exists AND there's a prior paid payment, the pending is a top-up that
+    //   covers only participants added after the last paid_at (matches delete-participant.js).
+    // - If pending exists with no prior paid payment, it covers all participants.
+    // - If no pending payment (previous was paid), bill only the newly-added participants.
+    let participantsForPayment;
+    if (existingPendingPayment) {
+      if (latestPaidPayment) {
+        const paidAt = latestPaidPayment.paid_at || latestPaidPayment.updated_at || latestPaidPayment.created_at;
+        participantsForPayment = allParticipants.filter(p => new Date(p.created_at) > new Date(paidAt));
+      } else {
+        participantsForPayment = allParticipants;
+      }
+    } else {
+      participantsForPayment = participantRecords;
+    }
     let updatedPayment;
     try {
       updatedPayment = await updateOrCreatePayment(supabase, registration_id, participantsForPayment, existingPendingPayment, eventConfig, extraDonation);

@@ -729,7 +729,10 @@
       "delete": "Usuń",
       "confirm_delete_participant": "Czy na pewno chcesz usunąć tego uczestnika?",
       "loading_error_title": "Problem z wyświetlaniem listy uczestników",
-      "loading_error_message": "Nie udało się załadować listy uczestników. W razie problemów skontaktuj się z organizatorem."
+      "loading_error_message": "Nie udało się załadować listy uczestników. W razie problemów skontaktuj się z organizatorem.",
+      "price_increase_title": "Cena zmieniła się zgodnie z harmonogramem",
+      "price_increase_body": "Od 1 czerwca 2026 opłata startowa za 21km (bieg i canicross) wzrosła ze 100 zł do 130 zł. 11km Nordic Walking pozostaje 100 zł. Twoja kwota do zapłaty: {{previous}} zł → {{current}} zł (różnica {{diff}} zł).",
+      "price_increase_body_persistent": "Od 1 czerwca 2026 opłata startowa za 21km (bieg i canicross) wynosi 130 zł zamiast 100 zł. 11km Nordic Walking pozostaje 100 zł. Twoja aktualna kwota do zapłaty: {{current}} zł."
     },
     "registration": {
       "title": "Rejestracja",
@@ -759,7 +762,7 @@
       "race_fees_label": "Opłata startowa",
       "tshirt_fees_label": "Koszulki",
       "total_label": "Razem do zapłaty",
-      "fee_schedule_info": "Po {{date}} opłata startowa wzrasta do {{price}} zł",
+      "fee_schedule_info": "Po {{date}} opłata startowa za 21km (bieg i canicross) wzrasta do {{price}} zł. 11km Nordic Walking zawsze 100 zł.",
       "submit_registration": "Zapisz i przejdź do panelu",
       "edit_participant": "Edytuj",
       "remove_participant": "Usuń"
@@ -827,7 +830,16 @@
     "race_office_title": "Biuro zawodów",
     "race_office_location": "Dom Kultury w Wilczy, Karola Miarki 123, 44-189 Wilcza",
     "logo_alt": "Logo Wilczy Półmaraton",
-    "background_alt": "Tło półmaratonu"
+    "background_alt": "Tło półmaratonu",
+    "prices_title": "Opłata startowa",
+    "prices_intro": "Ceny są zależne od dystansu i terminu zapisu.",
+    "price_run_label": "21km bieg i 21km canicross",
+    "price_run_value": "100 zł do 31.05.2026, po tym terminie 130 zł",
+    "price_nw_label": "11km Nordic Walking",
+    "price_nw_value": "100 zł (cena stała)",
+    "price_tshirt_label": "Koszulka pamiątkowa (opcjonalnie)",
+    "price_tshirt_value": "80 zł",
+    "prices_note": "Jeśli zapiszesz się w maju, ale opłacisz po 31.05.2026, obowiązuje cena z czerwca."
   },
   "members_content": {
     "member_1": "Żeby nie było za nudno bieganie zaczęła od Runmageddonow. Zrobiła weterana i przerzuciła się na biegi górskie. Uwielbia dystanse maratońskie i ultra trudne trasy. Jak na dziczka przystało w 2022 roku zaliczyła rzeźnika dystans 80 km. Teraz chwilowo walczy z kijkami. Po wyleczeniu kontuzji zapowiada że wróci na górskie trasy.",
