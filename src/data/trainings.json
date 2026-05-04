@@ -757,5 +757,16 @@
     "phone": "508221551",
     "distance": 10,
     "pace": 6
+  },
+  {
+    "uid": "bieg-5-5-2026-19-1-nieborowice-termy-bagier-10-6",
+    "type": "bieg",
+    "datetime": "05/05/2026 19:01",
+    "location": "Nieborowice - TERMY (Bagier)",
+    "locationLink": "",
+    "comment": "zbiórka - https://maps.app.goo.gl/qMVwEWq7pkxxws4B7",
+    "phone": "508221551",
+    "distance": 10,
+    "pace": 6
   }
 ]
