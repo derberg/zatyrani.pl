@@ -5,9 +5,6 @@ import crypto from "node:crypto";
 function getSupabaseClient() {
   const url = process.env.SUPABASE_URL;
   const serviceKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  console.log("Supabase URL:", url);
-  console.log("Supabase Service Role Key:", serviceKey);
-
 
   if (!url || !serviceKey) {
     throw new Error("Supabase URL or key is not configured.");
@@ -88,9 +85,10 @@ export default async function handler(req, res) {
 
     const accountSid = process.env.TWILIO_ACCOUNT_SID;
     const authToken = process.env.TWILIO_AUTH_TOKEN;
+    const messagingServiceSid = process.env.TWILIO_MESSAGING_SERVICE_SID;
     const twilioPhoneNumber = process.env.TWILIO_PHONE_NUMBER;
 
-    if (!accountSid || !authToken || !twilioPhoneNumber) {
+    if (!accountSid || !authToken || (!messagingServiceSid && !twilioPhoneNumber)) {
       console.error("Twilio environment variables are not set.");
       return systemError(res);
     }
@@ -99,11 +97,16 @@ export default async function handler(req, res) {
     const code = String(Math.floor(100000 + Math.random() * 900000));
 
     try {
-      await client.messages.create({
+      const payload = {
         body: `Twój kod do logowania do strony Zatyranych: ${code}`,
         to: normalizedPhone,
-        from: twilioPhoneNumber,
-      });
+      };
+      if (messagingServiceSid) {
+        payload.messagingServiceSid = messagingServiceSid;
+      } else {
+        payload.from = twilioPhoneNumber;
+      }
+      await client.messages.create(payload);
     } catch (smsError) {
       console.error("Error sending SMS:", smsError);
       return res.status(503).json({

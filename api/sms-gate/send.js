@@ -79,8 +79,9 @@ export default async function handler(req, res) {
 
   const accountSid = process.env.TWILIO_ACCOUNT_SID;
   const authToken = process.env.TWILIO_AUTH_TOKEN;
+  const messagingServiceSid = process.env.TWILIO_MESSAGING_SERVICE_SID;
   const twilioPhoneNumber = process.env.TWILIO_PHONE_NUMBER;
-  if (!accountSid || !authToken || !twilioPhoneNumber) {
+  if (!accountSid || !authToken || (!messagingServiceSid && !twilioPhoneNumber)) {
     console.error("Twilio environment variables are not set.");
     return systemError(res);
   }
@@ -90,11 +91,13 @@ export default async function handler(req, res) {
   let twilioSid = null;
   let twilioError = null;
   try {
-    const message = await client.messages.create({
-      body,
-      to: recipient.phone,
-      from: twilioPhoneNumber,
-    });
+    const payload = { body, to: recipient.phone };
+    if (messagingServiceSid) {
+      payload.messagingServiceSid = messagingServiceSid;
+    } else {
+      payload.from = twilioPhoneNumber;
+    }
+    const message = await client.messages.create(payload);
     twilioSid = message.sid;
   } catch (err) {
     twilioError = err && err.message ? err.message : String(err);

@@ -2,7 +2,7 @@
 import PageHeader from "../PageHeader.astro";
 ---
 
-<PageHeader title="SMS Gate" subtitle="Wewnętrzna brama do wysyłki SMS." background="pink" />
+<PageHeader title="Bramka SMS" subtitle="Wewnętrzna brama do wysyłki SMS do członków stowarzyszenia." background="pink" />
 
 <div id="smsApp" class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
   <div id="smsLoading" class="text-center text-gray-600 py-8">Ładowanie…</div>
@@ -39,8 +39,7 @@ import PageHeader from "../PageHeader.astro";
       ></textarea>
       <div class="mt-2 text-sm text-gray-600 flex flex-wrap gap-x-4 gap-y-1">
         <span><span id="charCount">0</span> znaków</span>
-        <span><span id="segCount">0</span> segmentów</span>
-        <span>kodowanie: <span id="encoding">GSM-7</span></span>
+        <span>ta wiadomość = <strong><span id="segCount">0</span></strong> faktycznie wysłanych SMS do jednej osoby</span>
       </div>
 
       <div
@@ -48,19 +47,18 @@ import PageHeader from "../PageHeader.astro";
         class="hidden mt-3 border-l-4 border-yellow-500 bg-yellow-50 p-3 rounded"
       >
         <p class="text-sm text-yellow-800">
-          ⚠ Twoja wiadomość zawiera polskie znaki. Kosztuje
-          <strong><span id="ucs2Segs">0</span> segmentów</strong>
-          zamiast <strong><span id="gsmSegs">0</span> bez polskich znaków</strong>.
-          Po usunięciu polskich znaków zaoszczędzisz
-          <strong><span id="savePerRecipient">0</span> segmentów na odbiorcę</strong>
-          (= <strong><span id="saveTotal">0</span> SMS</strong> z budżetu przy obecnym wyborze).
+          ⚠ Twoja wiadomość zawiera polskie znaki — to drożej.
+          Teraz: <strong><span id="ucs2Segs">0</span> SMS do jednej osoby</strong>.
+          Po usunięciu polskich znaków: <strong><span id="gsmSegs">0</span> SMS do jednej osoby</strong>
+          (oszczędność: <strong><span id="savePerRecipient">0</span> SMS na osobę</strong>,
+          czyli <strong><span id="saveTotal">0</span> SMS z budżetu</strong> przy obecnym wyborze odbiorców).
         </p>
         <button
           id="stripBtn"
           type="button"
           class="mt-2 bg-yellow-500 hover:bg-yellow-600 text-white text-sm px-3 py-1 rounded"
         >
-          Usuń polskie znaki
+          Usuń polskie znaki (z <span id="stripBtnFrom">0</span> na <span id="stripBtnTo">0</span> SMS)
         </button>
       </div>
     </section>
@@ -251,7 +249,6 @@ import PageHeader from "../PageHeader.astro";
     const segs = segments(body);
     $("charCount").textContent = String(body.length);
     $("segCount").textContent = String(segs);
-    $("encoding").textContent = enc;
 
     const warning = $("ucs2Warning");
     if (enc === "UCS-2" && body.length > 0) {
@@ -262,6 +259,8 @@ import PageHeader from "../PageHeader.astro";
       $("gsmSegs").textContent = String(gsmSegs);
       $("savePerRecipient").textContent = String(saved);
       $("saveTotal").textContent = String(saved * state.selected.size);
+      $("stripBtnFrom").textContent = String(segs);
+      $("stripBtnTo").textContent = String(gsmSegs);
       warning.classList.remove("hidden");
     } else {
       warning.classList.add("hidden");
@@ -283,7 +282,7 @@ import PageHeader from "../PageHeader.astro";
       summary.classList.remove("text-red-600", "font-semibold");
     } else {
       const after = remaining - total;
-      summary.innerHTML = `Wybrano <strong>${k}</strong> odbiorców · <strong>${segs}</strong> segmentów / SMS · razem <strong>${k} × ${segs} = ${total}</strong> SMS · po wysłaniu pozostanie <strong>${Math.max(0, after)}</strong> z budżetu`;
+      summary.innerHTML = `Wybrano <strong>${k}</strong> odbiorców · ta wiadomość = <strong>${segs}</strong> SMS do jednej osoby · razem <strong>${k} × ${segs} = ${total}</strong> SMS · po wysłaniu pozostanie <strong>${Math.max(0, after)}</strong> z budżetu`;
       if (total > remaining) {
         summary.classList.add("text-red-600", "font-semibold");
       } else {
