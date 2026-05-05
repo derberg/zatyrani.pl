@@ -9,6 +9,7 @@ export default async function middleware(request) {
     '/trening-dodaj',
     '/wydarzenia-edytuj/',
     '/trening-edytuj/',
+    '/sms',
   ];
 
   if (protectedPaths.some(path => pathname.startsWith(path))) {
@@ -39,5 +40,6 @@ export const config = {
     '/trening-dodaj/:path*',
     '/wydarzenia-edytuj/:path*',
     '/trening-edytuj/:path*',
+    '/sms',
   ],
 };

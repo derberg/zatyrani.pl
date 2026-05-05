@@ -89,8 +89,12 @@ CREATE INDEX idx_sms_gate_usage_status ON sms_gate_usage(status);
 --    -> service_role bypasses RLS, anon role has no access.
 ALTER TABLE sms_gate_usage ENABLE ROW LEVEL SECURITY;
 
--- 4. Grant access to the first sender (edit IDs as needed)
-UPDATE members SET can_send_sms = true WHERE id = '8b209c30-06f2-4eed-927d-2915386ce88e';
+-- 4. Grant access to initial senders (edit IDs as needed)
+UPDATE members SET can_send_sms = true
+WHERE id IN (
+  '8b209c30-06f2-4eed-927d-2915386ce88e',
+  '94b91bd8-e0b6-4d4f-95b3-76c73fa6f948'
+);
 ```
 
 The implementation plan must place these statements in their own first step with a hard "STOP — apply in Supabase before continuing" gate.

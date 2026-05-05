@@ -1,0 +1,490 @@
+---
+import PageHeader from "../PageHeader.astro";
+---
+
+<PageHeader title="SMS Gate" subtitle="Wewnętrzna brama do wysyłki SMS." background="pink" />
+
+<div id="smsApp" class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+  <div id="smsLoading" class="text-center text-gray-600 py-8">Ładowanie…</div>
+
+  <div id="smsMain" class="hidden">
+    <div
+      id="budgetBanner"
+      class="sticky top-0 z-20 bg-purple-600 text-white px-4 py-3 rounded-md shadow mb-6 flex items-center justify-between"
+    >
+      <div>
+        <span class="font-semibold">Budżet:</span>
+        <span id="budgetUsed">0</span> / <span id="budgetTotal">0</span> SMS
+        <span class="opacity-80">·</span>
+        <span>pozostało <span id="budgetRemaining">0</span></span>
+      </div>
+      <button
+        id="logoutBtn"
+        type="button"
+        class="text-sm bg-white/20 hover:bg-white/30 px-3 py-1 rounded"
+      >
+        Wyloguj
+      </button>
+    </div>
+
+    <section class="bg-white rounded-md shadow p-4 mb-6">
+      <label for="smsBody" class="block font-semibold text-gray-700 mb-2">
+        Treść wiadomości
+      </label>
+      <textarea
+        id="smsBody"
+        rows="5"
+        class="w-full border rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
+        placeholder="Wpisz treść SMS-a…"
+      ></textarea>
+      <div class="mt-2 text-sm text-gray-600 flex flex-wrap gap-x-4 gap-y-1">
+        <span><span id="charCount">0</span> znaków</span>
+        <span><span id="segCount">0</span> segmentów</span>
+        <span>kodowanie: <span id="encoding">GSM-7</span></span>
+      </div>
+
+      <div
+        id="ucs2Warning"
+        class="hidden mt-3 border-l-4 border-yellow-500 bg-yellow-50 p-3 rounded"
+      >
+        <p class="text-sm text-yellow-800">
+          ⚠ Twoja wiadomość zawiera polskie znaki. Kosztuje
+          <strong><span id="ucs2Segs">0</span> segmentów</strong>
+          zamiast <strong><span id="gsmSegs">0</span> bez polskich znaków</strong>.
+          Po usunięciu polskich znaków zaoszczędzisz
+          <strong><span id="savePerRecipient">0</span> segmentów na odbiorcę</strong>
+          (= <strong><span id="saveTotal">0</span> SMS</strong> z budżetu przy obecnym wyborze).
+        </p>
+        <button
+          id="stripBtn"
+          type="button"
+          class="mt-2 bg-yellow-500 hover:bg-yellow-600 text-white text-sm px-3 py-1 rounded"
+        >
+          Usuń polskie znaki
+        </button>
+      </div>
+    </section>
+
+    <section class="bg-white rounded-md shadow p-4 mb-6">
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="font-semibold text-gray-800">Odbiorcy</h2>
+        <div class="text-sm text-gray-600">
+          Wybrano <span id="selectedCount">0</span> / <span id="totalCount">0</span>
+        </div>
+      </div>
+      <div class="flex gap-2 mb-3">
+        <button
+          id="selectAllBtn"
+          type="button"
+          class="text-sm bg-gray-100 hover:bg-gray-200 px-3 py-1 rounded"
+        >
+          Zaznacz wszystkich
+        </button>
+        <button
+          id="deselectAllBtn"
+          type="button"
+          class="text-sm bg-gray-100 hover:bg-gray-200 px-3 py-1 rounded"
+        >
+          Odznacz wszystkich
+        </button>
+      </div>
+      <ul id="memberList" class="divide-y divide-gray-100 max-h-96 overflow-y-auto"></ul>
+    </section>
+
+    <div
+      id="totalPanel"
+      class="sticky bottom-0 bg-white border-t border-gray-200 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-3 shadow-[0_-4px_8px_rgba(0,0,0,0.05)]"
+    >
+      <div id="totalSummary" class="text-sm text-gray-700 mb-2">
+        Wybierz odbiorców i napisz treść.
+      </div>
+      <div class="flex justify-end">
+        <button
+          id="sendBtn"
+          type="button"
+          disabled
+          class="bg-purple-600 hover:bg-purple-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white px-6 py-2 rounded-md"
+        >
+          Wyślij
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  id="confirmModal"
+  class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-30"
+>
+  <div class="bg-white rounded-lg shadow-lg max-w-md w-full mx-4 p-5">
+    <h3 class="text-lg font-semibold mb-3">Potwierdź wysyłkę</h3>
+    <p id="confirmText" class="text-gray-700 mb-4"></p>
+    <div class="flex justify-end gap-2">
+      <button
+        id="cancelConfirmBtn"
+        type="button"
+        class="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded"
+      >
+        Anuluj
+      </button>
+      <button
+        id="proceedSendBtn"
+        type="button"
+        class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded"
+      >
+        Wyślij
+      </button>
+    </div>
+  </div>
+</div>
+
+<div
+  id="summaryModal"
+  class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-30"
+>
+  <div class="bg-white rounded-lg shadow-lg max-w-md w-full mx-4 p-5">
+    <h3 class="text-lg font-semibold mb-3">Wysyłka zakończona</h3>
+    <p id="summaryText" class="text-gray-700 mb-3"></p>
+    <div id="summaryFailed" class="hidden mb-3">
+      <p class="text-sm font-semibold text-red-700 mb-1">Nieudane:</p>
+      <ul id="failedList" class="text-sm text-red-700 list-disc pl-5"></ul>
+    </div>
+    <div class="flex justify-end">
+      <button
+        id="closeSummaryBtn"
+        type="button"
+        class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded"
+      >
+        OK
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { encoding, segments, transliterate } from "../../utils/sms-segments.js";
+
+  type Member = { id: string; name: string; phone: string };
+  type Budget = { total: number; used: number; remaining: number };
+
+  const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
+
+  const state: {
+    members: Member[];
+    selected: Set<string>;
+    budget: Budget;
+    sending: boolean;
+  } = {
+    members: [],
+    selected: new Set(),
+    budget: { total: 0, used: 0, remaining: 0 },
+    sending: false,
+  };
+
+  function escapeHtml(s: string) {
+    return s
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  function renderBudget() {
+    $("budgetTotal").textContent = String(state.budget.total);
+    $("budgetUsed").textContent = String(state.budget.used);
+    $("budgetRemaining").textContent = String(
+      Math.max(0, state.budget.total - state.budget.used)
+    );
+  }
+
+  function renderMembers() {
+    const list = $<HTMLUListElement>("memberList");
+    list.innerHTML = "";
+    for (const m of state.members) {
+      const li = document.createElement("li");
+      li.className = "py-2 flex items-center gap-3";
+      li.dataset.recipient = m.id;
+      li.innerHTML = `
+        <input type="checkbox" class="recipient-cb h-4 w-4" data-id="${escapeHtml(m.id)}" />
+        <div class="flex-1">
+          <div class="font-medium text-gray-800">${escapeHtml(m.name)}</div>
+          <div class="text-xs text-gray-500">${escapeHtml(m.phone)}</div>
+        </div>
+        <div class="recipient-status text-sm text-gray-400 hidden" data-status="${escapeHtml(m.id)}"></div>
+      `;
+      list.appendChild(li);
+    }
+    list.querySelectorAll<HTMLInputElement>(".recipient-cb").forEach((cb) => {
+      cb.addEventListener("change", () => {
+        const id = cb.dataset.id!;
+        if (cb.checked) state.selected.add(id);
+        else state.selected.delete(id);
+        renderTotals();
+      });
+    });
+    $("totalCount").textContent = String(state.members.length);
+  }
+
+  function setRecipientStatus(
+    id: string,
+    text: string,
+    color: "gray" | "green" | "red"
+  ) {
+    const el = document.querySelector<HTMLElement>(`[data-status="${id}"]`);
+    if (!el) return;
+    el.classList.remove("hidden");
+    el.classList.remove("text-gray-400", "text-green-600", "text-red-600");
+    el.classList.add(
+      color === "green"
+        ? "text-green-600"
+        : color === "red"
+          ? "text-red-600"
+          : "text-gray-400"
+    );
+    el.textContent = text;
+  }
+
+  function renderCounter() {
+    const body = $<HTMLTextAreaElement>("smsBody").value;
+    const enc = encoding(body);
+    const segs = segments(body);
+    $("charCount").textContent = String(body.length);
+    $("segCount").textContent = String(segs);
+    $("encoding").textContent = enc;
+
+    const warning = $("ucs2Warning");
+    if (enc === "UCS-2" && body.length > 0) {
+      const stripped = transliterate(body);
+      const gsmSegs = segments(stripped);
+      const saved = Math.max(0, segs - gsmSegs);
+      $("ucs2Segs").textContent = String(segs);
+      $("gsmSegs").textContent = String(gsmSegs);
+      $("savePerRecipient").textContent = String(saved);
+      $("saveTotal").textContent = String(saved * state.selected.size);
+      warning.classList.remove("hidden");
+    } else {
+      warning.classList.add("hidden");
+    }
+  }
+
+  function renderTotals() {
+    const body = $<HTMLTextAreaElement>("smsBody").value;
+    const segs = segments(body);
+    const k = state.selected.size;
+    const total = segs * k;
+    const remaining = Math.max(0, state.budget.total - state.budget.used);
+
+    $("selectedCount").textContent = String(k);
+
+    const summary = $("totalSummary");
+    if (k === 0 || body.length === 0) {
+      summary.textContent = "Wybierz odbiorców i napisz treść.";
+      summary.classList.remove("text-red-600", "font-semibold");
+    } else {
+      const after = remaining - total;
+      summary.innerHTML = `Wybrano <strong>${k}</strong> odbiorców · <strong>${segs}</strong> segmentów / SMS · razem <strong>${k} × ${segs} = ${total}</strong> SMS · po wysłaniu pozostanie <strong>${Math.max(0, after)}</strong> z budżetu`;
+      if (total > remaining) {
+        summary.classList.add("text-red-600", "font-semibold");
+      } else {
+        summary.classList.remove("text-red-600", "font-semibold");
+      }
+    }
+
+    const sendBtn = $<HTMLButtonElement>("sendBtn");
+    sendBtn.disabled =
+      state.sending ||
+      k === 0 ||
+      body.length === 0 ||
+      total > remaining ||
+      total === 0;
+
+    renderCounter();
+  }
+
+  async function loadState() {
+    try {
+      const res = await fetch("/api/sms-gate/state", { credentials: "same-origin" });
+      if (res.status === 401 || res.status === 403) {
+        window.location.href = "/?access_denied=true";
+        return;
+      }
+      if (!res.ok) {
+        $("smsLoading").textContent = "Błąd ładowania. Odśwież stronę.";
+        return;
+      }
+      const data = await res.json();
+      state.members = data.members || [];
+      state.budget = data.budget || { total: 0, used: 0, remaining: 0 };
+      $("smsLoading").classList.add("hidden");
+      $("smsMain").classList.remove("hidden");
+      renderBudget();
+      renderMembers();
+      renderTotals();
+    } catch (e) {
+      console.error(e);
+      $("smsLoading").textContent = "Błąd połączenia. Odśwież stronę.";
+    }
+  }
+
+  function setControlsDisabled(disabled: boolean) {
+    state.sending = disabled;
+    $<HTMLTextAreaElement>("smsBody").disabled = disabled;
+    document
+      .querySelectorAll<HTMLInputElement>(".recipient-cb")
+      .forEach((cb) => (cb.disabled = disabled));
+    $<HTMLButtonElement>("selectAllBtn").disabled = disabled;
+    $<HTMLButtonElement>("deselectAllBtn").disabled = disabled;
+    $<HTMLButtonElement>("stripBtn").disabled = disabled;
+    $<HTMLButtonElement>("sendBtn").disabled = disabled;
+  }
+
+  async function runSend() {
+    const body = $<HTMLTextAreaElement>("smsBody").value;
+    const recipients = state.members.filter((m) => state.selected.has(m.id));
+    setControlsDisabled(true);
+    let sent = 0;
+    let failed = 0;
+    const failedRows: { name: string; phone: string; reason: string }[] = [];
+    let budgetExhausted = false;
+
+    for (const r of recipients) {
+      setRecipientStatus(r.id, "wysyłanie…", "gray");
+      try {
+        const res = await fetch("/api/sms-gate/send", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "same-origin",
+          body: JSON.stringify({ recipientId: r.id, body }),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (res.status === 409 && data.error === "budget_exceeded") {
+          budgetExhausted = true;
+          setRecipientStatus(r.id, "budżet wyczerpany", "red");
+          break;
+        }
+        if (res.ok && data.ok) {
+          sent++;
+          if (typeof data.used === "number") {
+            state.budget.used = data.used;
+            renderBudget();
+          }
+          setRecipientStatus(r.id, "✓ wysłano", "green");
+        } else {
+          failed++;
+          const reason = data.error || `HTTP ${res.status}`;
+          failedRows.push({ name: r.name, phone: r.phone, reason });
+          setRecipientStatus(r.id, "✗ błąd", "red");
+        }
+      } catch (e) {
+        failed++;
+        const reason = e instanceof Error ? e.message : "błąd połączenia";
+        failedRows.push({ name: r.name, phone: r.phone, reason });
+        setRecipientStatus(r.id, "✗ błąd sieci", "red");
+      }
+      await new Promise((res) => setTimeout(res, 200));
+    }
+
+    setControlsDisabled(false);
+    renderTotals();
+    showSummary(sent, failed, failedRows, budgetExhausted, recipients.length);
+  }
+
+  function showSummary(
+    sent: number,
+    failed: number,
+    failedRows: { name: string; phone: string; reason: string }[],
+    budgetExhausted: boolean,
+    requested: number
+  ) {
+    const skipped = budgetExhausted ? requested - sent - failed : 0;
+    const lines: string[] = [];
+    lines.push(`Wysłano: ${sent}`);
+    if (failed > 0) lines.push(`Błędy: ${failed}`);
+    if (skipped > 0) lines.push(`Pominięto (budżet wyczerpany): ${skipped}`);
+    $("summaryText").textContent = lines.join(" · ");
+
+    const failedSection = $("summaryFailed");
+    const failedList = $<HTMLUListElement>("failedList");
+    failedList.innerHTML = "";
+    if (failedRows.length > 0) {
+      for (const f of failedRows) {
+        const li = document.createElement("li");
+        li.textContent = `${f.name} (${f.phone}) — ${f.reason}`;
+        failedList.appendChild(li);
+      }
+      failedSection.classList.remove("hidden");
+    } else {
+      failedSection.classList.add("hidden");
+    }
+    $("summaryModal").classList.remove("hidden");
+  }
+
+  // Wire up events
+  document.addEventListener("DOMContentLoaded", () => {
+    $<HTMLTextAreaElement>("smsBody").addEventListener("input", renderTotals);
+
+    $("selectAllBtn").addEventListener("click", () => {
+      state.selected = new Set(state.members.map((m) => m.id));
+      document
+        .querySelectorAll<HTMLInputElement>(".recipient-cb")
+        .forEach((cb) => (cb.checked = true));
+      renderTotals();
+    });
+
+    $("deselectAllBtn").addEventListener("click", () => {
+      state.selected.clear();
+      document
+        .querySelectorAll<HTMLInputElement>(".recipient-cb")
+        .forEach((cb) => (cb.checked = false));
+      renderTotals();
+    });
+
+    $("stripBtn").addEventListener("click", () => {
+      const ta = $<HTMLTextAreaElement>("smsBody");
+      ta.value = transliterate(ta.value);
+      renderTotals();
+    });
+
+    $("sendBtn").addEventListener("click", () => {
+      const body = $<HTMLTextAreaElement>("smsBody").value;
+      const segs = segments(body);
+      const k = state.selected.size;
+      const total = segs * k;
+      $("confirmText").textContent = `Wysłać do ${k} osób, łącznie ${total} SMS?`;
+      $("confirmModal").classList.remove("hidden");
+    });
+
+    $("cancelConfirmBtn").addEventListener("click", () => {
+      $("confirmModal").classList.add("hidden");
+    });
+
+    $("proceedSendBtn").addEventListener("click", () => {
+      $("confirmModal").classList.add("hidden");
+      runSend();
+    });
+
+    $("closeSummaryBtn").addEventListener("click", () => {
+      $("summaryModal").classList.add("hidden");
+    });
+
+    $("logoutBtn").addEventListener("click", async () => {
+      try {
+        await fetch("/api/auth/logout", {
+          method: "POST",
+          credentials: "same-origin",
+        });
+      } catch {
+        // ignore
+      }
+      try {
+        window.localStorage.removeItem("authState");
+      } catch {
+        // ignore
+      }
+      window.location.href = "/";
+    });
+
+    loadState();
+  });
+</script>
