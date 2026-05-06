@@ -757,5 +757,16 @@
     "phone": "508221551",
     "distance": 10,
     "pace": 6
+  },
+  {
+    "uid": "bieg-7-5-2026-18-0-pilchowice-damrota-10-8",
+    "type": "bieg",
+    "datetime": "07/05/2026 18:00",
+    "location": "Pilchowice – Damrota",
+    "locationLink": "https://maps.app.goo.gl/XnmUCsTWhwotmXr98",
+    "comment": "Rozpoznanie trasy 10km metodą Gallowaya.",
+    "phone": "784640977",
+    "distance": 10,
+    "pace": 8
   }
 ]
