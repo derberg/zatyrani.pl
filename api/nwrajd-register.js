@@ -47,7 +47,7 @@ export default async function handler(req, res) {
       .select("*", { count: "exact", head: true });
 
     if (countError) throw countError;
-    if (count >= 55) {
+    if (count >= 56) {
       return res.status(409).json({ error: "LIMIT_REACHED" });
     }
 
