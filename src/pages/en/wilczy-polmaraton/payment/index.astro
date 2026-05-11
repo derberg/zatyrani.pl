@@ -113,14 +113,14 @@
       <div id="blik-notice" class="blik-notice" style="display: none;">
         <strong>BLIK:</strong> After entering your BLIK code and confirming, open your bank's app and approve the payment. Without confirming in the app, the payment will not be completed.
       </div>
+      <div id="payment-form-container" style="display: none;">
+        <!-- SIBS SPG widget form will be injected here -->
+      </div>
       <div id="transfer-notice" class="blik-notice" style="display: none;">
-        <strong>Bank transfer:</strong> If you can't pay with BLIK, transfer to:<br>
+        <strong>Bank transfer:</strong> If you can't pay with BLIK or PayByLink, transfer to:<br>
         <strong>42 1870 1045 2078 1084 8949 0004</strong><br>
         In the title enter: <strong id="transfer-title"></strong><br>
         We will mark the payment manually after receiving the transfer.
-      </div>
-      <div id="payment-form-container" style="display: none;">
-        <!-- SIBS SPG widget form will be injected here -->
       </div>
       <div id="info-message" class="info" style="display: none;"></div>
       <div id="error-message" class="error" style="display: none;"></div>
@@ -145,13 +145,13 @@
         return false;
       }
 
-      function renderPaymentWidget(transactionID, formContext, totalAmount) {
+      function renderPaymentWidget(transactionID: string, formContext: string, totalAmount: number) {
         // Load SIBS SPG widget script
         const script = document.createElement('script');
         script.src = `https://api.sibsgateway.com/assets/js/widget.js?id=${transactionID}`;
         script.onload = function() {
-          // Show the payment form container
           const container = document.getElementById('payment-form-container');
+          if (!container) return;
           container.style.display = 'block';
 
           // Create the SPG payment form
@@ -160,7 +160,7 @@
           form.setAttribute('spg-context', formContext);
           // SIBS SPG expects amount in major currency units (e.g. 100 for 100 PLN, NOT 10000 groszy)
           form.setAttribute('spg-config', JSON.stringify({
-            paymentMethodList: ['BLIK'],
+            paymentMethodList: ['BLIK', 'PAY_BY_LINK', 'CARD'],
             amount: {
               value: totalAmount,
               currency: 'PLN'
@@ -172,12 +172,17 @@
           container.appendChild(form);
         };
         script.onerror = function() {
-          document.getElementById('title').textContent = 'Loading error';
-          document.getElementById('message').style.display = 'none';
-          document.getElementById('error-message').innerHTML =
-            'Failed to load the payment form. Try refreshing the page or contact the organizer: <a href="mailto:biuro@zatyrani.pl">biuro@zatyrani.pl</a>';
-          document.getElementById('error-message').style.display = 'block';
-          document.getElementById('panel-link').style.display = 'inline-block';
+          const title = document.getElementById('title');
+          const message = document.getElementById('message');
+          const errorMessage = document.getElementById('error-message');
+          const panelLink = document.getElementById('panel-link');
+          if (title) title.textContent = 'Loading error';
+          if (message) message.style.display = 'none';
+          if (errorMessage) {
+            errorMessage.innerHTML = 'Failed to load the payment form. Try refreshing the page or contact the organizer: <a href="mailto:biuro@zatyrani.pl">biuro@zatyrani.pl</a>';
+            errorMessage.style.display = 'block';
+          }
+          if (panelLink) panelLink.style.display = 'inline-block';
         };
         document.head.appendChild(script);
       }
@@ -212,38 +217,54 @@
           }
 
           if (!data.has_pending_payment) {
-            document.getElementById('title').textContent = 'No outstanding payments';
-            document.getElementById('message').textContent = data.message || 'All payments have already been completed.';
-            document.getElementById('spinner').style.display = 'none';
-            document.getElementById('info-message').textContent = 'You can go to the panel to see registration details.';
-            document.getElementById('info-message').style.display = 'block';
-            document.getElementById('panel-link').style.display = 'inline-block';
+            const title = document.getElementById('title');
+            const message = document.getElementById('message');
+            const spinner = document.getElementById('spinner');
+            const infoMessage = document.getElementById('info-message');
+            const panelLink = document.getElementById('panel-link');
+            if (title) title.textContent = 'No outstanding payments';
+            if (message) message.textContent = data.message || 'All payments have already been completed.';
+            if (spinner) spinner.style.display = 'none';
+            if (infoMessage) {
+              infoMessage.textContent = 'You can go to the panel to see registration details.';
+              infoMessage.style.display = 'block';
+            }
+            if (panelLink) panelLink.style.display = 'inline-block';
             return;
           }
 
           if (data.payment && data.payment.formContext && data.payment.transactionID) {
-            // Hide loading state, show payment title
-            document.getElementById('spinner').style.display = 'none';
-            document.getElementById('message').style.display = 'none';
-            document.getElementById('title').textContent = 'Payment - Wilczy Półmaraton 2026';
-
-            // Show BLIK notice and render the SIBS payment widget
-            document.getElementById('blik-notice').style.display = 'block';
-            document.getElementById('transfer-title').textContent = (data.payment.contact_person || '') + ' Wilczy Polmaraton';
-            document.getElementById('transfer-notice').style.display = 'block';
+            const spinner = document.getElementById('spinner');
+            const message = document.getElementById('message');
+            const title = document.getElementById('title');
+            const blikNotice = document.getElementById('blik-notice');
+            const transferTitle = document.getElementById('transfer-title');
+            const transferNotice = document.getElementById('transfer-notice');
+            if (spinner) spinner.style.display = 'none';
+            if (message) message.style.display = 'none';
+            if (title) title.textContent = 'Payment - Wilczy Półmaraton 2026';
+            if (blikNotice) blikNotice.style.display = 'block';
+            if (transferTitle) transferTitle.textContent = (data.payment.contact_person || '') + ' Wilczy Polmaraton';
+            if (transferNotice) transferNotice.style.display = 'block';
             renderPaymentWidget(data.payment.transactionID, data.payment.formContext, data.payment.total_amount);
           } else {
             throw new Error('Missing payment form data');
           }
         } catch (error) {
           console.error('Payment error:', error);
-          document.getElementById('title').textContent = 'Payment error';
-          document.getElementById('message').style.display = 'none';
-          document.getElementById('error-message').innerHTML =
-            'An error occurred while creating the payment. Try again or contact the organizer: <a href="mailto:biuro@zatyrani.pl">biuro@zatyrani.pl</a>';
-          document.getElementById('error-message').style.display = 'block';
-          document.getElementById('spinner').style.display = 'none';
-          document.getElementById('panel-link').style.display = 'inline-block';
+          const title = document.getElementById('title');
+          const message = document.getElementById('message');
+          const errorMessage = document.getElementById('error-message');
+          const spinner = document.getElementById('spinner');
+          const panelLink = document.getElementById('panel-link');
+          if (title) title.textContent = 'Payment error';
+          if (message) message.style.display = 'none';
+          if (errorMessage) {
+            errorMessage.innerHTML = 'An error occurred while creating the payment. Try again or contact the organizer: <a href="mailto:biuro@zatyrani.pl">biuro@zatyrani.pl</a>';
+            errorMessage.style.display = 'block';
+          }
+          if (spinner) spinner.style.display = 'none';
+          if (panelLink) panelLink.style.display = 'inline-block';
         }
       }
 
