@@ -768,5 +768,16 @@
     "phone": "784640977",
     "distance": 10,
     "pace": 8
+  },
+  {
+    "uid": "bieg-14-5-2026-18-30-ksiazenice-las-parking-10.00-8.00",
+    "type": "bieg",
+    "datetime": "14/05/2026 18:30",
+    "location": "Książenice las parking",
+    "locationLink": "",
+    "comment": "Trening Galoweya ",
+    "phone": "793980103",
+    "distance": 10,
+    "pace": 8
   }
 ]
