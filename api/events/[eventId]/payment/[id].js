@@ -1,5 +1,4 @@
 import { getSupabaseClient } from "../../../shared/supabase.js";
-import { verifyToken } from "../../../shared/auth.js";
 import { createPaymentLink } from "../../../niebocross/utils/sibs.js";
 import { repricePendingPayment } from "../../../shared/database-operations.js";
 import { getEventConfig } from "../../config.js";
@@ -21,11 +20,6 @@ export default async function handler(req, res) {
     eventConfig = getEventConfig(req.query.eventId);
   } catch {
     return res.status(404).json({ error: "Event not found" });
-  }
-
-  const authResult = verifyToken(req, eventConfig);
-  if (authResult.error) {
-    return res.status(authResult.status).json({ error: authResult.error });
   }
 
   try {
