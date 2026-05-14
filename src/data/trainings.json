@@ -779,5 +779,16 @@
     "phone": "793980103",
     "distance": 10,
     "pace": 8
+  },
+  {
+    "uid": "bieg-16-5-2026-8-0-stanica-stacja-16-7",
+    "type": "bieg",
+    "datetime": "16/05/2026 08:00",
+    "location": "Stanica – Stacja",
+    "locationLink": "https://maps.app.goo.gl/LGKq1drxyXzfK9bi7",
+    "comment": "Bieg 16km w tempie 7 00-7 30",
+    "phone": "663473341",
+    "distance": 16,
+    "pace": 7
   }
 ]
