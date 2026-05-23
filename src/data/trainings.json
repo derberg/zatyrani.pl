@@ -790,5 +790,16 @@
     "phone": "663473341",
     "distance": 16,
     "pace": 7
+  },
+  {
+    "uid": "bieg-24-5-2026-7-0-wilcza-cmentarz-21-6",
+    "type": "bieg",
+    "datetime": "24/05/2026 07:00",
+    "location": "Wilcza – Cmentarz",
+    "locationLink": "https://maps.app.goo.gl/NwiX62pvY3kmyV3M8",
+    "comment": "Dwie grupy. Dystans 20km-22km. Trasa Wilczego Półmaratonu.",
+    "phone": "791997150",
+    "distance": 21,
+    "pace": 6
   }
 ]
