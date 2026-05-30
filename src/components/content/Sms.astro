@@ -341,47 +341,68 @@ import PageHeader from "../PageHeader.astro";
   async function runSend() {
     const body = $<HTMLTextAreaElement>("smsBody").value;
     const recipients = state.members.filter((m) => state.selected.has(m.id));
+    const byId = new Map(recipients.map((m) => [m.id, m]));
     setControlsDisabled(true);
+
+    // The server now loops through all recipients in a single request, so
+    // closing the browser tab can no longer interrupt a send mid-way.
+    for (const r of recipients) setRecipientStatus(r.id, "wysyłanie…", "gray");
+
     let sent = 0;
     let failed = 0;
     const failedRows: { name: string; phone: string; reason: string }[] = [];
     let budgetExhausted = false;
 
-    for (const r of recipients) {
-      setRecipientStatus(r.id, "wysyłanie…", "gray");
-      try {
-        const res = await fetch("/api/sms-gate/send", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          credentials: "same-origin",
-          body: JSON.stringify({ recipientId: r.id, body }),
-        });
-        const data = await res.json().catch(() => ({}));
-        if (res.status === 409 && data.error === "budget_exceeded") {
-          budgetExhausted = true;
-          setRecipientStatus(r.id, "budżet wyczerpany", "red");
-          break;
-        }
-        if (res.ok && data.ok) {
-          sent++;
-          if (typeof data.used === "number") {
-            state.budget.used = data.used;
-            renderBudget();
-          }
-          setRecipientStatus(r.id, "✓ wysłano", "green");
-        } else {
-          failed++;
-          const reason = data.error || `HTTP ${res.status}`;
-          failedRows.push({ name: r.name, phone: r.phone, reason });
+    try {
+      const res = await fetch("/api/sms-gate/send", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
+        body: JSON.stringify({ recipientIds: recipients.map((m) => m.id), body }),
+      });
+      const data = await res.json().catch(() => ({}));
+
+      if (!res.ok) {
+        const reason = data.error || `HTTP ${res.status}`;
+        for (const r of recipients) {
           setRecipientStatus(r.id, "✗ błąd", "red");
+          failedRows.push({ name: r.name, phone: r.phone, reason });
         }
-      } catch (e) {
-        failed++;
-        const reason = e instanceof Error ? e.message : "błąd połączenia";
-        failedRows.push({ name: r.name, phone: r.phone, reason });
-        setRecipientStatus(r.id, "✗ błąd sieci", "red");
+        failed = recipients.length;
+      } else {
+        if (typeof data.used === "number") {
+          state.budget.used = data.used;
+          renderBudget();
+        }
+        budgetExhausted = Boolean(data.budgetExceeded);
+
+        for (const result of data.results || []) {
+          const r = byId.get(result.recipientId);
+          if (!r) continue;
+          if (result.status === "sent") {
+            sent++;
+            setRecipientStatus(r.id, "✓ wysłano", "green");
+          } else if (result.status === "skipped") {
+            const label =
+              result.reason === "budget_exceeded"
+                ? "budżet wyczerpany"
+                : "pominięto";
+            setRecipientStatus(r.id, label, "red");
+          } else {
+            failed++;
+            const reason = result.error || "błąd";
+            failedRows.push({ name: r.name, phone: r.phone, reason });
+            setRecipientStatus(r.id, "✗ błąd", "red");
+          }
+        }
       }
-      await new Promise((res) => setTimeout(res, 200));
+    } catch (e) {
+      const reason = e instanceof Error ? e.message : "błąd połączenia";
+      for (const r of recipients) {
+        setRecipientStatus(r.id, "✗ błąd sieci", "red");
+        failedRows.push({ name: r.name, phone: r.phone, reason });
+      }
+      failed = recipients.length;
     }
 
     setControlsDisabled(false);

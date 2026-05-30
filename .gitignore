@@ -27,3 +27,8 @@ pnpm-debug.log*
 scripts/.campaign-state.json
 .worktrees/
 SIBS-BO-UserManual.pdf
+
+# Data exports — may contain personal data, never commit
+*.xlsx
+*.xls
+*.csv
