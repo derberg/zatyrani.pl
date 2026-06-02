@@ -801,5 +801,16 @@
     "phone": "791997150",
     "distance": 21,
     "pace": 6
+  },
+  {
+    "uid": "bieg-2-6-2026-19-0-wierzbowa-4-nieborowice-dzialka-obok-gornickich-10-7",
+    "type": "bieg",
+    "datetime": "02/06/2026 19:00",
+    "location": "Wierzbowa 4 Nieborowice, działka obok Górnickich",
+    "locationLink": "",
+    "comment": "Chodźcie z nami ruszyć tyłek :)",
+    "phone": "512637906",
+    "distance": 10,
+    "pace": 7
   }
 ]
