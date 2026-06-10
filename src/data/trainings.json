@@ -812,5 +812,16 @@
     "phone": "512637906",
     "distance": 10,
     "pace": 7
+  },
+  {
+    "uid": "bieg-12-6-2026-19-30-wilcza-cmentarz-12-6",
+    "type": "bieg",
+    "datetime": "12/06/2026 19:30",
+    "location": "Wilcza – Cmentarz",
+    "locationLink": "https://maps.app.goo.gl/NwiX62pvY3kmyV3M8",
+    "comment": "12 km rozbiegania ",
+    "phone": "513592253",
+    "distance": 12,
+    "pace": 6
   }
 ]
