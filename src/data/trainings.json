@@ -834,5 +834,16 @@
     "phone": "663473341",
     "distance": 10,
     "pace": 10
+  },
+  {
+    "uid": "bieg-16-6-2026-19-0-nieborowice-ul-zacisze-kolo-trafo-10-7",
+    "type": "bieg",
+    "datetime": "16/06/2026 19:00",
+    "location": "Nieborowice ul.Zacisze koło Trafo",
+    "locationLink": "",
+    "comment": "🏃‍♂️🏃‍♀️🍻🥳",
+    "phone": "663473341",
+    "distance": 10,
+    "pace": 7
   }
 ]
