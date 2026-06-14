@@ -823,5 +823,16 @@
     "phone": "513592253",
     "distance": 12,
     "pace": 6
+  },
+  {
+    "uid": "nordic-walking-15-6-2026-18-30-nieborowice-krzyz-10-10",
+    "type": "nordic walking",
+    "datetime": "15/06/2026 18:30",
+    "location": "Nieborowice – Krzyż",
+    "locationLink": "https://maps.app.goo.gl/4t3qjRxQpny7Ln6KA",
+    "comment": "",
+    "phone": "663473341",
+    "distance": 10,
+    "pace": 10
   }
 ]
