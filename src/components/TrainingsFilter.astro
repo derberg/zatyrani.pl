@@ -16,22 +16,22 @@
 <script is:inline type="text/javascript">
   (function () {
     function filterTrainings() {
-      var now = Date.now();
+      const now = Date.now();
 
       document.querySelectorAll("article[data-datetime]").forEach(function (article) {
-        var raw = article.getAttribute("data-datetime");
+        const raw = article.getAttribute("data-datetime");
         if (!raw) return;
-        var parts = raw.trim().split(/\s+/);
-        var dateParts = (parts[0] || "").split("/").map(Number);
-        var timeParts = (parts[1] || "00:00").split(":").map(Number);
-        var eventTs = new Date(
-          dateParts[2],
-          dateParts[1] - 1,
-          dateParts[0],
-          timeParts[0] || 0,
-          timeParts[1] || 0,
-          0
-        ).getTime();
+        const parts = raw.trim().split(/\s+/);
+        const dateParts = (parts[0] || "").split("/").map(Number);
+        const timeParts = (parts[1] || "00:00").split(":").map(Number);
+        const eventTs = new Date(
+        dateParts[2],
+        dateParts[1] - 1,
+        dateParts[0],
+        timeParts[0] || 0,
+        timeParts[1] || 0,
+        0
+      ).getTime();
         if (eventTs < now) article.remove();
       });
 
