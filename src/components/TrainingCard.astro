@@ -84,32 +84,3 @@ const { type, datetime, location, locationLink, comment, phone, distance, pace, 
     editLinks.forEach(link => (link as HTMLElement).style.display = '');
   }
 </script>
-
-<!-- Inline filter script: hide past trainings and section if empty -->
-<script is:inline type="text/javascript">
-  (function () {
-    const script = document.currentScript;
-    if (!script) return;
-    const article = script.previousElementSibling;
-    if (!article) return;
-    const raw = article.getAttribute("data-datetime");
-    if (!raw) return;
-    const [dateStr, timeStr] = raw.trim().split(/\s+/);
-    const [day, month, year] = dateStr.split("/").map(Number);
-    const [hour, minute] = timeStr.split(":").map(Number);
-    const eventTs = new Date(year, month - 1, day, hour, minute, 0).getTime();
-    // Remove past event
-    if (eventTs < Date.now()) {
-      article.remove();
-    }
-    // After removal (or if valid), check if any articles remain
-    const section = script.closest("section");
-    if (section) {
-      const remaining = section.querySelectorAll("article[data-datetime]");
-      if (remaining.length === 0) {
-        section.style.display = "none";
-      }
-    }
-    script.remove();
-  })();
-</script>

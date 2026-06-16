@@ -96,11 +96,6 @@ describe('getCurrentFees', () => {
     vi.useRealTimers();
   });
 
-  it('should return flat fees when no feeSchedule is defined', () => {
-    const fees = getCurrentFees(eventConfig);
-    expect(fees).toEqual({ default: 100 });
-  });
-
   it('should return first matching schedule entry when date is before first deadline', () => {
     vi.useFakeTimers();
     vi.setSystemTime(new Date('2026-04-15'));

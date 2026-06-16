@@ -2,6 +2,7 @@
 import NewsCard from "../NewsCard.astro";
 import SubscribeForm from "../SubscribeForm.astro";
 import TrainingCard from "../TrainingCard.astro";
+import TrainingsFilter from "../TrainingsFilter.astro";
 import { news } from "../../data/news";
 import { trainings } from "../../data/trainings";
 
@@ -35,7 +36,7 @@ const upcomingTrainings = trainings
   {/* Only show upcoming trainings if any future items exist */}
   {
     upcomingTrainings.length > 0 && (
-      <section class="mb-12">
+      <section class="mb-12" data-trainings-section>
         <h2 class="text-3xl font-bold mb-4">{t("home.upcoming_trainings")}</h2>
         <div class="grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {upcomingTrainings.slice(0, 6).map((training) => (
@@ -119,6 +120,8 @@ const upcomingTrainings = trainings
 
   <SubscribeForm t={t} />
 </div>
+
+<TrainingsFilter />
 
 <div id="auth-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
   <div class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full mx-4 text-center">

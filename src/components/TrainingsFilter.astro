@@ -1,0 +1,51 @@
+---
+// Client-side filter for training cards.
+//
+// Runs ONCE after the DOM is fully parsed (not per-card), so it sees every
+// card before deciding anything. This avoids the race where a per-card inline
+// script removed an already-past card and then hid the whole section because
+// later (still-upcoming) cards had not been parsed yet.
+//
+// Behaviour:
+//  - Removes any card whose date/time is in the past, using the visitor's
+//    local clock (the build-time filter only narrows the list at deploy time).
+//  - Hides any element marked with `data-trainings-section` once it has no
+//    upcoming cards left, so empty headings/sections do not show.
+---
+
+<script is:inline type="text/javascript">
+  (function () {
+    function filterTrainings() {
+      var now = Date.now();
+
+      document.querySelectorAll("article[data-datetime]").forEach(function (article) {
+        var raw = article.getAttribute("data-datetime");
+        if (!raw) return;
+        var parts = raw.trim().split(/\s+/);
+        var dateParts = (parts[0] || "").split("/").map(Number);
+        var timeParts = (parts[1] || "00:00").split(":").map(Number);
+        var eventTs = new Date(
+          dateParts[2],
+          dateParts[1] - 1,
+          dateParts[0],
+          timeParts[0] || 0,
+          timeParts[1] || 0,
+          0
+        ).getTime();
+        if (eventTs < now) article.remove();
+      });
+
+      document.querySelectorAll("[data-trainings-section]").forEach(function (section) {
+        if (section.querySelectorAll("article[data-datetime]").length === 0) {
+          section.style.display = "none";
+        }
+      });
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", filterTrainings);
+    } else {
+      filterTrainings();
+    }
+  })();
+</script>

@@ -1,6 +1,7 @@
 ---
 import PageHeader from "../PageHeader.astro";
 import TrainingCard from "../TrainingCard.astro";
+import TrainingsFilter from "../TrainingsFilter.astro";
 import { trainings } from "../../data/trainings";
 
 interface Props {
@@ -80,3 +81,5 @@ const futureTrainings = trainings
     if (addButton) addButton.style.display = 'inline-block';
   }
 </script>
+
+<TrainingsFilter />
