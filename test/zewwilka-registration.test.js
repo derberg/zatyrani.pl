@@ -3,20 +3,20 @@ import { isRegistrationOpen, getTotalLimit } from '../api/shared/participant-val
 import { getEventCapacity, countEventParticipants } from '../api/shared/database-operations.js';
 import { EVENTS } from '../api/events/config.js';
 
-const polwilka = EVENTS['polwilka-2026'];
+const zewwilka = EVENTS['zewwilka-2026'];
 const wilczy = EVENTS['wilczypolmaraton-2026'];
 
 describe('isRegistrationOpen', () => {
   it('is open before the deadline', () => {
-    expect(isRegistrationOpen(polwilka, new Date('2026-08-01T10:00:00Z'))).toBe(true);
+    expect(isRegistrationOpen(zewwilka, new Date('2026-08-01T10:00:00Z'))).toBe(true);
   });
 
   it('is open through the end of the deadline day (inclusive)', () => {
-    expect(isRegistrationOpen(polwilka, new Date('2026-08-05T23:59:00Z'))).toBe(true);
+    expect(isRegistrationOpen(zewwilka, new Date('2026-08-05T23:59:00Z'))).toBe(true);
   });
 
   it('is closed the day after the deadline', () => {
-    expect(isRegistrationOpen(polwilka, new Date('2026-08-06T00:00:00Z'))).toBe(false);
+    expect(isRegistrationOpen(zewwilka, new Date('2026-08-06T00:00:00Z'))).toBe(false);
   });
 
   it('treats events without a deadline as always open', () => {
@@ -25,8 +25,8 @@ describe('isRegistrationOpen', () => {
 });
 
 describe('getTotalLimit', () => {
-  it('sums limit groups (polwilka = 50)', () => {
-    expect(getTotalLimit(polwilka)).toBe(50);
+  it('sums limit groups (zewwilka = 50)', () => {
+    expect(getTotalLimit(zewwilka)).toBe(50);
   });
 
   it('sums multiple groups (wilczypolmaraton = 220+30+30)', () => {
@@ -50,12 +50,12 @@ describe('getEventCapacity', () => {
   }
 
   it('reports used/available against the limit', async () => {
-    const cap = await getEventCapacity(mockSupabase(12), polwilka);
+    const cap = await getEventCapacity(mockSupabase(12), zewwilka);
     expect(cap).toEqual({ limit: 50, used: 12, available: 38 });
   });
 
   it('clamps available at 0 when over capacity', async () => {
-    const cap = await getEventCapacity(mockSupabase(55), polwilka);
+    const cap = await getEventCapacity(mockSupabase(55), zewwilka);
     expect(cap.available).toBe(0);
   });
 
@@ -78,13 +78,13 @@ describe('countEventParticipants', () => {
         };
       }
     };
-    expect(await countEventParticipants(supabase, 'polwilka-2026')).toBe(7);
+    expect(await countEventParticipants(supabase, 'zewwilka-2026')).toBe(7);
   });
 
   it('throws on db error', async () => {
     const supabase = {
       from: () => ({ select: () => ({ eq: () => Promise.resolve({ count: null, error: { message: 'boom' } }) }) })
     };
-    await expect(countEventParticipants(supabase, 'polwilka-2026')).rejects.toThrow('boom');
+    await expect(countEventParticipants(supabase, 'zewwilka-2026')).rejects.toThrow('boom');
   });
 });

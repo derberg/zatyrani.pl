@@ -71,8 +71,8 @@ export const EVENTS = {
   // Free night run. No payment is ever created (paymentEnabled: false). People who
   // registered for wilczypolmaraton-2026 are recognised and their data is prefilled
   // (prefillSourceEventId). Registration closes at end of registrationDeadline.
-  'polwilka-2026': {
-    id: 'polwilka-2026',
+  'zewwilka-2026': {
+    id: 'zewwilka-2026',
     name: 'Nocny Zew Wilka 2026',
     date: '2026-08-07',
     location: 'Azyl Zatyranych, Rybnik-Ochojec',
@@ -80,7 +80,7 @@ export const EVENTS = {
     slug: 'zewwilka',
     panelUrl: 'https://zatyrani.pl/wilczy-polmaraton/zewwilka',
     paymentUrl: 'https://zatyrani.pl/wilczy-polmaraton/zewwilka',
-    cookiePrefix: 'polwilka_2026',
+    cookiePrefix: 'zewwilka_2026',
     distances: ['10km', '10km_nw', '10km_canicross'],
     ageRules: [
       { categories: ['10km', '10km_nw', '10km_canicross'], minAge: 18 }

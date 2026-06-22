@@ -1,6 +1,5 @@
 ---
 // Nocny Zew Wilka 2026 registration. Self-contained, free event, no payment.
-// (Internal event id stays polwilka-2026; public name/URL is "Nocny Zew Wilka" / zewwilka.)
 // Resolves one of two entry states on load:
 //   B) logged into wilczypolmaraton  -> recognised, prefilled, no code
 //   C) not logged in                 -> email + code, then prefilled (if known) or blank
@@ -11,7 +10,7 @@ const minAge = 18;
 
 <div
   class="mx-auto max-w-3xl px-6 py-12"
-  data-api-base="/api/events/polwilka-2026"
+  data-api-base="/api/events/zewwilka-2026"
   data-event-date={eventDate}
   data-deadline={registrationDeadline}
   data-min-age={minAge.toString()}
