@@ -1,0 +1,16 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import WilczyPolmaratonHeader from "../../../components/wilczypolmaraton/WilczyPolmaratonHeader.astro";
+import PolWilkaRegistrationContent from "../../../components/polwilka/PolWilkaRegistrationContent.astro";
+import { t } from "../../../utils/i18n";
+---
+
+<Layout
+  title="Pół Wilka 2026 - Zapisy"
+  description="Zapisz się na Pół Wilka 2026 — darmowy bieg nocny, 7 sierpnia 2026 w Rybniku (Ochojec)."
+  ogImage="/wilczypolmaraton_og.jpg"
+  t={t}
+>
+  <WilczyPolmaratonHeader t={t} />
+  <PolWilkaRegistrationContent />
+</Layout>

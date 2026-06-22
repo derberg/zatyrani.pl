@@ -70,6 +70,34 @@ export function validateParticipant(participant, eventConfig) {
 }
 
 /**
+ * Whether registration is still open, based on the event's registrationDeadline.
+ * Inclusive through the end of the deadline day (UTC), matching the feeSchedule.until
+ * convention. Events without a registrationDeadline are always open.
+ *
+ * @param {Object} eventConfig - Event config from api/events/config.js
+ * @param {Date} [now] - Current time (injectable for testing)
+ * @returns {boolean}
+ */
+export function isRegistrationOpen(eventConfig, now = new Date()) {
+  if (!eventConfig.registrationDeadline) return true;
+  const deadlineEnd = new Date(eventConfig.registrationDeadline);
+  deadlineEnd.setUTCHours(23, 59, 59, 999);
+  return now <= deadlineEnd;
+}
+
+/**
+ * Total participant limit across all configured limit groups, or null when no
+ * limits are configured (unlimited).
+ *
+ * @param {Object} eventConfig - Event config from api/events/config.js
+ * @returns {number|null}
+ */
+export function getTotalLimit(eventConfig) {
+  if (!eventConfig.limits || eventConfig.limits.length === 0) return null;
+  return eventConfig.limits.reduce((sum, l) => sum + l.limit, 0);
+}
+
+/**
  * Get current fees from event config, supporting both feeSchedule (date-based)
  * and legacy fees object.
  *

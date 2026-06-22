@@ -1,4 +1,62 @@
-import { calculatePaymentForParticipants } from "./participant-validation.js";
+import { calculatePaymentForParticipants, getTotalLimit } from "./participant-validation.js";
+
+/**
+ * Count how many participants are currently registered for an event, summed across
+ * all registrations. event_participants has no event_id, so this joins through
+ * event_registrations.
+ *
+ * @param {Object} supabase
+ * @param {string} eventId
+ * @returns {Promise<number>}
+ */
+export async function countEventParticipants(supabase, eventId) {
+  const { count, error } = await supabase
+    .from("event_participants")
+    .select("id, event_registrations!inner(event_id)", { count: "exact", head: true })
+    .eq("event_registrations.event_id", eventId);
+
+  if (error) throw new Error(`Failed to count participants: ${error.message}`);
+  return count || 0;
+}
+
+/**
+ * Read the event's total capacity: configured limit, how many spots are used, and
+ * how many remain. Unlimited events (no limits config) return limit null / available
+ * Infinity.
+ *
+ * @param {Object} supabase
+ * @param {Object} eventConfig
+ * @returns {Promise<{ limit: number|null, used: number, available: number }>}
+ */
+export async function getEventCapacity(supabase, eventConfig) {
+  const limit = getTotalLimit(eventConfig);
+  if (limit === null) return { limit: null, used: 0, available: Infinity };
+
+  const used = await countEventParticipants(supabase, eventConfig.id);
+  return { limit, used, available: Math.max(0, limit - used) };
+}
+
+/**
+ * Map a DB participant row to the camelCase shape used to prefill another event's
+ * registration form. raceCategory is intentionally omitted — distances differ
+ * between events, so each person must pick their category again.
+ *
+ * @param {Object} p - event_participants row (snake_case)
+ * @returns {Object}
+ */
+export function mapParticipantForPrefill(p) {
+  return {
+    firstName: p.first_name,
+    lastName: p.last_name,
+    birthDate: p.birth_date,
+    city: p.city,
+    nationality: p.nationality,
+    club: p.club,
+    gender: p.gender,
+    phoneNumber: p.phone_number,
+    hideNamePublic: p.hide_name_public
+  };
+}
 
 /**
  * Convert participant objects from camelCase to database snake_case.

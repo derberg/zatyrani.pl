@@ -1,0 +1,476 @@
+---
+// Pół Wilka 2026 registration. Self-contained, free event, no payment.
+// Resolves one of two entry states on load:
+//   B) logged into wilczypolmaraton  -> recognised, prefilled, no code
+//   C) not logged in                 -> email + code, then prefilled (if known) or blank
+const eventDate = "2026-08-07";
+const registrationDeadline = "2026-08-05";
+const minAge = 18;
+---
+
+<div
+  class="mx-auto max-w-3xl px-6 py-12"
+  data-api-base="/api/events/polwilka-2026"
+  data-event-date={eventDate}
+  data-deadline={registrationDeadline}
+  data-min-age={minAge.toString()}
+>
+  <!-- Loading -->
+  <div id="loading" class="py-16 text-center text-slate-600">Sprawdzamy, czy już Cię znamy…</div>
+
+  <!-- Registration closed -->
+  <div id="closed" class="hidden py-16 text-center">
+    <h2 class="text-2xl font-bold text-slate-900">Zapisy zamknięte</h2>
+    <p class="mt-2 text-slate-600">Rejestracja na Pół Wilka 2026 została zakończona 5 sierpnia 2026.</p>
+    <a href="/wilczy-polmaraton/polwilka" class="mt-6 inline-block text-emerald-600 hover:underline">← Wróć do strony wydarzenia</a>
+  </div>
+
+  <!-- State C, step 1: email -->
+  <div id="emailStep" class="hidden space-y-6">
+    <div class="text-center">
+      <h2 class="text-3xl font-bold text-slate-900">Zapisy na Pół Wilka</h2>
+      <p class="mt-2 text-slate-600">Podaj e-mail, a wyślemy Ci kod weryfikacyjny. Jeśli biegłeś(aś) z nami na Wilczym Półmaratonie, uzupełnimy Twoje dane automatycznie.</p>
+    </div>
+    <div class="mx-auto max-w-md rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+      <form id="emailForm" class="space-y-4">
+        <div>
+          <label for="email" class="block text-sm font-semibold text-slate-700">E-mail <span class="text-red-600">*</span></label>
+          <input type="email" id="email" name="email" required placeholder="twoj@email.pl"
+            class="mt-1 block w-full rounded-lg border-emerald-300 border-2 px-3 py-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500" />
+        </div>
+        <div>
+          <label for="fullName" class="block text-sm font-semibold text-slate-700">Imię i nazwisko (osoba kontaktowa) <span class="text-red-600">*</span></label>
+          <input type="text" id="fullName" name="fullName" required placeholder="Jan Kowalski"
+            class="mt-1 block w-full rounded-lg border-emerald-300 border-2 px-3 py-2 shadow-sm focus:border-emerald-500 focus:ring-emerald-500" />
+        </div>
+        <label class="flex items-start gap-2">
+          <input type="checkbox" id="rodoAccepted" required class="mt-1 rounded border-2 border-emerald-300 text-emerald-600 focus:ring-emerald-500" />
+          <span class="text-sm text-slate-700">Wyrażam zgodę na przetwarzanie moich danych osobowych w celu organizacji wydarzenia. <span class="text-red-600">*</span></span>
+        </label>
+        <label class="flex items-start gap-2">
+          <input type="checkbox" id="termsAccepted" required class="mt-1 rounded border-2 border-emerald-300 text-emerald-600 focus:ring-emerald-500" />
+          <span class="text-sm text-slate-700">Akceptuję regulamin wydarzenia. <span class="text-red-600">*</span></span>
+        </label>
+        <!-- Honeypot -->
+        <div class="absolute -left-full -top-full h-0 w-0 overflow-hidden opacity-0" aria-hidden="true">
+          <label for="website">Website</label>
+          <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
+        </div>
+        <div id="emailError" class="hidden rounded-lg bg-red-50 p-3 text-sm text-red-700"></div>
+        <button type="submit" id="emailSubmitBtn" disabled
+          class="w-full rounded-lg bg-emerald-600 px-6 py-3 font-semibold text-white transition hover:bg-emerald-700 disabled:cursor-not-allowed disabled:bg-slate-300">
+          Wyślij kod
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- State C, step 2: code -->
+  <div id="codeStep" class="hidden space-y-6">
+    <div class="text-center">
+      <h2 class="text-3xl font-bold text-slate-900">Wpisz kod</h2>
+      <p class="mt-2 text-slate-600">Wysłaliśmy 6-cyfrowy kod na Twój e-mail.</p>
+    </div>
+    <div class="mx-auto max-w-md rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+      <form id="codeForm" class="space-y-4">
+        <input type="text" id="code" name="code" required maxlength="6" pattern="[0-9]{6}" placeholder="000000"
+          class="block w-full rounded-lg border-2 border-emerald-300 px-3 py-2 text-center text-2xl font-bold tracking-widest shadow-sm focus:border-emerald-500 focus:ring-emerald-500" />
+        <div class="rounded-lg bg-blue-50 p-3 text-sm text-blue-700">Sprawdź folder spam, jeśli wiadomość nie dotarła.</div>
+        <div id="codeError" class="hidden rounded-lg bg-red-50 p-3 text-sm text-red-700"></div>
+        <button type="submit" id="codeSubmitBtn" disabled
+          class="w-full rounded-lg bg-emerald-600 px-6 py-3 font-semibold text-white transition hover:bg-emerald-700 disabled:cursor-not-allowed disabled:bg-slate-300">
+          Zweryfikuj
+        </button>
+        <button type="button" id="backToEmail"
+          class="w-full rounded-lg border-2 border-emerald-300 bg-white px-6 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">← Zmień e-mail</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Participants step (states B and C) -->
+  <div id="participantsStep" class="hidden space-y-6">
+    <div class="text-center">
+      <h2 class="text-3xl font-bold text-slate-900">Kto bierze udział?</h2>
+      <p id="participantsIntro" class="mt-2 text-slate-600"></p>
+    </div>
+    <div id="participantsList" class="space-y-4"></div>
+    <button type="button" id="addParticipantBtn"
+      class="w-full rounded-lg border-2 border-emerald-300 bg-white px-6 py-3 text-sm font-semibold text-emerald-600 transition hover:bg-emerald-50">
+      + Dodaj kolejną osobę
+    </button>
+    <div id="participantsError" class="hidden rounded-lg bg-red-50 p-3 text-sm text-red-700"></div>
+    <button type="button" id="submitBtn"
+      class="w-full rounded-lg bg-emerald-600 px-6 py-3 font-semibold text-white transition hover:bg-emerald-700 disabled:cursor-not-allowed disabled:bg-slate-300">
+      Zapisz na Pół Wilka
+    </button>
+  </div>
+
+  <!-- Success -->
+  <div id="successStep" class="hidden py-16 text-center">
+    <div class="mx-auto max-w-md rounded-xl border-2 border-emerald-200 bg-emerald-50 p-8">
+      <div class="text-5xl">🐺</div>
+      <h2 class="mt-4 text-2xl font-bold text-slate-900">Jesteś zapisany!</h2>
+      <p class="mt-2 text-slate-700">Udział jest bezpłatny. Potwierdzenie wysłaliśmy na Twój e-mail. Do zobaczenia 7 sierpnia o 20:00 w Rybniku (Ochojec)!</p>
+      <a href="/wilczy-polmaraton/polwilka" class="mt-6 inline-block text-emerald-600 hover:underline">← Wróć do strony wydarzenia</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  const root = document.querySelector("[data-api-base]");
+  const API_BASE = root.getAttribute("data-api-base");
+  const EVENT_DATE = root.getAttribute("data-event-date");
+  const DEADLINE = root.getAttribute("data-deadline");
+  const MIN_AGE = parseInt(root.getAttribute("data-min-age"), 10);
+
+  const CATEGORIES = [
+    { value: "10km", label: "Bieg 10 km" },
+    { value: "10km_nw", label: "Nordic Walking 10 km" },
+    { value: "10km_canicross", label: "Canicross 10 km" },
+  ];
+
+  const sections = {
+    loading: document.getElementById("loading"),
+    closed: document.getElementById("closed"),
+    emailStep: document.getElementById("emailStep"),
+    codeStep: document.getElementById("codeStep"),
+    participantsStep: document.getElementById("participantsStep"),
+    successStep: document.getElementById("successStep"),
+  };
+
+  function show(name) {
+    Object.values(sections).forEach((s) => s.classList.add("hidden"));
+    sections[name].classList.remove("hidden");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function isClosed() {
+    const end = new Date(DEADLINE);
+    end.setHours(23, 59, 59, 999);
+    return new Date() > end;
+  }
+
+  function calculateAge(birthDate) {
+    const birth = new Date(birthDate);
+    const event = new Date(EVENT_DATE);
+    let age = event.getFullYear() - birth.getFullYear();
+    const m = event.getMonth() - birth.getMonth();
+    if (m < 0 || (m === 0 && event.getDate() < birth.getDate())) age--;
+    return age;
+  }
+
+  let currentEmail = "";
+  let rowSeq = 0;
+
+  // ─── Participant rows ────────────────────────────────────────────────
+  function categoryRadios(idx, selected) {
+    return CATEGORIES.map(
+      (c) => `
+      <label class="flex items-center gap-2 rounded-lg border-2 border-emerald-300 p-3 cursor-pointer hover:bg-emerald-50">
+        <input type="radio" name="cat_${idx}" value="${c.value}" ${c.value === selected ? "checked" : ""} class="text-emerald-600 focus:ring-emerald-500" />
+        <span class="text-sm font-medium">${c.label}</span>
+      </label>`
+    ).join("");
+  }
+
+  function rowHtml(idx, data, removable, includable) {
+    const d = data || {};
+    return `
+    <div class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm" data-row="${idx}">
+      <div class="mb-4 flex items-center justify-between">
+        ${
+          includable
+            ? `<label class="flex items-center gap-2 cursor-pointer">
+                 <input type="checkbox" class="row-include rounded border-2 border-emerald-300 text-emerald-600 focus:ring-emerald-500" checked />
+                 <span class="text-lg font-bold text-slate-900">${(d.firstName || "") + " " + (d.lastName || "")}</span>
+               </label>`
+            : `<h3 class="text-lg font-bold text-slate-900">Uczestnik</h3>`
+        }
+        ${removable ? `<button type="button" class="row-remove text-sm text-red-600 hover:underline">Usuń</button>` : ""}
+      </div>
+      <div class="grid gap-4 sm:grid-cols-2">
+        <div><label class="block text-sm font-semibold text-slate-700">Imię *</label>
+          <input type="text" data-f="firstName" value="${d.firstName || ""}" class="mt-1 block w-full rounded-lg border-2 border-emerald-300 px-3 py-2" /></div>
+        <div><label class="block text-sm font-semibold text-slate-700">Nazwisko *</label>
+          <input type="text" data-f="lastName" value="${d.lastName || ""}" class="mt-1 block w-full rounded-lg border-2 border-emerald-300 px-3 py-2" /></div>
+        <div><label class="block text-sm font-semibold text-slate-700">Data urodzenia *</label>
+          <input type="date" data-f="birthDate" value="${d.birthDate || ""}" class="mt-1 block w-full rounded-lg border-2 border-emerald-300 px-3 py-2" />
+          <p class="row-age-error mt-1 hidden text-xs text-red-600"></p></div>
+        <div><label class="block text-sm font-semibold text-slate-700">Miejscowość *</label>
+          <input type="text" data-f="city" value="${d.city || ""}" class="mt-1 block w-full rounded-lg border-2 border-emerald-300 px-3 py-2" /></div>
+        <div><label class="block text-sm font-semibold text-slate-700">Narodowość *</label>
+          <input type="text" data-f="nationality" value="${d.nationality || "Polska"}" class="mt-1 block w-full rounded-lg border-2 border-emerald-300 px-3 py-2" /></div>
+        <div><label class="block text-sm font-semibold text-slate-700">Płeć *</label>
+          <div class="mt-1 flex gap-3">
+            <label class="flex flex-1 items-center justify-center gap-2 rounded-lg border-2 border-emerald-300 p-2 cursor-pointer hover:bg-emerald-50">
+              <input type="radio" name="gender_${idx}" data-f="gender" value="male" ${d.gender === "male" ? "checked" : ""} class="text-emerald-600" /><span class="text-sm">Mężczyzna</span></label>
+            <label class="flex flex-1 items-center justify-center gap-2 rounded-lg border-2 border-emerald-300 p-2 cursor-pointer hover:bg-emerald-50">
+              <input type="radio" name="gender_${idx}" data-f="gender" value="female" ${d.gender === "female" ? "checked" : ""} class="text-emerald-600" /><span class="text-sm">Kobieta</span></label>
+          </div></div>
+        <div><label class="block text-sm font-semibold text-slate-700">Klub</label>
+          <input type="text" data-f="club" value="${d.club || ""}" class="mt-1 block w-full rounded-lg border-2 border-emerald-300 px-3 py-2" /></div>
+        <div><label class="block text-sm font-semibold text-slate-700">Telefon *</label>
+          <div class="mt-1 flex rounded-lg border-2 border-emerald-300">
+            <span class="inline-flex items-center rounded-l-md border-r border-emerald-300 bg-slate-100 px-3 text-sm text-slate-500">+48</span>
+            <input type="text" data-f="phoneNumber" value="${d.phoneNumber || ""}" placeholder="123456789" class="block w-full rounded-r-md border-0 px-3 py-2 focus:ring-0" /></div>
+          <p class="row-phone-error mt-1 hidden text-xs text-red-600"></p></div>
+        <div class="sm:col-span-2">
+          <label class="mb-2 block text-sm font-semibold text-slate-700">Dystans / aktywność *</label>
+          <div class="grid gap-3 sm:grid-cols-3">${categoryRadios(idx, d.raceCategory)}</div>
+        </div>
+        <div class="sm:col-span-2">
+          <label class="flex items-start gap-2">
+            <input type="checkbox" data-f="hideNamePublic" ${d.hideNamePublic ? "checked" : ""} class="mt-1 rounded border-2 border-emerald-300 text-emerald-600" />
+            <span class="text-sm text-slate-700">Ukryj moje nazwisko na publicznej liście uczestników</span>
+          </label>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  const listEl = document.getElementById("participantsList");
+
+  function addRow(data, removable, includable) {
+    const idx = rowSeq++;
+    const wrapper = document.createElement("div");
+    wrapper.innerHTML = rowHtml(idx, data, removable, includable);
+    const node = wrapper.firstElementChild;
+    listEl.appendChild(node);
+
+    node.querySelector(".row-remove")?.addEventListener("click", () => node.remove());
+
+    const phone = node.querySelector('[data-f="phoneNumber"]');
+    const phoneErr = node.querySelector(".row-phone-error");
+    phone.addEventListener("input", () => {
+      phone.value = phone.value.replace(/\D/g, "").slice(0, 9);
+      const bad = phone.value.length > 0 && phone.value.length < 9;
+      phoneErr.classList.toggle("hidden", !bad);
+      if (bad) phoneErr.textContent = "Numer telefonu musi mieć 9 cyfr";
+    });
+
+    const birth = node.querySelector('[data-f="birthDate"]');
+    const ageErr = node.querySelector(".row-age-error");
+    birth.addEventListener("change", () => {
+      if (!birth.value) { ageErr.classList.add("hidden"); return; }
+      const bad = calculateAge(birth.value) < MIN_AGE;
+      ageErr.classList.toggle("hidden", !bad);
+      if (bad) ageErr.textContent = `Uczestnik musi mieć ukończone ${MIN_AGE} lat w dniu zawodów`;
+    });
+  }
+
+  function renderParticipants(participants, intro) {
+    document.getElementById("participantsIntro").textContent = intro;
+    listEl.innerHTML = "";
+    rowSeq = 0;
+    if (participants && participants.length) {
+      // Recognised people: prefilled rows with an include checkbox.
+      participants.forEach((p) => addRow(p, false, true));
+    } else {
+      // Newcomer: one blank row.
+      addRow(null, false, false);
+    }
+    show("participantsStep");
+  }
+
+  // Collect included, complete rows into the register payload.
+  function collectParticipants() {
+    const rows = Array.from(listEl.querySelectorAll("[data-row]"));
+    const out = [];
+    for (const row of rows) {
+      const include = row.querySelector(".row-include");
+      if (include && !include.checked) continue;
+
+      const get = (f) => row.querySelector(`[data-f="${f}"]`);
+      const gender = row.querySelector('[data-f="gender"]:checked')?.value || "";
+      const cat = row.querySelector('input[type="radio"][name^="cat_"]:checked')?.value || "";
+      const p = {
+        firstName: get("firstName").value.trim(),
+        lastName: get("lastName").value.trim(),
+        birthDate: get("birthDate").value,
+        city: get("city").value.trim(),
+        nationality: get("nationality").value.trim(),
+        gender,
+        club: get("club").value.trim(),
+        phoneNumber: get("phoneNumber").value.trim(),
+        raceCategory: cat,
+        hideNamePublic: get("hideNamePublic").checked,
+      };
+      out.push(p);
+    }
+    return out;
+  }
+
+  function validateParticipants(list) {
+    if (list.length === 0) return "Zaznacz przynajmniej jedną osobę.";
+    for (const p of list) {
+      if (!p.firstName || !p.lastName || !p.birthDate || !p.city || !p.nationality || !p.gender || !p.phoneNumber) {
+        return "Uzupełnij wszystkie wymagane pola dla każdej osoby.";
+      }
+      if (!p.raceCategory) return "Wybierz dystans dla każdej osoby.";
+      if (!/^\d{9}$/.test(p.phoneNumber)) return "Numer telefonu musi mieć 9 cyfr.";
+      if (calculateAge(p.birthDate) < MIN_AGE) return `Każdy uczestnik musi mieć ukończone ${MIN_AGE} lat.`;
+    }
+    return null;
+  }
+
+  // ─── Submit ──────────────────────────────────────────────────────────
+  const submitBtn = document.getElementById("submitBtn");
+  const participantsError = document.getElementById("participantsError");
+  submitBtn.addEventListener("click", async () => {
+    participantsError.classList.add("hidden");
+    const list = collectParticipants();
+    const err = validateParticipants(list);
+    if (err) {
+      participantsError.textContent = err;
+      participantsError.classList.remove("hidden");
+      return;
+    }
+    submitBtn.disabled = true;
+    try {
+      const res = await fetch(`${API_BASE}/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
+        body: JSON.stringify({ participants: list }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        participantsError.textContent =
+          data.error === "EVENT_FULL" ? "Niestety, limit miejsc został wyczerpany."
+          : data.error === "REGISTRATION_CLOSED" ? "Zapisy zostały zamknięte."
+          : (data.error || "Wystąpił błąd. Spróbuj ponownie.");
+        participantsError.classList.remove("hidden");
+        submitBtn.disabled = false;
+        return;
+      }
+      show("successStep");
+    } catch {
+      participantsError.textContent = "Błąd połączenia. Spróbuj ponownie.";
+      participantsError.classList.remove("hidden");
+      submitBtn.disabled = false;
+    }
+  });
+
+  document.getElementById("addParticipantBtn").addEventListener("click", () => addRow(null, true, false));
+
+  // ─── State C: email + code ───────────────────────────────────────────
+  const emailForm = document.getElementById("emailForm");
+  const emailSubmitBtn = document.getElementById("emailSubmitBtn");
+  const emailError = document.getElementById("emailError");
+  const emailInput = document.getElementById("email");
+  const fullNameInput = document.getElementById("fullName");
+  const rodo = document.getElementById("rodoAccepted");
+  const terms = document.getElementById("termsAccepted");
+
+  function validateEmailForm() {
+    emailSubmitBtn.disabled = !(emailInput.value.trim() && fullNameInput.value.trim() && rodo.checked && terms.checked);
+  }
+  [emailInput, fullNameInput].forEach((el) => el.addEventListener("input", validateEmailForm));
+  [rodo, terms].forEach((el) => el.addEventListener("change", validateEmailForm));
+
+  emailForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    emailError.classList.add("hidden");
+    currentEmail = emailInput.value.trim();
+    try {
+      const res = await fetch(`${API_BASE}/auth/start-registration`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: currentEmail,
+          fullName: fullNameInput.value.trim(),
+          rodoAccepted: rodo.checked,
+          termsAccepted: terms.checked,
+          website: document.getElementById("website").value || "",
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        emailError.textContent =
+          data.error === "EMAIL_EXISTS" ? "Ten e-mail jest już zapisany na Pół Wilka."
+          : data.error === "REGISTRATION_CLOSED" ? "Zapisy zostały zamknięte."
+          : data.error === "EVENT_FULL" ? "Niestety, limit miejsc został wyczerpany."
+          : data.error === "EMAIL_INVALID" ? "Nieprawidłowy adres e-mail."
+          : "Wystąpił błąd. Spróbuj ponownie.";
+        emailError.classList.remove("hidden");
+        return;
+      }
+      show("codeStep");
+    } catch {
+      emailError.textContent = "Błąd połączenia. Spróbuj ponownie.";
+      emailError.classList.remove("hidden");
+    }
+  });
+
+  const codeForm = document.getElementById("codeForm");
+  const codeInput = document.getElementById("code");
+  const codeSubmitBtn = document.getElementById("codeSubmitBtn");
+  const codeError = document.getElementById("codeError");
+  codeInput.addEventListener("input", () => {
+    codeSubmitBtn.disabled = !/^\d{6}$/.test(codeInput.value.trim());
+  });
+  document.getElementById("backToEmail").addEventListener("click", () => show("emailStep"));
+
+  codeForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    codeError.classList.add("hidden");
+    try {
+      const res = await fetch(`${API_BASE}/auth/verify-code`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
+        body: JSON.stringify({ email: currentEmail, code: codeInput.value.trim() }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        codeError.textContent = data.error === "INVALID_CODE" ? "Nieprawidłowy lub nieaktualny kod." : "Wystąpił błąd. Spróbuj ponownie.";
+        codeError.classList.remove("hidden");
+        return;
+      }
+      // Verified — fetch prefill (recognised wilczypolmaraton participants) if any.
+      let prefill = { participants: [], recognized: false };
+      try {
+        const pf = await fetch(`${API_BASE}/prefill`, { credentials: "same-origin" });
+        if (pf.ok) prefill = await pf.json();
+      } catch { /* prefill is best-effort */ }
+
+      const intro = prefill.recognized
+        ? "Rozpoznaliśmy Cię z Wilczego Półmaratonu — sprawdź dane i wybierz dystans. Odznacz osoby, które nie biorą udziału."
+        : "Uzupełnij dane uczestnika i wybierz dystans.";
+      renderParticipants(prefill.participants, intro);
+    } catch {
+      codeError.textContent = "Błąd połączenia. Spróbuj ponownie.";
+      codeError.classList.remove("hidden");
+    }
+  });
+
+  // ─── Entry point: resolve state on load ──────────────────────────────
+  async function init() {
+    if (isClosed()) { show("closed"); return; }
+
+    // State B: already logged into the source event?
+    try {
+      const res = await fetch(`${API_BASE}/auth/from-source`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
+        body: "{}",
+      });
+      if (res.ok) {
+        const data = await res.json();
+        const name = (data.contactPerson || "").split(" ")[0];
+        renderParticipants(
+          data.participants,
+          `Cześć${name ? " " + name : ""}! Rozpoznaliśmy Cię z Wilczego Półmaratonu — sprawdź dane i wybierz dystans. Odznacz osoby, które nie biorą udziału.`
+        );
+        return;
+      }
+    } catch { /* fall through to email step */ }
+
+    // State C: not logged in.
+    show("emailStep");
+    validateEmailForm();
+  }
+
+  init();
+</script>

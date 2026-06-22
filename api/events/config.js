@@ -67,6 +67,35 @@ export const EVENTS = {
     tshirtPrice: 80,
     tshirtImage: '/halfmarathon/2026/koszulka.jpeg',
     tshirtSizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL']
+  },
+  // Free night run. No payment is ever created (paymentEnabled: false). People who
+  // registered for wilczypolmaraton-2026 are recognised and their data is prefilled
+  // (prefillSourceEventId). Registration closes at end of registrationDeadline.
+  'polwilka-2026': {
+    id: 'polwilka-2026',
+    name: 'Pół Wilka 2026',
+    date: '2026-08-07',
+    location: 'Rybnik Ochojec',
+    locationFull: '7 sierpnia 2026 w Rybniku (Ochojec)',
+    slug: 'polwilka',
+    panelUrl: 'https://zatyrani.pl/wilczy-polmaraton/polwilka',
+    paymentUrl: 'https://zatyrani.pl/wilczy-polmaraton/polwilka',
+    cookiePrefix: 'polwilka_2026',
+    distances: ['10km', '10km_nw', '10km_canicross'],
+    ageRules: [
+      { categories: ['10km', '10km_nw', '10km_canicross'], minAge: 18 }
+    ],
+    fees: { default: 0 },
+    limits: [
+      { group: 'all', categories: ['10km', '10km_nw', '10km_canicross'], limit: 50 }
+    ],
+    tshirtEnabled: false,
+    paymentEnabled: false,
+    registrationDeadline: '2026-08-05',
+    prefillSourceEventId: 'wilczypolmaraton-2026',
+    // Enforce a single total cap (sum of `limits`). Opt-in: other events (e.g.
+    // wilczypolmaraton, whose `limits` are per-group) are left unenforced as before.
+    enforceTotalLimit: true
   }
 };
 

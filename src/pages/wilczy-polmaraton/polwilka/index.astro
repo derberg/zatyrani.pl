@@ -1,0 +1,89 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import WilczyPolmaratonHeader from "../../../components/wilczypolmaraton/WilczyPolmaratonHeader.astro";
+import { t } from "../../../utils/i18n";
+
+const eventDate = "07.08.2026";
+// Registration closes at the end of this day. Mirrors polwilka-2026.registrationDeadline
+// in api/events/config.js — the server enforces it; this only drives the UI.
+const registrationDeadline = "2026-08-05";
+
+const attractions = [
+  { icon: "🐺", text: "10 km trasą Wilczego Półmaratonu" },
+  { icon: "🌙", text: "bieg nocny — start o 20:00" },
+  { icon: "🏕️", text: "zakończenie na terenie rekreacyjnym Azyl Zatyranych" },
+  { icon: "🆓", text: "darmowy" },
+  { icon: "💧", text: "zapewniamy wodę" },
+  { icon: "🔥", text: "ognisko" },
+  { icon: "👨‍👩‍👧‍👦", text: "zachęcamy do pojawienia się z rodzinami" },
+  { icon: "⏱️", text: "pomiar czasu" },
+];
+---
+
+<Layout
+  title="Pół Wilka 2026 - Bieg nocny"
+  description="Pół Wilka 2026 — darmowy bieg nocny na 10 km trasą Wilczego Półmaratonu, 7 sierpnia 2026 w Rybniku (Ochojec)."
+  ogImage="/wilczypolmaraton_og.jpg"
+  t={t}
+>
+  <WilczyPolmaratonHeader t={t} />
+
+  <!-- Hero -->
+  <div class="bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-900 text-white">
+    <div class="mx-auto max-w-3xl px-6 py-16 text-center space-y-6">
+      <h1 class="text-5xl font-bold tracking-tight sm:text-6xl">Pół Wilka</h1>
+      <p class="text-2xl font-semibold text-emerald-300">{eventDate}</p>
+      <p class="text-lg text-slate-200">📍 Rybnik (Ochojec)</p>
+
+      <div class="flex flex-wrap justify-center gap-3 text-base">
+        <span class="rounded-full bg-white/10 px-4 py-2 ring-1 ring-white/20 backdrop-blur-sm">🏃 10 km</span>
+        <span class="rounded-full bg-white/10 px-4 py-2 ring-1 ring-white/20 backdrop-blur-sm">🥢 10 km nordic walking</span>
+        <span class="rounded-full bg-white/10 px-4 py-2 ring-1 ring-white/20 backdrop-blur-sm">🐕 10 km canicross</span>
+      </div>
+
+      <!-- Registration CTA (swapped to a "closed" notice after the deadline) -->
+      <div class="pt-4" data-deadline={registrationDeadline}>
+        <div id="registerCta">
+          <a
+            href="/wilczy-polmaraton/polwilka/rejestracja"
+            class="inline-block rounded-full bg-emerald-500 px-8 py-3 text-lg font-semibold text-white transition hover:bg-emerald-400"
+          >
+            Zapisz się
+          </a>
+          <p class="mt-3 text-sm text-slate-300">Zapisy bezpłatne, do 5 sierpnia 2026</p>
+        </div>
+        <div id="registerClosed" class="hidden">
+          <span class="inline-block rounded-full bg-white/10 px-8 py-3 text-lg font-semibold text-slate-300 ring-1 ring-white/20">
+            Zapisy zamknięte
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Attractions -->
+  <div class="mx-auto max-w-2xl px-6 py-16">
+    <ul class="space-y-4">
+      {attractions.map(({ icon, text }) => (
+        <li class="flex items-center gap-4 rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm">
+          <span class="text-2xl" aria-hidden="true">{icon}</span>
+          <span class="text-lg text-slate-800">{text}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <script>
+    // Show "Zapisy zamknięte" once the deadline day has fully passed.
+    const wrapper = document.querySelector("[data-deadline]");
+    const deadline = wrapper?.getAttribute("data-deadline");
+    if (deadline) {
+      const end = new Date(deadline);
+      end.setHours(23, 59, 59, 999);
+      if (new Date() > end) {
+        document.getElementById("registerCta")?.classList.add("hidden");
+        document.getElementById("registerClosed")?.classList.remove("hidden");
+      }
+    }
+  </script>
+</Layout>

@@ -1,6 +1,8 @@
 import crypto from "node:crypto";
 import { getSupabaseClient } from '../../../shared/supabase.js';
 import { sendVerificationCodeEmail } from '../../../shared/email.js';
+import { isRegistrationOpen } from '../../../shared/participant-validation.js';
+import { getEventCapacity } from '../../../shared/database-operations.js';
 import { getEventConfig } from '../../config.js';
 import { setCorsHeaders } from '../../../shared/cors.js';
 
@@ -19,6 +21,11 @@ export default async function handler(req, res) {
     eventConfig = getEventConfig(req.query.eventId);
   } catch {
     return res.status(404).json({ success: false, error: "Event not found" });
+  }
+
+  // Registration window closed (events without a deadline are always open).
+  if (!isRegistrationOpen(eventConfig)) {
+    return res.status(400).json({ success: false, error: "REGISTRATION_CLOSED" });
   }
 
   try {
@@ -43,6 +50,14 @@ export default async function handler(req, res) {
     }
 
     const supabase = getSupabaseClient();
+
+    // Reject early when an opt-in capped event is already full
+    if (eventConfig.enforceTotalLimit) {
+      const capacity = await getEventCapacity(supabase, eventConfig);
+      if (capacity.available <= 0) {
+        return res.status(400).json({ success: false, error: "EVENT_FULL" });
+      }
+    }
 
     // Check if email already exists for this event
     const { data: existingReg } = await supabase

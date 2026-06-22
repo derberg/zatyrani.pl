@@ -1,6 +1,6 @@
 import { verifyToken } from "../../shared/auth.js";
-import { validateParticipant } from "../../shared/participant-validation.js";
-import { createParticipantRecords, upsertClubs, updateOrCreatePayment } from "../../shared/database-operations.js";
+import { validateParticipant, isRegistrationOpen } from "../../shared/participant-validation.js";
+import { createParticipantRecords, upsertClubs, updateOrCreatePayment, getEventCapacity } from "../../shared/database-operations.js";
 import { sendRegistrationConfirmationEmail } from "../../shared/email.js";
 import { getSupabaseClient } from "../../shared/supabase.js";
 import { getEventConfig } from "../config.js";
@@ -35,6 +35,11 @@ export default async function handler(req, res) {
       });
     }
 
+    // Registration window closed (events without a deadline are always open).
+    if (!isRegistrationOpen(eventConfig)) {
+      return res.status(400).json({ success: false, error: "REGISTRATION_CLOSED" });
+    }
+
     const { registration_id } = authResult;
     const { participants, extraDonation } = req.body;
 
@@ -57,14 +62,27 @@ export default async function handler(req, res) {
     }
 
     const supabase = getSupabaseClient();
+    const paymentEnabled = eventConfig.paymentEnabled !== false;
 
-    // Check for existing pending payment (in case of duplicate submission)
-    const { data: existingPendingPayment } = await supabase
-      .from("event_payments")
-      .select("*")
-      .eq("registration_id", registration_id)
-      .eq("payment_status", "pending")
-      .single();
+    // Enforce the total capacity for opt-in capped events (counts existing
+    // participants + the incoming ones). Other events are unenforced as before.
+    if (eventConfig.enforceTotalLimit) {
+      const capacity = await getEventCapacity(supabase, eventConfig);
+      if (participants.length > capacity.available) {
+        return res.status(400).json({ success: false, error: "EVENT_FULL" });
+      }
+    }
+
+    // Check for existing pending payment (in case of duplicate submission).
+    // Skipped entirely for free events — they never create payment rows.
+    const { data: existingPendingPayment } = paymentEnabled
+      ? await supabase
+          .from("event_payments")
+          .select("*")
+          .eq("registration_id", registration_id)
+          .eq("payment_status", "pending")
+          .single()
+      : { data: null };
 
     // Create participant records
     const participantRecords = createParticipantRecords(participants, registration_id);
@@ -96,16 +114,19 @@ export default async function handler(req, res) {
       });
     }
 
-    // Update existing pending payment or create new one
-    let payment;
-    try {
-      payment = await updateOrCreatePayment(supabase, registration_id, allParticipants, existingPendingPayment, eventConfig, extraDonation);
-    } catch (error) {
-      console.error("Error updating/creating payment:", error);
-      return res.status(500).json({
-        success: false,
-        error: "Nie udało się utworzyć płatności. Spróbuj ponownie."
-      });
+    // Update existing pending payment or create new one.
+    // Free events (paymentEnabled: false) never touch event_payments.
+    let payment = { totalAmount: 0, charityAmount: 0 };
+    if (paymentEnabled) {
+      try {
+        payment = await updateOrCreatePayment(supabase, registration_id, allParticipants, existingPendingPayment, eventConfig, extraDonation);
+      } catch (error) {
+        console.error("Error updating/creating payment:", error);
+        return res.status(500).json({
+          success: false,
+          error: "Nie udało się utworzyć płatności. Spróbuj ponownie."
+        });
+      }
     }
 
     // Get registration email for confirmation
@@ -148,7 +169,9 @@ export default async function handler(req, res) {
     return res.status(200).json({
       success: true,
       registrationId: registration_id,
-      message: "Rejestracja utworzona. Link do płatności został wysłany na email."
+      message: paymentEnabled
+        ? "Rejestracja utworzona. Link do płatności został wysłany na email."
+        : "Rejestracja utworzona. Potwierdzenie zostało wysłane na email."
     });
 
   } catch (error) {

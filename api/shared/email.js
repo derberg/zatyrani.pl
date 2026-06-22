@@ -82,8 +82,24 @@ export async function sendRegistrationConfirmationEmail({ email, contactPerson, 
 
   sgMail.setApiKey(sendgridKey);
 
+  const paymentEnabled = eventConfig.paymentEnabled !== false;
   const paymentPageUrl = `${eventConfig.paymentUrl}?id=${registrationId}`;
   const panelUrl = `${eventConfig.panelUrl}`;
+
+  // Free events (paymentEnabled: false): no amount, no payment link, no panel link.
+  const paymentBlock = paymentEnabled
+    ? `<div style="background-color: #f9f9f9; padding: 20px; margin: 20px 0; border-left: 4px solid #4CAF50;">
+        <p style="margin: 0;"><strong>Do zapłaty: ${payment.totalAmount} zł</strong></p>
+        ${payment.charityAmount > 0 ? `<p style="margin: 5px 0 0 0; color: #666;">(w tym ${payment.charityAmount.toFixed(2)} zł na cel charytatywny)</p>` : ''}
+      </div>
+      <div style="text-align: center; margin: 25px 0;">
+        <a href="${paymentPageUrl}" style="background-color: #4CAF50; color: white; padding: 14px 28px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px; display: inline-block;">Opłać udział</a>
+      </div>
+      <p>Możesz też sprawdzić status płatności oraz zarejestrować dodatkowych uczestników pod adresem:<br>
+      <a href="${panelUrl}">${panelUrl}</a></p>`
+    : `<div style="background-color: #f0fdf4; padding: 20px; margin: 20px 0; border-left: 4px solid #4CAF50;">
+        <p style="margin: 0;"><strong>Udział bezpłatny</strong> — nie musisz nic opłacać. Do zobaczenia na starcie!</p>
+      </div>`;
 
   const html = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -94,15 +110,7 @@ export async function sendRegistrationConfirmationEmail({ email, contactPerson, 
       <ul>
         ${participants.map(p => `<li>${p.firstName} ${p.lastName} - ${p.raceCategory.replace('_', ' ')}</li>`).join('')}
       </ul>
-      <div style="background-color: #f9f9f9; padding: 20px; margin: 20px 0; border-left: 4px solid #4CAF50;">
-        <p style="margin: 0;"><strong>Do zapłaty: ${payment.totalAmount} zł</strong></p>
-        ${payment.charityAmount > 0 ? `<p style="margin: 5px 0 0 0; color: #666;">(w tym ${payment.charityAmount.toFixed(2)} zł na cel charytatywny)</p>` : ''}
-      </div>
-      <div style="text-align: center; margin: 25px 0;">
-        <a href="${paymentPageUrl}" style="background-color: #4CAF50; color: white; padding: 14px 28px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px; display: inline-block;">Opłać udział</a>
-      </div>
-      <p>Możesz też sprawdzić status płatności oraz zarejestrować dodatkowych uczestników pod adresem:<br>
-      <a href="${panelUrl}">${panelUrl}</a></p>
+      ${paymentBlock}
       <p>Do zobaczenia ${eventConfig.locationFull}!</p>
       <hr style="border: none; border-top: 1px solid #ccc; margin: 30px 0;">
       <p style="color: #666; font-size: 14px;">
