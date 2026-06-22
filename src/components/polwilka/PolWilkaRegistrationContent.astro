@@ -1,5 +1,6 @@
 ---
-// Pół Wilka 2026 registration. Self-contained, free event, no payment.
+// Nocny Zew Wilka 2026 registration. Self-contained, free event, no payment.
+// (Internal event id stays polwilka-2026; public name/URL is "Nocny Zew Wilka" / zewwilka.)
 // Resolves one of two entry states on load:
 //   B) logged into wilczypolmaraton  -> recognised, prefilled, no code
 //   C) not logged in                 -> email + code, then prefilled (if known) or blank
@@ -21,14 +22,14 @@ const minAge = 18;
   <!-- Registration closed -->
   <div id="closed" class="hidden py-16 text-center">
     <h2 class="text-2xl font-bold text-slate-900">Zapisy zamknięte</h2>
-    <p class="mt-2 text-slate-600">Rejestracja na Pół Wilka 2026 została zakończona 5 sierpnia 2026.</p>
-    <a href="/wilczy-polmaraton/polwilka" class="mt-6 inline-block text-emerald-600 hover:underline">← Wróć do strony wydarzenia</a>
+    <p class="mt-2 text-slate-600">Rejestracja na Nocny Zew Wilka została zakończona 5 sierpnia 2026.</p>
+    <a href="/wilczy-polmaraton/zewwilka" class="mt-6 inline-block text-emerald-600 hover:underline">← Wróć do strony wydarzenia</a>
   </div>
 
   <!-- State C, step 1: email -->
   <div id="emailStep" class="hidden space-y-6">
     <div class="text-center">
-      <h2 class="text-3xl font-bold text-slate-900">Zapisy na Pół Wilka</h2>
+      <h2 class="text-3xl font-bold text-slate-900">Zapisy na Nocny Zew Wilka</h2>
       <p class="mt-2 text-slate-600">Podaj e-mail, a wyślemy Ci kod weryfikacyjny. Jeśli biegłeś(aś) z nami na Wilczym Półmaratonie, uzupełnimy Twoje dane automatycznie.</p>
     </div>
     <div class="mx-auto max-w-md rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
@@ -101,7 +102,7 @@ const minAge = 18;
     <div id="participantsError" class="hidden rounded-lg bg-red-50 p-3 text-sm text-red-700"></div>
     <button type="button" id="submitBtn"
       class="w-full rounded-lg bg-emerald-600 px-6 py-3 font-semibold text-white transition hover:bg-emerald-700 disabled:cursor-not-allowed disabled:bg-slate-300">
-      Zapisz na Pół Wilka
+      Zapisz na Nocny Zew Wilka
     </button>
   </div>
 
@@ -110,8 +111,8 @@ const minAge = 18;
     <div class="mx-auto max-w-md rounded-xl border-2 border-emerald-200 bg-emerald-50 p-8">
       <div class="text-5xl">🐺</div>
       <h2 class="mt-4 text-2xl font-bold text-slate-900">Jesteś zapisany!</h2>
-      <p class="mt-2 text-slate-700">Udział jest bezpłatny. Potwierdzenie wysłaliśmy na Twój e-mail. Do zobaczenia 7 sierpnia o 20:00 w Rybniku (Ochojec)!</p>
-      <a href="/wilczy-polmaraton/polwilka" class="mt-6 inline-block text-emerald-600 hover:underline">← Wróć do strony wydarzenia</a>
+      <p class="mt-2 text-slate-700">Udział jest bezpłatny. Potwierdzenie wysłaliśmy na Twój e-mail. Do zobaczenia 7 sierpnia o 20:00 w Azylu Zatyranych (Rybnik-Ochojec)!</p>
+      <a href="/wilczy-polmaraton/zewwilka" class="mt-6 inline-block text-emerald-600 hover:underline">← Wróć do strony wydarzenia</a>
     </div>
   </div>
 </div>
@@ -387,7 +388,7 @@ const minAge = 18;
       const data = await res.json();
       if (!res.ok) {
         emailError.textContent =
-          data.error === "EMAIL_EXISTS" ? "Ten e-mail jest już zapisany na Pół Wilka."
+          data.error === "EMAIL_EXISTS" ? "Ten e-mail jest już zapisany na Nocny Zew Wilka."
           : data.error === "REGISTRATION_CLOSED" ? "Zapisy zostały zamknięte."
           : data.error === "EVENT_FULL" ? "Niestety, limit miejsc został wyczerpany."
           : data.error === "EMAIL_INVALID" ? "Nieprawidłowy adres e-mail."

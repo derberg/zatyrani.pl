@@ -73,13 +73,13 @@ export const EVENTS = {
   // (prefillSourceEventId). Registration closes at end of registrationDeadline.
   'polwilka-2026': {
     id: 'polwilka-2026',
-    name: 'Pół Wilka 2026',
+    name: 'Nocny Zew Wilka 2026',
     date: '2026-08-07',
-    location: 'Rybnik Ochojec',
-    locationFull: '7 sierpnia 2026 w Rybniku (Ochojec)',
-    slug: 'polwilka',
-    panelUrl: 'https://zatyrani.pl/wilczy-polmaraton/polwilka',
-    paymentUrl: 'https://zatyrani.pl/wilczy-polmaraton/polwilka',
+    location: 'Azyl Zatyranych, Rybnik-Ochojec',
+    locationFull: '7 sierpnia 2026 o 20:00 w Azylu Zatyranych (Rybnik-Ochojec)',
+    slug: 'zewwilka',
+    panelUrl: 'https://zatyrani.pl/wilczy-polmaraton/zewwilka',
+    paymentUrl: 'https://zatyrani.pl/wilczy-polmaraton/zewwilka',
     cookiePrefix: 'polwilka_2026',
     distances: ['10km', '10km_nw', '10km_canicross'],
     ageRules: [
