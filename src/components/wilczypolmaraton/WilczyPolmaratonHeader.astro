@@ -1,9 +1,12 @@
 ---
 interface Props {
   t: (key: string) => string;
+  backHref?: string;
+  backLabel?: string;
 }
 
-const { t } = Astro.props;
+const { t, backHref = "/wilczy-polmaraton", backLabel } = Astro.props;
+const resolvedBackLabel = backLabel ?? t("wilczypolmaraton.back_to_main");
 ---
 
 <div class="bg-gradient-to-r from-slate-900 via-slate-800 to-emerald-900 py-8 px-6 text-white">
@@ -15,10 +18,10 @@ const { t } = Astro.props;
         </div>
       </div>
       <a
-        href="/wilczy-polmaraton"
+        href={backHref}
         class="rounded-full bg-white/10 px-4 py-2 text-sm font-semibold transition hover:bg-white/20 ring-1 ring-white/20 text-center sm:text-left"
       >
-        ← {t("wilczypolmaraton.back_to_main")}
+        ← {resolvedBackLabel}
       </a>
     </div>
   </div>
