@@ -94,16 +94,25 @@ const sections = [
         </svg>
       ))}
 
-      <!-- Forest silhouette -->
-      <svg class="absolute inset-x-0 bottom-0 h-20 w-full sm:h-24" viewBox="0 0 1200 90" preserveAspectRatio="none" fill="#0a0f1c">
-        <polygon points="0,90 0,60 30,72 55,30 80,72 110,58 110,90" />
-        <polygon points="120,90 150,48 180,72 205,22 230,70 260,52 260,90" />
-        <polygon points="270,90 300,58 330,28 360,66 390,40 420,72 420,90" />
-        <polygon points="430,90 460,50 490,18 520,60 550,38 580,70 580,90" />
-        <polygon points="590,90 620,55 650,25 685,64 715,44 745,72 745,90" />
-        <polygon points="755,90 785,46 815,72 845,24 875,66 905,50 905,90" />
-        <polygon points="915,90 945,58 975,30 1005,68 1035,42 1065,72 1065,90" />
-        <polygon points="1075,90 1105,50 1135,20 1165,62 1195,40 1200,52 1200,90" />
+      <!-- Pine-forest silhouette (tiling pattern keeps trees in shape at any width) -->
+      <svg class="absolute inset-x-0 bottom-0 h-[100px] w-full" preserveAspectRatio="none" fill="#0a0f1c">
+        <defs>
+          <pattern id="pineForest" patternUnits="userSpaceOnUse" width="150" height="100">
+            <!-- forest floor -->
+            <rect x="0" y="96" width="150" height="4" />
+            <!-- tree A (taller) -->
+            <rect x="37" y="86" width="6" height="14" />
+            <polygon points="14,96 40,50 66,96" />
+            <polygon points="19,74 40,38 61,74" />
+            <polygon points="24,56 40,24 56,56" />
+            <!-- tree B (smaller) -->
+            <rect x="104" y="90" width="6" height="10" />
+            <polygon points="86,96 107,58 128,96" />
+            <polygon points="90,78 107,48 124,78" />
+            <polygon points="94,64 107,38 120,64" />
+          </pattern>
+        </defs>
+        <rect x="0" y="0" width="100%" height="100%" fill="url(#pineForest)" />
       </svg>
     </div>
 

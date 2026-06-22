@@ -116,7 +116,7 @@ const ZewWilkaImage = () => {
           marginBottom: '12px',
         }}
       >
-        7.08.2026 · 20:00 · Azyl Zatyranych
+        7.08.2026 · 20:00 · Rybnik-Ochojec
       </div>
 
       {/* Facts */}
@@ -144,7 +144,7 @@ const ZewWilkaImage = () => {
           letterSpacing: '1px',
         }}
       >
-        www.zatyrani.pl
+        zatyrani.pl
       </div>
     </div>
   )
