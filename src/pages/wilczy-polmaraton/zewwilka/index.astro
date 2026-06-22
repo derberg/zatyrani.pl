@@ -17,6 +17,15 @@ const facts = [
   { label: "Limit miejsc", value: "Tylko 50 osób ⚠️" },
 ];
 
+// Decorative wolf paw tracks scattered across the hero night scene.
+const paws = [
+  { pos: "left-[7%] top-[28%]", rot: "rotate-[14deg]", size: 26, opacity: "0.16" },
+  { pos: "left-[17%] top-[58%]", rot: "rotate-[24deg]", size: 30, opacity: "0.13" },
+  { pos: "left-[30%] top-[80%]", rot: "rotate-[8deg]", size: 34, opacity: "0.10" },
+  { pos: "right-[24%] top-[70%]", rot: "-rotate-[12deg]", size: 30, opacity: "0.12" },
+  { pos: "right-[12%] top-[40%]", rot: "-rotate-[6deg]", size: 26, opacity: "0.15" },
+];
+
 const sections = [
   {
     icon: "🚗",
@@ -44,14 +53,61 @@ const sections = [
 <Layout
   title="Nocny Zew Wilka - bieg nocny 10 km"
   description="Nocny Zew Wilka — darmowy bieg nocny ~10 km, oficjalna rozgrzewka przed IV Wilczym Półmaratonem. 7 sierpnia 2026, godz. 20:00, Azyl Zatyranych (Rybnik-Ochojec)."
-  ogImage="/wilczypolmaraton_og.jpg"
+  ogImage="/zewwilka_og.jpg"
   t={t}
 >
   <WilczyPolmaratonHeader t={t} />
 
   <!-- Hero -->
-  <div class="bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-900 text-white">
-    <div class="mx-auto max-w-3xl px-6 py-16 text-center space-y-6">
+  <div class="relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-900 text-white">
+    <!-- Night scene: moon, glow, paw tracks, forest silhouette -->
+    <div aria-hidden="true" class="pointer-events-none absolute inset-0">
+      <!-- Moon glow -->
+      <div class="absolute right-6 top-2 h-48 w-48 rounded-full bg-emerald-200/20 blur-3xl"></div>
+      <!-- Moon -->
+      <div
+        class="absolute right-10 top-8 h-24 w-24 rounded-full sm:h-28 sm:w-28"
+        style="background: radial-gradient(circle at 35% 30%, #fefce8, #fde68a 70%, #facc15); box-shadow: 0 0 70px 12px rgba(250,204,21,0.22);"
+      >
+      </div>
+      <!-- Stars -->
+      <div class="absolute left-[15%] top-[18%] h-1 w-1 rounded-full bg-white/70"></div>
+      <div class="absolute left-[35%] top-[12%] h-1.5 w-1.5 rounded-full bg-white/60"></div>
+      <div class="absolute left-[60%] top-[22%] h-1 w-1 rounded-full bg-white/70"></div>
+      <div class="absolute left-[80%] top-[14%] h-1 w-1 rounded-full bg-white/50"></div>
+
+      <!-- Wolf paw tracks -->
+      {paws.map(({ pos, rot, size, opacity }) => (
+        <svg
+          class={`absolute ${pos} ${rot}`}
+          width={size}
+          height={size * 1.2}
+          viewBox="0 0 100 120"
+          fill="#d1fae5"
+          style={`opacity: ${opacity}`}
+        >
+          <ellipse cx="50" cy="82" rx="27" ry="31" />
+          <ellipse cx="20" cy="44" rx="10" ry="14" />
+          <ellipse cx="41" cy="27" rx="10" ry="15" />
+          <ellipse cx="62" cy="27" rx="10" ry="15" />
+          <ellipse cx="82" cy="44" rx="10" ry="14" />
+        </svg>
+      ))}
+
+      <!-- Forest silhouette -->
+      <svg class="absolute inset-x-0 bottom-0 h-20 w-full sm:h-24" viewBox="0 0 1200 90" preserveAspectRatio="none" fill="#0a0f1c">
+        <polygon points="0,90 0,60 30,72 55,30 80,72 110,58 110,90" />
+        <polygon points="120,90 150,48 180,72 205,22 230,70 260,52 260,90" />
+        <polygon points="270,90 300,58 330,28 360,66 390,40 420,72 420,90" />
+        <polygon points="430,90 460,50 490,18 520,60 550,38 580,70 580,90" />
+        <polygon points="590,90 620,55 650,25 685,64 715,44 745,72 745,90" />
+        <polygon points="755,90 785,46 815,72 845,24 875,66 905,50 905,90" />
+        <polygon points="915,90 945,58 975,30 1005,68 1035,42 1065,72 1065,90" />
+        <polygon points="1075,90 1105,50 1135,20 1165,62 1195,40 1200,52 1200,90" />
+      </svg>
+    </div>
+
+    <div class="relative z-10 mx-auto max-w-3xl px-6 py-16 text-center space-y-6">
       <p class="text-sm font-semibold uppercase tracking-widest text-emerald-300">🐺 Oficjalna rozgrzewka przed IV Wilczym Półmaratonem</p>
       <h1 class="text-5xl font-bold tracking-tight sm:text-6xl">Nocny Zew Wilka</h1>
       <p class="text-2xl font-semibold text-emerald-300">{eventDate} · 20:00</p>
