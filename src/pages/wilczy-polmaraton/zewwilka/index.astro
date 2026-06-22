@@ -94,25 +94,39 @@ const sections = [
         </svg>
       ))}
 
-      <!-- Pine-forest silhouette (tiling pattern keeps trees in shape at any width) -->
-      <svg class="absolute inset-x-0 bottom-0 h-[100px] w-full" preserveAspectRatio="none" fill="#0a0f1c">
+      <!-- Mixed-forest silhouette (tiling pattern keeps trees in shape at any width) -->
+      <svg class="absolute inset-x-0 bottom-0 h-[110px] w-full" preserveAspectRatio="none" fill="#0a0f1c">
         <defs>
-          <pattern id="pineForest" patternUnits="userSpaceOnUse" width="150" height="100">
+          <pattern id="mixedForest" patternUnits="userSpaceOnUse" width="260" height="110">
             <!-- forest floor -->
-            <rect x="0" y="96" width="150" height="4" />
-            <!-- tree A (taller) -->
-            <rect x="37" y="86" width="6" height="14" />
-            <polygon points="14,96 40,50 66,96" />
-            <polygon points="19,74 40,38 61,74" />
-            <polygon points="24,56 40,24 56,56" />
-            <!-- tree B (smaller) -->
-            <rect x="104" y="90" width="6" height="10" />
-            <polygon points="86,96 107,58 128,96" />
-            <polygon points="90,78 107,48 124,78" />
-            <polygon points="94,64 107,38 120,64" />
+            <rect x="0" y="106" width="260" height="4" />
+            <!-- tall conifer -->
+            <rect x="27" y="94" width="6" height="16" />
+            <polygon points="8,102 30,54 52,102" />
+            <polygon points="13,80 30,42 47,80" />
+            <polygon points="18,62 30,28 42,62" />
+            <!-- round broadleaf -->
+            <rect x="91" y="84" width="8" height="26" />
+            <circle cx="95" cy="60" r="27" />
+            <circle cx="78" cy="70" r="17" />
+            <circle cx="112" cy="70" r="17" />
+            <circle cx="95" cy="44" r="17" />
+            <!-- small bush -->
+            <rect x="148" y="96" width="4" height="14" />
+            <circle cx="150" cy="88" r="14" />
+            <circle cx="139" cy="92" r="10" />
+            <circle cx="161" cy="92" r="10" />
+            <!-- short conifer -->
+            <rect x="202" y="96" width="6" height="14" />
+            <polygon points="188,102 205,66 222,102" />
+            <polygon points="191,84 205,56 219,84" />
+            <polygon points="194,70 205,48 216,70" />
+            <!-- columnar poplar -->
+            <rect x="243" y="80" width="4" height="30" />
+            <ellipse cx="245" cy="60" rx="12" ry="32" />
           </pattern>
         </defs>
-        <rect x="0" y="0" width="100%" height="100%" fill="url(#pineForest)" />
+        <rect x="0" y="0" width="100%" height="100%" fill="url(#mixedForest)" />
       </svg>
     </div>
 
