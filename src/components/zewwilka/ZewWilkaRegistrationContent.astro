@@ -211,7 +211,10 @@ const minAge = 18;
               <input type="radio" name="gender_${idx}" data-f="gender" value="female" ${d.gender === "female" ? "checked" : ""} class="text-emerald-600" /><span class="text-sm">Kobieta</span></label>
           </div></div>
         <div><label class="block text-sm font-semibold text-slate-700">Klub</label>
-          <input type="text" data-f="club" value="${d.club || ""}" class="mt-1 block w-full rounded-lg border-2 border-emerald-300 px-3 py-2" /></div>
+          <div class="relative">
+            <input type="text" data-f="club" value="${d.club || ""}" autocomplete="off" class="club-input mt-1 block w-full rounded-lg border-2 border-emerald-300 px-3 py-2" />
+            <div class="club-suggestions absolute z-20 mt-1 hidden max-h-48 w-full overflow-y-auto rounded-lg border border-slate-200 bg-white shadow-lg"></div>
+          </div></div>
         <div><label class="block text-sm font-semibold text-slate-700">Telefon *</label>
           <div class="mt-1 flex rounded-lg border-2 border-emerald-300">
             <span class="inline-flex items-center rounded-l-md border-r border-emerald-300 bg-slate-100 px-3 text-sm text-slate-500">+48</span>
@@ -259,6 +262,46 @@ const minAge = 18;
       ageErr.classList.toggle("hidden", !bad);
       if (bad) ageErr.textContent = `Uczestnik musi mieć ukończone ${MIN_AGE} lat w dniu zawodów`;
     });
+
+    setupClubAutocomplete(node.querySelector(".club-input"), node.querySelector(".club-suggestions"));
+  }
+
+  // Club name suggestions from the shared event_clubs table (same flow as other events).
+  function setupClubAutocomplete(input, box) {
+    if (!input || !box) return;
+    let timer;
+    const hide = () => box.classList.add("hidden");
+
+    async function fetchClubs(q) {
+      try {
+        const res = await fetch(`${API_BASE}/clubs/search?q=${encodeURIComponent(q)}`);
+        const data = await res.json();
+        if (!data.success || !data.clubs || data.clubs.length === 0) { hide(); return; }
+        box.innerHTML = "";
+        data.clubs.forEach((name) => {
+          const item = document.createElement("div");
+          item.className = "cursor-pointer border-b border-slate-100 px-3 py-2 text-sm last:border-b-0 hover:bg-emerald-50";
+          item.textContent = name;
+          // mousedown (not click) so it fires before the input's blur hides the box
+          item.addEventListener("mousedown", (e) => { e.preventDefault(); input.value = name; hide(); });
+          box.appendChild(item);
+        });
+        box.classList.remove("hidden");
+      } catch { hide(); }
+    }
+
+    input.addEventListener("input", () => {
+      const q = input.value.trim();
+      if (q.length < 2) { hide(); return; }
+      clearTimeout(timer);
+      timer = setTimeout(() => fetchClubs(q), 300);
+    });
+    input.addEventListener("focus", () => {
+      const q = input.value.trim();
+      if (q.length >= 2) fetchClubs(q);
+    });
+    input.addEventListener("blur", () => setTimeout(hide, 150));
+    input.addEventListener("keydown", (e) => { if (e.key === "Escape") hide(); });
   }
 
   function renderParticipants(participants, intro) {
