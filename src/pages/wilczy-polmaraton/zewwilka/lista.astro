@@ -1,0 +1,16 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import WilczyPolmaratonHeader from "../../../components/wilczypolmaraton/WilczyPolmaratonHeader.astro";
+import ZewWilkaListContent from "../../../components/zewwilka/ZewWilkaListContent.astro";
+import { t } from "../../../utils/i18n";
+---
+
+<Layout
+  title="Nocny Zew Wilka - Lista zapisanych"
+  description="Lista osób zapisanych na Nocny Zew Wilka — darmowy bieg nocny, 7 sierpnia 2026, Rybnik-Ochojec."
+  ogImage="/zewwilka_og.jpg"
+  t={t}
+>
+  <WilczyPolmaratonHeader t={t} />
+  <ZewWilkaListContent />
+</Layout>
