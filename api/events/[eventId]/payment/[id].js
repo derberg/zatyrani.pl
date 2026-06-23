@@ -49,6 +49,8 @@ export default async function handler(req, res) {
         payment_status,
         payment_link,
         transaction_id,
+        created_at,
+        updated_at,
         event_registrations!inner(email, contact_person, event_id)
       `)
       .eq("registration_id", registrationId)
