@@ -19,6 +19,34 @@ const loginLink = locale === 'en' ? '/en/wilczy-polmaraton/zaloguj' : '/wilczy-p
     </div>
 
     <div id="content" class="hidden space-y-6">
+      <!-- Nocny Zew Wilka cross-promo card. Pinned to the top of the panel.
+           Actively shared (email invite to all registrants), so the in-panel
+           promo is enabled. Backend recognition/prefill
+           (api/events/[eventId]/auth/from-source.js + prefill.js) auto-fills
+           the registrant's data. Hidden after the registration deadline (see
+           script below) — mirrors zewwilka-2026.registrationDeadline. -->
+      <div
+        id="zewwilkaPromo"
+        data-deadline="2026-08-05"
+        class="hidden rounded-xl border-2 border-emerald-200 bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-900 p-6 text-white shadow-sm"
+      >
+        <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h3 class="text-xl font-bold">🐺 Nocny Zew Wilka — darmowy bieg nocny</h3>
+            <p class="mt-1 text-sm text-slate-200">
+              7 sierpnia 2026, start o 20:00, Azyl Zatyranych (Rybnik-Ochojec). Oficjalna rozgrzewka przed IV Wilczym Półmaratonem.
+              Bezpłatnie — Twoje dane uzupełnimy automatycznie.
+            </p>
+          </div>
+          <a
+            href="/wilczy-polmaraton/zewwilka"
+            class="shrink-0 rounded-full bg-emerald-500 px-6 py-3 text-center text-sm font-semibold text-white transition hover:bg-emerald-400"
+          >
+            Zapisz się
+          </a>
+        </div>
+      </div>
+
       <!-- Header -->
       <div class="flex items-center justify-between">
         <div>
@@ -50,34 +78,6 @@ const loginLink = locale === 'en' ? '/en/wilczy-polmaraton/zaloguj' : '/wilczy-p
           </a>
         </div>
         <div id="participantsList" class="space-y-4"></div>
-      </div>
-
-      <!-- Nocny Zew Wilka cross-promo card. Now actively shared (email invite to
-           all registrants), so the in-panel promo is enabled. Backend
-           recognition/prefill (api/events/[eventId]/auth/from-source.js +
-           prefill.js) auto-fills the registrant's data.
-           Hidden after the registration deadline (see script below) — mirrors
-           zewwilka-2026.registrationDeadline. -->
-      <div
-        id="zewwilkaPromo"
-        data-deadline="2026-08-05"
-        class="hidden rounded-xl border-2 border-emerald-200 bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-900 p-6 text-white shadow-sm"
-      >
-        <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <h3 class="text-xl font-bold">🐺 Nocny Zew Wilka — darmowy bieg nocny</h3>
-            <p class="mt-1 text-sm text-slate-200">
-              7 sierpnia 2026, start o 20:00, Azyl Zatyranych (Rybnik-Ochojec). Oficjalna rozgrzewka przed IV Wilczym Półmaratonem.
-              Bezpłatnie — Twoje dane uzupełnimy automatycznie.
-            </p>
-          </div>
-          <a
-            href="/wilczy-polmaraton/zewwilka"
-            class="shrink-0 rounded-full bg-emerald-500 px-6 py-3 text-center text-sm font-semibold text-white transition hover:bg-emerald-400"
-          >
-            Zapisz się
-          </a>
-        </div>
       </div>
 
       <!-- Edit Modal -->
