@@ -52,15 +52,17 @@ const loginLink = locale === 'en' ? '/en/wilczy-polmaraton/zaloguj' : '/wilczy-p
         <div id="participantsList" class="space-y-4"></div>
       </div>
 
-      {/*
-        DISABLED Nocny Zew Wilka cross-promo card. Intentionally not rendered: the
-        Nocny Zew Wilka page (/wilczy-polmaraton/zewwilka) must NOT be linked from
-        anywhere on zatyrani.pl for now — it is shared only via direct URL.
-        To re-enable the in-panel promo later, just un-comment this block.
-        Backend recognition/prefill (api/events/[eventId]/auth/from-source.js +
-        prefill.js) stays live regardless of this card.
-
-      <div class="rounded-xl border-2 border-emerald-200 bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-900 p-6 text-white shadow-sm">
+      <!-- Nocny Zew Wilka cross-promo card. Now actively shared (email invite to
+           all registrants), so the in-panel promo is enabled. Backend
+           recognition/prefill (api/events/[eventId]/auth/from-source.js +
+           prefill.js) auto-fills the registrant's data.
+           Hidden after the registration deadline (see script below) — mirrors
+           zewwilka-2026.registrationDeadline. -->
+      <div
+        id="zewwilkaPromo"
+        data-deadline="2026-08-05"
+        class="hidden rounded-xl border-2 border-emerald-200 bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-900 p-6 text-white shadow-sm"
+      >
         <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h3 class="text-xl font-bold">🐺 Nocny Zew Wilka — darmowy bieg nocny</h3>
@@ -70,14 +72,13 @@ const loginLink = locale === 'en' ? '/en/wilczy-polmaraton/zaloguj' : '/wilczy-p
             </p>
           </div>
           <a
-            href="/wilczy-polmaraton/zewwilka/rejestracja"
+            href="/wilczy-polmaraton/zewwilka"
             class="shrink-0 rounded-full bg-emerald-500 px-6 py-3 text-center text-sm font-semibold text-white transition hover:bg-emerald-400"
           >
             Zapisz się
           </a>
         </div>
       </div>
-      */}
 
       <!-- Edit Modal -->
       <div id="editModal" class="fixed inset-0 z-50 hidden bg-black/50">
@@ -757,6 +758,17 @@ const loginLink = locale === 'en' ? '/en/wilczy-polmaraton/zaloguj' : '/wilczy-p
         window.location.href = homeUrl;
       }
     });
+
+    // Reveal the Nocny Zew Wilka promo only until the end of its registration
+    // deadline day; keep it hidden afterwards.
+    const zewwilkaPromo = document.getElementById('zewwilkaPromo');
+    if (zewwilkaPromo) {
+      const deadline = new Date(zewwilkaPromo.getAttribute('data-deadline'));
+      deadline.setHours(23, 59, 59, 999);
+      if (new Date() <= deadline) {
+        zewwilkaPromo.classList.remove('hidden');
+      }
+    }
 
     // Load dashboard on page load
     loadDashboard();

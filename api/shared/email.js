@@ -101,6 +101,19 @@ export async function sendRegistrationConfirmationEmail({ email, contactPerson, 
         <p style="margin: 0;"><strong>Udział bezpłatny</strong> — nie musisz nic opłacać. Do zobaczenia na starcie!</p>
       </div>`;
 
+  // Cross-promo: invite Wilczy Półmaraton registrants to the free Nocny Zew Wilka
+  // night run. Only on the Wilczy confirmation email, and only while Zew Wilka
+  // registration is still open (until end of the deadline day) — after that the
+  // 50 spots are gone, so we stop advertising it.
+  const zewwilkaDeadline = new Date('2026-08-05T23:59:59');
+  const zewwilkaPromo = (eventConfig.id === 'wilczypolmaraton-2026' && new Date() <= zewwilkaDeadline)
+    ? `<div style="background-color: #0f2417; padding: 20px; margin: 24px 0; border-radius: 8px; border-left: 4px solid #10b981;">
+        <h3 style="margin: 0 0 8px 0; color: #ffffff;">🐺 Nocny Zew Wilka — darmowy bieg nocny</h3>
+        <p style="margin: 0 0 14px 0; color: #d1fae5; font-size: 15px;">Jako uczestnik Wilczego Półmaratonu masz pierwszeństwo. 7 sierpnia 2026, godz. 20:00, Azyl Zatyranych (Rybnik-Ochojec). Bieg nocny ok. 10 km z pomiarem czasu. Wstęp bezpłatny, tylko 50 miejsc — zapisy do 5 sierpnia. Twoje dane uzupełnimy automatycznie.</p>
+        <a href="https://zatyrani.pl/wilczy-polmaraton/zewwilka" style="background-color: #10b981; color: #ffffff; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 15px; display: inline-block;">Zapisz się na Nocny Zew Wilka</a>
+      </div>`
+    : '';
+
   const html = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
       <h2>Potwierdzenie rejestracji - ${eventConfig.name}</h2>
@@ -111,6 +124,7 @@ export async function sendRegistrationConfirmationEmail({ email, contactPerson, 
         ${participants.map(p => `<li>${p.firstName} ${p.lastName} - ${p.raceCategory.replace('_', ' ')}</li>`).join('')}
       </ul>
       ${paymentBlock}
+      ${zewwilkaPromo}
       <p>Do zobaczenia ${eventConfig.locationFull}!</p>
       <hr style="border: none; border-top: 1px solid #ccc; margin: 30px 0;">
       <p style="color: #666; font-size: 14px;">
