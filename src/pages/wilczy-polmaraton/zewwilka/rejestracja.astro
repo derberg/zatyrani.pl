@@ -2,6 +2,7 @@
 import Layout from "../../../layouts/Layout.astro";
 import WilczyPolmaratonHeader from "../../../components/wilczypolmaraton/WilczyPolmaratonHeader.astro";
 import ZewWilkaRegistrationContent from "../../../components/zewwilka/ZewWilkaRegistrationContent.astro";
+import ContactPanel from "../../../components/ContactPanel.astro";
 import { t } from "../../../utils/i18n";
 ---
 
@@ -13,4 +14,7 @@ import { t } from "../../../utils/i18n";
 >
   <WilczyPolmaratonHeader t={t} backHref="/wilczy-polmaraton/zewwilka" backLabel="Wróć do wydarzenia" />
   <ZewWilkaRegistrationContent />
+  <div class="mx-auto max-w-2xl px-6 pb-12">
+    <ContactPanel />
+  </div>
 </Layout>

@@ -1,6 +1,7 @@
 ---
 import ClubAutocomplete from './ClubAutocomplete.astro';
 import TshirtSizeSelector from './TshirtSizeSelector.astro';
+import ContactPanel from '../ContactPanel.astro';
 
 interface Props {
   t: (key: string) => string;
@@ -79,6 +80,9 @@ const loginLink = locale === 'en' ? '/en/wilczy-polmaraton/zaloguj' : '/wilczy-p
         </div>
         <div id="participantsList" class="space-y-4"></div>
       </div>
+
+      <!-- Contact the organizer -->
+      <ContactPanel />
 
       <!-- Edit Modal -->
       <div id="editModal" class="fixed inset-0 z-50 hidden bg-black/50">
