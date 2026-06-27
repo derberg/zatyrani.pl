@@ -77,6 +77,21 @@ export default async function handler(req, res) {
       return !shouldFilterEmail(email);
     });
 
+    // If this event recognises participants from a source event (e.g. Nocny Zew
+    // Wilka ⇐ Wilczy Półmaraton via prefillSourceEventId), build a set of emails
+    // registered for that source event so the public list can flag them. Only a
+    // boolean is ever exposed — never the email — so privacy is preserved.
+    let sourceEmails = new Set();
+    if (eventConfig.prefillSourceEventId) {
+      const { data: sourceRegs } = await supabase
+        .from("event_registrations")
+        .select("email")
+        .eq("event_id", eventConfig.prefillSourceEventId);
+      sourceEmails = new Set(
+        (sourceRegs || []).map(r => (r.email || "").trim().toLowerCase())
+      );
+    }
+
     // Calculate counts for paid participants per group
     const paidCounts = buildPaidCounts(eventConfig);
 
@@ -99,6 +114,9 @@ export default async function handler(req, res) {
       club: p.club,
       gender: p.gender,
       raceCategory: p.race_category,
+      registeredFromSource: sourceEmails.has(
+        (p.event_registrations?.email || "").trim().toLowerCase()
+      ),
       paymentStatus: (() => {
         const payments = p.event_registrations?.event_payments || [];
         const hasPaidPayment = payments.some(pay => pay.payment_status === 'paid');

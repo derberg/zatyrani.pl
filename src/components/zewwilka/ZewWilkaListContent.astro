@@ -74,12 +74,18 @@ const totalLimit = 50;
       .map((p, i) => {
         const cat = CATEGORY_LABELS[p.raceCategory] || p.raceCategory;
         const meta = [p.city, p.club].filter(Boolean).join(" · ");
+        const polmaratonBadge = p.registeredFromSource
+          ? `<span class="group relative shrink-0 cursor-help text-base leading-none" tabindex="0" aria-label="Zapisany na Wilczy Półmaraton">🐺<span class="pointer-events-none absolute bottom-full left-1/2 z-10 mb-1 -translate-x-1/2 whitespace-nowrap rounded-md bg-slate-900 px-2 py-1 text-xs font-medium text-white opacity-0 transition-opacity group-hover:opacity-100 group-focus:opacity-100">Zapisany na Wilczy Półmaraton</span></span>`
+          : "";
         return `
         <li class="flex items-center justify-between gap-4 rounded-xl border border-slate-200 bg-white px-5 py-3 shadow-sm">
           <div class="flex min-w-0 items-center gap-3">
             <span class="w-6 shrink-0 text-right text-sm font-semibold text-slate-400">${i + 1}</span>
             <div class="min-w-0">
-              <p class="truncate font-semibold text-slate-900">${p.fullName}</p>
+              <div class="flex items-center gap-1.5">
+                <p class="truncate font-semibold text-slate-900">${p.fullName}</p>
+                ${polmaratonBadge}
+              </div>
               ${meta ? `<p class="truncate text-sm text-slate-500">${meta}</p>` : ""}
             </div>
           </div>
