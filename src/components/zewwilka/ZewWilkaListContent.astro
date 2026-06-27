@@ -74,8 +74,11 @@ const totalLimit = 50;
       .map((p, i) => {
         const cat = CATEGORY_LABELS[p.raceCategory] || p.raceCategory;
         const meta = [p.city, p.club].filter(Boolean).join(" · ");
+        const polmaratonLabel = p.gender === "female"
+          ? "Zapisana na Wilczy Półmaraton"
+          : "Zapisany na Wilczy Półmaraton";
         const polmaratonBadge = p.registeredFromSource
-          ? `<span class="group relative shrink-0 cursor-help text-base leading-none" tabindex="0" aria-label="Zapisany na Wilczy Półmaraton">🐺<span class="pointer-events-none absolute bottom-full left-1/2 z-10 mb-1 -translate-x-1/2 whitespace-nowrap rounded-md bg-slate-900 px-2 py-1 text-xs font-medium text-white opacity-0 transition-opacity group-hover:opacity-100 group-focus:opacity-100">Zapisany na Wilczy Półmaraton</span></span>`
+          ? `<span class="group relative shrink-0 cursor-help text-base leading-none" tabindex="0" aria-label="${polmaratonLabel}">🐺<span class="pointer-events-none absolute bottom-full left-1/2 z-10 mb-1 -translate-x-1/2 whitespace-nowrap rounded-md bg-slate-900 px-2 py-1 text-xs font-medium text-white opacity-0 transition-opacity group-hover:opacity-100 group-focus:opacity-100">${polmaratonLabel}</span></span>`
           : "";
         return `
         <li class="flex items-center justify-between gap-4 rounded-xl border border-slate-200 bg-white px-5 py-3 shadow-sm">
