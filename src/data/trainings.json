@@ -845,5 +845,16 @@
     "phone": "663473341",
     "distance": 10,
     "pace": 7
+  },
+  {
+    "uid": "bieg-2-7-2026-19-30-nieborowice-wierzbowa-4-10-7",
+    "type": "bieg",
+    "datetime": "02/07/2026 19:30",
+    "location": "Nieborowice – Wierzbowa 4",
+    "locationLink": "https://maps.app.goo.gl/1hiWUekjpgK7GpAN8",
+    "comment": "Biegniemy do Leboszowice na 🍻🏃‍♂️🏃‍♀️🥳",
+    "phone": "663473341",
+    "distance": 10,
+    "pace": 7
   }
 ]
