@@ -878,5 +878,16 @@
     "phone": "513592253",
     "distance": 12,
     "pace": 6
+  },
+  {
+    "uid": "bieg-21-7-2026-19-0-nieborowice-pod-sielanka-10-7",
+    "type": "bieg",
+    "datetime": "21/07/2026 19:00",
+    "location": "Nieborowice pod Sielanką",
+    "locationLink": "",
+    "comment": "",
+    "phone": "663473341",
+    "distance": 10,
+    "pace": 7
   }
 ]
