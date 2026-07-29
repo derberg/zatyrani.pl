@@ -140,11 +140,10 @@ View-only: no edit, add, or delete actions.
 
 ## Testing
 
-- Extend `test/zewwilka-registration.test.js` (mock-based) to cover:
-  EMAIL_EXISTS → request-code fallback; post-verify dashboard branching
-  (participants → panel redirect, empty → participants step).
-- New `test/zewwilka-panel.test.js` if the harness pattern fits; otherwise cover
-  panel branching in the existing test file.
-- Manual: `vercel dev` — register fresh, revisit page (expect panel redirect),
-  login with registered email from clean browser, empty-registration resume,
-  logout.
+No API code changes, and the repo's vitest suite covers API helpers only (no
+harness for Astro inline scripts), so:
+
+- Existing suite must stay green (`npm test`), plus `eslint` and `astro build`.
+- Manual verification via `vercel dev`: register fresh, revisit page (expect
+  panel redirect), login with registered email from clean browser,
+  empty-registration resume, logout, and a Wilczy Półmaraton regression pass.
