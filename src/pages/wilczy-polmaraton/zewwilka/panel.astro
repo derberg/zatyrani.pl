@@ -1,0 +1,16 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import WilczyPolmaratonHeader from "../../../components/wilczypolmaraton/WilczyPolmaratonHeader.astro";
+import ZewWilkaPanelContent from "../../../components/zewwilka/ZewWilkaPanelContent.astro";
+import { t } from "../../../utils/i18n";
+---
+
+<Layout
+  title="Nocny Zew Wilka - Twoje zgłoszenie"
+  description="Panel uczestnika Nocnego Zewu Wilka — darmowy bieg nocny, 7 sierpnia 2026, Rybnik-Ochojec."
+  ogImage="/zewwilka_og.jpg"
+  t={t}
+>
+  <WilczyPolmaratonHeader t={t} backHref="/wilczy-polmaraton/zewwilka" backLabel="Wróć do wydarzenia" />
+  <ZewWilkaPanelContent />
+</Layout>
