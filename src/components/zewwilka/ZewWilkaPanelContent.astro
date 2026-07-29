@@ -159,19 +159,28 @@ const registrationDeadline = "2026-08-05";
     show("empty");
   }
 
+  // Returns dashboard data, null when not logged in (401/403), and throws on
+  // other failures so a transient server error doesn't look like a logout.
   async function fetchDashboard() {
-    try {
-      const res = await fetch(`${API_BASE}/dashboard`, { credentials: "same-origin" });
-      if (!res.ok) return null;
-      const data = await res.json();
-      return data.success ? data : null;
-    } catch {
-      return null;
-    }
+    const res = await fetch(`${API_BASE}/dashboard`, { credentials: "same-origin" });
+    if (res.status === 401 || res.status === 403) return null;
+    if (!res.ok) throw new Error("DASHBOARD_ERROR");
+    const data = await res.json();
+    if (!data.success) throw new Error("DASHBOARD_ERROR");
+    return data;
   }
 
   async function init() {
-    const dash = await fetchDashboard();
+    let dash;
+    try {
+      dash = await fetchDashboard();
+    } catch {
+      show("loginEmail");
+      const err = document.getElementById("loginEmailError")!;
+      err.textContent = "Nie udało się pobrać zgłoszenia. Odśwież stronę i spróbuj ponownie.";
+      err.classList.remove("hidden");
+      return;
+    }
     if (!dash) { show("loginEmail"); return; }
     if (dash.participants && dash.participants.length > 0) renderPanel(dash);
     else renderEmpty();
