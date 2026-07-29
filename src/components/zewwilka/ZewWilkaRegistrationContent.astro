@@ -1,8 +1,10 @@
 ---
 // Nocny Zew Wilka 2026 registration. Self-contained, free event, no payment.
-// Resolves one of two entry states on load:
-//   B) logged into wilczypolmaraton  -> recognised, prefilled, no code
-//   C) not logged in                 -> email + code, then prefilled (if known) or blank
+// Resolves entry state on load:
+//   A) own zewwilka session with participants -> redirected to the panel
+//   B) logged into wilczypolmaraton           -> recognised, prefilled, no code
+//   C) not logged in                          -> email + code, then prefilled (if known) or blank
+//      (already-registered emails get a login code and land in the panel)
 const eventDate = "2026-08-07";
 const registrationDeadline = "2026-08-05";
 const minAge = 18;
@@ -73,6 +75,7 @@ const minAge = 18;
     </div>
     <div class="mx-auto max-w-md rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
       <form id="codeForm" class="space-y-4">
+        <div id="codeLoginNotice" class="hidden rounded-lg bg-blue-50 p-3 text-sm text-blue-700">Ten adres jest już zapisany — wysłaliśmy kod, aby zobaczyć swoje zgłoszenie.</div>
         <input type="text" id="code" name="code" required maxlength="6" pattern="[0-9]{6}" placeholder="000000"
           class="block w-full rounded-lg border-2 border-emerald-300 px-3 py-2 text-center text-2xl font-bold tracking-widest shadow-sm focus:border-emerald-500 focus:ring-emerald-500" />
         <div class="rounded-lg bg-blue-50 p-3 text-sm text-blue-700">Sprawdź folder spam, jeśli wiadomość nie dotarła.</div>
@@ -112,6 +115,7 @@ const minAge = 18;
       <h2 class="mt-4 text-2xl font-bold text-slate-900">Witamy w stadzie!</h2>
       <p class="mt-2 text-slate-700">Udział jest bezpłatny. Potwierdzenie wysłaliśmy na Twój e-mail. Do zobaczenia 7 sierpnia o 20:00 w Azylu Zatyranych (Rybnik-Ochojec)!</p>
       <div class="mt-6 flex flex-col items-center gap-2">
+        <a href="/wilczy-polmaraton/zewwilka/panel" class="font-semibold text-emerald-700 hover:underline">Zobacz swoje zgłoszenie →</a>
         <a href="/wilczy-polmaraton/zewwilka/lista" class="font-semibold text-emerald-700 hover:underline">Zobacz listę zapisanych →</a>
         <a href="/wilczy-polmaraton/zewwilka" class="text-sm text-emerald-600 hover:underline">← Wróć do strony wydarzenia</a>
       </div>
@@ -125,6 +129,20 @@ const minAge = 18;
   const EVENT_DATE = root.getAttribute("data-event-date");
   const DEADLINE = root.getAttribute("data-deadline");
   const MIN_AGE = parseInt(root.getAttribute("data-min-age"), 10);
+
+  const PANEL_URL = "/wilczy-polmaraton/zewwilka/panel";
+
+  // Returns dashboard data when a valid zewwilka session exists, else null.
+  async function fetchDashboard() {
+    try {
+      const res = await fetch(`${API_BASE}/dashboard`, { credentials: "same-origin" });
+      if (!res.ok) return null;
+      const data = await res.json();
+      return data.success ? data : null;
+    } catch {
+      return null;
+    }
+  }
 
   const CATEGORIES = [
     { value: "10km", label: "Bieg 10 km" },
@@ -417,6 +435,7 @@ const minAge = 18;
   emailForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     emailError.classList.add("hidden");
+    document.getElementById("codeLoginNotice").classList.add("hidden");
     currentEmail = emailInput.value.trim();
     try {
       const res = await fetch(`${API_BASE}/auth/start-registration`, {
@@ -432,9 +451,27 @@ const minAge = 18;
       });
       const data = await res.json();
       if (!res.ok) {
+        if (data.error === "EMAIL_EXISTS") {
+          // Already registered — switch to login: send a code and reuse the code step.
+          const rc = await fetch(`${API_BASE}/auth/request-code`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email: currentEmail }),
+          });
+          if (rc.ok) {
+            document.getElementById("codeLoginNotice").classList.remove("hidden");
+            show("codeStep");
+          } else {
+            const rcData = await rc.json().catch(() => ({}));
+            emailError.textContent = rcData.error === "RATE_LIMIT"
+              ? "Zbyt wiele prób. Spróbuj ponownie za godzinę."
+              : "Wystąpił błąd. Spróbuj ponownie.";
+            emailError.classList.remove("hidden");
+          }
+          return;
+        }
         emailError.textContent =
-          data.error === "EMAIL_EXISTS" ? "Ten e-mail jest już zapisany na Nocny Zew Wilka."
-          : data.error === "REGISTRATION_CLOSED" ? "Zapisy zostały zamknięte."
+          data.error === "REGISTRATION_CLOSED" ? "Zapisy zostały zamknięte."
           : data.error === "EVENT_FULL" ? "Niestety, limit miejsc został wyczerpany."
           : data.error === "EMAIL_INVALID" ? "Nieprawidłowy adres e-mail."
           : "Wystąpił błąd. Spróbuj ponownie.";
@@ -473,6 +510,13 @@ const minAge = 18;
         codeError.classList.remove("hidden");
         return;
       }
+      // Logged in — an existing signup goes to the panel instead of the form.
+      const dash = await fetchDashboard();
+      if (dash && dash.participants.length > 0) {
+        window.location.href = PANEL_URL;
+        return;
+      }
+
       // Verified — fetch prefill (recognised wilczypolmaraton participants) if any.
       let prefill = { participants: [], recognized: false };
       try {
@@ -492,7 +536,29 @@ const minAge = 18;
 
   // ─── Entry point: resolve state on load ──────────────────────────────
   async function init() {
+    // Already logged in to zewwilka? A completed signup goes straight to the
+    // panel — also prevents registering the same people twice.
+    const dash = await fetchDashboard();
+    if (dash && dash.participants.length > 0) {
+      window.location.href = PANEL_URL;
+      return;
+    }
+
     if (isClosed()) { show("closed"); return; }
+
+    if (dash) {
+      // Session but no participants yet (abandoned flow) — resume at the form.
+      let prefill = { participants: [], recognized: false };
+      try {
+        const pf = await fetch(`${API_BASE}/prefill`, { credentials: "same-origin" });
+        if (pf.ok) prefill = await pf.json();
+      } catch { /* prefill is best-effort */ }
+      const intro = prefill.recognized
+        ? "Rozpoznaliśmy Cię z Wilczego Półmaratonu — sprawdź dane i wybierz dystans. Odznacz osoby, które nie biorą udziału."
+        : "Uzupełnij dane uczestnika i wybierz dystans.";
+      renderParticipants(prefill.participants, intro);
+      return;
+    }
 
     // State B: already logged into the source event?
     try {
@@ -504,6 +570,12 @@ const minAge = 18;
       });
       if (res.ok) {
         const data = await res.json();
+        // from-source minted a zewwilka session; an existing signup goes to the panel.
+        const dash2 = await fetchDashboard();
+        if (dash2 && dash2.participants.length > 0) {
+          window.location.href = PANEL_URL;
+          return;
+        }
         const name = (data.contactPerson || "").split(" ")[0];
         renderParticipants(
           data.participants,
