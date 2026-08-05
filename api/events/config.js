@@ -91,7 +91,7 @@ export const EVENTS = {
     ],
     tshirtEnabled: false,
     paymentEnabled: false,
-    registrationDeadline: '2026-08-05',
+    registrationDeadline: '2026-08-06',
     prefillSourceEventId: 'wilczypolmaraton-2026',
     // Enforce a single total cap (sum of `limits`). Opt-in: other events (e.g.
     // wilczypolmaraton, whose `limits` are per-group) are left unenforced as before.

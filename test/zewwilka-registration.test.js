@@ -12,11 +12,11 @@ describe('isRegistrationOpen', () => {
   });
 
   it('is open through the end of the deadline day (inclusive)', () => {
-    expect(isRegistrationOpen(zewwilka, new Date('2026-08-05T23:59:00Z'))).toBe(true);
+    expect(isRegistrationOpen(zewwilka, new Date('2026-08-06T23:59:00Z'))).toBe(true);
   });
 
   it('is closed the day after the deadline', () => {
-    expect(isRegistrationOpen(zewwilka, new Date('2026-08-06T00:00:00Z'))).toBe(false);
+    expect(isRegistrationOpen(zewwilka, new Date('2026-08-07T00:00:00Z'))).toBe(false);
   });
 
   it('treats events without a deadline as always open', () => {

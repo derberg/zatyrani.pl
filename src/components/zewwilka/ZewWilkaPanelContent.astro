@@ -3,7 +3,7 @@
 // under the logged-in email. Has its own email+code login so it still works
 // between the registration deadline (5 Aug) and the event (7 Aug), when the
 // registration page only shows "Zapisy zamknięte".
-const registrationDeadline = "2026-08-05";
+const registrationDeadline = "2026-08-06";
 ---
 
 <div
@@ -66,7 +66,7 @@ const registrationDeadline = "2026-08-05";
   <div id="panel" class="hidden space-y-6">
     <div class="text-center">
       <h2 id="panelGreeting" class="text-3xl font-bold text-slate-900">Twoje zgłoszenie</h2>
-      <p class="mt-2 text-slate-600">Nocny Zew Wilka — 7 sierpnia 2026 o 20:00, Azyl Zatyranych (Rybnik-Ochojec).</p>
+      <p class="mt-2 text-slate-600">Nocny Zew Wilka — 7 sierpnia 2026, biuro zawodów do 20:00, start o 20:20, Azyl Zatyranych (Rybnik-Ochojec).</p>
       <p class="mt-1 text-sm font-semibold text-emerald-700">Udział jest bezpłatny.</p>
     </div>
     <div id="panelParticipants" class="space-y-4"></div>
@@ -81,7 +81,7 @@ const registrationDeadline = "2026-08-05";
   <div id="empty" class="hidden py-16 text-center">
     <h2 class="text-2xl font-bold text-slate-900">Nie masz jeszcze zapisanych uczestników</h2>
     <p id="emptyOpen" class="mt-2 hidden text-slate-600">Dokończ zapisy, aby pojawić się na liście startowej.</p>
-    <p id="emptyClosed" class="mt-2 hidden text-slate-600">Zapisy na Nocny Zew Wilka zostały zakończone 5 sierpnia 2026.</p>
+    <p id="emptyClosed" class="mt-2 hidden text-slate-600">Zapisy na Nocny Zew Wilka zostały zakończone 6 sierpnia 2026.</p>
     <a id="emptyRegisterBtn" href="/wilczy-polmaraton/zewwilka/rejestracja"
       class="mt-6 hidden inline-block rounded-lg bg-emerald-600 px-6 py-3 font-semibold text-white transition hover:bg-emerald-700">Dokończ zapisy</a>
     <div class="mt-6 flex flex-col items-center gap-2">
