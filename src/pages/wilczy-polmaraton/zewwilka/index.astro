@@ -3,19 +3,45 @@ import Layout from "../../../layouts/Layout.astro";
 import WilczyPolmaratonHeader from "../../../components/wilczypolmaraton/WilczyPolmaratonHeader.astro";
 import ContactPanel from "../../../components/ContactPanel.astro";
 import { t } from "../../../utils/i18n";
+import fs from "node:fs";
+import path from "node:path";
+import { GPX_PUBLIC_PATH, loadRouteGeometry } from "../../../utils/zewwilka/route";
 
 const eventDate = "07.08.2026";
 // Registration closes at the end of this day. Mirrors zewwilka-2026.registrationDeadline
 // in api/events/config.js — the server enforces it; this only drives the UI.
-const registrationDeadline = "2026-08-05";
+const registrationDeadline = "2026-08-06";
+
+// Distance, elevation and both drawings come straight from the published GPX.
+const route = loadRouteGeometry();
+
+const azylMapsLink = "https://maps.app.goo.gl/VdEFVwTmG6TRd4M96";
+
+// Annotated satellite shot of the walk from the cemetery car park to the start.
+// Checked at build time so a missing file degrades to text instead of a broken image.
+const parkingMapSrc = "/zewwilka/parking-na-start.jpg";
+const hasParkingMap = fs.existsSync(path.join(process.cwd(), "public", parkingMapSrc));
+
+const interviewEmbed = "https://www.youtube.com/embed/5auw7UEY3oU";
 
 const facts = [
   { label: "Nazwa", value: "Nocny Zew Wilka (bieg nocny ~10 km)" },
-  { label: "Kiedy", value: "7 sierpnia 2026, godz. 20:00" },
+  { label: "Kiedy", value: "7 sierpnia 2026 — biuro zawodów do 20:00, start o 20:20" },
   { label: "Start i meta", value: "Azyl Zatyranych 🌲" },
-  { label: "Dystans", value: "ok. 10 km" },
+  { label: "Dystans", value: `${route.distanceKm.toString().replace(".", ",")} km, ok. ${route.elevationGainM} m przewyższenia` },
   { label: "Wstęp", value: "Bezpłatny — obowiązkowa rejestracja" },
   { label: "Limit miejsc", value: "Tylko 50 osób ⚠️" },
+];
+
+const schedule = [
+  { time: "do 20:00", what: "Rejestracja zawodników w biurze zawodów w Azylu Zatyranych" },
+  { time: "20:20", what: "Start biegu głównego 🐺" },
+  { time: "po biegu", what: "Ognisko, kawa i ciacho, biegowe pogaduchy" },
+];
+
+const contacts = [
+  { name: "Arek", phone: "513 592 253", tel: "513592253" },
+  { name: "Tomek", phone: "791 997 150", tel: "791997150" },
 ];
 
 // Decorative wolf paw tracks scattered across the hero night scene.
@@ -27,33 +53,29 @@ const paws = [
   { pos: "right-[12%] top-[40%]", rot: "-rotate-[6deg]", size: 26, opacity: "0.15" },
 ];
 
-const sections = [
+const onSite = [
   {
-    icon: "🚗",
-    title: "Logistyka i parking",
-    body: "Wszystkich zmotoryzowanych prosimy o pozostawienie aut na parkingu przy cmentarzu w Rybniku-Ochojcu (ul. Milenijna). Stamtąd sprawnie i bezpiecznie dotrzecie do Azylu na start.",
+    icon: "💧",
+    title: "Nawodnienie na mecie",
+    body: "Na mecie czeka woda i izotonik — sierpniowa noc potrafi być parna, więc uzupełnijcie płyny po biegu.",
   },
   {
-    icon: "🗺️",
-    title: "Dzika trasa — przygoda z trackiem",
-    body: "To nie będzie zwykły bieg z taśmami i strzałkami. Wracamy do korzeni i prawdziwego trailu — trasa NIE będzie oznaczona. Biegniemy na podstawie wgranego tracka GPS (plik GPX udostępnimy przed biegiem). Czołówki i naładowane zegarki/telefony z GPS to wyposażenie obowiązkowe! 🔦",
+    icon: "☕",
+    title: "Kawa i ciacho",
+    body: "Po przekroczeniu mety w Azylu czeka na Was kawa i coś słodkiego.",
   },
   {
-    icon: "⏱️",
-    title: "Profesjonalizm i integracja",
-    body: "Mimo luźnej, treningowej atmosfery nie zabraknie sportowej rywalizacji — zapewniamy profesjonalny pomiar czasu, więc sprawdzicie formę przed październikowym startem. A po biegu prawdziwa wilcza uczta: ognisko, pyszny poczęstunek i biegowe pogaduchy.",
-  },
-  {
-    icon: "📝",
-    title: "Jak dołączyć? Kto pierwszy, ten lepszy!",
-    body: "Wstęp jest darmowy, ale ze względów bezpieczeństwa i kameralnego charakteru przygotowaliśmy zaledwie 50 miejsc. Nie zwlekajcie — miejsca w stadzie rozejdą się błyskawicznie.",
+    icon: "🔥",
+    title: "Ognisko — weźcie swoje wurszty!",
+    body: "Rozpalamy ognisko i zostajemy dłużej. Zachęcamy, żeby przyjść z własnymi wursztami — reszta (ogień, kije, towarzystwo) po naszej stronie.",
   },
 ];
+
 ---
 
 <Layout
   title="Nocny Zew Wilka - bieg nocny 10 km"
-  description="Nocny Zew Wilka — darmowy bieg nocny ~10 km, oficjalna rozgrzewka przed IV Wilczym Półmaratonem. 7 sierpnia 2026, godz. 20:00, Azyl Zatyranych (Rybnik-Ochojec)."
+  description="Nocny Zew Wilka — darmowy bieg nocny ~10 km, oficjalna rozgrzewka przed IV Wilczym Półmaratonem. 7 sierpnia 2026, start o 20:20, Azyl Zatyranych (Rybnik-Ochojec)."
   ogImage="/zewwilka_og.jpg"
   t={t}
 >
@@ -134,7 +156,7 @@ const sections = [
     <div class="relative z-10 mx-auto max-w-3xl px-6 py-16 text-center space-y-6">
       <p class="text-sm font-semibold uppercase tracking-widest text-emerald-300">🐺 Oficjalna rozgrzewka przed IV Wilczym Półmaratonem</p>
       <h1 class="text-5xl font-bold tracking-tight sm:text-6xl">Nocny Zew Wilka</h1>
-      <p class="text-2xl font-semibold text-emerald-300">{eventDate} · 20:00</p>
+      <p class="text-2xl font-semibold text-emerald-300">{eventDate} · start 20:20</p>
       <p class="text-lg text-slate-200">📍 Azyl Zatyranych, Rybnik-Ochojec</p>
 
       <div class="flex flex-wrap justify-center gap-3 text-base">
@@ -152,7 +174,7 @@ const sections = [
           >
             Zapisz się
           </a>
-          <p class="mt-3 text-sm text-slate-300">Zapisy bezpłatne, do 5 sierpnia 2026</p>
+          <p class="mt-3 text-sm text-slate-300">Zapisy bezpłatne, do 6 sierpnia 2026</p>
         </div>
         <p class="mt-3">
           <a href="/wilczy-polmaraton/zewwilka/lista" class="text-sm font-semibold text-emerald-300 underline-offset-4 hover:underline">Zobacz listę zapisanych →</a>
@@ -171,7 +193,7 @@ const sections = [
     <p class="text-lg leading-relaxed text-slate-700">
       Słyszycie ten zew? Październikowy <strong>IV Wilczy Półmaraton</strong> zbliża się wielkimi krokami — ale my nie
       zamierzamy czekać w ukryciu. Zanim leśne ścieżki uroczyska „Głębokie Doły" zapełnią się setkami biegaczy w blasku
-      jesiennego słońca, zapraszamy na wyjątkowy, mroczny prolog. Już 7 sierpnia o 20:00 wbiegniemy w głąb lasu, by
+      jesiennego słońca, zapraszamy na wyjątkowy, mroczny prolog. Już 7 sierpnia o 20:20 wbiegniemy w głąb lasu, by
       poczuć prawdziwie wilczy klimat pod osłoną nocy! 🌲🌕
     </p>
   </div>
@@ -191,16 +213,162 @@ const sections = [
     </div>
   </div>
 
-  <!-- Detail sections -->
-  <div class="mx-auto max-w-2xl space-y-6 px-6 py-12">
-    {sections.map(({ icon, title, body }) => (
-      <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <h2 class="flex items-center gap-3 text-xl font-bold text-slate-900">
-          <span aria-hidden="true">{icon}</span>{title}
-        </h2>
-        <p class="mt-2 leading-relaxed text-slate-700">{body}</p>
+  <!-- Schedule -->
+  <div class="mx-auto max-w-2xl px-6 pt-10">
+    <h2 class="mb-4 text-2xl font-bold text-slate-900">🕗 Harmonogram</h2>
+    <ol class="space-y-3">
+      {schedule.map(({ time, what }) => (
+        <li class="flex items-start gap-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+          <span class="w-24 shrink-0 font-bold text-emerald-700">{time}</span>
+          <span class="text-slate-700">{what}</span>
+        </li>
+      ))}
+    </ol>
+  </div>
+
+  <!-- Trail: unmarked route, drawn straight from the published GPX -->
+  <div class="mx-auto max-w-2xl px-6 pt-12">
+    <h2 class="mb-2 text-2xl font-bold text-slate-900">🗺️ Dzika trasa — przygoda z trackiem</h2>
+    <p class="leading-relaxed text-slate-700">
+      To nie będzie zwykły bieg z taśmami i strzałkami. Wracamy do korzeni i prawdziwego trailu — trasa
+      <strong>NIE będzie oznaczona</strong>. Biegniemy na podstawie wgranego tracka GPS. Czołówki i naładowane
+      zegarki/telefony z GPS to wyposażenie obowiązkowe! 🔦
+    </p>
+
+    <div class="mt-6 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+      <div class="grid gap-6 p-6 sm:grid-cols-[auto,1fr] sm:items-center">
+        <!-- Route outline -->
+        <svg
+          viewBox={`-12 -12 ${route.mapWidth + 24} ${route.mapHeight + 24}`}
+          class="mx-auto h-72 w-auto"
+          role="img"
+          aria-label="Zarys trasy Nocnego Zewu Wilka"
+        >
+          <path d={route.mapPath} fill="none" stroke="#059669" stroke-width="5" stroke-linejoin="round" stroke-linecap="round" />
+          <circle cx={route.startX} cy={route.startY} r="9" fill="#0f172a" />
+          <circle cx={route.startX} cy={route.startY} r="4" fill="#fde68a" />
+        </svg>
+
+        <div class="space-y-4">
+          <dl class="grid grid-cols-2 gap-3 text-center">
+            <div class="rounded-xl bg-emerald-50 p-3">
+              <dt class="text-xs font-semibold uppercase tracking-widest text-emerald-700">Dystans</dt>
+              <dd class="text-2xl font-bold text-slate-900">{route.distanceKm.toString().replace(".", ",")} km</dd>
+            </div>
+            <div class="rounded-xl bg-emerald-50 p-3">
+              <dt class="text-xs font-semibold uppercase tracking-widest text-emerald-700">Przewyższenie</dt>
+              <dd class="text-2xl font-bold text-slate-900">{route.elevationGainM} m</dd>
+            </div>
+          </dl>
+
+          <!-- Elevation profile -->
+          <div>
+            <p class="mb-1 text-xs font-semibold uppercase tracking-widest text-slate-500">
+              Profil wysokości ({route.minEleM}–{route.maxEleM} m n.p.m.)
+            </p>
+            <svg
+              viewBox={`0 0 ${route.profileWidth} ${route.profileHeight}`}
+              preserveAspectRatio="none"
+              class="h-20 w-full"
+              role="img"
+              aria-label={`Profil wysokości trasy, od ${route.minEleM} do ${route.maxEleM} metrów nad poziomem morza`}
+            >
+              <path d={route.profileAreaPath} fill="#d1fae5" />
+              <path d={route.profilePath} fill="none" stroke="#059669" stroke-width="4" vector-effect="non-scaling-stroke" />
+            </svg>
+          </div>
+
+          <a
+            href={GPX_PUBLIC_PATH}
+            download
+            class="inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-700"
+          >
+            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+            </svg>
+            Pobierz plik GPX
+          </a>
+        </div>
       </div>
-    ))}
+    </div>
+  </div>
+
+  <!-- Parking -> start -->
+  <div class="mx-auto max-w-2xl px-6 pt-12">
+    <h2 class="mb-2 text-2xl font-bold text-slate-900">🚗 Parking i dojście na start</h2>
+    <p class="leading-relaxed text-slate-700">
+      Wszystkich zmotoryzowanych prosimy o pozostawienie aut na parkingu przy cmentarzu w Rybniku-Ochojcu
+      (ul. Milenijna). Stamtąd do
+      <a href={azylMapsLink} target="_blank" rel="noopener" class="font-semibold text-emerald-700 underline underline-offset-2 hover:text-emerald-800">Azylu Zatyranych</a>
+      idzie się <strong>ok. 300 m pieszo</strong>{hasParkingMap ? " — poniższa mapka pokazuje dokładną drogę." : "."}
+    </p>
+    {hasParkingMap && (
+      <figure class="mt-4 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+        <img
+          src={parkingMapSrc}
+          alt="Mapa satelitarna: droga z parkingu przy cmentarzu na ul. Milenijnej do Azylu Zatyranych, ok. 300 m pieszo"
+          loading="lazy"
+          class="w-full"
+        />
+        <figcaption class="border-t border-slate-200 px-4 py-3 text-sm text-slate-600">
+          Parking przy cmentarzu (niebieska pinezka) → Azyl Zatyranych (zielona pinezka), ok. 300 m.
+        </figcaption>
+      </figure>
+    )}
+  </div>
+
+  <!-- On-site: hydration, coffee, campfire -->
+  <div class="mx-auto max-w-2xl px-6 pt-12">
+    <h2 class="mb-4 text-2xl font-bold text-slate-900">🍽️ Na mecie i po biegu</h2>
+    <div class="grid gap-4 sm:grid-cols-3">
+      {onSite.map(({ icon, title, body }) => (
+        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+          <p class="text-2xl" aria-hidden="true">{icon}</p>
+          <h3 class="mt-2 font-bold text-slate-900">{title}</h3>
+          <p class="mt-1 text-sm leading-relaxed text-slate-700">{body}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <!-- Guest: entomologist and his moth-trapping gear -->
+  <div class="mx-auto max-w-2xl px-6 pt-12">
+    <div class="rounded-2xl border-2 border-amber-200 bg-amber-50 p-6">
+      <p class="text-sm font-semibold uppercase tracking-widest text-amber-700">🦋 Gość specjalny</p>
+      <h2 class="mt-1 text-2xl font-bold text-slate-900">Jacek Maroń i nocne motyle</h2>
+      <p class="mt-3 leading-relaxed text-slate-700">
+        Nie tylko my wychodzimy do lasu po zmroku. Towarzyszyć nam będzie <strong>Jacek Maroń</strong> — entomolog,
+        który rozstawi w Azylu swój sprzęt do odławiania motyli nocnych. Światło, ekran i cierpliwość — a po chwili
+        zlatuje się to, czego za dnia nigdzie nie zobaczycie.
+      </p>
+      <p class="mt-3 leading-relaxed text-slate-700">
+        Zajrzyjcie do niego przed startem albo przy ognisku po biegu i zapytajcie, co właśnie przyleciało. 🌙
+      </p>
+      <div class="mt-5 overflow-hidden rounded-xl border border-amber-200 bg-white">
+        <iframe
+          src={interviewEmbed}
+          title="Wywiad z Panem Jackiem Maroniem"
+          class="aspect-video w-full"
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen></iframe>
+      </div>
+      <p class="mt-2 text-sm text-slate-600">Wywiad z Panem Jackiem Maroniem</p>
+    </div>
+  </div>
+
+  <!-- Closing -->
+  <div class="mx-auto max-w-2xl space-y-6 px-6 py-12">
+    <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+      <h2 class="flex items-center gap-3 text-xl font-bold text-slate-900">
+        <span aria-hidden="true">⏱️</span>Profesjonalizm i integracja
+      </h2>
+      <p class="mt-2 leading-relaxed text-slate-700">
+        Mimo luźnej, treningowej atmosfery nie zabraknie sportowej rywalizacji — zapewniamy profesjonalny pomiar
+        czasu, więc sprawdzicie formę przed październikowym startem. A po biegu prawdziwa wilcza uczta: ognisko,
+        pyszny poczęstunek i biegowe pogaduchy.
+      </p>
+    </div>
 
     <p class="text-center text-lg font-semibold text-slate-800">
       Poczuj zew przygody, sprawdź formę w nocy i stań się częścią wilczego stada jeszcze tego lata.
@@ -215,6 +383,19 @@ const sections = [
       >
         Zapisz się
       </a>
+    </div>
+
+    <!-- Race-day contacts -->
+    <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+      <h2 class="text-xl font-bold text-slate-900">📞 Kontakt w dniu biegu</h2>
+      <ul class="mt-3 space-y-2">
+        {contacts.map(({ name, phone, tel }) => (
+          <li class="flex items-center gap-3">
+            <span class="w-20 shrink-0 font-semibold text-slate-700">{name}</span>
+            <a href={`tel:${tel}`} class="text-lg font-semibold text-emerald-700 hover:text-emerald-800">{phone}</a>
+          </li>
+        ))}
+      </ul>
     </div>
 
     <ContactPanel />
