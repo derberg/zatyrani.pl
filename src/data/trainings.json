@@ -900,5 +900,16 @@
     "phone": "519194995",
     "distance": 12,
     "pace": 6
+  },
+  {
+    "uid": "bieg-1-9-2026-18-30-grzybowka-rybnik-12-7",
+    "type": "bieg",
+    "datetime": "01/09/2026 18:30",
+    "location": "Grzybówka, Rybnik",
+    "locationLink": "",
+    "comment": "Bieg trasą Leśnego Lamentu. Dwie pętle po niecałe 6km",
+    "phone": "791997150",
+    "distance": 12,
+    "pace": 7
   }
 ]
