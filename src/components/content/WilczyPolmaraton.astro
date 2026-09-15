@@ -300,6 +300,96 @@ const ytPreviewLink = "https://www.youtube.com/embed/sY6au0yZyp4";
   </div>
 </section>
 
+<!-- Trail Map Section -->
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+  <h2 id="trasa" class="text-3xl font-bold text-center mb-8">{t("halfmarathon.trail_title")}</h2>
+
+  <!-- GPX Download Buttons -->
+  <div class="flex justify-center gap-4 mb-8 flex-wrap">
+    <a
+      href="https://drive.google.com/file/d/1eIAEeJ6OR500wlyb9CqDe5QNGCH6n43K/view?usp=sharing"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full transition-colors"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="w-5 h-5 mr-2"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+        />
+      </svg>
+      {t("halfmarathon.trail_gpx_run")}
+    </a>
+    <a
+      href="https://drive.google.com/file/d/1PVPobYBHpP-P7__mvOE8GgjnMhMnK6ao/view?usp=sharing"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="inline-flex items-center bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-full transition-colors"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="w-5 h-5 mr-2"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+        />
+      </svg>
+      {t("halfmarathon.trail_gpx_nw")}
+    </a>
+  </div>
+
+  <!-- Google Maps Embed -->
+  <div class="max-w-5xl mx-auto">
+    <div class="aspect-[16/9] rounded-lg overflow-hidden shadow-lg">
+      <iframe
+        src="https://www.google.com/maps/d/embed?mid=1DB9mbdDXfVxCvbjXvh_hvkwfX-Rf-AI"
+        width="100%"
+        height="100%"
+        style="border:0;"
+        title={t("halfmarathon.trail_title")}
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+    <div class="text-center mt-4 space-y-2">
+      <p class="text-gray-600">
+        {t("halfmarathon.trail_map_caption")}
+      </p>
+      <p class="text-sm text-blue-600 flex items-start justify-center gap-2">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-4 h-4 flex-shrink-0 mt-0.5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+        <span class="text-center">{t("halfmarathon.trail_map_hint")}</span>
+      </p>
+    </div>
+  </div>
+</section>
+
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
   <!-- Bullet List and Image Section -->
   <h2 class="text-3xl font-bold text-center">{t("halfmarathon.attractions_title")}</h2>
