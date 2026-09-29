@@ -933,5 +933,16 @@
     "phone": "512637906",
     "distance": 10,
     "pace": 7
+  },
+  {
+    "uid": "bieg-29-9-2026-19-0-stanica-stacja-10-6",
+    "type": "bieg",
+    "datetime": "29/09/2026 19:00",
+    "location": "Stanica – Stacja",
+    "locationLink": "https://maps.app.goo.gl/LGKq1drxyXzfK9bi7",
+    "comment": "Bieg slow... Czyli wolno, konwersacyjne ....przyjemnie i miło 🙂 10-12 km. ",
+    "phone": "519194995",
+    "distance": 10,
+    "pace": 6
   }
 ]
