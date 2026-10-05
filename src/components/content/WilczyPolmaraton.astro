@@ -11,6 +11,8 @@ const { t } = Astro.props;
 const eventDate = "17.10.2026";
 const eventNumber = "IV";
 const ytPreviewLink = "https://www.youtube.com/embed/sY6au0yZyp4";
+const raceOfficeAddress = "GOK Wilcza, ul. Karola Miarki 123, 44-189 Wilcza";
+const raceOfficeMapLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(raceOfficeAddress)}`;
 ---
 
 <!-- Hero Section -->
@@ -64,6 +66,65 @@ const ytPreviewLink = "https://www.youtube.com/embed/sY6au0yZyp4";
     </div>
   </div>
 </div>
+
+<!-- Schedule Section -->
+<section id="harmonogram" class="mx-auto max-w-6xl px-6 pt-16">
+  <div class="mb-8 text-center">
+    <h2 class="text-3xl font-bold text-slate-900">{t("halfmarathon.schedule_title")}</h2>
+  </div>
+
+  <div class="mx-auto max-w-2xl">
+    <div class="relative space-y-0 border-l-2 border-emerald-300 ml-4">
+      <div class="relative pl-8 pb-8">
+        <span class="absolute -left-[9px] top-1 h-4 w-4 rounded-full border-2 border-emerald-500 bg-white"></span>
+        <p class="text-sm font-semibold text-emerald-700">7:30</p>
+        <p class="text-slate-700">{t("halfmarathon.schedule_office_open")}</p>
+        <a
+          href={raceOfficeMapLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-sm text-emerald-700 underline hover:text-emerald-800"
+        >
+          📍 {raceOfficeAddress}
+        </a>
+      </div>
+      <div class="relative pl-8 pb-8">
+        <span class="absolute -left-[9px] top-1 h-4 w-4 rounded-full border-2 border-red-400 bg-white"></span>
+        <p class="text-sm font-semibold text-red-600">8:45</p>
+        <p class="text-slate-700">{t("halfmarathon.schedule_briefing")}</p>
+      </div>
+      <div class="relative pl-8 pb-8">
+        <span class="absolute -left-[9px] top-1 h-4 w-4 rounded-full border-2 border-amber-500 bg-white"></span>
+        <p class="text-sm font-semibold text-amber-700">8:55</p>
+        <p class="text-slate-700">{t("halfmarathon.schedule_canicross_start")}</p>
+      </div>
+      <div class="relative pl-8 pb-8">
+        <span class="absolute -left-[9px] top-1 h-4 w-4 rounded-full border-2 border-cyan-500 bg-white"></span>
+        <p class="text-sm font-semibold text-cyan-700">9:00</p>
+        <p class="text-slate-700">{t("halfmarathon.schedule_run_start")}</p>
+      </div>
+      <div class="relative pl-8 pb-8">
+        <span class="absolute -left-[9px] top-1 h-4 w-4 rounded-full border-2 border-cyan-500 bg-white"></span>
+        <p class="text-sm font-semibold text-cyan-700">9:05</p>
+        <p class="text-slate-700">{t("halfmarathon.schedule_nw_start")}</p>
+      </div>
+      <div class="relative pl-8 pb-8">
+        <span class="absolute -left-[9px] top-1 h-4 w-4 rounded-full border-2 border-emerald-500 bg-white"></span>
+        <p class="text-sm font-semibold text-emerald-700">12:00</p>
+        <p class="text-slate-700">{t("halfmarathon.schedule_ceremony")}</p>
+      </div>
+    </div>
+
+    <div class="mt-8">
+      <div class="rounded-2xl border border-emerald-200 bg-emerald-50 p-5 shadow-sm">
+        <div class="flex items-start gap-3">
+          <span class="mt-0.5 text-lg">&#9993;&#65039;</span>
+          <p class="text-sm text-slate-700">{t("halfmarathon.schedule_email_note")}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
   <!-- Event Details -->
