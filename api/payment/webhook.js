@@ -34,6 +34,25 @@ function getRawBody(req) {
 
 // ── Table handlers ──────────────────────────────────────────────────────────
 
+/**
+ * SIBS reuses our payment id (merchantTransactionId) for every retry and may
+ * deliver notifications late or out of order. A failure notification must never
+ * downgrade a paid row, nor apply to an older SIBS transaction than the one
+ * currently stored on the row. Success always wins.
+ */
+function shouldIgnoreFailure(row, transactionId, table) {
+  if (row.payment_status === 'paid') {
+    console.warn(`[Webhook] Ignoring failure for already-paid ${table}:`, row.id, 'tx:', transactionId);
+    return true;
+  }
+  if (row.transaction_id && transactionId && row.transaction_id !== transactionId) {
+    console.warn(`[Webhook] Ignoring stale failure for ${table}:`, row.id,
+      'notified tx:', transactionId, 'current tx:', row.transaction_id);
+    return true;
+  }
+  return false;
+}
+
 async function handleEventPayment(supabase, paymentId, transactionId, isPaymentSuccess) {
   const { data: payment, error } = await supabase
     .from("event_payments")
@@ -44,13 +63,19 @@ async function handleEventPayment(supabase, paymentId, transactionId, isPaymentS
   if (error || !payment) return false;
   console.log('[Webhook] Matched event_payments:', paymentId);
 
+  if (!isPaymentSuccess && shouldIgnoreFailure(payment, transactionId, "event_payments")) return true;
+
   const updateData = {
     transaction_id: transactionId,
     payment_status: isPaymentSuccess ? 'paid' : 'failed',
   };
   if (isPaymentSuccess) updateData.paid_at = new Date().toISOString();
 
-  await supabase.from("event_payments").update(updateData).eq("id", paymentId);
+  let update = supabase.from("event_payments").update(updateData).eq("id", paymentId);
+  // Guard against a success landing between our read and this write
+  if (!isPaymentSuccess) update = update.neq("payment_status", "paid");
+  const { error: updateError } = await update;
+  if (updateError) console.error('[Webhook] Update error (event_payments):', paymentId, updateError.message);
 
   // Send email
   try {
@@ -86,13 +111,19 @@ async function handleNiebocrossPayment(supabase, paymentId, transactionId, isPay
   if (error || !payment) return false;
   console.log('[Webhook] Matched niebocross_payments:', paymentId);
 
+  if (!isPaymentSuccess && shouldIgnoreFailure(payment, transactionId, "niebocross_payments")) return true;
+
   const updateData = {
     transaction_id: transactionId,
     payment_status: isPaymentSuccess ? 'paid' : 'failed',
   };
   if (isPaymentSuccess) updateData.paid_at = new Date().toISOString();
 
-  await supabase.from("niebocross_payments").update(updateData).eq("id", paymentId);
+  let update = supabase.from("niebocross_payments").update(updateData).eq("id", paymentId);
+  // Guard against a success landing between our read and this write
+  if (!isPaymentSuccess) update = update.neq("payment_status", "paid");
+  const { error: updateError } = await update;
+  if (updateError) console.error('[Webhook] Update error (niebocross_payments):', paymentId, updateError.message);
 
   // Send email
   try {
@@ -119,7 +150,7 @@ async function handleNiebocrossPayment(supabase, paymentId, transactionId, isPay
 async function handleTshirtPayment(supabase, paymentId, transactionId, isPaymentSuccess) {
   const { data: row, error } = await supabase
     .from("niebocross_tshirt_payments")
-    .select("id")
+    .select("id, payment_status, transaction_id")
     .eq("id", paymentId)
     .single();
 
@@ -127,13 +158,17 @@ async function handleTshirtPayment(supabase, paymentId, transactionId, isPayment
   console.log('[Webhook] Matched niebocross_tshirt_payments:', paymentId);
 
   if (isPaymentSuccess) {
-    await supabase.from("niebocross_tshirt_payments")
+    const { error: updateError } = await supabase.from("niebocross_tshirt_payments")
       .update({ payment_status: 'paid', transaction_id: transactionId, paid_at: new Date().toISOString() })
       .or(`id.eq.${paymentId},order_group_id.eq.${paymentId}`);
+    if (updateError) console.error('[Webhook] Update error (tshirt):', paymentId, updateError.message);
   } else {
-    await supabase.from("niebocross_tshirt_payments")
+    if (shouldIgnoreFailure(row, transactionId, "niebocross_tshirt_payments")) return true;
+    const { error: deleteError } = await supabase.from("niebocross_tshirt_payments")
       .delete()
-      .or(`id.eq.${paymentId},order_group_id.eq.${paymentId}`);
+      .or(`id.eq.${paymentId},order_group_id.eq.${paymentId}`)
+      .neq("payment_status", "paid");
+    if (deleteError) console.error('[Webhook] Delete error (tshirt):', paymentId, deleteError.message);
   }
 
   return true;
