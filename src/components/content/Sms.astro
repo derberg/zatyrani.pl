@@ -64,11 +64,20 @@ import PageHeader from "../PageHeader.astro";
     </section>
 
     <section class="bg-white rounded-md shadow p-4 mb-6">
-      <div class="flex items-center justify-between mb-3">
-        <h2 class="font-semibold text-gray-800">Odbiorcy</h2>
-        <div class="text-sm text-gray-600">
-          Wybrano <span id="selectedCount">0</span> / <span id="totalCount">0</span>
+      <div class="flex items-center justify-between gap-3 mb-3">
+        <div>
+          <h2 class="font-semibold text-gray-800">Odbiorcy</h2>
+          <div class="text-sm text-gray-600">
+            Wybrano <span id="selectedCount">0</span> / <span id="totalCount">0</span>
+          </div>
         </div>
+        <button
+          id="addMemberBtn"
+          type="button"
+          class="shrink-0 inline-flex items-center gap-1 min-h-[44px] px-4 rounded-md bg-purple-600 hover:bg-purple-700 disabled:bg-gray-400 text-white font-medium"
+        >
+          <span aria-hidden="true" class="text-xl leading-none">+</span> Dodaj osobę
+        </button>
       </div>
       <div class="flex gap-2 mb-3">
         <button
@@ -137,6 +146,94 @@ import PageHeader from "../PageHeader.astro";
 </div>
 
 <div
+  id="memberFormModal"
+  class="hidden fixed inset-0 bg-black/40 flex items-end sm:items-center justify-center z-40"
+>
+  <form
+    id="memberForm"
+    novalidate
+    class="bg-white w-full sm:max-w-md sm:mx-4 rounded-t-2xl sm:rounded-lg shadow-lg p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))]"
+  >
+    <h3 id="memberFormTitle" class="text-lg font-semibold mb-4">Dodaj osobę</h3>
+    <label for="memberName" class="block font-medium text-gray-700 mb-1">Imię i nazwisko</label>
+    <input
+      id="memberName"
+      name="name"
+      type="text"
+      maxlength="100"
+      autocomplete="off"
+      autocapitalize="words"
+      enterkeyhint="next"
+      class="w-full border rounded-md px-3 py-3 text-base mb-4 focus:outline-none focus:ring-2 focus:ring-purple-500"
+    />
+    <label for="memberPhone" class="block font-medium text-gray-700 mb-1">Numer telefonu</label>
+    <input
+      id="memberPhone"
+      name="phone"
+      type="tel"
+      inputmode="tel"
+      autocomplete="off"
+      enterkeyhint="done"
+      placeholder="600 100 200"
+      class="w-full border rounded-md px-3 py-3 text-base focus:outline-none focus:ring-2 focus:ring-purple-500"
+    />
+    <p class="text-xs text-gray-500 mt-1">9 cyfr. Numer zagraniczny wpisz z +, np. +49…</p>
+    <p id="memberFormError" class="hidden mt-3 text-sm text-red-700 bg-red-50 border-l-4 border-red-500 p-2 rounded"></p>
+    <div class="grid grid-cols-2 gap-2 mt-5">
+      <button
+        id="cancelMemberFormBtn"
+        type="button"
+        class="min-h-[48px] bg-gray-100 hover:bg-gray-200 rounded-md font-medium"
+      >
+        Anuluj
+      </button>
+      <button
+        id="saveMemberBtn"
+        type="submit"
+        class="min-h-[48px] bg-purple-600 hover:bg-purple-700 disabled:bg-gray-400 text-white rounded-md font-medium"
+      >
+        Zapisz
+      </button>
+    </div>
+  </form>
+</div>
+
+<div
+  id="deleteModal"
+  class="hidden fixed inset-0 bg-black/40 flex items-end sm:items-center justify-center z-40"
+>
+  <div class="bg-white w-full sm:max-w-md sm:mx-4 rounded-t-2xl sm:rounded-lg shadow-lg p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
+    <h3 class="text-lg font-semibold mb-3">Usunąć osobę?</h3>
+    <p class="text-gray-700">
+      <strong id="deleteName"></strong> (<span id="deletePhone"></span>) zniknie z listy odbiorców.
+    </p>
+    <p id="deleteError" class="hidden mt-3 text-sm text-red-700 bg-red-50 border-l-4 border-red-500 p-2 rounded"></p>
+    <div class="grid grid-cols-2 gap-2 mt-5">
+      <button
+        id="cancelDeleteBtn"
+        type="button"
+        class="min-h-[48px] bg-gray-100 hover:bg-gray-200 rounded-md font-medium"
+      >
+        Anuluj
+      </button>
+      <button
+        id="confirmDeleteBtn"
+        type="button"
+        class="min-h-[48px] bg-red-600 hover:bg-red-700 disabled:bg-gray-400 text-white rounded-md font-medium"
+      >
+        Usuń
+      </button>
+    </div>
+  </div>
+</div>
+
+<div
+  id="toast"
+  role="status"
+  class="hidden fixed left-1/2 -translate-x-1/2 top-4 z-50 bg-gray-900 text-white text-sm px-4 py-2 rounded-full shadow-lg max-w-[90vw] text-center"
+></div>
+
+<div
   id="summaryModal"
   class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-30"
 >
@@ -172,12 +269,21 @@ import PageHeader from "../PageHeader.astro";
     selected: Set<string>;
     budget: Budget;
     sending: boolean;
+    meId: string | null;
+    editingId: string | null;
+    deletingId: string | null;
   } = {
     members: [],
     selected: new Set(),
     budget: { total: 0, used: 0, remaining: 0 },
     sending: false,
+    meId: null,
+    editingId: null,
+    deletingId: null,
   };
+
+  const PENCIL_ICON = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>`;
+  const TRASH_ICON = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>`;
 
   function escapeHtml(s: string) {
     return s
@@ -201,18 +307,34 @@ import PageHeader from "../PageHeader.astro";
     list.innerHTML = "";
     for (const m of state.members) {
       const li = document.createElement("li");
-      li.className = "py-2 flex items-center gap-3";
+      li.className = "flex items-center gap-1";
       li.dataset.recipient = m.id;
+      const id = escapeHtml(m.id);
+      const name = escapeHtml(m.name);
+      const deleteBtn =
+        m.id === state.meId
+          ? `<span class="h-11 w-11 shrink-0"></span>`
+          : `<button type="button" class="member-action member-delete h-11 w-11 shrink-0 inline-flex items-center justify-center rounded-md text-gray-500 hover:text-red-600 hover:bg-red-50 disabled:opacity-40" data-id="${id}" aria-label="Usuń ${name}" title="Usuń">${TRASH_ICON}</button>`;
       li.innerHTML = `
-        <input type="checkbox" class="recipient-cb h-4 w-4" data-id="${escapeHtml(m.id)}" />
-        <div class="flex-1">
-          <div class="font-medium text-gray-800">${escapeHtml(m.name)}</div>
-          <div class="text-xs text-gray-500">${escapeHtml(m.phone)}</div>
-        </div>
-        <div class="recipient-status text-sm text-gray-400 hidden" data-status="${escapeHtml(m.id)}"></div>
+        <label class="flex-1 min-w-0 flex items-center gap-3 py-2 cursor-pointer">
+          <input type="checkbox" class="recipient-cb h-5 w-5 shrink-0" data-id="${id}" ${state.selected.has(m.id) ? "checked" : ""} />
+          <div class="min-w-0">
+            <div class="font-medium text-gray-800 truncate">${name}</div>
+            <div class="text-xs text-gray-500">${escapeHtml(m.phone)}</div>
+          </div>
+        </label>
+        <div class="recipient-status text-sm text-gray-400 hidden" data-status="${id}"></div>
+        <button type="button" class="member-action member-edit h-11 w-11 shrink-0 inline-flex items-center justify-center rounded-md text-gray-500 hover:text-purple-700 hover:bg-purple-50 disabled:opacity-40" data-id="${id}" aria-label="Edytuj ${name}" title="Edytuj">${PENCIL_ICON}</button>
+        ${deleteBtn}
       `;
       list.appendChild(li);
     }
+    list.querySelectorAll<HTMLButtonElement>(".member-edit").forEach((btn) => {
+      btn.addEventListener("click", () => openMemberForm(btn.dataset.id!));
+    });
+    list.querySelectorAll<HTMLButtonElement>(".member-delete").forEach((btn) => {
+      btn.addEventListener("click", () => openDeleteModal(btn.dataset.id!));
+    });
     list.querySelectorAll<HTMLInputElement>(".recipient-cb").forEach((cb) => {
       cb.addEventListener("change", () => {
         const id = cb.dataset.id!;
@@ -314,6 +436,9 @@ import PageHeader from "../PageHeader.astro";
       }
       const data = await res.json();
       state.members = data.members || [];
+      state.meId = data.meId || null;
+      const visibleIds = new Set(state.members.map((m) => m.id));
+      state.selected = new Set([...state.selected].filter((id) => visibleIds.has(id)));
       state.budget = data.budget || { total: 0, used: 0, remaining: 0 };
       $("smsLoading").classList.add("hidden");
       $("smsMain").classList.remove("hidden");
@@ -336,6 +461,144 @@ import PageHeader from "../PageHeader.astro";
     $<HTMLButtonElement>("deselectAllBtn").disabled = disabled;
     $<HTMLButtonElement>("stripBtn").disabled = disabled;
     $<HTMLButtonElement>("sendBtn").disabled = disabled;
+    $<HTMLButtonElement>("addMemberBtn").disabled = disabled;
+    document
+      .querySelectorAll<HTMLButtonElement>(".member-action")
+      .forEach((btn) => (btn.disabled = disabled));
+  }
+
+  let toastTimer: number | undefined;
+  function showToast(text: string) {
+    const toast = $("toast");
+    toast.textContent = text;
+    toast.classList.remove("hidden");
+    window.clearTimeout(toastTimer);
+    toastTimer = window.setTimeout(() => toast.classList.add("hidden"), 3000);
+  }
+
+  function showInlineError(id: string, text: string) {
+    const el = $(id);
+    el.textContent = text;
+    el.classList.toggle("hidden", !text);
+  }
+
+  async function callMembersApi(method: "POST" | "PATCH" | "DELETE", id: string | null, payload?: object) {
+    const url = id ? `/api/sms-gate/members?id=${encodeURIComponent(id)}` : "/api/sms-gate/members";
+    try {
+      const res = await fetch(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
+        body: payload ? JSON.stringify(payload) : undefined,
+      });
+      if (res.status === 401) {
+        window.location.href = "/?access_denied=true";
+        return null;
+      }
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) return { error: data.error || `Błąd (HTTP ${res.status}). Spróbuj ponownie.` };
+      return { data };
+    } catch {
+      return { error: "Błąd połączenia. Sprawdź internet i spróbuj ponownie." };
+    }
+  }
+
+  function openMemberForm(id: string | null) {
+    const member = id ? state.members.find((m) => m.id === id) : null;
+    state.editingId = member ? member.id : null;
+    $("memberFormTitle").textContent = member ? "Edytuj osobę" : "Dodaj osobę";
+    $<HTMLInputElement>("memberName").value = member ? member.name : "";
+    $<HTMLInputElement>("memberPhone").value = member ? member.phone : "";
+    showInlineError("memberFormError", "");
+    $<HTMLButtonElement>("saveMemberBtn").disabled = false;
+    $<HTMLButtonElement>("saveMemberBtn").textContent = "Zapisz";
+    $("memberFormModal").classList.remove("hidden");
+    $<HTMLInputElement>("memberName").focus();
+  }
+
+  function closeMemberForm() {
+    $("memberFormModal").classList.add("hidden");
+    state.editingId = null;
+  }
+
+  async function saveMember(e: Event) {
+    e.preventDefault();
+    const saveBtn = $<HTMLButtonElement>("saveMemberBtn");
+    if (saveBtn.disabled) return;
+    const name = $<HTMLInputElement>("memberName").value.trim();
+    const phone = $<HTMLInputElement>("memberPhone").value.trim();
+    if (!name) {
+      showInlineError("memberFormError", "Podaj imię i nazwisko.");
+      $<HTMLInputElement>("memberName").focus();
+      return;
+    }
+    if (!phone) {
+      showInlineError("memberFormError", "Podaj numer telefonu.");
+      $<HTMLInputElement>("memberPhone").focus();
+      return;
+    }
+
+    showInlineError("memberFormError", "");
+    saveBtn.disabled = true;
+    saveBtn.textContent = "Zapisywanie…";
+    const editingId = state.editingId;
+    const result = await callMembersApi(editingId ? "PATCH" : "POST", editingId, { name, phone });
+    if (!result) return;
+    if (result.error) {
+      showInlineError("memberFormError", result.error);
+      saveBtn.disabled = false;
+      saveBtn.textContent = "Zapisz";
+      return;
+    }
+
+    closeMemberForm();
+    const saved = result.data.member as Member;
+    showToast(
+      editingId
+        ? `Zapisano: ${saved.name}`
+        : result.data.restored
+          ? `Przywrócono: ${saved.name}`
+          : `Dodano: ${saved.name}`
+    );
+    await loadState();
+  }
+
+  function openDeleteModal(id: string) {
+    const member = state.members.find((m) => m.id === id);
+    if (!member) return;
+    state.deletingId = id;
+    $("deleteName").textContent = member.name;
+    $("deletePhone").textContent = member.phone;
+    showInlineError("deleteError", "");
+    $<HTMLButtonElement>("confirmDeleteBtn").disabled = false;
+    $<HTMLButtonElement>("confirmDeleteBtn").textContent = "Usuń";
+    $("deleteModal").classList.remove("hidden");
+  }
+
+  function closeDeleteModal() {
+    $("deleteModal").classList.add("hidden");
+    state.deletingId = null;
+  }
+
+  async function confirmDelete() {
+    const id = state.deletingId;
+    const btn = $<HTMLButtonElement>("confirmDeleteBtn");
+    if (!id || btn.disabled) return;
+    const member = state.members.find((m) => m.id === id);
+    btn.disabled = true;
+    btn.textContent = "Usuwanie…";
+    const result = await callMembersApi("DELETE", id);
+    if (!result) return;
+    if (result.error) {
+      showInlineError("deleteError", result.error);
+      btn.disabled = false;
+      btn.textContent = "Usuń";
+      return;
+    }
+    closeDeleteModal();
+    state.selected.delete(id);
+    showToast(`Usunięto: ${member ? member.name : ""}`);
+    await loadState();
   }
 
   async function runSend() {
@@ -482,6 +745,31 @@ import PageHeader from "../PageHeader.astro";
     $("proceedSendBtn").addEventListener("click", () => {
       $("confirmModal").classList.add("hidden");
       runSend();
+    });
+
+    $("addMemberBtn").addEventListener("click", () => openMemberForm(null));
+    $("memberForm").addEventListener("submit", saveMember);
+    $("cancelMemberFormBtn").addEventListener("click", closeMemberForm);
+    $("memberName").addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        $<HTMLInputElement>("memberPhone").focus();
+      }
+    });
+    $("cancelDeleteBtn").addEventListener("click", closeDeleteModal);
+    $("confirmDeleteBtn").addEventListener("click", confirmDelete);
+
+    // Tapping the dimmed backdrop or pressing Escape closes the member dialogs.
+    $("memberFormModal").addEventListener("click", (e) => {
+      if (e.target === e.currentTarget) closeMemberForm();
+    });
+    $("deleteModal").addEventListener("click", (e) => {
+      if (e.target === e.currentTarget) closeDeleteModal();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key !== "Escape") return;
+      closeMemberForm();
+      closeDeleteModal();
     });
 
     $("closeSummaryBtn").addEventListener("click", () => {

@@ -71,6 +71,7 @@ export default async function handler(req, res) {
       .from("members")
       .select("id, phone")
       .eq("phone", normalizedPhone)
+      .is("deleted_at", null)
       .limit(1);
 
     if (memberError) {

@@ -19,8 +19,9 @@ export default async function handler(req, res) {
     return systemError(res);
   }
 
+  let sender;
   try {
-    await authorizeSender(req, supabase);
+    sender = await authorizeSender(req, supabase);
   } catch (e) {
     if (e.status === 403) {
       return res.status(403).json({ error: "Brak uprawnień." });
@@ -36,6 +37,7 @@ export default async function handler(req, res) {
     const { data: members, error: membersError } = await supabase
       .from("members")
       .select("id, name, phone")
+      .is("deleted_at", null)
       .order("name", { ascending: true });
 
     if (membersError) {
@@ -56,6 +58,7 @@ export default async function handler(req, res) {
     return res.status(200).json({
       budget: { total, used, remaining },
       members: unique,
+      meId: sender.id,
     });
   } catch (e) {
     console.error("State endpoint error:", e);
