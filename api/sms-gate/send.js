@@ -7,12 +7,7 @@ import {
   systemError,
 } from "./_shared.js";
 import { encoding, segments } from "../../src/utils/sms-segments.js";
-
-// Strip zero-width (U+200B-U+200F), bidi (U+202A-U+202E) and isolate (U+2066-U+2069)
-// formatting marks that sneak into phone numbers via copy-paste.
-function cleanPhone(s) {
-  return (s || "").replace(/[\u200B-\u200F\u202A-\u202E\u2066-\u2069]/g, "").trim();
-}
+import { cleanPhone } from "../../src/utils/phone.js";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -58,7 +53,8 @@ export default async function handler(req, res) {
   const { data: recipientRows, error: recipientError } = await supabase
     .from("members")
     .select("id, name, phone")
-    .in("id", uniqueIds);
+    .in("id", uniqueIds)
+    .is("deleted_at", null);
 
   if (recipientError) {
     console.error("Recipient lookup error:", recipientError);

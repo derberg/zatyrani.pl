@@ -32,6 +32,7 @@ export async function authorizeSender(req, supabase) {
     .from("members")
     .select("id, name, can_send_sms")
     .eq("id", session.memberId)
+    .is("deleted_at", null)
     .limit(1);
   if (error) throw new Error("Lookup failed");
   const member = rows && rows[0];
