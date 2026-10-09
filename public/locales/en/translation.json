@@ -805,7 +805,10 @@
   },
   "halfmarathon": {
     "title": "Wilczy Half Marathon",
-    "schedule_title": "Event day schedule",
+    "schedule_title": "Event schedule",
+    "schedule_day_before": "Friday, 16.10 — the day before the race",
+    "schedule_office_day_before": "Race office open — you can pick up your start packet a day early",
+    "schedule_event_day": "Saturday, 17.10 — race day",
     "schedule_office_open": "Race office opens and start packets are handed out",
     "schedule_briefing": "Briefing and warm-up",
     "schedule_canicross_start": "Start of the run with dogs (canicross)",

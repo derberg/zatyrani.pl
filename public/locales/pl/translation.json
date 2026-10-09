@@ -805,7 +805,10 @@
   },
   "halfmarathon": {
     "title": "Wilczy Półmaraton",
-    "schedule_title": "Harmonogram dnia wydarzenia",
+    "schedule_title": "Harmonogram wydarzenia",
+    "schedule_day_before": "Piątek, 16.10 — dzień przed zawodami",
+    "schedule_office_day_before": "Biuro zawodów otwarte — możesz odebrać pakiet startowy dzień wcześniej",
+    "schedule_event_day": "Sobota, 17.10 — dzień zawodów",
     "schedule_office_open": "Otwarcie biura zawodów i wydawanie pakietów",
     "schedule_briefing": "Odprawa i rozgrzewka",
     "schedule_canicross_start": "Start biegu z psami (canicross)",
