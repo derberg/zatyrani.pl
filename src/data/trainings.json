@@ -944,5 +944,16 @@
     "phone": "519194995",
     "distance": 10,
     "pace": 6
+  },
+  {
+    "uid": "bieg-11-10-2026-8-0-wilcza-cmentarz-21-6",
+    "type": "bieg",
+    "datetime": "11/10/2026 08:00",
+    "location": "Wilcza – Cmentarz",
+    "locationLink": "https://maps.app.goo.gl/NwiX62pvY3kmyV3M8",
+    "comment": "Przetarcie trasy Wilczego Półmaratonu.",
+    "phone": "791997150",
+    "distance": 21,
+    "pace": 6
   }
 ]
