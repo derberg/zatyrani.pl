@@ -1,6 +1,7 @@
 import { getSupabaseClient } from "../../../shared/supabase.js";
 import { createPaymentLink } from "../../../niebocross/utils/sibs.js";
 import { repricePendingPayment } from "../../../shared/database-operations.js";
+import { isRegistrationOpen } from "../../../shared/participant-validation.js";
 import { getEventConfig } from "../../config.js";
 import { setCorsHeaders } from "../../../shared/cors.js";
 
@@ -30,6 +31,12 @@ export default async function handler(req, res) {
         success: false,
         error: "Registration ID is required"
       });
+    }
+
+    // Payments close together with registration (end of registrationDeadline).
+    // Sessions started before the deadline still complete via the webhook.
+    if (!isRegistrationOpen(eventConfig)) {
+      return res.status(400).json({ success: false, error: "PAYMENT_CLOSED" });
     }
 
     const supabase = getSupabaseClient();

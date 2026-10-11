@@ -66,7 +66,8 @@ export const EVENTS = {
     tshirtEnabled: true,
     tshirtPrice: 80,
     tshirtImage: '/halfmarathon/2026/koszulka.jpeg',
-    tshirtSizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL']
+    tshirtSizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
+    registrationDeadline: '2026-10-15'
   },
   // Free night run. No payment is ever created (paymentEnabled: false). People who
   // registered for wilczypolmaraton-2026 are recognised and their data is prefilled

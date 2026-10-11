@@ -1,5 +1,5 @@
 import { verifyToken } from "../../shared/auth.js";
-import { validateParticipant } from "../../shared/participant-validation.js";
+import { validateParticipant, isRegistrationOpen } from "../../shared/participant-validation.js";
 import { createParticipantRecords, upsertClubs, updateOrCreatePayment } from "../../shared/database-operations.js";
 import { sendRegistrationConfirmationEmail } from "../../shared/email.js";
 import { getSupabaseClient } from "../../shared/supabase.js";
@@ -33,6 +33,10 @@ export default async function handler(req, res) {
         success: false,
         error: authResult.error
       });
+    }
+
+    if (!isRegistrationOpen(eventConfig)) {
+      return res.status(400).json({ success: false, error: "REGISTRATION_CLOSED" });
     }
 
     const { registration_id } = authResult;
