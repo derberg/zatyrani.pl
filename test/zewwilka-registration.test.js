@@ -20,7 +20,13 @@ describe('isRegistrationOpen', () => {
   });
 
   it('treats events without a deadline as always open', () => {
-    expect(isRegistrationOpen(wilczy, new Date('2030-01-01T00:00:00Z'))).toBe(true);
+    const noDeadline = { ...wilczy, registrationDeadline: undefined };
+    expect(isRegistrationOpen(noDeadline, new Date('2030-01-01T00:00:00Z'))).toBe(true);
+  });
+
+  it('closes wilczypolmaraton after 15 Oct 2026', () => {
+    expect(isRegistrationOpen(wilczy, new Date('2026-10-15T21:00:00Z'))).toBe(true);
+    expect(isRegistrationOpen(wilczy, new Date('2026-10-16T00:00:00Z'))).toBe(false);
   });
 });
 

@@ -1,6 +1,7 @@
 import { verifyToken } from "../../shared/auth.js";
 import { getSupabaseClient } from "../../shared/supabase.js";
 import { repricePendingPayment } from "../../shared/database-operations.js";
+import { isRegistrationOpen } from "../../shared/participant-validation.js";
 import { getEventConfig } from "../config.js";
 import { setCorsHeaders } from "../../shared/cors.js";
 
@@ -130,7 +131,9 @@ export default async function handler(req, res) {
     const canEdit = !hasPaidPayment && !isPaid && !isAfterEventDate;
 
     // canAddParticipants: can add new participants (allowed even after payment, creates new pending payment)
-    const canAddParticipants = !isAfterEventDate;
+    // paymentOpen: registration and payments close together at registrationDeadline
+    const paymentOpen = isRegistrationOpen(eventConfig);
+    const canAddParticipants = !isAfterEventDate && paymentOpen;
 
     return res.status(200).json({
       success: true,
@@ -172,6 +175,8 @@ export default async function handler(req, res) {
       lastPaidAt: paidPayments.length > 0 ? (paidPayments[0].paid_at || paidPayments[0].updated_at || paidPayments[0].created_at) : null,
       canEdit,
       canAddParticipants,
+      paymentOpen,
+      tshirtEnabled: Boolean(eventConfig.tshirtEnabled),
       priceIncrease: buildPriceIncreasePayload(pendingPayment, eventConfig, repriceResult)
     });
 

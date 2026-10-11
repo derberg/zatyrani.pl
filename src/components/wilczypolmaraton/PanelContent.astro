@@ -237,6 +237,7 @@ const loginLink = locale === 'en' ? '/en/wilczy-polmaraton/zaloguj' : '/wilczy-p
                   {t("wilczypolmaraton.form.tshirt_size")}
                 </label>
                 <TshirtSizeSelector name="editTshirtSize" id="editTshirtSize" t={t} />
+                <p id="editTshirtClosed" class="hidden mt-1 text-xs text-slate-600">{t("wilczypolmaraton.errors.tshirt_closed")}</p>
               </div>
             </div>
 
@@ -279,6 +280,7 @@ const loginLink = locale === 'en' ? '/en/wilczy-polmaraton/zaloguj' : '/wilczy-p
     locale,
     translations: {
       no_registered_participants: t("wilczypolmaraton.panel.no_registered_participants"),
+      registration_closed: t("wilczypolmaraton.errors.registration_closed"),
       paid: t("wilczypolmaraton.panel.paid"),
       awaiting_payment: t("wilczypolmaraton.panel.awaiting_payment"),
       payment_failed: t("wilczypolmaraton.panel.payment_failed"),
@@ -288,6 +290,7 @@ const loginLink = locale === 'en' ? '/en/wilczy-polmaraton/zaloguj' : '/wilczy-p
       amount_to_pay: t("wilczypolmaraton.panel.amount_to_pay"),
       including_charity: t("wilczypolmaraton.panel.including_charity"),
       pay_now: t("wilczypolmaraton.panel.pay_now"),
+      payment_closed: t("wilczypolmaraton.panel.payment_closed"),
       price_increase_title: t("wilczypolmaraton.panel.price_increase_title"),
       price_increase_body: t("wilczypolmaraton.panel.price_increase_body"),
       price_increase_body_persistent: t("wilczypolmaraton.panel.price_increase_body_persistent"),
@@ -301,6 +304,7 @@ const loginLink = locale === 'en' ? '/en/wilczy-polmaraton/zaloguj' : '/wilczy-p
     errorMessages: {
       load: t("wilczypolmaraton.errors.load_error"),
       update: t("wilczypolmaraton.errors.update_error"),
+      TSHIRT_CLOSED: t("wilczypolmaraton.errors.tshirt_closed"),
       delete: t("wilczypolmaraton.errors.delete_error"),
       connection: t("wilczypolmaraton.errors.connection_error"),
       generic: t("wilczypolmaraton.errors.generic_error")
@@ -312,6 +316,7 @@ const loginLink = locale === 'en' ? '/en/wilczy-polmaraton/zaloguj' : '/wilczy-p
     const homeUrl = locale === 'en' ? '/en/wilczy-polmaraton' : '/wilczy-polmaraton';
 
     let canAddParticipants = false;
+    let paymentOpen = true;
     let dashboardData = null;
 
     // Check authentication
@@ -345,6 +350,7 @@ const loginLink = locale === 'en' ? '/en/wilczy-polmaraton/zaloguj' : '/wilczy-p
 
         dashboardData = await response.json();
         canAddParticipants = dashboardData.canAddParticipants;
+        paymentOpen = dashboardData.paymentOpen !== false;
 
         renderDashboard();
       } catch (error) {
@@ -368,7 +374,7 @@ const loginLink = locale === 'en' ? '/en/wilczy-polmaraton/zaloguj' : '/wilczy-p
       renderPaymentStatus();
 
       // Pre-generate SIBS payment session in background so it's cached when user clicks "pay now"
-      if (dashboardData.payment && dashboardData.payment.paymentStatus !== 'paid') {
+      if (paymentOpen && dashboardData.payment && dashboardData.payment.paymentStatus !== 'paid') {
         fetch(`${API_BASE}/payment/${dashboardData.registration.id}`, {
           credentials: 'include'
         }).catch(() => {}); // fire-and-forget
@@ -415,7 +421,7 @@ const loginLink = locale === 'en' ? '/en/wilczy-polmaraton/zaloguj' : '/wilczy-p
 
       if (!payment) {
         statusDiv.className = 'rounded-xl border-2 border-slate-200 bg-slate-50 p-6';
-        statusDiv.innerHTML = `<p class="text-slate-600">${translations.no_registered_participants}</p>`;
+        statusDiv.innerHTML = `<p class="text-slate-600">${translations.no_registered_participants}</p>${paymentOpen ? '' : `<p class="mt-2 font-semibold text-slate-700">${translations.registration_closed}</p>`}`;
         return;
       }
 
@@ -454,7 +460,7 @@ const loginLink = locale === 'en' ? '/en/wilczy-polmaraton/zaloguj' : '/wilczy-p
                 </svg>
                 <h3 class="text-lg font-bold text-red-800">${translations.payment_failed}</h3>
               </div>
-              <p class="mt-2 text-sm text-red-700">${translations.payment_failed_desc}</p>
+              ${paymentOpen ? `<p class="mt-2 text-sm text-red-700">${translations.payment_failed_desc}</p>` : ''}
               ${paidLine}
               <p class="mt-1 text-sm text-slate-600">${translations.amount_to_pay}: <strong>${payment.totalAmount} zł</strong></p>
               <div class="mt-3 text-sm text-slate-600">
@@ -467,12 +473,12 @@ const loginLink = locale === 'en' ? '/en/wilczy-polmaraton/zaloguj' : '/wilczy-p
               </div>
             </div>
             <div class="shrink-0">
-              <a
+              ${paymentOpen ? `<a
                 href="${paymentBase}?id=${dashboardData.registration.id}"
                 class="inline-block rounded-lg bg-emerald-600 px-6 py-3 font-semibold text-white transition hover:bg-emerald-700"
               >
                 ${translations.retry_payment}
-              </a>
+              </a>` : `<p class="text-sm font-semibold text-slate-700">${translations.payment_closed}</p>`}
             </div>
           </div>
         `;
@@ -489,12 +495,12 @@ const loginLink = locale === 'en' ? '/en/wilczy-polmaraton/zaloguj' : '/wilczy-p
             ${paidLine}
             <p class="mt-1 text-sm text-slate-600">${translations.amount_to_pay}: <strong>${payment.totalAmount} zł</strong></p>
           </div>
-          <a
+          ${paymentOpen ? `<a
             href="${paymentBase}?id=${dashboardData.registration.id}"
             class="rounded-lg bg-emerald-600 px-6 py-3 font-semibold text-white transition hover:bg-emerald-700"
           >
             ${translations.pay_now}
-          </a>
+          </a>` : `<p class="max-w-xs text-sm font-semibold text-slate-700">${translations.payment_closed}</p>`}
         </div>
       `;
     }
@@ -601,7 +607,13 @@ const loginLink = locale === 'en' ? '/en/wilczy-polmaraton/zaloguj' : '/wilczy-p
       document.getElementById('editClub').value = participant.club || '';
       document.getElementById('editPhoneNumber').value = participant.phoneNumber || '';
       document.getElementById('editRaceCategory').value = participant.raceCategory;
-      document.getElementById('editTshirtSize').value = participant.tshirtSize || '';
+      const editTshirtSize = document.getElementById('editTshirtSize');
+      editTshirtSize.value = participant.tshirtSize || '';
+      // T-shirt sales closed: only keep the current size or drop it
+      for (const option of editTshirtSize.options) {
+        option.disabled = dashboardData.tshirtEnabled === false && option.value !== '' && option.value !== (participant.tshirtSize || '');
+      }
+      document.getElementById('editTshirtClosed').classList.toggle('hidden', dashboardData.tshirtEnabled !== false);
       // Set gender radio
       const genderRadio = document.querySelector(`input[name="editGender"][value="${participant.gender}"]`);
       if (genderRadio) genderRadio.checked = true;
@@ -677,7 +689,7 @@ const loginLink = locale === 'en' ? '/en/wilczy-polmaraton/zaloguj' : '/wilczy-p
         const data = await response.json();
 
         if (!response.ok) {
-          errorDiv.textContent = data.error || errorMessages.update;
+          errorDiv.textContent = errorMessages[data.error] || data.error || errorMessages.update;
           errorDiv.classList.remove('hidden');
           return;
         }

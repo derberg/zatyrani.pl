@@ -17,6 +17,12 @@ const { t, locale = 'pl' } = Astro.props;
     <p class="text-lg text-slate-600">{t("wilczypolmaraton.add_participants.checking_auth")}</p>
   </div>
 
+  <!-- Shown when registration is closed (dashboard.canAddParticipants === false) -->
+  <div id="registrationClosed" class="hidden mx-auto max-w-2xl rounded-xl border-2 border-amber-200 bg-amber-50 p-8 text-center">
+    <p class="text-lg font-semibold text-slate-900">{t("wilczypolmaraton.errors.registration_closed")}</p>
+    <a href={locale === 'en' ? '/en/wilczy-polmaraton/panel' : '/wilczy-polmaraton/panel'} class="mt-4 inline-block font-semibold text-emerald-700 hover:underline">{t("wilczypolmaraton.add_participants.back_to_panel")}</a>
+  </div>
+
   <!-- Main content (hidden until auth verified) -->
   <div id="content" class="hidden">
 
@@ -201,6 +207,8 @@ const { t, locale = 'pl' } = Astro.props;
 <script define:vars={{
   locale,
   errorMessages: {
+    REGISTRATION_CLOSED: t("wilczypolmaraton.errors.registration_closed"),
+    TSHIRT_CLOSED: t("wilczypolmaraton.errors.tshirt_closed"),
     connection: t("wilczypolmaraton.errors.connection_error"),
     generic: t("wilczypolmaraton.errors.generic_error")
   },
@@ -275,6 +283,7 @@ const { t, locale = 'pl' } = Astro.props;
   let editingIndex = -1;        // -1 = adding new, >= 0 = editing existing
   let currentFees = null;       // Fetched from /api/events/.../fees
   let tshirtPrice = 0;
+  let tshirtEnabled = true;
   let feeSchedule = [];
   let currentParticipant = {};  // Being built across 3a/3b
 
@@ -339,6 +348,7 @@ const { t, locale = 'pl' } = Astro.props;
       if (data.success) {
         currentFees = data.fees;
         tshirtPrice = data.tshirtPrice || 0;
+        tshirtEnabled = data.tshirtEnabled !== false;
         feeSchedule = data.feeSchedule || [];
         feesFetched = true;
 
@@ -554,6 +564,13 @@ const { t, locale = 'pl' } = Astro.props;
       if (sizeSelect) sizeSelect.value = tshirtToRestore;
     }
 
+    // T-shirt sales closed: skip the t-shirt step
+    if (!tshirtEnabled) {
+      renderParticipantSummary(currentParticipant);
+      showStep(step3c);
+      return;
+    }
+
     showStep(step3b);
   });
 
@@ -595,6 +612,10 @@ const { t, locale = 'pl' } = Astro.props;
 
   // ─── Step 3c: Back to t-shirt step ──────────────────────
   step3cBackBtn.addEventListener('click', () => {
+    if (!tshirtEnabled) {
+      enterStep3a(currentParticipant);
+      return;
+    }
     // Restore t-shirt checkbox/size from currentParticipant
     const sizeSelect = document.querySelector('[name="tshirtSize_current"]');
     if (currentParticipant.tshirtSize) {
@@ -772,7 +793,7 @@ const { t, locale = 'pl' } = Astro.props;
       const data = await response.json();
 
       if (!response.ok) {
-        step4Error.textContent = data.error || errorMessages.generic;
+        step4Error.textContent = errorMessages[data.error] || data.error || errorMessages.generic;
         step4Error.classList.remove('hidden');
         submitRegistrationBtn.disabled = false;
         return;
@@ -794,9 +815,19 @@ const { t, locale = 'pl' } = Astro.props;
   if (!authCookie || authCookie.split('=')[1] !== 'true') {
     window.location.href = locale === 'en' ? '/en/wilczy-polmaraton/zaloguj' : '/wilczy-polmaraton/zaloguj';
   } else {
-    document.getElementById('authCheck').classList.add('hidden');
-    document.getElementById('content').classList.remove('hidden');
-    enterStep3a();
+    // Don't let people fill the whole form when registration is already closed
+    fetch(`${API_BASE}/dashboard`, { credentials: 'include' })
+      .then(r => (r.ok ? r.json() : null))
+      .catch(() => null)
+      .then(dashboard => {
+        document.getElementById('authCheck').classList.add('hidden');
+        if (dashboard && dashboard.canAddParticipants === false) {
+          document.getElementById('registrationClosed').classList.remove('hidden');
+          return;
+        }
+        document.getElementById('content').classList.remove('hidden');
+        enterStep3a();
+      });
   }
 
 </script>

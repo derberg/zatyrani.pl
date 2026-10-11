@@ -212,6 +212,18 @@
           const response = await fetch(`/api/events/wilczypolmaraton-2026/payment/${paymentId}`);
           const data = await response.json();
 
+          if (!response.ok && data.error === 'PAYMENT_CLOSED') {
+            const title = document.getElementById('title');
+            const message = document.getElementById('message');
+            const spinner = document.getElementById('spinner');
+            const panelLink = document.getElementById('panel-link');
+            if (title) title.textContent = 'Płatności zamknięte';
+            if (message) message.textContent = 'Zapisy i płatności na Wilczy Półmaraton zostały zamknięte 15 października 2026.';
+            if (spinner) spinner.style.display = 'none';
+            if (panelLink) panelLink.style.display = 'inline-block';
+            return;
+          }
+
           if (!response.ok) {
             throw new Error(data.error || 'Failed to load payment details');
           }

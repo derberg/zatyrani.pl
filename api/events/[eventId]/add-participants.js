@@ -1,5 +1,5 @@
 import { verifyToken } from "../../shared/auth.js";
-import { validateParticipant } from "../../shared/participant-validation.js";
+import { validateParticipant, isRegistrationOpen } from "../../shared/participant-validation.js";
 import { createParticipantRecords, upsertClubs, updateOrCreatePayment } from "../../shared/database-operations.js";
 import { sendRegistrationConfirmationEmail } from "../../shared/email.js";
 import { getSupabaseClient } from "../../shared/supabase.js";
@@ -35,6 +35,10 @@ export default async function handler(req, res) {
       });
     }
 
+    if (!isRegistrationOpen(eventConfig)) {
+      return res.status(400).json({ success: false, error: "REGISTRATION_CLOSED" });
+    }
+
     const { registration_id } = authResult;
     const { participants, extraDonation } = req.body;
 
@@ -43,6 +47,10 @@ export default async function handler(req, res) {
         success: false,
         error: "Co najmniej jeden uczestnik jest wymagany"
       });
+    }
+
+    if (!eventConfig.tshirtEnabled && participants.some(p => p.tshirtSize)) {
+      return res.status(400).json({ success: false, error: "TSHIRT_CLOSED" });
     }
 
     // Validate all participants

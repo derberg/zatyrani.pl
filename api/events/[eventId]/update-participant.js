@@ -1,5 +1,5 @@
 import { verifyToken } from "../../shared/auth.js";
-import { validateParticipant } from "../../shared/participant-validation.js";
+import { validateParticipant, isRegistrationOpen } from "../../shared/participant-validation.js";
 import { updateOrCreatePayment } from "../../shared/database-operations.js";
 import { getSupabaseClient } from "../../shared/supabase.js";
 import { getEventConfig } from "../config.js";
@@ -32,6 +32,10 @@ export default async function handler(req, res) {
         success: false,
         error: authResult.error
       });
+    }
+
+    if (!isRegistrationOpen(eventConfig)) {
+      return res.status(400).json({ success: false, error: "REGISTRATION_CLOSED" });
     }
 
     const { registration_id } = authResult;
@@ -96,6 +100,11 @@ export default async function handler(req, res) {
         success: false,
         error: "Uczestnik nie znaleziony"
       });
+    }
+
+    // T-shirt sales closed: an existing order can be kept or dropped, not added or changed
+    if (!eventConfig.tshirtEnabled && participant.tshirtSize && participant.tshirtSize !== existingParticipant.tshirt_size) {
+      return res.status(400).json({ success: false, error: "TSHIRT_CLOSED" });
     }
 
     // Per-participant paid check: block edits for participants created on/before the
