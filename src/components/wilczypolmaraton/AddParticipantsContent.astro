@@ -208,6 +208,7 @@ const { t, locale = 'pl' } = Astro.props;
   locale,
   errorMessages: {
     REGISTRATION_CLOSED: t("wilczypolmaraton.errors.registration_closed"),
+    TSHIRT_CLOSED: t("wilczypolmaraton.errors.tshirt_closed"),
     connection: t("wilczypolmaraton.errors.connection_error"),
     generic: t("wilczypolmaraton.errors.generic_error")
   },
@@ -282,6 +283,7 @@ const { t, locale = 'pl' } = Astro.props;
   let editingIndex = -1;        // -1 = adding new, >= 0 = editing existing
   let currentFees = null;       // Fetched from /api/events/.../fees
   let tshirtPrice = 0;
+  let tshirtEnabled = true;
   let feeSchedule = [];
   let currentParticipant = {};  // Being built across 3a/3b
 
@@ -346,6 +348,7 @@ const { t, locale = 'pl' } = Astro.props;
       if (data.success) {
         currentFees = data.fees;
         tshirtPrice = data.tshirtPrice || 0;
+        tshirtEnabled = data.tshirtEnabled !== false;
         feeSchedule = data.feeSchedule || [];
         feesFetched = true;
 
@@ -561,6 +564,13 @@ const { t, locale = 'pl' } = Astro.props;
       if (sizeSelect) sizeSelect.value = tshirtToRestore;
     }
 
+    // T-shirt sales closed: skip the t-shirt step
+    if (!tshirtEnabled) {
+      renderParticipantSummary(currentParticipant);
+      showStep(step3c);
+      return;
+    }
+
     showStep(step3b);
   });
 
@@ -602,6 +612,10 @@ const { t, locale = 'pl' } = Astro.props;
 
   // ─── Step 3c: Back to t-shirt step ──────────────────────
   step3cBackBtn.addEventListener('click', () => {
+    if (!tshirtEnabled) {
+      enterStep3a(currentParticipant);
+      return;
+    }
     // Restore t-shirt checkbox/size from currentParticipant
     const sizeSelect = document.querySelector('[name="tshirtSize_current"]');
     if (currentParticipant.tshirtSize) {

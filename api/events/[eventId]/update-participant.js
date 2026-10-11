@@ -102,6 +102,11 @@ export default async function handler(req, res) {
       });
     }
 
+    // T-shirt sales closed: an existing order can be kept or dropped, not added or changed
+    if (!eventConfig.tshirtEnabled && participant.tshirtSize && participant.tshirtSize !== existingParticipant.tshirt_size) {
+      return res.status(400).json({ success: false, error: "TSHIRT_CLOSED" });
+    }
+
     // Per-participant paid check: block edits for participants created on/before the
     // latest paid_at. Mirrors delete-participant.js:88-99.
     const paidPayment = (allPayments || []).find(p => p.payment_status === 'paid');

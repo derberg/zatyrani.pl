@@ -237,6 +237,7 @@ const loginLink = locale === 'en' ? '/en/wilczy-polmaraton/zaloguj' : '/wilczy-p
                   {t("wilczypolmaraton.form.tshirt_size")}
                 </label>
                 <TshirtSizeSelector name="editTshirtSize" id="editTshirtSize" t={t} />
+                <p id="editTshirtClosed" class="hidden mt-1 text-xs text-slate-600">{t("wilczypolmaraton.errors.tshirt_closed")}</p>
               </div>
             </div>
 
@@ -303,6 +304,7 @@ const loginLink = locale === 'en' ? '/en/wilczy-polmaraton/zaloguj' : '/wilczy-p
     errorMessages: {
       load: t("wilczypolmaraton.errors.load_error"),
       update: t("wilczypolmaraton.errors.update_error"),
+      TSHIRT_CLOSED: t("wilczypolmaraton.errors.tshirt_closed"),
       delete: t("wilczypolmaraton.errors.delete_error"),
       connection: t("wilczypolmaraton.errors.connection_error"),
       generic: t("wilczypolmaraton.errors.generic_error")
@@ -605,7 +607,13 @@ const loginLink = locale === 'en' ? '/en/wilczy-polmaraton/zaloguj' : '/wilczy-p
       document.getElementById('editClub').value = participant.club || '';
       document.getElementById('editPhoneNumber').value = participant.phoneNumber || '';
       document.getElementById('editRaceCategory').value = participant.raceCategory;
-      document.getElementById('editTshirtSize').value = participant.tshirtSize || '';
+      const editTshirtSize = document.getElementById('editTshirtSize');
+      editTshirtSize.value = participant.tshirtSize || '';
+      // T-shirt sales closed: only keep the current size or drop it
+      for (const option of editTshirtSize.options) {
+        option.disabled = dashboardData.tshirtEnabled === false && option.value !== '' && option.value !== (participant.tshirtSize || '');
+      }
+      document.getElementById('editTshirtClosed').classList.toggle('hidden', dashboardData.tshirtEnabled !== false);
       // Set gender radio
       const genderRadio = document.querySelector(`input[name="editGender"][value="${participant.gender}"]`);
       if (genderRadio) genderRadio.checked = true;
@@ -681,7 +689,7 @@ const loginLink = locale === 'en' ? '/en/wilczy-polmaraton/zaloguj' : '/wilczy-p
         const data = await response.json();
 
         if (!response.ok) {
-          errorDiv.textContent = data.error || errorMessages.update;
+          errorDiv.textContent = errorMessages[data.error] || data.error || errorMessages.update;
           errorDiv.classList.remove('hidden');
           return;
         }

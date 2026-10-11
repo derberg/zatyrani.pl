@@ -49,6 +49,10 @@ export default async function handler(req, res) {
       });
     }
 
+    if (!eventConfig.tshirtEnabled && participants.some(p => p.tshirtSize)) {
+      return res.status(400).json({ success: false, error: "TSHIRT_CLOSED" });
+    }
+
     // Validate all participants
     for (const participant of participants) {
       const validation = validateParticipant(participant, eventConfig);

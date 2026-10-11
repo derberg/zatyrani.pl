@@ -63,7 +63,9 @@ export const EVENTS = {
       { group: 'canicross', categories: ['21km_canicross'], limit: 30 },
       { group: 'nw', categories: ['11km_nw'], limit: 30 }
     ],
-    tshirtEnabled: true,
+    // T-shirt sales closed: no new orders. tshirtPrice stays so t-shirts that
+    // were already ordered are still charged in pending payments.
+    tshirtEnabled: false,
     tshirtPrice: 80,
     tshirtImage: '/halfmarathon/2026/koszulka.jpeg',
     tshirtSizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],

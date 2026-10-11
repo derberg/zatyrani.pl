@@ -578,6 +578,7 @@
       "invalid_code_contact_link": "skontaktuj się z nami",
       "code_expired": "Kod wygasł",
       "registration_closed": "Zapisy na Wilczy Półmaraton zostały zamknięte 15 października 2026.",
+      "tshirt_closed": "Sprzedaż koszulek została zakończona.",
       "code_not_found": "Kod nie znaleziony",
       "unauthorized": "Nieautoryzowany dostęp",
       "token_invalid": "Nieprawidłowy token sesji",
@@ -872,6 +873,7 @@
     "price_nw_value": "100 zł (cena stała)",
     "price_tshirt_label": "Koszulka pamiątkowa (opcjonalnie)",
     "price_tshirt_value": "80 zł",
+    "price_tshirt_closed": "sprzedaż zakończona",
     "prices_note": "Jeśli zapiszesz się w maju, ale opłacisz po 31.05.2026, obowiązuje cena z czerwca."
   },
   "members_content": {

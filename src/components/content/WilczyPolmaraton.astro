@@ -1,12 +1,15 @@
 ---
 import PhotoGallery from "../PhotoGallery.astro";
 import { marathonPhotos2025 } from "../../data/marathon-photos";
+import { EVENTS } from "../../../api/events/config.js";
 
 interface Props {
   t: (key: string) => string;
 }
 
 const { t } = Astro.props;
+
+const tshirtSalesOpen = EVENTS["wilczypolmaraton-2026"].tshirtEnabled;
 
 const eventDate = "17.10.2026";
 const eventNumber = "IV";
@@ -439,7 +442,7 @@ const raceOfficeMapLink = `https://www.google.com/maps/search/?api=1&query=${enc
           loading="lazy"
         />
         <span>
-          <span class="font-semibold">{t("halfmarathon.price_tshirt_label")}</span> — {t("halfmarathon.price_tshirt_value")}
+          <span class="font-semibold">{t("halfmarathon.price_tshirt_label")}</span> — {tshirtSalesOpen ? t("halfmarathon.price_tshirt_value") : t("halfmarathon.price_tshirt_closed")}
         </span>
       </span>
     </li>

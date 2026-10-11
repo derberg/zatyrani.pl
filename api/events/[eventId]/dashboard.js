@@ -176,6 +176,7 @@ export default async function handler(req, res) {
       canEdit,
       canAddParticipants,
       paymentOpen,
+      tshirtEnabled: Boolean(eventConfig.tshirtEnabled),
       priceIncrease: buildPriceIncreasePayload(pendingPayment, eventConfig, repriceResult)
     });
 
