@@ -20,7 +20,7 @@ describe('isRegistrationOpen', () => {
   });
 
   it('treats events without a deadline as always open', () => {
-    const { registrationDeadline, ...noDeadline } = wilczy;
+    const noDeadline = { ...wilczy, registrationDeadline: undefined };
     expect(isRegistrationOpen(noDeadline, new Date('2030-01-01T00:00:00Z'))).toBe(true);
   });
 
