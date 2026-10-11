@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 
 // Minimal in-memory stand-in for the supabase-js query builder used by the handlers.
 let rows;
@@ -102,6 +102,10 @@ function paymentRow(overrides) {
 }
 
 beforeEach(() => {
+  // Wilczy payments close after 2026-10-15; run these tests before the deadline
+  // so they keep passing once the real date is past it.
+  vi.useFakeTimers({ toFake: ["Date"] });
+  vi.setSystemTime(new Date("2026-10-14T12:00:00Z"));
   afterRead = null;
   createPaymentLink.mockReset();
   createPaymentLink.mockResolvedValue({ formContext: "new-context", transactionID: "new-tx" });
@@ -191,5 +195,35 @@ describe("retry after a declined/expired BLIK", () => {
     await sendWebhook("Success", "new-tx");
     expect(rows[0].payment_status).toBe("paid");
     expect(sendPaymentConfirmationEmail).toHaveBeenCalledTimes(1);
+  });
+});
+
+afterEach(() => {
+  vi.useRealTimers();
+});
+
+describe("GET /api/events/[eventId]/payment/[id] — after registrationDeadline", () => {
+  it("still hands out a session on the last day (15 Oct, 23:59 UTC)", async () => {
+    vi.setSystemTime(new Date("2026-10-15T23:59:00Z"));
+    rows = [paymentRow({ payment_link: null })];
+    const res = await getPayment();
+    expect(res.statusCode).toBe(200);
+    expect(res.body.payment.formContext).toBe("new-context");
+  });
+
+  it("refuses to create or reuse a SIBS session after 15 Oct", async () => {
+    vi.setSystemTime(new Date("2026-10-16T00:00:00Z"));
+    rows = [paymentRow()];
+    const res = await getPayment();
+    expect(res.statusCode).toBe(400);
+    expect(res.body.error).toBe("PAYMENT_CLOSED");
+    expect(createPaymentLink).not.toHaveBeenCalled();
+  });
+
+  it("still records a pre-deadline session paid after the deadline", async () => {
+    vi.setSystemTime(new Date("2026-10-16T00:05:00Z"));
+    rows = [paymentRow({ transaction_id: "old-tx" })];
+    await sendWebhook("Success", "old-tx");
+    expect(rows[0].payment_status).toBe("paid");
   });
 });
