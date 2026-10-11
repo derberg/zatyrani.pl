@@ -78,8 +78,10 @@ export default async function handler(req, res) {
     }
 
     // Reuse cached SIBS session if it's less than 15 minutes old.
-    // Older sessions go stale (card declines don't trigger webhooks, so status stays
+    // Older sessions go stale (not every failure triggers a webhook, so status can stay
     // "pending" with a dead formContext). After 15 min we create a fresh one.
+    // When SIBS reports a failure for the current session, the webhook clears
+    // payment_link, so a retry right after a declined/expired BLIK gets a new session.
     const SESSION_MAX_AGE_MS = 15 * 60 * 1000;
     if (payment.transaction_id && payment.payment_link) {
       const age = Date.now() - new Date(payment.updated_at || payment.created_at).getTime();
@@ -112,15 +114,29 @@ export default async function handler(req, res) {
       urlStatus: webhookUrl
     });
 
-    // Save formContext and transactionID to database (updated_at used for session TTL)
-    await supabase
+    // Save formContext and transactionID to database (updated_at used for session TTL).
+    // Never touch a paid row — a success webhook may have landed in the meantime.
+    const { data: savedRows, error: saveError } = await supabase
       .from("event_payments")
       .update({
         payment_link: paymentResult.formContext,
         transaction_id: paymentResult.transactionID,
         updated_at: new Date().toISOString()
       })
-      .eq("id", payment.id);
+      .eq("id", payment.id)
+      .neq("payment_status", "paid")
+      .select("id");
+
+    if (saveError) {
+      console.error("Error saving SIBS session:", payment.id, saveError.message);
+    } else if (!savedRows?.length) {
+      // Paid while we were creating the session — don't offer a second payment
+      return res.status(200).json({
+        success: true,
+        has_pending_payment: false,
+        message: "Brak nieopłaconych płatności"
+      });
+    }
 
     return res.status(200).json({
       success: true,
