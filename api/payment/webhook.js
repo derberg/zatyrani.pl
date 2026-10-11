@@ -70,12 +70,22 @@ async function handleEventPayment(supabase, paymentId, transactionId, isPaymentS
     payment_status: isPaymentSuccess ? 'paid' : 'failed',
   };
   if (isPaymentSuccess) updateData.paid_at = new Date().toISOString();
+  // SIBS closed this session — drop the cached formContext so the next payment
+  // request creates a fresh session instead of handing out a dead form
+  else updateData.payment_link = null;
 
   let update = supabase.from("event_payments").update(updateData).eq("id", paymentId);
-  // Guard against a success landing between our read and this write
-  if (!isPaymentSuccess) update = update.neq("payment_status", "paid");
-  const { error: updateError } = await update;
+  if (!isPaymentSuccess) {
+    // Guard against a success, or a newer session, landing between our read and this write
+    update = update.neq("payment_status", "paid");
+    if (payment.transaction_id) update = update.eq("transaction_id", transactionId);
+  }
+  const { data: updatedRows, error: updateError } = await update.select("id");
   if (updateError) console.error('[Webhook] Update error (event_payments):', paymentId, updateError.message);
+  else if (!isPaymentSuccess && !updatedRows?.length) {
+    console.warn('[Webhook] Ignoring failure that lost the race (event_payments):', paymentId, 'tx:', transactionId);
+    return true;
+  }
 
   // Send email
   try {
@@ -118,12 +128,22 @@ async function handleNiebocrossPayment(supabase, paymentId, transactionId, isPay
     payment_status: isPaymentSuccess ? 'paid' : 'failed',
   };
   if (isPaymentSuccess) updateData.paid_at = new Date().toISOString();
+  // SIBS closed this session — drop the cached formContext so the next payment
+  // request creates a fresh session instead of handing out a dead form
+  else updateData.payment_link = null;
 
   let update = supabase.from("niebocross_payments").update(updateData).eq("id", paymentId);
-  // Guard against a success landing between our read and this write
-  if (!isPaymentSuccess) update = update.neq("payment_status", "paid");
-  const { error: updateError } = await update;
+  if (!isPaymentSuccess) {
+    // Guard against a success, or a newer session, landing between our read and this write
+    update = update.neq("payment_status", "paid");
+    if (payment.transaction_id) update = update.eq("transaction_id", transactionId);
+  }
+  const { data: updatedRows, error: updateError } = await update.select("id");
   if (updateError) console.error('[Webhook] Update error (niebocross_payments):', paymentId, updateError.message);
+  else if (!isPaymentSuccess && !updatedRows?.length) {
+    console.warn('[Webhook] Ignoring failure that lost the race (niebocross_payments):', paymentId, 'tx:', transactionId);
+    return true;
+  }
 
   // Send email
   try {
