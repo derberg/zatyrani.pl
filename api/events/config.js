@@ -61,7 +61,7 @@ export const EVENTS = {
     limits: [
       { group: 'run', categories: ['21km'], limit: 220 },
       { group: 'canicross', categories: ['21km_canicross'], limit: 30 },
-      { group: 'nw', categories: ['11km_nw'], limit: 30 }
+      { group: 'nw', categories: ['11km_nw'], limit: 60 }
     ],
     // T-shirt sales closed: no new orders. tshirtPrice stays so t-shirts that
     // were already ordered are still charged in pending payments.

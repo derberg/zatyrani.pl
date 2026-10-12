@@ -35,8 +35,8 @@ describe('getTotalLimit', () => {
     expect(getTotalLimit(zewwilka)).toBe(50);
   });
 
-  it('sums multiple groups (wilczypolmaraton = 220+30+30)', () => {
-    expect(getTotalLimit(wilczy)).toBe(280);
+  it('sums multiple groups (wilczypolmaraton = 220+30+60)', () => {
+    expect(getTotalLimit(wilczy)).toBe(310);
   });
 
   it('returns null when no limits configured', () => {
