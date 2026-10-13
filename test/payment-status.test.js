@@ -36,4 +36,21 @@ describe('getParticipantPaymentStatus', () => {
     expect(getParticipantPaymentStatus({ created_at: '2026-07-01T10:00:00Z' }, payments)).toBe('paid');
     expect(getParticipantPaymentStatus({ created_at: '2026-09-01T10:00:00Z' }, payments)).toBe('pending');
   });
+
+  it('counts a participant created exactly at paid_at as paid', () => {
+    const payments = [
+      { payment_status: 'paid', paid_at: '2026-05-01T10:05:00Z' },
+      { payment_status: 'pending', created_at: '2026-06-01T10:00:00Z' }
+    ];
+    expect(getParticipantPaymentStatus({ created_at: '2026-05-01T10:05:00Z' }, payments)).toBe('paid');
+  });
+
+  it('falls back to created_at when the paid payment has no paid_at or updated_at', () => {
+    const payments = [
+      { payment_status: 'paid', created_at: '2026-05-01T10:00:01Z' },
+      { payment_status: 'pending', created_at: '2026-06-01T10:00:01Z' }
+    ];
+    expect(getParticipantPaymentStatus({ created_at: '2026-05-01T10:00:00Z' }, payments)).toBe('paid');
+    expect(getParticipantPaymentStatus({ created_at: '2026-06-01T10:00:00Z' }, payments)).toBe('pending');
+  });
 });

@@ -6,8 +6,8 @@
  * open (pending/failed) top-up and the participant was added after the latest paid
  * payment — then the participant is covered by that unpaid top-up.
  *
- * Every place that decides who is paid (public list, its counters, recipient lists)
- * should use this so the numbers always agree.
+ * The public list and its counters both use this, so they always agree. Recipient
+ * lists for "paid participants only" messages should use it too.
  *
  * @param {{ created_at: string }} participant
  * @param {Array<{ payment_status: string, paid_at?: string, updated_at?: string, created_at?: string }>} payments
