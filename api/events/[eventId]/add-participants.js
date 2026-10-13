@@ -76,13 +76,16 @@ export default async function handler(req, res) {
       });
     }
 
-    // Get existing pending payment (if any)
-    // Note: A registration can have multiple payments, but only one pending at a time
+    // Get existing open (pending or failed) payment (if any). A failed payment can still
+    // be retried, so new participants join it instead of starting a second open payment.
+    // Note: A registration can have multiple payments, but only one open at a time
     const { data: existingPendingPayment } = await supabase
       .from("event_payments")
       .select("*")
       .eq("registration_id", registration_id)
-      .eq("payment_status", "pending")
+      .in("payment_status", ["pending", "failed"])
+      .order("created_at", { ascending: false })
+      .limit(1)
       .single();
 
     // Get latest paid payment (if any). Used to identify which participants are
