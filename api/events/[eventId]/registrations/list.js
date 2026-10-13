@@ -1,6 +1,7 @@
 import { getSupabaseClient } from "../../../shared/supabase.js";
 import { getGroupForCategory, buildPaidCounts, buildLimitsAndCounts } from "../../../shared/limits.js";
 import { shouldFilterEmail } from "../../../shared/test-data-filter.js";
+import { getParticipantPaymentStatus } from "../../../shared/payment-status.js";
 import { getEventConfig } from "../../config.js";
 import { setCorsHeaders } from "../../../shared/cors.js";
 
@@ -95,10 +96,14 @@ export default async function handler(req, res) {
     // Calculate counts for paid participants per group
     const paidCounts = buildPaidCounts(eventConfig);
 
+    // Same per-participant status as the list below, so counters match the "paid" filter
+    const statusByParticipant = new Map(filteredParticipants.map(p => [
+      p,
+      getParticipantPaymentStatus(p, p.event_registrations?.event_payments)
+    ]));
+
     filteredParticipants.forEach(p => {
-      const payments = p.event_registrations?.event_payments || [];
-      const hasPaidPayment = payments.some(pay => pay.payment_status === 'paid');
-      if (hasPaidPayment) {
+      if (statusByParticipant.get(p) === 'paid') {
         const group = getGroupForCategory(p.race_category, eventConfig);
         if (group && Object.hasOwn(paidCounts, group)) {
           paidCounts[group]++;
@@ -117,20 +122,7 @@ export default async function handler(req, res) {
       registeredFromSource: sourceEmails.has(
         (p.event_registrations?.email || "").trim().toLowerCase()
       ),
-      paymentStatus: (() => {
-        const payments = p.event_registrations?.event_payments || [];
-        const hasPaidPayment = payments.some(pay => pay.payment_status === 'paid');
-        const hasPendingPayment = payments.some(pay => pay.payment_status === 'pending' || pay.payment_status === 'failed');
-        // If there's a paid payment, mark as paid unless there's also a pending one (top-up for new participants)
-        // In that case, check if participant was created before the paid payment
-        if (hasPaidPayment && hasPendingPayment) {
-          const paidPayment = payments.find(pay => pay.payment_status === 'paid');
-          const paidAt = paidPayment.paid_at || paidPayment.updated_at || paidPayment.created_at;
-          return new Date(p.created_at) <= new Date(paidAt) ? 'paid' : 'pending';
-        }
-        if (hasPaidPayment) return 'paid';
-        return 'pending';
-      })()
+      paymentStatus: statusByParticipant.get(p)
     }));
 
     // Apply payment status filter
