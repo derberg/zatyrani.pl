@@ -16,6 +16,8 @@ const eventNumber = "IV";
 const ytPreviewLink = "https://www.youtube.com/embed/sY6au0yZyp4";
 const raceOfficeAddress = "GOK Wilcza, ul. Karola Miarki 123, 44-189 Wilcza";
 const raceOfficeMapLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(raceOfficeAddress)}`;
+const regulationsUrl = "https://docs.google.com/document/d/1WtKIgGkY9CwkGpiz048nbxFYlqSwO4RqWK8UcyHAMRc/edit?usp=sharing";
+const liveResultsUrl = "https://leszy.run/events/wilczy-pmaraton/results";
 const parkings = [
   { label: "Parking 1", url: "https://maps.app.goo.gl/1xzu4zNgUSTs6CGm9", noteKey: "halfmarathon.info_parking_1" },
   { label: "Parking 2", url: "https://maps.app.goo.gl/oVJDAYTzAbq3EeaH9", noteKey: "halfmarathon.info_parking_2" },
@@ -71,6 +73,23 @@ const parkings = [
           {t("halfmarathon.participants_list_button")}
         </a>
       </div>
+      <a
+        href={liveResultsUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-full"
+      >
+        <span class="h-2 w-2 rounded-full bg-white animate-pulse"></span>
+        {t("halfmarathon.live_results_button")}
+      </a>
+      <a
+        href={regulationsUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-block bg-white/20 hover:bg-white/30 text-white px-8 py-3 rounded-full backdrop-blur-sm border border-white/40"
+      >
+        {t("halfmarathon.regulations_button")}
+      </a>
     </div>
   </div>
 </div>
