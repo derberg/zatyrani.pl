@@ -822,7 +822,6 @@
     "info_title": "Practical information",
     "info_qr_title": "Confirm your start and get your QR code",
     "info_qr_text": "Every participant gets a personal link by email and SMS. Clicking it, you accept the race regulations, which is your final confirmation of the start, and you get a QR code.",
-    "info_qr_lost": "Can't find your link? Write to us:",
     "info_package_title": "Race package only with the QR code",
     "info_package_text": "We hand out race packages at the race office only when you show the QR code. If a friend collects your package, send them your QR code.",
     "info_bib_text": "The package includes a reusable race bib. Please return it after the race.",
