@@ -10,6 +10,7 @@ interface Props {
 const { t } = Astro.props;
 
 const tshirtSalesOpen = EVENTS["wilczypolmaraton-2026"].tshirtEnabled;
+const registrationDeadline = EVENTS["wilczypolmaraton-2026"].registrationDeadline;
 
 const eventDate = "17.10.2026";
 const eventNumber = "IV";
@@ -55,6 +56,7 @@ const parkings = [
     <div id="registration-buttons-wrapper" class="flex flex-wrap justify-center gap-3">
       <div id="registration-buttons" class="contents">
         <a
+          id="register-button"
           href="/wilczy-polmaraton/rejestracja"
           class="inline-block bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-full"
         >
@@ -812,9 +814,19 @@ const parkings = [
 
 <script is:inline define:vars={{
   panelLabel: t("halfmarathon.panel_button"),
-  listLabel: t("halfmarathon.participants_list_button")
+  listLabel: t("halfmarathon.participants_list_button"),
+  registrationDeadline
 }}>
   const wrapper = document.getElementById('registration-buttons-wrapper');
+
+  // Registration closes at the end of registrationDeadline (same rule as the API).
+  if (registrationDeadline) {
+    const deadlineEnd = new Date(registrationDeadline);
+    deadlineEnd.setUTCHours(23, 59, 59, 999);
+    if (new Date() > deadlineEnd) {
+      document.getElementById('register-button')?.remove();
+    }
+  }
 
   if (wrapper) {
     const cookies = document.cookie.split(';').map(c => c.trim());
