@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-17 12:33",
+  "updatedAt": "2026-10-17 18:54",
   "race": "Półmaraton 21km",
   "groups": [
     {
@@ -633,14 +633,14 @@
           "net": "02:25:34"
         },
         {
-          "place": 10,
+          "place": null,
           "bib": 71,
           "name": "Maciej Lepich",
           "birthYear": 1999,
           "club": "",
-          "status": "finished",
-          "gross": "02:32:07",
-          "net": "02:32:07"
+          "status": "dns",
+          "gross": null,
+          "net": null
         },
         {
           "place": null,
@@ -870,16 +870,6 @@
         },
         {
           "place": 21,
-          "bib": 149,
-          "name": "Marcin Wajda",
-          "birthYear": 1993,
-          "club": "",
-          "status": "finished",
-          "gross": "02:13:43",
-          "net": "02:13:43"
-        },
-        {
-          "place": 22,
           "bib": 72,
           "name": "Jakub Lewalski",
           "birthYear": 1996,
@@ -889,7 +879,7 @@
           "net": "02:19:45"
         },
         {
-          "place": 23,
+          "place": 22,
           "bib": 152,
           "name": "Tomasz Wilczek",
           "birthYear": 1991,
@@ -963,6 +953,16 @@
           "bib": 146,
           "name": "Szymon Świętek",
           "birthYear": 1992,
+          "club": "",
+          "status": "dns",
+          "gross": null,
+          "net": null
+        },
+        {
+          "place": null,
+          "bib": 149,
+          "name": "Marcin Wajda",
+          "birthYear": 1993,
           "club": "",
           "status": "dns",
           "gross": null,
@@ -1226,16 +1226,6 @@
         },
         {
           "place": 25,
-          "bib": 35,
-          "name": "Paweł Gepfert",
-          "birthYear": 1984,
-          "club": "",
-          "status": "finished",
-          "gross": "02:13:43",
-          "net": "02:13:43"
-        },
-        {
-          "place": 26,
           "bib": 18,
           "name": "Grzegorz Czempik",
           "birthYear": 1983,
@@ -1245,7 +1235,7 @@
           "net": "02:13:33"
         },
         {
-          "place": 27,
+          "place": 26,
           "bib": 64,
           "name": "Jakub Kuć",
           "birthYear": 1985,
@@ -1255,7 +1245,7 @@
           "net": "02:14:38"
         },
         {
-          "place": 28,
+          "place": 27,
           "bib": 10,
           "name": "Piotr Bik",
           "birthYear": 1984,
@@ -1265,7 +1255,7 @@
           "net": "02:17:29"
         },
         {
-          "place": 29,
+          "place": 28,
           "bib": 59,
           "name": "Maciej Koniorczyk",
           "birthYear": 1982,
@@ -1275,7 +1265,7 @@
           "net": "02:18:20"
         },
         {
-          "place": 30,
+          "place": 29,
           "bib": 65,
           "name": "Grzegorz Kulawik",
           "birthYear": 1981,
@@ -1285,7 +1275,7 @@
           "net": "02:19:04"
         },
         {
-          "place": 31,
+          "place": 30,
           "bib": 117,
           "name": "Dariusz Powała",
           "birthYear": 1984,
@@ -1295,7 +1285,7 @@
           "net": "02:21:11"
         },
         {
-          "place": 32,
+          "place": 31,
           "bib": 115,
           "name": "Marek Podrygała",
           "birthYear": 1984,
@@ -1305,7 +1295,7 @@
           "net": "02:23:45"
         },
         {
-          "place": 33,
+          "place": 32,
           "bib": 219,
           "name": "Marek Ścisło",
           "birthYear": 1983,
@@ -1315,7 +1305,7 @@
           "net": "02:24:19"
         },
         {
-          "place": 34,
+          "place": 33,
           "bib": 47,
           "name": "Jacek Iwanicki",
           "birthYear": 1981,
@@ -1325,7 +1315,7 @@
           "net": "02:28:13"
         },
         {
-          "place": 35,
+          "place": 34,
           "bib": 128,
           "name": "MAREK SITARZ",
           "birthYear": 1981,
@@ -1335,7 +1325,7 @@
           "net": "02:29:01"
         },
         {
-          "place": 36,
+          "place": 35,
           "bib": 29,
           "name": "Dariusz Dymek",
           "birthYear": 1977,
@@ -1345,7 +1335,7 @@
           "net": "02:35:31"
         },
         {
-          "place": 37,
+          "place": 36,
           "bib": 62,
           "name": "Marcin Kubala",
           "birthYear": 1982,
@@ -1355,7 +1345,7 @@
           "net": "02:44:19"
         },
         {
-          "place": 38,
+          "place": 37,
           "bib": 159,
           "name": "Wojciech Wróbel",
           "birthYear": 1983,
@@ -1365,7 +1355,7 @@
           "net": "02:54:02"
         },
         {
-          "place": 39,
+          "place": 38,
           "bib": 143,
           "name": "Łukasz Szymała",
           "birthYear": 1980,
@@ -1375,7 +1365,7 @@
           "net": "02:57:00"
         },
         {
-          "place": 40,
+          "place": 39,
           "bib": 52,
           "name": "Bartek Kabat",
           "birthYear": 1985,
@@ -1389,6 +1379,16 @@
           "bib": 34,
           "name": "Adam Galman",
           "birthYear": 1977,
+          "club": "",
+          "status": "dns",
+          "gross": null,
+          "net": null
+        },
+        {
+          "place": null,
+          "bib": 35,
+          "name": "Paweł Gepfert",
+          "birthYear": 1984,
           "club": "",
           "status": "dns",
           "gross": null,
