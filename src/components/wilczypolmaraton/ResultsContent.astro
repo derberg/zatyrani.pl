@@ -59,9 +59,24 @@ const isPodium = (place: number | null) => place !== null && place <= 3;
 
   {results.races.map((race) => (
     <section data-race-panel={race.id} class="race-panel hidden space-y-6">
+      <nav
+        class="all-only sticky top-0 z-10 -mx-4 flex gap-2 overflow-x-auto border-b border-slate-200 bg-white/95 px-4 py-2 backdrop-blur sm:mx-0 sm:justify-center sm:rounded-full sm:border sm:px-2"
+        aria-label={t("wilczypolmaraton.results.jump_to_group")}
+      >
+        {race.groups.map((group) => (
+          <a
+            href={`#g-${race.id}-${group.age}`}
+            data-jump={`g-${race.id}-${group.age}`}
+            class="shrink-0 rounded-full bg-slate-100 px-3 py-1.5 text-sm font-semibold text-slate-700 hover:bg-emerald-100 hover:text-emerald-800"
+          >
+            {group.age}
+          </a>
+        ))}
+      </nav>
       {race.groups.map((group) => (
         <div
-          class="age-group overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm"
+          id={`g-${race.id}-${group.age}`}
+          class="age-group scroll-mt-16 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm"
           data-has-podium={group.participants.some((p) => isPodium(p.place)) ? "true" : "false"}
         >
           <h3 class="flex items-baseline justify-between bg-slate-50 px-4 py-3 font-bold text-slate-900">
@@ -160,6 +175,14 @@ const isPodium = (place: number | null) => place !== null && place <= 3;
     });
     history.replaceState(null, "", `#view=${state.view}&race=${state.race}`);
   }
+
+  // Jump links scroll without touching the hash, which holds the view state.
+  document.querySelectorAll<HTMLAnchorElement>("[data-jump]").forEach((link) =>
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      document.getElementById(link.dataset.jump!)?.scrollIntoView({ behavior: "smooth" });
+    })
+  );
 
   document.querySelectorAll<HTMLButtonElement>(".view-btn").forEach((btn) =>
     btn.addEventListener("click", () => { state.view = btn.dataset.view!; render(); })

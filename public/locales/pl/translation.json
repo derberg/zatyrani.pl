@@ -614,6 +614,7 @@
       "status_dns": "DNS",
       "status_dnf": "DNF",
       "status_dsq": "DSQ",
+      "jump_to_group": "Przejdź do kategorii",
       "no_podium_yet": "Nikt jeszcze nie ukończył tego dystansu.",
       "ranking_note": "Miejsca według czasu brutto. Kategoria wiekowa = 2026 − rok urodzenia. Pod czasem brutto podajemy czas netto."
     },

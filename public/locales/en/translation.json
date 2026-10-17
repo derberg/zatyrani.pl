@@ -614,6 +614,7 @@
       "status_dns": "DNS",
       "status_dnf": "DNF",
       "status_dsq": "DSQ",
+      "jump_to_group": "Jump to age group",
       "no_podium_yet": "Nobody has finished this distance yet.",
       "ranking_note": "Places by gun (gross) time. Age group = 2026 − year of birth. Net time is shown below the gross time."
     },
