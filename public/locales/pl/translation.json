@@ -600,13 +600,12 @@
     },
     "results": {
       "title": "Wyniki Kategorii Wiekowych",
-      "meta_description": "Wyniki Wilczego Półmaratonu 2026 w kategoriach wiekowych: podium i czasy wszystkich zawodników",
-      "description": "Podium i czasy zawodników w kategoriach wiekowych dla każdego dystansu.",
+      "meta_description": "Wyniki Wilczego Półmaratonu 2026 w kategoriach wiekowych kobiet i mężczyzn: podium i czasy wszystkich zawodników",
+      "description": "Podium i czasy zawodników półmaratonu 21km w kategoriach wiekowych, osobno dla kobiet i mężczyzn.",
       "updated_at": "Stan na",
       "full_results_link": "Pełne wyniki na żywo",
       "view_podium": "Podium",
       "view_all": "Wszyscy",
-      "age_group": "Kategoria",
       "participants_count": "os.",
       "net": "netto",
       "status_finished": "ukończył",
@@ -615,8 +614,9 @@
       "status_dnf": "DNF",
       "status_dsq": "DSQ",
       "jump_to_group": "Przejdź do kategorii",
-      "no_podium_yet": "Nikt jeszcze nie ukończył tego dystansu.",
-      "ranking_note": "Miejsca według czasu brutto. Kategoria wiekowa = 2026 − rok urodzenia. Pod czasem brutto podajemy czas netto."
+      "ranking_note": "Miejsca według czasu brutto, osobno w każdej kategorii. Kategoria wiekowa = 2026 − rok urodzenia. Pod czasem brutto podajemy czas netto.",
+      "gender_K": "Kobiety",
+      "gender_M": "Mężczyźni"
     },
     "participants_list": {
       "title": "Lista uczestników",

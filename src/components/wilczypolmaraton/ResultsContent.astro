@@ -13,6 +13,10 @@ const medalClasses: Record<number, string> = {
   3: "bg-orange-300 text-orange-950",
 };
 const isPodium = (place: number | null) => place !== null && place <= 3;
+const genders = ["K", "M"].map((gender) => ({
+  gender,
+  groups: results.groups.filter((g) => g.gender === gender),
+}));
 ---
 
 <div class="mx-auto max-w-3xl px-4 py-8 sm:px-6 sm:py-12">
@@ -44,43 +48,43 @@ const isPodium = (place: number | null) => place !== null && place <= 3;
     </button>
   </div>
 
-  <!-- Race -->
-  <div class="-mx-4 mb-6 flex gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:justify-center sm:px-0" role="tablist">
-    {results.races.map((race) => (
+  <!-- Gender -->
+  <div class="mb-6 grid grid-cols-2 gap-2" role="tablist">
+    {genders.map(({ gender }) => (
       <button
         type="button"
-        data-race={race.id}
-        class="race-btn shrink-0 rounded-full border border-emerald-600 px-4 py-2 text-sm font-semibold transition"
+        data-gender={gender}
+        class="gender-btn rounded-full border border-emerald-600 px-4 py-2 text-sm font-semibold transition"
       >
-        {t(`wilczypolmaraton.participants_list.category_${race.id}`)}
+        {t(`wilczypolmaraton.results.gender_${gender}`)}
       </button>
     ))}
   </div>
 
-  {results.races.map((race) => (
-    <section data-race-panel={race.id} class="race-panel hidden space-y-6">
+  {genders.map(({ gender, groups }) => (
+    <section data-gender-panel={gender} class="gender-panel hidden space-y-6">
       <nav
         class="all-only sticky top-0 z-10 -mx-4 flex gap-2 overflow-x-auto border-b border-slate-200 bg-white/95 px-4 py-2 backdrop-blur sm:mx-0 sm:justify-center sm:rounded-full sm:border sm:px-2"
         aria-label={t("wilczypolmaraton.results.jump_to_group")}
       >
-        {race.groups.map((group) => (
+        {groups.map((group) => (
           <a
-            href={`#g-${race.id}-${group.age}`}
-            data-jump={`g-${race.id}-${group.age}`}
+            href={`#g-${gender}-${group.age}`}
+            data-jump={`g-${gender}-${group.age}`}
             class="shrink-0 rounded-full bg-slate-100 px-3 py-1.5 text-sm font-semibold text-slate-700 hover:bg-emerald-100 hover:text-emerald-800"
           >
-            {group.age}
+            {gender}{group.age}
           </a>
         ))}
       </nav>
-      {race.groups.map((group) => (
+      {groups.map((group) => (
         <div
-          id={`g-${race.id}-${group.age}`}
+          id={`g-${gender}-${group.age}`}
           class="age-group scroll-mt-16 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm"
           data-has-podium={group.participants.some((p) => isPodium(p.place)) ? "true" : "false"}
         >
           <h3 class="flex items-baseline justify-between bg-slate-50 px-4 py-3 font-bold text-slate-900">
-            <span>{t("wilczypolmaraton.results.age_group")} {group.age}</span>
+            <span>{t(`wilczypolmaraton.results.gender_${gender}`)} {group.age}</span>
             <span class="all-only text-xs font-normal text-slate-500">
               {group.participants.length} {t("wilczypolmaraton.results.participants_count")}
             </span>
@@ -99,7 +103,7 @@ const isPodium = (place: number | null) => place !== null && place <= 3;
                 <div class="min-w-0 flex-1">
                   <p class="truncate font-semibold text-slate-900">{p.name}</p>
                   <p class="truncate text-xs text-slate-500">
-                    #{p.bib} · {p.gender} · {p.birthYear}{p.club && ` · ${p.club}`}
+                    #{p.bib} · {p.birthYear}{p.club && ` · ${p.club}`}
                   </p>
                 </div>
                 <div class="shrink-0 text-right">
@@ -126,9 +130,6 @@ const isPodium = (place: number | null) => place !== null && place <= 3;
           </ol>
         </div>
       ))}
-      <p class="podium-empty hidden rounded-xl border border-dashed border-slate-300 p-6 text-center text-sm text-slate-500">
-        {t("wilczypolmaraton.results.no_podium_yet")}
-      </p>
     </section>
   ))}
 
@@ -136,18 +137,17 @@ const isPodium = (place: number | null) => place !== null && place <= 3;
 </div>
 
 <script>
-  const state = { view: "podium", race: "21km" };
+  const state = { view: "podium", gender: "K" };
   try {
     const saved = new URLSearchParams(location.hash.slice(1));
     if (saved.get("view") === "all") state.view = "all";
-    if (document.querySelector(`[data-race-panel="${saved.get("race")}"]`)) state.race = saved.get("race")!;
+    if (saved.get("gender") === "M") state.gender = "M";
   } catch {
     // Malformed hash: keep the defaults.
   }
 
   const activeBtn = ["bg-emerald-600", "text-white", "shadow"];
-  const inactiveViewBtn = ["text-slate-600"];
-  const inactiveRaceBtn = ["bg-white", "text-emerald-700"];
+  const inactiveGenderBtn = ["bg-white", "text-emerald-700"];
 
   function render() {
     document.querySelectorAll<HTMLButtonElement>(".view-btn").forEach((btn) => {
@@ -155,25 +155,23 @@ const isPodium = (place: number | null) => place !== null && place <= 3;
       btn.classList.toggle("bg-white", on);
       btn.classList.toggle("text-slate-900", on);
       btn.classList.toggle("shadow", on);
-      inactiveViewBtn.forEach((c) => btn.classList.toggle(c, !on));
+      btn.classList.toggle("text-slate-600", !on);
       btn.setAttribute("aria-selected", String(on));
     });
-    document.querySelectorAll<HTMLButtonElement>(".race-btn").forEach((btn) => {
-      const on = btn.dataset.race === state.race;
+    document.querySelectorAll<HTMLButtonElement>(".gender-btn").forEach((btn) => {
+      const on = btn.dataset.gender === state.gender;
       activeBtn.forEach((c) => btn.classList.toggle(c, on));
-      inactiveRaceBtn.forEach((c) => btn.classList.toggle(c, !on));
+      inactiveGenderBtn.forEach((c) => btn.classList.toggle(c, !on));
       btn.setAttribute("aria-selected", String(on));
     });
     const podium = state.view === "podium";
-    document.querySelectorAll<HTMLElement>(".race-panel").forEach((panel) => {
-      panel.classList.toggle("hidden", panel.dataset.racePanel !== state.race);
+    document.querySelectorAll<HTMLElement>(".gender-panel").forEach((panel) => {
+      panel.classList.toggle("hidden", panel.dataset.genderPanel !== state.gender);
       panel.querySelectorAll<HTMLElement>(".all-only").forEach((el) => el.classList.toggle("hidden", podium));
-      const groups = panel.querySelectorAll<HTMLElement>(".age-group");
-      groups.forEach((g) => g.classList.toggle("hidden", podium && g.dataset.hasPodium !== "true"));
-      const anyPodium = [...groups].some((g) => g.dataset.hasPodium === "true");
-      panel.querySelector(".podium-empty")?.classList.toggle("hidden", !podium || anyPodium);
+      panel.querySelectorAll<HTMLElement>(".age-group").forEach((g) =>
+        g.classList.toggle("hidden", podium && g.dataset.hasPodium !== "true"));
     });
-    history.replaceState(null, "", `#view=${state.view}&race=${state.race}`);
+    history.replaceState(null, "", `#view=${state.view}&gender=${state.gender}`);
   }
 
   // Jump links scroll without touching the hash, which holds the view state.
@@ -187,8 +185,8 @@ const isPodium = (place: number | null) => place !== null && place <= 3;
   document.querySelectorAll<HTMLButtonElement>(".view-btn").forEach((btn) =>
     btn.addEventListener("click", () => { state.view = btn.dataset.view!; render(); })
   );
-  document.querySelectorAll<HTMLButtonElement>(".race-btn").forEach((btn) =>
-    btn.addEventListener("click", () => { state.race = btn.dataset.race!; render(); })
+  document.querySelectorAll<HTMLButtonElement>(".gender-btn").forEach((btn) =>
+    btn.addEventListener("click", () => { state.gender = btn.dataset.gender!; render(); })
   );
   render();
 </script>
