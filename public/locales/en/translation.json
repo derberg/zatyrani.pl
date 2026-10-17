@@ -598,6 +598,25 @@
       "participants": "Participants registered by you",
       "edit_participant": "Edit participant"
     },
+    "results": {
+      "title": "Age Category Results",
+      "meta_description": "Wilczy Półmaraton 2026 results by age category: podium and times of all participants",
+      "description": "Podium and finish times by age category for every distance.",
+      "updated_at": "As of",
+      "full_results_link": "Full live results",
+      "view_podium": "Podium",
+      "view_all": "Everyone",
+      "age_group": "Age group",
+      "participants_count": "people",
+      "net": "net",
+      "status_finished": "finished",
+      "status_on_course": "on course",
+      "status_dns": "DNS",
+      "status_dnf": "DNF",
+      "status_dsq": "DSQ",
+      "no_podium_yet": "Nobody has finished this distance yet.",
+      "ranking_note": "Places by gun (gross) time. Age group = 2026 − year of birth. Net time is shown below the gross time."
+    },
     "participants_list": {
       "title": "Participants list",
       "meta_description": "Full list of Wilczy Półmaraton 2026 participants",
@@ -857,6 +876,7 @@
     "panel_button": "My panel",
     "participants_list_button": "Participants list",
     "live_results_button": "Live results",
+    "age_results_button": "Age Category Results",
     "regulations_button": "Regulations",
     "paragraph1": "The half marathon route (approximately 22km) runs through the forests of the Rybnik Forest District, specifically through the beautiful forest trails of the \"Głębokie Doły\" forest reserve.",
     "paragraph2": "The reserve is a remnant of an ancient primeval forest that once covered these areas. The unique microclimate, richness of flora and fauna, as well as the natural rarity of native, protected plant species make this place attractive both from a natural and tourist perspective.",

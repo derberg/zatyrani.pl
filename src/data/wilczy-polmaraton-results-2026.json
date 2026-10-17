@@ -1,0 +1,2519 @@
+{
+  "updatedAt": "2026-10-17 10:55",
+  "races": [
+    {
+      "id": "21km",
+      "name": "Półmaraton 21km",
+      "groups": [
+        {
+          "age": "18-29",
+          "participants": [
+            {
+              "place": 1,
+              "bib": 61,
+              "name": "Maciej Kosiorowski",
+              "gender": "M",
+              "birthYear": 1999,
+              "club": "",
+              "status": "finished",
+              "gross": "01:39:26",
+              "net": "01:39:22"
+            },
+            {
+              "place": 2,
+              "bib": 151,
+              "name": "Aleksander Walla",
+              "gender": "M",
+              "birthYear": 2007,
+              "club": "",
+              "status": "finished",
+              "gross": "01:40:51",
+              "net": "01:40:47"
+            },
+            {
+              "place": 3,
+              "bib": 60,
+              "name": "Michał Kopczyński",
+              "gender": "M",
+              "birthYear": 1997,
+              "club": "",
+              "status": "finished",
+              "gross": "01:53:26",
+              "net": "01:53:20"
+            },
+            {
+              "place": 4,
+              "bib": 94,
+              "name": "Paweł Musiał",
+              "gender": "M",
+              "birthYear": 2008,
+              "club": "Amator",
+              "status": "finished",
+              "gross": "01:54:33",
+              "net": "01:54:30"
+            },
+            {
+              "place": null,
+              "bib": 2,
+              "name": "Monika Bajko",
+              "gender": "K",
+              "birthYear": 1999,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 11,
+              "name": "Nela Boczar",
+              "gender": "K",
+              "birthYear": 2000,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 28,
+              "name": "Mariola Dylong",
+              "gender": "K",
+              "birthYear": 1997,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 33,
+              "name": "Kamil Gajkowski",
+              "gender": "M",
+              "birthYear": 2001,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 41,
+              "name": "Marcin Górecki",
+              "gender": "M",
+              "birthYear": 2007,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 51,
+              "name": "Szymon Juszczyński",
+              "gender": "M",
+              "birthYear": 2008,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 71,
+              "name": "Maciej Lepich",
+              "gender": "M",
+              "birthYear": 1999,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 75,
+              "name": "Roman Liszka",
+              "gender": "M",
+              "birthYear": 2002,
+              "club": "Fit Runners",
+              "status": "dns",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 82,
+              "name": "Martyna Machej",
+              "gender": "K",
+              "birthYear": 2003,
+              "club": "#SkoczówBiega",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 88,
+              "name": "Karolina Matuszek",
+              "gender": "K",
+              "birthYear": 2000,
+              "club": "Run&Fun Silesia ADM Rybnik",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 89,
+              "name": "Agata Michalik",
+              "gender": "K",
+              "birthYear": 2005,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 90,
+              "name": "Paulina Mikołajec",
+              "gender": "K",
+              "birthYear": 1999,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 91,
+              "name": "Marta Mis",
+              "gender": "K",
+              "birthYear": 2003,
+              "club": "",
+              "status": "dns",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 100,
+              "name": "Jan Ogon",
+              "gender": "M",
+              "birthYear": 1999,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 104,
+              "name": "Szczepan Pacia",
+              "gender": "M",
+              "birthYear": 2006,
+              "club": "",
+              "status": "dns",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 142,
+              "name": "Bartosz Szymała",
+              "gender": "M",
+              "birthYear": 2006,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            }
+          ]
+        },
+        {
+          "age": "30-39",
+          "participants": [
+            {
+              "place": 1,
+              "bib": 87,
+              "name": "Szymon Masarczyk",
+              "gender": "M",
+              "birthYear": 1990,
+              "club": "AA-ktywny Knurów",
+              "status": "finished",
+              "gross": "01:32:18",
+              "net": "01:32:15"
+            },
+            {
+              "place": 2,
+              "bib": 105,
+              "name": "Szymon Pacia",
+              "gender": "M",
+              "birthYear": 1994,
+              "club": "Zatyrani Gratisownia.pl Gmina Pilchowice",
+              "status": "finished",
+              "gross": "01:33:53",
+              "net": "01:33:50"
+            },
+            {
+              "place": 3,
+              "bib": 148,
+              "name": "Artur Trojanowski",
+              "gender": "M",
+              "birthYear": 1987,
+              "club": "Carbon Silesia Sport",
+              "status": "finished",
+              "gross": "01:34:16",
+              "net": "01:34:12"
+            },
+            {
+              "place": 4,
+              "bib": 58,
+              "name": "Krzysztof Kondziołka",
+              "gender": "M",
+              "birthYear": 1989,
+              "club": "DoGaniam",
+              "status": "finished",
+              "gross": "01:35:57",
+              "net": "01:35:51"
+            },
+            {
+              "place": 5,
+              "bib": 108,
+              "name": "Mateusz Panek",
+              "gender": "M",
+              "birthYear": 1992,
+              "club": "",
+              "status": "finished",
+              "gross": "01:40:32",
+              "net": "01:40:27"
+            },
+            {
+              "place": 6,
+              "bib": 129,
+              "name": "Radosław Sobczak",
+              "gender": "M",
+              "birthYear": 1993,
+              "club": "Zatyrani Gratisownia.pl Gmina Pilchowice",
+              "status": "finished",
+              "gross": "01:40:49",
+              "net": "01:40:45"
+            },
+            {
+              "place": 7,
+              "bib": 156,
+              "name": "Szymon Wojtyła",
+              "gender": "M",
+              "birthYear": 1987,
+              "club": "",
+              "status": "finished",
+              "gross": "01:45:38",
+              "net": "01:45:30"
+            },
+            {
+              "place": 8,
+              "bib": 14,
+              "name": "Artur Bujnowski",
+              "gender": "M",
+              "birthYear": 1987,
+              "club": "TL ROW Rybnik",
+              "status": "finished",
+              "gross": "01:47:26",
+              "net": "01:47:21"
+            },
+            {
+              "place": 9,
+              "bib": 67,
+              "name": "Łukasz Kwaśniak",
+              "gender": "M",
+              "birthYear": 1996,
+              "club": "",
+              "status": "finished",
+              "gross": "01:47:52",
+              "net": "01:47:40"
+            },
+            {
+              "place": 10,
+              "bib": 57,
+              "name": "Mateusz Kolorz",
+              "gender": "M",
+              "birthYear": 1994,
+              "club": "",
+              "status": "finished",
+              "gross": "01:48:25",
+              "net": "01:48:13"
+            },
+            {
+              "place": 11,
+              "bib": 68,
+              "name": "Tomasz Kwaśniak",
+              "gender": "M",
+              "birthYear": 1996,
+              "club": "",
+              "status": "finished",
+              "gross": "01:48:52",
+              "net": "01:48:40"
+            },
+            {
+              "place": 12,
+              "bib": 221,
+              "name": "Marcin Łubkowski",
+              "gender": "M",
+              "birthYear": 1987,
+              "club": "",
+              "status": "finished",
+              "gross": "01:49:45",
+              "net": "01:49:37"
+            },
+            {
+              "place": 13,
+              "bib": 76,
+              "name": "Kamil Losza",
+              "gender": "M",
+              "birthYear": 1993,
+              "club": "",
+              "status": "finished",
+              "gross": "01:50:53",
+              "net": "01:50:47"
+            },
+            {
+              "place": 14,
+              "bib": 31,
+              "name": "Łukasz Dziurzyński",
+              "gender": "M",
+              "birthYear": 1992,
+              "club": "",
+              "status": "finished",
+              "gross": "01:54:01",
+              "net": "01:53:50"
+            },
+            {
+              "place": null,
+              "bib": 3,
+              "name": "Natalia Banaś",
+              "gender": "K",
+              "birthYear": 1995,
+              "club": "RUN Rudziniec Ultra Nóżki",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 8,
+              "name": "Karolina Będkowska",
+              "gender": "K",
+              "birthYear": 1991,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 9,
+              "name": "Elżbieta Bielecka",
+              "gender": "K",
+              "birthYear": 1993,
+              "club": "Zatyrani Gratisownia.pl Gmina Pilchowice",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 12,
+              "name": "Łukasz Bomba",
+              "gender": "M",
+              "birthYear": 1992,
+              "club": "",
+              "status": "dns",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 16,
+              "name": "Katarzyna Cieżak-Palus",
+              "gender": "K",
+              "birthYear": 1988,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 24,
+              "name": "Paweł Dudziński",
+              "gender": "M",
+              "birthYear": 1992,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 63,
+              "name": "Anna Kucza",
+              "gender": "K",
+              "birthYear": 1990,
+              "club": "3promile",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 69,
+              "name": "Anna Laubach",
+              "gender": "K",
+              "birthYear": 1990,
+              "club": "RaaN",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 70,
+              "name": "Radoslaw Laubach",
+              "gender": "M",
+              "birthYear": 1987,
+              "club": "RaaN",
+              "status": "dns",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 72,
+              "name": "Jakub Lewalski",
+              "gender": "M",
+              "birthYear": 1996,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 73,
+              "name": "Monika Lis-Tokarz",
+              "gender": "K",
+              "birthYear": 1991,
+              "club": "KB Orły z Knurowa",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 78,
+              "name": "Paweł Łotysz",
+              "gender": "M",
+              "birthYear": 1989,
+              "club": "Pyrtulka",
+              "status": "dns",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 79,
+              "name": "Agata Łyzińska",
+              "gender": "K",
+              "birthYear": 1995,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 83,
+              "name": "Marcin Makałowski",
+              "gender": "M",
+              "birthYear": 1992,
+              "club": "",
+              "status": "dns",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 106,
+              "name": "Mateusz Palarz",
+              "gender": "M",
+              "birthYear": 1988,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 107,
+              "name": "Daniel Panek",
+              "gender": "M",
+              "birthYear": 1994,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 119,
+              "name": "Aneta Przybył",
+              "gender": "K",
+              "birthYear": 1989,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 125,
+              "name": "Przemysław Sadowski",
+              "gender": "M",
+              "birthYear": 1989,
+              "club": "RUN Rudziniec Ultra Nóżki",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 130,
+              "name": "Wojciech Sobczak",
+              "gender": "M",
+              "birthYear": 1996,
+              "club": "Zatyrani Gratisownia.pl Gmina Pilchowice",
+              "status": "dns",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 131,
+              "name": "Kaja Sokołowska",
+              "gender": "K",
+              "birthYear": 1993,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 136,
+              "name": "Sylwia Stolarczyk",
+              "gender": "K",
+              "birthYear": 1988,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 146,
+              "name": "Szymon Świętek",
+              "gender": "M",
+              "birthYear": 1992,
+              "club": "",
+              "status": "dns",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 144,
+              "name": "Sandra Szymańska",
+              "gender": "K",
+              "birthYear": 1993,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 149,
+              "name": "Marcin Wajda",
+              "gender": "M",
+              "birthYear": 1993,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 150,
+              "name": "Tomasz Walczak",
+              "gender": "M",
+              "birthYear": 1987,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 152,
+              "name": "Tomasz Wilczek",
+              "gender": "M",
+              "birthYear": 1991,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 154,
+              "name": "Łukasz Wojtunik",
+              "gender": "M",
+              "birthYear": 1989,
+              "club": "",
+              "status": "dns",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 158,
+              "name": "Piotr Wowra",
+              "gender": "M",
+              "birthYear": 1992,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 160,
+              "name": "Wojciech Zahradnik",
+              "gender": "M",
+              "birthYear": 1995,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 161,
+              "name": "Mariusz Zawadzki",
+              "gender": "M",
+              "birthYear": 1989,
+              "club": "3promile",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            }
+          ]
+        },
+        {
+          "age": "40-49",
+          "participants": [
+            {
+              "place": 1,
+              "bib": 32,
+              "name": "Łukasz Furmanek",
+              "gender": "M",
+              "birthYear": 1980,
+              "club": "Zatyrani Gratisownia.pl Gmina Pilchowice",
+              "status": "finished",
+              "gross": "01:29:50",
+              "net": "01:29:47"
+            },
+            {
+              "place": 2,
+              "bib": 118,
+              "name": "Tomasz Przybylski",
+              "gender": "M",
+              "birthYear": 1980,
+              "club": "W pogoni za duchem",
+              "status": "finished",
+              "gross": "01:31:55",
+              "net": "01:31:52"
+            },
+            {
+              "place": 3,
+              "bib": 99,
+              "name": "Mariusz Ogaza",
+              "gender": "M",
+              "birthYear": 1982,
+              "club": "IslandRunners",
+              "status": "finished",
+              "gross": "01:40:21",
+              "net": "01:40:17"
+            },
+            {
+              "place": 4,
+              "bib": 127,
+              "name": "Rafał Sikora",
+              "gender": "M",
+              "birthYear": 1979,
+              "club": "",
+              "status": "finished",
+              "gross": "01:42:09",
+              "net": "01:42:05"
+            },
+            {
+              "place": 5,
+              "bib": 96,
+              "name": "Damian Nakonieczny",
+              "gender": "M",
+              "birthYear": 1986,
+              "club": "KAGB GOPR",
+              "status": "finished",
+              "gross": "01:47:30",
+              "net": "01:47:24"
+            },
+            {
+              "place": 6,
+              "bib": 126,
+              "name": "MICHALINA SIENNIAK",
+              "gender": "K",
+              "birthYear": 1984,
+              "club": "TL ATHLETICS JASTRZĘBIE Zdrój",
+              "status": "finished",
+              "gross": "01:49:34",
+              "net": "01:49:30"
+            },
+            {
+              "place": 7,
+              "bib": 132,
+              "name": "Marta Sołtysiak",
+              "gender": "K",
+              "birthYear": 1984,
+              "club": "Szakale Bałut Łódź",
+              "status": "finished",
+              "gross": "01:49:59",
+              "net": "01:49:55"
+            },
+            {
+              "place": 8,
+              "bib": 102,
+              "name": "Renata Opiekulska",
+              "gender": "K",
+              "birthYear": 1980,
+              "club": "TL ATHLETICS JASTRZĘBIE/ZAWIERUCHA ACADEMY",
+              "status": "finished",
+              "gross": "01:54:31",
+              "net": "01:54:27"
+            },
+            {
+              "place": null,
+              "bib": 4,
+              "name": "Przemysław Baniak",
+              "gender": "M",
+              "birthYear": 1977,
+              "club": "Duo-Dynamic",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 10,
+              "name": "Piotr Bik",
+              "gender": "M",
+              "birthYear": 1984,
+              "club": "Run Away Team",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 74,
+              "name": "Katarzyna Brzozowska",
+              "gender": "K",
+              "birthYear": 1977,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 18,
+              "name": "Grzegorz Czempik",
+              "gender": "M",
+              "birthYear": 1983,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 21,
+              "name": "Janusz Dadok",
+              "gender": "M",
+              "birthYear": 1984,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 20,
+              "name": "Aleksandra D'heilly-Nowak",
+              "gender": "K",
+              "birthYear": 1980,
+              "club": "Alchemia Biegania",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 23,
+              "name": "Marcin Donitza",
+              "gender": "M",
+              "birthYear": 1985,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 25,
+              "name": "Karina Duraj",
+              "gender": "K",
+              "birthYear": 1986,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 26,
+              "name": "Przemysław Duraj",
+              "gender": "M",
+              "birthYear": 1986,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 29,
+              "name": "Dariusz Dymek",
+              "gender": "M",
+              "birthYear": 1977,
+              "club": "WZ",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 30,
+              "name": "Jacek Dyrbuś",
+              "gender": "M",
+              "birthYear": 1986,
+              "club": "Island Runners",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 34,
+              "name": "Adam Galman",
+              "gender": "M",
+              "birthYear": 1977,
+              "club": "",
+              "status": "dns",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 35,
+              "name": "Paweł Gepfert",
+              "gender": "M",
+              "birthYear": 1984,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 38,
+              "name": "Emilia Głowacka",
+              "gender": "K",
+              "birthYear": 1980,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 39,
+              "name": "Jarosław Głowacki",
+              "gender": "M",
+              "birthYear": 1979,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 42,
+              "name": "Karina Górnicka",
+              "gender": "K",
+              "birthYear": 1983,
+              "club": "Zatyrani Gratisownia.pl Gmina Pilchowice",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 43,
+              "name": "Jacek Gramatyka",
+              "gender": "M",
+              "birthYear": 1980,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 44,
+              "name": "Karolina Grzeszczuk-Kuć",
+              "gender": "K",
+              "birthYear": 1985,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 45,
+              "name": "Jan Grzymała",
+              "gender": "M",
+              "birthYear": 1984,
+              "club": "Zatyrani Gratisownia.pl Gmina Pilchowice",
+              "status": "dns",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 46,
+              "name": "Karol Gulbitowicz",
+              "gender": "M",
+              "birthYear": 1986,
+              "club": "KB  ISKRA z Knurowa",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 47,
+              "name": "Jacek Iwanicki",
+              "gender": "M",
+              "birthYear": 1981,
+              "club": "Staromiejska Patologia",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 49,
+              "name": "Alicja Janicka",
+              "gender": "K",
+              "birthYear": 1985,
+              "club": "Zatyrani Gratisownia.pl Gmina Pilchowice",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 52,
+              "name": "Bartek Kabat",
+              "gender": "M",
+              "birthYear": 1985,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 53,
+              "name": "Marek Kaczyński",
+              "gender": "M",
+              "birthYear": 1985,
+              "club": "Mostostal Zabrze United",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 54,
+              "name": "Adam Kamiński",
+              "gender": "M",
+              "birthYear": 1984,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 55,
+              "name": "Magdalena Kawka-Osuch",
+              "gender": "K",
+              "birthYear": 1984,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 56,
+              "name": "Damian Kleczka",
+              "gender": "M",
+              "birthYear": 1977,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 59,
+              "name": "Maciej Koniorczyk",
+              "gender": "M",
+              "birthYear": 1982,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 62,
+              "name": "Marcin Kubala",
+              "gender": "M",
+              "birthYear": 1982,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 64,
+              "name": "Jakub Kuć",
+              "gender": "M",
+              "birthYear": 1985,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 65,
+              "name": "Grzegorz Kulawik",
+              "gender": "M",
+              "birthYear": 1981,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 66,
+              "name": "Aleksandra Kuzdrowska",
+              "gender": "K",
+              "birthYear": 1986,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 77,
+              "name": "Michał Ludwikowski",
+              "gender": "M",
+              "birthYear": 1977,
+              "club": "Wyprawy360",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 86,
+              "name": "Katarzyna Marzec",
+              "gender": "K",
+              "birthYear": 1979,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 98,
+              "name": "Mariusz Nowak",
+              "gender": "M",
+              "birthYear": 1977,
+              "club": "Hirschvogel",
+              "status": "dns",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 101,
+              "name": "Fabian Olimski",
+              "gender": "M",
+              "birthYear": 1977,
+              "club": "ŁydkaTeam",
+              "status": "dns",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 103,
+              "name": "Artur Orzechowski",
+              "gender": "M",
+              "birthYear": 1981,
+              "club": "Island Runners",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 111,
+              "name": "Iwona Patoń",
+              "gender": "K",
+              "birthYear": 1982,
+              "club": "SOCIOS SILESIA",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 112,
+              "name": "Katarzyna Pelan",
+              "gender": "K",
+              "birthYear": 1985,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 113,
+              "name": "Przemysław Piątek",
+              "gender": "M",
+              "birthYear": 1986,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 114,
+              "name": "Dariusz Pietyszuk",
+              "gender": "M",
+              "birthYear": 1977,
+              "club": "Mostostal Zabrze United",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 115,
+              "name": "Marek Podrygała",
+              "gender": "M",
+              "birthYear": 1984,
+              "club": "Pyrtulka",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 116,
+              "name": "Dorota Porwit-Wójcik",
+              "gender": "K",
+              "birthYear": 1980,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 117,
+              "name": "Dariusz Powała",
+              "gender": "M",
+              "birthYear": 1984,
+              "club": "Pyrtulka",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 122,
+              "name": "Jacek Rożek",
+              "gender": "M",
+              "birthYear": 1980,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 123,
+              "name": "Krzysztof Rus",
+              "gender": "M",
+              "birthYear": 1981,
+              "club": "Biegającą para",
+              "status": "dns",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 124,
+              "name": "Magdalena Rus",
+              "gender": "K",
+              "birthYear": 1986,
+              "club": "Biegającą para",
+              "status": "dns",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 219,
+              "name": "Marek Ścisło",
+              "gender": "M",
+              "birthYear": 1983,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 128,
+              "name": "MAREK SITARZ",
+              "gender": "M",
+              "birthYear": 1981,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 133,
+              "name": "Anna Stajndor",
+              "gender": "K",
+              "birthYear": 1985,
+              "club": "Duo-Dynamic",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 134,
+              "name": "Ewa Stefaniw",
+              "gender": "K",
+              "birthYear": 1983,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 135,
+              "name": "Małgorzata Stochla",
+              "gender": "K",
+              "birthYear": 1977,
+              "club": "Zatyrani Gratisownia.pl Gmina Pilchowice",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 137,
+              "name": "PAWEŁ STROCZYŃSKI",
+              "gender": "M",
+              "birthYear": 1980,
+              "club": "Tyskie Sinice",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 138,
+              "name": "Agnieszka Studnik",
+              "gender": "K",
+              "birthYear": 1984,
+              "club": "Huragan Ligota",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 143,
+              "name": "Łukasz Szymała",
+              "gender": "M",
+              "birthYear": 1980,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 147,
+              "name": "Rafał Tomczak",
+              "gender": "M",
+              "birthYear": 1979,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 153,
+              "name": "Tomasz Wisniewski",
+              "gender": "M",
+              "birthYear": 1982,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 155,
+              "name": "Damian Wojtyła",
+              "gender": "M",
+              "birthYear": 1981,
+              "club": "Island Runners",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 157,
+              "name": "Krzysztof Wolny",
+              "gender": "M",
+              "birthYear": 1981,
+              "club": "Wartkie Pierony",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 159,
+              "name": "Wojciech Wróbel",
+              "gender": "M",
+              "birthYear": 1983,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            }
+          ]
+        },
+        {
+          "age": "50-59",
+          "participants": [
+            {
+              "place": 1,
+              "bib": 145,
+              "name": "Wojciech Szymura",
+              "gender": "M",
+              "birthYear": 1973,
+              "club": "Szymura Team",
+              "status": "finished",
+              "gross": "01:33:30",
+              "net": "01:33:27"
+            },
+            {
+              "place": 2,
+              "bib": 140,
+              "name": "Damian Szewczyk",
+              "gender": "M",
+              "birthYear": 1976,
+              "club": "Jejkowice Biegają",
+              "status": "finished",
+              "gross": "01:40:37",
+              "net": "01:40:33"
+            },
+            {
+              "place": 3,
+              "bib": 93,
+              "name": "Marcin Mońka",
+              "gender": "M",
+              "birthYear": 1976,
+              "club": "Olza Cieszyn",
+              "status": "finished",
+              "gross": "01:43:24",
+              "net": "01:43:17"
+            },
+            {
+              "place": 4,
+              "bib": 141,
+              "name": "Arkadiusz Sztuchlik",
+              "gender": "M",
+              "birthYear": 1971,
+              "club": "",
+              "status": "finished",
+              "gross": "01:53:40",
+              "net": "01:53:32"
+            },
+            {
+              "place": null,
+              "bib": 1,
+              "name": "Aneta Adamowicz",
+              "gender": "K",
+              "birthYear": 1975,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 5,
+              "name": "Justyna Bartkowska",
+              "gender": "K",
+              "birthYear": 1974,
+              "club": "",
+              "status": "dns",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 6,
+              "name": "Janusz Bartkowski",
+              "gender": "M",
+              "birthYear": 1973,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 7,
+              "name": "Bartek Behrendt",
+              "gender": "M",
+              "birthYear": 1968,
+              "club": "Biegamy w Górach",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 13,
+              "name": "Tomasz Brom",
+              "gender": "M",
+              "birthYear": 1973,
+              "club": "MK TEAM",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 15,
+              "name": "Marzena Burliga",
+              "gender": "K",
+              "birthYear": 1974,
+              "club": "AKMB PĘDZIWIATR GLIWICE",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 17,
+              "name": "Agnieszka Ciochoń",
+              "gender": "K",
+              "birthYear": 1973,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 19,
+              "name": "Anna Czuchaj",
+              "gender": "K",
+              "birthYear": 1976,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 22,
+              "name": "Robert Długosz",
+              "gender": "M",
+              "birthYear": 1971,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 27,
+              "name": "Paweł Dygdoń",
+              "gender": "M",
+              "birthYear": 1975,
+              "club": "SOFT-PONT",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 36,
+              "name": "Piotrek Gleba",
+              "gender": "M",
+              "birthYear": 1974,
+              "club": "Ministerstwo Sportu i Turystyki",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 40,
+              "name": "Ireneusz Główka",
+              "gender": "M",
+              "birthYear": 1976,
+              "club": "Zatyrani Gratisownia.pl Gmina Pilchowice",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 48,
+              "name": "Damian Jakubczyk",
+              "gender": "M",
+              "birthYear": 1971,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 50,
+              "name": "Jarosław Jura",
+              "gender": "M",
+              "birthYear": 1970,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 81,
+              "name": "Mariusz Machej",
+              "gender": "M",
+              "birthYear": 1971,
+              "club": "#SkoczówBiega",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 84,
+              "name": "Robert Malewski",
+              "gender": "M",
+              "birthYear": 1972,
+              "club": "KB ORŁY Z KNUROWA",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 85,
+              "name": "Marek Marmura",
+              "gender": "M",
+              "birthYear": 1974,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 92,
+              "name": "Piotr Mituta",
+              "gender": "M",
+              "birthYear": 1973,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 95,
+              "name": "Robert Musiał",
+              "gender": "M",
+              "birthYear": 1971,
+              "club": "Amator",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 97,
+              "name": "Adam Nowak",
+              "gender": "M",
+              "birthYear": 1976,
+              "club": "TRI&MORE",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 109,
+              "name": "Krzysiek Pankowicz",
+              "gender": "M",
+              "birthYear": 1974,
+              "club": "Zatyrani Gratisownia.pl Gmina Pilchowice",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 110,
+              "name": "Piotr Parnicki",
+              "gender": "M",
+              "birthYear": 1972,
+              "club": "Zawisza Stara Kuźnia",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 120,
+              "name": "Klaudia Radziwończyk",
+              "gender": "K",
+              "birthYear": 1975,
+              "club": "Radio Katowice SA",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 121,
+              "name": "Jacek Reclik",
+              "gender": "M",
+              "birthYear": 1970,
+              "club": "Smaki Biegania",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 139,
+              "name": "Jarosław Sygidus",
+              "gender": "M",
+              "birthYear": 1969,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            }
+          ]
+        },
+        {
+          "age": "60-69",
+          "participants": [
+            {
+              "place": null,
+              "bib": 37,
+              "name": "Bogdan Głombik",
+              "gender": "M",
+              "birthYear": 1965,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 80,
+              "name": "Jan Łyziński",
+              "gender": "M",
+              "birthYear": 1965,
+              "club": "Zatyrani Gratisownia.pl Gmina Pilchowice",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "21km_canicross",
+      "name": "Canicross 21km",
+      "groups": [
+        {
+          "age": "18-29",
+          "participants": [
+            {
+              "place": null,
+              "bib": 201,
+              "name": "Alicja Gilewicz",
+              "gender": "K",
+              "birthYear": 1999,
+              "club": "Stajniak Team",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 203,
+              "name": "Klaudia Kajdas",
+              "gender": "K",
+              "birthYear": 2004,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            }
+          ]
+        },
+        {
+          "age": "30-39",
+          "participants": [
+            {
+              "place": 1,
+              "bib": 200,
+              "name": "Marcin Dorecki",
+              "gender": "M",
+              "birthYear": 1991,
+              "club": "PobryCani",
+              "status": "finished",
+              "gross": "01:36:13",
+              "net": "01:36:11"
+            },
+            {
+              "place": 2,
+              "bib": 213,
+              "name": "Kamil Skalny",
+              "gender": "M",
+              "birthYear": 1994,
+              "club": "JURA CROSS DOG RUN",
+              "status": "finished",
+              "gross": "01:42:15",
+              "net": "01:42:03"
+            },
+            {
+              "place": 3,
+              "bib": 207,
+              "name": "Jagoda Marzec",
+              "gender": "K",
+              "birthYear": 1995,
+              "club": "JURA CROSS DOG RUN",
+              "status": "finished",
+              "gross": "01:52:17",
+              "net": "01:52:12"
+            },
+            {
+              "place": 4,
+              "bib": 215,
+              "name": "Agnieszka Stawska",
+              "gender": "K",
+              "birthYear": 1989,
+              "club": "PobryCani / JacekBiega RT",
+              "status": "finished",
+              "gross": "01:52:38",
+              "net": "01:52:33"
+            },
+            {
+              "place": 5,
+              "bib": 208,
+              "name": "Krzysztof Musiolik",
+              "gender": "M",
+              "birthYear": 1988,
+              "club": "Zatyrani Gratisownia.pl Gmina Pilchowice",
+              "status": "finished",
+              "gross": "01:56:34",
+              "net": "01:56:33"
+            },
+            {
+              "place": null,
+              "bib": 204,
+              "name": "Marcin Kroczek",
+              "gender": "M",
+              "birthYear": 1989,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 212,
+              "name": "Karolina Sitko",
+              "gender": "K",
+              "birthYear": 1992,
+              "club": "",
+              "status": "dns",
+              "gross": null,
+              "net": null
+            }
+          ]
+        },
+        {
+          "age": "40-49",
+          "participants": [
+            {
+              "place": 1,
+              "bib": 214,
+              "name": "Agnieszka Skórzańska",
+              "gender": "K",
+              "birthYear": 1985,
+              "club": "",
+              "status": "finished",
+              "gross": "01:53:22",
+              "net": "01:53:16"
+            },
+            {
+              "place": 2,
+              "bib": 211,
+              "name": "Jacek Rus",
+              "gender": "M",
+              "birthYear": 1982,
+              "club": "Pabianicki Klub \"O Co Biega\"",
+              "status": "finished",
+              "gross": "01:54:42",
+              "net": "01:54:31"
+            },
+            {
+              "place": 3,
+              "bib": 206,
+              "name": "Łuczka Łuczka",
+              "gender": "M",
+              "birthYear": 1978,
+              "club": "KB Odra Opole",
+              "status": "finished",
+              "gross": "01:56:43",
+              "net": "01:56:30"
+            },
+            {
+              "place": null,
+              "bib": 198,
+              "name": "Katarzyna Chyżyńska",
+              "gender": "K",
+              "birthYear": 1985,
+              "club": "JURA CROSS DOG RUN",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 199,
+              "name": "Leszek Cichocki",
+              "gender": "M",
+              "birthYear": 1983,
+              "club": "DoGym",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 202,
+              "name": "Magdalena Gumienny",
+              "gender": "K",
+              "birthYear": 1978,
+              "club": "Zawisza Stara Kuźnia",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 209,
+              "name": "Piotr Nędza",
+              "gender": "M",
+              "birthYear": 1983,
+              "club": "JURA CROSS DOG RUN",
+              "status": "dns",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 216,
+              "name": "Agnieszka Styrylska",
+              "gender": "K",
+              "birthYear": 1983,
+              "club": "Jura Cross Dog Run",
+              "status": "dns",
+              "gross": null,
+              "net": null
+            }
+          ]
+        },
+        {
+          "age": "50-59",
+          "participants": [
+            {
+              "place": 1,
+              "bib": 205,
+              "name": "Dorota Łajszczak - Gajda",
+              "gender": "K",
+              "birthYear": 1976,
+              "club": "JURA CROSS DOG RUN",
+              "status": "finished",
+              "gross": "01:52:41",
+              "net": "01:52:35"
+            },
+            {
+              "place": null,
+              "bib": 210,
+              "name": "Kornelia Promny",
+              "gender": "K",
+              "birthYear": 1973,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 217,
+              "name": "Joanna Szymocha",
+              "gender": "K",
+              "birthYear": 1974,
+              "club": "-",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 218,
+              "name": "Aleksander Zeidler",
+              "gender": "M",
+              "birthYear": 1974,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "11km_nw",
+      "name": "Nordic Walking 11km",
+      "groups": [
+        {
+          "age": "30-39",
+          "participants": [
+            {
+              "place": 1,
+              "bib": 166,
+              "name": "Grzegorz Biernacki",
+              "gender": "M",
+              "birthYear": 1989,
+              "club": "",
+              "status": "finished",
+              "gross": "01:24:14",
+              "net": "01:24:13"
+            },
+            {
+              "place": 2,
+              "bib": 165,
+              "name": "Katarzyna Biada",
+              "gender": "K",
+              "birthYear": 1987,
+              "club": "Aktywny Śląski",
+              "status": "finished",
+              "gross": "01:41:30",
+              "net": "01:41:26"
+            },
+            {
+              "place": 3,
+              "bib": 187,
+              "name": "Aleksandra Owczorz",
+              "gender": "K",
+              "birthYear": 1991,
+              "club": "Zatyrani Gratisownia.pl Gmina Pilchowice",
+              "status": "finished",
+              "gross": "01:48:53",
+              "net": "01:48:46"
+            },
+            {
+              "place": null,
+              "bib": 170,
+              "name": "Monika Fojcik",
+              "gender": "K",
+              "birthYear": 1987,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            }
+          ]
+        },
+        {
+          "age": "40-49",
+          "participants": [
+            {
+              "place": 1,
+              "bib": 191,
+              "name": "Tomasz Sadowski",
+              "gender": "M",
+              "birthYear": 1977,
+              "club": "Dream Team Sadowski",
+              "status": "finished",
+              "gross": "01:16:32",
+              "net": "01:16:31"
+            },
+            {
+              "place": 2,
+              "bib": 164,
+              "name": "Leszek Babczyński",
+              "gender": "M",
+              "birthYear": 1977,
+              "club": "",
+              "status": "finished",
+              "gross": "01:17:18",
+              "net": "01:17:15"
+            },
+            {
+              "place": 3,
+              "bib": 182,
+              "name": "Gabriela Niederlińska",
+              "gender": "K",
+              "birthYear": 1983,
+              "club": "Drużyna SMA",
+              "status": "finished",
+              "gross": "01:17:49",
+              "net": "01:17:49"
+            },
+            {
+              "place": 4,
+              "bib": 186,
+              "name": "Magdalena Nowicz",
+              "gender": "K",
+              "birthYear": 1981,
+              "club": "Nowicz Team",
+              "status": "finished",
+              "gross": "01:19:19",
+              "net": "01:19:16"
+            },
+            {
+              "place": 5,
+              "bib": 197,
+              "name": "Jola Zawada",
+              "gender": "K",
+              "birthYear": 1982,
+              "club": "",
+              "status": "finished",
+              "gross": "01:19:47",
+              "net": "01:19:41"
+            },
+            {
+              "place": 6,
+              "bib": 181,
+              "name": "Sonia Michalec",
+              "gender": "K",
+              "birthYear": 1980,
+              "club": "Zatyrani Gratisownia.pl Gmina Pilchowice",
+              "status": "finished",
+              "gross": "01:24:54",
+              "net": "01:24:49"
+            },
+            {
+              "place": 7,
+              "bib": 162,
+              "name": "Alicja Babczyńska",
+              "gender": "K",
+              "birthYear": 1985,
+              "club": "",
+              "status": "finished",
+              "gross": "01:25:48",
+              "net": "01:25:45"
+            },
+            {
+              "place": 8,
+              "bib": 189,
+              "name": "Katarzyna Parda",
+              "gender": "K",
+              "birthYear": 1982,
+              "club": "",
+              "status": "finished",
+              "gross": "01:27:09",
+              "net": "01:27:06"
+            },
+            {
+              "place": 9,
+              "bib": 185,
+              "name": "Patrycja Nowak-Duda",
+              "gender": "K",
+              "birthYear": 1978,
+              "club": "",
+              "status": "finished",
+              "gross": "01:33:38",
+              "net": "01:33:35"
+            },
+            {
+              "place": 10,
+              "bib": 190,
+              "name": "Anna Podrygala",
+              "gender": "K",
+              "birthYear": 1986,
+              "club": "",
+              "status": "finished",
+              "gross": "01:35:30",
+              "net": "01:35:23"
+            },
+            {
+              "place": 11,
+              "bib": 192,
+              "name": "Magdalena Soczyńska",
+              "gender": "K",
+              "birthYear": 1978,
+              "club": "",
+              "status": "finished",
+              "gross": "01:41:07",
+              "net": "01:41:00"
+            },
+            {
+              "place": 12,
+              "bib": 167,
+              "name": "Bożena Bukowińska",
+              "gender": "K",
+              "birthYear": 1979,
+              "club": "Zatyrani Gratisownia.pl Gmina Pilchowice",
+              "status": "finished",
+              "gross": "01:41:07",
+              "net": "01:41:01"
+            },
+            {
+              "place": 13,
+              "bib": 196,
+              "name": "Barbara Tramś",
+              "gender": "K",
+              "birthYear": 1981,
+              "club": "",
+              "status": "finished",
+              "gross": "01:41:34",
+              "net": "01:41:30"
+            },
+            {
+              "place": null,
+              "bib": 173,
+              "name": "Agnieszka Kaczyńska",
+              "gender": "K",
+              "birthYear": 1986,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 194,
+              "name": "Monika Szymała",
+              "gender": "K",
+              "birthYear": 1981,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            }
+          ]
+        },
+        {
+          "age": "50-59",
+          "participants": [
+            {
+              "place": 1,
+              "bib": 220,
+              "name": "Marek Parda",
+              "gender": "M",
+              "birthYear": 1974,
+              "club": "",
+              "status": "finished",
+              "gross": "01:27:13",
+              "net": "01:27:08"
+            },
+            {
+              "place": 2,
+              "bib": 175,
+              "name": "Grzegorz Kowal",
+              "gender": "M",
+              "birthYear": 1974,
+              "club": "",
+              "status": "finished",
+              "gross": "01:32:13",
+              "net": "01:32:05"
+            },
+            {
+              "place": 3,
+              "bib": 163,
+              "name": "Janusz Babczyński",
+              "gender": "M",
+              "birthYear": 1972,
+              "club": "Śląśkie 3K",
+              "status": "finished",
+              "gross": "01:33:39",
+              "net": "01:33:36"
+            },
+            {
+              "place": 4,
+              "bib": 177,
+              "name": "Janusz Kuźnik",
+              "gender": "M",
+              "birthYear": 1970,
+              "club": "",
+              "status": "finished",
+              "gross": "01:34:00",
+              "net": "01:33:52"
+            },
+            {
+              "place": 5,
+              "bib": 188,
+              "name": "Izabela Pander",
+              "gender": "K",
+              "birthYear": 1967,
+              "club": "Najlepsze kijki Czerwionka-Leszczyny",
+              "status": "finished",
+              "gross": "01:34:56",
+              "net": "01:34:51"
+            },
+            {
+              "place": 6,
+              "bib": 174,
+              "name": "Izabella Kocur",
+              "gender": "K",
+              "birthYear": 1975,
+              "club": "Zatyrani Gratisownia.pl Gmina Pilchowice",
+              "status": "finished",
+              "gross": "01:35:14",
+              "net": "01:35:11"
+            },
+            {
+              "place": 7,
+              "bib": 168,
+              "name": "Irena Dylong",
+              "gender": "K",
+              "birthYear": 1971,
+              "club": "",
+              "status": "finished",
+              "gross": "01:35:19",
+              "net": "01:35:18"
+            },
+            {
+              "place": 8,
+              "bib": 183,
+              "name": "Sabina Niemczyk",
+              "gender": "K",
+              "birthYear": 1973,
+              "club": "",
+              "status": "finished",
+              "gross": "01:37:05",
+              "net": "01:36:58"
+            },
+            {
+              "place": 9,
+              "bib": 180,
+              "name": "Ewa Malich",
+              "gender": "K",
+              "birthYear": 1976,
+              "club": "",
+              "status": "finished",
+              "gross": "01:40:00",
+              "net": "01:39:52"
+            },
+            {
+              "place": 10,
+              "bib": 184,
+              "name": "Małgorzata Nocoń",
+              "gender": "K",
+              "birthYear": 1969,
+              "club": "",
+              "status": "finished",
+              "gross": "01:41:37",
+              "net": "01:41:29"
+            },
+            {
+              "place": 11,
+              "bib": 176,
+              "name": "Marzanna Kuta",
+              "gender": "K",
+              "birthYear": 1971,
+              "club": "",
+              "status": "finished",
+              "gross": "01:42:34",
+              "net": "01:42:28"
+            },
+            {
+              "place": null,
+              "bib": 172,
+              "name": "Urszula Jaskulska",
+              "gender": "K",
+              "birthYear": 1972,
+              "club": "Małopolskie stowarzyszenie Nordic Walking",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 178,
+              "name": "Katarzyna Kuźnik",
+              "gender": "K",
+              "birthYear": 1972,
+              "club": "",
+              "status": "on_course",
+              "gross": null,
+              "net": null
+            },
+            {
+              "place": null,
+              "bib": 195,
+              "name": "Izabela Szymura",
+              "gender": "K",
+              "birthYear": 1976,
+              "club": "Szymura Team",
+              "status": "dns",
+              "gross": null,
+              "net": null
+            }
+          ]
+        },
+        {
+          "age": "60-69",
+          "participants": [
+            {
+              "place": 1,
+              "bib": 169,
+              "name": "Oskar Filipowicz",
+              "gender": "M",
+              "birthYear": 1965,
+              "club": "",
+              "status": "finished",
+              "gross": "01:18:33",
+              "net": "01:18:30"
+            },
+            {
+              "place": 2,
+              "bib": 171,
+              "name": "Halina Gołębiowska",
+              "gender": "K",
+              "birthYear": 1962,
+              "club": "Najlepsze kijki Czerwionka-Leszczyny",
+              "status": "finished",
+              "gross": "01:34:57",
+              "net": "01:34:51"
+            },
+            {
+              "place": 3,
+              "bib": 193,
+              "name": "Danuta Szydlowska",
+              "gender": "K",
+              "birthYear": 1964,
+              "club": "",
+              "status": "finished",
+              "gross": "01:35:27",
+              "net": "01:35:21"
+            },
+            {
+              "place": 4,
+              "bib": 179,
+              "name": "Maria Losza",
+              "gender": "K",
+              "birthYear": 1960,
+              "club": "",
+              "status": "finished",
+              "gross": "01:46:02",
+              "net": "01:45:57"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

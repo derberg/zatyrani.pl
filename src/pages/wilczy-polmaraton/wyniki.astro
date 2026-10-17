@@ -1,0 +1,16 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import WilczyPolmaratonHeader from "../../components/wilczypolmaraton/WilczyPolmaratonHeader.astro";
+import ResultsContent from "../../components/wilczypolmaraton/ResultsContent.astro";
+import { t } from "../../utils/i18n";
+---
+
+<Layout
+  title={`Wilczy Półmaraton 2026 - ${t("wilczypolmaraton.results.title")}`}
+  description={t("wilczypolmaraton.results.meta_description")}
+  ogImage="/wilczypolmaraton_og.jpg"
+  t={t}
+>
+  <WilczyPolmaratonHeader t={t} />
+  <ResultsContent t={t} />
+</Layout>
