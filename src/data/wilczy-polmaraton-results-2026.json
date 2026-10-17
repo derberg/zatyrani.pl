@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-17 11:42",
+  "updatedAt": "2026-10-17 11:53",
   "race": "Półmaraton 21km",
   "groups": [
     {
@@ -140,6 +140,16 @@
         },
         {
           "place": 2,
+          "bib": 79,
+          "name": "Agata Łyzińska",
+          "birthYear": 1995,
+          "club": "",
+          "status": "finished",
+          "gross": "02:05:35",
+          "net": "02:05:35"
+        },
+        {
+          "place": 3,
           "bib": 63,
           "name": "Anna Kucza",
           "birthYear": 1990,
@@ -149,7 +159,7 @@
           "net": "02:08:48"
         },
         {
-          "place": 3,
+          "place": 4,
           "bib": 8,
           "name": "Karolina Będkowska",
           "birthYear": 1991,
@@ -159,7 +169,7 @@
           "net": "02:16:50"
         },
         {
-          "place": 4,
+          "place": 5,
           "bib": 9,
           "name": "Elżbieta Bielecka",
           "birthYear": 1993,
@@ -169,7 +179,7 @@
           "net": "02:26:52"
         },
         {
-          "place": 5,
+          "place": 6,
           "bib": 16,
           "name": "Katarzyna Cieżak-Palus",
           "birthYear": 1988,
@@ -179,7 +189,7 @@
           "net": "02:29:21"
         },
         {
-          "place": 6,
+          "place": 7,
           "bib": 73,
           "name": "Monika Lis-Tokarz",
           "birthYear": 1991,
@@ -189,7 +199,7 @@
           "net": "02:30:04"
         },
         {
-          "place": 7,
+          "place": 8,
           "bib": 131,
           "name": "Kaja Sokołowska",
           "birthYear": 1993,
@@ -197,6 +207,26 @@
           "status": "finished",
           "gross": "02:30:41",
           "net": "02:30:30"
+        },
+        {
+          "place": 9,
+          "bib": 119,
+          "name": "Aneta Przybył",
+          "birthYear": 1989,
+          "club": "",
+          "status": "finished",
+          "gross": "02:49:45",
+          "net": "02:49:33"
+        },
+        {
+          "place": 10,
+          "bib": 144,
+          "name": "Sandra Szymańska",
+          "birthYear": 1993,
+          "club": "",
+          "status": "finished",
+          "gross": "02:51:17",
+          "net": "02:50:56"
         },
         {
           "place": null,
@@ -210,39 +240,9 @@
         },
         {
           "place": null,
-          "bib": 79,
-          "name": "Agata Łyzińska",
-          "birthYear": 1995,
-          "club": "",
-          "status": "on_course",
-          "gross": null,
-          "net": null
-        },
-        {
-          "place": null,
-          "bib": 119,
-          "name": "Aneta Przybył",
-          "birthYear": 1989,
-          "club": "",
-          "status": "on_course",
-          "gross": null,
-          "net": null
-        },
-        {
-          "place": null,
           "bib": 136,
           "name": "Sylwia Stolarczyk",
           "birthYear": 1988,
-          "club": "",
-          "status": "on_course",
-          "gross": null,
-          "net": null
-        },
-        {
-          "place": null,
-          "bib": 144,
-          "name": "Sandra Szymańska",
-          "birthYear": 1993,
           "club": "",
           "status": "on_course",
           "gross": null,
@@ -395,34 +395,34 @@
           "net": "02:40:40"
         },
         {
-          "place": null,
-          "bib": 25,
-          "name": "Karina Duraj",
-          "birthYear": 1986,
-          "club": "",
-          "status": "on_course",
-          "gross": null,
-          "net": null
-        },
-        {
-          "place": null,
-          "bib": 66,
-          "name": "Aleksandra Kuzdrowska",
-          "birthYear": 1986,
-          "club": "",
-          "status": "on_course",
-          "gross": null,
-          "net": null
-        },
-        {
-          "place": null,
+          "place": 15,
           "bib": 116,
           "name": "Dorota Porwit-Wójcik",
           "birthYear": 1980,
           "club": "",
-          "status": "on_course",
-          "gross": null,
-          "net": null
+          "status": "finished",
+          "gross": "02:44:28",
+          "net": "02:44:19"
+        },
+        {
+          "place": 16,
+          "bib": 25,
+          "name": "Karina Duraj",
+          "birthYear": 1986,
+          "club": "",
+          "status": "finished",
+          "gross": "02:51:17",
+          "net": "02:50:56"
+        },
+        {
+          "place": 17,
+          "bib": 66,
+          "name": "Aleksandra Kuzdrowska",
+          "birthYear": 1986,
+          "club": "",
+          "status": "finished",
+          "gross": "02:54:14",
+          "net": "02:54:05"
         },
         {
           "place": null,
@@ -1345,6 +1345,26 @@
           "net": "02:35:31"
         },
         {
+          "place": 37,
+          "bib": 62,
+          "name": "Marcin Kubala",
+          "birthYear": 1982,
+          "club": "",
+          "status": "finished",
+          "gross": "02:44:28",
+          "net": "02:44:19"
+        },
+        {
+          "place": 38,
+          "bib": 159,
+          "name": "Wojciech Wróbel",
+          "birthYear": 1983,
+          "club": "",
+          "status": "finished",
+          "gross": "02:54:11",
+          "net": "02:54:02"
+        },
+        {
           "place": null,
           "bib": 34,
           "name": "Adam Galman",
@@ -1369,16 +1389,6 @@
           "bib": 52,
           "name": "Bartek Kabat",
           "birthYear": 1985,
-          "club": "",
-          "status": "on_course",
-          "gross": null,
-          "net": null
-        },
-        {
-          "place": null,
-          "bib": 62,
-          "name": "Marcin Kubala",
-          "birthYear": 1982,
           "club": "",
           "status": "on_course",
           "gross": null,
@@ -1419,16 +1429,6 @@
           "bib": 143,
           "name": "Łukasz Szymała",
           "birthYear": 1980,
-          "club": "",
-          "status": "on_course",
-          "gross": null,
-          "net": null
-        },
-        {
-          "place": null,
-          "bib": 159,
-          "name": "Wojciech Wróbel",
-          "birthYear": 1983,
           "club": "",
           "status": "on_course",
           "gross": null,
@@ -1621,6 +1621,36 @@
           "net": "02:35:43"
         },
         {
+          "place": 19,
+          "bib": 110,
+          "name": "Piotr Parnicki",
+          "birthYear": 1972,
+          "club": "Zawisza Stara Kuźnia",
+          "status": "finished",
+          "gross": "02:45:34",
+          "net": "02:45:25"
+        },
+        {
+          "place": 20,
+          "bib": 50,
+          "name": "Jarosław Jura",
+          "birthYear": 1970,
+          "club": "",
+          "status": "finished",
+          "gross": "02:50:55",
+          "net": "02:50:27"
+        },
+        {
+          "place": 21,
+          "bib": 22,
+          "name": "Robert Długosz",
+          "birthYear": 1971,
+          "club": "",
+          "status": "finished",
+          "gross": "02:50:55",
+          "net": "02:50:28"
+        },
+        {
           "place": null,
           "bib": 6,
           "name": "Janusz Bartkowski",
@@ -1632,40 +1662,10 @@
         },
         {
           "place": null,
-          "bib": 22,
-          "name": "Robert Długosz",
-          "birthYear": 1971,
-          "club": "",
-          "status": "on_course",
-          "gross": null,
-          "net": null
-        },
-        {
-          "place": null,
-          "bib": 50,
-          "name": "Jarosław Jura",
-          "birthYear": 1970,
-          "club": "",
-          "status": "on_course",
-          "gross": null,
-          "net": null
-        },
-        {
-          "place": null,
           "bib": 85,
           "name": "Marek Marmura",
           "birthYear": 1974,
           "club": "",
-          "status": "on_course",
-          "gross": null,
-          "net": null
-        },
-        {
-          "place": null,
-          "bib": 110,
-          "name": "Piotr Parnicki",
-          "birthYear": 1972,
-          "club": "Zawisza Stara Kuźnia",
           "status": "on_course",
           "gross": null,
           "net": null
