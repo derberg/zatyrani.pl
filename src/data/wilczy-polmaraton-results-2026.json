@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-17 12:23",
+  "updatedAt": "2026-10-17 12:33",
   "race": "Półmaraton 21km",
   "groups": [
     {
@@ -244,7 +244,7 @@
           "name": "Natalia Banaś",
           "birthYear": 1995,
           "club": "RUN Rudziniec Ultra Nóżki",
-          "status": "on_course",
+          "status": "dns",
           "gross": null,
           "net": null
         }
@@ -944,7 +944,7 @@
           "name": "Przemysław Sadowski",
           "birthYear": 1989,
           "club": "RUN Rudziniec Ultra Nóżki",
-          "status": "on_course",
+          "status": "dns",
           "gross": null,
           "net": null
         },
@@ -1666,7 +1666,7 @@
           "name": "Marek Marmura",
           "birthYear": 1974,
           "club": "",
-          "status": "on_course",
+          "status": "dns",
           "gross": null,
           "net": null
         }
