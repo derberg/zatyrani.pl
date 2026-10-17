@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-17 11:58",
+  "updatedAt": "2026-10-17 12:14",
   "race": "Półmaraton 21km",
   "groups": [
     {
@@ -481,14 +481,14 @@
           "net": "02:39:08"
         },
         {
-          "place": null,
+          "place": 5,
           "bib": 1,
           "name": "Aneta Adamowicz",
           "birthYear": 1975,
           "club": "",
-          "status": "on_course",
-          "gross": null,
-          "net": null
+          "status": "finished",
+          "gross": "03:00:31",
+          "net": "03:00:26"
         },
         {
           "place": null,
@@ -1375,6 +1375,16 @@
           "net": "02:57:00"
         },
         {
+          "place": 40,
+          "bib": 52,
+          "name": "Bartek Kabat",
+          "birthYear": 1985,
+          "club": "",
+          "status": "finished",
+          "gross": "03:00:45",
+          "net": "03:00:39"
+        },
+        {
           "place": null,
           "bib": 34,
           "name": "Adam Galman",
@@ -1391,16 +1401,6 @@
           "birthYear": 1984,
           "club": "Zatyrani Gratisownia.pl Gmina Pilchowice",
           "status": "dns",
-          "gross": null,
-          "net": null
-        },
-        {
-          "place": null,
-          "bib": 52,
-          "name": "Bartek Kabat",
-          "birthYear": 1985,
-          "club": "",
-          "status": "on_course",
           "gross": null,
           "net": null
         },
@@ -1651,14 +1651,14 @@
           "net": "02:50:28"
         },
         {
-          "place": null,
+          "place": 22,
           "bib": 6,
           "name": "Janusz Bartkowski",
           "birthYear": 1973,
           "club": "",
-          "status": "on_course",
-          "gross": null,
-          "net": null
+          "status": "finished",
+          "gross": "03:06:42",
+          "net": "03:06:28"
         },
         {
           "place": null,
