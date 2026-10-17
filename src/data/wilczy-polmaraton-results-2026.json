@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-17 11:24",
+  "updatedAt": "2026-10-17 11:30",
   "race": "Półmaraton 21km",
   "groups": [
     {
@@ -93,24 +93,24 @@
           "net": "02:18:20"
         },
         {
-          "place": null,
+          "place": 6,
           "bib": 2,
           "name": "Monika Bajko",
           "birthYear": 1999,
           "club": "",
-          "status": "on_course",
-          "gross": null,
-          "net": null
+          "status": "finished",
+          "gross": "02:29:29",
+          "net": "02:29:11"
         },
         {
-          "place": null,
+          "place": 7,
           "bib": 11,
           "name": "Nela Boczar",
           "birthYear": 2000,
           "club": "",
-          "status": "on_course",
-          "gross": null,
-          "net": null
+          "status": "finished",
+          "gross": "02:29:33",
+          "net": "02:29:15"
         },
         {
           "place": null,
@@ -159,41 +159,51 @@
           "net": "02:16:50"
         },
         {
+          "place": 4,
+          "bib": 9,
+          "name": "Elżbieta Bielecka",
+          "birthYear": 1993,
+          "club": "Zatyrani Gratisownia.pl Gmina Pilchowice",
+          "status": "finished",
+          "gross": "02:27:01",
+          "net": "02:26:52"
+        },
+        {
+          "place": 5,
+          "bib": 16,
+          "name": "Katarzyna Cieżak-Palus",
+          "birthYear": 1988,
+          "club": "",
+          "status": "finished",
+          "gross": "02:29:33",
+          "net": "02:29:21"
+        },
+        {
+          "place": 6,
+          "bib": 73,
+          "name": "Monika Lis-Tokarz",
+          "birthYear": 1991,
+          "club": "KB Orły z Knurowa",
+          "status": "finished",
+          "gross": "02:30:10",
+          "net": "02:30:04"
+        },
+        {
+          "place": 7,
+          "bib": 131,
+          "name": "Kaja Sokołowska",
+          "birthYear": 1993,
+          "club": "",
+          "status": "finished",
+          "gross": "02:30:41",
+          "net": "02:30:30"
+        },
+        {
           "place": null,
           "bib": 3,
           "name": "Natalia Banaś",
           "birthYear": 1995,
           "club": "RUN Rudziniec Ultra Nóżki",
-          "status": "on_course",
-          "gross": null,
-          "net": null
-        },
-        {
-          "place": null,
-          "bib": 9,
-          "name": "Elżbieta Bielecka",
-          "birthYear": 1993,
-          "club": "Zatyrani Gratisownia.pl Gmina Pilchowice",
-          "status": "on_course",
-          "gross": null,
-          "net": null
-        },
-        {
-          "place": null,
-          "bib": 16,
-          "name": "Katarzyna Cieżak-Palus",
-          "birthYear": 1988,
-          "club": "",
-          "status": "on_course",
-          "gross": null,
-          "net": null
-        },
-        {
-          "place": null,
-          "bib": 73,
-          "name": "Monika Lis-Tokarz",
-          "birthYear": 1991,
-          "club": "KB Orły z Knurowa",
           "status": "on_course",
           "gross": null,
           "net": null
@@ -213,16 +223,6 @@
           "bib": 119,
           "name": "Aneta Przybył",
           "birthYear": 1989,
-          "club": "",
-          "status": "on_course",
-          "gross": null,
-          "net": null
-        },
-        {
-          "place": null,
-          "bib": 131,
-          "name": "Kaja Sokołowska",
-          "birthYear": 1993,
           "club": "",
           "status": "on_course",
           "gross": null,
@@ -335,6 +335,16 @@
           "net": "02:23:01"
         },
         {
+          "place": 9,
+          "bib": 44,
+          "name": "Karolina Grzeszczuk-Kuć",
+          "birthYear": 1985,
+          "club": "",
+          "status": "finished",
+          "gross": "02:29:22",
+          "net": "02:29:05"
+        },
+        {
           "place": null,
           "bib": 25,
           "name": "Karina Duraj",
@@ -360,16 +370,6 @@
           "name": "Karina Górnicka",
           "birthYear": 1983,
           "club": "Zatyrani Gratisownia.pl Gmina Pilchowice",
-          "status": "on_course",
-          "gross": null,
-          "net": null
-        },
-        {
-          "place": null,
-          "bib": 44,
-          "name": "Karolina Grzeszczuk-Kuć",
-          "birthYear": 1985,
-          "club": "",
           "status": "on_course",
           "gross": null,
           "net": null
@@ -623,14 +623,14 @@
           "net": "02:17:44"
         },
         {
-          "place": null,
+          "place": 9,
           "bib": 51,
           "name": "Szymon Juszczyński",
           "birthYear": 2008,
           "club": "",
-          "status": "on_course",
-          "gross": null,
-          "net": null
+          "status": "finished",
+          "gross": "02:25:47",
+          "net": "02:25:34"
         },
         {
           "place": null,
@@ -1315,6 +1315,26 @@
           "net": "02:24:19"
         },
         {
+          "place": 34,
+          "bib": 47,
+          "name": "Jacek Iwanicki",
+          "birthYear": 1981,
+          "club": "Staromiejska Patologia",
+          "status": "finished",
+          "gross": "02:28:33",
+          "net": "02:28:13"
+        },
+        {
+          "place": 35,
+          "bib": 128,
+          "name": "MAREK SITARZ",
+          "birthYear": 1981,
+          "club": "",
+          "status": "finished",
+          "gross": "02:29:18",
+          "net": "02:29:01"
+        },
+        {
           "place": null,
           "bib": 29,
           "name": "Dariusz Dymek",
@@ -1341,16 +1361,6 @@
           "birthYear": 1984,
           "club": "Zatyrani Gratisownia.pl Gmina Pilchowice",
           "status": "dns",
-          "gross": null,
-          "net": null
-        },
-        {
-          "place": null,
-          "bib": 47,
-          "name": "Jacek Iwanicki",
-          "birthYear": 1981,
-          "club": "Staromiejska Patologia",
-          "status": "on_course",
           "gross": null,
           "net": null
         },
@@ -1401,16 +1411,6 @@
           "birthYear": 1981,
           "club": "Biegającą para",
           "status": "dns",
-          "gross": null,
-          "net": null
-        },
-        {
-          "place": null,
-          "bib": 128,
-          "name": "MAREK SITARZ",
-          "birthYear": 1981,
-          "club": "",
-          "status": "on_course",
           "gross": null,
           "net": null
         },
