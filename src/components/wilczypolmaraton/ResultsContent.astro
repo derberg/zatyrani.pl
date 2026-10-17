@@ -1,0 +1,171 @@
+---
+import results from "../../data/wilczy-polmaraton-results-2026.json";
+
+interface Props {
+  t: (key: string) => string;
+}
+const { t } = Astro.props;
+
+const liveResultsUrl = "https://leszy.run/events/wilczy-pmaraton/results";
+const medalClasses: Record<number, string> = {
+  1: "bg-amber-400 text-amber-950",
+  2: "bg-slate-300 text-slate-800",
+  3: "bg-orange-300 text-orange-950",
+};
+const isPodium = (place: number | null) => place !== null && place <= 3;
+---
+
+<div class="mx-auto max-w-3xl px-4 py-8 sm:px-6 sm:py-12">
+  <div class="mb-6 text-center">
+    <h2 class="text-2xl font-bold text-slate-900 sm:text-3xl">{t("wilczypolmaraton.results.title")}</h2>
+    <p class="mt-2 text-sm text-slate-600">
+      {t("wilczypolmaraton.results.description")}
+    </p>
+    <p class="mt-1 text-xs text-slate-500">
+      {t("wilczypolmaraton.results.updated_at")} {results.updatedAt}
+    </p>
+    <a
+      href={liveResultsUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-emerald-700 underline hover:text-emerald-800"
+    >
+      {t("wilczypolmaraton.results.full_results_link")} →
+    </a>
+  </div>
+
+  <!-- View: podium / everyone -->
+  <div class="mb-4 grid grid-cols-2 rounded-full bg-slate-100 p-1 text-sm font-semibold" role="tablist">
+    <button type="button" data-view="podium" class="view-btn rounded-full px-4 py-2 transition">
+      🏆 {t("wilczypolmaraton.results.view_podium")}
+    </button>
+    <button type="button" data-view="all" class="view-btn rounded-full px-4 py-2 transition">
+      {t("wilczypolmaraton.results.view_all")}
+    </button>
+  </div>
+
+  <!-- Race -->
+  <div class="-mx-4 mb-6 flex gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:justify-center sm:px-0" role="tablist">
+    {results.races.map((race) => (
+      <button
+        type="button"
+        data-race={race.id}
+        class="race-btn shrink-0 rounded-full border border-emerald-600 px-4 py-2 text-sm font-semibold transition"
+      >
+        {t(`wilczypolmaraton.participants_list.category_${race.id}`)}
+      </button>
+    ))}
+  </div>
+
+  {results.races.map((race) => (
+    <section data-race-panel={race.id} class="race-panel hidden space-y-6">
+      {race.groups.map((group) => (
+        <div
+          class="age-group overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm"
+          data-has-podium={group.participants.some((p) => isPodium(p.place)) ? "true" : "false"}
+        >
+          <h3 class="flex items-baseline justify-between bg-slate-50 px-4 py-3 font-bold text-slate-900">
+            <span>{t("wilczypolmaraton.results.age_group")} {group.age}</span>
+            <span class="all-only text-xs font-normal text-slate-500">
+              {group.participants.length} {t("wilczypolmaraton.results.participants_count")}
+            </span>
+          </h3>
+          <ol class="divide-y divide-slate-100">
+            {group.participants.map((p) => (
+              <li class:list={["result-row flex items-center gap-3 px-4 py-3", !isPodium(p.place) && "all-only"]}>
+                <span
+                  class:list={[
+                    "flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-sm font-bold",
+                    medalClasses[p.place ?? 0] ?? (p.place ? "bg-slate-100 text-slate-700" : "bg-transparent text-slate-300"),
+                  ]}
+                >
+                  {p.place ?? "–"}
+                </span>
+                <div class="min-w-0 flex-1">
+                  <p class="truncate font-semibold text-slate-900">{p.name}</p>
+                  <p class="truncate text-xs text-slate-500">
+                    #{p.bib} · {p.gender} · {p.birthYear}{p.club && ` · ${p.club}`}
+                  </p>
+                </div>
+                <div class="shrink-0 text-right">
+                  {p.gross ? (
+                    <>
+                      <p class="font-mono text-base font-semibold tabular-nums text-slate-900">{p.gross}</p>
+                      <p class="font-mono text-[11px] tabular-nums text-slate-500">
+                        {t("wilczypolmaraton.results.net")} {p.net}
+                      </p>
+                    </>
+                  ) : (
+                    <span
+                      class:list={[
+                        "rounded-full px-2 py-1 text-xs font-semibold",
+                        p.status === "on_course" ? "bg-emerald-50 text-emerald-700" : "bg-slate-100 text-slate-500",
+                      ]}
+                    >
+                      {t(`wilczypolmaraton.results.status_${p.status}`)}
+                    </span>
+                  )}
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      ))}
+      <p class="podium-empty hidden rounded-xl border border-dashed border-slate-300 p-6 text-center text-sm text-slate-500">
+        {t("wilczypolmaraton.results.no_podium_yet")}
+      </p>
+    </section>
+  ))}
+
+  <p class="mt-6 text-center text-xs text-slate-500">{t("wilczypolmaraton.results.ranking_note")}</p>
+</div>
+
+<script>
+  const state = { view: "podium", race: "21km" };
+  try {
+    const saved = new URLSearchParams(location.hash.slice(1));
+    if (saved.get("view") === "all") state.view = "all";
+    if (document.querySelector(`[data-race-panel="${saved.get("race")}"]`)) state.race = saved.get("race")!;
+  } catch {
+    // Malformed hash: keep the defaults.
+  }
+
+  const activeBtn = ["bg-emerald-600", "text-white", "shadow"];
+  const inactiveViewBtn = ["text-slate-600"];
+  const inactiveRaceBtn = ["bg-white", "text-emerald-700"];
+
+  function render() {
+    document.querySelectorAll<HTMLButtonElement>(".view-btn").forEach((btn) => {
+      const on = btn.dataset.view === state.view;
+      btn.classList.toggle("bg-white", on);
+      btn.classList.toggle("text-slate-900", on);
+      btn.classList.toggle("shadow", on);
+      inactiveViewBtn.forEach((c) => btn.classList.toggle(c, !on));
+      btn.setAttribute("aria-selected", String(on));
+    });
+    document.querySelectorAll<HTMLButtonElement>(".race-btn").forEach((btn) => {
+      const on = btn.dataset.race === state.race;
+      activeBtn.forEach((c) => btn.classList.toggle(c, on));
+      inactiveRaceBtn.forEach((c) => btn.classList.toggle(c, !on));
+      btn.setAttribute("aria-selected", String(on));
+    });
+    const podium = state.view === "podium";
+    document.querySelectorAll<HTMLElement>(".race-panel").forEach((panel) => {
+      panel.classList.toggle("hidden", panel.dataset.racePanel !== state.race);
+      panel.querySelectorAll<HTMLElement>(".all-only").forEach((el) => el.classList.toggle("hidden", podium));
+      const groups = panel.querySelectorAll<HTMLElement>(".age-group");
+      groups.forEach((g) => g.classList.toggle("hidden", podium && g.dataset.hasPodium !== "true"));
+      const anyPodium = [...groups].some((g) => g.dataset.hasPodium === "true");
+      panel.querySelector(".podium-empty")?.classList.toggle("hidden", !podium || anyPodium);
+    });
+    history.replaceState(null, "", `#view=${state.view}&race=${state.race}`);
+  }
+
+  document.querySelectorAll<HTMLButtonElement>(".view-btn").forEach((btn) =>
+    btn.addEventListener("click", () => { state.view = btn.dataset.view!; render(); })
+  );
+  document.querySelectorAll<HTMLButtonElement>(".race-btn").forEach((btn) =>
+    btn.addEventListener("click", () => { state.race = btn.dataset.race!; render(); })
+  );
+  render();
+</script>
