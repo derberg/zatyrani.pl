@@ -614,7 +614,7 @@
       "status_dnf": "DNF",
       "status_dsq": "DSQ",
       "jump_to_group": "Jump to age group",
-      "ranking_note": "Places by gun (gross) time, within each category. Age group = 2026 − year of birth. Net time is shown below the gross time.",
+      "ranking_note": "Places by gun (gross) time, within each category. Open podium finishers are not ranked in the age groups. Age group = 2026 − year of birth. Net time is shown below the gross time.",
       "gender_K": "Women",
       "gender_M": "Men"
     },

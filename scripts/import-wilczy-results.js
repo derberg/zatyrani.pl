@@ -1,5 +1,7 @@
 // Converts the BeepBeep age-group export (CSV from age-groups.sh --gender) into
 // the JSON rendered by /wilczy-polmaraton/wyniki. Only the main run is published.
+// The top 3 per gender form the Open podium and are left out of the age groups,
+// whose places are then recounted.
 // Usage: node scripts/import-wilczy-results.js <age-groups.csv>
 import fs from 'node:fs';
 import path from 'node:path';
@@ -58,8 +60,32 @@ for (const r of parseCsv(fs.readFileSync(input, 'utf8'))) {
   });
 }
 
-const sorted = [...groups.values()].sort((a, b) =>
-  GENDER_ORDER.indexOf(a.gender) - GENDER_ORDER.indexOf(b.gender) || AGE_ORDER.indexOf(a.age) - AGE_ORDER.indexOf(b.age));
+const finishTime = (p) => (p.status === 'finished' ? p.gross || p.net : null);
+const byTime = (a, b) => finishTime(a).localeCompare(finishTime(b));
+
+// Equal times share a place, like rank() in the export.
+function assignPlaces(participants) {
+  const finishers = participants.filter(finishTime).sort(byTime);
+  finishers.forEach((p, i) => {
+    p.place = i > 0 && finishTime(p) === finishTime(finishers[i - 1]) ? finishers[i - 1].place : i + 1;
+  });
+  const rest = participants.filter((p) => !finishTime(p)).map((p) => ({ ...p, place: null }));
+  return [...finishers, ...rest];
+}
+
+const sorted = [];
+for (const gender of GENDER_ORDER) {
+  const ageGroups = [...groups.values()]
+    .filter((g) => g.gender === gender)
+    .sort((a, b) => AGE_ORDER.indexOf(a.age) - AGE_ORDER.indexOf(b.age));
+  const open = assignPlaces(ageGroups.flatMap((g) => g.participants)).filter((p) => p.place !== null && p.place <= 3);
+  const openBibs = new Set(open.map((p) => p.bib));
+  if (open.length) sorted.push({ gender, age: 'Open', participants: open });
+  for (const g of ageGroups) {
+    const participants = assignPlaces(g.participants.filter((p) => !openBibs.has(p.bib)).map((p) => ({ ...p })));
+    if (participants.length) sorted.push({ ...g, participants });
+  }
+}
 
 const exportedAt = fs.statSync(input).mtime.toLocaleString('sv-SE', { timeZone: 'Europe/Warsaw' }).slice(0, 16);
 const result = { updatedAt: exportedAt, race: RACE, groups: sorted };

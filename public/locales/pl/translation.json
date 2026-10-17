@@ -614,7 +614,7 @@
       "status_dnf": "DNF",
       "status_dsq": "DSQ",
       "jump_to_group": "Przejdź do kategorii",
-      "ranking_note": "Miejsca według czasu brutto, osobno w każdej kategorii. Kategoria wiekowa = 2026 − rok urodzenia. Pod czasem brutto podajemy czas netto.",
+      "ranking_note": "Miejsca według czasu brutto, osobno w każdej kategorii. Osoby z podium Open nie są klasyfikowane w kategoriach wiekowych. Kategoria wiekowa = 2026 − rok urodzenia. Pod czasem brutto podajemy czas netto.",
       "gender_K": "Kobiety",
       "gender_M": "Mężczyźni"
     },
