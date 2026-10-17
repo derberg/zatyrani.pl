@@ -126,7 +126,9 @@ const isPodium = (place: number | null) => place !== null && place <= 3;
     const saved = new URLSearchParams(location.hash.slice(1));
     if (saved.get("view") === "all") state.view = "all";
     if (document.querySelector(`[data-race-panel="${saved.get("race")}"]`)) state.race = saved.get("race")!;
-  } catch {}
+  } catch {
+    // Malformed hash: keep the defaults.
+  }
 
   const activeBtn = ["bg-emerald-600", "text-white", "shadow"];
   const inactiveViewBtn = ["text-slate-600"];
