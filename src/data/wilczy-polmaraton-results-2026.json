@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-17 11:53",
+  "updatedAt": "2026-10-17 11:58",
   "race": "Półmaraton 21km",
   "groups": [
     {
@@ -229,21 +229,21 @@
           "net": "02:50:56"
         },
         {
+          "place": 11,
+          "bib": 136,
+          "name": "Sylwia Stolarczyk",
+          "birthYear": 1988,
+          "club": "",
+          "status": "finished",
+          "gross": "02:57:54",
+          "net": "02:57:43"
+        },
+        {
           "place": null,
           "bib": 3,
           "name": "Natalia Banaś",
           "birthYear": 1995,
           "club": "RUN Rudziniec Ultra Nóżki",
-          "status": "on_course",
-          "gross": null,
-          "net": null
-        },
-        {
-          "place": null,
-          "bib": 136,
-          "name": "Sylwia Stolarczyk",
-          "birthYear": 1988,
-          "club": "",
           "status": "on_course",
           "gross": null,
           "net": null
@@ -1365,6 +1365,16 @@
           "net": "02:54:02"
         },
         {
+          "place": 39,
+          "bib": 143,
+          "name": "Łukasz Szymała",
+          "birthYear": 1980,
+          "club": "",
+          "status": "finished",
+          "gross": "02:57:21",
+          "net": "02:57:00"
+        },
+        {
           "place": null,
           "bib": 34,
           "name": "Adam Galman",
@@ -1421,16 +1431,6 @@
           "birthYear": 1981,
           "club": "Biegającą para",
           "status": "dns",
-          "gross": null,
-          "net": null
-        },
-        {
-          "place": null,
-          "bib": 143,
-          "name": "Łukasz Szymała",
-          "birthYear": 1980,
-          "club": "",
-          "status": "on_course",
           "gross": null,
           "net": null
         }
