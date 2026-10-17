@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-17 11:13",
+  "updatedAt": "2026-10-17 11:24",
   "race": "Półmaraton 21km",
   "groups": [
     {
@@ -63,6 +63,36 @@
           "net": "02:14:31"
         },
         {
+          "place": 3,
+          "bib": 28,
+          "name": "Mariola Dylong",
+          "birthYear": 1997,
+          "club": "",
+          "status": "finished",
+          "gross": "02:16:01",
+          "net": "02:15:56"
+        },
+        {
+          "place": 4,
+          "bib": 89,
+          "name": "Agata Michalik",
+          "birthYear": 2005,
+          "club": "",
+          "status": "finished",
+          "gross": "02:17:57",
+          "net": "02:17:43"
+        },
+        {
+          "place": 5,
+          "bib": 82,
+          "name": "Martyna Machej",
+          "birthYear": 2003,
+          "club": "#SkoczówBiega",
+          "status": "finished",
+          "gross": "02:18:38",
+          "net": "02:18:20"
+        },
+        {
           "place": null,
           "bib": 2,
           "name": "Monika Bajko",
@@ -77,36 +107,6 @@
           "bib": 11,
           "name": "Nela Boczar",
           "birthYear": 2000,
-          "club": "",
-          "status": "on_course",
-          "gross": null,
-          "net": null
-        },
-        {
-          "place": null,
-          "bib": 28,
-          "name": "Mariola Dylong",
-          "birthYear": 1997,
-          "club": "",
-          "status": "on_course",
-          "gross": null,
-          "net": null
-        },
-        {
-          "place": null,
-          "bib": 82,
-          "name": "Martyna Machej",
-          "birthYear": 2003,
-          "club": "#SkoczówBiega",
-          "status": "on_course",
-          "gross": null,
-          "net": null
-        },
-        {
-          "place": null,
-          "bib": 89,
-          "name": "Agata Michalik",
-          "birthYear": 2005,
           "club": "",
           "status": "on_course",
           "gross": null,
@@ -149,21 +149,21 @@
           "net": "02:08:48"
         },
         {
+          "place": 3,
+          "bib": 8,
+          "name": "Karolina Będkowska",
+          "birthYear": 1991,
+          "club": "",
+          "status": "finished",
+          "gross": "02:17:04",
+          "net": "02:16:50"
+        },
+        {
           "place": null,
           "bib": 3,
           "name": "Natalia Banaś",
           "birthYear": 1995,
           "club": "RUN Rudziniec Ultra Nóżki",
-          "status": "on_course",
-          "gross": null,
-          "net": null
-        },
-        {
-          "place": null,
-          "bib": 8,
-          "name": "Karolina Będkowska",
-          "birthYear": 1991,
-          "club": "",
           "status": "on_course",
           "gross": null,
           "net": null
@@ -325,6 +325,16 @@
           "net": "02:10:40"
         },
         {
+          "place": 8,
+          "bib": 134,
+          "name": "Ewa Stefaniw",
+          "birthYear": 1983,
+          "club": "",
+          "status": "finished",
+          "gross": "02:23:21",
+          "net": "02:23:01"
+        },
+        {
           "place": null,
           "bib": 25,
           "name": "Karina Duraj",
@@ -406,16 +416,6 @@
         },
         {
           "place": null,
-          "bib": 134,
-          "name": "Ewa Stefaniw",
-          "birthYear": 1983,
-          "club": "",
-          "status": "on_course",
-          "gross": null,
-          "net": null
-        },
-        {
-          "place": null,
           "bib": 135,
           "name": "Małgorzata Stochla",
           "birthYear": 1977,
@@ -449,6 +449,16 @@
           "status": "finished",
           "gross": "01:57:22",
           "net": "01:57:17"
+        },
+        {
+          "place": 2,
+          "bib": 19,
+          "name": "Anna Czuchaj",
+          "birthYear": 1976,
+          "club": "",
+          "status": "finished",
+          "gross": "02:15:57",
+          "net": "02:15:34"
         },
         {
           "place": null,
@@ -485,16 +495,6 @@
           "bib": 17,
           "name": "Agnieszka Ciochoń",
           "birthYear": 1973,
-          "club": "",
-          "status": "on_course",
-          "gross": null,
-          "net": null
-        },
-        {
-          "place": null,
-          "bib": 19,
-          "name": "Anna Czuchaj",
-          "birthYear": 1976,
           "club": "",
           "status": "on_course",
           "gross": null,
@@ -613,6 +613,16 @@
           "net": "02:14:17"
         },
         {
+          "place": 8,
+          "bib": 142,
+          "name": "Bartosz Szymała",
+          "birthYear": 2006,
+          "club": "",
+          "status": "finished",
+          "gross": "02:17:58",
+          "net": "02:17:44"
+        },
+        {
           "place": null,
           "bib": 51,
           "name": "Szymon Juszczyński",
@@ -649,16 +659,6 @@
           "birthYear": 2006,
           "club": "",
           "status": "dns",
-          "gross": null,
-          "net": null
-        },
-        {
-          "place": null,
-          "bib": 142,
-          "name": "Bartosz Szymała",
-          "birthYear": 2006,
-          "club": "",
-          "status": "on_course",
           "gross": null,
           "net": null
         }
@@ -879,6 +879,16 @@
           "net": "02:13:43"
         },
         {
+          "place": 22,
+          "bib": 72,
+          "name": "Jakub Lewalski",
+          "birthYear": 1996,
+          "club": "",
+          "status": "finished",
+          "gross": "02:20:10",
+          "net": "02:19:45"
+        },
+        {
           "place": null,
           "bib": 12,
           "name": "Łukasz Bomba",
@@ -895,16 +905,6 @@
           "birthYear": 1987,
           "club": "RaaN",
           "status": "dns",
-          "gross": null,
-          "net": null
-        },
-        {
-          "place": null,
-          "bib": 72,
-          "name": "Jakub Lewalski",
-          "birthYear": 1996,
-          "club": "",
-          "status": "on_course",
           "gross": null,
           "net": null
         },
@@ -1245,14 +1245,74 @@
           "net": "02:13:33"
         },
         {
-          "place": null,
+          "place": 27,
+          "bib": 64,
+          "name": "Jakub Kuć",
+          "birthYear": 1985,
+          "club": "",
+          "status": "finished",
+          "gross": "02:14:56",
+          "net": "02:14:38"
+        },
+        {
+          "place": 28,
           "bib": 10,
           "name": "Piotr Bik",
           "birthYear": 1984,
           "club": "Run Away Team",
-          "status": "on_course",
-          "gross": null,
-          "net": null
+          "status": "finished",
+          "gross": "02:17:36",
+          "net": "02:17:29"
+        },
+        {
+          "place": 29,
+          "bib": 59,
+          "name": "Maciej Koniorczyk",
+          "birthYear": 1982,
+          "club": "",
+          "status": "finished",
+          "gross": "02:18:39",
+          "net": "02:18:20"
+        },
+        {
+          "place": 30,
+          "bib": 65,
+          "name": "Grzegorz Kulawik",
+          "birthYear": 1981,
+          "club": "",
+          "status": "finished",
+          "gross": "02:19:21",
+          "net": "02:19:04"
+        },
+        {
+          "place": 31,
+          "bib": 117,
+          "name": "Dariusz Powała",
+          "birthYear": 1984,
+          "club": "Pyrtulka",
+          "status": "finished",
+          "gross": "02:21:33",
+          "net": "02:21:11"
+        },
+        {
+          "place": 32,
+          "bib": 115,
+          "name": "Marek Podrygała",
+          "birthYear": 1984,
+          "club": "Pyrtulka",
+          "status": "finished",
+          "gross": "02:24:07",
+          "net": "02:23:45"
+        },
+        {
+          "place": 33,
+          "bib": 219,
+          "name": "Marek Ścisło",
+          "birthYear": 1983,
+          "club": "",
+          "status": "finished",
+          "gross": "02:24:39",
+          "net": "02:24:19"
         },
         {
           "place": null,
@@ -1306,39 +1366,9 @@
         },
         {
           "place": null,
-          "bib": 59,
-          "name": "Maciej Koniorczyk",
-          "birthYear": 1982,
-          "club": "",
-          "status": "on_course",
-          "gross": null,
-          "net": null
-        },
-        {
-          "place": null,
           "bib": 62,
           "name": "Marcin Kubala",
           "birthYear": 1982,
-          "club": "",
-          "status": "on_course",
-          "gross": null,
-          "net": null
-        },
-        {
-          "place": null,
-          "bib": 64,
-          "name": "Jakub Kuć",
-          "birthYear": 1985,
-          "club": "",
-          "status": "on_course",
-          "gross": null,
-          "net": null
-        },
-        {
-          "place": null,
-          "bib": 65,
-          "name": "Grzegorz Kulawik",
-          "birthYear": 1981,
           "club": "",
           "status": "on_course",
           "gross": null,
@@ -1366,41 +1396,11 @@
         },
         {
           "place": null,
-          "bib": 115,
-          "name": "Marek Podrygała",
-          "birthYear": 1984,
-          "club": "Pyrtulka",
-          "status": "on_course",
-          "gross": null,
-          "net": null
-        },
-        {
-          "place": null,
-          "bib": 117,
-          "name": "Dariusz Powała",
-          "birthYear": 1984,
-          "club": "Pyrtulka",
-          "status": "on_course",
-          "gross": null,
-          "net": null
-        },
-        {
-          "place": null,
           "bib": 123,
           "name": "Krzysztof Rus",
           "birthYear": 1981,
           "club": "Biegającą para",
           "status": "dns",
-          "gross": null,
-          "net": null
-        },
-        {
-          "place": null,
-          "bib": 219,
-          "name": "Marek Ścisło",
-          "birthYear": 1983,
-          "club": "",
-          "status": "on_course",
           "gross": null,
           "net": null
         },
@@ -1561,21 +1561,61 @@
           "net": "02:11:55"
         },
         {
+          "place": 13,
+          "bib": 13,
+          "name": "Tomasz Brom",
+          "birthYear": 1973,
+          "club": "MK TEAM",
+          "status": "finished",
+          "gross": "02:15:05",
+          "net": "02:14:50"
+        },
+        {
+          "place": 14,
+          "bib": 92,
+          "name": "Piotr Mituta",
+          "birthYear": 1973,
+          "club": "",
+          "status": "finished",
+          "gross": "02:18:08",
+          "net": "02:17:53"
+        },
+        {
+          "place": 15,
+          "bib": 81,
+          "name": "Mariusz Machej",
+          "birthYear": 1971,
+          "club": "#SkoczówBiega",
+          "status": "finished",
+          "gross": "02:18:40",
+          "net": "02:18:20"
+        },
+        {
+          "place": 16,
+          "bib": 36,
+          "name": "Piotrek Gleba",
+          "birthYear": 1974,
+          "club": "Ministerstwo Sportu i Turystyki",
+          "status": "finished",
+          "gross": "02:20:55",
+          "net": "02:20:47"
+        },
+        {
+          "place": 17,
+          "bib": 121,
+          "name": "Jacek Reclik",
+          "birthYear": 1970,
+          "club": "Smaki Biegania",
+          "status": "finished",
+          "gross": "02:23:29",
+          "net": "02:23:18"
+        },
+        {
           "place": null,
           "bib": 6,
           "name": "Janusz Bartkowski",
           "birthYear": 1973,
           "club": "",
-          "status": "on_course",
-          "gross": null,
-          "net": null
-        },
-        {
-          "place": null,
-          "bib": 13,
-          "name": "Tomasz Brom",
-          "birthYear": 1973,
-          "club": "MK TEAM",
           "status": "on_course",
           "gross": null,
           "net": null
@@ -1592,30 +1632,10 @@
         },
         {
           "place": null,
-          "bib": 36,
-          "name": "Piotrek Gleba",
-          "birthYear": 1974,
-          "club": "Ministerstwo Sportu i Turystyki",
-          "status": "on_course",
-          "gross": null,
-          "net": null
-        },
-        {
-          "place": null,
           "bib": 50,
           "name": "Jarosław Jura",
           "birthYear": 1970,
           "club": "",
-          "status": "on_course",
-          "gross": null,
-          "net": null
-        },
-        {
-          "place": null,
-          "bib": 81,
-          "name": "Mariusz Machej",
-          "birthYear": 1971,
-          "club": "#SkoczówBiega",
           "status": "on_course",
           "gross": null,
           "net": null
@@ -1632,30 +1652,10 @@
         },
         {
           "place": null,
-          "bib": 92,
-          "name": "Piotr Mituta",
-          "birthYear": 1973,
-          "club": "",
-          "status": "on_course",
-          "gross": null,
-          "net": null
-        },
-        {
-          "place": null,
           "bib": 110,
           "name": "Piotr Parnicki",
           "birthYear": 1972,
           "club": "Zawisza Stara Kuźnia",
-          "status": "on_course",
-          "gross": null,
-          "net": null
-        },
-        {
-          "place": null,
-          "bib": 121,
-          "name": "Jacek Reclik",
-          "birthYear": 1970,
-          "club": "Smaki Biegania",
           "status": "on_course",
           "gross": null,
           "net": null

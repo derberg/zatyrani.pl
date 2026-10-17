@@ -1,19 +1,23 @@
-// Converts the BeepBeep age-group export (CSV from age-groups.sh --gender) into
-// the JSON rendered by /wilczy-polmaraton/wyniki. Only the main run is published.
+// Converts the BeepBeep age-group export into the JSON rendered by
+// /wilczy-polmaraton/wyniki. Accepts the markdown (wszyscy-*.md) or the CSV from
+// age-groups.sh; groups are split by gender here and places recounted. Only the main run is published.
 // The top 3 per gender form the Open podium and are left out of the age groups,
 // whose places are then recounted.
-// Usage: node scripts/import-wilczy-results.js <age-groups.csv>
+// Usage: node scripts/import-wilczy-results.js <wszyscy-*.md | age-groups.csv>
 import fs from 'node:fs';
 import path from 'node:path';
 
 const RACE = 'Półmaraton 21km';
-const STATUS = { finished: 'finished', started: 'on_course', dns: 'dns', dnf: 'dnf', dsq: 'dsq' };
+const STATUS = {
+  finished: 'finished', started: 'on_course', dns: 'dns', dnf: 'dnf', dsq: 'dsq',
+  'ukończył': 'finished', 'na trasie': 'on_course', DNS: 'dns', DNF: 'dnf', DSQ: 'dsq',
+};
 const AGE_ORDER = ['18-29', '30-39', '40-49', '50-59', '60-69', '70+'];
 const GENDER_ORDER = ['K', 'M'];
 
 const input = process.argv[2];
 if (!input) {
-  console.error('Usage: node scripts/import-wilczy-results.js <age-groups.csv>');
+  console.error('Usage: node scripts/import-wilczy-results.js <wszyscy-*.md | age-groups.csv>');
   process.exit(1);
 }
 
@@ -38,12 +42,34 @@ function parseCsv(text) {
   return data.map((r) => Object.fromEntries(header.map((h, i) => [h, r[i] ?? ''])));
 }
 
+// Markdown rows mapped onto the CSV column names.
+function parseMarkdown(text) {
+  const rows = [];
+  let race = null;
+  let age = null;
+  for (const line of text.split('\n')) {
+    const raceHeader = line.match(/^## (.+?)(?: \(\d+\))?$/);
+    if (raceHeader) { race = raceHeader[1]; continue; }
+    const groupHeader = line.match(/^### (\S+)/);
+    if (groupHeader) { age = groupHeader[1]; continue; }
+    if (!line.startsWith('|') || line.startsWith('|---') || line.startsWith('| Miejsce')) continue;
+    const [miejsce, nr, zawodnik, płeć, rocznik, klub, status, brutto, netto] = line.split('|').slice(1, -1).map((c) => c.trim());
+    rows.push({ dystans: race, grupa: age, miejsce, nr, zawodnik, 'płeć': płeć, rocznik, klub, status, brutto, netto });
+  }
+  return rows;
+}
+
+const text = fs.readFileSync(input, 'utf8');
+const markdown = input.endsWith('.md');
+const rows = markdown ? parseMarkdown(text) : parseCsv(text);
+
 const groups = new Map();
-for (const r of parseCsv(fs.readFileSync(input, 'utf8'))) {
+for (const r of rows) {
   if (r.dystans !== RACE) continue;
-  const [age, gender] = r.grupa.split(' ');
+  const age = r.grupa.split(' ')[0];
+  const gender = r['płeć'];
   if (!AGE_ORDER.includes(age) || !GENDER_ORDER.includes(gender)) {
-    throw new Error(`Unexpected group "${r.grupa}" for bib ${r.nr}; export with --gender`);
+    throw new Error(`Unexpected group "${r.grupa}" / gender "${gender}" for bib ${r.nr}`);
   }
   if (!STATUS[r.status]) throw new Error(`Unknown status "${r.status}" for bib ${r.nr}`);
   const key = `${gender} ${age}`;
@@ -63,12 +89,11 @@ for (const r of parseCsv(fs.readFileSync(input, 'utf8'))) {
 const finishTime = (p) => (p.status === 'finished' ? p.gross || p.net : null);
 const byTime = (a, b) => finishTime(a).localeCompare(finishTime(b));
 
-// Equal times share a place, like rank() in the export.
+// The export is ordered by millisecond times, so a stable sort keeps its order
+// for times that are equal to the second.
 function assignPlaces(participants) {
   const finishers = participants.filter(finishTime).sort(byTime);
-  finishers.forEach((p, i) => {
-    p.place = i > 0 && finishTime(p) === finishTime(finishers[i - 1]) ? finishers[i - 1].place : i + 1;
-  });
+  finishers.forEach((p, i) => { p.place = i + 1; });
   const rest = participants.filter((p) => !finishTime(p)).map((p) => ({ ...p, place: null }));
   return [...finishers, ...rest];
 }
@@ -87,7 +112,8 @@ for (const gender of GENDER_ORDER) {
   }
 }
 
-const exportedAt = fs.statSync(input).mtime.toLocaleString('sv-SE', { timeZone: 'Europe/Warsaw' }).slice(0, 16);
+const stamp = markdown && text.match(/^Stan na (\S+ \S+)\./m);
+const exportedAt = stamp ? stamp[1] : fs.statSync(input).mtime.toLocaleString('sv-SE', { timeZone: 'Europe/Warsaw' }).slice(0, 16);
 const result = { updatedAt: exportedAt, race: RACE, groups: sorted };
 
 const out = path.resolve('src/data/wilczy-polmaraton-results-2026.json');
