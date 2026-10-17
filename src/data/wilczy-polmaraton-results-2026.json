@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-17 11:30",
+  "updatedAt": "2026-10-17 11:42",
   "race": "Półmaraton 21km",
   "groups": [
     {
@@ -345,6 +345,56 @@
           "net": "02:29:05"
         },
         {
+          "place": 10,
+          "bib": 138,
+          "name": "Agnieszka Studnik",
+          "birthYear": 1984,
+          "club": "Huragan Ligota",
+          "status": "finished",
+          "gross": "02:32:44",
+          "net": "02:32:32"
+        },
+        {
+          "place": 11,
+          "bib": 111,
+          "name": "Iwona Patoń",
+          "birthYear": 1982,
+          "club": "SOCIOS SILESIA",
+          "status": "finished",
+          "gross": "02:34:05",
+          "net": "02:33:58"
+        },
+        {
+          "place": 12,
+          "bib": 135,
+          "name": "Małgorzata Stochla",
+          "birthYear": 1977,
+          "club": "Zatyrani Gratisownia.pl Gmina Pilchowice",
+          "status": "finished",
+          "gross": "02:39:03",
+          "net": "02:38:52"
+        },
+        {
+          "place": 13,
+          "bib": 38,
+          "name": "Emilia Głowacka",
+          "birthYear": 1980,
+          "club": "",
+          "status": "finished",
+          "gross": "02:39:27",
+          "net": "02:39:09"
+        },
+        {
+          "place": 14,
+          "bib": 42,
+          "name": "Karina Górnicka",
+          "birthYear": 1983,
+          "club": "Zatyrani Gratisownia.pl Gmina Pilchowice",
+          "status": "finished",
+          "gross": "02:40:50",
+          "net": "02:40:40"
+        },
+        {
           "place": null,
           "bib": 25,
           "name": "Karina Duraj",
@@ -356,40 +406,10 @@
         },
         {
           "place": null,
-          "bib": 38,
-          "name": "Emilia Głowacka",
-          "birthYear": 1980,
-          "club": "",
-          "status": "on_course",
-          "gross": null,
-          "net": null
-        },
-        {
-          "place": null,
-          "bib": 42,
-          "name": "Karina Górnicka",
-          "birthYear": 1983,
-          "club": "Zatyrani Gratisownia.pl Gmina Pilchowice",
-          "status": "on_course",
-          "gross": null,
-          "net": null
-        },
-        {
-          "place": null,
           "bib": 66,
           "name": "Aleksandra Kuzdrowska",
           "birthYear": 1986,
           "club": "",
-          "status": "on_course",
-          "gross": null,
-          "net": null
-        },
-        {
-          "place": null,
-          "bib": 111,
-          "name": "Iwona Patoń",
-          "birthYear": 1982,
-          "club": "SOCIOS SILESIA",
           "status": "on_course",
           "gross": null,
           "net": null
@@ -411,26 +431,6 @@
           "birthYear": 1986,
           "club": "Biegającą para",
           "status": "dns",
-          "gross": null,
-          "net": null
-        },
-        {
-          "place": null,
-          "bib": 135,
-          "name": "Małgorzata Stochla",
-          "birthYear": 1977,
-          "club": "Zatyrani Gratisownia.pl Gmina Pilchowice",
-          "status": "on_course",
-          "gross": null,
-          "net": null
-        },
-        {
-          "place": null,
-          "bib": 138,
-          "name": "Agnieszka Studnik",
-          "birthYear": 1984,
-          "club": "Huragan Ligota",
-          "status": "on_course",
           "gross": null,
           "net": null
         }
@@ -461,6 +461,26 @@
           "net": "02:15:34"
         },
         {
+          "place": 3,
+          "bib": 15,
+          "name": "Marzena Burliga",
+          "birthYear": 1974,
+          "club": "AKMB PĘDZIWIATR GLIWICE",
+          "status": "finished",
+          "gross": "02:39:02",
+          "net": "02:38:54"
+        },
+        {
+          "place": 4,
+          "bib": 17,
+          "name": "Agnieszka Ciochoń",
+          "birthYear": 1973,
+          "club": "",
+          "status": "finished",
+          "gross": "02:39:17",
+          "net": "02:39:08"
+        },
+        {
           "place": null,
           "bib": 1,
           "name": "Aneta Adamowicz",
@@ -477,26 +497,6 @@
           "birthYear": 1974,
           "club": "",
           "status": "dns",
-          "gross": null,
-          "net": null
-        },
-        {
-          "place": null,
-          "bib": 15,
-          "name": "Marzena Burliga",
-          "birthYear": 1974,
-          "club": "AKMB PĘDZIWIATR GLIWICE",
-          "status": "on_course",
-          "gross": null,
-          "net": null
-        },
-        {
-          "place": null,
-          "bib": 17,
-          "name": "Agnieszka Ciochoń",
-          "birthYear": 1973,
-          "club": "",
-          "status": "on_course",
           "gross": null,
           "net": null
         }
@@ -633,14 +633,14 @@
           "net": "02:25:34"
         },
         {
-          "place": null,
+          "place": 10,
           "bib": 71,
           "name": "Maciej Lepich",
           "birthYear": 1999,
           "club": "",
-          "status": "on_course",
-          "gross": null,
-          "net": null
+          "status": "finished",
+          "gross": "02:32:07",
+          "net": "02:32:07"
         },
         {
           "place": null,
@@ -889,6 +889,16 @@
           "net": "02:19:45"
         },
         {
+          "place": 23,
+          "bib": 152,
+          "name": "Tomasz Wilczek",
+          "birthYear": 1991,
+          "club": "",
+          "status": "finished",
+          "gross": "02:39:30",
+          "net": "02:39:16"
+        },
+        {
           "place": null,
           "bib": 12,
           "name": "Łukasz Bomba",
@@ -955,16 +965,6 @@
           "birthYear": 1992,
           "club": "",
           "status": "dns",
-          "gross": null,
-          "net": null
-        },
-        {
-          "place": null,
-          "bib": 152,
-          "name": "Tomasz Wilczek",
-          "birthYear": 1991,
-          "club": "",
-          "status": "on_course",
           "gross": null,
           "net": null
         },
@@ -1335,14 +1335,14 @@
           "net": "02:29:01"
         },
         {
-          "place": null,
+          "place": 36,
           "bib": 29,
           "name": "Dariusz Dymek",
           "birthYear": 1977,
           "club": "WZ",
-          "status": "on_course",
-          "gross": null,
-          "net": null
+          "status": "finished",
+          "gross": "02:35:46",
+          "net": "02:35:31"
         },
         {
           "place": null,
@@ -1611,6 +1611,16 @@
           "net": "02:23:18"
         },
         {
+          "place": 18,
+          "bib": 139,
+          "name": "Jarosław Sygidus",
+          "birthYear": 1969,
+          "club": "",
+          "status": "finished",
+          "gross": "02:35:56",
+          "net": "02:35:43"
+        },
+        {
           "place": null,
           "bib": 6,
           "name": "Janusz Bartkowski",
@@ -1656,16 +1666,6 @@
           "name": "Piotr Parnicki",
           "birthYear": 1972,
           "club": "Zawisza Stara Kuźnia",
-          "status": "on_course",
-          "gross": null,
-          "net": null
-        },
-        {
-          "place": null,
-          "bib": 139,
-          "name": "Jarosław Sygidus",
-          "birthYear": 1969,
-          "club": "",
           "status": "on_course",
           "gross": null,
           "net": null
