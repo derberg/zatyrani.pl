@@ -18,6 +18,7 @@ const ytPreviewLink = "https://www.youtube.com/embed/sY6au0yZyp4";
 const raceOfficeAddress = "GOK Wilcza, ul. Karola Miarki 123, 44-189 Wilcza";
 const raceOfficeMapLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(raceOfficeAddress)}`;
 const regulationsUrl = "https://docs.google.com/document/d/1WtKIgGkY9CwkGpiz048nbxFYlqSwO4RqWK8UcyHAMRc/edit?usp=sharing";
+const photos2026Url = "https://photos.app.goo.gl/X1p6tU9wJVftHLNw9";
 const liveResultsUrl = "https://leszy.run/events/wilczy-pmaraton/results";
 const parkings = [
   { label: "Parking 1", url: "https://maps.app.goo.gl/1xzu4zNgUSTs6CGm9", noteKey: "halfmarathon.info_parking_1" },
@@ -27,7 +28,7 @@ const parkings = [
 ---
 
 <!-- Hero Section -->
-<div class="relative h-[60vh] flex items-center justify-center text-white">
+<div class="relative min-h-[60vh] flex items-center justify-center text-white px-4 py-12">
   <div class="absolute inset-0">
     <img
       src="/halfmarathon/header.webp"
@@ -36,41 +37,43 @@ const parkings = [
     />
     <div class="absolute inset-0 bg-black/60"></div>
   </div>
-  <div class="relative text-center space-y-4">
-    <div class="bg-white/20 px-8 py-4 rounded-lg shadow-lg backdrop-blur-sm mx-auto max-w-full">
-      <h1 class="text-5xl font-bold text-white">
+  <div class="relative w-full text-center space-y-4">
+    <div class="bg-white/20 px-6 sm:px-8 py-4 rounded-lg shadow-lg backdrop-blur-sm mx-auto max-w-full inline-block">
+      <h1 class="text-3xl sm:text-5xl font-bold text-white">
         {eventNumber} {t("halfmarathon.event_name")}
       </h1>
     </div>
 
-    <div class="bg-white/20 px-8 py-4 rounded-lg shadow-lg backdrop-blur-sm mx-auto inline-block">
-      <h1 class="text-3xl font-bold text-white">{eventDate}</h1>
+    <div>
+      <div class="bg-white/20 px-6 sm:px-8 py-3 sm:py-4 rounded-lg shadow-lg backdrop-blur-sm mx-auto inline-block">
+        <p class="text-2xl sm:text-3xl font-bold text-white">{eventDate}</p>
+      </div>
     </div>
 
-    <div class="flex flex-wrap justify-center gap-3 text-lg">
-      <span class="bg-white/20 px-4 py-2 rounded-full backdrop-blur-sm">🏃 22km bieg</span>
-      <span class="bg-white/20 px-4 py-2 rounded-full backdrop-blur-sm">🐕 22km canicross</span>
-      <span class="bg-white/20 px-4 py-2 rounded-full backdrop-blur-sm">🥢 11km nordic walking</span>
+    <div class="flex flex-wrap justify-center gap-2 sm:gap-3 text-sm sm:text-lg">
+      <span class="bg-white/20 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full backdrop-blur-sm">🏃 22km bieg</span>
+      <span class="bg-white/20 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full backdrop-blur-sm">🐕 22km canicross</span>
+      <span class="bg-white/20 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full backdrop-blur-sm">🥢 11km nordic walking</span>
     </div>
 
-    <div id="registration-buttons-wrapper" class="flex flex-wrap justify-center gap-3">
+    <div id="registration-buttons-wrapper" class="mx-auto grid w-full max-w-xs grid-cols-1 gap-3 sm:flex sm:max-w-none sm:flex-wrap sm:justify-center">
       <div id="registration-buttons" class="contents">
         <a
           id="register-button"
           href="/wilczy-polmaraton/rejestracja"
-          class="inline-block bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-full"
+          class="inline-block text-center bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-full"
         >
           {t("halfmarathon.register_button")}
         </a>
         <a
           href="/wilczy-polmaraton/zaloguj"
-          class="inline-block bg-white/20 hover:bg-white/30 text-white px-8 py-3 rounded-full backdrop-blur-sm border border-white/40"
+          class="inline-block text-center bg-white/20 hover:bg-white/30 text-white px-8 py-3 rounded-full backdrop-blur-sm border border-white/40"
         >
           {t("halfmarathon.login_button")}
         </a>
         <a
           href="/wilczy-polmaraton/lista"
-          class="inline-block bg-white/20 hover:bg-white/30 text-white px-8 py-3 rounded-full backdrop-blur-sm"
+          class="inline-block text-center bg-white/20 hover:bg-white/30 text-white px-8 py-3 rounded-full backdrop-blur-sm"
         >
           {t("halfmarathon.participants_list_button")}
         </a>
@@ -79,28 +82,55 @@ const parkings = [
         href={liveResultsUrl}
         target="_blank"
         rel="noopener noreferrer"
-        class="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-full"
+        class="inline-flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-full"
       >
         <span class="h-2 w-2 rounded-full bg-white animate-pulse"></span>
         {t("halfmarathon.live_results_button")}
       </a>
       <a
         href="/wilczy-polmaraton/wyniki"
-        class="inline-block bg-amber-500 hover:bg-amber-600 text-white px-8 py-3 rounded-full"
+        class="inline-block text-center bg-amber-500 hover:bg-amber-600 text-white px-8 py-3 rounded-full"
       >
         🏆 {t("halfmarathon.age_results_button")}
-      </a>
-      <a
-        href={regulationsUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="inline-block bg-white/20 hover:bg-white/30 text-white px-8 py-3 rounded-full backdrop-blur-sm border border-white/40"
-      >
-        {t("halfmarathon.regulations_button")}
       </a>
     </div>
   </div>
 </div>
+
+<!-- 2026 Photos Section -->
+<section id="zdjecia-2026" class="mx-auto max-w-6xl px-4 sm:px-6 pt-12 sm:pt-16">
+  <div class="overflow-hidden rounded-2xl bg-white shadow-lg md:grid md:grid-cols-2">
+    <a href={photos2026Url} target="_blank" rel="noopener noreferrer" class="block">
+      <img
+        src="/halfmarathon/2026/zdjecia-bernas-preview.webp"
+        alt={t("halfmarathon.photos_2026_alt")}
+        width="1600"
+        height="1067"
+        class="h-full w-full object-cover"
+      />
+    </a>
+    <div class="flex flex-col justify-center gap-4 p-6 sm:p-8 text-center md:text-left">
+      <h2 class="text-2xl sm:text-3xl font-bold text-slate-900">📸 {t("halfmarathon.photos_2026_title")}</h2>
+      <p class="text-slate-700 text-lg">
+        {t("halfmarathon.photos_2026_text")}{" "}
+        <a
+          href="https://www.instagram.com/pawelbernas.fotografia"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="font-semibold text-emerald-700 underline hover:text-emerald-800">Paweł Bernas</a
+        >.
+      </p>
+      <a
+        href={photos2026Url}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-block self-center md:self-start bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-full"
+      >
+        {t("halfmarathon.photos_2026_button")}
+      </a>
+    </div>
+  </div>
+</section>
 
 <!-- Schedule Section -->
 <section id="harmonogram" class="mx-auto max-w-6xl px-6 pt-16">
@@ -591,6 +621,20 @@ const parkings = [
   </p>
 </section>
 
+<!-- Regulations Section -->
+<section id="regulamin" class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mb-16 text-center">
+  <h2 class="text-3xl font-bold">{t("halfmarathon.regulations_title")}</h2>
+  <p class="text-gray-700 text-lg mt-4">{t("halfmarathon.regulations_text")}</p>
+  <a
+    href={regulationsUrl}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="inline-block mt-4 bg-slate-800 hover:bg-slate-900 text-white px-8 py-3 rounded-full"
+  >
+    📄 {t("halfmarathon.regulations_button")}
+  </a>
+</section>
+
 <!-- Facebook News -->
 <section class="mt-16 mb-16">
   <h2 class="text-3xl font-bold text-center">{t("halfmarathon.fb_news_title")}</h2>
@@ -843,10 +887,10 @@ const parkings = [
       const registrationButtons = document.getElementById('registration-buttons');
       if (registrationButtons) {
         registrationButtons.innerHTML = `
-          <a href="/wilczy-polmaraton/panel" class="inline-block bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-full">
+          <a href="/wilczy-polmaraton/panel" class="inline-block text-center bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-full">
             ${panelLabel}
           </a>
-          <a href="/wilczy-polmaraton/lista" class="inline-block bg-white/20 hover:bg-white/30 text-white px-8 py-3 rounded-full backdrop-blur-sm">
+          <a href="/wilczy-polmaraton/lista" class="inline-block text-center bg-white/20 hover:bg-white/30 text-white px-8 py-3 rounded-full backdrop-blur-sm">
             ${listLabel}
           </a>
         `;
