@@ -2,10 +2,6 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 
 // Minimal in-memory stand-in for the supabase-js query builder used by the handlers.
 let tables;
-const conflictKeys = {
-  plebiscyt_votes: ["edition", "category", "voter_id"],
-  plebiscyt_achievements: ["edition", "member_id"],
-};
 function from(table) {
   const filters = [];
   let op = "select";
@@ -13,23 +9,17 @@ function from(table) {
   const run = () => {
     const rows = tables[table];
     if (op === "upsert") {
-      const keys = conflictKeys[table];
-      const existing = rows.find((r) => keys.every((k) => r[k] === patch[k]));
+      const existing = rows.find((r) => r.edition === patch.edition && r.member_id === patch.member_id);
       if (existing) Object.assign(existing, patch);
       else rows.push({ ...patch });
       return { data: null, error: null };
     }
     const matched = rows.filter((r) => filters.every((f) => f(r)));
-    if (op === "delete") {
-      tables[table] = rows.filter((r) => !matched.includes(r));
-      return { data: null, error: null };
-    }
     return { data: matched.map((r) => ({ ...r })), error: null };
   };
   const q = {
     select: () => q,
     upsert: (v) => ((op = "upsert"), (patch = v), q),
-    delete: () => ((op = "delete"), q),
     eq: (k, v) => (filters.push((r) => r[k] === v), q),
     then: (resolve, reject) => Promise.resolve(run()).then(resolve, reject),
   };
@@ -76,10 +66,9 @@ beforeEach(() => {
   vi.spyOn(console, "log").mockImplementation(() => {});
   voter = { id: "me", name: "Łysy" };
   tables = {
-    plebiscyt_votes: [
-      { edition: 2025, category: "zatyrany_roku", voter_id: "me", candidate_id: "a" },
+    plebiscyt_entries: [
+      { edition: 2025, member_id: "me", votes: { zatyrany_roku: "a" }, achievement: "Stary opis" },
     ],
-    plebiscyt_achievements: [],
   };
 });
 
@@ -119,22 +108,22 @@ describe("PUT /api/plebiscyt/vote", () => {
     expect(state.body.achievement).toBe("");
   });
 
-  it("changes an existing vote and achievement instead of adding new rows", async () => {
+  it("changes an existing answer instead of adding a new row", async () => {
     await call(voteHandler, "PUT", { votes: { zatyrany_roku: "me" }, achievement: "Pierwszy półmaraton" });
     await call(voteHandler, "PUT", { votes: { zatyrany_roku: "a" }, achievement: "  Życiówka na 10 km " });
-    const votes2026 = tables.plebiscyt_votes.filter((v) => v.edition === 2026);
-    expect(votes2026).toHaveLength(1);
-    expect(votes2026[0].candidate_id).toBe("a");
-    expect(tables.plebiscyt_achievements).toHaveLength(1);
-    expect(tables.plebiscyt_achievements[0].description).toBe("Życiówka na 10 km");
+    const entries2026 = tables.plebiscyt_entries.filter((e) => e.edition === 2026);
+    expect(entries2026).toHaveLength(1);
+    expect(entries2026[0].votes).toEqual({ zatyrany_roku: "a" });
+    expect(entries2026[0].achievement).toBe("Życiówka na 10 km");
+    expect(tables.plebiscyt_entries.find((e) => e.edition === 2025).votes).toEqual({ zatyrany_roku: "a" });
   });
 
   it("removes a vote when the category is cleared", async () => {
     await call(voteHandler, "PUT", { votes: { zatyrany_roku: "a" }, achievement: "" });
     const res = await call(voteHandler, "PUT", { votes: { zatyrany_roku: "" }, achievement: "Opis" });
     expect(res.statusCode).toBe(200);
-    expect(tables.plebiscyt_votes.filter((v) => v.edition === 2026)).toHaveLength(0);
-    expect(tables.plebiscyt_votes).toHaveLength(1);
+    expect(tables.plebiscyt_entries.find((e) => e.edition === 2026).votes).toEqual({});
+    expect((await call(stateHandler, "GET")).body.votes).toEqual({});
   });
 
   it("rejects an empty submission", async () => {
@@ -145,7 +134,7 @@ describe("PUT /api/plebiscyt/vote", () => {
   it("rejects a candidate who is not on the list", async () => {
     const res = await call(voteHandler, "PUT", { votes: { zatyrany_roku: "gone" } });
     expect(res.statusCode).toBe(400);
-    expect(tables.plebiscyt_votes.filter((v) => v.edition === 2026)).toHaveLength(0);
+    expect(tables.plebiscyt_entries.filter((e) => e.edition === 2026)).toHaveLength(0);
   });
 
   it("rejects a too long description", async () => {
@@ -161,6 +150,6 @@ describe("PUT /api/plebiscyt/vote", () => {
     const res = await call(voteHandler, "PUT", { votes: { zatyrany_roku: "me" } });
     expect(res.statusCode).toBe(403);
     expect((await call(stateHandler, "GET")).body.closed).toBe(true);
-    expect(tables.plebiscyt_votes.find((v) => v.edition === 2026).candidate_id).toBe("a");
+    expect(tables.plebiscyt_entries.find((e) => e.edition === 2026).votes).toEqual({ zatyrany_roku: "a" });
   });
 });

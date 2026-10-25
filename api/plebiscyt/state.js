@@ -24,25 +24,19 @@ export default async function handler(req, res) {
   try {
     const members = await listActiveMembers(supabase);
 
-    const { data: votes, error: votesError } = await supabase
-      .from("plebiscyt_votes")
-      .select("category, candidate_id")
-      .eq("edition", PLEBISCYT.edition)
-      .eq("voter_id", voter.id);
-    if (votesError) throw votesError;
-
-    const { data: achievements, error: achievementError } = await supabase
-      .from("plebiscyt_achievements")
-      .select("description")
+    const { data: entries, error: entryError } = await supabase
+      .from("plebiscyt_entries")
+      .select("votes, achievement")
       .eq("edition", PLEBISCYT.edition)
       .eq("member_id", voter.id);
-    if (achievementError) throw achievementError;
+    if (entryError) throw entryError;
+    const entry = entries?.[0];
 
     return res.status(200).json({
       me: { id: voter.id, name: voter.name },
       candidates: members.map((m) => ({ id: m.id, name: m.name })),
-      votes: Object.fromEntries((votes || []).map((v) => [v.category, v.candidate_id])),
-      achievement: achievements?.[0]?.description || "",
+      votes: entry?.votes || {},
+      achievement: entry?.achievement || "",
       closed: isPlebiscytClosed(),
     });
   } catch (e) {

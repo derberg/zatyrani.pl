@@ -2,7 +2,7 @@ import { authorizeVoter, getServiceClient, listActiveMembers, systemError } from
 import { ACHIEVEMENT_MAX_LENGTH, PLEBISCYT, isPlebiscytClosed } from "../../src/utils/plebiscyt.js";
 
 // Body: { votes: { [categoryKey]: candidateId | "" }, achievement: string }.
-// An empty candidate removes the vote in that category; an empty achievement removes it.
+// An empty candidate removes the vote in that category; an empty achievement clears it.
 function validateInput(body, candidateIds) {
   const rawVotes = body.votes && typeof body.votes === "object" ? body.votes : {};
   const votes = {};
@@ -54,48 +54,22 @@ export default async function handler(req, res) {
     const input = validateInput(req.body || {}, new Set(members.map((m) => m.id)));
     if (input.error) return res.status(400).json({ error: input.error });
 
-    const now = new Date().toISOString();
-    const { edition } = PLEBISCYT;
-
-    for (const [category, candidateId] of Object.entries(input.votes)) {
-      if (candidateId) {
-        const { error } = await supabase
-          .from("plebiscyt_votes")
-          .upsert(
-            { edition, category, voter_id: voter.id, candidate_id: candidateId, updated_at: now },
-            { onConflict: "edition,category,voter_id" }
-          );
-        if (error) throw error;
-      } else {
-        const { error } = await supabase
-          .from("plebiscyt_votes")
-          .delete()
-          .eq("edition", edition)
-          .eq("category", category)
-          .eq("voter_id", voter.id);
-        if (error) throw error;
-      }
-    }
-
-    if (input.achievement) {
-      const { error } = await supabase
-        .from("plebiscyt_achievements")
-        .upsert(
-          { edition, member_id: voter.id, description: input.achievement, updated_at: now },
-          { onConflict: "edition,member_id" }
-        );
-      if (error) throw error;
-    } else {
-      const { error } = await supabase
-        .from("plebiscyt_achievements")
-        .delete()
-        .eq("edition", edition)
-        .eq("member_id", voter.id);
-      if (error) throw error;
-    }
+    // Only chosen categories are stored; a cleared one simply drops out of the map.
+    const votes = Object.fromEntries(Object.entries(input.votes).filter(([, id]) => id));
+    const { error } = await supabase.from("plebiscyt_entries").upsert(
+      {
+        edition: PLEBISCYT.edition,
+        member_id: voter.id,
+        votes,
+        achievement: input.achievement || null,
+        updated_at: new Date().toISOString(),
+      },
+      { onConflict: "edition,member_id" }
+    );
+    if (error) throw error;
 
     console.log(`[plebiscyt] saved by ${voter.name} (${voter.id})`);
-    return res.status(200).json({ votes: input.votes, achievement: input.achievement });
+    return res.status(200).json({ votes, achievement: input.achievement });
   } catch (e) {
     console.error("Plebiscyt vote error:", e);
     return systemError(res);
