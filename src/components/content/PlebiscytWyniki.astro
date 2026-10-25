@@ -1,0 +1,148 @@
+---
+import PageHeader from "../PageHeader.astro";
+import { PLEBISCYT } from "../../utils/plebiscyt.js";
+---
+
+<div class="print:hidden">
+  <PageHeader title="Plebiscyt 2026 · wyniki" subtitle="Podsumowanie głosowania i osiągnięcia wszystkich." background="pink" />
+</div>
+
+<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-6 print:p-0 print:max-w-none">
+  <div id="resLoading" class="text-center text-gray-600 py-8">Ładowanie…</div>
+
+  <div id="resMain" class="hidden">
+    <div class="print:hidden bg-purple-600 text-white px-4 py-3 rounded-md shadow mb-6 flex flex-wrap items-center justify-between gap-3">
+      <div id="participation"></div>
+      <button
+        id="pdfBtn"
+        type="button"
+        class="min-h-[44px] bg-white text-purple-700 hover:bg-purple-50 font-medium px-4 rounded-md"
+      >
+        Pobierz PDF
+      </button>
+    </div>
+
+    <div class="hidden print:block mb-6">
+      <h1 class="text-2xl font-bold">Plebiscyt {PLEBISCYT.edition} · wyniki</h1>
+      <p id="printMeta" class="text-sm text-gray-600"></p>
+    </div>
+
+    <div id="categories"></div>
+
+    <section class="bg-white rounded-md shadow p-4 mb-6 print:shadow-none print:p-0 print:break-before-page">
+      <h2 class="text-xl font-semibold text-gray-800 mb-4">Osiągnięcia <span id="achCount" class="text-gray-500 font-normal"></span></h2>
+      <div id="achievements" class="divide-y divide-gray-200"></div>
+    </section>
+  </div>
+</div>
+
+<style is:global>
+  @media print {
+    header,
+    footer,
+    #cookie-banner {
+      display: none !important;
+    }
+    @page {
+      margin: 15mm;
+    }
+  }
+</style>
+
+<script>
+  type Category = { key: string; label: string; total: number; results: { name: string; votes: number }[] };
+  type Achievement = { name: string; achievement: string };
+
+  const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
+
+  function escapeHtml(s: string) {
+    return s
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  function votesLabel(n: number) {
+    if (n === 1) return "1 głos";
+    const lastTwo = n % 100;
+    const last = n % 10;
+    return last >= 2 && last <= 4 && (lastTwo < 12 || lastTwo > 14) ? `${n} głosy` : `${n} głosów`;
+  }
+
+  function renderCategory(c: Category) {
+    const top = c.results[0]?.votes || 0;
+    const rows = c.results.length
+      ? c.results
+          .map((r) => {
+            const width = top ? Math.round((r.votes / top) * 100) : 0;
+            return `
+              <li class="py-2 break-inside-avoid">
+                <div class="flex justify-between gap-3">
+                  <span class="${r.votes === top ? "font-semibold" : ""}">${escapeHtml(r.name)}</span>
+                  <span class="shrink-0 text-gray-600">${votesLabel(r.votes)}</span>
+                </div>
+                <div class="mt-1 h-2 rounded bg-gray-100 print:hidden"><div class="h-2 rounded bg-purple-500" style="width:${width}%"></div></div>
+              </li>`;
+          })
+          .join("")
+      : `<li class="py-2 text-gray-500">Brak głosów.</li>`;
+    return `
+      <section class="bg-white rounded-md shadow p-4 mb-6 print:shadow-none print:p-0 break-inside-avoid">
+        <h2 class="text-xl font-semibold text-gray-800">${escapeHtml(c.label)}</h2>
+        <p class="text-sm text-gray-600 mb-2">Oddane głosy: ${c.total}</p>
+        <ol class="divide-y divide-gray-100">${rows}</ol>
+      </section>`;
+  }
+
+  function renderAchievements(list: Achievement[]) {
+    $("achCount").textContent = `(${list.length})`;
+    $("achievements").innerHTML = list.length
+      ? list
+          .map(
+            (a) => `
+              <article class="py-3 break-inside-avoid">
+                <h3 class="font-semibold text-gray-800">${escapeHtml(a.name)}</h3>
+                <p class="text-gray-700 whitespace-pre-line">${escapeHtml(a.achievement)}</p>
+              </article>`
+          )
+          .join("")
+      : `<p class="text-gray-500">Nikt jeszcze nie opisał swojego osiągnięcia.</p>`;
+  }
+
+  async function load() {
+    try {
+      const res = await fetch("/api/plebiscyt/results", { credentials: "same-origin" });
+      if (res.status === 401) {
+        // /zaloguj sends the user back to the last visited page, i.e. here.
+        window.location.href = "/zaloguj";
+        return;
+      }
+      if (res.status === 403) {
+        window.location.href = "/?access_denied=true";
+        return;
+      }
+      if (!res.ok) {
+        $("resLoading").textContent = "Błąd ładowania. Odśwież stronę.";
+        return;
+      }
+      const data = await res.json();
+      const status = data.closed ? "głosowanie zakończone" : "głosowanie trwa";
+      $("participation").innerHTML = `Odpowiedziało <strong>${data.answered}</strong> z ${data.members} osób · ${status}`;
+      $("printMeta").textContent = `Odpowiedziało ${data.answered} z ${data.members} osób · ${status} · stan na ${new Date().toLocaleString("pl-PL")}`;
+      $("categories").innerHTML = (data.categories as Category[]).map(renderCategory).join("");
+      renderAchievements(data.achievements || []);
+      $("resLoading").classList.add("hidden");
+      $("resMain").classList.remove("hidden");
+    } catch (e) {
+      console.error(e);
+      $("resLoading").textContent = "Błąd połączenia. Odśwież stronę.";
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    $("pdfBtn").addEventListener("click", () => window.print());
+    load();
+  });
+</script>

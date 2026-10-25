@@ -52,3 +52,25 @@ export async function getUsedSegments(supabase) {
   if (error) throw new Error("Usage lookup failed");
   return (data || []).reduce((sum, row) => sum + (row.segments || 0), 0);
 }
+
+// Non-deleted members with a phone, one per phone number, sorted by name.
+// This is "the list of Zatyrani" shown on /sms and used as candidates on /plebiscyt2026.
+export async function listActiveMembers(supabase) {
+  const { data, error } = await supabase
+    .from("members")
+    .select("id, name, phone")
+    .is("deleted_at", null)
+    .order("name", { ascending: true });
+  if (error) throw new Error("Members lookup failed");
+
+  const seenPhones = new Set();
+  const unique = [];
+  for (const m of data || []) {
+    const phone = (m.phone || "").trim();
+    if (!phone) continue;
+    if (seenPhones.has(phone)) continue;
+    seenPhones.add(phone);
+    unique.push({ id: m.id, name: m.name, phone });
+  }
+  return unique;
+}
