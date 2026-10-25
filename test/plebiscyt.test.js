@@ -27,10 +27,16 @@ function from(table) {
 }
 
 let voter;
+let isAdmin;
 vi.mock("../api/plebiscyt/_shared.js", () => ({
   getServiceClient: () => ({ from }),
   authorizeVoter: async () => {
     if (!voter) throw new Error("Brak autoryzacji.");
+    return voter;
+  },
+  authorizeAdmin: async () => {
+    if (!voter) throw new Error("Brak autoryzacji.");
+    if (!isAdmin) throw Object.assign(new Error("forbidden"), { status: 403 });
     return voter;
   },
   listActiveMembers: async () => [
@@ -42,6 +48,7 @@ vi.mock("../api/plebiscyt/_shared.js", () => ({
 
 const { default: stateHandler } = await import("../api/plebiscyt/state.js");
 const { default: voteHandler } = await import("../api/plebiscyt/vote.js");
+const { default: resultsHandler } = await import("../api/plebiscyt/results.js");
 
 async function call(handler, method, body) {
   const res = {
@@ -65,7 +72,13 @@ beforeEach(() => {
   vi.setSystemTime(new Date("2026-11-01T12:00:00+01:00"));
   vi.spyOn(console, "log").mockImplementation(() => {});
   voter = { id: "me", name: "Łysy" };
+  isAdmin = true;
   tables = {
+    members: [
+      { id: "me", name: "Łysy" },
+      { id: "a", name: "Ania" },
+      { id: "gone", name: "Stary" },
+    ],
     plebiscyt_entries: [
       { edition: 2025, member_id: "me", votes: { zatyrany_roku: "a" }, achievement: "Stary opis" },
     ],
@@ -151,5 +164,44 @@ describe("PUT /api/plebiscyt/vote", () => {
     expect(res.statusCode).toBe(403);
     expect((await call(stateHandler, "GET")).body.closed).toBe(true);
     expect(tables.plebiscyt_entries.find((e) => e.edition === 2026).votes).toEqual({ zatyrany_roku: "a" });
+  });
+});
+
+describe("GET /api/plebiscyt/results", () => {
+  it("counts votes per category and lists achievements by name", async () => {
+    tables.plebiscyt_entries.push(
+      { edition: 2026, member_id: "me", votes: { zatyrany_roku: "a" }, achievement: "Życiówka" },
+      { edition: 2026, member_id: "a", votes: { zatyrany_roku: "a" }, achievement: null },
+      { edition: 2026, member_id: "gone", votes: { zatyrany_roku: "me" }, achievement: "Pierwszy ultra" }
+    );
+    const res = await call(resultsHandler, "GET");
+    expect(res.statusCode).toBe(200);
+    expect(res.body.categories).toEqual([
+      {
+        key: "zatyrany_roku",
+        label: "Wybierz Zatyranego Roku",
+        total: 3,
+        results: [
+          { name: "Ania", votes: 2 },
+          { name: "Łysy", votes: 1 },
+        ],
+      },
+    ]);
+    expect(res.body.achievements).toEqual([
+      { name: "Łysy", achievement: "Życiówka" },
+      { name: "Stary", achievement: "Pierwszy ultra" },
+    ]);
+    expect(res.body.answered).toBe(3);
+    expect(res.body.members).toBe(2);
+  });
+
+  it("returns 403 for a member without results access", async () => {
+    isAdmin = false;
+    expect((await call(resultsHandler, "GET")).statusCode).toBe(403);
+  });
+
+  it("returns 401 when not logged in", async () => {
+    voter = null;
+    expect((await call(resultsHandler, "GET")).statusCode).toBe(401);
   });
 });

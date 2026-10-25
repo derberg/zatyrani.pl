@@ -20,3 +20,8 @@ ALTER TABLE plebiscyt_entries ENABLE ROW LEVEL SECURITY;
 -- FROM plebiscyt_entries e, jsonb_each_text(e.votes) v
 -- JOIN members m ON m.id = v.value::uuid
 -- WHERE e.edition = 2026 GROUP BY v.key, m.name ORDER BY v.key, votes DESC;
+
+-- Who can see /plebiscyt2026/wyniki (summary and everyone's achievements).
+ALTER TABLE members ADD COLUMN IF NOT EXISTS can_view_plebiscyt BOOLEAN NOT NULL DEFAULT false;
+-- Grant it by member id, after finding the right row with SELECT id, name FROM members:
+-- UPDATE members SET can_view_plebiscyt = true WHERE id = '<members.id>';

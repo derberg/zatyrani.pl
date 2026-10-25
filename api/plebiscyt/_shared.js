@@ -16,3 +16,23 @@ export async function authorizeVoter(req, supabase) {
   if (!member) throw new Error("Brak autoryzacji.");
   return member;
 }
+
+// Results page: only members with can_view_plebiscyt.
+export async function authorizeAdmin(req, supabase) {
+  const session = await verifyUser(req);
+  const { data: rows, error } = await supabase
+    .from("members")
+    .select("id, name, can_view_plebiscyt")
+    .eq("id", session.memberId)
+    .is("deleted_at", null)
+    .limit(1);
+  if (error) throw new Error("Lookup failed");
+  const member = rows && rows[0];
+  if (!member) throw new Error("Brak autoryzacji.");
+  if (!member.can_view_plebiscyt) {
+    const err = new Error("forbidden");
+    err.status = 403;
+    throw err;
+  }
+  return member;
+}
