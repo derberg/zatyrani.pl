@@ -966,5 +966,16 @@
     "phone": "512637906",
     "distance": 10,
     "pace": 7
+  },
+  {
+    "uid": "bieg-27-10-2026-19-0-nieborowice-wierzbowa-4-10-7",
+    "type": "bieg",
+    "datetime": "27/10/2026 19:00",
+    "location": "Nieborowice – Wierzbowa 4",
+    "locationLink": "https://maps.app.goo.gl/1hiWUekjpgK7GpAN8",
+    "comment": "Latarki i może rękawiczki ",
+    "phone": "512637906",
+    "distance": 10,
+    "pace": 7
   }
 ]
