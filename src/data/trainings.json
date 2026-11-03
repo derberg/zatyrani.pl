@@ -977,5 +977,16 @@
     "phone": "512637906",
     "distance": 10,
     "pace": 7
+  },
+  {
+    "uid": "bieg-3-11-2026-19-0-ochojec-azyl-zatyranych-12-7",
+    "type": "bieg",
+    "datetime": "03/11/2026 19:00",
+    "location": "Ochojec – Azyl Zatyranych",
+    "locationLink": "https://maps.app.goo.gl/VdEFVwTmG6TRd4M96",
+    "comment": "Trasą Leśnego lamentu. ",
+    "phone": "791997150",
+    "distance": 12,
+    "pace": 7
   }
 ]
