@@ -3,7 +3,7 @@ import PageHeader from "../PageHeader.astro";
 import { ACHIEVEMENT_MAX_LENGTH, PLEBISCYT } from "../../utils/plebiscyt.js";
 ---
 
-<PageHeader title="Plebiscyt 2026" subtitle="Wybierz Zatyranego Roku i pochwal się swoim sezonem." background="pink" />
+<PageHeader title="Plebiscyt 2026" subtitle="Wybierz Serce Drużyny i Zatyranego Roku, pochwal się swoim sezonem." background="pink" />
 
 <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
   <div id="plebLoading" class="text-center text-gray-600 py-8">Ładowanie…</div>
@@ -67,6 +67,20 @@ import { ACHIEVEMENT_MAX_LENGTH, PLEBISCYT } from "../../utils/plebiscyt.js";
         </div>
       </section>
 
+      <fieldset class="bg-white rounded-md shadow p-4 mb-6">
+        <legend class="sr-only">{PLEBISCYT.gala.label}</legend>
+        <p class="font-semibold text-gray-700 mb-1" aria-hidden="true">{PLEBISCYT.gala.label} <span class="text-red-600">*</span></p>
+        <p class="text-sm text-gray-600 mb-3">{PLEBISCYT.gala.hint}</p>
+        <div class="space-y-2">
+          {PLEBISCYT.gala.options.map((o) => (
+            <label class="flex items-center gap-3 min-h-[44px] px-3 border rounded-md cursor-pointer has-[:checked]:border-purple-500 has-[:checked]:bg-purple-50">
+              <input type="radio" name="gala" value={o.key} class="h-5 w-5 shrink-0 accent-purple-600" />
+              <span>{o.label}</span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
+
       <p id="formError" class="hidden mb-4 text-sm text-red-700 bg-red-50 border-l-4 border-red-500 p-2 rounded"></p>
 
       <div class="flex justify-end gap-2">
@@ -120,8 +134,9 @@ import { ACHIEVEMENT_MAX_LENGTH, PLEBISCYT } from "../../utils/plebiscyt.js";
     candidates: Candidate[];
     votes: Record<string, string>;
     achievement: string;
+    gala: string;
     closed: boolean;
-  } = { candidates: [], votes: {}, achievement: "", closed: false };
+  } = { candidates: [], votes: {}, achievement: "", gala: "", closed: false };
 
   function escapeHtml(s: string) {
     return s
@@ -132,8 +147,13 @@ import { ACHIEVEMENT_MAX_LENGTH, PLEBISCYT } from "../../utils/plebiscyt.js";
       .replace(/'/g, "&#39;");
   }
 
+  // The gala question is required, so a saved answer always has it.
   function hasAnswer() {
-    return Boolean(state.achievement) || Object.values(state.votes).some(Boolean);
+    return Boolean(state.gala);
+  }
+
+  function galaInputs() {
+    return document.querySelectorAll<HTMLInputElement>('input[name="gala"]');
   }
 
   function selects() {
@@ -150,6 +170,7 @@ import { ACHIEVEMENT_MAX_LENGTH, PLEBISCYT } from "../../utils/plebiscyt.js";
       select.value = state.votes[select.dataset.category || ""] || "";
     }
     $<HTMLTextAreaElement>("achievement").value = state.achievement;
+    for (const input of galaInputs()) input.checked = input.value === state.gala;
     renderCounter();
   }
 
@@ -166,7 +187,11 @@ import { ACHIEVEMENT_MAX_LENGTH, PLEBISCYT } from "../../utils/plebiscyt.js";
     );
     rows.push(`
       <dt class="text-sm text-gray-500 mb-1">Twoje osiągnięcie</dt>
-      <dd class="text-gray-800 whitespace-pre-line">${state.achievement ? escapeHtml(state.achievement) : "—"}</dd>`);
+      <dd class="text-gray-800 whitespace-pre-line mb-4">${state.achievement ? escapeHtml(state.achievement) : "—"}</dd>`);
+    const galaLabel = PLEBISCYT.gala.options.find((o) => o.key === state.gala)?.label || "—";
+    rows.push(`
+      <dt class="text-sm text-gray-500 mb-1">${escapeHtml(PLEBISCYT.gala.label)}</dt>
+      <dd class="font-semibold text-gray-800">${escapeHtml(galaLabel)}</dd>`);
     $("summaryList").innerHTML = rows.join("");
   }
 
@@ -213,6 +238,7 @@ import { ACHIEVEMENT_MAX_LENGTH, PLEBISCYT } from "../../utils/plebiscyt.js";
       state.candidates = data.candidates || [];
       state.votes = data.votes || {};
       state.achievement = data.achievement || "";
+      state.gala = data.gala || "";
       state.closed = Boolean(data.closed);
       $("meName").textContent = data.me?.name || "";
       $("plebLoading").classList.add("hidden");
@@ -237,8 +263,9 @@ import { ACHIEVEMENT_MAX_LENGTH, PLEBISCYT } from "../../utils/plebiscyt.js";
     for (const select of selects()) votes[select.dataset.category || ""] = select.value;
     const achievement = $<HTMLTextAreaElement>("achievement").value.trim();
 
-    if (!achievement && Object.values(votes).every((id) => !id)) {
-      showInlineError("Wybierz osobę albo opisz swoje osiągnięcie.");
+    const gala = [...galaInputs()].find((input) => input.checked)?.value || "";
+    if (!gala) {
+      showInlineError("Zaznacz, czy będziesz na Gali Zatyranych.");
       return;
     }
 
@@ -251,7 +278,7 @@ import { ACHIEVEMENT_MAX_LENGTH, PLEBISCYT } from "../../utils/plebiscyt.js";
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         credentials: "same-origin",
-        body: JSON.stringify({ votes, achievement }),
+        body: JSON.stringify({ votes, achievement, gala }),
       });
       if (res.status === 401) {
         window.location.href = "/zaloguj";
@@ -264,6 +291,7 @@ import { ACHIEVEMENT_MAX_LENGTH, PLEBISCYT } from "../../utils/plebiscyt.js";
       }
       state.votes = data.votes || votes;
       state.achievement = data.achievement ?? achievement;
+      state.gala = data.gala || gala;
       showSummary();
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch {

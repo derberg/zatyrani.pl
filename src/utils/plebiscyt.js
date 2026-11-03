@@ -7,11 +7,26 @@ export const PLEBISCYT = {
   closesLabel: "14 listopada 2026",
   categories: [
     {
+      key: "serce_druzyny",
+      label: "Serce Drużyny",
+      hint: "Osoba, która najbardziej motywuje innych, organizuje wspólne wyjazdy i wspiera na trasie.",
+    },
+    {
       key: "zatyrany_roku",
-      label: "Wybierz Zatyranego Roku",
-      hint: "Kto Twoim zdaniem najbardziej zasłużył na tytuł w 2026?",
+      label: "Zatyrany Roku",
+      hint: "Osoba, która wyróżniła się nie tylko wynikami sportowymi, ale też poświęciła się dla rozwoju grupy w 2026 roku.",
     },
   ],
+  // Required question at the end of the form. `people` is how many seats the answer takes.
+  gala: {
+    label: "Czy będziesz na Gali Zatyranych?",
+    hint: "Gala odbędzie się 23 listopada 2026 o 18:00.",
+    options: [
+      { key: "no", label: "Nie będę", people: 0 },
+      { key: "alone", label: "Będę sam/sama", people: 1 },
+      { key: "plus_one", label: "Będę z osobą towarzyszącą", people: 2 },
+    ],
+  },
 };
 
 export const ACHIEVEMENT_MAX_LENGTH = 1000;

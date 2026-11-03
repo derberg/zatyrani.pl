@@ -1,8 +1,8 @@
 import { authorizeVoter, getServiceClient, listActiveMembers, systemError } from "./_shared.js";
 import { ACHIEVEMENT_MAX_LENGTH, PLEBISCYT, isPlebiscytClosed } from "../../src/utils/plebiscyt.js";
 
-// Body: { votes: { [categoryKey]: candidateId | "" }, achievement: string }.
-// An empty candidate removes the vote in that category; an empty achievement clears it.
+// Body: { votes: { [categoryKey]: candidateId | "" }, achievement: string, gala: string }.
+// Votes and achievement are optional: an empty value clears them. The gala answer is required.
 function validateInput(body, candidateIds) {
   const rawVotes = body.votes && typeof body.votes === "object" ? body.votes : {};
   const votes = {};
@@ -19,10 +19,11 @@ function validateInput(body, candidateIds) {
     return { error: `Opis może mieć maksymalnie ${ACHIEVEMENT_MAX_LENGTH} znaków.` };
   }
 
-  if (!achievement && Object.values(votes).every((id) => !id)) {
-    return { error: "Wybierz osobę albo opisz swoje osiągnięcie." };
+  const gala = typeof body.gala === "string" ? body.gala : "";
+  if (!PLEBISCYT.gala.options.some((o) => o.key === gala)) {
+    return { error: "Zaznacz, czy będziesz na Gali Zatyranych." };
   }
-  return { votes, achievement };
+  return { votes, achievement, gala };
 }
 
 export default async function handler(req, res) {
@@ -62,6 +63,7 @@ export default async function handler(req, res) {
         member_id: voter.id,
         votes,
         achievement: input.achievement || null,
+        gala: input.gala,
         updated_at: new Date().toISOString(),
       },
       { onConflict: "edition,member_id" }
@@ -69,7 +71,7 @@ export default async function handler(req, res) {
     if (error) throw error;
 
     console.log(`[plebiscyt] saved by ${voter.name} (${voter.id})`);
-    return res.status(200).json({ votes, achievement: input.achievement });
+    return res.status(200).json({ votes, achievement: input.achievement, gala: input.gala });
   } catch (e) {
     console.error("Plebiscyt vote error:", e);
     return systemError(res);

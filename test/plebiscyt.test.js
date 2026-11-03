@@ -101,6 +101,7 @@ describe("GET /api/plebiscyt/state", () => {
       ],
       votes: {},
       achievement: "",
+      gala: "",
       closed: false,
     });
   });
@@ -113,54 +114,75 @@ describe("GET /api/plebiscyt/state", () => {
 });
 
 describe("PUT /api/plebiscyt/vote", () => {
-  it("saves a vote for yourself without a description", async () => {
-    const res = await call(voteHandler, "PUT", { votes: { zatyrany_roku: "me" }, achievement: "" });
+  it("saves votes in both categories, yourself included, without a description", async () => {
+    const res = await call(voteHandler, "PUT", {
+      votes: { serce_druzyny: "a", zatyrany_roku: "me" },
+      achievement: "",
+      gala: "alone",
+    });
     expect(res.statusCode).toBe(200);
     const state = await call(stateHandler, "GET");
-    expect(state.body.votes).toEqual({ zatyrany_roku: "me" });
+    expect(state.body.votes).toEqual({ serce_druzyny: "a", zatyrany_roku: "me" });
     expect(state.body.achievement).toBe("");
+    expect(state.body.gala).toBe("alone");
+  });
+
+  it("accepts only the gala answer, with no votes and no description", async () => {
+    const res = await call(voteHandler, "PUT", { votes: {}, achievement: "", gala: "no" });
+    expect(res.statusCode).toBe(200);
+    expect(tables.plebiscyt_entries.find((e) => e.edition === 2026)).toMatchObject({ votes: {}, gala: "no" });
   });
 
   it("changes an existing answer instead of adding a new row", async () => {
-    await call(voteHandler, "PUT", { votes: { zatyrany_roku: "me" }, achievement: "Pierwszy półmaraton" });
-    await call(voteHandler, "PUT", { votes: { zatyrany_roku: "a" }, achievement: "  Życiówka na 10 km " });
+    await call(voteHandler, "PUT", { votes: { zatyrany_roku: "me" }, achievement: "Pierwszy półmaraton", gala: "no" });
+    await call(voteHandler, "PUT", {
+      votes: { zatyrany_roku: "a" },
+      achievement: "  Życiówka na 10 km ",
+      gala: "plus_one",
+    });
     const entries2026 = tables.plebiscyt_entries.filter((e) => e.edition === 2026);
     expect(entries2026).toHaveLength(1);
     expect(entries2026[0].votes).toEqual({ zatyrany_roku: "a" });
     expect(entries2026[0].achievement).toBe("Życiówka na 10 km");
+    expect(entries2026[0].gala).toBe("plus_one");
     expect(tables.plebiscyt_entries.find((e) => e.edition === 2025).votes).toEqual({ zatyrany_roku: "a" });
   });
 
   it("removes a vote when the category is cleared", async () => {
-    await call(voteHandler, "PUT", { votes: { zatyrany_roku: "a" }, achievement: "" });
-    const res = await call(voteHandler, "PUT", { votes: { zatyrany_roku: "" }, achievement: "Opis" });
+    await call(voteHandler, "PUT", { votes: { zatyrany_roku: "a", serce_druzyny: "a" }, gala: "alone" });
+    const res = await call(voteHandler, "PUT", { votes: { zatyrany_roku: "", serce_druzyny: "a" }, gala: "alone" });
     expect(res.statusCode).toBe(200);
-    expect(tables.plebiscyt_entries.find((e) => e.edition === 2026).votes).toEqual({});
-    expect((await call(stateHandler, "GET")).body.votes).toEqual({});
+    expect(tables.plebiscyt_entries.find((e) => e.edition === 2026).votes).toEqual({ serce_druzyny: "a" });
   });
 
-  it("rejects an empty submission", async () => {
-    const res = await call(voteHandler, "PUT", { votes: { zatyrany_roku: "" }, achievement: "  " });
-    expect(res.statusCode).toBe(400);
+  it("requires a valid gala answer", async () => {
+    expect((await call(voteHandler, "PUT", { votes: { zatyrany_roku: "a" }, achievement: "Opis" })).statusCode).toBe(400);
+    expect((await call(voteHandler, "PUT", { votes: { zatyrany_roku: "a" }, gala: "maybe" })).statusCode).toBe(400);
+    expect(tables.plebiscyt_entries.filter((e) => e.edition === 2026)).toHaveLength(0);
+  });
+
+  it("ignores votes for categories that are not configured", async () => {
+    await call(voteHandler, "PUT", { votes: { zatyrany_roku: "a", kijkarz: "me" }, gala: "no" });
+    expect(tables.plebiscyt_entries.find((e) => e.edition === 2026).votes).toEqual({ zatyrany_roku: "a" });
   });
 
   it("rejects a candidate who is not on the list", async () => {
-    const res = await call(voteHandler, "PUT", { votes: { zatyrany_roku: "gone" } });
+    const res = await call(voteHandler, "PUT", { votes: { zatyrany_roku: "gone" }, gala: "no" });
     expect(res.statusCode).toBe(400);
     expect(tables.plebiscyt_entries.filter((e) => e.edition === 2026)).toHaveLength(0);
   });
 
   it("rejects a too long description", async () => {
-    const res = await call(voteHandler, "PUT", { votes: {}, achievement: "x".repeat(1001) });
+    const res = await call(voteHandler, "PUT", { votes: {}, achievement: "x".repeat(1001), gala: "no" });
     expect(res.statusCode).toBe(400);
   });
 
   it("accepts votes on the last day and refuses them after the deadline", async () => {
     vi.setSystemTime(new Date("2026-11-14T23:59:00+01:00"));
-    expect((await call(voteHandler, "PUT", { votes: { zatyrany_roku: "a" } })).statusCode).toBe(200);
+    expect((await call(voteHandler, "PUT", { votes: { zatyrany_roku: "a" }, gala: "alone" })).statusCode).toBe(200);
 
     vi.setSystemTime(new Date("2026-11-15T00:00:01+01:00"));
-    const res = await call(voteHandler, "PUT", { votes: { zatyrany_roku: "me" } });
+    const res = await call(voteHandler, "PUT", { votes: { zatyrany_roku: "me" }, gala: "alone" });
     expect(res.statusCode).toBe(403);
     expect((await call(stateHandler, "GET")).body.closed).toBe(true);
     expect(tables.plebiscyt_entries.find((e) => e.edition === 2026).votes).toEqual({ zatyrany_roku: "a" });
@@ -168,18 +190,24 @@ describe("PUT /api/plebiscyt/vote", () => {
 });
 
 describe("GET /api/plebiscyt/results", () => {
-  it("counts votes per category and lists achievements by name", async () => {
+  it("counts votes per category, sums gala seats and lists achievements by name", async () => {
     tables.plebiscyt_entries.push(
-      { edition: 2026, member_id: "me", votes: { zatyrany_roku: "a" }, achievement: "Życiówka" },
-      { edition: 2026, member_id: "a", votes: { zatyrany_roku: "a" }, achievement: null },
-      { edition: 2026, member_id: "gone", votes: { zatyrany_roku: "me" }, achievement: "Pierwszy ultra" }
+      { edition: 2026, member_id: "me", votes: { zatyrany_roku: "a", serce_druzyny: "a" }, achievement: "Życiówka", gala: "plus_one" },
+      { edition: 2026, member_id: "a", votes: { zatyrany_roku: "a" }, achievement: null, gala: "alone" },
+      { edition: 2026, member_id: "gone", votes: { zatyrany_roku: "me" }, achievement: "Pierwszy ultra", gala: "no" }
     );
     const res = await call(resultsHandler, "GET");
     expect(res.statusCode).toBe(200);
     expect(res.body.categories).toEqual([
       {
+        key: "serce_druzyny",
+        label: "Serce Drużyny",
+        total: 1,
+        results: [{ name: "Ania", votes: 1 }],
+      },
+      {
         key: "zatyrany_roku",
-        label: "Wybierz Zatyranego Roku",
+        label: "Zatyrany Roku",
         total: 3,
         results: [
           { name: "Ania", votes: 2 },
@@ -187,6 +215,14 @@ describe("GET /api/plebiscyt/results", () => {
         ],
       },
     ]);
+    expect(res.body.gala).toEqual({
+      people: 3,
+      options: [
+        { key: "no", label: "Nie będę", count: 1, names: ["Stary"], people: 0 },
+        { key: "alone", label: "Będę sam/sama", count: 1, names: ["Ania"], people: 1 },
+        { key: "plus_one", label: "Będę z osobą towarzyszącą", count: 1, names: ["Łysy"], people: 2 },
+      ],
+    });
     expect(res.body.achievements).toEqual([
       { name: "Łysy", achievement: "Życiówka" },
       { name: "Stary", achievement: "Pierwszy ultra" },

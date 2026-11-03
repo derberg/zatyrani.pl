@@ -28,6 +28,7 @@ import { PLEBISCYT } from "../../utils/plebiscyt.js";
     </div>
 
     <div id="categories"></div>
+    <div id="gala"></div>
 
     <section class="bg-white rounded-md shadow p-4 mb-6 print:shadow-none print:p-0 print:break-before-page">
       <h2 class="text-xl font-semibold text-gray-800 mb-4">Osiągnięcia <span id="achCount" class="text-gray-500 font-normal"></span></h2>
@@ -52,6 +53,10 @@ import { PLEBISCYT } from "../../utils/plebiscyt.js";
 <script>
   type Category = { key: string; label: string; total: number; results: { name: string; votes: number }[] };
   type Achievement = { name: string; achievement: string };
+  type Gala = {
+    people: number;
+    options: { key: string; label: string; count: number; names: string[]; people: number }[];
+  };
 
   const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
 
@@ -64,11 +69,12 @@ import { PLEBISCYT } from "../../utils/plebiscyt.js";
       .replace(/'/g, "&#39;");
   }
 
-  function votesLabel(n: number) {
-    if (n === 1) return "1 głos";
+  // Polish plural: plural(5, "głos", "głosy", "głosów") -> "5 głosów".
+  function plural(n: number, one: string, few: string, many: string) {
+    if (n === 1) return `1 ${one}`;
     const lastTwo = n % 100;
     const last = n % 10;
-    return last >= 2 && last <= 4 && (lastTwo < 12 || lastTwo > 14) ? `${n} głosy` : `${n} głosów`;
+    return last >= 2 && last <= 4 && (lastTwo < 12 || lastTwo > 14) ? `${n} ${few}` : `${n} ${many}`;
   }
 
   function renderCategory(c: Category) {
@@ -81,7 +87,7 @@ import { PLEBISCYT } from "../../utils/plebiscyt.js";
               <li class="py-2 break-inside-avoid">
                 <div class="flex justify-between gap-3">
                   <span class="${r.votes === top ? "font-semibold" : ""}">${escapeHtml(r.name)}</span>
-                  <span class="shrink-0 text-gray-600">${votesLabel(r.votes)}</span>
+                  <span class="shrink-0 text-gray-600">${plural(r.votes, "głos", "głosy", "głosów")}</span>
                 </div>
                 <div class="mt-1 h-2 rounded bg-gray-100 print:hidden"><div class="h-2 rounded bg-purple-500" style="width:${width}%"></div></div>
               </li>`;
@@ -93,6 +99,27 @@ import { PLEBISCYT } from "../../utils/plebiscyt.js";
         <h2 class="text-xl font-semibold text-gray-800">${escapeHtml(c.label)}</h2>
         <p class="text-sm text-gray-600 mb-2">Oddane głosy: ${c.total}</p>
         <ol class="divide-y divide-gray-100">${rows}</ol>
+      </section>`;
+  }
+
+  function renderGala(g: Gala) {
+    const rows = g.options
+      .map(
+        (o) => `
+          <li class="py-2 break-inside-avoid">
+            <div class="flex justify-between gap-3">
+              <span class="font-semibold">${escapeHtml(o.label)}</span>
+              <span class="shrink-0 text-gray-600">${o.count}</span>
+            </div>
+            <p class="text-sm text-gray-600">${o.names.length ? o.names.map(escapeHtml).join(", ") : "—"}</p>
+          </li>`
+      )
+      .join("");
+    $("gala").innerHTML = `
+      <section class="bg-white rounded-md shadow p-4 mb-6 print:shadow-none print:p-0 break-inside-avoid">
+        <h2 class="text-xl font-semibold text-gray-800">Gala Zatyranych · 23 listopada, 18:00</h2>
+        <p class="text-sm text-gray-600 mb-2">Razem z osobami towarzyszącymi: <strong>${plural(g.people, "osoba", "osoby", "osób")}</strong></p>
+        <ul class="divide-y divide-gray-100">${rows}</ul>
       </section>`;
   }
 
@@ -132,6 +159,7 @@ import { PLEBISCYT } from "../../utils/plebiscyt.js";
       $("participation").innerHTML = `Odpowiedziało <strong>${data.answered}</strong> z ${data.members} osób · ${status}`;
       $("printMeta").textContent = `Odpowiedziało ${data.answered} z ${data.members} osób · ${status} · stan na ${new Date().toLocaleString("pl-PL")}`;
       $("categories").innerHTML = (data.categories as Category[]).map(renderCategory).join("");
+      renderGala(data.gala);
       renderAchievements(data.achievements || []);
       $("resLoading").classList.add("hidden");
       $("resMain").classList.remove("hidden");

@@ -26,7 +26,7 @@ export default async function handler(req, res) {
 
     const { data: entries, error: entryError } = await supabase
       .from("plebiscyt_entries")
-      .select("votes, achievement")
+      .select("votes, achievement, gala")
       .eq("edition", PLEBISCYT.edition)
       .eq("member_id", voter.id);
     if (entryError) throw entryError;
@@ -37,6 +37,7 @@ export default async function handler(req, res) {
       candidates: members.map((m) => ({ id: m.id, name: m.name })),
       votes: entry?.votes || {},
       achievement: entry?.achievement || "",
+      gala: entry?.gala || "",
       closed: isPlebiscytClosed(),
     });
   } catch (e) {

@@ -7,6 +7,8 @@ CREATE TABLE IF NOT EXISTS plebiscyt_entries (
   member_id UUID NOT NULL REFERENCES members(id),
   votes JSONB NOT NULL DEFAULT '{}',
   achievement TEXT NULL,
+  -- Gala Zatyranych attendance: 'no', 'alone' or 'plus_one'.
+  gala TEXT NULL CHECK (gala IN ('no', 'alone', 'plus_one')),
   created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
   PRIMARY KEY (edition, member_id)
