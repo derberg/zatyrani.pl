@@ -1,14 +1,17 @@
 import { authorizeVoter, getServiceClient, listActiveMembers, systemError } from "./_shared.js";
 import { ACHIEVEMENT_MAX_LENGTH, PLEBISCYT, isPlebiscytClosed } from "../../src/utils/plebiscyt.js";
 
-// Body: { votes: { [categoryKey]: candidateId | "" }, achievement: string, gala: string }.
-// Votes and achievement are optional: an empty value clears them. The gala answer is required.
+// Body: { votes: { [categoryKey]: candidateId }, achievement: string, gala: string }.
+// A vote in every category and the gala answer are required; the achievement is optional.
 function validateInput(body, candidateIds) {
   const rawVotes = body.votes && typeof body.votes === "object" ? body.votes : {};
   const votes = {};
-  for (const { key } of PLEBISCYT.categories) {
+  for (const { key, label } of PLEBISCYT.categories) {
     const id = typeof rawVotes[key] === "string" ? rawVotes[key] : "";
-    if (id && !candidateIds.has(id)) {
+    if (!id) {
+      return { error: `Wybierz osobę w kategorii „${label}”.` };
+    }
+    if (!candidateIds.has(id)) {
       return { error: "Wybranej osoby nie ma na liście. Odśwież stronę i wybierz ponownie." };
     }
     votes[key] = id;
@@ -55,8 +58,7 @@ export default async function handler(req, res) {
     const input = validateInput(req.body || {}, new Set(members.map((m) => m.id)));
     if (input.error) return res.status(400).json({ error: input.error });
 
-    // Only chosen categories are stored; a cleared one simply drops out of the map.
-    const votes = Object.fromEntries(Object.entries(input.votes).filter(([, id]) => id));
+    const { votes } = input;
     const { error } = await supabase.from("plebiscyt_entries").upsert(
       {
         edition: PLEBISCYT.edition,
