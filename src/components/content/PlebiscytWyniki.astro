@@ -51,6 +51,8 @@ import { PLEBISCYT } from "../../utils/plebiscyt.js";
 </style>
 
 <script>
+  import { PLEBISCYT } from "../../utils/plebiscyt.js";
+
   type Category = { key: string; label: string; total: number; results: { name: string; votes: number }[] };
   type Achievement = { name: string; achievement: string };
   type Gala = {
@@ -117,7 +119,7 @@ import { PLEBISCYT } from "../../utils/plebiscyt.js";
       .join("");
     $("gala").innerHTML = `
       <section class="bg-white rounded-md shadow p-4 mb-6 print:shadow-none print:p-0 break-inside-avoid">
-        <h2 class="text-xl font-semibold text-gray-800">Gala Zatyranych · 23 listopada, 18:00</h2>
+        <h2 class="text-xl font-semibold text-gray-800">Gala Zatyranych · ${escapeHtml(PLEBISCYT.gala.when)}</h2>
         <p class="text-sm text-gray-600 mb-2">Razem z osobami towarzyszącymi: <strong>${plural(g.people, "osoba", "osoby", "osób")}</strong></p>
         <ul class="divide-y divide-gray-100">${rows}</ul>
       </section>`;

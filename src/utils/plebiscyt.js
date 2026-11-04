@@ -1,5 +1,7 @@
 // Plebiscyt configuration, shared by the /plebiscyt2026 page and /api/plebiscyt/*.
 // To add a voting category, append it to `categories`; votes are stored per `key`.
+const GALA_WHEN = "21 listopada 2026 o 18:00";
+
 export const PLEBISCYT = {
   edition: 2026,
   // Voting is open until the end of 14 November 2026, Polish time.
@@ -20,7 +22,8 @@ export const PLEBISCYT = {
   // Required question at the end of the form. `people` is how many seats the answer takes.
   gala: {
     label: "Czy będziesz na Gali Zatyranych?",
-    hint: "Gala odbędzie się 23 listopada 2026 o 18:00.",
+    when: GALA_WHEN,
+    hint: `Gala odbędzie się ${GALA_WHEN}.`,
     options: [
       { key: "no", label: "Nie będę", people: 0 },
       { key: "alone", label: "Będę sam/sama", people: 1 },
