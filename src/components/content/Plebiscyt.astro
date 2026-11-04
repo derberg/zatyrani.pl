@@ -200,7 +200,7 @@ import { ACHIEVEMENT_MAX_LENGTH, PLEBISCYT } from "../../utils/plebiscyt.js";
   function renderSummary() {
     const nameOf = (id: string) =>
       id === PLEBISCYT.abstain.key
-        ? PLEBISCYT.abstain.summary
+        ? PLEBISCYT.abstain.label
         : state.candidates.find((c) => c.id === id)?.name || "—";
     const rows = PLEBISCYT.categories.map(
       (c) => `

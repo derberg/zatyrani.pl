@@ -10,8 +10,7 @@ export const PLEBISCYT = {
   // Stored in `votes` instead of a member id when someone does not want to vote in a category.
   abstain: {
     key: "abstain",
-    label: "Za krótko jestem Zatyranym, wstrzymuję się od głosu",
-    summary: "Wstrzymuję się od głosu",
+    label: "Wstrzymuję się od głosu",
   },
   categories: [
     {
