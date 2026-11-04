@@ -3,6 +3,7 @@ import {
   getBudget,
   getServiceClient,
   getUsedSegments,
+  listActiveMembers,
   systemError,
 } from "./_shared.js";
 
@@ -34,30 +35,11 @@ export default async function handler(req, res) {
     const used = await getUsedSegments(supabase);
     const remaining = Math.max(0, total - used);
 
-    const { data: members, error: membersError } = await supabase
-      .from("members")
-      .select("id, name, phone")
-      .is("deleted_at", null)
-      .order("name", { ascending: true });
-
-    if (membersError) {
-      console.error("Members lookup error:", membersError);
-      return systemError(res);
-    }
-
-    const seenPhones = new Set();
-    const unique = [];
-    for (const m of members || []) {
-      const phone = (m.phone || "").trim();
-      if (!phone) continue;
-      if (seenPhones.has(phone)) continue;
-      seenPhones.add(phone);
-      unique.push({ id: m.id, name: m.name, phone });
-    }
+    const members = await listActiveMembers(supabase);
 
     return res.status(200).json({
       budget: { total, used, remaining },
-      members: unique,
+      members,
       meId: sender.id,
     });
   } catch (e) {
