@@ -261,6 +261,13 @@ describe("GET /api/plebiscyt/results", () => {
     ]);
     expect(res.body.answered).toBe(5);
     expect(res.body.members).toBe(2);
+    expect(res.body.notAnswered).toEqual([]);
+  });
+
+  it("lists active members who have not answered yet", async () => {
+    tables.plebiscyt_entries.push({ edition: 2026, member_id: "me", votes: {}, achievement: null, gala: "no" });
+    const res = await call(resultsHandler, "GET");
+    expect(res.body.notAnswered).toEqual(["Ania"]);
   });
 
   it("returns 403 for a member without results access", async () => {

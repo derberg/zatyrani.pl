@@ -75,11 +75,17 @@ export default async function handler(req, res) {
 
     const active = await listActiveMembers(supabase);
     const names = new Map((allMembers || []).map((m) => [m.id, m.name]));
+    const answeredIds = new Set((entries || []).map((e) => e.member_id));
+    const notAnswered = active
+      .filter((m) => !answeredIds.has(m.id))
+      .map((m) => m.name)
+      .sort((a, b) => a.localeCompare(b, "pl"));
 
     return res.status(200).json({
       ...summarize(entries || [], names),
       answered: (entries || []).length,
       members: active.length,
+      notAnswered,
       closed: isPlebiscytClosed(),
     });
   } catch (e) {
