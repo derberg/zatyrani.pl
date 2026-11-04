@@ -15,9 +15,8 @@ const imageSize = {
 }
 
 // Plebiscyt for members. Pink -> purple like the page header, logo on the left.
-// Categories and dates come from the plebiscyt config, so the image follows it.
+// Dates come from the plebiscyt config, so the image follows it.
 const PlebiscytImage = ({ logo }: { logo: string }) => {
-  const categories = PLEBISCYT.categories.map((c) => c.label)
   return (
     <div
       style={{
@@ -93,24 +92,10 @@ const PlebiscytImage = ({ logo }: { logo: string }) => {
             lineHeight: 1,
             letterSpacing: '-1px',
             textShadow: '0 6px 30px rgba(76, 29, 149, 0.5)',
-            marginBottom: '24px',
+            marginBottom: '32px',
           }}
         >
           {`PLEBISCYT ${PLEBISCYT.edition}`}
-        </div>
-
-        {/* Categories */}
-        <div
-          style={{
-            display: 'flex',
-            color: 'white',
-            fontSize: '40px',
-            fontWeight: 700,
-            textShadow: '0 2px 12px rgba(76, 29, 149, 0.45)',
-            marginBottom: '20px',
-          }}
-        >
-          {categories.join(' · ')}
         </div>
 
         {/* Dates */}
