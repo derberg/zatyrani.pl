@@ -3,22 +3,24 @@ import { PLEBISCYT, isPlebiscytClosed } from "../../src/utils/plebiscyt.js";
 
 const byName = (a, b) => a.name.localeCompare(b.name, "pl");
 
-// Vote counts per category (who voted for whom stays hidden), gala attendance with names,
-// and everyone's achievements.
+// Vote counts and abstentions per category (who voted for whom stays hidden), gala
+// attendance with names, and everyone's achievements.
 export function summarize(entries, names) {
   const nameOf = (id) => names.get(id) || "(osoba usunięta z listy)";
 
   const categories = PLEBISCYT.categories.map(({ key, label }) => {
     const counts = new Map();
+    let abstained = 0;
     for (const e of entries) {
       const id = e.votes?.[key];
-      if (id) counts.set(id, (counts.get(id) || 0) + 1);
+      if (id === PLEBISCYT.abstain.key) abstained += 1;
+      else if (id) counts.set(id, (counts.get(id) || 0) + 1);
     }
     const results = [...counts]
       .map(([id, votes]) => ({ name: nameOf(id), votes }))
       .sort((a, b) => b.votes - a.votes || byName(a, b));
     const total = results.reduce((sum, r) => sum + r.votes, 0);
-    return { key, label, total, results };
+    return { key, label, total, abstained, results };
   });
 
   const achievements = entries

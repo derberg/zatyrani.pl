@@ -129,6 +129,15 @@ describe("PUT /api/plebiscyt/vote", () => {
     expect(state.body.gala).toBe("alone");
   });
 
+  it("accepts abstaining in a category instead of choosing a person", async () => {
+    const res = await call(voteHandler, "PUT", {
+      votes: { serce_druzyny: "abstain", zatyrany_roku: "a" },
+      gala: "no",
+    });
+    expect(res.statusCode).toBe(200);
+    expect((await call(stateHandler, "GET")).body.votes).toEqual({ serce_druzyny: "abstain", zatyrany_roku: "a" });
+  });
+
   it("requires a vote in both categories", async () => {
     expect((await call(voteHandler, "PUT", { votes: {}, gala: "no" })).statusCode).toBe(400);
     const res = await call(voteHandler, "PUT", { votes: { zatyrany_roku: "a", serce_druzyny: "" }, gala: "no" });
@@ -194,10 +203,10 @@ describe("PUT /api/plebiscyt/vote", () => {
 });
 
 describe("GET /api/plebiscyt/results", () => {
-  it("counts votes per category, sums gala seats and lists achievements by name", async () => {
+  it("counts votes and abstentions per category, sums gala seats and lists achievements by name", async () => {
     tables.plebiscyt_entries.push(
       { edition: 2026, member_id: "me", votes: { zatyrany_roku: "a", serce_druzyny: "a" }, achievement: "Życiówka", gala: "plus_one" },
-      { edition: 2026, member_id: "a", votes: { zatyrany_roku: "a" }, achievement: null, gala: "alone" },
+      { edition: 2026, member_id: "a", votes: { zatyrany_roku: "a", serce_druzyny: "abstain" }, achievement: null, gala: "alone" },
       { edition: 2026, member_id: "gone", votes: { zatyrany_roku: "me" }, achievement: "Pierwszy ultra", gala: "no" }
     );
     const res = await call(resultsHandler, "GET");
@@ -207,12 +216,14 @@ describe("GET /api/plebiscyt/results", () => {
         key: "serce_druzyny",
         label: "Serce Drużyny",
         total: 1,
+        abstained: 1,
         results: [{ name: "Ania", votes: 1 }],
       },
       {
         key: "zatyrany_roku",
         label: "Zatyrany Roku",
         total: 3,
+        abstained: 0,
         results: [
           { name: "Ania", votes: 2 },
           { name: "Łysy", votes: 1 },

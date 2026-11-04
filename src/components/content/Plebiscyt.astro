@@ -36,6 +36,10 @@ import { ACHIEVEMENT_MAX_LENGTH, PLEBISCYT } from "../../utils/plebiscyt.js";
           >
             <option value="">— wybierz osobę —</option>
           </select>
+          <label class="mt-3 flex items-center gap-3 min-h-[44px] cursor-pointer text-gray-700">
+            <input type="checkbox" data-category={c.key} class="abstain-cb h-5 w-5 shrink-0 accent-purple-600" />
+            <span>{PLEBISCYT.abstain.label}</span>
+          </label>
         </section>
       ))}
 
@@ -160,6 +164,18 @@ import { ACHIEVEMENT_MAX_LENGTH, PLEBISCYT } from "../../utils/plebiscyt.js";
     return document.querySelectorAll<HTMLSelectElement>(".vote-select");
   }
 
+  function abstainBox(category: string) {
+    return document.querySelector<HTMLInputElement>(`.abstain-cb[data-category="${category}"]`)!;
+  }
+
+  // Abstaining in a category clears and disables its dropdown.
+  function syncAbstain(select: HTMLSelectElement) {
+    const abstain = abstainBox(select.dataset.category || "").checked;
+    if (abstain) select.value = "";
+    select.disabled = abstain;
+    select.classList.toggle("opacity-50", abstain);
+  }
+
   function fillForm() {
     for (const select of selects()) {
       select.innerHTML =
@@ -167,7 +183,10 @@ import { ACHIEVEMENT_MAX_LENGTH, PLEBISCYT } from "../../utils/plebiscyt.js";
         state.candidates
           .map((c) => `<option value="${escapeHtml(c.id)}">${escapeHtml(c.name)}</option>`)
           .join("");
-      select.value = state.votes[select.dataset.category || ""] || "";
+      const vote = state.votes[select.dataset.category || ""] || "";
+      abstainBox(select.dataset.category || "").checked = vote === PLEBISCYT.abstain.key;
+      select.value = vote === PLEBISCYT.abstain.key ? "" : vote;
+      syncAbstain(select);
     }
     $<HTMLTextAreaElement>("achievement").value = state.achievement;
     for (const input of galaInputs()) input.checked = input.value === state.gala;
@@ -179,7 +198,10 @@ import { ACHIEVEMENT_MAX_LENGTH, PLEBISCYT } from "../../utils/plebiscyt.js";
   }
 
   function renderSummary() {
-    const nameOf = (id: string) => state.candidates.find((c) => c.id === id)?.name || "—";
+    const nameOf = (id: string) =>
+      id === PLEBISCYT.abstain.key
+        ? PLEBISCYT.abstain.summary
+        : state.candidates.find((c) => c.id === id)?.name || "—";
     const rows = PLEBISCYT.categories.map(
       (c) => `
         <dt class="text-sm text-gray-500 mb-1">${escapeHtml(c.label)}</dt>
@@ -260,12 +282,15 @@ import { ACHIEVEMENT_MAX_LENGTH, PLEBISCYT } from "../../utils/plebiscyt.js";
   async function save(event: Event) {
     event.preventDefault();
     const votes: Record<string, string> = {};
-    for (const select of selects()) votes[select.dataset.category || ""] = select.value;
+    for (const select of selects()) {
+      const category = select.dataset.category || "";
+      votes[category] = abstainBox(category).checked ? PLEBISCYT.abstain.key : select.value;
+    }
     const achievement = $<HTMLTextAreaElement>("achievement").value.trim();
 
     const missing = PLEBISCYT.categories.find((c) => !votes[c.key]);
     if (missing) {
-      showInlineError(`Wybierz osobę w kategorii „${missing.label}”.`);
+      showInlineError(`Wybierz osobę w kategorii „${missing.label}” albo zaznacz, że się wstrzymujesz.`);
       return;
     }
 
@@ -311,6 +336,9 @@ import { ACHIEVEMENT_MAX_LENGTH, PLEBISCYT } from "../../utils/plebiscyt.js";
   document.addEventListener("DOMContentLoaded", () => {
     $("plebForm").addEventListener("submit", save);
     $("achievement").addEventListener("input", renderCounter);
+    for (const select of selects()) {
+      abstainBox(select.dataset.category || "").addEventListener("change", () => syncAbstain(select));
+    }
     $("editBtn").addEventListener("click", showForm);
     $("cancelEditBtn").addEventListener("click", showSummary);
 
