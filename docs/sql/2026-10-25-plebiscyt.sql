@@ -1,4 +1,4 @@
--- Plebiscyt (/plebiscyt2026): one row per member per edition.
+-- Plebiscyt (/plebiscyt): one row per member per edition.
 -- votes maps a category key to the chosen member id, e.g. {"zatyrany_roku": "<members.id>"}.
 -- Categories and the voting deadline live in src/utils/plebiscyt.js, so adding a category
 -- later needs no schema change.
@@ -23,7 +23,7 @@ ALTER TABLE plebiscyt_entries ENABLE ROW LEVEL SECURITY;
 -- JOIN members m ON m.id = v.value::uuid
 -- WHERE e.edition = 2026 GROUP BY v.key, m.name ORDER BY v.key, votes DESC;
 
--- Who can see /plebiscyt2026/wyniki (summary and everyone's achievements).
+-- Who can see /plebiscyt/wyniki (summary and everyone's achievements).
 ALTER TABLE members ADD COLUMN IF NOT EXISTS can_view_plebiscyt BOOLEAN NOT NULL DEFAULT false;
 -- Grant it by member id, after finding the right row with SELECT id, name FROM members:
 -- UPDATE members SET can_view_plebiscyt = true WHERE id = '<members.id>';

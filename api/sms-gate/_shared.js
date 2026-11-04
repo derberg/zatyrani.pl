@@ -54,7 +54,7 @@ export async function getUsedSegments(supabase) {
 }
 
 // Non-deleted members with a phone, one per phone number, sorted by name.
-// This is "the list of Zatyrani" shown on /sms and used as candidates on /plebiscyt2026.
+// This is "the list of Zatyrani" shown on /sms and used as candidates on /plebiscyt.
 export async function listActiveMembers(supabase) {
   const { data, error } = await supabase
     .from("members")

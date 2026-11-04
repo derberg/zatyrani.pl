@@ -1,4 +1,4 @@
-// Plebiscyt configuration, shared by the /plebiscyt2026 page and /api/plebiscyt/*.
+// Plebiscyt configuration, shared by the /plebiscyt page and /api/plebiscyt/*.
 // To add a voting category, append it to `categories`; votes are stored per `key`.
 const GALA_WHEN = "21 listopada 2026 o 18:00";
 
