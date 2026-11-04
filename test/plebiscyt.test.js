@@ -78,6 +78,8 @@ beforeEach(() => {
       { id: "me", name: "Łysy" },
       { id: "a", name: "Ania" },
       { id: "gone", name: "Stary" },
+      { id: "x1", name: "Kasia" },
+      { id: "x2", name: "Marek" },
     ],
     plebiscyt_entries: [
       { edition: 2025, member_id: "me", votes: { zatyrany_roku: "a" }, achievement: "Stary opis" },
@@ -168,6 +170,12 @@ describe("PUT /api/plebiscyt/vote", () => {
     expect(tables.plebiscyt_entries.find((e) => e.edition === 2026).votes).toEqual(both("a"));
   });
 
+  it("accepts coming with a plus one who is also a member", async () => {
+    const res = await call(voteHandler, "PUT", { votes: both(), gala: "plus_member" });
+    expect(res.statusCode).toBe(200);
+    expect(tables.plebiscyt_entries.find((e) => e.edition === 2026).gala).toBe("plus_member");
+  });
+
   it("requires a valid gala answer", async () => {
     expect((await call(voteHandler, "PUT", { votes: both(), achievement: "Opis" })).statusCode).toBe(400);
     expect((await call(voteHandler, "PUT", { votes: both(), gala: "maybe" })).statusCode).toBe(400);
@@ -207,7 +215,9 @@ describe("GET /api/plebiscyt/results", () => {
     tables.plebiscyt_entries.push(
       { edition: 2026, member_id: "me", votes: { zatyrany_roku: "a", serce_druzyny: "a" }, achievement: "Życiówka", gala: "plus_one" },
       { edition: 2026, member_id: "a", votes: { zatyrany_roku: "a", serce_druzyny: "abstain" }, achievement: null, gala: "alone" },
-      { edition: 2026, member_id: "gone", votes: { zatyrany_roku: "me" }, achievement: "Pierwszy ultra", gala: "no" }
+      { edition: 2026, member_id: "gone", votes: { zatyrany_roku: "me" }, achievement: "Pierwszy ultra", gala: "no" },
+      { edition: 2026, member_id: "x1", votes: {}, achievement: null, gala: "plus_member" },
+      { edition: 2026, member_id: "x2", votes: {}, achievement: null, gala: "plus_member" }
     );
     const res = await call(resultsHandler, "GET");
     expect(res.statusCode).toBe(200);
@@ -231,18 +241,25 @@ describe("GET /api/plebiscyt/results", () => {
       },
     ]);
     expect(res.body.gala).toEqual({
-      people: 3,
+      people: 5,
       options: [
         { key: "no", label: "Nie będę", count: 1, names: ["Stary"], people: 0 },
         { key: "alone", label: "Będę sam/sama", count: 1, names: ["Ania"], people: 1 },
         { key: "plus_one", label: "Będę z osobą towarzyszącą", count: 1, names: ["Łysy"], people: 2 },
+        {
+          key: "plus_member",
+          label: "Będę z osobą towarzyszącą (też z Zatyranych)",
+          count: 2,
+          names: ["Kasia", "Marek"],
+          people: 2,
+        },
       ],
     });
     expect(res.body.achievements).toEqual([
       { name: "Łysy", achievement: "Życiówka" },
       { name: "Stary", achievement: "Pierwszy ultra" },
     ]);
-    expect(res.body.answered).toBe(3);
+    expect(res.body.answered).toBe(5);
     expect(res.body.members).toBe(2);
   });
 

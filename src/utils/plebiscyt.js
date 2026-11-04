@@ -25,6 +25,7 @@ export const PLEBISCYT = {
     },
   ],
   // Required question at the end of the form. `people` is how many seats the answer takes.
+  // A plus one who is also a member answers for themselves, so "plus_member" takes one seat.
   gala: {
     label: "Czy będziesz na Gali Zatyranych?",
     when: GALA_WHEN,
@@ -33,6 +34,7 @@ export const PLEBISCYT = {
       { key: "no", label: "Nie będę", people: 0 },
       { key: "alone", label: "Będę sam/sama", people: 1 },
       { key: "plus_one", label: "Będę z osobą towarzyszącą", people: 2 },
+      { key: "plus_member", label: "Będę z osobą towarzyszącą (też z Zatyranych)", people: 1 },
     ],
   },
 };
