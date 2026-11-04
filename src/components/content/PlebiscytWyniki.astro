@@ -53,7 +53,13 @@ import { PLEBISCYT } from "../../utils/plebiscyt.js";
 <script>
   import { PLEBISCYT } from "../../utils/plebiscyt.js";
 
-  type Category = { key: string; label: string; total: number; results: { name: string; votes: number }[] };
+  type Category = {
+    key: string;
+    label: string;
+    total: number;
+    abstained: number;
+    results: { name: string; votes: number }[];
+  };
   type Achievement = { name: string; achievement: string };
   type Gala = {
     people: number;
@@ -99,7 +105,7 @@ import { PLEBISCYT } from "../../utils/plebiscyt.js";
     return `
       <section class="bg-white rounded-md shadow p-4 mb-6 print:shadow-none print:p-0 break-inside-avoid">
         <h2 class="text-xl font-semibold text-gray-800">${escapeHtml(c.label)}</h2>
-        <p class="text-sm text-gray-600 mb-2">Oddane głosy: ${c.total}</p>
+        <p class="text-sm text-gray-600 mb-2">Oddane głosy: ${c.total} · wstrzymało się: ${c.abstained}</p>
         <ol class="divide-y divide-gray-100">${rows}</ol>
       </section>`;
   }

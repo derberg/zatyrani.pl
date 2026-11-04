@@ -1,5 +1,6 @@
 -- Plebiscyt (/plebiscyt): one row per member per edition.
--- votes maps a category key to the chosen member id, e.g. {"zatyrany_roku": "<members.id>"}.
+-- votes maps a category key to the chosen member id, e.g. {"zatyrany_roku": "<members.id>"},
+-- or to "abstain" when the member abstained in that category.
 -- Categories and the voting deadline live in src/utils/plebiscyt.js, so adding a category
 -- later needs no schema change.
 CREATE TABLE IF NOT EXISTS plebiscyt_entries (
@@ -20,8 +21,9 @@ ALTER TABLE plebiscyt_entries ENABLE ROW LEVEL SECURITY;
 -- Results:
 -- SELECT v.key AS category, m.name, count(*) AS votes
 -- FROM plebiscyt_entries e, jsonb_each_text(e.votes) v
--- JOIN members m ON m.id = v.value::uuid
+-- JOIN members m ON m.id::text = v.value
 -- WHERE e.edition = 2026 GROUP BY v.key, m.name ORDER BY v.key, votes DESC;
+-- Abstentions are the "abstain" values, which match no member and drop out of the join above.
 
 -- Who can see /plebiscyt/wyniki (summary and everyone's achievements).
 ALTER TABLE members ADD COLUMN IF NOT EXISTS can_view_plebiscyt BOOLEAN NOT NULL DEFAULT false;

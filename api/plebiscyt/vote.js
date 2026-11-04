@@ -1,8 +1,9 @@
 import { authorizeVoter, getServiceClient, listActiveMembers, systemError } from "./_shared.js";
 import { ACHIEVEMENT_MAX_LENGTH, PLEBISCYT, isPlebiscytClosed } from "../../src/utils/plebiscyt.js";
 
-// Body: { votes: { [categoryKey]: candidateId }, achievement: string, gala: string }.
-// A vote in every category and the gala answer are required; the achievement is optional.
+// Body: { votes: { [categoryKey]: candidateId | "abstain" }, achievement: string, gala: string }.
+// Every category needs a vote or an abstention, and the gala answer is required.
+// The achievement is optional.
 function validateInput(body, candidateIds) {
   const rawVotes = body.votes && typeof body.votes === "object" ? body.votes : {};
   const votes = {};
@@ -11,7 +12,7 @@ function validateInput(body, candidateIds) {
     if (!id) {
       return { error: `Wybierz osobę w kategorii „${label}”.` };
     }
-    if (!candidateIds.has(id)) {
+    if (id !== PLEBISCYT.abstain.key && !candidateIds.has(id)) {
       return { error: "Wybranej osoby nie ma na liście. Odśwież stronę i wybierz ponownie." };
     }
     votes[key] = id;

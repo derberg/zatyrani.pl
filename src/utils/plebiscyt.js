@@ -7,6 +7,11 @@ export const PLEBISCYT = {
   // Voting is open until the end of 14 November 2026, Polish time.
   closesAt: "2026-11-14T23:59:59+01:00",
   closesLabel: "14 listopada 2026",
+  // Stored in `votes` instead of a member id when someone does not want to vote in a category.
+  abstain: {
+    key: "abstain",
+    label: "Wstrzymuję się od głosu",
+  },
   categories: [
     {
       key: "serce_druzyny",
