@@ -27,6 +27,11 @@ import { PLEBISCYT } from "../../utils/plebiscyt.js";
       <p id="printMeta" class="text-sm text-gray-600"></p>
     </div>
 
+    <section class="bg-white rounded-md shadow p-4 mb-6 print:shadow-none print:p-0 break-inside-avoid">
+      <h2 class="text-xl font-semibold text-gray-800 mb-2">Jeszcze nie zagłosowali <span id="notAnsweredCount" class="text-gray-500 font-normal"></span></h2>
+      <p id="notAnswered" class="text-gray-700"></p>
+    </section>
+
     <div id="categories"></div>
     <div id="gala"></div>
 
@@ -167,6 +172,9 @@ import { PLEBISCYT } from "../../utils/plebiscyt.js";
       $("participation").innerHTML = `Odpowiedziało <strong>${data.answered}</strong> z ${data.members} osób · ${status}`;
       $("printMeta").textContent = `Odpowiedziało ${data.answered} z ${data.members} osób · ${status} · stan na ${new Date().toLocaleString("pl-PL")}`;
       $("categories").innerHTML = (data.categories as Category[]).map(renderCategory).join("");
+      const notAnswered: string[] = data.notAnswered || [];
+      $("notAnsweredCount").textContent = `(${notAnswered.length})`;
+      $("notAnswered").textContent = notAnswered.length ? notAnswered.join(", ") : "Wszyscy już zagłosowali.";
       renderGala(data.gala);
       renderAchievements(data.achievements || []);
       $("resLoading").classList.add("hidden");
