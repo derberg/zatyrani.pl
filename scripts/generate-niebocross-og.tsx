@@ -46,9 +46,8 @@ const NieboCrossImage = ({ craneDataUri }: { craneDataUri: string }) => {
           height: '100%',
         }}
       >
-        <div style={{ display: 'flex', color: '#f7c6a3', fontSize: '34px', fontWeight: 600 }}>II edycja</div>
-        <div style={{ display: 'flex', color: 'white', fontSize: '112px', fontWeight: 900, lineHeight: 1, marginTop: '16px' }}>NieboCross</div>
-        <div style={{ display: 'flex', color: 'white', fontSize: '112px', fontWeight: 900, lineHeight: 1 }}>2027</div>
+        <div style={{ display: 'flex', color: 'white', fontSize: '96px', fontWeight: 900, lineHeight: 1 }}>II NieboCross</div>
+        <div style={{ display: 'flex', color: 'white', fontSize: '96px', fontWeight: 900, lineHeight: 1 }}>2027</div>
         <div style={{ display: 'flex', color: '#cdebf7', fontSize: '32px', fontWeight: 400, marginTop: '36px' }}>Pamięci Marka Nowakowskiego</div>
         <div style={{ display: 'flex', color: 'white', fontSize: '32px', fontWeight: 700, marginTop: '12px' }}>18 kwietnia 2027, Nieborowice</div>
       </div>
