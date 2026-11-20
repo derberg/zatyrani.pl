@@ -8,29 +8,11 @@ import sharp from 'sharp'
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url))
 
-// Load SVG logo and convert to data URI
-function getLogoDataUri() {
-  const logoPath = path.join(__dirname, '../public/niebocross_logo.svg')
-  const svgContent = fs.readFileSync(logoPath, 'utf-8')
-  // Encode SVG as data URI
-  const base64Svg = Buffer.from(svgContent).toString('base64')
-  return `data:image/svg+xml;base64,${base64Svg}`
-}
-
-// Load Klinika logo (convert WebP to PNG for Satori compatibility)
-async function getKlinikaLogoDataUri() {
-  const logoPath = path.join(__dirname, '../public/niebocross/klinika.webp')
-  const pngBuffer = await sharp(logoPath).png().toBuffer()
-  const base64Image = pngBuffer.toString('base64')
-  return `data:image/png;base64,${base64Image}`
-}
-
-// Load OTOZ Animals logo
-function getOtozLogoDataUri() {
-  const logoPath = path.join(__dirname, '../public/niebocross/otoz.svg')
-  const svgContent = fs.readFileSync(logoPath, 'utf-8')
-  const base64Svg = Buffer.from(svgContent).toString('base64')
-  return `data:image/svg+xml;base64,${base64Svg}`
+// Load the 2027 crane artwork (WebP converted to PNG for Satori compatibility)
+async function getCraneDataUri() {
+  const cranePath = path.join(__dirname, '../public/niebocross/2027-crane-light.webp')
+  const pngBuffer = await sharp(cranePath).resize({ width: 720 }).png().toBuffer()
+  return `data:image/png;base64,${pngBuffer.toString('base64')}`
 }
 
 const imageSize = {
@@ -38,309 +20,37 @@ const imageSize = {
   height: 630,
 }
 
-const NieboCrossImage = ({
-  logoDataUri,
-  klinikaLogoDataUri,
-  otozLogoDataUri
-}: {
-  logoDataUri: string
-  klinikaLogoDataUri: string
-  otozLogoDataUri: string
-}) => {
+const NieboCrossImage = ({ craneDataUri }: { craneDataUri: string }) => {
   return (
     <div
       style={{
         display: 'flex',
         width: '100%',
         height: '100%',
-        background: 'linear-gradient(135deg, #0c4a6e 0%, #1e293b 50%, #047857 100%)',
+        background: '#16224a',
         position: 'relative',
       }}
     >
-      {/* Glow effects */}
-      <div
-        style={{
-          position: 'absolute',
-          left: '240px',
-          top: '120px',
-          width: '200px',
-          height: '200px',
-          borderRadius: '50%',
-          background: 'rgba(94, 234, 212, 0.15)',
-          filter: 'blur(60px)',
-        }}
+      <img
+        src={craneDataUri}
+        width={700}
+        height={707}
+        style={{ position: 'absolute', right: '-40px', top: '-30px', width: '700px', height: '707px' }}
       />
-      <div
-        style={{
-          position: 'absolute',
-          right: '240px',
-          bottom: '120px',
-          width: '200px',
-          height: '200px',
-          borderRadius: '50%',
-          background: 'rgba(56, 189, 248, 0.18)',
-          filter: 'blur(60px)',
-        }}
-      />
-
-      {/* Content Container */}
       <div
         style={{
           display: 'flex',
-          width: '100%',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          padding: '0 70px',
           height: '100%',
-          padding: '60px 80px',
-          position: 'relative',
-          alignItems: 'center',
-          justifyContent: 'space-between',
         }}
       >
-        {/* Left Column - Text Content & Partners */}
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            flex: 1,
-            paddingRight: '60px',
-            justifyContent: 'space-between',
-            height: '100%',
-          }}
-        >
-          {/* Main Event Info */}
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-            }}
-          >
-          {/* Badge */}
-          <div
-            style={{
-              display: 'flex',
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: '1px solid rgba(255, 255, 255, 0.2)',
-              padding: '12px 24px',
-              borderRadius: '24px',
-              color: '#6ee7b7',
-              fontSize: '14px',
-              fontWeight: 600,
-              textTransform: 'uppercase',
-              letterSpacing: '1.5px',
-              marginBottom: '32px',
-              alignSelf: 'center',
-            }}
-          >
-            WYDARZENIE CHARYTATYWNE
-          </div>
-
-          {/* Title */}
-          <div
-            style={{
-              display: 'flex',
-              color: 'white',
-              fontSize: '80px',
-              fontWeight: 700,
-              marginBottom: '16px',
-              textShadow: '0 4px 20px rgba(0,0,0,0.4)',
-              lineHeight: 1,
-            }}
-          >
-            NieboCross
-          </div>
-
-          {/* Memorial Text */}
-          <div
-            style={{
-              display: 'flex',
-              color: 'rgba(255, 255, 255, 0.85)',
-              fontSize: '24px',
-              fontWeight: 400,
-              fontStyle: 'italic',
-              textShadow: '0 2px 10px rgba(0,0,0,0.3)',
-              marginBottom: '40px',
-            }}
-          >
-            Pamięci Marka Nowakowskiego
-          </div>
-
-          {/* Subtitle */}
-          <div
-            style={{
-              display: 'flex',
-              color: 'rgba(255, 255, 255, 0.95)',
-              fontSize: '26px',
-              fontWeight: 600,
-              textShadow: '0 2px 10px rgba(0,0,0,0.3)',
-              marginBottom: '20px',
-            }}
-          >
-            12.04.2026 · Nieborowice
-          </div>
-
-          {/* Categories */}
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              color: 'rgba(255, 255, 255, 0.85)',
-              fontSize: '22px',
-              fontWeight: 400,
-              textShadow: '0 2px 10px rgba(0,0,0,0.3)',
-              alignItems: 'center',
-              gap: '8px',
-            }}
-          >
-            <div style={{ display: 'flex' }}>
-              3 km & 9 km · Bieg · Nordic Walking
-            </div>
-            <div style={{ display: 'flex', fontSize: '20px', color: 'rgba(255, 255, 255, 0.8)' }}>
-              Bieg dla Dzieci
-            </div>
-          </div>
-          </div>
-
-          {/* Partners Section - Left Column Only */}
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              gap: '16px',
-              paddingTop: '30px',
-              justifyContent: 'center',
-            }}
-          >
-            {/* Klinika Nieborowice */}
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                flex: 1,
-              }}
-            >
-              <div
-                style={{
-                  display: 'flex',
-                  background: 'rgba(255, 255, 255, 0.95)',
-                  borderRadius: '16px',
-                  padding: '16px 24px',
-                  marginBottom: '10px',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  width: '240px',
-                }}
-              >
-                <img
-                  src={klinikaLogoDataUri}
-                  width={240}
-                  height={85}
-                  style={{
-                    width: '240px',
-                    height: '85px',
-                    objectFit: 'contain',
-                  }}
-                />
-              </div>
-              <div
-                style={{
-                  display: 'flex',
-                  color: 'rgba(255, 255, 255, 0.9)',
-                  fontSize: '13px',
-                  fontWeight: 600,
-                  letterSpacing: '0.5px',
-                  textAlign: 'center',
-                }}
-              >
-                Partner Główny Wydarzenia
-              </div>
-            </div>
-
-            {/* OTOZ Animals */}
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                flex: 1,
-              }}
-            >
-              <div
-                style={{
-                  display: 'flex',
-                  background: 'rgba(255, 255, 255, 0.95)',
-                  borderRadius: '16px',
-                  padding: '16px 24px',
-                  marginBottom: '10px',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  width: '240px',
-                }}
-              >
-                <img
-                  src={otozLogoDataUri}
-                  width={200}
-                  height={85}
-                  style={{
-                    width: '200px',
-                    height: '85px',
-                    objectFit: 'contain',
-                  }}
-                />
-              </div>
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  color: 'rgba(255, 255, 255, 0.9)',
-                  fontSize: '13px',
-                  fontWeight: 600,
-                  textAlign: 'center',
-                  alignItems: 'center',
-                  gap: '4px',
-                }}
-              >
-                <div style={{ display: 'flex' }}>Dochód trafi do</div>
-                <div style={{ display: 'flex' }}>OTOZ Animals Inspektorat Gliwice</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Right Column - Logo Only */}
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            position: 'relative',
-          }}
-        >
-          {/* Logo Container with Frame */}
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              width: '380px',
-              height: '380px',
-              background: 'rgba(255, 255, 255, 0.95)',
-              borderRadius: '30px',
-              boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1)',
-              padding: '30px',
-            }}
-          >
-            <img
-              src={logoDataUri}
-              width={320}
-              height={320}
-              style={{
-                width: '320px',
-                height: '320px',
-              }}
-            />
-          </div>
-        </div>
+        <div style={{ display: 'flex', color: '#f7c6a3', fontSize: '34px', fontWeight: 600 }}>II edycja</div>
+        <div style={{ display: 'flex', color: 'white', fontSize: '112px', fontWeight: 900, lineHeight: 1, marginTop: '16px' }}>NieboCross</div>
+        <div style={{ display: 'flex', color: 'white', fontSize: '112px', fontWeight: 900, lineHeight: 1 }}>2027</div>
+        <div style={{ display: 'flex', color: '#cdebf7', fontSize: '32px', fontWeight: 400, marginTop: '36px' }}>Pamięci Marka Nowakowskiego</div>
+        <div style={{ display: 'flex', color: 'white', fontSize: '32px', fontWeight: 700, marginTop: '12px' }}>18 kwietnia 2027, Nieborowice</div>
       </div>
     </div>
   )
@@ -375,11 +85,8 @@ async function main() {
   console.log('🎨 Generating NieboCross OG image...\n')
 
   try {
-    // Load logos as data URIs
-    const logoDataUri = getLogoDataUri()
-    const klinikaLogoDataUri = await getKlinikaLogoDataUri()
-    const otozLogoDataUri = getOtozLogoDataUri()
-    console.log('✅ Logos loaded\n')
+    const craneDataUri = await getCraneDataUri()
+    console.log('✅ Artwork loaded\n')
 
     // Load fonts with Polish character support
     const fonts = await Promise.all([
@@ -392,11 +99,7 @@ async function main() {
 
     // Generate SVG
     const svg = await satori(
-      <NieboCrossImage
-        logoDataUri={logoDataUri}
-        klinikaLogoDataUri={klinikaLogoDataUri}
-        otozLogoDataUri={otozLogoDataUri}
-      />,
+      <NieboCrossImage craneDataUri={craneDataUri} />,
       {
         width: imageSize.width,
         height: imageSize.height,
