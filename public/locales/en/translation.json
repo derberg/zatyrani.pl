@@ -191,7 +191,6 @@
     "schedule_main_run": "Main run and Nordic Walking start",
     "schedule_cups_note": "If you have your own cups, please bring them along. Let's reduce waste.",
     "schedule_money_note": "Bring some extra cash! You'll be able to buy cakes, sausages, corn, popcorn, and cotton candy. All proceeds go directly to OTOZ Animals Inspectorate Gliwice, whose inspectors will be present at the event.",
-    "schedule_memorial_note": "Along the route, 500m from the start, you will find the \"Memorial to Those Murdered in the Transit Camp in Nieborowice.\" We encourage you to bring a candle and light it there. We regularly look after this place, so don't worry — we'll clean up the burned candles. Registration starts at 9:30 and the main run at 12:00, so there will be plenty of time to visit. The kids races will also pass by the memorial.",
     "trail_maps_title": "Trail maps",
     "trail_maps_desc": "Explore the routes on Google Maps.",
     "trail_map_3km": "3 km route",
@@ -491,7 +490,14 @@
     "tshirt_design": "On the front, a running crane carrying the Bierawka valley; on the back, the heart with the NieboCross logo.",
     "tshirt_order": "The T-shirt costs 80 zł and is an add-on to your entry. The whole amount covers making and delivering the shirt.",
     "tshirt_cta": "Sign up and order a T-shirt",
-    "tshirt_image_alt": "NieboCross 2027 T-shirts in light blue and navy, front and back"
+    "tshirt_image_alt": "NieboCross 2027 T-shirts in light blue and navy, front and back",
+    "schedule_memorial_short": "Bring a candle: 400 m from the start, the route passes the memorial to the victims of the Nieborowice transit camp.",
+    "memorial_site_link": "More about the memorial",
+    "memorial_site_title": "The memorial on the route",
+    "memorial_site_desc": "Along the route, 400 m from the start, stands the “Memorial to Those Murdered in the Transit Camp in Nieborowice”. The kids races also pass by it.",
+    "memorial_site_candle": "We encourage you to bring a candle and light it there. We look after this place regularly, so don't worry: we'll clean up the burnt-out candles.",
+    "memorial_site_time": "The race office opens at 9:30 and the main run starts at 12:00, so there will be plenty of time to visit.",
+    "memorial_site_alt": "Memorial to those murdered in the transit camp in Nieborowice"
   },
   "wilczypolmaraton": {
     "back_to_main": "Back to main page",

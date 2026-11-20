@@ -6,6 +6,8 @@ interface Props {
 const { t } = Astro.props;
 
 const registrationUrl = "https://www.leszy.run/events/niebocross-2027";
+// Set to a file in public/niebocross/ once there is a current photo of the memorial.
+const memorialPhoto: string | null = null;
 const rulesUrl = "https://docs.google.com/document/d/1SsR3T1OHH6gGEtjzfcK6-2aVflEK11Mk9idtrbgDk5Y/edit?usp=sharing";
 ---
 
@@ -200,7 +202,7 @@ const rulesUrl = "https://docs.google.com/document/d/1SsR3T1OHH6gGEtjzfcK6-2aVfl
       <p class="rounded-2xl bg-[#e6f4fa] p-5 text-slate-700">{t("niebocross.pickup_saturday")} <a href="tel:+48784640977" class="font-semibold text-[#16224a] underline underline-offset-4">784 640 977</a>.</p>
       <p class="rounded-2xl bg-[#e6f4fa] p-5 text-slate-700">{t("niebocross.schedule_cups_note")}</p>
       <p class="rounded-2xl bg-[#e6f4fa] p-5 text-slate-700">{t("niebocross.schedule_money_note")}</p>
-      <p class="rounded-2xl bg-[#e6f4fa] p-5 text-slate-700">{t("niebocross.schedule_memorial_note")}</p>
+      <p class="rounded-2xl bg-[#e6f4fa] p-5 text-slate-700">{t("niebocross.schedule_memorial_short")} <a href="#pomnik" class="font-semibold text-[#16224a] underline underline-offset-4 hover:text-[#d9343f]">{t("niebocross.memorial_site_link")}</a>.</p>
     </div>
   </div>
 </section>
@@ -436,6 +438,27 @@ const rulesUrl = "https://docs.google.com/document/d/1SsR3T1OHH6gGEtjzfcK6-2aVfl
           </p>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<section id="pomnik" class="mx-auto max-w-6xl px-6 py-16">
+  <div class={memorialPhoto ? "grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-center" : "max-w-3xl"}>
+    {memorialPhoto && (
+    <figure class="mx-auto w-full max-w-sm">
+      <img
+        src={memorialPhoto}
+        alt={t("niebocross.memorial_site_alt")}
+        class="w-full rounded-2xl shadow-lg ring-1 ring-slate-200"
+        loading="lazy"
+      />
+    </figure>
+    )}
+    <div class="space-y-4">
+      <h2 class="text-3xl font-bold text-slate-900">{t("niebocross.memorial_site_title")}</h2>
+      <p class="text-lg leading-relaxed text-slate-700">{t("niebocross.memorial_site_desc")}</p>
+      <p class="text-lg leading-relaxed text-slate-700">{t("niebocross.memorial_site_candle")}</p>
+      <p class="text-lg leading-relaxed text-slate-700">{t("niebocross.memorial_site_time")}</p>
     </div>
   </div>
 </section>
