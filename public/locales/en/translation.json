@@ -160,7 +160,6 @@
     "meta_description": "The 2nd charity run and Nordic Walking along the Bierawka - 18.04.2027 in Nieborowice. 3 km and 9 km routes plus kids races, 100% of entry fees for OTOZ Animals.",
     "charity_event": "Charity Event",
     "hero_description": "Running and Nordic Walking along the Bierawka, plus races for kids. All entry fees go to treating animals rescued by",
-    "memorial_dedication": "In Memory of",
     "memorial_person_name": "Marek Nowakowski",
     "memorial_section_title": "Marek Nowakowski",
     "memorial_bio": "Co-founder of the \"Zatyrani\" Association, he was above all our dear friend from running trails, mountain hikes, and many other sports challenges. His completion of the Warsaw Marathon was a natural complement to his passion, which he shared with us every day. As a councilman and resident of Nieborowice, he was involved in local community and youth affairs, simply wanting life to be better in his area. We dedicate the NieboCross event to his memory – a man whose modesty and positive energy are an inspiration to us.",
@@ -480,7 +479,8 @@
     "memorial_site_candle": "We encourage you to light a candle there. We look after the place and will clear the burnt-out candles.",
     "memorial_site_alt": "Memorial to those murdered in the transit camp in Nieborowice",
     "start_list_btn": "Start list",
-    "packs_note": "Packs not picked up are sold on-site. You can also pick yours up on Saturday in Nieborowice, by phone arrangement:"
+    "packs_note": "Packs not picked up are sold on-site. You can also pick yours up on Saturday in Nieborowice, by phone arrangement:",
+    "hero_dedication": "A charity event in memory of"
   },
   "wilczypolmaraton": {
     "back_to_main": "Back to main page",

@@ -160,7 +160,6 @@
     "meta_description": "II edycja charytatywnego biegu i Nordic Walking nad Bierawką - 18.04.2027 w Nieborowicach. Trasy 3 km i 9 km oraz biegi dla dzieci, 100% opłat startowych dla OTOZ Animals.",
     "charity_event": "Wydarzenie charytatywne",
     "hero_description": "Bieg i Nordic Walking nad Bierawką oraz biegi dla dzieci. Wszystkie opłaty startowe trafiają na leczenie zwierząt ratowanych przez",
-    "memorial_dedication": "Pamięci",
     "memorial_person_name": "Marka Nowakowskiego",
     "memorial_section_title": "Marek Nowakowski",
     "memorial_bio": "Współzałożyciel Stowarzyszenia \"Zatyrani\" był przede wszystkim naszym serdecznym kolegą z biegowych tras, górskich wędrówek i wielu innych sportowych wyzwań. Ukończony przez niego Maraton Warszawski był naturalnym dopełnieniem jego pasji, którą dzielił z nami na co dzień. Jako radny i mieszkaniec Nieborowic angażował się w sprawy lokalnej społeczności oraz młodzieży, chcąc po prostu, by w jego okolicy żyło się lepiej. Wydarzenie NieboCross dedykujemy jego pamięci – człowiekowi, którego skromność i dobra energia są dla nas inspiracją.",
@@ -480,7 +479,8 @@
     "memorial_site_candle": "Zachęcamy, by zapalić tam znicz. Dbamy o to miejsce i posprzątamy wypalone znicze.",
     "memorial_site_alt": "Pomnik pamięci pomordowanych w obozie przejściowym w Nieborowicach",
     "start_list_btn": "Lista startowa",
-    "packs_note": "Nieodebrane pakiety sprzedajemy na miejscu chętnym. Pakiet możesz też odebrać w sobotę w Nieborowicach po telefonie:"
+    "packs_note": "Nieodebrane pakiety sprzedajemy na miejscu chętnym. Pakiet możesz też odebrać w sobotę w Nieborowicach po telefonie:",
+    "hero_dedication": "Wydarzenie charytatywne pamięci"
   },
   "wilczypolmaraton": {
     "back_to_main": "Powrót do strony głównej",
