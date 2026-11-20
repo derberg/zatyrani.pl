@@ -8,6 +8,8 @@ const { t } = Astro.props;
 const registrationUrl = "https://www.leszy.run/events/niebocross-2027";
 const memorialPhoto = "https://lh3.ggpht.com/-kKlAb6vTA30/U2A3D-N7kQI/AAAAAAAAC3U/ueW2NAc636U/s1600/r2014_f021_trl.jpg";
 const startListUrl = "https://www.leszy.run/events/niebocross-2027/lista";
+// The 2027 routes may still change; set to true once they are final.
+const showRouteMaps = false;
 const rulesUrl = "https://docs.google.com/document/d/1SsR3T1OHH6gGEtjzfcK6-2aVflEK11Mk9idtrbgDk5Y/edit?usp=sharing";
 ---
 
@@ -260,6 +262,7 @@ const rulesUrl = "https://docs.google.com/document/d/1SsR3T1OHH6gGEtjzfcK6-2aVfl
   </div>
 </section>
 
+{showRouteMaps && (
 <section id="mapy-tras" class="mx-auto max-w-6xl px-6 py-12">
   <div class="space-y-6">
     <h2 class="text-3xl font-bold text-slate-900 text-center">{t("niebocross.trail_maps_title")}</h2>
@@ -312,6 +315,7 @@ const rulesUrl = "https://docs.google.com/document/d/1SsR3T1OHH6gGEtjzfcK6-2aVfl
     </div>
   </div>
 </section>
+)}
 
 <section id="biuro-zawodow" class="mx-auto max-w-6xl px-6 py-12">
   <div class="space-y-6">
