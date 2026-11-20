@@ -15,12 +15,19 @@ async function getCraneDataUri() {
   return `data:image/png;base64,${pngBuffer.toString('base64')}`
 }
 
+// Load the OTOZ Animals logo (the charity that receives the entry fees)
+function getOtozLogoDataUri() {
+  const logoPath = path.join(__dirname, '../public/niebocross/otoz.svg')
+  const svgContent = fs.readFileSync(logoPath, 'utf-8')
+  return `data:image/svg+xml;base64,${Buffer.from(svgContent).toString('base64')}`
+}
+
 const imageSize = {
   width: 1200,
   height: 630,
 }
 
-const NieboCrossImage = ({ craneDataUri }: { craneDataUri: string }) => {
+const NieboCrossImage = ({ craneDataUri, otozLogoDataUri }: { craneDataUri: string; otozLogoDataUri: string }) => {
   return (
     <div
       style={{
@@ -50,6 +57,26 @@ const NieboCrossImage = ({ craneDataUri }: { craneDataUri: string }) => {
         <div style={{ display: 'flex', color: 'white', fontSize: '96px', fontWeight: 900, lineHeight: 1 }}>2027</div>
         <div style={{ display: 'flex', color: '#cdebf7', fontSize: '32px', fontWeight: 400, marginTop: '36px' }}>Pamięci Marka Nowakowskiego</div>
         <div style={{ display: 'flex', color: 'white', fontSize: '32px', fontWeight: 700, marginTop: '12px' }}>18 kwietnia 2027, Nieborowice</div>
+        <div style={{ display: 'flex', alignItems: 'center', marginTop: '36px' }}>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: 'white',
+              borderRadius: '16px',
+              width: '104px',
+              height: '104px',
+            }}
+          >
+            <img src={otozLogoDataUri} width={84} height={84} style={{ width: '84px', height: '84px', objectFit: 'contain' }} />
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', marginLeft: '22px' }}>
+            <div style={{ display: 'flex', color: '#cdebf7', fontSize: '24px', fontWeight: 400 }}>100% opłat startowych dla</div>
+            <div style={{ display: 'flex', color: 'white', fontSize: '26px', fontWeight: 700, marginTop: '4px' }}>OTOZ Animals</div>
+            <div style={{ display: 'flex', color: 'white', fontSize: '26px', fontWeight: 700 }}>Inspektorat Gliwice</div>
+          </div>
+        </div>
       </div>
     </div>
   )
@@ -85,6 +112,7 @@ async function main() {
 
   try {
     const craneDataUri = await getCraneDataUri()
+    const otozLogoDataUri = getOtozLogoDataUri()
     console.log('✅ Artwork loaded\n')
 
     // Load fonts with Polish character support
@@ -98,7 +126,7 @@ async function main() {
 
     // Generate SVG
     const svg = await satori(
-      <NieboCrossImage craneDataUri={craneDataUri} />,
+      <NieboCrossImage craneDataUri={craneDataUri} otozLogoDataUri={otozLogoDataUri} />,
       {
         width: imageSize.width,
         height: imageSize.height,
