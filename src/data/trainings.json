@@ -999,5 +999,16 @@
     "phone": "784640977",
     "distance": 10,
     "pace": 7
+  },
+  {
+    "uid": "bieg-28-11-2026-8-0-nieborowice-wierzbowa-4-15-7",
+    "type": "bieg",
+    "datetime": "28/11/2026 08:00",
+    "location": "Nieborowice – Wierzbowa 4",
+    "locationLink": "https://maps.app.goo.gl/1hiWUekjpgK7GpAN8",
+    "comment": "Proponujemy z Łukaszem trening od nas z domu na hałdy w Lebo i powrót. Po hałdach trochę się pokręcimy. ",
+    "phone": "512637906",
+    "distance": 15,
+    "pace": 7
   }
 ]
